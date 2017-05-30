@@ -1,0 +1,25 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>leptonica.net</id>
+    <title>leptonica.net</title>
+    <version>$version$</version> 
+    <authors>tvn-cosine</authors>
+    <owners>tvn-cosine</owners>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/tvn-cosine/tvn-cosine/wiki/Leptonica-.net-Api</projectUrl> 
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>a .net wrapper for Leptonica image manipulation.</description>
+    <summary>a .net wrapper for Leptonica image manipulation.</summary>
+    <releaseNotes>a .net wrapper for Leptonica image manipulation.</releaseNotes>
+    <copyright>Copyright © tvn-cosine 2017</copyright> 
+    <tags>leptonica dotNet image manipulation</tags>
+    <dependencies>
+		  <dependency id="tvn-cosine.core" version="1.0.1.7" />
+	  </dependencies>
+  </metadata>
+  <files>
+    <file src="lib\x86\*.dll" target="lib\x86\" />
+    <file src="lib\x64\*.dll" target="lib\x64\" />
+  </files>
+</package>

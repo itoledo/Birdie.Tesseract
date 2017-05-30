@@ -1,4 +1,6 @@
-﻿namespace Tvn.Cosine.Imaging
+﻿using System;
+
+namespace Tvn.Cosine.Imaging
 {
     /// <summary>
     /// Implementation of IColor.
@@ -32,7 +34,7 @@
         private Color(byte a, byte g, byte b, byte r, string name)
             : this(a, g, b, r)
         {
-            Name = name; 
+            Name = name;
         }
         #endregion
 
@@ -60,6 +62,16 @@
         /// The string name of the color.
         /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// Convert the Color to a uint
+        /// </summary>
+        /// <returns>color in uint abgr</returns>
+        public uint ToAbgrUint()
+        {
+            byte[] data = { A, B, G, R };
+            return BitConverter.ToUInt32(data, 0);
+        }
 
         #region Static Implementations
         public static Color AliceBlue = new Color(0xFF, 0xF8, 0xFF, 0xF0, "AliceBlue");
@@ -114,7 +126,7 @@
         public static Color Gold = new Color(0xFF, 0xD7, 0x00, 0xFF, "Gold");
         public static Color GoldenRod = new Color(0xFF, 0xA5, 0x20, 0xDA, "GoldenRod");
         public static Color Gray = new Color(0xFF, 0x80, 0x80, 0x80, "Gray");
-        public static Color Green = new Color(0xFF, 0x00, 0x00, 0x80, "Green");
+        public static Color Green = new Color(0xFF, 0xFF, 0x00, 0x00, "Green");
         public static Color GreenYellow = new Color(0xFF, 0xFF, 0x2F, 0xAD, "GreenYellow");
         public static Color HoneyDew = new Color(0xFF, 0xFF, 0xF0, 0xF0, "HoneyDew");
         public static Color HotPink = new Color(0xFF, 0x69, 0xB4, 0xFF, "HotPink");

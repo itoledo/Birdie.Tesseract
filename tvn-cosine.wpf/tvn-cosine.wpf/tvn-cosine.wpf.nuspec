@@ -1,0 +1,21 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>tvn-cosine.wpf</id>
+    <title>tvn-cosine.wpf</title>
+    <version>$version$</version>
+    <authors>tvn-cosine</authors>
+    <owners>tvn-cosine</owners>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/tvn-cosine/tvn-cosine</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>wpf controls for the tvn-cosine project</description>
+    <summary>wpf controls for the tvn-cosine project</summary>
+    <releaseNotes>wpf controls for the tvn-cosine project</releaseNotes>
+    <copyright>Copyright © tvn-cosine 2017</copyright>
+    <tags>tvn-cosine</tags> 
+    <dependencies>
+      <dependency id="tvn-cosine.core" version="1.0.1.7" />
+    </dependencies>
+  </metadata>
+</package>
