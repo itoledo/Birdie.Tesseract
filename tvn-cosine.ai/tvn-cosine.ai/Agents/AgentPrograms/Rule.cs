@@ -6,9 +6,9 @@ namespace tvn_cosine.ai.Agents.AgentPrograms
     /// <summary>
     /// A simple implementation of a "condition-action rule".
     /// </summary>
-    public class Rule : IRule, IEquatable<Rule>
+    public class Rule<INPUT, RESULT> : IRule<INPUT, RESULT>, IEquatable<Rule<INPUT, RESULT>>
     {
-        public Rule(ICondition condition, IAction action)
+        public Rule(ICondition<INPUT> condition, RESULT action)
         {
             if (null == condition)
             {
@@ -20,13 +20,13 @@ namespace tvn_cosine.ai.Agents.AgentPrograms
             }
 
             this.Condition = condition;
-            this.Action = action;
+            this.Result = action;
         }
 
-        public IAction Action { get; }
-        public ICondition Condition { get; }
+        public RESULT Result { get; }
+        public ICondition<INPUT> Condition { get; }
 
-        public bool Equals(Rule other)
+        public bool Equals(Rule<INPUT, RESULT> other)
         {
             if (null == other)
             {
@@ -34,15 +34,15 @@ namespace tvn_cosine.ai.Agents.AgentPrograms
             }
 
             return other.Condition.Equals(Condition)
-                && other.Action.Equals(Action);
+                && other.Result.Equals(Result);
         }
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as Rule);
+            return Equals(obj as Rule<INPUT, RESULT>);
         }
 
-        public bool Evaluate(IState state)
+        public bool Evaluate(INPUT state)
         {
             return Condition.Evaluate(state);
         }
@@ -58,10 +58,17 @@ namespace tvn_cosine.ai.Agents.AgentPrograms
             stringBuilder.Append("if ");
             stringBuilder.Append(Condition);
             stringBuilder.Append(" then ");
-            stringBuilder.Append(Action);
+            stringBuilder.Append(Result);
             stringBuilder.Append(".");
 
             return stringBuilder.ToString();
         }
+    }
+
+    public class Rule : Rule<IState, IAction>
+    {
+        public Rule(ICondition<IState> condition, IAction action) 
+            : base(condition, action)
+        { }
     }
 }

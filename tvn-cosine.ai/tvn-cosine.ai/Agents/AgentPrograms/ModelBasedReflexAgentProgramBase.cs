@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace tvn_cosine.ai.Agents.AgentPrograms
 {
@@ -40,7 +36,7 @@ namespace tvn_cosine.ai.Agents.AgentPrograms
 
         public IModel Model { get; set; }
         public IState State { get; set; }
-         
+
         public ISet<IRule> Rules
         {
             get
@@ -97,7 +93,7 @@ namespace tvn_cosine.ai.Agents.AgentPrograms
             }
             else
             {
-                return rule.Action;
+                return rule.Result;
             }
         }
 

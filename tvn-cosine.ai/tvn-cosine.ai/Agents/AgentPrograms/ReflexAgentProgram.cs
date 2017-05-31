@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn_cosine.ai.Agents.AgentPrograms
 {
@@ -40,7 +37,7 @@ namespace tvn_cosine.ai.Agents.AgentPrograms
             {
                 throw new ArgumentNullException("The state interpreter cannot be null.");
             }
-            if (null == rules 
+            if (null == rules
                 || 0 == rules.Count)
             {
                 throw new ArgumentNullException("The rules cannot be null or count 0.");
@@ -88,7 +85,7 @@ namespace tvn_cosine.ai.Agents.AgentPrograms
             }
             else
             {
-                return rule.Action;
+                return rule.Result;
             }
         }
 

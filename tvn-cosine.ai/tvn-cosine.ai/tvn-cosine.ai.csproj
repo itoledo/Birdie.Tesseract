@@ -47,9 +47,14 @@
   <ItemGroup>
     <Compile Include="Agents\Action.cs" />
     <Compile Include="Agents\Agent.cs" />
+    <Compile Include="Agents\AgentPrograms\AndCondition.cs" />
+    <Compile Include="Agents\AgentPrograms\EqualCondition.cs" />
     <Compile Include="Agents\AgentPrograms\ICondition.cs" />
     <Compile Include="Agents\AgentPrograms\IRule.cs" />
+    <Compile Include="Agents\AgentPrograms\LeftRightConditionBase.cs" />
     <Compile Include="Agents\AgentPrograms\ModelBasedReflexAgentProgramBase.cs" />
+    <Compile Include="Agents\AgentPrograms\NotCondition.cs" />
+    <Compile Include="Agents\AgentPrograms\OrCondition.cs" />
     <Compile Include="Agents\AgentPrograms\ReflexAgentProgram.cs" />
     <Compile Include="Agents\AgentPrograms\Rule.cs" />
     <Compile Include="Agents\EnvironmentBase.cs" />

@@ -1,7 +1,12 @@
 ﻿namespace tvn_cosine.ai.Agents.AgentPrograms
 {
-    public interface ICondition
+    public interface ICondition<INPUT>
     {
-        bool Evaluate(IState state);
+        bool Evaluate(INPUT input);
+    }
+
+    public interface ICondition : ICondition<IState>
+    {
+
     }
 }
