@@ -13,7 +13,7 @@ namespace tvn_cosine.ai.DataStructures.Maths
         private long maxValue;
         private int[] radices;
         private int[] currentNumeralValue;
-        private bool recalculate = true;
+        private bool recalculate;
 
         /// <summary>
         /// Constructs a mixed radix number with a specified value and a specified array of radices.
@@ -22,6 +22,7 @@ namespace tvn_cosine.ai.DataStructures.Maths
         /// <param name="radices">the radices used to represent the value of the mixed radix number</param>
         public MixedRadixNumber(long value, int[] radices)
         {
+            this.recalculate = true;
             this.Value = value;
             this.radices = new int[radices.Length];
             Array.Copy(radices, 0, this.radices, 0, radices.Length);
