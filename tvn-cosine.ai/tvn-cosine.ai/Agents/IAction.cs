@@ -12,7 +12,5 @@
         /// instruction that does nothing.
         /// </summary>
         bool IsNoOp { get; }
-    }
-
-
+    } 
 }

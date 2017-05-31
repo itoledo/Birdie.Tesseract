@@ -71,6 +71,11 @@
     <Compile Include="Agents\IPercept.cs" />
     <Compile Include="Agents\IState.cs" />
     <Compile Include="Agents\IStateInterpreter.cs" />
+    <Compile Include="DataStructures\Maths\MixedRadixNumber.cs" />
+    <Compile Include="DataStructures\Queues\FifoQueue.cs" />
+    <Compile Include="DataStructures\Queues\IQueue.cs" />
+    <Compile Include="DataStructures\Queues\LifoQueue.cs" />
+    <Compile Include="DataStructures\Queues\PriorityQueue.cs" />
     <Compile Include="DynamicAttributesBase.cs" />
     <Compile Include="IDynamicAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
