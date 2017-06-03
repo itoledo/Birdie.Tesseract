@@ -133,7 +133,7 @@ namespace Tesseract
         #endregion
 
         #region ICloneable Support 
-        public object Clone()
+        public override object Clone()
         {
             return new ResultIterator(this);
         }

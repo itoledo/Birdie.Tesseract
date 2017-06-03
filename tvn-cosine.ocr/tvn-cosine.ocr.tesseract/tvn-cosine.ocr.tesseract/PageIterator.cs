@@ -107,7 +107,7 @@ namespace Tesseract
         #endregion
 
         #region ICloneable Support 
-        public object Clone()
+        public virtual object Clone()
         {
             return new PageIterator(this);
         }

@@ -57,10 +57,10 @@ Write-Host " "
 
 Write-Host "########"
 Write-Host "Downloading nuget into $localDirectory."
-$targetNugetExe = "$localDirectory\nuget.exe"
+$targetNugetExe = "C:\csource\nuget.exe"
 if (-Not (Test-Path $targetNugetExe))
 {
-    Invoke-WebRequest $sourceNugetExe -OutFile $targetNugetExe 
+    Invoke-WebRequest $sourceNugetExe -OutFile "C:\csource\nuget.exe" 
 }
 Write-Host "Downloaded nuget..." 
 Write-Host "########"
@@ -72,7 +72,7 @@ Write-Host "########"
 Write-Host "Packing nuget into $localDirectory." 
 Write-Host "Packing $localDirectory\$projectName\$projectName.csproj"
 
-& $targetNugetExe pack "$localDirectory\$projectName\$projectName.csproj" -build
+& "C:\csource\nuget.exe" pack "$localDirectory\$projectName\$projectName.csproj" -build
 Write-Host "Package created..." 
 Write-Host "########"
 Write-Host " "
