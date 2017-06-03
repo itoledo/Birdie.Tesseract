@@ -5,7 +5,6 @@ namespace tvn_cosine.ai.Agents.AgentPrograms
     /// <summary>
     /// Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.12, page 51.
     /// 
-    /// 
     /// <pre>
     /// function MODEL-BASED-REFLEX-AGENT(percept) returns an action
     /// persistent: state, the agent's current conception of the world state

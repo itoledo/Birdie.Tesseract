@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn_cosine.ai.Agents
 {
@@ -12,6 +9,14 @@ namespace tvn_cosine.ai.Agents
         protected readonly ISet<IEnvironmentObject> environmentObjects;
         protected readonly ISet<IEnvironmentView> environmentViews;
         protected readonly IDictionary<IAgent, double> performanceMeasures;
+         
+        public EnvironmentBase()
+        {
+            agents = new HashSet<IAgent>();
+            environmentObjects = new HashSet<IEnvironmentObject>();
+            environmentViews = new HashSet<IEnvironmentView>();
+            performanceMeasures = new Dictionary<IAgent, double>();
+        }
 
         public abstract void ExecuteAction(IAgent agent, IAction action);
         public abstract IPercept GetPerceptSeenBy(IAgent agent);
@@ -44,15 +49,7 @@ namespace tvn_cosine.ai.Agents
                 environmentView.AgentActed(agent, percept, action, this);
             }
         }
-
-        public EnvironmentBase()
-        {
-            agents = new HashSet<IAgent>();
-            environmentObjects = new HashSet<IEnvironmentObject>();
-            environmentViews = new HashSet<IEnvironmentView>();
-            performanceMeasures = new Dictionary<IAgent, double>();
-        }
-
+        
         public IReadOnlyCollection<IAgent> Agents
         {
             get
@@ -77,17 +74,17 @@ namespace tvn_cosine.ai.Agents
             }
         }
 
-        public void AddAgent(IAgent agent)
+        public virtual void AddAgent(IAgent agent)
         {
             AddEnvironmentObject(agent);
         }
 
-        public void RemoveAgent(IAgent agent)
+        public virtual void RemoveAgent(IAgent agent)
         {
             RemoveEnvironmentObject(agent);
         }
 
-        public void AddEnvironmentObject(IEnvironmentObject environmentObject)
+        public virtual void AddEnvironmentObject(IEnvironmentObject environmentObject)
         {
             environmentObjects.Add(environmentObject);
             if (environmentObject is IAgent)
@@ -100,7 +97,7 @@ namespace tvn_cosine.ai.Agents
             }
         }
 
-        public void RemoveEnvironmentObject(IEnvironmentObject environmentObject)
+        public virtual void RemoveEnvironmentObject(IEnvironmentObject environmentObject)
         {
             environmentObjects.Remove(environmentObject);
             if (environmentObject is IAgent)
@@ -109,7 +106,7 @@ namespace tvn_cosine.ai.Agents
             }
         }
 
-        public void Step()
+        public virtual void Step()
         {
             foreach (var agent in agents)
             {
@@ -124,7 +121,7 @@ namespace tvn_cosine.ai.Agents
             CreateExogenousChange();
         }
 
-        public void Step(int n)
+        public virtual void Step(int n)
         {
             for (int i = 0; i < n; ++i)
             {
@@ -132,7 +129,7 @@ namespace tvn_cosine.ai.Agents
             }
         }
 
-        public void StepUntilDone()
+        public virtual void StepUntilDone()
         {
             while (!IsDone)
             {
@@ -155,7 +152,7 @@ namespace tvn_cosine.ai.Agents
             }
         }
 
-        public double GetPerformanceMeasure(IAgent agent)
+        public virtual double GetPerformanceMeasure(IAgent agent)
         {
             if (!performanceMeasures.ContainsKey(agent))
             {
@@ -166,17 +163,17 @@ namespace tvn_cosine.ai.Agents
         }
 
 
-        public void AddEnvironmentView(IEnvironmentView environmentView)
+        public virtual void AddEnvironmentView(IEnvironmentView environmentView)
         {
             environmentViews.Add(environmentView);
         }
 
-        public void RemoveEnvironmentView(IEnvironmentView environmentView)
+        public virtual void RemoveEnvironmentView(IEnvironmentView environmentView)
         {
             environmentViews.Remove(environmentView);
         }
 
-        public void NotifyViews(string message)
+        public virtual void NotifyViews(string message)
         {
             foreach (var environmentView in environmentViews)
             {

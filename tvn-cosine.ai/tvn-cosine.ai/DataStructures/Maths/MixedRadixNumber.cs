@@ -174,7 +174,7 @@ namespace tvn_cosine.ai.DataStructures.Maths
         {
             var stringBuilder = new StringBuilder();
 
-            for (int i = 0; i < radices.Length; i++)
+            for (int i = 0; i < radices.Length; ++i)
             {
                 stringBuilder.Append('[');
                 stringBuilder.Append(this.GetCurrentNumeralValue(i));
@@ -198,9 +198,9 @@ namespace tvn_cosine.ai.DataStructures.Maths
             {
                 throw new ArgumentException("At least 1 radix must be defined.");
             }
-            for (int i = 0; i < radices.Length; i++)
+            for (int i = 0; i < radices.Length; ++i)
             {
-                if (radices[i] < 2)
+                if (2 > radices[i])
                 {
                     throw new ArgumentException("Invalid radix, must be >= 2");
                 }
