@@ -72,7 +72,7 @@ namespace Tesseract
             IntPtr pointer = Native.DllImports.TessResultIteratorWordFontAttributes(handleRef, out isBold, out isItalic, out isUnderlined,
                                                 out isMonospace, out isSerif, out isSmallcaps,
                                                 out pointSize, out fontId);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return Marshal.PtrToStringAnsi(pointer);
             }
@@ -85,7 +85,7 @@ namespace Tesseract
         public string WordRecognitionLanguage()
         {
             IntPtr pointer = Native.DllImports.TessResultIteratorWordRecognitionLanguage(handleRef);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 string returnObject = Marshal.PtrToStringAnsi(pointer);
                 Native.DllImports.TessDeleteText(pointer);
@@ -110,7 +110,7 @@ namespace Tesseract
         public string GetUTF8Text(PageIteratorLevel level)
         {
             IntPtr pointer = Native.DllImports.TessResultIteratorGetUTF8Text(handleRef, level);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 string returnObject = Marshal.PtrToStringAnsi(pointer);
                 Native.DllImports.TessDeleteText(pointer);

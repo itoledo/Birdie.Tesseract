@@ -31,7 +31,7 @@ namespace Tesseract
             {
                 if (localPix != null)
                 {
-                    localPix.Dispose();
+                    localPix.Destroy();
                 }
 
                 localPix = value;
@@ -75,7 +75,7 @@ namespace Tesseract
         {
             if (LocalPix != null)
             {
-                LocalPix.Dispose();
+                LocalPix.Destroy();
             }
             Clear();
             ClearPersistentCache();
@@ -188,11 +188,11 @@ namespace Tesseract
             ClearAdaptiveClassifier();
             if (LocalPix != null)
             {
-                LocalPix.Dispose();
+                LocalPix.Destroy();
             }
 
             LocalPix = value;
-            Native.DllImports.TessBaseAPISetImage2(handleRef, value.handleRef);
+            Native.DllImports.TessBaseAPISetImage2(handleRef, (HandleRef)value);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace Tesseract
             }
 
             //set the input image
-            SetInputImage(new Pix(inputFile));
+            SetInputImage(Pix.Read(inputFile));
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace Tesseract
         {
             IntPtr pointer = Native.DllImports.TessBaseAPIGetInputImage(handleRef);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -609,7 +609,7 @@ namespace Tesseract
         {
             IntPtr pointer = Native.DllImports.TessBaseAPIGetThresholdedImage(handleRef);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -629,7 +629,7 @@ namespace Tesseract
             else
                 pixa = null;
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Boxa(pointer);
             }
@@ -649,7 +649,7 @@ namespace Tesseract
             else
                 pixa = null;
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Boxa(pointer);
             }
@@ -669,7 +669,7 @@ namespace Tesseract
             else
                 pixa = null;
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Boxa(pointer);
             }
@@ -689,7 +689,7 @@ namespace Tesseract
             else
                 pixa = null;
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Boxa(pointer);
             }
@@ -709,7 +709,7 @@ namespace Tesseract
             else
                 pixa = null;
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Boxa(pointer);
             }
@@ -729,7 +729,7 @@ namespace Tesseract
 
             IntPtr pointer = Native.DllImports.TessBaseAPIGetComponentImages(handleRef, tessPageIteratorLevel, textOnly ? 1 : 0, IntPtr.Zero, IntPtr.Zero);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Boxa(pointer);
             }
@@ -1058,7 +1058,7 @@ namespace Tesseract
 
         #endregion Tesseract Methods
 
-        zzz#region IDisposable Support
+        #region IDisposable Support
 
         public void Dispose()
         {
@@ -1066,7 +1066,7 @@ namespace Tesseract
             {
                 if (localPix != null)
                 {
-                    localPix.Dispose();
+                    localPix.Destroy();
                 }
                 Clear();
                 ClearAdaptiveClassifier();

@@ -28,6 +28,11 @@ namespace Leptonica
             return (Pix)Native.DllImports.pixCreate(width, height, depth);
         }
 
+        public bool Write(string fileName, ImageFileFormat imageFileFormat = ImageFileFormat.JFIF_JPEG)
+        {
+            return Native.DllImports.pixWrite(fileName, (HandleRef)this, imageFileFormat) == 0;
+        }
+
         public static Pix Read(string fileName)
         {
             return (Pix)Native.DllImports.pixRead(fileName);

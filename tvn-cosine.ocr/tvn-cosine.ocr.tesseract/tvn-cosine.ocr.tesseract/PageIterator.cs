@@ -45,9 +45,9 @@ namespace Tesseract
 
         public Pix GetImage(PageIteratorLevel level, int padding, Pix originalImage, out int left, out int top)
         {
-            var pointer = Native.DllImports.TessPageIteratorGetImage(handleRef, level, padding, originalImage.handleRef, out left, out top);
+            var pointer = Native.DllImports.TessPageIteratorGetImage(handleRef, level, padding, (HandleRef)originalImage, out left, out top);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -58,7 +58,7 @@ namespace Tesseract
         public Pix GetBinaryImage(PageIteratorLevel level)
         {
             var pointer = Native.DllImports.TessPageIteratorGetBinaryImage(handleRef, level);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }

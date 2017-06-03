@@ -22,7 +22,7 @@ namespace Tesseract
         public string GetUTF8Text()
         {
             IntPtr pointer = Native.DllImports.TessChoiceIteratorGetUTF8Text(handleRef);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 string returnObject = Marshal.PtrToStringAnsi(pointer);
                 Native.DllImports.TessDeleteText(pointer);

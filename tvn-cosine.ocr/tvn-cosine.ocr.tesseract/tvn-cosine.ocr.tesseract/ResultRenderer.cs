@@ -28,7 +28,7 @@ namespace Tesseract
         public string Title()
         {
             IntPtr pointer = Native.DllImports.TessResultRendererTitle(handleRef);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return Marshal.PtrToStringAnsi(pointer);
             }
@@ -41,7 +41,7 @@ namespace Tesseract
         public string Extension()
         {
             IntPtr pointer = Native.DllImports.TessResultRendererExtention(handleRef);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return Marshal.PtrToStringAnsi(pointer);
             }
