@@ -8,6 +8,10 @@ namespace Leptonica
     /// </summary>
     public class Boxa : LeptonicaObjectBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pointer"></param>
         public Boxa(IntPtr pointer)
             : base(pointer)
         { }

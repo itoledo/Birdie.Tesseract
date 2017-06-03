@@ -26,11 +26,11 @@ namespace Leptonica
         public static Pix PixModifyBrightness(Pix destination, Pix source, float fraction)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
-            if (destination == null)
+            if (null == destination)
             {
                 destination = new Pix(IntPtr.Zero);
             }

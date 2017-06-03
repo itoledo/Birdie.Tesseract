@@ -485,7 +485,7 @@ namespace Leptonica.Native
         internal static extern int bilinearXformPt(float[] vc, int x, int y, out float pxp, out float pyp);
         #endregion
 
-        #region binexpand.c
+        #region binexpand.c - DONE
         // Replicated expansion (integer scaling)
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExpandBinaryReplicate")]
         internal static extern IntPtr pixExpandBinaryReplicate(HandleRef pixs, int xfact, int yfact);

@@ -44,7 +44,7 @@ namespace Leptonica
             {
                 return null;
             }
-            if (destination == null)
+            if (null == destination)
             {
                 destination = new Pix(IntPtr.Zero);
             }

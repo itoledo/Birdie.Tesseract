@@ -28,7 +28,7 @@ namespace Leptonica
         public static Pix pixCleanBackgroundToWhite(Pix source, Pix mask, Pix greyScale, float gamma = 1f, int whiteValue = 70, int blackValue = 190)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
@@ -70,7 +70,7 @@ namespace Leptonica
         public static Pix pixBackgroundNormSimple(Pix source, Pix mask, Pix greyScale)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
@@ -159,7 +159,7 @@ namespace Leptonica
         public static Pix pixBackgroundNorm(Pix source, Pix mask, Pix greyScale, int sx = 4, int sy = 9, int thresh = 200, int mincount = 12, int bgval = 325, int smoothx = 2, int smoothy = 2)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
@@ -227,7 +227,7 @@ namespace Leptonica
         public static Pix pixBackgroundNormMorph(Pix source, Pix mask, int reduction, int size, int bgval)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
@@ -271,7 +271,7 @@ namespace Leptonica
         public static bool pixBackgroundNormGrayArray(Pix source, Pix mask, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, out Pix destination)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 destination = null;
                 return false;
@@ -374,7 +374,7 @@ namespace Leptonica
         public static bool pixBackgroundNormGrayArrayMorph(Pix source, Pix mask, int reduction, int size, int bgval, out Pix destination)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 destination = null;
                 return false;
@@ -419,7 +419,7 @@ namespace Leptonica
         public static bool pixBackgroundNormRGBArraysMorph(Pix source, Pix mask, int reduction, int size, int bgval, out Pix ppixr, out Pix ppixg, out Pix ppixb)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 ppixr = null;
                 ppixg = null;
@@ -471,7 +471,7 @@ namespace Leptonica
         public static bool pixGetBackgroundGrayMap(Pix source, Pix mask, int sx, int sy, int thresh, int mincount, out Pix destination)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 destination = null;
                 return false;
@@ -517,7 +517,7 @@ namespace Leptonica
         public static bool pixGetBackgroundRGBMap(Pix source, Pix mask, Pix grayscale, int sx, int sy, int thresh, int mincount, out Pix ppixmr, out Pix ppixmg, out Pix ppixmb)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 ppixmr = null;
                 ppixmg = null;
@@ -566,7 +566,7 @@ namespace Leptonica
         public static bool pixGetBackgroundGrayMapMorph(Pix source, Pix mask, int reduction, int size, out Pix ppixm)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 ppixm = null;
                 return false;
@@ -605,7 +605,7 @@ namespace Leptonica
         public static bool pixGetBackgroundRGBMapMorph(Pix source, Pix mask, int reduction, int size, out Pix ppixmr, out Pix ppixmg, out Pix ppixmb)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 ppixmr = null;
                 ppixmg = null;
@@ -698,14 +698,14 @@ namespace Leptonica
         public static Pix pixExtendByReplication(Pix source, int addw, int addh)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
 
             var result = Native.DllImports.pixExtendByReplication((HandleRef)source, addw, addh);
 
-            if (result != IntPtr.Zero)
+            if (IntPtr.Zero != result)
             {
                 return new Pix(result);
             }
@@ -733,7 +733,7 @@ namespace Leptonica
         public static bool pixSmoothConnectedRegions(Pix source, Pix mask, int factor)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return false;
             }
@@ -809,14 +809,14 @@ namespace Leptonica
         public static Pix pixGetInvBackgroundMap(Pix source, int bgval, int smoothx, int smoothy)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
 
             var result = Native.DllImports.pixGetInvBackgroundMap((HandleRef)source, bgval, smoothx, smoothy);
 
-            if (result != IntPtr.Zero)
+            if (IntPtr.Zero != result)
             {
                 return new Pix(result);
             }
@@ -839,7 +839,7 @@ namespace Leptonica
         public static Pix pixApplyInvBackgroundGrayMap(Pix source, Pix mask, int sx, int sy)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
@@ -851,7 +851,7 @@ namespace Leptonica
             var result = Native.DllImports.pixApplyInvBackgroundGrayMap((HandleRef)source,
                 (HandleRef)mask, sx, sy);
 
-            if (result != IntPtr.Zero)
+            if (IntPtr.Zero != result)
             {
                 return new Pix(result);
             }
@@ -874,7 +874,7 @@ namespace Leptonica
         public static Pix pixApplyInvBackgroundRGBMap(Pix source, Pix pixmr, Pix pixmg, Pix pixmb, int sx, int sy)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
@@ -894,7 +894,7 @@ namespace Leptonica
             var result = Native.DllImports.pixApplyInvBackgroundRGBMap((HandleRef)source,
                 (HandleRef)pixmr, (HandleRef)pixmg, (HandleRef)pixmb, sx, sy);
 
-            if (result != IntPtr.Zero)
+            if (IntPtr.Zero != result)
             {
                 return new Pix(result);
             }
@@ -930,7 +930,7 @@ namespace Leptonica
         public static Pix pixApplyVariableGrayMap(Pix source, Pix pixg, int target)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
@@ -942,7 +942,7 @@ namespace Leptonica
             var result = Native.DllImports.pixApplyVariableGrayMap((HandleRef)source,
                 (HandleRef)pixg, target);
 
-            if (result != IntPtr.Zero)
+            if (IntPtr.Zero != result)
             {
                 return new Pix(result);
             }
@@ -987,11 +987,11 @@ namespace Leptonica
         public static Pix pixGlobalNormRGB(Pix destination, Pix source, int rval, int gval, int bval, int mapval)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
-            if (destination == null)
+            if (null == destination)
             {
                 destination = new Pix(IntPtr.Zero);
             }
@@ -999,7 +999,7 @@ namespace Leptonica
             var result = Native.DllImports.pixGlobalNormRGB((HandleRef)destination, (HandleRef)source,
                 rval, gval, bval, mapval);
 
-            if (result != IntPtr.Zero)
+            if (IntPtr.Zero != result)
             {
                 return new Pix(result);
             }
@@ -1042,11 +1042,11 @@ namespace Leptonica
         public static Pix pixGlobalNormNoSatRGB(Pix destination, Pix source, int rval, int gval, int bval, int factor, float rank)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
-            if (destination == null)
+            if (null == destination)
             {
                 destination = new Pix(IntPtr.Zero);
             }
@@ -1054,7 +1054,7 @@ namespace Leptonica
             var result = Native.DllImports.pixGlobalNormNoSatRGB((HandleRef)destination, (HandleRef)source,
                 rval, gval, bval, factor, rank);
 
-            if (result != IntPtr.Zero)
+            if (IntPtr.Zero != result)
             {
                 return new Pix(result);
             }
@@ -1163,14 +1163,14 @@ namespace Leptonica
         public static Pix pixBackgroundNormFlex(Pix source, int sx, int sy, int smoothx, int smoothy, int delta)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
 
             var result = Native.DllImports.pixBackgroundNormFlex((HandleRef)source, sx, sy, smoothx, smoothy, delta);
 
-            if (result != IntPtr.Zero)
+            if (IntPtr.Zero != result)
             {
                 return new Pix(result);
             }
@@ -1231,7 +1231,7 @@ namespace Leptonica
 
             var result = Native.DllImports.pixContrastNorm((HandleRef)pixd, (HandleRef)pix, sx, sy, mindiff, smoothx, smoothy);
 
-            if (result != IntPtr.Zero)
+            if (IntPtr.Zero != result)
             {
                 return new Pix(result);
             }
@@ -1258,7 +1258,7 @@ namespace Leptonica
         public static bool pixMinMaxTiles(Pix source, int sx, int sy, int mindiff, int smoothx, int smoothy, out Pix ppixmin, out Pix ppixmax)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 ppixmin = null;
                 ppixmax = null;

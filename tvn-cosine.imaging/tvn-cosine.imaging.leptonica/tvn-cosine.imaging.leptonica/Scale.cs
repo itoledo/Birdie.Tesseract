@@ -92,7 +92,7 @@ namespace Leptonica
         /// <returns>pixd, or NULL on error</returns>
         public static Pix pixScale(Pix source, float scaleX, float scaleY)
         {
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
@@ -132,7 +132,7 @@ namespace Leptonica
         /// <returns>pixd, or NULL on error</returns>
         public static Pix pixScaleGeneral(Pix source, float scaleX, float scaleY, float sharpFraction, int sharpWidth)
         {
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
@@ -157,7 +157,7 @@ namespace Leptonica
         /// <returns>pixd, or NULL on error</returns>
         public static Pix pixScaleToSizeRel(Pix source, int delWidth, int delHeight)
         {
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
@@ -189,7 +189,7 @@ namespace Leptonica
         /// <returns>pixd, or NULL on error</returns>
         public static Pix pixScaleToSize(Pix source, int width, int height)
         {
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }

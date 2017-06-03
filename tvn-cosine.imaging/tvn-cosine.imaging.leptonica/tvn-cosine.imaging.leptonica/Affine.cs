@@ -77,7 +77,7 @@ namespace Leptonica
         /// <returns>pixd, or NULL on error</returns>
         public static Pix pixAffineSampled(Pix source, float[] vc, InColorFlags incolor)
         {
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }

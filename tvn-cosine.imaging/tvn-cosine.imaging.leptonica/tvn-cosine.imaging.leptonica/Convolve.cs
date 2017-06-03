@@ -23,7 +23,7 @@ namespace Leptonica
         public static Pix pixBlockconv(Pix source, int wc, int hc)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
@@ -52,7 +52,7 @@ namespace Leptonica
         public static Pix AddGaussianNoise(Pix source, float standardDeviation)
         {
             //ensure pix is not null;
-            if (source == null)
+            if (null == source)
             {
                 return null;
             }
