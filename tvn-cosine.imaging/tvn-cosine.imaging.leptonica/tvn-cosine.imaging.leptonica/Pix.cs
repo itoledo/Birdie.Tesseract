@@ -28,6 +28,11 @@ namespace Leptonica
             return (Pix)Native.DllImports.pixCreate(width, height, depth);
         }
 
+        public static Pix Read(string fileName)
+        {
+            return (Pix)Native.DllImports.pixRead(fileName);
+        }
+
         /// <summary>
         /// pixCreateNoInit()
         /// </summary>

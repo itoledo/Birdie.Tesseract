@@ -1058,7 +1058,7 @@ namespace Tesseract
 
         #endregion Tesseract Methods
 
-        #region IDisposable Support
+        zzz#region IDisposable Support
 
         public void Dispose()
         {
