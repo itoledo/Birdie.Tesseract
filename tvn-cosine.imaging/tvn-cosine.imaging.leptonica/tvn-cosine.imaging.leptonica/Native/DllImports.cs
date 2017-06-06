@@ -4981,7 +4981,7 @@ namespace Leptonica.Native
         internal static extern void setPixelLow(HandleRef line, int x, int depth, uint val);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetBlackOrWhiteVal")]
-        internal static extern int pixGetBlackOrWhiteVal(HandleRef pixs, int op, IntPtr pval);
+        internal static extern int pixGetBlackOrWhiteVal(HandleRef pixs, BlackOrWhiteFlags op, out uint pval);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClearAll")]
         internal static extern int pixClearAll(HandleRef pix);
@@ -4996,22 +4996,22 @@ namespace Leptonica.Native
         internal static extern int pixSetAllArbitrary(HandleRef pix, uint val);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetBlackOrWhite")]
-        internal static extern int pixSetBlackOrWhite(HandleRef pixs, int op);
+        internal static extern int pixSetBlackOrWhite(HandleRef pixs, BlackOrWhiteFlags op);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetComponentArbitrary")]
-        internal static extern int pixSetComponentArbitrary(HandleRef pix, int comp, int val);
+        internal static extern int pixSetComponentArbitrary(HandleRef pix, ColorFlags comp, int val);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClearInRect")]
-        internal static extern int pixClearInRect(HandleRef pix, IntPtr box);
+        internal static extern int pixClearInRect(HandleRef pix, HandleRef box);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetInRect")]
-        internal static extern int pixSetInRect(HandleRef pix, IntPtr box);
+        internal static extern int pixSetInRect(HandleRef pix, HandleRef box);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetInRectArbitrary")]
-        internal static extern int pixSetInRectArbitrary(HandleRef pix, IntPtr box, uint val);
+        internal static extern int pixSetInRectArbitrary(HandleRef pix, HandleRef box, uint val);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendInRect")]
-        internal static extern int pixBlendInRect(HandleRef pixs, IntPtr box, uint val, float fract);
+        internal static extern int pixBlendInRect(HandleRef pixs, HandleRef box, uint val, float fract);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetPadBits")]
         internal static extern int pixSetPadBits(HandleRef pix, int val);
