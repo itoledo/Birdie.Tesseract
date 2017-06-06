@@ -1,4 +1,3 @@
-C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\leptonica.net.xml
 C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x64\jpeg.dll
 C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x64\leptonica-1.74.1.dll
 C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x64\libpng16.dll

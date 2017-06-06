@@ -529,67 +529,67 @@ namespace Leptonica.Native
         internal static extern int pixThresholdByConnComp(HandleRef pixs, HandleRef pixm, int start, int end, int incr, float thresh48, float threshdiff, out int pglobthresh, out IntPtr ppixd, int debugflag);
         #endregion
 
-        #region binreduce.c
+        #region binreduce.c - DONE
         // Subsampled 2x reduction 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReduceBinary2")]
-        internal static extern IntPtr pixReduceBinary2(HandleRef pixs, IntPtr intab);
+        internal static extern IntPtr pixReduceBinary2(HandleRef pixs, byte[] intab);
 
         // Rank filtered 2x reductions
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReduceRankBinaryCascade")]
         internal static extern IntPtr pixReduceRankBinaryCascade(HandleRef pixs, int level1, int level2, int level3, int level4);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReduceRankBinary2")]
-        internal static extern IntPtr pixReduceRankBinary2(HandleRef pixs, int level, IntPtr intab);
+        internal static extern IntPtr pixReduceRankBinary2(HandleRef pixs, int level, byte[] intab);
 
         // Permutation table for 2x rank binary reduction
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeSubsampleTab2x")]
         internal static extern IntPtr makeSubsampleTab2x(HandleRef ptr);
         #endregion
 
-        #region blend.c
+        #region blend.c - DONE
         // Blending two images that are not colormapped
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlend")]
-        internal static extern IntPtr pixBlend(HandleRef pixs1, IntPtr pixs2, int x, int y, float fract);
+        internal static extern IntPtr pixBlend(HandleRef pixs1, HandleRef pixs2, int x, int y, float fract);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendMask")]
-        internal static extern IntPtr pixBlendMask(HandleRef pixd, IntPtr pixs1, IntPtr pixs2, int x, int y, float fract, int type);
+        internal static extern IntPtr pixBlendMask(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract, BlendFlags type);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendGray")]
-        internal static extern IntPtr pixBlendGray(HandleRef pixd, IntPtr pixs1, IntPtr pixs2, int x, int y, float fract, int type, int transparent, uint transpix);
+        internal static extern IntPtr pixBlendGray(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract, BlendFlags type, int transparent, uint transpix);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendGrayInverse")]
-        internal static extern IntPtr pixBlendGrayInverse(HandleRef pixd, IntPtr pixs1, IntPtr pixs2, int x, int y, float fract);
+        internal static extern IntPtr pixBlendGrayInverse(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendColor")]
-        internal static extern IntPtr pixBlendColor(HandleRef pixd, IntPtr pixs1, IntPtr pixs2, int x, int y, float fract, int transparent, uint transpix);
+        internal static extern IntPtr pixBlendColor(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract, int transparent, uint transpix);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendColorByChannel")]
-        internal static extern IntPtr pixBlendColorByChannel(HandleRef pixd, IntPtr pixs1, IntPtr pixs2, int x, int y, float rfract, float gfract, float bfract, int transparent, uint transpix);
+        internal static extern IntPtr pixBlendColorByChannel(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float rfract, float gfract, float bfract, int transparent, uint transpix);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendGrayAdapt")]
-        internal static extern IntPtr pixBlendGrayAdapt(HandleRef pixd, IntPtr pixs1, IntPtr pixs2, int x, int y, float fract, int shift);
+        internal static extern IntPtr pixBlendGrayAdapt(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract, int shift);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFadeWithGray")]
-        internal static extern IntPtr pixFadeWithGray(HandleRef pixs, IntPtr pixb, float factor, int type);
+        internal static extern IntPtr pixFadeWithGray(HandleRef pixs, HandleRef pixb, float factor, BlendFlags type);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendHardLight")]
-        internal static extern IntPtr pixBlendHardLight(HandleRef pixd, IntPtr pixs1, IntPtr pixs2, int x, int y, float fract);
+        internal static extern IntPtr pixBlendHardLight(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract);
 
         // Blending two colormapped images 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendCmap")]
-        internal static extern int pixBlendCmap(HandleRef pixs, IntPtr pixb, int x, int y, int sindex);
+        internal static extern int pixBlendCmap(HandleRef pixs, HandleRef pixb, int x, int y, int sindex);
 
         // Blending two images using a third (alpha mask)
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendWithGrayMask")]
-        internal static extern IntPtr pixBlendWithGrayMask(HandleRef pixs1, IntPtr pixs2, IntPtr pixg, int x, int y);
+        internal static extern IntPtr pixBlendWithGrayMask(HandleRef pixs1, HandleRef pixs2, HandleRef pixg, int x, int y);
 
         // Blending background to a specific color
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendBackgroundToColor")]
-        internal static extern IntPtr pixBlendBackgroundToColor(HandleRef pixd, IntPtr pixs, IntPtr box, uint color, float gamma, int minval, int maxval);
+        internal static extern IntPtr pixBlendBackgroundToColor(HandleRef pixd, HandleRef pixs, HandleRef box, uint color, float gamma, int minval, int maxval);
 
         // Multiplying by a specific color
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMultiplyByColor")]
-        internal static extern IntPtr pixMultiplyByColor(HandleRef pixd, IntPtr pixs, IntPtr box, uint color);
+        internal static extern IntPtr pixMultiplyByColor(HandleRef pixd, HandleRef pixs, HandleRef box, uint color);
 
         // Rendering with alpha blending over a uniform background
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAlphaBlendUniform")]
@@ -4957,19 +4957,19 @@ namespace Leptonica.Native
 
         #region pix2.c 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetPixel")]
-        internal static extern int pixGetPixel(HandleRef pix, int x, int y, IntPtr pval);
+        internal static extern int pixGetPixel(HandleRef pix, int x, int y, out int pval);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetPixel")]
         internal static extern int pixSetPixel(HandleRef pix, int x, int y, uint val);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRGBPixel")]
-        internal static extern int pixGetRGBPixel(HandleRef pix, int x, int y, IntPtr prval, IntPtr pgval, IntPtr pbval);
+        internal static extern int pixGetRGBPixel(HandleRef pix, int x, int y, out int prval, out int pgval, out int pbval);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetRGBPixel")]
         internal static extern int pixSetRGBPixel(HandleRef pix, int x, int y, int rval, int gval, int bval);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRandomPixel")]
-        internal static extern int pixGetRandomPixel(HandleRef pix, IntPtr pval, IntPtr px, IntPtr py);
+        internal static extern int pixGetRandomPixel(HandleRef pix, out int pval, out int px, out int py);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClearPixel")]
         internal static extern int pixClearPixel(HandleRef pix, int x, int y);
