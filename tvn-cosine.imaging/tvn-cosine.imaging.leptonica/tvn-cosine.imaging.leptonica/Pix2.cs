@@ -681,8 +681,16 @@ namespace Leptonica
                 return null;
             }
 
-            return Native.DllImports.pixCopyBorder((HandleRef)pixd, ((HandleRef)pixs, left, right, top, bot) == 0;
-        }
+            var pointer = Native.DllImports.pixCopyBorder((HandleRef)pixd, (HandleRef)pixs, left, right, top, bot);
+            if (IntPtr.Zero != pointer)
+            {
+                return new Pix(pointer);
+            }
+            else
+            {
+                return null;
+            }
+        } 
 
         /// <summary>
         ///  Notes:
