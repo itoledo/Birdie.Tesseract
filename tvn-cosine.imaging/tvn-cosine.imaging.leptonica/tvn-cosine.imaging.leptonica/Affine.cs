@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Tvn.Cosine.Imaging;
 
 namespace Leptonica
 { 
@@ -35,17 +36,17 @@ namespace Leptonica
         /// <param name="ptas">ptas  3 pts of initial coordinate space</param>
         /// <param name="incolor">incolor L_BRING_IN_WHITE, L_BRING_IN_BLACK</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixAffineSampledPta(Pix pixs, Pta ptad, Pta ptas, InColorFlags incolor)
+        public static Pix pixAffineSampledPta(this Pix pixs, Pta ptad, Pta ptas, InColorFlags incolor)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (ptad == null)
+            if (null == ptad)
             {
                 return null;
             }
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
@@ -53,7 +54,7 @@ namespace Leptonica
             var pointer = Native.DllImports.pixAffineSampledPta((HandleRef)pixs,
                 (HandleRef)ptad, (HandleRef)ptas, incolor);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -75,7 +76,7 @@ namespace Leptonica
         /// <param name="vc">vc  vector of 6 coefficients for affine transformation</param>
         /// <param name="incolor">incolor L_BRING_IN_WHITE, L_BRING_IN_BLACK</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixAffineSampled(Pix source, float[] vc, InColorFlags incolor)
+        public static Pix pixAffineSampled(this Pix source, float[] vc, InColorFlags incolor)
         {
             if (null == source)
             {
@@ -85,7 +86,7 @@ namespace Leptonica
             var pointer = Native.DllImports.pixAffineSampled((HandleRef)source,
               vc, incolor);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -108,17 +109,17 @@ namespace Leptonica
         /// <param name="ptas">ptas  3 pts of initial coordinate space</param>
         /// <param name="incolor">incolor L_BRING_IN_WHITE, L_BRING_IN_BLACK</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixAffinePta(Pix pixs, Pta ptad, Pta ptas, InColorFlags incolor)
+        public static Pix pixAffinePta(this Pix pixs, Pta ptad, Pta ptas, InColorFlags incolor)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (ptad == null)
+            if (null == ptad)
             {
                 return null;
             }
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
@@ -126,7 +127,7 @@ namespace Leptonica
             var pointer = Native.DllImports.pixAffinePta((HandleRef)pixs,
               (HandleRef)ptad, (HandleRef)ptas, incolor);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -145,13 +146,13 @@ namespace Leptonica
         /// <param name="vc">vc  vector of 6 coefficients for affine transformation</param>
         /// <param name="incolor">incolor L_BRING_IN_WHITE, L_BRING_IN_BLACK</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixAffine(Pix pixs, float[] vc, InColorFlags incolor)
+        public static Pix pixAffine(this Pix pixs, float[] vc, InColorFlags incolor)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (vc == null)
+            if (null == vc)
             {
                 return null;
             }
@@ -159,7 +160,7 @@ namespace Leptonica
             var pointer = Native.DllImports.pixAffine((HandleRef)pixs,
               vc, incolor);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -177,17 +178,17 @@ namespace Leptonica
         /// <param name="ptas">ptas  3 pts of initial coordinate space</param>
         /// <param name="color">colorval e.g., Color.Black to bring in BLACK, Color.White for WHITE</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixAffinePtaColor(Pix pixs, Pta ptad, Pta ptas, Tvn.Cosine.Imaging.Color color)
+        public static Pix pixAffinePtaColor(this Pix pixs, Pta ptad, Pta ptas, Color color)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (ptad == null)
+            if (null == ptad)
             {
                 return null;
             }
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
@@ -195,7 +196,7 @@ namespace Leptonica
             var pointer = Native.DllImports.pixAffinePtaColor((HandleRef)pixs,
               (HandleRef)ptad, (HandleRef)ptas, color.ToAbgrUint());
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -212,13 +213,13 @@ namespace Leptonica
         /// <param name="vc">vc  vector of 6 coefficients for affine transformation</param>
         /// <param name="color">colorval e.g., Color.Black to bring in BLACK, Color.White for WHITE</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixAffineColor(Pix pixs, float[] vc, Tvn.Cosine.Imaging.Color color)
+        public static Pix pixAffineColor(this Pix pixs, float[] vc, Tvn.Cosine.Imaging.Color color)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (vc == null)
+            if (null == vc)
             {
                 return null;
             }
@@ -226,7 +227,7 @@ namespace Leptonica
             var pointer = Native.DllImports.pixAffineColor((HandleRef)pixs,
               vc, color.ToAbgrUint());
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -244,17 +245,17 @@ namespace Leptonica
         /// <param name="ptas">ptas  3 pts of initial coordinate space</param>
         /// <param name="grayval"> grayval 0 to bring in BLACK, 255 for WHITE</param>
         /// <returns>  pixd, or NULL on error</returns>
-        public static Pix pixAffinePtaGray(Pix pixs, Pta ptad, Pta ptas, byte grayval)
+        public static Pix pixAffinePtaGray(this Pix pixs, Pta ptad, Pta ptas, byte grayval)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (ptad == null)
+            if (null == ptad)
             {
                 return null;
             }
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
@@ -262,7 +263,7 @@ namespace Leptonica
             var pointer = Native.DllImports.pixAffinePtaGray((HandleRef)pixs,
               (HandleRef)ptad, (HandleRef)ptas, grayval);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -279,13 +280,13 @@ namespace Leptonica
         /// <param name="vc">vc  vector of 6 coefficients for affine transformation</param>
         /// <param name="grayval">grayval 0 to bring in BLACK, 255 for WHITE</param>
         /// <returns></returns>
-        public static Pix pixAffineGray(Pix pixs, float[] vc, byte grayval)
+        public static Pix pixAffineGray(this Pix pixs, float[] vc, byte grayval)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (vc == null)
+            if (null == vc)
             {
                 return null;
             }
@@ -293,7 +294,7 @@ namespace Leptonica
             var pointer = Native.DllImports.pixAffineGray((HandleRef)pixs,
               vc, grayval);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -345,17 +346,17 @@ namespace Leptonica
         /// <param name="fract">fract between 0.0 and 1.0, with 0.0 fully transparent and 1.0 fully opaque</param>
         /// <param name="border">border of pixels added to capture transformed source pixels</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixAffinePtaWithAlpha(Pix pixs, Pta ptad, Pta ptas, Pix pixg, float fract, int border)
+        public static Pix pixAffinePtaWithAlpha(this Pix pixs, Pta ptad, Pta ptas, Pix pixg, float fract, int border)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (ptad == null)
+            if (null == ptad)
             {
                 return null;
             }
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
@@ -367,7 +368,7 @@ namespace Leptonica
             var pointer = Native.DllImports.pixAffinePtaWithAlpha((HandleRef)pixs,
                 (HandleRef)ptad, (HandleRef)ptas, (HandleRef)pixg, fract, border);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -441,7 +442,7 @@ namespace Leptonica
         /// <param name="ptad">ptad  transformed 3 points; primed</param>
         /// <param name="pvc">pvc   vector of coefficients of transform</param>
         /// <returns>true if OK; false on error</returns>
-        public static bool getAffineXformCoeffs(Pta ptas, Pta ptad, out float[] pvc)
+        public static bool getAffineXformCoeffs(this Pta ptas, Pta ptad, out float[] pvc)
         {
             if (ptas == null || ptad == null)
             {
@@ -478,9 +479,9 @@ namespace Leptonica
         /// <param name="vc">vc vector of 6 coefficients</param>
         /// <param name="pvci">pvci inverted transform</param>
         /// <returns>true if OK; false on error</returns>
-        public static bool affineInvertXform(float[] vc, out float[] pvci)
+        public static bool affineInvertXform(this float[] vc, out float[] pvci)
         {
-            if (vc == null)
+            if (null == vc)
             {
                 pvci = null;
                 return false;
@@ -500,9 +501,9 @@ namespace Leptonica
         /// <param name="pxp">pxp, pyp   transformed point</param>
         /// <param name="pyp">pxp, pyp   transformed point</param>
         /// <returns>true if OK; false on error</returns>
-        public static bool affineXformSampledPt(float[] vc, int x, int y, out int pxp, out int pyp)
+        public static bool affineXformSampledPt(this float[] vc, int x, int y, out int pxp, out int pyp)
         {
-            if (vc == null)
+            if (null == vc)
             {
                 pxp = 0;
                 pyp = 0;
@@ -523,9 +524,9 @@ namespace Leptonica
         /// <param name="pxp">pxp, pyp   transformed point</param>
         /// <param name="pyp">pxp, pyp   transformed point</param>
         /// <returns>true if OK; false on error</returns>
-        public static bool affineXformPt(float[] vc, int x, int y, out int pxp, out int pyp)
+        public static bool affineXformPt(this float[] vc, int x, int y, out int pxp, out int pyp)
         {
-            if (vc == null)
+            if (null == vc)
             {
                 pxp = 0;
                 pyp = 0;
@@ -553,10 +554,9 @@ namespace Leptonica
         /// <param name="grayval">grayval color brought in from the outside when the input x,y location is outside the image</param>
         /// <param name="pval">pval interpolated gray value</param>
         /// <returns>true if OK; false on error</returns>
-        public static bool linearInterpolatePixelGray(uint[] datas, int wpls, int w, int h, float x, float y, int grayval, out int pval)
-        {
-
-            if (datas == null)
+        public static bool linearInterpolatePixelGray(this uint[] datas, int wpls, int w, int h, float x, float y, int grayval, out int pval)
+        { 
+            if (null == datas)
             {
                 pval = 0;
                 return false;
@@ -580,9 +580,9 @@ namespace Leptonica
         /// <param name="colorval">colorval color brought in from the outside when the input x,y location is outside the image; in 0xrrggbb00 format</param>
         /// <param name="pval"></param>
         /// <returns>true if OK; false on error</returns>
-        public static bool linearInterpolatePixelColor(uint[] datas, int wpls, int w, int h, float x, float y, uint colorval, out uint pval)
+        public static bool linearInterpolatePixelColor(this uint[] datas, int wpls, int w, int h, float x, float y, uint colorval, out uint pval)
         {
-            if (datas == null)
+            if (null == datas)
             {
                 pval = 0;
                 return false;
@@ -609,13 +609,13 @@ namespace Leptonica
         /// <param name="b">b  n x 1 right-hand side column vector</param>
         /// <param name="n">n  dimension</param>
         /// <returns>true if OK; false on error</returns>
-        public static bool gaussjordan(float[][] a, float[] b, int n)
+        public static bool gaussjordan(this float[][] a, float[] b, int n)
         {
-            if (a == null)
+            if (null == a)
             {
                 return false;
             }
-            if (b == null)
+            if (null == b)
             {
                 return false;
             }
@@ -650,17 +650,17 @@ namespace Leptonica
         /// <param name="bw">bw    pixels of additional border width during computation</param>
         /// <param name="bh">bh    pixels of additional border height during computation</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixAffineSequential(Pix pixs, Pta ptad, Pta ptas, int bw, int bh)
+        public static Pix pixAffineSequential(this Pix pixs, Pta ptad, Pta ptas, int bw, int bh)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (ptad == null)
+            if (null == ptad)
             {
                 return null;
             }
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
@@ -668,7 +668,7 @@ namespace Leptonica
             var pointer = Native.DllImports.pixAffineSequential((HandleRef)pixs,
                 (HandleRef)ptad, (HandleRef)ptas, bw, bh);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }

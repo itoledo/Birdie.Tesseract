@@ -25,7 +25,7 @@ namespace Leptonica
         /// <param name="whiteValue">blackval dark value to set to black (0)</param>
         /// <param name="blackValue">whiteval light value to set to white (255)</param>
         /// <returns>pixd 8 bpp or 32 bpp rgb, or NULL on error</returns>
-        public static Pix pixCleanBackgroundToWhite(Pix source, Pix mask, Pix greyScale, float gamma = 1f, int whiteValue = 70, int blackValue = 190)
+        public static Pix pixCleanBackgroundToWhite(this Pix source, Pix mask, Pix greyScale, float gamma = 1f, int whiteValue = 70, int blackValue = 190)
         {
             //ensure pix is not null;
             if (null == source)
@@ -44,7 +44,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixCleanBackgroundToWhite((HandleRef)source, (HandleRef)mask, (HandleRef)greyScale, gamma, blackValue, whiteValue);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -67,7 +67,7 @@ namespace Leptonica
         /// <param name="mask">pixim [optional] 1 bpp 'image' mask; can be null</param>
         /// <param name="greyScale">pixg [optional] 8 bpp grayscale version; can be null</param>
         /// <returns>pixd 8 bpp or 32 bpp rgb, or NULL on error</returns>
-        public static Pix pixBackgroundNormSimple(Pix source, Pix mask, Pix greyScale)
+        public static Pix pixBackgroundNormSimple(this Pix source, Pix mask, Pix greyScale)
         {
             //ensure pix is not null;
             if (null == source)
@@ -86,7 +86,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixBackgroundNormSimple((HandleRef)source, (HandleRef)mask, (HandleRef)greyScale);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -156,7 +156,7 @@ namespace Leptonica
         /// <param name="smoothx">smoothx half-width of block convolution kernel width</param>
         /// <param name="smoothy">smoothy half-width of block convolution kernel height</param>
         /// <returns>pixd 8 bpp or 32 bpp rgb, or NULL on error</returns>
-        public static Pix pixBackgroundNorm(Pix source, Pix mask, Pix greyScale, int sx = 4, int sy = 9, int thresh = 200, int mincount = 12, int bgval = 325, int smoothx = 2, int smoothy = 2)
+        public static Pix pixBackgroundNorm(this Pix source, Pix mask, Pix greyScale, int sx = 4, int sy = 9, int thresh = 200, int mincount = 12, int bgval = 325, int smoothx = 2, int smoothy = 2)
         {
             //ensure pix is not null;
             if (null == source)
@@ -177,7 +177,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixBackgroundNorm((HandleRef)source, (HandleRef)mask, (HandleRef)greyScale, sx, sy, thresh, mincount, bgval, smoothx, smoothy);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -224,7 +224,7 @@ namespace Leptonica
         /// <param name="size">size of square Sel for the closing; use an odd number</param>
         /// <param name="bgval">bgval target bg val; typ. > 128</param>
         /// <returns>pixd 8 bpp, or NULL on error</returns>
-        public static Pix pixBackgroundNormMorph(Pix source, Pix mask, int reduction, int size, int bgval)
+        public static Pix pixBackgroundNormMorph(this Pix source, Pix mask, int reduction, int size, int bgval)
         {
             //ensure pix is not null;
             if (null == source)
@@ -238,7 +238,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixBackgroundNormMorph((HandleRef)source, (HandleRef)mask, reduction, size, bgval);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -268,7 +268,7 @@ namespace Leptonica
         /// <param name="smoothy">moothy half-width of block convolution kernel height</param>
         /// <param name="destination">ppixd 16 bpp array of inverted background value</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixBackgroundNormGrayArray(Pix source, Pix mask, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, out Pix destination)
+        public static bool pixBackgroundNormGrayArray(this Pix source, Pix mask, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, out Pix destination)
         {
             //ensure pix is not null;
             if (null == source)
@@ -317,10 +317,10 @@ namespace Leptonica
         /// <param name="ppixg">ppixg 16 bpp array of inverted G background value</param>
         /// <param name="ppixb">ppixb 16 bpp array of inverted B background value</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixBackgroundNormRGBArrays(Pix pixs, Pix pixim, Pix pixg, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, out Pix ppixr, out Pix ppixg, out Pix ppixb)
+        public static bool pixBackgroundNormRGBArrays(this Pix pixs, Pix pixim, Pix pixg, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, out Pix ppixr, out Pix ppixg, out Pix ppixb)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 ppixr = null;
                 ppixg = null;
@@ -371,7 +371,7 @@ namespace Leptonica
         /// <param name="bgval">bgval target bg val; typ. > 128</param>
         /// <param name="destination">ppixd 16 bpp array of inverted background value</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixBackgroundNormGrayArrayMorph(Pix source, Pix mask, int reduction, int size, int bgval, out Pix destination)
+        public static bool pixBackgroundNormGrayArrayMorph(this Pix source, Pix mask, int reduction, int size, int bgval, out Pix destination)
         {
             //ensure pix is not null;
             if (null == source)
@@ -416,7 +416,7 @@ namespace Leptonica
         /// <param name="ppixg">ppixd 16 bpp array of inverted background value</param>
         /// <param name="ppixb">ppixd 16 bpp array of inverted background value</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixBackgroundNormRGBArraysMorph(Pix source, Pix mask, int reduction, int size, int bgval, out Pix ppixr, out Pix ppixg, out Pix ppixb)
+        public static bool pixBackgroundNormRGBArraysMorph(this Pix source, Pix mask, int reduction, int size, int bgval, out Pix ppixr, out Pix ppixg, out Pix ppixb)
         {
             //ensure pix is not null;
             if (null == source)
@@ -468,7 +468,7 @@ namespace Leptonica
         /// <param name="mincount">mincount min threshold on counts in a tile</param>
         /// <param name="destination">ppixd 8 bpp grayscale map</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixGetBackgroundGrayMap(Pix source, Pix mask, int sx, int sy, int thresh, int mincount, out Pix destination)
+        public static bool pixGetBackgroundGrayMap(this Pix source, Pix mask, int sx, int sy, int thresh, int mincount, out Pix destination)
         {
             //ensure pix is not null;
             if (null == source)
@@ -514,7 +514,7 @@ namespace Leptonica
         /// <param name="ppixmg">ppixmr, ppixmg, ppixmb rgb maps</param>
         /// <param name="ppixmb">ppixmr, ppixmg, ppixmb rgb maps</param>
         /// <returns>0 if OK, 1 on error</returns>
-        public static bool pixGetBackgroundRGBMap(Pix source, Pix mask, Pix grayscale, int sx, int sy, int thresh, int mincount, out Pix ppixmr, out Pix ppixmg, out Pix ppixmb)
+        public static bool pixGetBackgroundRGBMap(this Pix source, Pix mask, Pix grayscale, int sx, int sy, int thresh, int mincount, out Pix ppixmr, out Pix ppixmg, out Pix ppixmb)
         {
             //ensure pix is not null;
             if (null == source)
@@ -563,7 +563,7 @@ namespace Leptonica
         /// <param name="size">size of square Sel for the closing; use an odd number</param>
         /// <param name="ppixm">ppixm grayscale map</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixGetBackgroundGrayMapMorph(Pix source, Pix mask, int reduction, int size, out Pix ppixm)
+        public static bool pixGetBackgroundGrayMapMorph(this Pix source, Pix mask, int reduction, int size, out Pix ppixm)
         {
             //ensure pix is not null;
             if (null == source)
@@ -602,7 +602,7 @@ namespace Leptonica
         /// <param name="ppixmg">ppixmg green component map</param>
         /// <param name="ppixmb">ppixmb blue component map</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixGetBackgroundRGBMapMorph(Pix source, Pix mask, int reduction, int size, out Pix ppixmr, out Pix ppixmg, out Pix ppixmb)
+        public static bool pixGetBackgroundRGBMapMorph(this Pix source, Pix mask, int reduction, int size, out Pix ppixmr, out Pix ppixmg, out Pix ppixmb)
         {
             //ensure pix is not null;
             if (null == source)
@@ -668,7 +668,7 @@ namespace Leptonica
         /// <param name="ny">ny ditto for the number of vertical pixel tiles</param>
         /// <param name="filltype">filltype L_FILL_WHITE or L_FILL_BLACK</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixFillMapHoles(Pix pix, int nx, int ny, GrayscaleFillingFlags filltype)
+        public static bool pixFillMapHoles(this Pix pix, int nx, int ny, GrayscaleFillingFlags filltype)
         {
             //ensure pix is not null;
             if (pix == null)
@@ -695,7 +695,7 @@ namespace Leptonica
         /// <param name="addw">addw number of extra pixels horizontally to add</param>
         /// <param name="addh">addh number of extra pixels vertically to add</param>
         /// <returns>pixd extended with replicated pixel values, or NULL on error</returns>
-        public static Pix pixExtendByReplication(Pix source, int addw, int addh)
+        public static Pix pixExtendByReplication(this Pix source, int addw, int addh)
         {
             //ensure pix is not null;
             if (null == source)
@@ -730,7 +730,7 @@ namespace Leptonica
         /// <param name="mask">pixm [optional] 1 bpp; if null, this is a no-op</param>
         /// <param name="factor">factor subsampling factor for getting average; >= 1</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixSmoothConnectedRegions(Pix source, Pix mask, int factor)
+        public static bool pixSmoothConnectedRegions(this Pix source, Pix mask, int factor)
         {
             //ensure pix is not null;
             if (null == source)
@@ -788,7 +788,7 @@ namespace Leptonica
         /// <param name="thresh">thresh threshold for determining foreground</param>
         /// <param name="destination">ppixd 8 bpp grayscale map</param> 
         /// <returns>true if success, false on error</returns>
-        public static bool pixGetForegroundGrayMap(Pix source, Pix mask, int sx, int sy, int thresh, out Pix destination)
+        public static bool pixGetForegroundGrayMap(this Pix source, Pix mask, int sx, int sy, int thresh, out Pix destination)
         {
             throw new NotImplementedException();
         }
@@ -806,7 +806,7 @@ namespace Leptonica
         /// <param name="smoothx">smoothx half-width of block convolution kernel width</param>
         /// <param name="smoothy">smoothy half-width of block convolution kernel height</param>
         /// <returns>pixd 16 bpp, or NULL on error</returns>
-        public static Pix pixGetInvBackgroundMap(Pix source, int bgval, int smoothx, int smoothy)
+        public static Pix pixGetInvBackgroundMap(this Pix source, int bgval, int smoothx, int smoothy)
         {
             //ensure pix is not null;
             if (null == source)
@@ -836,7 +836,7 @@ namespace Leptonica
         /// <param name="sx">sx tile width in pixels</param>
         /// <param name="sy">sy tile height in pixels</param>
         /// <returns>pixd 8 bpp, or NULL on error</returns>
-        public static Pix pixApplyInvBackgroundGrayMap(Pix source, Pix mask, int sx, int sy)
+        public static Pix pixApplyInvBackgroundGrayMap(this Pix source, Pix mask, int sx, int sy)
         {
             //ensure pix is not null;
             if (null == source)
@@ -871,7 +871,7 @@ namespace Leptonica
         /// <param name="sx">sx tile width in pixels</param>
         /// <param name="sy">sy tile height in pixels</param>
         /// <returns>pixd 32 bpp rbg, or NULL on error</returns>
-        public static Pix pixApplyInvBackgroundRGBMap(Pix source, Pix pixmr, Pix pixmg, Pix pixmb, int sx, int sy)
+        public static Pix pixApplyInvBackgroundRGBMap(this Pix source, Pix pixmr, Pix pixmg, Pix pixmb, int sx, int sy)
         {
             //ensure pix is not null;
             if (null == source)
@@ -927,7 +927,7 @@ namespace Leptonica
         /// <param name="pixg">pixg 8 bpp, variable map</param>
         /// <param name="target">target typ. 128 for threshold</param>
         /// <returns>pixd 8 bpp, or NULL on error</returns>
-        public static Pix pixApplyVariableGrayMap(Pix source, Pix pixg, int target)
+        public static Pix pixApplyVariableGrayMap(this Pix source, Pix pixg, int target)
         {
             //ensure pix is not null;
             if (null == source)
@@ -984,7 +984,7 @@ namespace Leptonica
         /// <param name="bval">rval, gval, bval pixel values in pixs that are linearly mapped to mapval</param>
         /// <param name="mapval">mapval use 255 for mapping to white</param>
         /// <returns>pixd 32 bpp rgb or colormapped, or NULL on error</returns>
-        public static Pix pixGlobalNormRGB(Pix destination, Pix source, int rval, int gval, int bval, int mapval)
+        public static Pix pixGlobalNormRGB(this Pix destination, Pix source, int rval, int gval, int bval, int mapval)
         {
             //ensure pix is not null;
             if (null == source)
@@ -1039,7 +1039,7 @@ namespace Leptonica
         /// <param name="factor">factor subsampling factor; integer >= 1</param>
         /// <param name="rank">rank between 0.0 and 1.0; typ. use a value near 1.0</param>
         /// <returns>pixd 32 bpp rgb, or NULL on error</returns>
-        public static Pix pixGlobalNormNoSatRGB(Pix destination, Pix source, int rval, int gval, int bval, int factor, float rank)
+        public static Pix pixGlobalNormNoSatRGB(this Pix destination, Pix source, int rval, int gval, int bval, int factor, float rank)
         {
             //ensure pix is not null;
             if (null == source)
@@ -1102,10 +1102,10 @@ namespace Leptonica
         /// <param name="ppixb">ppixb [optional] thresholded normalized image</param>
         /// <param name="ppixd">ppixd [optional] normalized image</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixThresholdSpreadNorm(Pix pixs, EdgeFilterFlags filtertype, int edgethresh, int smoothx, int smoothy, float gamma, int minval, int maxval, int targetthresh, out Pix ppixth, out Pix ppixb, out Pix ppixd)
+        public static bool pixThresholdSpreadNorm(this Pix pixs, EdgeFilterFlags filtertype, int edgethresh, int smoothx, int smoothy, float gamma, int minval, int maxval, int targetthresh, out Pix ppixth, out Pix ppixb, out Pix ppixd)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 ppixth = null;
                 ppixb = null;
@@ -1160,7 +1160,7 @@ namespace Leptonica
         /// <param name="smoothy">smoothx, smoothy half-width of convolution kernel applied to  threshold array: use values between 1 and 3</param>
         /// <param name="delta">delta difference parameter in basin filling; use 0 to skip</param>
         /// <returns>pixd 8 bpp, background-normalized), or NULL on error</returns>
-        public static Pix pixBackgroundNormFlex(Pix source, int sx, int sy, int smoothx, int smoothy, int delta)
+        public static Pix pixBackgroundNormFlex(this Pix source, int sx, int sy, int smoothx, int smoothy, int delta)
         {
             //ensure pix is not null;
             if (null == source)
@@ -1217,7 +1217,7 @@ namespace Leptonica
         /// <param name="smoothx">smoothx, smoothy half-width of convolution kernel applied to min and max arrays: use 0 for no smoothing</param>
         /// <param name="smoothy">smoothx, smoothy half-width of convolution kernel applied to min and max arrays: use 0 for no smoothing</param>
         /// <returns>pixd always</returns>
-        public static Pix pixContrastNorm(Pix pixd, Pix pix, int sx, int sy, int mindiff, int smoothx, int smoothy)
+        public static Pix pixContrastNorm(this Pix pixd, Pix pix, int sx, int sy, int mindiff, int smoothx, int smoothy)
         {
             //ensure pix is not null;
             if (pix == null)
@@ -1255,7 +1255,7 @@ namespace Leptonica
         /// <param name="ppixmin">ppixmin tiled minima</param>
         /// <param name="ppixmax">ppixmax tiled maxima</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixMinMaxTiles(Pix source, int sx, int sy, int mindiff, int smoothx, int smoothy, out Pix ppixmin, out Pix ppixmax)
+        public static bool pixMinMaxTiles(this Pix source, int sx, int sy, int mindiff, int smoothx, int smoothy, out Pix ppixmin, out Pix ppixmax)
         {
             //ensure pix is not null;
             if (null == source)
@@ -1298,7 +1298,7 @@ namespace Leptonica
         /// <param name="pixs2">pixs2 8 bpp</param>
         /// <param name="mindiff">mindiff minimum difference to accept as valid</param>
         /// <returns>true if OK; false if no pixel diffs are large enough, or on error</returns>
-        public static bool pixSetLowContrast(Pix pixs1, Pix pixs2, int mindiff)
+        public static bool pixSetLowContrast(this Pix pixs1, Pix pixs2, int mindiff)
         {
             //ensure pix is not null;
             if (pixs1 == null)
@@ -1335,7 +1335,7 @@ namespace Leptonica
         public static Pix pixLinearTRCTiled(Pix pixd, Pix pixs, int sx, int sy, Pix pixmin, Pix pixmax)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }

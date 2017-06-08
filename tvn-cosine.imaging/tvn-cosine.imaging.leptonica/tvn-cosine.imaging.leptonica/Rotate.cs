@@ -58,7 +58,7 @@ namespace Leptonica
             }
               
             var pointer = Native.DllImports.pixRotate((HandleRef)pix, radiance, type, incolor, width, height);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }

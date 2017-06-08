@@ -63,6 +63,8 @@
     <Compile Include="Boxa.cs" />
     <Compile Include="Boxaa.cs" />
     <Compile Include="AdaptMap.cs" />
+    <Compile Include="BoxFunc1.cs" />
+    <Compile Include="BoxSizeAdjustmentLocationFlags.cs" />
     <Compile Include="ColorFlags.cs" />
     <Compile Include="Convolve.cs" />
     <Compile Include="Enhance.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Numa.cs" />
     <Compile Include="Numaa.cs" />
+    <Compile Include="OverlapBoundingBoxFlags.cs" />
     <Compile Include="Pix.cs" />
     <Compile Include="Pix2.cs" />
     <Compile Include="Pix3.cs" />
@@ -95,6 +98,7 @@
     <Compile Include="RotateInColorFlags.cs" />
     <Compile Include="InColorFlags.cs" />
     <Compile Include="Scale.cs" />
+    <Compile Include="ScanDirectionFlags.cs" />
     <Compile Include="ShearFlags.cs" />
     <Compile Include="Skew.cs" />
   </ItemGroup>

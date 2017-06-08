@@ -38,7 +38,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixModifyBrightness((HandleRef)destination, (HandleRef)source, fraction);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }

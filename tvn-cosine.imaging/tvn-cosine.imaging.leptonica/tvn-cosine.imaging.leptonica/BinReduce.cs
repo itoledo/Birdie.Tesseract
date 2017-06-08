@@ -19,7 +19,7 @@ namespace Leptonica
         /// <param name="pixs">pixs</param>
         /// <param name="intab">intab [optional]; if null, a table is made here and destroyed before exit</param>
         /// <returns></returns>
-        public static Pix pixReduceBinary2(Pix pixs, byte[] intab)
+        public static Pix pixReduceBinary2(this Pix pixs, byte[] intab)
         {
             if (null == pixs)
             {
@@ -42,7 +42,7 @@ namespace Leptonica
         /// <param name="level3">level3 threshold, in the set {0, 1, 2, 3, 4}</param>
         /// <param name="level4">level4 threshold, in the set {0, 1, 2, 3, 4}</param>
         /// <returns></returns>
-        public static Pix pixReduceRankBinaryCascade(Pix pixs, int level1, int level2, int level3, int level4)
+        public static Pix pixReduceRankBinaryCascade(this Pix pixs, int level1, int level2, int level3, int level4)
         {
             if (null == pixs)
             {
@@ -69,7 +69,7 @@ namespace Leptonica
         /// <param name="level">level rank threshold: 1, 2, 3, 4</param>
         /// <param name="intab">intab [optional]; if null, a table is made here and destroyed before exit</param>
         /// <returns>pixd 1 bpp, 2x rank threshold reduced, or NULL on error</returns>
-        public static Pix pixReduceRankBinary2(Pix pixs, int level, byte[] intab)
+        public static Pix pixReduceRankBinary2(this Pix pixs, int level, byte[] intab)
         {
             if (null == pixs)
             {

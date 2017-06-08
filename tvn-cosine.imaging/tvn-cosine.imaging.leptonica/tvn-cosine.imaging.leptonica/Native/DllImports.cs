@@ -917,101 +917,101 @@ namespace Leptonica.Native
         internal static extern int boxPrintStreamInfo(HandleRef fp, HandleRef box);
         #endregion
 
-        #region boxfunc1.c
+        #region boxfunc1.c - DONE
         // Box geometry
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxContains")]
-        internal static extern int boxContains(HandleRef box1, IntPtr box2, IntPtr presult);
+        internal static extern int boxContains(HandleRef box1, HandleRef box2, out bool presult);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxIntersects")]
-        internal static extern int boxIntersects(HandleRef box1, IntPtr box2, IntPtr presult);
+        internal static extern int boxIntersects(HandleRef box1, HandleRef box2, out bool presult);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaContainedInBox")]
-        internal static extern IntPtr boxaContainedInBox(HandleRef boxas, IntPtr box);
+        internal static extern IntPtr boxaContainedInBox(HandleRef boxas, HandleRef box);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaIntersectsBox")]
-        internal static extern IntPtr boxaIntersectsBox(HandleRef boxas, IntPtr box);
+        internal static extern IntPtr boxaIntersectsBox(HandleRef boxas, HandleRef box);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaClipToBox")]
-        internal static extern IntPtr boxaClipToBox(HandleRef boxas, IntPtr box);
+        internal static extern IntPtr boxaClipToBox(HandleRef boxas, HandleRef box);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaCombineOverlaps")]
         internal static extern IntPtr boxaCombineOverlaps(HandleRef boxas);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxOverlapRegion")]
-        internal static extern IntPtr boxOverlapRegion(HandleRef box1, IntPtr box2);
+        internal static extern IntPtr boxOverlapRegion(HandleRef box1, HandleRef box2);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxBoundingRegion")]
-        internal static extern IntPtr boxBoundingRegion(HandleRef box1, IntPtr box2);
+        internal static extern IntPtr boxBoundingRegion(HandleRef box1, HandleRef box2);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxOverlapFraction")]
-        internal static extern int boxOverlapFraction(HandleRef box1, IntPtr box2, IntPtr pfract);
+        internal static extern int boxOverlapFraction(HandleRef box1, HandleRef box2, out float pfract);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxOverlapArea")]
-        internal static extern int boxOverlapArea(HandleRef box1, IntPtr box2, IntPtr parea);
+        internal static extern int boxOverlapArea(HandleRef box1, HandleRef box2, out int parea);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaHandleOverlaps")]
-        internal static extern IntPtr boxaHandleOverlaps(HandleRef boxas, int op, int range, float min_overlap, float max_ratio, IntPtr pnamap);
+        internal static extern IntPtr boxaHandleOverlaps(HandleRef boxas, OverlapBoundingBoxFlags op, int range, float min_overlap, float max_ratio, out IntPtr pnamap);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxSeparationDistance")]
-        internal static extern int boxSeparationDistance(HandleRef box1, IntPtr box2, IntPtr ph_sep, IntPtr pv_sep);
+        internal static extern int boxSeparationDistance(HandleRef box1, HandleRef box2, out int ph_sep, out int pv_sep);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxContainsPt")]
-        internal static extern int boxContainsPt(HandleRef box, float x, float y, IntPtr pcontains);
+        internal static extern int boxContainsPt(HandleRef box, float x, float y, out bool pcontains);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetNearestToPt")]
         internal static extern IntPtr boxaGetNearestToPt(HandleRef boxa, int x, int y);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxIntersectByLine")]
-        internal static extern int boxIntersectByLine(HandleRef box, int x, int y, float slope, IntPtr px1, IntPtr py1, IntPtr px2, IntPtr py2, IntPtr pn);
+        internal static extern int boxIntersectByLine(HandleRef box, int x, int y, float slope, out int px1, out int py1, out int px2, out int py2, out int pn);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxGetCenter")]
-        internal static extern int boxGetCenter(HandleRef box, IntPtr pcx, IntPtr pcy);
+        internal static extern int boxGetCenter(HandleRef box, out float pcx, out float pcy);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxClipToRectangle")]
         internal static extern IntPtr boxClipToRectangle(HandleRef box, int wi, int hi);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxClipToRectangleParams")]
-        internal static extern int boxClipToRectangleParams(HandleRef box, int w, int h, IntPtr pxstart, IntPtr pystart, IntPtr pxend, IntPtr pyend, IntPtr pbw, IntPtr pbh);
+        internal static extern int boxClipToRectangleParams(HandleRef box, int w, int h, out int pxstart, out int pystart, out int pxend, out int pyend, out int pbw, out int pbh);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxRelocateOneSide")]
-        internal static extern IntPtr boxRelocateOneSide(HandleRef boxd, IntPtr boxs, int loc, int sideflag);
+        internal static extern IntPtr boxRelocateOneSide(HandleRef boxd, HandleRef boxs, int loc, ScanDirectionFlags sideflag);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxAdjustSides")]
-        internal static extern IntPtr boxAdjustSides(HandleRef boxd, IntPtr boxs, int delleft, int delright, int deltop, int delbot);
+        internal static extern IntPtr boxAdjustSides(HandleRef boxd, HandleRef boxs, int delleft, int delright, int deltop, int delbot);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSetSide")]
-        internal static extern IntPtr boxaSetSide(HandleRef boxad, IntPtr boxas, int side, int val, int thresh);
+        internal static extern IntPtr boxaSetSide(HandleRef boxad, HandleRef boxas, BoxSizeAdjustmentLocationFlags side, int val, int thresh);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaAdjustWidthToTarget")]
-        internal static extern IntPtr boxaAdjustWidthToTarget(HandleRef boxad, IntPtr boxas, int sides, int target, int thresh);
+        internal static extern IntPtr boxaAdjustWidthToTarget(HandleRef boxad, HandleRef boxas, BoxSizeAdjustmentLocationFlags sides, int target, int thresh);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaAdjustHeightToTarget")]
-        internal static extern IntPtr boxaAdjustHeightToTarget(HandleRef boxad, IntPtr boxas, int sides, int target, int thresh);
+        internal static extern IntPtr boxaAdjustHeightToTarget(HandleRef boxad, HandleRef boxas, BoxSizeAdjustmentLocationFlags sides, int target, int thresh);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxEqual")]
-        internal static extern int boxEqual(HandleRef box1, IntPtr box2, IntPtr psame);
+        internal static extern int boxEqual(HandleRef box1, HandleRef box2, out bool psame);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaEqual")]
-        internal static extern int boxaEqual(HandleRef boxa1, IntPtr boxa2, int maxdist, IntPtr pnaindex, IntPtr psame);
+        internal static extern int boxaEqual(HandleRef boxa1, HandleRef boxa2, int maxdist, IntPtr pnaindex, out bool psame);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxSimilar")]
-        internal static extern int boxSimilar(HandleRef box1, IntPtr box2, int leftdiff, int rightdiff, int topdiff, int botdiff, IntPtr psimilar);
+        internal static extern int boxSimilar(HandleRef box1, HandleRef box2, int leftdiff, int rightdiff, int topdiff, int botdiff, out bool psimilar);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSimilar")]
         internal static extern int boxaSimilar(HandleRef boxa1, IntPtr boxa2, int leftdiff, int rightdiff, int topdiff, int botdiff, int debug, IntPtr psimilar, IntPtr pnasim);
 
         // Boxa combine and split
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaJoin")]
-        internal static extern int boxaJoin(HandleRef boxad, IntPtr boxas, int istart, int iend);
+        internal static extern int boxaJoin(HandleRef boxad, HandleRef boxas, int istart, int iend);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaJoin")]
-        internal static extern int boxaaJoin(HandleRef baad, IntPtr baas, int istart, int iend);
+        internal static extern int boxaaJoin(HandleRef baad, HandleRef baas, int istart, int iend);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSplitEvenOdd")]
         internal static extern int boxaSplitEvenOdd(HandleRef boxa, int fillflag, IntPtr pboxae, IntPtr pboxao);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaMergeEvenOdd")]
-        internal static extern IntPtr boxaMergeEvenOdd(HandleRef boxae, IntPtr boxao, int fillflag);
+        internal static extern IntPtr boxaMergeEvenOdd(HandleRef boxae, HandleRef boxao, int fillflag);
         #endregion
 
         #region boxfunc2.c

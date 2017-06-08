@@ -57,9 +57,9 @@ namespace Leptonica
         /// <param name="ncomps">ncomps number of intermediate sums J(k,x); in [4 ... 30]</param>
         /// <param name="reduction">reduction  1, 2 or 4</param>
         /// <returns>pixd bilateral filtered image, or NULL on error</returns>
-        public static Pix pixBilateral(Pix pixs, float spatial_stdev, float range_stdev, int ncomps, int reduction)
+        public static Pix pixBilateral(this Pix pixs, float spatial_stdev, float range_stdev, int ncomps, int reduction)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
@@ -77,9 +77,9 @@ namespace Leptonica
         /// <param name="ncomps">ncomps number of intermediate sums J(k,x); in [4 ... 30]</param>
         /// <param name="reduction">reduction  1, 2 or 4</param>
         /// <returns>pixd 8 bpp bilateral filtered image, or NULL on error</returns>
-        public static Pix pixBilateralGray(Pix pixs, float spatial_stdev, float range_stdev, int ncomps, int reduction)
+        public static Pix pixBilateralGray(this Pix pixs, float spatial_stdev, float range_stdev, int ncomps, int reduction)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
@@ -104,7 +104,7 @@ namespace Leptonica
         /// <param name="spatial_kel">spatial_kel  gaussian kernel</param>
         /// <param name="range_kel">range_kel [optional] 256 x 1, monotonically decreasing</param>
         /// <returns>pixd 8 bpp bilateral filtered image</returns>
-        public static Pix pixBilateralExact(Pix pixs, L_Kernel spatial_kel, L_Kernel range_kel)
+        public static Pix pixBilateralExact(this Pix pixs, L_Kernel spatial_kel, L_Kernel range_kel)
         {
             if (pixs == null
              || spatial_kel == null
@@ -123,7 +123,7 @@ namespace Leptonica
         /// <param name="spatial_kel">spatial_kel  gaussian kernel</param>
         /// <param name="range_kel">range_kel [optional] 256 x 1, monotonically decreasing</param>
         /// <returns>pixd 8 bpp bilateral filtered image</returns>
-        public static Pix pixBilateralGrayExact(Pix pixs, L_Kernel spatial_kel, L_Kernel range_kel)
+        public static Pix pixBilateralGrayExact(this Pix pixs, L_Kernel spatial_kel, L_Kernel range_kel)
         {
             if (pixs == null
              || spatial_kel == null
@@ -168,9 +168,9 @@ namespace Leptonica
         /// <param name="spatial_stdev">spatial_stdev > 0.0</param>
         /// <param name="range_stdev">range_stdev > 0.0</param>
         /// <returns>pixd 8 bpp or 32 bpp bilateral filtered image</returns>
-        public static Pix pixBlockBilateralExact(Pix pixs, float spatial_stdev, float range_stdev)
+        public static Pix pixBlockBilateralExact(this Pix pixs, float spatial_stdev, float range_stdev)
         {
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }

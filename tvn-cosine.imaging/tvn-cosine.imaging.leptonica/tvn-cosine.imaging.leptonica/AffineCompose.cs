@@ -102,9 +102,9 @@ namespace Leptonica
         /// <param name="transx">transx  x component of translation wrt. the origin</param>
         /// <param name="transy">transy  y component of translation wrt. the origin</param>
         /// <returns>ptad  translated points, or NULL on error</returns>
-        public static Pta ptaTranslate(Pta ptas, float transx, float transy)
+        public static Pta ptaTranslate(this Pta ptas, float transx, float transy)
         {
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
@@ -119,9 +119,9 @@ namespace Leptonica
         /// <param name="scalex">scalex  horizontal scale factor</param>
         /// <param name="scaley">scaley  vertical scale factor</param>
         /// <returns>ptad  translated points, or NULL on error</returns>
-        public static Pta ptaScale(Pta ptas, float scalex, float scaley)
+        public static Pta ptaScale(this Pta ptas, float scalex, float scaley)
         {
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
@@ -150,9 +150,9 @@ namespace Leptonica
         /// <param name="yc">xc, yc  location of center of rotation</param>
         /// <param name="angle">angle  rotation in radians; clockwise is positive</param>
         /// <returns>ptad  translated points, or NULL on error</returns>
-        public static Pta ptaRotate(Pta ptas, float xc, float yc, float angle)
+        public static Pta ptaRotate(this Pta ptas, float xc, float yc, float angle)
         {
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
@@ -171,9 +171,9 @@ namespace Leptonica
         /// <param name="transx">transx  x component of translation wrt. the origin</param>
         /// <param name="transy">transy  y component of translation wrt. the origin</param>
         /// <returns>boxad  translated boxas, or NULL on error</returns>
-        public static Boxa boxaTranslate(Boxa boxas, float transx, float transy)
+        public static Boxa boxaTranslate(this Boxa boxas, float transx, float transy)
         {
-            if (boxas == null)
+            if (null == boxas)
             {
                 return null;
             }
@@ -188,9 +188,9 @@ namespace Leptonica
         /// <param name="scalex">scalex  horizontal scale factor</param>
         /// <param name="scaley">scaley  vertical scale factor</param>
         /// <returns>boxad  scaled boxas, or NULL on error</returns>
-        public static Boxa boxaScale(Boxa boxas, float scalex, float scaley)
+        public static Boxa boxaScale(this Boxa boxas, float scalex, float scaley)
         {
-            if (boxas == null)
+            if (null == boxas)
             {
                 return null;
             }
@@ -206,9 +206,9 @@ namespace Leptonica
         /// <param name="yc">xc, yc  location of center of rotation</param>
         /// <param name="angle">angle  rotation in radians; clockwise is positive</param>
         /// <returns>boxad  scaled boxas, or NULL on error</returns>
-        public static Boxa boxaRotate(Boxa boxas, float xc, float yc, float angle)
+        public static Boxa boxaRotate(this Boxa boxas, float xc, float yc, float angle)
         {
-            if (boxas == null)
+            if (null == boxas)
             {
                 return null;
             }
@@ -225,9 +225,9 @@ namespace Leptonica
         /// <param name="ptas">ptas for initial points</param>
         /// <param name="mat">mat  3x3 transform matrix; canonical form</param>
         /// <returns>ptad  transformed points, or NULL on error</returns>
-        public static Pta ptaAffineTransform(Pta ptas, float[] mat)
+        public static Pta ptaAffineTransform(this Pta ptas, float[] mat)
         {
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
@@ -241,9 +241,9 @@ namespace Leptonica
         /// <param name="boxas">  boxas</param>
         /// <param name="mat">  mat  3x3 transform matrix; canonical form</param>
         /// <returns>boxad  transformed boxas, or NULL on error</returns>
-        public static Boxa boxaAffineTransform(Boxa boxas, float[] mat)
+        public static Boxa boxaAffineTransform(this Boxa boxas, float[] mat)
         {
-            if (boxas == null)
+            if (null == boxas)
             {
                 return null;
             }
@@ -260,7 +260,7 @@ namespace Leptonica
         /// <param name="vecd">vecd result column vector</param>
         /// <param name="size">size matrix is %size x %size; vectors are length %size</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool l_productMatVec(float[] mat, float[] vecs, float[] vecd, int size)
+        public static bool l_productMatVec(this float[] mat, float[] vecs, float[] vecd, int size)
         {
             if (mat == null)
             {
@@ -286,7 +286,7 @@ namespace Leptonica
         /// <param name="matd">matd  square matrix; product stored here</param>
         /// <param name="size">size of matrices</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool l_productMat2(float[] mat1, float[] mat2, float[] matd, int size)
+        public static bool l_productMat2(this float[] mat1, float[] mat2, float[] matd, int size)
         {
             if (mat1 == null)
             {
@@ -313,7 +313,7 @@ namespace Leptonica
         /// <param name="matd">matd  square matrix; product stored here</param>
         /// <param name="size">size  of matrices</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool l_productMat3(float[] mat1, float[] mat2, float[] mat3, float[] matd, int size)
+        public static bool l_productMat3(this float[] mat1, float[] mat2, float[] mat3, float[] matd, int size)
         {
             if (mat1 == null)
             {
@@ -345,7 +345,7 @@ namespace Leptonica
         /// <param name="matd">matd  square matrix; product stored here</param>
         /// <param name="size">size  of matrices</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool l_productMat4(float[] mat1, float[] mat2, float[] mat3, float[] mat4, float[] matd, int size)
+        public static bool l_productMat4(this float[] mat1, float[] mat2, float[] mat3, float[] mat4, float[] matd, int size)
         {
             if (mat1 == null)
             {

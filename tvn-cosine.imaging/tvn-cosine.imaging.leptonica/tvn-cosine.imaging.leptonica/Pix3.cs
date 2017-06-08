@@ -223,7 +223,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixInvert((HandleRef)destination, (HandleRef)source);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }

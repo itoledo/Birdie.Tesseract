@@ -37,7 +37,7 @@ namespace Leptonica
         /// <param name="boxa">boxa of boxes, to paint</param>
         /// <param name="op">op L_SET_PIXELS, L_CLEAR_PIXELS, L_FLIP_PIXELS</param>
         /// <returns>pixd with masking op over the boxes, or NULL on error</returns>
-        public static Pix MaskBoxa(Pix destination, Pix source, Boxa boxa, GraphicPixelSetting op)
+        public static Pix MaskBoxa(this Pix destination, Pix source, Boxa boxa, GraphicPixelSetting op)
         {
             //ensure pix is not null;
             if (source == null || boxa == null)
@@ -50,7 +50,7 @@ namespace Leptonica
             }
 
             var pointer = Native.DllImports.pixMaskBoxa((HandleRef)destination, (HandleRef)source, (HandleRef)boxa, op);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -80,7 +80,7 @@ namespace Leptonica
         /// <param name="boxa">boxa of boxes, to paint</param>
         /// <param name="fillColor">al rgba color to paint</param>
         /// <returns>pixd with painted boxes, or NULL on error</returns>
-        public static Pix PaintBoxa(Pix pix, Boxa boxa, Color fillColor)
+        public static Pix PaintBoxa(this Pix pix, Boxa boxa, Color fillColor)
         {
             //ensure pix is not null;
             if (pix == null || boxa == null || boxa.GetCount() < 1 || fillColor == null)
@@ -90,7 +90,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixPaintBoxa((HandleRef)pix, (HandleRef)boxa, fillColor.ToAbgrUint());
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -111,7 +111,7 @@ namespace Leptonica
         /// <param name="pix">pixs any depth, can be cmapped</param>
         /// <param name="boxa">boxa of boxes, to paint</param> 
         /// <returns>pixd with painted boxes, or NULL on error</returns>
-        public static Pix PaintBoxaRandom(Pix pix, Boxa boxa)
+        public static Pix PaintBoxaRandom(this Pix pix, Boxa boxa)
         {
             //ensure pix is not null;
             if (pix == null || boxa == null || boxa.GetCount() < 1)
@@ -121,7 +121,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixPaintBoxaRandom((HandleRef)pix, (HandleRef)boxa);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -143,7 +143,7 @@ namespace Leptonica
         /// <param name="boxa">boxa of boxes, to draw</param>
         /// <param name="width">width thickness of line</param>
         /// <returns>pixd with box outlines drawn, or NULL on error</returns>
-        public static Pix DrawBoxaRandom(Pix pix, Boxa boxa, int width)
+        public static Pix DrawBoxaRandom(this Pix pix, Boxa boxa, int width)
         {
             //ensure pix is not null;
             if (pix == null || boxa == null || boxa.GetCount() < 1)
@@ -153,7 +153,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixDrawBoxaRandom((HandleRef)pix, (HandleRef)boxa, width);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -173,7 +173,7 @@ namespace Leptonica
         /// <param name="width">width of lines</param>
         /// <param name="lineColor">val rgba color to draw</param>
         /// <returns>pixd with outlines of boxes added, or NULL on error</returns>
-        public static Pix DrawBoxa(Pix pix, Boxa boxa, int width, Color lineColor)
+        public static Pix DrawBoxa(this Pix pix, Boxa boxa, int width, Color lineColor)
         {
             //ensure pix is not null;
             if (pix == null || boxa == null || boxa.GetCount() < 1 || lineColor == null)
@@ -183,7 +183,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixDrawBoxa((HandleRef)pix, (HandleRef)boxa, width, lineColor.ToAbgrUint());
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -196,8 +196,7 @@ namespace Leptonica
 
         // Split mask components into Boxa
         // BOXA            *pixSplitIntoBoxa()
-        //           BOXA* pixSplitComponentIntoBoxa()
-        //           static l_int32 pixSearchForRectangle()
+        //           BOXA* pixSplitComponentIntoBoxa() 
         //
         //      Represent horizontal or vertical mosaic strips
         //           BOXA* makeMosaicStrips()

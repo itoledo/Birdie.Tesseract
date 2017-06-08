@@ -260,7 +260,7 @@ namespace Leptonica
         /// <param name="pointer"></param>
         public static explicit operator Boxaa(IntPtr pointer)
         {
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Boxaa(pointer);
             }

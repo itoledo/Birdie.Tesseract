@@ -23,7 +23,7 @@ namespace Leptonica
         /// <param name="y">x,y  origin [UL corner] of pixs2 relative to the origin of pixs1; can be &lt; 0</param>
         /// <param name="fract">fract blending fraction</param>
         /// <returns>pixd blended image, or NULL on error</returns>
-        public static Pix pixBlend(Pix pixs1, Pix pixs2, int x, int y, float fract)
+        public static Pix pixBlend(this Pix pixs1, Pix pixs2, int x, int y, float fract)
         {
             //ensure pix is not null;
             if (null == pixs1)
@@ -69,7 +69,7 @@ namespace Leptonica
         /// <param name="fract">fract blending fraction</param>
         /// <param name="type">type L_BLEND_WITH_INVERSE, L_BLEND_TO_WHITE, L_BLEND_TO_BLACK</param>
         /// <returns></returns>
-        public static Pix pixBlendMask(Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract, BlendFlags type)
+        public static Pix pixBlendMask(this Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract, BlendFlags type)
         {
             HandleRef pixdHndlRef = new HandleRef(new object(), IntPtr.Zero);
             //ensure pix is not null;
@@ -137,7 +137,7 @@ namespace Leptonica
         /// <param name="transparent">transparent 1 to use transparency; 0 otherwise</param>
         /// <param name="transpix">transpix pixel grayval in pixs2 that is to be transparent</param>
         /// <returns>pixd if OK; pixs1 on error</returns>
-        public static Pix pixBlendGray(Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract, BlendFlags type, bool transparent, uint transpix)
+        public static Pix pixBlendGray(this Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract, BlendFlags type, bool transparent, uint transpix)
         {
             HandleRef pixdHndlRef = new HandleRef(new object(), IntPtr.Zero);
             //ensure pix is not null;
@@ -200,7 +200,7 @@ namespace Leptonica
         /// <param name="y">x,y  origin [UL corner] of pixs2 relative to the origin of pixs1; can be 0</param>
         /// <param name="fract">fract blending fraction</param>
         /// <returns>pixd if OK; pixs1 on error</returns>
-        public static Pix pixBlendGrayInverse(Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract)
+        public static Pix pixBlendGrayInverse(this Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract)
         {
             HandleRef pixdHndlRef = new HandleRef(new object(), IntPtr.Zero);
             //ensure pix is not null;
@@ -254,7 +254,7 @@ namespace Leptonica
         /// <param name="transparent">transparent 1 to use transparency; 0 otherwise</param>
         /// <param name="transpix">transpix pixel color in pixs2 that is to be transparent</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixBlendColor(Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract, bool transparent, uint transpix)
+        public static Pix pixBlendColor(this Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract, bool transparent, uint transpix)
         {
             HandleRef pixdHndlRef = new HandleRef(new object(), IntPtr.Zero);
             //ensure pix is not null;
@@ -313,7 +313,7 @@ namespace Leptonica
         /// <param name="transparent">transparent (1 to use transparency; 0 otherwise)</param>
         /// <param name="transpix">transpix (pixel color in pixs2 that is to be transparent)</param>
         /// <returns>pixd if OK; pixs1 on error</returns>
-        public static Pix pixBlendColorByChannel(Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float rfract, float gfract, float bfract, bool transparent, uint transpix)
+        public static Pix pixBlendColorByChannel(this Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float rfract, float gfract, float bfract, bool transparent, uint transpix)
         {
             HandleRef pixdHndlRef = new HandleRef(new object(), IntPtr.Zero);
             //ensure pix is not null;
@@ -386,7 +386,7 @@ namespace Leptonica
         /// <param name="fract">fract blending fraction</param>
         /// <param name="shift">shift >= 0 but = 128: shift of zero blend value from median source; use -1 for default value;</param>
         /// <returns>pixd if OK; pixs1 on error</returns>
-        public static Pix pixBlendGrayAdapt(Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract, int shift)
+        public static Pix pixBlendGrayAdapt(this Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract, int shift)
         {
             HandleRef pixdHndlRef = new HandleRef(new object(), IntPtr.Zero);
             //ensure pix is not null;
@@ -432,7 +432,7 @@ namespace Leptonica
         /// <param name="factor">multiplicative factor to apply to blender value</param>
         /// <param name="type">L_BLEND_TO_WHITE, L_BLEND_TO_BLACK</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixFadeWithGray(Pix pixs, Pix pixb, float factor, BlendFlags type)
+        public static Pix pixFadeWithGray(this Pix pixs, Pix pixb, float factor, BlendFlags type)
         {
             //ensure pix is not null;
             if (null == pixs)
@@ -485,7 +485,7 @@ namespace Leptonica
         /// <param name="y">x,y (origin [UL corner] of pixs2 relative to the origin of pixs1)</param>
         /// <param name="fract">fract (blending fraction, or 'opacity factor')</param>
         /// <returns>pixd if OK; pixs1 on error</returns>
-        public static Pix pixBlendHardLight(Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract)
+        public static Pix pixBlendHardLight(this Pix pixd, Pix pixs1, Pix pixs2, int x, int y, float fract)
         {
             HandleRef pixdHndlRef = new HandleRef(new object(), IntPtr.Zero);
             //ensure pix is not null;
@@ -539,7 +539,7 @@ namespace Leptonica
         /// <param name="y">x, y UL corner of blender relative to pixs</param>
         /// <param name="sindex">sindex colormap index of pixels in pixs to be changed</param>
         /// <returns>0 if OK, 1 on error</returns>
-        public static bool pixBlendCmap(Pix pixs, Pix pixb, int x, int y, int sindex)
+        public static bool pixBlendCmap(this Pix pixs, Pix pixb, int x, int y, int sindex)
         {
             //ensure pix is not null;
             if (null == pixs)
@@ -585,7 +585,7 @@ namespace Leptonica
         /// <param name="x">x, y UL corner of pixs2 and pixg with respect to pixs1</param>
         /// <param name="y">x, y UL corner of pixs2 and pixg with respect to pixs1</param>
         /// <returns>pixd blended image, or NULL on error</returns>
-        public static Pix pixBlendWithGrayMask(Pix pixs1, Pix pixs2, Pix pixg, int x, int y)
+        public static Pix pixBlendWithGrayMask(this Pix pixs1, Pix pixs2, Pix pixg, int x, int y)
         {
             HandleRef pixdHndlRef = new HandleRef(new object(), IntPtr.Zero);
             //ensure pix is not null;
@@ -640,7 +640,7 @@ namespace Leptonica
         /// <param name="minval">gamma, minval, maxval args for grayscale TRC mapping</param>
         /// <param name="maxval">gamma, minval, maxval args for grayscale TRC mapping</param>
         /// <returns>pixd always</returns>
-        public static Pix pixBlendBackgroundToColor(Pix pixd, Pix pixs, Box box, Color color, float gamma, int minval, int maxval)
+        public static Pix pixBlendBackgroundToColor(this Pix pixd, Pix pixs, Box box, Color color, float gamma, int minval, int maxval)
         {
             HandleRef boxdHndlRef = new HandleRef(new object(), IntPtr.Zero);
             HandleRef pixdHndlRef = new HandleRef(new object(), IntPtr.Zero);
@@ -687,7 +687,7 @@ namespace Leptonica
         /// <param name="box">box region for filtering; can be NULL)</param>
         /// <param name="color">color 32 bit color in 0xrrggbb00 format</param>
         /// <returns>pixd always</returns>
-        public static Pix pixMultiplyByColor(Pix pixd, Pix pixs, Box box, Color color)
+        public static Pix pixMultiplyByColor(this Pix pixd, Pix pixs, Box box, Color color)
         {
             HandleRef boxdHndlRef = new HandleRef(new object(), IntPtr.Zero);
             HandleRef pixdHndlRef = new HandleRef(new object(), IntPtr.Zero);
@@ -733,7 +733,7 @@ namespace Leptonica
         /// <param name="pixs">pixs 32 bpp rgba, with alpha</param>
         /// <param name="color">color 32 bit color in 0xrrggbb00 format</param>
         /// <returns>pixd 32 bpp rgb: pixs blended over uniform color %color, a clone of pixs if no alpha, and NULL on error</returns>
-        public static Pix pixAlphaBlendUniform(Pix pixs, Color color)
+        public static Pix pixAlphaBlendUniform(this Pix pixs, Color color)
         {
             //ensure pix is not null;
             if (null == pixs)
@@ -777,7 +777,7 @@ namespace Leptonica
         /// <param name="fract">fract fade fraction in the alpha component</param>
         /// <param name="invert">invert 1 to photometrically invert pixs</param>
         /// <returns>pixd 32 bpp with alpha, or NULL on error</returns>
-        public static Pix pixAddAlphaToBlend(Pix pixs, float fract, int invert)
+        public static Pix pixAddAlphaToBlend(this Pix pixs, float fract, int invert)
         {
             //ensure pix is not null;
             if (null == pixs)
@@ -813,7 +813,7 @@ namespace Leptonica
         /// </summary>
         /// <param name="pixs">pixs colormapped or 32 bpp rgb; no alpha</param>
         /// <returns>pixd new pix with meaningful alpha component, or NULL on error</returns>
-        public static Pix pixSetAlphaOverWhite(Pix pixs)
+        public static Pix pixSetAlphaOverWhite(this Pix pixs)
         {
             //ensure pix is not null;
             if (null == pixs)

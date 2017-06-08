@@ -58,10 +58,10 @@ namespace Leptonica
         /// <param name="ppixth">ppixth [optional] array of threshold values found for each tile</param>
         /// <param name="ppixd">ppixd [optional] thresholded input pixs, based on the threshold array</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixOtsuAdaptiveThreshold(Pix pixs, int sx, int sy, int smoothx, int smoothy, float scorefract, out Pix ppixth, out Pix ppixd)
+        public static bool pixOtsuAdaptiveThreshold(this Pix pixs, int sx, int sy, int smoothx, int smoothy, float scorefract, out Pix ppixth, out Pix ppixd)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 ppixth = null;
                 ppixd = null;
@@ -118,10 +118,10 @@ namespace Leptonica
         /// <param name="scorefract"> scorefract fraction of the max Otsu score; typ. 0.1</param>
         /// <param name="pthresh">pthresh [optional] threshold value that was used on the normalized image</param>
         /// <returns>pixd 1 bpp thresholded image, or NULL on error</returns>
-        public static Pix pixOtsuThreshOnBackgroundNorm(Pix pixs, Pix pixim, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, float scorefract, out int pthresh)
+        public static Pix pixOtsuThreshOnBackgroundNorm(this Pix pixs, Pix pixim, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, float scorefract, out int pthresh)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 pthresh = 0;
                 return null;
@@ -133,7 +133,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixOtsuThreshOnBackgroundNorm((HandleRef)pixs, (HandleRef)pixim, sx, sy, thresh, mincount, bgval, smoothx, smoothy, scorefract, out pthresh);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -181,10 +181,10 @@ namespace Leptonica
         /// <param name="scorefract">scorefract fraction of the max Otsu score; typ. ~ 0.1</param>
         /// <param name="pthresh">pthresh [optional] threshold value that was used on the normalized image</param>
         /// <returns>pixd 1 bpp thresholded image, or NULL on error</returns>
-        public static Pix pixMaskedThreshOnBackgroundNorm(Pix pixs, Pix pixim, int sx, int sy, int thresh, int mincount, int smoothx, int smoothy, float scorefract, out int pthresh)
+        public static Pix pixMaskedThreshOnBackgroundNorm(this Pix pixs, Pix pixim, int sx, int sy, int thresh, int mincount, int smoothx, int smoothy, float scorefract, out int pthresh)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 pthresh = 0;
                 return null;
@@ -196,7 +196,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixMaskedThreshOnBackgroundNorm((HandleRef)pixs, (HandleRef)pixim, sx, sy, thresh, mincount, smoothx, smoothy, scorefract, out pthresh);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -236,10 +236,10 @@ namespace Leptonica
         /// <param name="ppixth">ppixth [optional] Sauvola threshold values</param>
         /// <param name="ppixd"> ppixd [optional] thresholded image</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixSauvolaBinarizeTiled(Pix pixs, int whsize, float factor, int nx, int ny, out Pix ppixth, out Pix ppixd)
+        public static bool pixSauvolaBinarizeTiled(this Pix pixs, int whsize, float factor, int nx, int ny, out Pix ppixth, out Pix ppixd)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 ppixth = null;
                 ppixd = null;
@@ -297,10 +297,10 @@ namespace Leptonica
         /// <param name="ppixth">ppixth [optional] threshold values</param>
         /// <param name="ppixd">ppixd [optional] thresholded image</param>
         /// <returns>true if OK, false on error</returns>
-        public static bool pixSauvolaBinarize(Pix pixs, int whsize, float factor, int addborder, out Pix ppixm, out Pix ppixsd, out Pix ppixth, out Pix ppixd)
+        public static bool pixSauvolaBinarize(this Pix pixs, int whsize, float factor, int addborder, out Pix ppixm, out Pix ppixsd, out Pix ppixth, out Pix ppixd)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 ppixth = null;
                 ppixd = null;
@@ -362,7 +362,7 @@ namespace Leptonica
         /// <param name="factor">factor factor for reducing threshold due to variance; >= 0</param>
         /// <param name="ppixsd">ppixsd [optional] local standard deviation</param>
         /// <returns>pixd 8 bpp, sauvola threshold values, or NULL on error</returns>
-        public static Pix pixSauvolaGetThreshold(Pix pixm, Pix pixms, float factor, out Pix ppixsd)
+        public static Pix pixSauvolaGetThreshold(this Pix pixm, Pix pixms, float factor, out Pix ppixsd)
         {
             //ensure pix is not null;
             if (pixm == null)
@@ -379,7 +379,7 @@ namespace Leptonica
             IntPtr ppixsdPtr;
             var pointer = Native.DllImports.pixSauvolaGetThreshold((HandleRef)pixm, (HandleRef)pixms, factor, out ppixsdPtr);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 if (pointer == ppixsdPtr)
                 {
@@ -406,10 +406,10 @@ namespace Leptonica
         /// <param name="pixth">pixth 8 bpp array of local thresholds</param>
         /// <param name="redfactor">redfactor  ...</param>
         /// <returns>pixd 1 bpp, thresholded image, or NULL on error</returns>
-        public static Pix pixApplyLocalThreshold(Pix pixs, Pix pixth, int redfactor)
+        public static Pix pixApplyLocalThreshold(this Pix pixs, Pix pixth, int redfactor)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
@@ -420,7 +420,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixApplyLocalThreshold((HandleRef)pixs, (HandleRef)pixth, redfactor);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -483,11 +483,11 @@ namespace Leptonica
         /// <param name="ppixd">ppixd [optional] image thresholded to binary, or null if no threshold is found</param>
         /// <param name="debugflag">debugflag 1 for plotted results</param>
         /// <returns>0 if OK, 1 on error or if no threshold is found</returns>
-        public static bool pixThresholdByConnComp(Pix pixs, Pix pixm, int start, int end, int incr, float thresh48, float threshdiff, out int pglobthresh, out Pix ppixd, bool debugflag)
+        public static bool pixThresholdByConnComp(this Pix pixs, Pix pixm, int start, int end, int incr, float thresh48, float threshdiff, out int pglobthresh, out Pix ppixd, bool debugflag)
         {
 
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 pglobthresh = 0;
                 ppixd = null;

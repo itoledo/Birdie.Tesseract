@@ -19,7 +19,7 @@ namespace Leptonica
         /// <param name="xfact">integer scale factor for horiz. replicative expansion</param>
         /// <param name="yfact">integer scale factor for vertical replicative expansion</param>
         /// <returns>pixd scaled up, or NULL on error</returns>
-        public static Pix pixExpandBinaryReplicate(Pix pixs, int xfact, int yfact)
+        public static Pix pixExpandBinaryReplicate(this Pix pixs, int xfact, int yfact)
         {
             if (null == pixs)
             {
@@ -28,7 +28,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixExpandBinaryReplicate((HandleRef)pixs, xfact, yfact);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -44,7 +44,7 @@ namespace Leptonica
         /// <param name="pixs">pixs 1 bpp</param>
         /// <param name="factor">factor expansion factor: 1, 2, 4, 8, 16</param>
         /// <returns>pixd expanded 1 bpp by replication, or NULL on error</returns>
-        public static Pix pixExpandBinaryPower2(Pix pixs, int factor)
+        public static Pix pixExpandBinaryPower2(this Pix pixs, int factor)
         {
             if (null == pixs)
             {
@@ -53,7 +53,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixExpandBinaryPower2((HandleRef)pixs, factor);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }

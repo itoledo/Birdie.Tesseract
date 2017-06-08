@@ -98,7 +98,7 @@ namespace Leptonica
             }
 
             var pointer = Native.DllImports.pixScale((HandleRef)source, scaleX, scaleY);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -138,7 +138,7 @@ namespace Leptonica
             }
 
             var pointer = Native.DllImports.pixScaleGeneral((HandleRef)source, scaleX, scaleY, sharpFraction, sharpWidth);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -163,7 +163,7 @@ namespace Leptonica
             }
 
             var pointer = Native.DllImports.pixScaleToSizeRel((HandleRef)source, delWidth, delHeight);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -195,7 +195,7 @@ namespace Leptonica
             }
 
             var pointer = Native.DllImports.pixScaleToSize((HandleRef)source, width, height);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }

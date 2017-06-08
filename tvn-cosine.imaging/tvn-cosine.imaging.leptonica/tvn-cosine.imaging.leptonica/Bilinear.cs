@@ -22,26 +22,26 @@ namespace Leptonica
         /// <param name="ptas">ptas  4 pts of initial coordinate space</param>
         /// <param name="incolor">incolor L_BRING_IN_WHITE, L_BRING_IN_BLACK</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixBilinearSampledPta(Pix pixs, Pta ptad, Pta ptas, InColorFlags incolor)
+        public static Pix pixBilinearSampledPta(this Pix pixs, Pta ptad, Pta ptas, InColorFlags incolor)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (ptad == null)
+            if (null == ptad)
             {
                 return null;
             }
 
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
 
             var pointer = Native.DllImports.pixBilinearSampledPta((HandleRef)pixs, (HandleRef)ptad, (HandleRef)ptas, incolor);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -63,21 +63,21 @@ namespace Leptonica
         /// <param name="vc">vc  vector of 8 coefficients for bilinear transformation</param>
         /// <param name="incolor">incolor L_BRING_IN_WHITE, L_BRING_IN_BLACK</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixBilinearSampled(Pix pixs, float[] vc, InColorFlags incolor)
+        public static Pix pixBilinearSampled(this Pix pixs, float[] vc, InColorFlags incolor)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (vc == null)
+            if (null == vc)
             {
                 return null;
             }
 
             var pointer = Native.DllImports.pixBilinearSampled((HandleRef)pixs, vc, incolor);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -99,25 +99,25 @@ namespace Leptonica
         /// <param name="ptas">ptas  4 pts of initial coordinate space</param>
         /// <param name="incolor">incolor L_BRING_IN_WHITE, L_BRING_IN_BLACK</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixBilinearPta(Pix pixs, Pta ptad, Pta ptas, InColorFlags incolor)
+        public static Pix pixBilinearPta(this Pix pixs, Pta ptad, Pta ptas, InColorFlags incolor)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (ptad == null)
+            if (null == ptad)
             {
                 return null;
             }
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
 
             var pointer = Native.DllImports.pixBilinearPta((HandleRef)pixs, (HandleRef)ptad, (HandleRef)ptas, incolor);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -135,21 +135,21 @@ namespace Leptonica
         /// <param name="vc">vc  vector of 8 coefficients for bilinear transformation</param>
         /// <param name="incolor">incolor L_BRING_IN_WHITE, L_BRING_IN_BLACK</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixBilinear(Pix pixs, float[] vc, InColorFlags incolor)
+        public static Pix pixBilinear(this Pix pixs, float[] vc, InColorFlags incolor)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (vc == null)
+            if (null == vc)
             {
                 return null;
             }
 
             var pointer = Native.DllImports.pixBilinear((HandleRef)pixs, vc, incolor);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -167,25 +167,25 @@ namespace Leptonica
         /// <param name="ptas">ptas  4 pts of initial coordinate space</param>
         /// <param name="colorval">colorval e.g., 0 to bring in BLACK, 0xffffff00 for WHITE</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixBilinearPtaColor(Pix pixs, Pta ptad, Pta ptas, Tvn.Cosine.Imaging.IColor colorval)
+        public static Pix pixBilinearPtaColor(this Pix pixs, Pta ptad, Pta ptas, Tvn.Cosine.Imaging.IColor colorval)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (ptad == null)
+            if (null == ptad)
             {
                 return null;
             }
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
 
             var pointer = Native.DllImports.pixBilinearPtaColor((HandleRef)pixs, (HandleRef)ptad, (HandleRef)ptas, colorval.ToAbgrUint());
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -202,21 +202,21 @@ namespace Leptonica
         /// <param name="vc">vc  vector of 8 coefficients for bilinear transformation</param>
         /// <param name="colorval">colorval e.g., 0 to bring in BLACK, 0xffffff00 for WHITE</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixBilinearColor(Pix pixs, float[] vc, Tvn.Cosine.Imaging.IColor colorval)
+        public static Pix pixBilinearColor(this Pix pixs, float[] vc, Tvn.Cosine.Imaging.IColor colorval)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (vc == null)
+            if (null == vc)
             {
                 return null;
             }
 
             var pointer = Native.DllImports.pixBilinearColor((HandleRef)pixs, vc, colorval.ToAbgrUint());
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -234,25 +234,25 @@ namespace Leptonica
         /// <param name="ptas"> ptas  4 pts of initial coordinate space</param>
         /// <param name="grayval">grayval 0 to bring in BLACK, 255 for WHITE</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixBilinearPtaGray(Pix pixs, Pta ptad, Pta ptas, byte grayval)
+        public static Pix pixBilinearPtaGray(this Pix pixs, Pta ptad, Pta ptas, byte grayval)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (ptad == null)
+            if (null == ptad)
             {
                 return null;
             }
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
 
             var pointer = Native.DllImports.pixBilinearPtaGray((HandleRef)pixs, (HandleRef)ptad, (HandleRef)ptas, grayval);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -269,21 +269,21 @@ namespace Leptonica
         /// <param name="vc">vc  vector of 8 coefficients for bilinear transformation</param>
         /// <param name="grayval">grayval 0 to bring in BLACK, 255 for WHITE</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixBilinearGray(Pix pixs, float[] vc, byte grayval)
+        public static Pix pixBilinearGray(this Pix pixs, float[] vc, byte grayval)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (vc == null)
+            if (null == vc)
             {
                 return null;
             }
 
             var pointer = Native.DllImports.pixBilinearGray((HandleRef)pixs, vc, grayval);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -335,18 +335,18 @@ namespace Leptonica
         /// <param name="fract">fract between 0.0 and 1.0, with 0.0 fully transparent and 1.0 fully opaque</param>
         /// <param name="border">border of pixels added to capture transformed source pixels</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixBilinearPtaWithAlpha(Pix pixs, Pta ptad, Pta ptas, Pix pixg, float fract, int border)
+        public static Pix pixBilinearPtaWithAlpha(this Pix pixs, Pta ptad, Pta ptas, Pix pixg, float fract, int border)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
-            if (ptad == null)
+            if (null == ptad)
             {
                 return null;
             }
-            if (ptas == null)
+            if (null == ptas)
             {
                 return null;
             }
@@ -357,7 +357,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixBilinearPtaWithAlpha((HandleRef)pixs, (HandleRef)ptad, (HandleRef)ptas, (HandleRef)pixg, fract, border);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -420,14 +420,14 @@ namespace Leptonica
         /// <param name="ptad">ptad  transformed 4 points; primed</param>
         /// <param name="pvc">pvc   vector of coefficients of transform</param>
         /// <returns>true if OK; false on error</returns>
-        public static bool getBilinearXformCoeffs(Pta ptas, Pta ptad, out float[] pvc)
+        public static bool getBilinearXformCoeffs(this Pta ptas, Pta ptad, out float[] pvc)
         {
-            if (ptad == null)
+            if (null == ptad)
             {
                 pvc = null;
                 return false;
             }
-            if (ptas == null)
+            if (null == ptas)
             {
                 pvc = null;
                 return false;
@@ -446,9 +446,9 @@ namespace Leptonica
         /// <param name="pxp">pxp, pyp   transformed point</param>
         /// <param name="pyp">pxp, pyp   transformed point</param>
         /// <returns>true if OK; false on error</returns>
-        public static bool bilinearXformSampledPt(float[] vc, int x, int y, out int pxp, out int pyp)
+        public static bool bilinearXformSampledPt(this float[] vc, int x, int y, out int pxp, out int pyp)
         {
-            if (vc == null)
+            if (null == vc)
             {
                 pxp = 0;
                 pyp = 0;
@@ -468,9 +468,9 @@ namespace Leptonica
         /// <param name="pxp">pxp, pyp   transformed point</param>
         /// <param name="pyp">pxp, pyp   transformed point</param>
         /// <returns>true if OK; false on error</returns>
-        public static bool bilinearXformPt(float[] vc, int x, int y, out float pxp, out float pyp)
+        public static bool bilinearXformPt(this float[] vc, int x, int y, out float pxp, out float pyp)
         {
-            if (vc == null)
+            if (null == vc)
             {
                 pxp = 0;
                 pyp = 0;

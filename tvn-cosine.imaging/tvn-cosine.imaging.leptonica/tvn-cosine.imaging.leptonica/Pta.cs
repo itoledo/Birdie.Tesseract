@@ -23,7 +23,7 @@ namespace Leptonica
         /// <param name="pointer"></param>
         public static explicit operator Pta(IntPtr pointer)
         {
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pta(pointer);
             }

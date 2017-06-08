@@ -53,7 +53,7 @@ namespace Leptonica
             }
 
             var pointer = Native.DllImports.pixDeskew((HandleRef)pix, redSearch);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -84,7 +84,7 @@ namespace Leptonica
             }
 
             var pointer = Native.DllImports.pixFindSkewAndDeskew((HandleRef)pix, redsearch, out pangle, out pconf);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -119,7 +119,7 @@ namespace Leptonica
             }
 
             var pointer = Native.DllImports.pixDeskewGeneral((HandleRef)pix, redsweep, sweepRange, sweepDelta, redsearch, threshold, out radiance, out confidence);
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }

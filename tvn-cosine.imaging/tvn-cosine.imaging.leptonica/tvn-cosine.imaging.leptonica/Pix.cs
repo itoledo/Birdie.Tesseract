@@ -551,7 +551,7 @@ namespace Leptonica
         /// <param name="pointer"></param>
         public static explicit operator Pix(IntPtr pointer)
         {
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }

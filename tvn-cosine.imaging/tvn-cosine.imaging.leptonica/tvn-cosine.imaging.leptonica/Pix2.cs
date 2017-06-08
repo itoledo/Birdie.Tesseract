@@ -24,7 +24,7 @@ namespace Leptonica
             }
 
             var pointer = Native.DllImports.pixAddBorder((HandleRef)source, width, borderColor.ToAbgrUint());
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }

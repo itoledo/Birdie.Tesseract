@@ -55,7 +55,7 @@ namespace Leptonica
             get
             {
                 var pointer = Native.DllImports.pixaGetPix(pixa.handleRef, position, InsertionType.COPY);
-                if (pointer != IntPtr.Zero)
+                if (IntPtr.Zero != pointer)
                     return new Pix(pointer);
                 else
                     throw new ArgumentOutOfRangeException();

@@ -24,7 +24,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.barcodeDispatchDecoder(barstr, format, debugflag ? 1 : 0);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return Marshal.PtrToStringAnsi(pointer);
             }

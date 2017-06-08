@@ -37,10 +37,10 @@ namespace Leptonica
         /// <param name="ppta"> ppta [optional] pairs of pts corresponding to   approx. ends of each text line</param>
         /// <param name="debug">debug usually false; set to true for debugging output</param>
         /// <returns>na of baseline y values, or NULL on error</returns>
-        public static Numa pixFindBaselines(Pix pixs, out Pta ppta, bool debug)
+        public static Numa pixFindBaselines(this Pix pixs, out Pta ppta, bool debug)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 ppta = null;
                 return null;
@@ -49,7 +49,7 @@ namespace Leptonica
             IntPtr pptaPtr;
             var pointer = Native.DllImports.pixFindBaselines((HandleRef)pixs, out pptaPtr, debug ? 1 : 0);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 ppta = (Pta)pptaPtr;
                 return (Numa)pointer;
@@ -87,17 +87,17 @@ namespace Leptonica
         /// <param name="sweepdelta"> sweepdelta angle increment of sweep; in degrees; use 0.0 for default value</param>
         /// <param name="minbsdelta">minbsdelta min binary search increment angle; in degrees; use 0.0 for default value</param>
         /// <returns>pixd, or NULL on error</returns>
-        public static Pix pixDeskewLocal(Pix pixs, int nslices, DeskewRedSweep redsweep, DeskewRedSearch redsearch, float sweeprange, float sweepdelta, float minbsdelta)
+        public static Pix pixDeskewLocal(this Pix pixs, int nslices, DeskewRedSweep redsweep, DeskewRedSearch redsearch, float sweeprange, float sweepdelta, float minbsdelta)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 return null;
             }
 
             var pointer = Native.DllImports.pixDeskewLocal((HandleRef)pixs, nslices, redsweep, redsearch, sweeprange, sweepdelta, minbsdelta);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -126,10 +126,10 @@ namespace Leptonica
         /// <param name="pptas">pptas  4 points in the source</param>
         /// <param name="pptad">pptad  the corresponding 4 pts in the dest</param>
         /// <returns>true if OK,false on error</returns>
-        public static bool pixGetLocalSkewTransform(Pix pixs, int nslices, DeskewRedSweep redsweep, DeskewRedSearch redsearch, float sweeprange, float sweepdelta, float minbsdelta, out Pta pptas, out Pta pptad)
+        public static bool pixGetLocalSkewTransform(this Pix pixs, int nslices, DeskewRedSweep redsweep, DeskewRedSearch redsearch, float sweeprange, float sweepdelta, float minbsdelta, out Pta pptas, out Pta pptad)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 pptas = null;
                 pptad = null;
@@ -178,10 +178,10 @@ namespace Leptonica
         /// <param name="pa">pa [optional] slope of skew as fctn of y</param>
         /// <param name="pb">pb [optional] intercept at y=0 of skew as fctn of y</param>
         /// <returns>naskew, or NULL on error</returns>
-        public static Numa pixGetLocalSkewAngles(Pix pixs, int nslices, DeskewRedSweep redsweep, DeskewRedSearch redsearch, float sweeprange, float sweepdelta, float minbsdelta, out float pa, out float pb)
+        public static Numa pixGetLocalSkewAngles(this Pix pixs, int nslices, DeskewRedSweep redsweep, DeskewRedSearch redsearch, float sweeprange, float sweepdelta, float minbsdelta, out float pa, out float pb)
         {
             //ensure pix is not null;
-            if (pixs == null)
+            if (null == pixs)
             {
                 pa = 0;
                 pb = 0;
@@ -190,7 +190,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixGetLocalSkewAngles((HandleRef)pixs, nslices, redsweep, redsearch, sweeprange, sweepdelta, minbsdelta, out pa, out pb);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Numa(pointer);
             }

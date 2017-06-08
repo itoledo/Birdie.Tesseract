@@ -30,7 +30,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixBlockconv((HandleRef)source, wc, hc);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
@@ -59,7 +59,7 @@ namespace Leptonica
 
             var pointer = Native.DllImports.pixAddGaussianNoise((HandleRef)source, standardDeviation);
 
-            if (pointer != IntPtr.Zero)
+            if (IntPtr.Zero != pointer)
             {
                 return new Pix(pointer);
             }
