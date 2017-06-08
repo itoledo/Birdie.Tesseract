@@ -8,13 +8,32 @@ namespace Leptonica
     /// boxfunc3.c
     /// </summary>
     public static class BoxFunc3
-    {
-        // Boxa/Boxaa painting into pix
-        //           PIX* pixMaskConnComp()  
-        //           PIX* pixSetBlackOrWhiteBoxa() 
-        //           PIX* pixBlendBoxaRandom() 
-        //           PIX* boxaaDisplay()
-        //           PIXA* pixaDisplayBoxaa()
+    { 
+        /// <summary>
+        /// pixSetBlackOrWhiteBoxa()
+        /// </summary>
+        /// <param name="pixs"> pixs any depth, can be cmapped</param>
+        /// <param name="boxa">boxa [optional] of boxes, to clear or set</param>
+        /// <param name="op">op L_SET_BLACK, L_SET_WHITE</param>
+        /// <returns>pixd with boxes filled with white or black, or NULL on error</returns>
+        public static Pix pixSetBlackOrWhiteBoxa(this Pix pixs, Boxa boxa, GraphicPixelSetting op)
+        {
+            //ensure pix is not null;
+            if (null == pixs || null == boxa)
+            {
+                return null;
+            }
+
+            var pointer = Native.DllImports.pixSetBlackOrWhiteBoxa((HandleRef)pixs, (HandleRef)boxa, op);
+            if (IntPtr.Zero != pointer)
+            {
+                return new Pix(pointer);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         ///      (1) This can be used with:
@@ -59,7 +78,7 @@ namespace Leptonica
                 return null;
             }
         }
-         
+
         /// <summary>
         ///      (1) If pixs is 1 bpp or is colormapped, it is converted to 8 bpp
         /// and the boxa is painted using a colormap; otherwise,
@@ -192,20 +211,5 @@ namespace Leptonica
                 return null;
             }
         }
-
-
-        // Split mask components into Boxa
-        // BOXA            *pixSplitIntoBoxa()
-        //           BOXA* pixSplitComponentIntoBoxa() 
-        //
-        //      Represent horizontal or vertical mosaic strips
-        //           BOXA* makeMosaicStrips()
-        //
-        // Comparison between boxa
-        // l_int32          boxaCompareRegions()
-        //
-        // Reliable selection of a single large box
-        // BOX             *pixSelectLargeULComp()
-        //           BOX* boxaSelectLargeULBox()  
     }
 }

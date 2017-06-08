@@ -64,6 +64,7 @@
     <Compile Include="Boxaa.cs" />
     <Compile Include="AdaptMap.cs" />
     <Compile Include="BoxFunc1.cs" />
+    <Compile Include="BoxFunc2.cs" />
     <Compile Include="BoxSizeAdjustmentLocationFlags.cs" />
     <Compile Include="ColorFlags.cs" />
     <Compile Include="Convolve.cs" />
@@ -101,6 +102,9 @@
     <Compile Include="ScanDirectionFlags.cs" />
     <Compile Include="ShearFlags.cs" />
     <Compile Include="Skew.cs" />
+    <Compile Include="SortModeFlags.cs" />
+    <Compile Include="SortOrderFlags.cs" />
+    <Compile Include="SortTypeFlags.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinExpand.cs" />

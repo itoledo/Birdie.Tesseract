@@ -352,7 +352,7 @@ namespace Leptonica
         /// <param name="pixs">pixs all depths; cmap ok</param>
         /// <param name="op"> L_SET_BLACK, L_SET_WHITE</param>
         /// <returns>0 if OK; 1 on error</returns>
-        public static bool pixSetBlackOrWhite(Pix pixs, BlackOrWhiteFlags op)
+        public static bool pixSetBlackOrWhite(this Pix pixs, BlackOrWhiteFlags op)
         {
             //ensure pix is not null;
             if (null == pixs)
@@ -467,7 +467,7 @@ namespace Leptonica
         /// <param name="val">val  blend value; 0xrrggbb00</param>
         /// <param name="fract">fract fraction of color to be blended with each pixel in pixs</param>
         /// <returns>0 if OK; 1 on error</returns>
-        public static bool pixBlendInRect(Pix pixs, Box box, uint val, float fract)
+        public static bool pixBlendInRect(this Pix pixs, Box box, uint val, float fract)
         {
             //ensure pix is not null;
             if (null == pixs)
@@ -545,35 +545,484 @@ namespace Leptonica
             return Native.DllImports.pixSetPadBitsBand((HandleRef)pix, by, bh, val) == 0;
         }
 
+        /// <summary>
+        /// Notes:
+        ///      (1) The border region is defined to be the region in the
+        /// image within a specific distance of each edge.Here, we
+        ///allow the pixels within a specified distance of each
+        ///          edge to be set independently.This either sets or
+        ///          clears all pixels in the border region.
+        ///      (2) For binary images, use PIX_SET for black and PIX_CLR for white.
+        ///      (3) For grayscale or color images, use PIX_SET for white
+        /// and PIX_CLR for black.
+        /// </summary>
+        /// <param name="pixs"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="top"></param>
+        /// <param name="bot"></param>
+        /// <param name="op"></param>
+        /// <returns></returns>
+        public static bool pixSetOrClearBorder(this Pix pixs, int left, int right, int top, int bot, GraphicPixelSetting op)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return false;
+            }
 
+            return Native.DllImports.pixSetOrClearBorder((HandleRef)pixs, left, right, top, bot, op) == 0;
+        }
 
-        //public static bool pixSetOrClearBorder(Pix pixs, int left, int right, int top, int bot, int op);
-        //public static bool pixSetBorderVal(Pix pixs, int left, int right, int top, int bot, uint val);
-        //public static bool pixSetBorderRingVal(Pix pixs, int dist, uint val);
-        //public static bool pixSetMirroredBorder(Pix pixs, int left, int right, int top, int bot);
-        //public static Pix pixCopyBorder(Pix pixd, Pix pixs, int left, int right, int top, int bot);
+        /// <summary>
+        /// <pre>
+        /// Notes:
+        ///      (1) The border region is defined to be the region in the
+        /// image within a specific distance of each edge.Here, we
+        /// allow the pixels within a specified distance of each
+        ///          edge to be set independently.This sets the pixels
+        ///          in the border region to the given input value.
+        ///      (2) For efficiency, use pixSetOrClearBorder() if
+        ///          you're setting the border to either black or white.
+        ///      (3) If d != 32, the input value should be masked off
+        ///          to the appropriate number of least significant bits.
+        ///      (4) The code is easily generalized for 2 or 4 bpp.
+        /// </pre>
+        /// </summary>
+        /// <param name="pixs">pixs 8, 16 or 32 bpp</param>
+        /// <param name="left">left, right, top, bot amount to set</param>
+        /// <param name="right">left, right, top, bot amount to set</param>
+        /// <param name="top">left, right, top, bot amount to set</param>
+        /// <param name="bot">left, right, top, bot amount to set</param>
+        /// <param name="val"> val value to set at each border pixel</param>
+        /// <returns>0 if OK; 1 on error</returns>
+        public static bool pixSetBorderVal(this Pix pixs, int left, int right, int top, int bot, uint val)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return false;
+            }
 
-        /*   
- // 
- //
- //      Assign border pixels
- //           l_int32     pixSetOrClearBorder()
- //           l_int32     pixSetBorderVal()
- //           l_int32     pixSetBorderRingVal()
- //           l_int32     pixSetMirroredBorder()
- //           PIX        *pixCopyBorder()
- //
- //      Add and remove border 
- //           PIX        *pixAddBlackOrWhiteBorder()
- //           PIX        *pixAddBorderGeneral()
- //           PIX        *pixRemoveBorder()
- //           PIX        *pixRemoveBorderGeneral()
- //           PIX        *pixRemoveBorderToSize()
- //           PIX        *pixAddMirroredBorder()
- //           PIX        *pixAddRepeatedBorder()
- //           PIX        *pixAddMixedBorder()
- //           PIX        *pixAddContinuedBorder()
- //
+            return Native.DllImports.pixSetBorderVal((HandleRef)pixs, left, right, top, bot, val) == 0;
+        }
+
+        /// <summary>
+        ///      (1) The rings are single-pixel-wide rectangular sets of
+        ///          pixels at a given distance from the edge of the pix.
+        /// This sets all pixels in a given ring to a value.
+        /// </summary>
+        /// <param name="pixs">pixs any depth; cmap OK</param>
+        /// <param name="dist">dist distance from outside; must be > 0; first ring is 1</param>
+        /// <param name="val">val value to set at each border pixel</param>
+        /// <returns></returns>
+        public static bool pixSetBorderRingVal(this Pix pixs, int dist, uint val)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return false;
+            }
+
+            return Native.DllImports.pixSetBorderRingVal((HandleRef)pixs, dist, val) == 0;
+        }
+
+        /// <summary>
+        /// Notes:
+        ///      (1) This applies what is effectively mirror boundary conditions
+        ///          to a border region in the image.It is in-place.
+        ///      (2) This is useful for setting pixels near the border to a
+        /// value representative of the near pixels to the interior.
+        ///      (3) The general pixRasterop() is used for an in-place operation here
+        ///because there is no overlap between the src and dest rectangles.
+        /// </summary>
+        /// <param name="pixs">pixs all depths; colormap ok</param>
+        /// <param name="left">left, right, top, bot number of pixels to set</param>
+        /// <param name="right">left, right, top, bot number of pixels to set</param>
+        /// <param name="top">left, right, top, bot number of pixels to set</param>
+        /// <param name="bot">left, right, top, bot number of pixels to set</param>
+        /// <returns></returns>
+        public static bool pixSetMirroredBorder(this Pix pixs, int left, int right, int top, int bot)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return false;
+            }
+
+            return Native.DllImports.pixSetMirroredBorder((HandleRef)pixs, left, right, top, bot) == 0;
+        }
+
+        /// <summary>
+        ///  <pre>
+        ///  Notes:
+        ///       (1) pixd can be null, but otherwise it must be the same size
+        ///           and depth as pixs.Always returns pixd.
+        /// 
+        ///      (2) This is useful in situations where by setting a few border
+        /// pixels we can avoid having to copy all pixels in pixs into
+        ///           pixd as an initialization step for some operation.
+        ///           Nevertheless, for safety, if making a new pixd, all the
+        ///           non-border pixels are initialized to 0.
+        ///  </pre>
+        /// </summary>
+        /// <param name="pixd">pixd all depths; colormap ok; can be NULL</param>
+        /// <param name="pixs">pixs same depth and size as pixd</param>
+        /// <param name="left">left, right, top, bot number of pixels to copy</param>
+        /// <param name="right">left, right, top, bot number of pixels to copy</param>
+        /// <param name="top">left, right, top, bot number of pixels to copy</param>
+        /// <param name="bot">left, right, top, bot number of pixels to copy</param>
+        /// <returns>pixd, or NULL on error if pixd is not defined</returns>
+        public static Pix pixCopyBorder(this Pix pixd, Pix pixs, int left, int right, int top, int bot)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return null;
+            }
+
+            return Native.DllImports.pixCopyBorder((HandleRef)pixd, ((HandleRef)pixs, left, right, top, bot) == 0;
+        }
+
+        /// <summary>
+        ///  Notes:
+        ///       (1) See pixGetBlackOrWhiteVal() for possible side effect(adding
+        ///  a color to a colormap).
+        ///       (2) The only complication is that pixs may have a colormap.
+        ///           There are two ways to add the black or white border:
+        ///           (a) As done here(simplest, most efficient)
+        ///           (b) l_int32 ws, hs, d;
+        ///               pixGetDimensions(pixs, &ws, &hs, &d);
+        ///               Pix* pixd = pixCreate(ws + left + right, hs + top + bot, d);
+        ///               PixColormap* cmap = pixGetColormap(pixs);
+        ///               if (cmap != NULL)
+        ///                   pixSetColormap(pixd, pixcmapCopy(cmap));
+        ///               pixSetBlackOrWhite(pixd, L_SET_WHITE);  // uses cmap
+        ///               pixRasterop(pixd, left, top, ws, hs, PIX_SET, pixs, 0, 0);
+        ///  </pre>
+        /// </summary>
+        /// <param name="pixs">pixs all depths; colormap ok</param>
+        /// <param name="left">left, right, top, bot  number of pixels added</param>
+        /// <param name="right">left, right, top, bot  number of pixels added</param>
+        /// <param name="top">left, right, top, bot  number of pixels added</param>
+        /// <param name="bot">left, right, top, bot  number of pixels added</param>
+        /// <param name="op">op L_GET_BLACK_VAL, L_GET_WHITE_VAL</param>
+        /// <returns>pixd with the added exterior pixels, or NULL on error</returns>
+        public static Pix pixAddBlackOrWhiteBorder(this Pix pixs, int left, int right, int top, int bot, int op)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return null;
+            }
+
+            var pointer = Native.DllImports.pixAddBlackOrWhiteBorder((HandleRef)pixs, left, right, top, bot, op);
+            if (IntPtr.Zero != pointer)
+            {
+                return new Pix(pointer);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// <pre>
+        /// Notes:
+        ///      (1) For binary images:
+        ///             white:  val = 0
+        ///             black:  val = 1
+        ///          For grayscale images:
+        ///             white:  val = 2 ** d - 1
+        ///             black:  val = 0
+        ///          For rgb color images:
+        ///             white:  val = 0xffffff00
+        ///             black:  val = 0
+        ///          For colormapped images, set val to the appropriate colormap index.
+        ///      (2) If the added border is either black or white, you can use
+        ///             pixAddBlackOrWhiteBorder()
+        ///          The black and white values for all images can be found with
+        ///             pixGetBlackOrWhiteVal()
+        ///          which, if pixs is cmapped, may add an entry to the colormap.
+        /// Alternatively, if pixs has a colormap, you can find the index
+        ///          of the pixel whose intensity is closest to white or black:
+        ///             white: pixcmapGetRankIntensity(cmap, 1.0, &index);
+        ///             black: pixcmapGetRankIntensity(cmap, 0.0, &index);
+        ///          and use that for val.
+        /// </pre>
+        /// </summary>
+        /// <param name="pixs">pixs all depths; colormap ok</param>
+        /// <param name="left">left, right, top, bot  number of pixels added</param>
+        /// <param name="right">left, right, top, bot  number of pixels added</param>
+        /// <param name="top">left, right, top, bot  number of pixels added</param>
+        /// <param name="bot">left, righ</param>
+        /// <param name="val">val   value of added border pixels</param>
+        /// <returns>pixd with the added exterior pixels, or NULL on error</returns>
+        public static Pix pixAddBorderGeneral(this Pix pixs, int left, int right, int top, int bot, uint val)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return null;
+            }
+
+            var pointer = Native.DllImports.pixAddBorderGeneral((HandleRef)pixs, left, right, top, bot, val);
+            if (IntPtr.Zero != pointer)
+            {
+                return new Pix(pointer);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// pixRemoveBorder
+        /// </summary>
+        /// <param name="pixs">pixs all depths; colormap ok</param>
+        /// <param name="npix">npix number to be removed from each of the 4 sides</param>
+        /// <returns>pixd with pixels removed around border, or NULL on error</returns>
+        public static Pix pixRemoveBorder(this Pix pixs, int npix)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return null;
+            }
+
+            var pointer = Native.DllImports.pixRemoveBorder((HandleRef)pixs, npix);
+            if (IntPtr.Zero != pointer)
+            {
+                return new Pix(pointer);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// pixRemoveBorderGeneral
+        /// </summary>
+        /// <param name="pixs">pixs all depths; colormap ok</param>
+        /// <param name="left">left, right, top, bot  number of pixels removed</param>
+        /// <param name="right">left, right, top, bot  number of pixels removed</param>
+        /// <param name="top">left, right, top, bot  number of pixels removed</param>
+        /// <param name="bot">left, right, top, bot  number of pixels removed</param>
+        /// <returns>pixd with pixels removed around border, or NULL on error</returns>
+        public static Pix pixRemoveBorderGeneral(this Pix pixs, int left, int right, int top, int bot)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return null;
+            }
+
+            var pointer = Native.DllImports.pixRemoveBorderGeneral((HandleRef)pixs, left, right, top, bot);
+            if (IntPtr.Zero != pointer)
+            {
+                return new Pix(pointer);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// <pre>
+        /// Notes:
+        ///      (1) Removes pixels as evenly as possible from the sides of the
+        ///          image, leaving the central part.
+        ///      (2) Returns clone if no pixels requested removed, or the target
+        ///          sizes are larger than the image.
+        /// </pre>
+        /// </summary>
+        /// <param name="pixs">pixs all depths; colormap ok</param>
+        /// <param name="wd">wd target width; use 0 if only removing from height</param>
+        /// <param name="hd">hd target height; use 0 if only removing from width</param>
+        /// <returns>pixd with pixels removed around border, or NULL on error</returns>
+        public static Pix pixRemoveBorderToSize(this Pix pixs, int wd, int hd)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return null;
+            }
+
+            var pointer = Native.DllImports.pixRemoveBorderToSize((HandleRef)pixs, wd, hd);
+            if (IntPtr.Zero != pointer)
+            {
+                return new Pix(pointer);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// <pre>
+        /// Notes:
+        ///      (1) This applies what is effectively mirror boundary conditions.
+        ///          For the added border pixels in pixd, the pixels in pixs
+        /// near the border are mirror-copied into the border region.
+        ///      (2) This is useful for avoiding special operations near
+        ///          boundaries when doing image processing operations
+        ///          such as rank filters and convolution.In use, one first
+        ///          adds mirrored pixels to each side of the image.The number
+        ///          of pixels added on each side is half the filter dimension.
+        ///          Then the image processing operations proceed over a
+        ///          region equal to the size of the original image, and
+        /// write directly into a dest pix of the same size as pixs.
+        ///      (3) The general pixRasterop() is used for an in-place operation here
+        /// because there is no overlap between the src and dest rectangles.
+        /// </pre>
+        /// </summary>
+        /// <param name="pixs">pixs all depths; colormap ok</param>
+        /// <param name="left">left, right, top, bot number of pixels added</param>
+        /// <param name="right">left, right, top, bot number of pixels added</param>
+        /// <param name="top">left, right, top, bot number of pixels added</param>
+        /// <param name="bot">left, right, top, bot number of pixels added</param>
+        /// <returns>pixd, or NULL on error</returns>
+        public static Pix pixAddMirroredBorder(this Pix pixs, int left, int right, int top, int bot)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return null;
+            }
+
+            var pointer = Native.DllImports.pixAddMirroredBorder((HandleRef)pixs, left, right, top, bot);
+            if (IntPtr.Zero != pointer)
+            {
+                return new Pix(pointer);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// <pre>
+        /// Notes:
+        ///      (1) This applies what is effectively mirror boundary conditions.
+        ///          For the added border pixels in pixd, the pixels in pixs
+        /// near the border are mirror-copied into the border region.
+        ///      (2) This is useful for avoiding special operations near
+        ///          boundaries when doing image processing operations
+        ///          such as rank filters and convolution.In use, one first
+        ///          adds mirrored pixels to each side of the image.The number
+        ///          of pixels added on each side is half the filter dimension.
+        ///          Then the image processing operations proceed over a
+        ///          region equal to the size of the original image, and
+        /// write directly into a dest pix of the same size as pixs.
+        ///      (3) The general pixRasterop() is used for an in-place operation here
+        /// because there is no overlap between the src and dest rectangles.
+        /// </pre>
+        /// </summary>
+        /// <param name="pixs"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="top"></param>
+        /// <param name="bot"></param>
+        /// <returns></returns>
+        public static Pix pixAddRepeatedBorder(this Pix pixs, int left, int right, int top, int bot)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return null;
+            }
+
+            var pointer = Native.DllImports.pixAddRepeatedBorder((HandleRef)pixs, left, right, top, bot);
+            if (IntPtr.Zero != pointer)
+            {
+                return new Pix(pointer);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// <pre>
+        /// Notes:
+        ///      (1) This applies mirrored boundary conditions horizontally
+        ///          and repeated b.c.vertically.
+        ///      (2) It is specifically used for avoiding special operations
+        /// near boundaries when convolving a hue-saturation histogram
+        ///          with a given window size.The repeated b.c.are used
+        ///          vertically for hue, and the mirrored b.c.are used
+        /// horizontally for saturation.The number of pixels added
+        /// on each side is approximately (but not quite) half the
+        ///          filter dimension.The image processing operations can
+        ///          then proceed over a region equal to the size of the original
+        ///          image, and write directly into a dest pix of the same
+        ///          size as pixs.
+        ///      (3) The general pixRasterop() can be used for an in-place
+        /// operation here because there is no overlap between the
+        ///          src and dest rectangles.
+        /// </pre>
+        /// </summary>
+        /// <param name="pixs"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="top"></param>
+        /// <param name="bot"></param>
+        /// <returns></returns>
+        public static Pix pixAddMixedBorder(this Pix pixs, int left, int right, int top, int bot)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return null;
+            }
+
+            var pointer = Native.DllImports.pixAddMixedBorder((HandleRef)pixs, left, right, top, bot);
+            if (IntPtr.Zero != pointer)
+            {
+                return new Pix(pointer);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// (1) This adds pixels on each side whose values are equal to the value on the closest boundary pixel.
+        /// </summary>
+        /// <param name="pixs"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <param name="top"></param>
+        /// <param name="bot"></param>
+        /// <returns></returns>
+        public static Pix pixAddContinuedBorder(this Pix pixs, int left, int right, int top, int bot)
+        {
+            //ensure pix is not null;
+            if (null == pixs)
+            {
+                return null;
+            }
+
+            var pointer = Native.DllImports.pixAddContinuedBorder((HandleRef)pixs, left, right, top, bot);
+            if (IntPtr.Zero != pointer)
+            {
+                return new Pix(pointer);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /*    
  //      Helper functions using alpha
  //           l_int32     pixShiftAndTransferAlpha()
  //           PIX        *pixDisplayLayersRGBA()

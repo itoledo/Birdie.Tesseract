@@ -1014,7 +1014,7 @@ namespace Leptonica.Native
         internal static extern IntPtr boxaMergeEvenOdd(HandleRef boxae, HandleRef boxao, int fillflag);
         #endregion
 
-        #region boxfunc2.c
+        #region boxfunc2.c - DONE
         // Boxa/Box transform (shift, scale) and orthogonal rotation
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaTransform")]
         internal static extern IntPtr boxaTransform(HandleRef boxas, int shiftx, int shifty, float scalex, float scaley);
@@ -1087,7 +1087,7 @@ namespace Leptonica.Native
         internal static extern int boxaaAlignBox(HandleRef baa, IntPtr box, int delta, IntPtr pindex);
         #endregion
 
-        #region boxfunc3.c
+        #region boxfunc3.c - DONE
         //Boxa/Boxaa painting into pix 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMaskConnComp")]
         internal static extern IntPtr pixMaskConnComp(HandleRef pixs, int connectivity, IntPtr pboxa);
@@ -1100,8 +1100,9 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixPaintBoxa")]
         internal static extern IntPtr pixPaintBoxa(HandleRef pixs, HandleRef boxa, uint val);
 
+        /* DONE */
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetBlackOrWhiteBoxa")]
-        internal static extern IntPtr pixSetBlackOrWhiteBoxa(HandleRef pixs, IntPtr boxa, int op);
+        internal static extern IntPtr pixSetBlackOrWhiteBoxa(HandleRef pixs, HandleRef boxa, int op);
 
         /* DONE */
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixPaintBoxaRandom")]
@@ -5020,7 +5021,7 @@ namespace Leptonica.Native
         internal static extern int pixSetPadBitsBand(HandleRef pix, int by, int bh, int val);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetOrClearBorder")]
-        internal static extern int pixSetOrClearBorder(HandleRef pixs, int left, int right, int top, int bot, int op);
+        internal static extern int pixSetOrClearBorder(HandleRef pixs, int left, int right, int top, int bot, GraphicPixelSetting op);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetBorderVal")]
         internal static extern int pixSetBorderVal(HandleRef pixs, int left, int right, int top, int bot, uint val);
@@ -5032,7 +5033,7 @@ namespace Leptonica.Native
         internal static extern int pixSetMirroredBorder(HandleRef pixs, int left, int right, int top, int bot);
 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopyBorder")]
-        internal static extern IntPtr pixCopyBorder(HandleRef pixd, IntPtr pixs, int left, int right, int top, int bot);
+        internal static extern IntPtr pixCopyBorder(HandleRef pixd, HandleRef pixs, int left, int right, int top, int bot);
 
         /* DONE */
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddBorder")]
