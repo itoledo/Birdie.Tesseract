@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\BinExpand.cs" />
     <Compile Include="Implementations\Binarize.cs" />
     <Compile Include="Implementations\Bilinear.cs" />
     <Compile Include="Definitions\Morph\ArithmeticAndLogicalOperatorFlags.cs" />

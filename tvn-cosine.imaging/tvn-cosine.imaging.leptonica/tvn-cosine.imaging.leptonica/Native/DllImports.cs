@@ -395,8 +395,7 @@ namespace Leptonica.Native
         internal static extern int bilinearXformPt(IntPtr vc, int x, int y, out float pxp, out float pyp);
         #endregion
 
-        #region binarize.c
-
+        #region binarize.c 
         // Adaptive Otsu-based thresholding
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOtsuAdaptiveThreshold")]
         internal static extern int pixOtsuAdaptiveThreshold(HandleRef pixs, int sx, int sy, int smoothx, int smoothy, float scorefract, out IntPtr ppixth, out IntPtr ppixd);
@@ -422,15 +421,21 @@ namespace Leptonica.Native
         // Thresholding using connected components
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThresholdByConnComp")]
         internal static extern int pixThresholdByConnComp(HandleRef pixs, HandleRef pixm, int start, int end, int incr, float thresh48, float threshdiff, out int pglobthresh, out IntPtr ppixd, int debugflag);
-
         #endregion
 
+        #region binexpand.c
+        // Replicated expansion (integer scaling)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExpandBinaryReplicate")]
+        internal static extern IntPtr pixExpandBinaryReplicate(HandleRef pixs, int xfact, int yfact);
+
+        // Special case: power of 2 replicated expansion
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExpandBinaryPower2")]
+        internal static extern IntPtr pixExpandBinaryPower2(HandleRef pixs, int factor); 
+        #endregion
         /* 
          
          
          
-         internal static  extern PIX* pixExpandBinaryReplicate(PIX* pixs, int xfact, int yfact);
-         internal static  extern PIX* pixExpandBinaryPower2(PIX* pixs, int factor);
          internal static  extern PIX* pixReduceBinary2(PIX* pixs, l_uint8* intab);
          internal static  extern PIX* pixReduceRankBinaryCascade(PIX* pixs, int level1, int level2, int level3, int level4);
          internal static  extern PIX* pixReduceRankBinary2(PIX* pixs, int level, l_uint8* intab);
