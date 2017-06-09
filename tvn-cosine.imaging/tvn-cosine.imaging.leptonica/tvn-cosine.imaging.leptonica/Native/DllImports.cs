@@ -282,10 +282,18 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_setDataFourBytes")]
         internal static extern void l_setDataFourBytes(IntPtr line, int n, int val);
         #endregion
+
+        #region bardecode.c 
+        // Dispatcher
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getDataBit")]
+        internal static extern IntPtr barcodeDispatchDecoder([MarshalAs(UnmanagedType.AnsiBStr)] string barstr, int format, int debugflag);
+
+        // Format Determination
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getDataBit")]
+        internal static extern int barcodeFormatIsSupported(int format);
+        #endregion
         /* 
 
-         internal static  extern char* barcodeDispatchDecoder(char* barstr, int format, int debugflag);
-         internal static  extern int barcodeFormatIsSupported(l_int32 format);
          internal static  extern NUMA* pixFindBaselines(PIX* pixs, PTA** ppta, PIXA* pixadb);
          internal static  extern PIX* pixDeskewLocal(PIX* pixs, int nslices, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta);
          internal static  extern int pixGetLocalSkewTransform(PIX* pixs, int nslices, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, PTA** pptas, PTA** pptad);
