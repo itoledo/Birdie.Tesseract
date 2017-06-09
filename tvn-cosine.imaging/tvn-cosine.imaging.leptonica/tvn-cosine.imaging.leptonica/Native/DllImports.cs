@@ -394,18 +394,41 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bilinearXformPt")]
         internal static extern int bilinearXformPt(IntPtr vc, int x, int y, out float pxp, out float pyp);
         #endregion
+
+        #region binarize.c
+
+        // Adaptive Otsu-based thresholding
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOtsuAdaptiveThreshold")]
+        internal static extern int pixOtsuAdaptiveThreshold(HandleRef pixs, int sx, int sy, int smoothx, int smoothy, float scorefract, out IntPtr ppixth, out IntPtr ppixd);
+
+        // Otsu thresholding on adaptive background normalization
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOtsuThreshOnBackgroundNorm")]
+        internal static extern IntPtr pixOtsuThreshOnBackgroundNorm(HandleRef pixs, HandleRef pixim, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, float scorefract, out int pthresh);
+
+        // Masking and Otsu estimate on adaptive background normalization
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMaskedThreshOnBackgroundNorm")]
+        internal static extern IntPtr pixMaskedThreshOnBackgroundNorm(HandleRef pixs, HandleRef pixim, int sx, int sy, int thresh, int mincount, int smoothx, int smoothy, float scorefract, out int pthresh);
+
+        // Sauvola local thresholding
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSauvolaBinarizeTiled")]
+        internal static extern int pixSauvolaBinarizeTiled(HandleRef pixs, int whsize, float factor, int nx, int ny, out IntPtr ppixth, out IntPtr ppixd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSauvolaBinarize")]
+        internal static extern int pixSauvolaBinarize(HandleRef pixs, int whsize, float factor, int addborder, out IntPtr ppixm, out IntPtr ppixsd, out IntPtr ppixth, out IntPtr ppixd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSauvolaGetThreshold")]
+        internal static extern IntPtr pixSauvolaGetThreshold(HandleRef pixm, HandleRef pixms, float factor, out IntPtr ppixsd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixApplyLocalThreshold")]
+        internal static extern IntPtr pixApplyLocalThreshold(HandleRef pixs, HandleRef pixth, int redfactor);
+
+        // Thresholding using connected components
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThresholdByConnComp")]
+        internal static extern int pixThresholdByConnComp(HandleRef pixs, HandleRef pixm, int start, int end, int incr, float thresh48, float threshdiff, out int pglobthresh, out IntPtr ppixd, int debugflag);
+
+        #endregion
+
         /* 
          
          
          
-         internal static  extern int pixOtsuAdaptiveThreshold(PIX* pixs, int sx, int sy, int smoothx, int smoothy, float scorefract, PIX** ppixth, PIX** ppixd);
-         internal static  extern PIX* pixOtsuThreshOnBackgroundNorm(PIX* pixs, PIX* pixim, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, float scorefract, l_int32* pthresh);
-         internal static  extern PIX* pixMaskedThreshOnBackgroundNorm(PIX* pixs, PIX* pixim, int sx, int sy, int thresh, int mincount, int smoothx, int smoothy, float scorefract, l_int32* pthresh);
-         internal static  extern int pixSauvolaBinarizeTiled(PIX* pixs, int whsize, float factor, int nx, int ny, PIX** ppixth, PIX** ppixd);
-         internal static  extern int pixSauvolaBinarize(PIX* pixs, int whsize, float factor, int addborder, PIX** ppixm, PIX** ppixsd, PIX** ppixth, PIX** ppixd);
-         internal static  extern PIX* pixSauvolaGetThreshold(PIX* pixm, PIX* pixms, float factor, PIX** ppixsd);
-         internal static  extern PIX* pixApplyLocalThreshold(PIX* pixs, PIX* pixth, int redfactor);
-         internal static  extern int pixThresholdByConnComp(PIX* pixs, PIX* pixm, int start, int end, int incr, float thresh48, float threshdiff, l_int32* pglobthresh, PIX** ppixd, int debugflag);
          internal static  extern PIX* pixExpandBinaryReplicate(PIX* pixs, int xfact, int yfact);
          internal static  extern PIX* pixExpandBinaryPower2(PIX* pixs, int factor);
          internal static  extern PIX* pixReduceBinary2(PIX* pixs, l_uint8* intab);
