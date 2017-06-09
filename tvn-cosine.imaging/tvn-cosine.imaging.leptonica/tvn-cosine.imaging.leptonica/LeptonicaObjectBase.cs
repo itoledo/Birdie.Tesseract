@@ -17,7 +17,7 @@ namespace Leptonica
         /// Instantiating a base leptonica object
         /// </summary>
         /// <param name="pointer"></param>
-        public LeptonicaObjectBase(System.IntPtr pointer)
+        internal LeptonicaObjectBase(IntPtr pointer)
         {
             handleRef = new HandleRef(this, pointer);
         }
@@ -28,7 +28,7 @@ namespace Leptonica
         /// <param name="obj">The object to convert</param>
         public static explicit operator IntPtr(LeptonicaObjectBase obj)
         {
-            if (obj == null)
+            if (null == obj)
             {
                 return IntPtr.Zero;
             }
@@ -44,7 +44,7 @@ namespace Leptonica
         /// <param name="obj">The object to convert</param>
         public static explicit operator HandleRef(LeptonicaObjectBase obj)
         {
-            if (obj == null)
+            if (null == obj)
             {
                 return new HandleRef(null, IntPtr.Zero);
             }

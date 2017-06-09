@@ -1,33 +1,12 @@
-using System; 
+﻿using System; 
 
 namespace Leptonica
 {
     /// <summary>
-    /// PixColorMap.
+    /// Colormap of a Pix
     /// </summary>
-    public class PixColorMap : LeptonicaObjectBase
+    public class PixColormap : LeptonicaObjectBase
     {
-        private PixColorMap(IntPtr pointer)
-            : base(pointer)
-        {
-
-        }
-
-
-        /// <summary>
-        /// Explicitly cast IntPtr to L_Kernal
-        /// </summary>
-        /// <param name="pointer"></param>
-        public static explicit operator PixColorMap(IntPtr pointer)
-        {
-            if (IntPtr.Zero != pointer)
-            {
-                return new PixColorMap(pointer);
-            }
-            else
-            {
-                return null;
-            }
-        }
+        internal PixColormap(IntPtr pointer) : base(pointer) { }
     }
 }
