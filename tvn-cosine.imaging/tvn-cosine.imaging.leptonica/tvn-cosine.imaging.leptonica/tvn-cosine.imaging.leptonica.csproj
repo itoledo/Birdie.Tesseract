@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdaptMap.cs" />
+    <Compile Include="Affine.cs" />
     <Compile Include="Enums\EdgeFilterFlags.cs" />
     <Compile Include="Enums\AccessAndStorageFlags.cs" />
     <Compile Include="Enums\AffineTransformationOrderFlags.cs" />

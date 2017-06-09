@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Leptonica;
+using System;
 
 namespace TestingApp
 {
@@ -8,7 +9,8 @@ namespace TestingApp
 
         static void Main(string[] args)
         {
-
+            Pix pix;
+             
             Console.WriteLine("Done...");
             Console.ReadKey();
         }
