@@ -2,7 +2,7 @@
 
 namespace Leptonica
 {
-    public static class BarDecode
+    public static class Bardecode
     {
         // Dispatcher 
         public static IntPtr barcodeDispatchDecoder(string barstr, int format, int debugflag)

@@ -292,12 +292,31 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getDataBit")]
         internal static extern int barcodeFormatIsSupported(int format);
         #endregion
+
+        #region baseline.c
+        // Locate text baselines in an image
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindBaselines")]
+        internal static extern IntPtr pixFindBaselines(HandleRef pixs, out IntPtr ppta, HandleRef pixadb);
+
+        // Projective transform to remove local skew
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDeskewLocal")]
+        internal static extern IntPtr pixDeskewLocal(HandleRef pixs, int nslices, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta);
+
+        // Determine local skew
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetLocalSkewTransform")]
+        internal static extern int pixGetLocalSkewTransform(HandleRef pixs, int nslices, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, out IntPtr pptas, out IntPtr pptad);
+
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetLocalSkewAngles")]
+        internal static extern IntPtr pixGetLocalSkewAngles(HandleRef pixs, int nslices, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, out float pa, out float pb, int debug);
+        #endregion
+
+
+
+
         /* 
 
-         internal static  extern NUMA* pixFindBaselines(PIX* pixs, PTA** ppta, PIXA* pixadb);
-         internal static  extern PIX* pixDeskewLocal(PIX* pixs, int nslices, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta);
-         internal static  extern int pixGetLocalSkewTransform(PIX* pixs, int nslices, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, PTA** pptas, PTA** pptad);
-         internal static  extern NUMA* pixGetLocalSkewAngles(PIX* pixs, int nslices, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, l_float32* pa, l_float32* pb, int debug);
+         
+        
          internal static  extern L_BBUFFER* bbufferCreate(l_uint8* indata, int nalloc);
          internal static  extern void bbufferDestroy(L_BBUFFER** pbb);
          internal static  extern l_uint8* bbufferDestroyAndSaveData(L_BBUFFER** pbb, size_t* pnbytes);

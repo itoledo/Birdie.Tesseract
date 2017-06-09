@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BarDecode.cs" />
+    <Compile Include="Implementations\Baseline.cs" />
+    <Compile Include="Implementations\Bardecode.cs" />
     <Compile Include="Implementations\ArrayAccess.cs" />
     <Compile Include="Enums\Array\FlagsForAddedBordersInNumaAndFpix.cs" />
     <Compile Include="Enums\Array\FlagsForDataTypeConvertedFromNuma.cs" />

@@ -219,7 +219,7 @@ namespace Leptonica
                 throw new ArgumentNullException("mat1, mat2, mat3, mat4, matd cannot be null.");
             }
 
-            return Native.DllImports.l_productMat3(mat1, mat2, mat3, mat4, matd, size);
+            return Native.DllImports.l_productMat4(mat1, mat2, mat3, mat4, matd, size);
         }
     }
 }
