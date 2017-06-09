@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\ArrayAccess.cs" />
     <Compile Include="Enums\Array\FlagsForAddedBordersInNumaAndFpix.cs" />
     <Compile Include="Enums\Array\FlagsForDataTypeConvertedFromNuma.cs" />
     <Compile Include="Enums\Array\FlagsForInterpolationInNuma.cs" />

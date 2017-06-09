@@ -246,24 +246,44 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_productMat4")]
         internal static extern int l_productMat4(IntPtr mat1, IntPtr mat2, IntPtr mat3, IntPtr mat4, IntPtr matd, int size);
         #endregion
+
+        #region arrayaccess.c
+        // Access within an array of 32-bit words
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getDataBit")]
+        internal static extern int l_getDataBit(IntPtr line, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_setDataBit")]
+        internal static extern void l_setDataBit(IntPtr line, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_clearDataBit")]
+        internal static extern void l_clearDataBit(IntPtr line, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_setDataBitVal")]
+        internal static extern void l_setDataBitVal(IntPtr line, int n, int val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getDataDibit")]
+        internal static extern int l_getDataDibit(IntPtr line, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_setDataDibit")]
+        internal static extern void l_setDataDibit(IntPtr line, int n, int val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_clearDataDibit")]
+        internal static extern void l_clearDataDibit(IntPtr line, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getDataQbit")]
+        internal static extern int l_getDataQbit(IntPtr line, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_setDataQbit")]
+        internal static extern void l_setDataQbit(IntPtr line, int n, int val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_clearDataQbit")]
+        internal static extern void l_clearDataQbit(IntPtr line, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getDataByte")]
+        internal static extern int l_getDataByte(IntPtr line, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_setDataByte")]
+        internal static extern void l_setDataByte(IntPtr line, int n, int val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getDataTwoBytes")]
+        internal static extern int l_getDataTwoBytes(IntPtr line, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_setDataTwoBytes")]
+        internal static extern void l_setDataTwoBytes(IntPtr line, int n, int val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getDataFourBytes")]
+        internal static extern int l_getDataFourBytes(IntPtr line, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_setDataFourBytes")]
+        internal static extern void l_setDataFourBytes(IntPtr line, int n, int val);
+        #endregion
         /* 
 
-         internal static  extern int l_getDataBit(void* line, int n);
-         internal static  extern void l_setDataBit(void* line, int n);
-         internal static  extern void l_clearDataBit(void* line, int n);
-         internal static  extern void l_setDataBitVal(void* line, int n, int val);
-         internal static  extern int l_getDataDibit(void* line, int n);
-         internal static  extern void l_setDataDibit(void* line, int n, int val);
-         internal static  extern void l_clearDataDibit(void* line, int n);
-         internal static  extern int l_getDataQbit(void* line, int n);
-         internal static  extern void l_setDataQbit(void* line, int n, int val);
-         internal static  extern void l_clearDataQbit(void* line, int n);
-         internal static  extern int l_getDataByte(void* line, int n);
-         internal static  extern void l_setDataByte(void* line, int n, int val);
-         internal static  extern int l_getDataTwoBytes(void* line, int n);
-         internal static  extern void l_setDataTwoBytes(void* line, int n, int val);
-         internal static  extern int l_getDataFourBytes(void* line, int n);
-         internal static  extern void l_setDataFourBytes(void* line, int n, int val);
          internal static  extern char* barcodeDispatchDecoder(char* barstr, int format, int debugflag);
          internal static  extern int barcodeFormatIsSupported(l_int32 format);
          internal static  extern NUMA* pixFindBaselines(PIX* pixs, PTA** ppta, PIXA* pixadb);
