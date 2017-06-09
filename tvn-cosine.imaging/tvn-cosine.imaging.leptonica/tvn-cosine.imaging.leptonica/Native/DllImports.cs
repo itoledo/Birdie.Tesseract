@@ -75,6 +75,13 @@ namespace Leptonica.Native
         /// </summary>
         internal const float L_BLUE_WEIGHT = 0.2F;
         #endregion
+
+        #region Standard size of border added around images for special processing
+        /// <summary>
+        /// pixels, not bits 
+        /// </summary>
+        internal const int ADDED_BORDER = 32;
+        #endregion
         #endregion
 
         #region adaptmap.c 
@@ -310,7 +317,7 @@ namespace Leptonica.Native
         internal static extern IntPtr pixGetLocalSkewAngles(HandleRef pixs, int nslices, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, out float pa, out float pb, int debug);
         #endregion
 
-        #region buffer.c
+        #region bbuffer.c
         // Create/Destroy BBuffer
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferCreate")]
         internal static extern IntPtr bbufferCreate(IntPtr indata, int nalloc);
@@ -333,16 +340,30 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferWriteStream")]
         internal static extern int bbufferWriteStream(HandleRef bb, IntPtr fp, IntPtr nbytes, IntPtr pnout);
         #endregion
-        /* 
 
+        #region bilateral.c
+        // Top level approximate separable grayscale or color bilateral filtering
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferCreate")]
+        internal static extern IntPtr pixBilateral(HandleRef pixs, float spatial_stdev, float range_stdev, int ncomps, int reduction);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferCreate")]
+        internal static extern IntPtr pixBilateralGray(HandleRef pixs, float spatial_stdev, float range_stdev, int ncomps, int reduction);
+
+        // Slow, exact implementation of grayscale or color bilateral filtering
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferCreate")]
+        internal static extern IntPtr pixBilateralExact(HandleRef pixs, HandleRef spatial_kel, HandleRef range_kel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferCreate")]
+        internal static extern IntPtr pixBilateralGrayExact(HandleRef pixs, HandleRef spatial_kel, HandleRef range_kel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferCreate")]
+        internal static extern IntPtr pixBlockBilateralExact(HandleRef pixs, float spatial_stdev, float range_stdev);
+
+        // Kernel helper function
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferCreate")]
+        internal static extern IntPtr makeRangeKernel(float range_stdev);
+        #endregion
+
+
+        /* 
          
-        
-         internal static  extern PIX* pixBilateral(PIX* pixs, float spatial_stdev, float range_stdev, int ncomps, int reduction);
-         internal static  extern PIX* pixBilateralGray(PIX* pixs, float spatial_stdev, float range_stdev, int ncomps, int reduction);
-         internal static  extern PIX* pixBilateralExact(PIX* pixs, L_KERNEL* spatial_kel, L_KERNEL* range_kel);
-         internal static  extern PIX* pixBilateralGrayExact(PIX* pixs, L_KERNEL* spatial_kel, L_KERNEL* range_kel);
-         internal static  extern PIX* pixBlockBilateralExact(PIX* pixs, float spatial_stdev, float range_stdev);
-         internal static  extern L_KERNEL* makeRangeKernel(float range_stdev);
          internal static  extern PIX* pixBilinearSampledPta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
          internal static  extern PIX* pixBilinearSampled(PIX* pixs, l_float32* vc, int incolor);
          internal static  extern PIX* pixBilinearPta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
