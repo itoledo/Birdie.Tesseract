@@ -310,21 +310,33 @@ namespace Leptonica.Native
         internal static extern IntPtr pixGetLocalSkewAngles(HandleRef pixs, int nslices, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, out float pa, out float pb, int debug);
         #endregion
 
+        #region buffer.c
+        // Create/Destroy BBuffer
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferCreate")]
+        internal static extern IntPtr bbufferCreate(IntPtr indata, int nalloc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferDestroy")]
+        internal static extern void bbufferDestroy(ref IntPtr pbb);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferDestroyAndSaveData")]
+        internal static extern IntPtr bbufferDestroyAndSaveData(ref IntPtr pbb, IntPtr pnbytes);
 
+        // Operations to read data TO a BBuffer
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferRead")]
+        internal static extern int bbufferRead(HandleRef bb, IntPtr src, int nbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferReadStream")]
+        internal static extern int bbufferReadStream(HandleRef bb, IntPtr fp, int nbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferExtendArray")]
+        internal static extern int bbufferExtendArray(HandleRef bb, int nbytes);
 
-
+        // Operations to write data FROM a BBuffer
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferWrite")]
+        internal static extern int bbufferWrite(HandleRef bb, IntPtr dest, IntPtr nbytes, IntPtr pnout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bbufferWriteStream")]
+        internal static extern int bbufferWriteStream(HandleRef bb, IntPtr fp, IntPtr nbytes, IntPtr pnout);
+        #endregion
         /* 
 
          
         
-         internal static  extern L_BBUFFER* bbufferCreate(l_uint8* indata, int nalloc);
-         internal static  extern void bbufferDestroy(L_BBUFFER** pbb);
-         internal static  extern l_uint8* bbufferDestroyAndSaveData(L_BBUFFER** pbb, size_t* pnbytes);
-         internal static  extern int bbufferRead(L_BBUFFER* bb, l_uint8* src, int nbytes);
-         internal static  extern int bbufferReadStream(L_BBUFFER* bb, FILE* fp, int nbytes);
-         internal static  extern int bbufferExtendArray(L_BBUFFER* bb, int nbytes);
-         internal static  extern int bbufferWrite(L_BBUFFER* bb, l_uint8* dest, size_t nbytes, size_t* pnout);
-         internal static  extern int bbufferWriteStream(L_BBUFFER* bb, FILE* fp, size_t nbytes, size_t* pnout);
          internal static  extern PIX* pixBilateral(PIX* pixs, float spatial_stdev, float range_stdev, int ncomps, int reduction);
          internal static  extern PIX* pixBilateralGray(PIX* pixs, float spatial_stdev, float range_stdev, int ncomps, int reduction);
          internal static  extern PIX* pixBilateralExact(PIX* pixs, L_KERNEL* spatial_kel, L_KERNEL* range_kel);

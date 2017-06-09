@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffer.cs" />
     <Compile Include="Implementations\Baseline.cs" />
     <Compile Include="Implementations\Bardecode.cs" />
     <Compile Include="Implementations\ArrayAccess.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Definitions\Array\L_Dnaa.cs" />
     <Compile Include="Definitions\Array\L_Bytea.cs" />
     <Compile Include="Definitions\Array\L_DnaHash.cs" />
+    <Compile Include="Definitions\Buffer\L_ByteBuffer.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
