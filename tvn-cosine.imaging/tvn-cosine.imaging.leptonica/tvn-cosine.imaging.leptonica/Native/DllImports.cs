@@ -361,21 +361,43 @@ namespace Leptonica.Native
         internal static extern IntPtr makeRangeKernel(float range_stdev);
         #endregion
 
+        #region bilinear.c
+        // Bilinear (4 pt) image transformation using a sampled (to nearest integer) transform on each dest point
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBilinearSampledPta")]
+        internal static extern IntPtr pixBilinearSampledPta(HandleRef pixs, HandleRef ptad, HandleRef ptas, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBilinearSampled")]
+        internal static extern IntPtr pixBilinearSampled(HandleRef pixs, IntPtr vc, int incolor);
 
+        // Bilinear (4 pt) image transformation using interpolation (or area mapping) for anti-aliasing images that are 2, 4, or 8 bpp gray, or colormapped, or 32 bpp RGB
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBilinearPta")]
+        internal static extern IntPtr pixBilinearPta(HandleRef pixs, HandleRef ptad, HandleRef ptas, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBilinear")]
+        internal static extern IntPtr pixBilinear(HandleRef pixs, IntPtr vc, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBilinearPtaColor")]
+        internal static extern IntPtr pixBilinearPtaColor(HandleRef pixs, HandleRef ptad, HandleRef ptas, uint colorval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBilinearColor")]
+        internal static extern IntPtr pixBilinearColor(HandleRef pixs, IntPtr vc, uint colorval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBilinearPtaGray")]
+        internal static extern IntPtr pixBilinearPtaGray(HandleRef pixs, HandleRef ptad, HandleRef ptas, byte grayval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBilinearGray")]
+        internal static extern IntPtr pixBilinearGray(HandleRef pixs, IntPtr vc, byte grayval);
+
+        // Bilinear transform including alpha (blend) component
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBilinearPtaWithAlpha")]
+        internal static extern IntPtr pixBilinearPtaWithAlpha(HandleRef pixs, HandleRef ptad, HandleRef ptas, HandleRef pixg, float fract, int border);
+
+        // Bilinear coordinate transformation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getBilinearXformCoeffs")]
+        internal static extern int getBilinearXformCoeffs(HandleRef ptas, HandleRef ptad, out IntPtr pvc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bilinearXformSampledPt")]
+        internal static extern int bilinearXformSampledPt(IntPtr vc, int x, int y, out int pxp, out int pyp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bilinearXformPt")]
+        internal static extern int bilinearXformPt(IntPtr vc, int x, int y, out float pxp, out float pyp);
+        #endregion
         /* 
          
-         internal static  extern PIX* pixBilinearSampledPta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
-         internal static  extern PIX* pixBilinearSampled(PIX* pixs, l_float32* vc, int incolor);
-         internal static  extern PIX* pixBilinearPta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
-         internal static  extern PIX* pixBilinear(PIX* pixs, l_float32* vc, int incolor);
-         internal static  extern PIX* pixBilinearPtaColor(PIX* pixs, PTA* ptad, PTA* ptas, uint colorval);
-         internal static  extern PIX* pixBilinearColor(PIX* pixs, l_float32* vc, uint colorval);
-         internal static  extern PIX* pixBilinearPtaGray(PIX* pixs, PTA* ptad, PTA* ptas, byte grayval);
-         internal static  extern PIX* pixBilinearGray(PIX* pixs, l_float32* vc, byte grayval);
-         internal static  extern PIX* pixBilinearPtaWithAlpha(PIX* pixs, PTA* ptad, PTA* ptas, PIX* pixg, float fract, int border);
-         internal static  extern int getBilinearXformCoeffs(HandleRef ptas, PTA* ptad, l_float32** pvc);
-         internal static  extern int bilinearXformSampledPt(l_float32* vc, int x, int y, l_int32* pxp, l_int32* pyp);
-         internal static  extern int bilinearXformPt(l_float32* vc, int x, int y, l_float32* pxp, l_float32* pyp);
+         
+         
          internal static  extern int pixOtsuAdaptiveThreshold(PIX* pixs, int sx, int sy, int smoothx, int smoothy, float scorefract, PIX** ppixth, PIX** ppixd);
          internal static  extern PIX* pixOtsuThreshOnBackgroundNorm(PIX* pixs, PIX* pixim, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, float scorefract, l_int32* pthresh);
          internal static  extern PIX* pixMaskedThreshOnBackgroundNorm(PIX* pixs, PIX* pixim, int sx, int sy, int thresh, int mincount, int smoothx, int smoothy, float scorefract, l_int32* pthresh);

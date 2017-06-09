@@ -552,7 +552,7 @@ namespace Leptonica
                 throw new ArgumentNullException("pixs, pixmin, pixmax cannot be null.");
             }
 
-            var pointer = Native.DllImports.pixLinearTRCTiled((HandleRef)pixs, (HandleRef)pixs, sx, sy, (HandleRef)pixmin, (HandleRef)pixmax);
+            var pointer = Native.DllImports.pixLinearTRCTiled((HandleRef)pixd, (HandleRef)pixs, sx, sy, (HandleRef)pixmin, (HandleRef)pixmax);
             if (IntPtr.Zero == pointer)
             {
                 return null;

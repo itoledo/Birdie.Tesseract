@@ -42,13 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArithmeticAndLogicalOperatorFlags.cs" />
-    <Compile Include="Bilateral.cs" />
-    <Compile Include="ColorContentFlags.cs" />
+    <Compile Include="Implementations\Bilinear.cs" />
+    <Compile Include="Definitions\Morph\ArithmeticAndLogicalOperatorFlags.cs" />
+    <Compile Include="Implementations\Bilateral.cs" />
+    <Compile Include="Definitions\Morph\ColorContentFlags.cs" />
     <Compile Include="Definitions\Morph\DirectionFlags.cs" />
-    <Compile Include="DistanceFunctionBCFlags.cs" />
-    <Compile Include="GrayscaleIntensityScalingFlags.cs" />
-    <Compile Include="ImageComparisonFlags.cs" />
+    <Compile Include="Definitions\Morph\DistanceFunctionBCFlags.cs" />
+    <Compile Include="Definitions\Morph\GrayscaleIntensityScalingFlags.cs" />
+    <Compile Include="Definitions\Morph\ImageComparisonFlags.cs" />
     <Compile Include="Implementations\Buffer.cs" />
     <Compile Include="Implementations\Baseline.cs" />
     <Compile Include="Implementations\Bardecode.cs" />
@@ -108,8 +109,8 @@
     <Compile Include="Definitions\Morph\L_Kernel.cs" />
     <Compile Include="Definitions\Morph\MorphologicaBoundaryConditionFlags.cs" />
     <Compile Include="Definitions\Morph\MorphologicalOperationFlags.cs" />
-    <Compile Include="MinMaxSelectionFlags.cs" />
-    <Compile Include="MorphologicalTophatFlags.cs" />
+    <Compile Include="Definitions\Morph\MinMaxSelectionFlags.cs" />
+    <Compile Include="Definitions\Morph\MorphologicalTophatFlags.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
