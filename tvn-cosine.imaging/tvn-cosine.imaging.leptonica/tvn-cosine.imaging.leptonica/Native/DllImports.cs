@@ -430,32 +430,85 @@ namespace Leptonica.Native
 
         // Special case: power of 2 replicated expansion
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExpandBinaryPower2")]
-        internal static extern IntPtr pixExpandBinaryPower2(HandleRef pixs, int factor); 
+        internal static extern IntPtr pixExpandBinaryPower2(HandleRef pixs, int factor);
         #endregion
+
+        #region binreduce.c
+        // Subsampled 2x reduction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExpandBinaryPower2")]
+        internal static extern IntPtr pixReduceBinary2(HandleRef pixs, IntPtr intab);
+
+        // Rank filtered 2x reductions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExpandBinaryPower2")]
+        internal static extern IntPtr pixReduceRankBinaryCascade(HandleRef pixs, int level1, int level2, int level3, int level4);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExpandBinaryPower2")]
+        internal static extern IntPtr pixReduceRankBinary2(HandleRef pixs, int level, IntPtr intab);
+
+        // Permutation table for 2x rank binary reduction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExpandBinaryPower2")]
+        internal static extern IntPtr makeSubsampleTab2x(IntPtr v);
+        #endregion
+
+        #region blend.c 
+        // Blending two images that are not colormapped 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlend")]
+        internal static extern IntPtr pixBlend(HandleRef pixs1, HandleRef pixs2, int x, int y, float fract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendMask")]
+        internal static extern IntPtr pixBlendMask(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendGray")]
+        internal static extern IntPtr pixBlendGray(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract, int type, int transparent, uint transpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendGrayInverse")]
+        internal static extern IntPtr pixBlendGrayInverse(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendColor")]
+        internal static extern IntPtr pixBlendColor(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract, int transparent, uint transpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendColorByChannel")]
+        internal static extern IntPtr pixBlendColorByChannel(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float rfract, float gfract, float bfract, int transparent, uint transpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendGrayAdapt")]
+        internal static extern IntPtr pixBlendGrayAdapt(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract, int shift);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFadeWithGray")]
+        internal static extern IntPtr pixFadeWithGray(HandleRef pixs, HandleRef pixb, float factor, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendHardLight")]
+        internal static extern IntPtr pixBlendHardLight(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int x, int y, float fract);
+
+        // Blending two colormapped images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendCmap")]
+        internal static extern int pixBlendCmap(HandleRef pixs, HandleRef pixb, int x, int y, int sindex);
+
+        // Blending two images using a third (alpha mask)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendWithGrayMask")]
+        internal static extern IntPtr pixBlendWithGrayMask(HandleRef pixs1, HandleRef pixs2, HandleRef pixg, int x, int y);
+
+        // Blending background to a specific color
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendBackgroundToColor")]
+        internal static extern IntPtr pixBlendBackgroundToColor(HandleRef pixd, HandleRef pixs, HandleRef box, uint color, float gamma, int minval, int maxval);
+
+        // Multiplying by a specific color
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMultiplyByColor")]
+        internal static extern IntPtr pixMultiplyByColor(HandleRef pixd, HandleRef pixs, HandleRef box, uint color);
+
+        // Rendering with alpha blending over a uniform background
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAlphaBlendUniform")]
+        internal static extern IntPtr pixAlphaBlendUniform(HandleRef pixs, uint color);
+
+        // Adding an alpha layer for blending
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddAlphaToBlend")]
+        internal static extern IntPtr pixAddAlphaToBlend(HandleRef pixs, float fract, int invert);
+
+        // Setting a transparent alpha component over a white background
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetAlphaOverWhite")]
+        internal static extern IntPtr pixSetAlphaOverWhite(HandleRef pixs); 
+        #endregion
+
         /* 
          
          
          
-         internal static  extern PIX* pixReduceBinary2(PIX* pixs, l_uint8* intab);
-         internal static  extern PIX* pixReduceRankBinaryCascade(PIX* pixs, int level1, int level2, int level3, int level4);
-         internal static  extern PIX* pixReduceRankBinary2(PIX* pixs, int level, l_uint8* intab);
-         internal static  extern l_uint8* makeSubsampleTab2x(void );
-         internal static  extern PIX* pixBlend(PIX* pixs1, PIX* pixs2, int x, int y, float fract);
-         internal static  extern PIX* pixBlendMask(PIX* pixd, PIX* pixs1, PIX* pixs2, int x, int y, float fract, int type);
-         internal static  extern PIX* pixBlendGray(PIX* pixd, PIX* pixs1, PIX* pixs2, int x, int y, float fract, int type, int transparent, uint transpix);
-         internal static  extern PIX* pixBlendGrayInverse(PIX* pixd, PIX* pixs1, PIX* pixs2, int x, int y, float fract);
-         internal static  extern PIX* pixBlendColor(PIX* pixd, PIX* pixs1, PIX* pixs2, int x, int y, float fract, int transparent, uint transpix);
-         internal static  extern PIX* pixBlendColorByChannel(PIX* pixd, PIX* pixs1, PIX* pixs2, int x, int y, float rfract, float gfract, float bfract, int transparent, uint transpix);
-         internal static  extern PIX* pixBlendGrayAdapt(PIX* pixd, PIX* pixs1, PIX* pixs2, int x, int y, float fract, int shift);
-         internal static  extern PIX* pixFadeWithGray(PIX* pixs, PIX* pixb, float factor, int type);
-         internal static  extern PIX* pixBlendHardLight(PIX* pixd, PIX* pixs1, PIX* pixs2, int x, int y, float fract);
-         internal static  extern int pixBlendCmap(PIX* pixs, PIX* pixb, int x, int y, int sindex);
-         internal static  extern PIX* pixBlendWithGrayMask(PIX* pixs1, PIX* pixs2, PIX* pixg, int x, int y);
-         internal static  extern PIX* pixBlendBackgroundToColor(PIX* pixd, PIX* pixs, BOX* box, uint color, float gamma, int minval, int maxval);
-         internal static  extern PIX* pixMultiplyByColor(PIX* pixd, PIX* pixs, BOX* box, uint color);
-         internal static  extern PIX* pixAlphaBlendUniform(PIX* pixs, uint color);
-         internal static  extern PIX* pixAddAlphaToBlend(PIX* pixs, float fract, int invert);
-         internal static  extern PIX* pixSetAlphaOverWhite(PIX* pixs);
+       
+        
+     
+        
+         
+         
          internal static  extern L_BMF* bmfCreate( const char* dir, int fontsize );
          internal static  extern void bmfDestroy(L_BMF** pbmf);
          internal static  extern PIX* bmfGetPix(L_BMF* bmf, char chr);

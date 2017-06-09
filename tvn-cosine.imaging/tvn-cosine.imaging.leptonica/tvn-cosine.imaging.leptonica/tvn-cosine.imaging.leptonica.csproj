@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\Blend.cs" />
+    <Compile Include="Implementations\BinReduce.cs" />
     <Compile Include="Implementations\BinExpand.cs" />
     <Compile Include="Implementations\Binarize.cs" />
     <Compile Include="Implementations\Bilinear.cs" />
