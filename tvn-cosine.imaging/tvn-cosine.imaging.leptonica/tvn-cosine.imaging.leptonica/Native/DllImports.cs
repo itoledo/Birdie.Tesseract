@@ -849,23 +849,51 @@ namespace Leptonica.Native
         internal static extern int boxaaAlignBox(HandleRef baa, HandleRef box, int delta, out int pindex);
         #endregion
 
+        #region boxfunc3.c
+        // Boxa/Boxaa painting into pix
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMaskConnComp")]
+        internal static extern IntPtr pixMaskConnComp(HandleRef pixs, int connectivity, out IntPtr pboxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMaskBoxa")]
+        internal static extern IntPtr pixMaskBoxa(HandleRef pixd, HandleRef pixs, HandleRef boxa, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixPaintBoxa")]
+        internal static extern IntPtr pixPaintBoxa(HandleRef pixs, HandleRef boxa, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetBlackOrWhiteBoxa")]
+        internal static extern IntPtr pixSetBlackOrWhiteBoxa(HandleRef pixs, HandleRef boxa, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixPaintBoxaRandom")]
+        internal static extern IntPtr pixPaintBoxaRandom(HandleRef pixs, HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendBoxaRandom")]
+        internal static extern IntPtr pixBlendBoxaRandom(HandleRef pixs, HandleRef boxa, float fract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDrawBoxa")]
+        internal static extern IntPtr pixDrawBoxa(HandleRef pixs, HandleRef boxa, int width, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDrawBoxaRandom")]
+        internal static extern IntPtr pixDrawBoxaRandom(HandleRef pixs, HandleRef boxa, int width);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaDisplay")]
+        internal static extern IntPtr boxaaDisplay(HandleRef pixs, HandleRef baa, int linewba, int linewb, uint colorba, uint colorb, int w, int h);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayBoxaa")]
+        internal static extern IntPtr pixaDisplayBoxaa(HandleRef pixas, HandleRef baa, int colorflag, int width);
+
+        // Split mask components into Boxa
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSplitIntoBoxa")]
+        internal static extern IntPtr pixSplitIntoBoxa(HandleRef pixs, int minsum, int skipdist, int delta, int maxbg, int maxcomps, int remainder);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSplitComponentIntoBoxa")]
+        internal static extern IntPtr pixSplitComponentIntoBoxa(HandleRef pix, HandleRef box, int minsum, int skipdist, int delta, int maxbg, int maxcomps, int remainder);
+
+        // Represent horizontal or vertical mosaic strips
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeMosaicStrips")]
+        internal static extern IntPtr makeMosaicStrips(int w, int h, int direction, int size);
+
+        // Comparison between boxa
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaCompareRegions")]
+        internal static extern int boxaCompareRegions(HandleRef boxa1, HandleRef boxa2, int areathresh, out int pnsame, out float pdiffarea, out float pdiffxor, out IntPtr ppixdb);
+
+        // Reliable selection of a single large box
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSelectLargeULComp")]
+        internal static extern IntPtr pixSelectLargeULComp(HandleRef pixs, float areaslop, int yslop, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSelectLargeULBox")]
+        internal static extern IntPtr boxaSelectLargeULBox(HandleRef boxas, float areaslop, int yslop);
+        #endregion
+
         /* 
-         internal static  extern PIX* pixMaskConnComp(PIX* pixs, int connectivity, BOXA** pboxa);
-         internal static  extern PIX* pixMaskBoxa(PIX* pixd, PIX* pixs, HandleRef boxa, int op);
-         internal static  extern PIX* pixPaintBoxa(PIX* pixs, HandleRef boxa, uint val);
-         internal static  extern PIX* pixSetBlackOrWhiteBoxa(PIX* pixs, HandleRef boxa, int op);
-         internal static  extern PIX* pixPaintBoxaRandom(PIX* pixs, HandleRef boxa);
-         internal static  extern PIX* pixBlendBoxaRandom(PIX* pixs, HandleRef boxa, float fract);
-         internal static  extern PIX* pixDrawBoxa(PIX* pixs, HandleRef boxa, int width, uint val);
-         internal static  extern PIX* pixDrawBoxaRandom(PIX* pixs, HandleRef boxa, int width);
-         internal static  extern PIX* boxaaDisplay(PIX* pixs, BOXAA* baa, int linewba, int linewb, uint colorba, uint colorb, int w, int h);
-         internal static  extern HandleRef pixaDisplayBoxaa(PIXA* pixas, BOXAA* baa, int colorflag, int width);
-         internal static  extern HandleRef pixSplitIntoBoxa(PIX* pixs, int minsum, int skipdist, int delta, int maxbg, int maxcomps, int remainder);
-         internal static  extern HandleRef pixSplitComponentIntoBoxa(PIX* pix, HandleRef box, int minsum, int skipdist, int delta, int maxbg, int maxcomps, int remainder);
-         internal static  extern HandleRef makeMosaicStrips(int w, int h, int direction, int size);
-         internal static  extern int boxaCompareRegions(HandleRef boxa1, HandleRef boxa2, int areathresh, l_int32* pnsame, l_float32* pdiffarea, l_float32* pdiffxor, PIX** ppixdb);
-         internal static  extern HandleRef pixSelectLargeULComp(PIX* pixs, float areaslop, int yslop, int connectivity);
-         internal static  extern HandleRef boxaSelectLargeULBox(HandleRef boxas, float areaslop, int yslop);
          internal static  extern HandleRef boxaSelectRange(HandleRef boxas, int first, int last, int copyflag);
          internal static  extern BOXAA* boxaaSelectRange(HandleRef baas, int first, int last, int copyflag);
          internal static  extern HandleRef boxaSelectBySize(HandleRef boxas, int width, int height, int type, int relation, l_int32* pchanged);
