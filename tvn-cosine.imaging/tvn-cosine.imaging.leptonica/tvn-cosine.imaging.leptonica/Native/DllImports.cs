@@ -964,7 +964,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetCoverage")]
         internal static extern int boxaGetCoverage(HandleRef boxa, int wc, int hc, int exactflag, out float pfract);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaSizeRange")]
-        internal static extern int boxaaSizeRange(HandleRef baa,  out int pminw, out int pminh, out int pmaxw, out int pmaxh);
+        internal static extern int boxaaSizeRange(HandleRef baa, out int pminw, out int pminh, out int pmaxw, out int pmaxh);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSizeRange")]
         internal static extern int boxaSizeRange(HandleRef boxa, out int pminw, out int pminh, out int pmaxw, out int pmaxh);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaLocationRange")]
@@ -977,23 +977,53 @@ namespace Leptonica.Native
         internal static extern IntPtr boxaDisplayTiled(HandleRef boxas, HandleRef pixa, int maxwidth, int linewidth, float scalefactor, int background, int spacing, int border);
         #endregion
 
+        #region bytearray.c
+        // Creation, copy, clone, destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaCreate")]
+        internal static extern IntPtr l_byteaCreate(IntPtr nbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaInitFromMem")]
+        internal static extern IntPtr l_byteaInitFromMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaInitFromFile")]
+        internal static extern IntPtr l_byteaInitFromFile([MarshalAs(UnmanagedType.AnsiBStr)]  string fname);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaInitFromStream")]
+        internal static extern IntPtr l_byteaInitFromStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaCopy")]
+        internal static extern IntPtr l_byteaCopy(HandleRef bas, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaDestroy")]
+        internal static extern void l_byteaDestroy(ref IntPtr pba);
+
+        // Accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaGetSize")]
+        internal static extern IntPtr l_byteaGetSize(HandleRef ba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaGetData")]
+        internal static extern IntPtr l_byteaGetData(HandleRef ba, IntPtr psize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaCopyData")]
+        internal static extern IntPtr l_byteaCopyData(HandleRef ba, IntPtr psize);
+
+        // Appending
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaAppendData")]
+        internal static extern int l_byteaAppendData(HandleRef ba, IntPtr newdata, IntPtr newbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaAppendString")]
+        internal static extern int l_byteaAppendString(HandleRef ba, [MarshalAs(UnmanagedType.AnsiBStr)]  string str);
+
+        // Join/Split
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaJoin")]
+        internal static extern int l_byteaJoin(HandleRef ba1, out IntPtr pba2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaSplit")]
+        internal static extern int l_byteaSplit(HandleRef ba1, IntPtr splitloc, out IntPtr pba2);
+
+        // Search
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaFindEachSequence")]
+        internal static extern int l_byteaFindEachSequence(HandleRef ba, IntPtr sequence, int seqlen, out IntPtr pda);
+
+        // Output to file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaWrite")]
+        internal static extern int l_byteaWrite([MarshalAs(UnmanagedType.AnsiBStr)]  string fname, HandleRef ba, IntPtr startloc, IntPtr endloc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_byteaWriteStream")]
+        internal static extern int l_byteaWriteStream(IntPtr fp, HandleRef ba, IntPtr startloc, IntPtr endloc);
+        #endregion
+
         /* 
-         internal static  extern L_BYTEA* l_byteaCreate(size_t nbytes);
-         internal static  extern L_BYTEA* l_byteaInitFromMem(l_uint8* data, size_t size);
-         internal static  extern L_BYTEA* l_byteaInitFromFile( const char* fname );
-         internal static  extern L_BYTEA* l_byteaInitFromStream(FILE* fp);
-         internal static  extern L_BYTEA* l_byteaCopy(L_BYTEA* bas, int copyflag);
-         internal static  extern void l_byteaDestroy(L_BYTEA** pba);
-         internal static  extern size_t l_byteaGetSize(L_BYTEA* ba);
-         internal static  extern l_uint8* l_byteaGetData(L_BYTEA* ba, size_t* psize);
-         internal static  extern l_uint8* l_byteaCopyData(L_BYTEA* ba, size_t* psize);
-         internal static  extern int l_byteaAppendData(L_BYTEA* ba, l_uint8* newdata, size_t newbytes);
-         internal static  extern int l_byteaAppendString(L_BYTEA* ba, char* str);
-         internal static  extern int l_byteaJoin(L_BYTEA* ba1, L_BYTEA** pba2);
-         internal static  extern int l_byteaSplit(L_BYTEA* ba1, size_t splitloc, L_BYTEA** pba2);
-         internal static  extern int l_byteaFindEachSequence(L_BYTEA* ba, l_uint8* sequence, int seqlen, L_DNA** pda);
-         internal static  extern int l_byteaWrite( const char* fname, L_BYTEA *ba, size_t startloc, size_t endloc );
-         internal static  extern int l_byteaWriteStream(FILE* fp, L_BYTEA* ba, size_t startloc, size_t endloc);
          internal static  extern CCBORDA* ccbaCreate(PIX* pixs, int n);
          internal static  extern void ccbaDestroy(CCBORDA** pccba);
          internal static  extern CCBORD* ccbCreate(PIX* pixs);

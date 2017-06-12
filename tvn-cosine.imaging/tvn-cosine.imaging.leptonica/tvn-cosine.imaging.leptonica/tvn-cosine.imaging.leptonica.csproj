@@ -130,6 +130,7 @@
     <Compile Include="Definitions\Morph\MorphologicalOperationFlags.cs" />
     <Compile Include="Definitions\Morph\MinMaxSelectionFlags.cs" />
     <Compile Include="Definitions\Morph\MorphologicalTophatFlags.cs" />
+    <Compile Include="Implementations\ByteArray.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
