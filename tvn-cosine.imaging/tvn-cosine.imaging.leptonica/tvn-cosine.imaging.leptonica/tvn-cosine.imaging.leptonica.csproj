@@ -47,6 +47,10 @@
     <Compile Include="Definitions\Bmf\L_Bmf.cs" />
     <Compile Include="Definitions\Bmp\BMP_FileHeader.cs" />
     <Compile Include="Definitions\Bmp\BMP_InfoHeader.cs" />
+    <Compile Include="Definitions\CCBord\CCBord.cs" />
+    <Compile Include="Definitions\CCBord\CCBorda.cs" />
+    <Compile Include="Definitions\CCBord\UseInCcbaGenerateSPGlobalLocs.cs" />
+    <Compile Include="Definitions\CCBord\UseInCcbaStepChainsToPixCoords.cs" />
     <Compile Include="Implementations\Blend.cs" />
     <Compile Include="Implementations\BinReduce.cs" />
     <Compile Include="Implementations\BinExpand.cs" />
@@ -131,6 +135,7 @@
     <Compile Include="Definitions\Morph\MinMaxSelectionFlags.cs" />
     <Compile Include="Definitions\Morph\MorphologicalTophatFlags.cs" />
     <Compile Include="Implementations\ByteArray.cs" />
+    <Compile Include="Implementations\CCBoard.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

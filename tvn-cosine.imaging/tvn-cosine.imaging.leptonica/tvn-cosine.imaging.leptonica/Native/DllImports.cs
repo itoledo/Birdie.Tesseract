@@ -1023,38 +1023,92 @@ namespace Leptonica.Native
         internal static extern int l_byteaWriteStream(IntPtr fp, HandleRef ba, IntPtr startloc, IntPtr endloc);
         #endregion
 
+        #region ccbord.c    
+        // CCBORDA and CCBORD creation and destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaCreate")]
+        internal static extern IntPtr ccbaCreate(HandleRef pixs, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaDestroy")]
+        internal static extern void ccbaDestroy(ref IntPtr pccba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbCreate")]
+        internal static extern IntPtr ccbCreate(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbDestroy")]
+        internal static extern void ccbDestroy(ref IntPtr pccb);
+
+        // CCBORDA addition
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaAddCcb")]
+        internal static extern int ccbaAddCcb(HandleRef ccba, HandleRef ccb);
+
+        // CCBORDA accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaGetCount")]
+        internal static extern int ccbaGetCount(HandleRef ccba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaGetCcb")]
+        internal static extern IntPtr ccbaGetCcb(HandleRef ccba, int index);
+
+        // Top-level border-finding routines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetAllCCBorders")]
+        internal static extern IntPtr pixGetAllCCBorders(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetCCBorders")]
+        internal static extern IntPtr pixGetCCBorders(HandleRef pixs, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetOuterBordersPtaa")]
+        internal static extern IntPtr pixGetOuterBordersPtaa(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetOuterBorderPta")]
+        internal static extern IntPtr pixGetOuterBorderPta(HandleRef pixs, HandleRef box);
+
+        // Lower-level border location routines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetOuterBorder")]
+        internal static extern int pixGetOuterBorder(HandleRef ccb, HandleRef pixs, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetHoleBorder")]
+        internal static extern int pixGetHoleBorder(HandleRef ccb, HandleRef pixs, HandleRef box, int xs, int ys);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "findNextBorderPixel")]
+        internal static extern int findNextBorderPixel(int w, int h, IntPtr data, int wpl, int px, int py, out int pqpos, out int pnpx, out int pnpy);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "locateOutsideSeedPixel")]
+        internal static extern void locateOutsideSeedPixel(int fpx, int fpy, int spx, int spy, out int pxs, out int pys);
+
+        // Border conversions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaGenerateGlobalLocs")]
+        internal static extern int ccbaGenerateGlobalLocs(HandleRef ccba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaGenerateStepChains")]
+        internal static extern int ccbaGenerateStepChains(HandleRef ccba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaStepChainsToPixCoords")]
+        internal static extern int ccbaStepChainsToPixCoords(HandleRef ccba, int coordtype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaGenerateSPGlobalLocs")]
+        internal static extern int ccbaGenerateSPGlobalLocs(HandleRef ccba, int ptsflag);
+
+        // Conversion to single path
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaGenerateSinglePath")]
+        internal static extern int ccbaGenerateSinglePath(HandleRef ccba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getCutPathForHole")]
+        internal static extern IntPtr getCutPathForHole(HandleRef pix, HandleRef pta, HandleRef boxinner, out int pdir, out int plen);
+
+        // Border and full image rendering
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaDisplayBorder")]
+        internal static extern IntPtr ccbaDisplayBorder(HandleRef ccba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaDisplaySPBorder")]
+        internal static extern IntPtr ccbaDisplaySPBorder(HandleRef ccba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaDisplayImage1")]
+        internal static extern IntPtr ccbaDisplayImage1(HandleRef ccba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaDisplayImage2")]
+        internal static extern IntPtr ccbaDisplayImage2(HandleRef ccba);
+
+        // Serialize for I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaWrite")]
+        internal static extern int ccbaWrite([MarshalAs(UnmanagedType.AnsiBStr)]  string filename, HandleRef ccba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaWriteStream")]
+        internal static extern int ccbaWriteStream(IntPtr fp, HandleRef ccba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaRead")]
+        internal static extern IntPtr ccbaRead([MarshalAs(UnmanagedType.AnsiBStr)]  string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaReadStream")]
+        internal static extern IntPtr ccbaReadStream(IntPtr fp);
+
+        // SVG output
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaWriteSVG")]
+        internal static extern int ccbaWriteSVG([MarshalAs(UnmanagedType.AnsiBStr)]  string filename, HandleRef ccba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ccbaWriteSVGString")]
+        internal static extern IntPtr ccbaWriteSVGString([MarshalAs(UnmanagedType.AnsiBStr)]  string filename, HandleRef ccba);
+
+        #endregion
+
         /* 
-         internal static  extern CCBORDA* ccbaCreate(PIX* pixs, int n);
-         internal static  extern void ccbaDestroy(CCBORDA** pccba);
-         internal static  extern CCBORD* ccbCreate(PIX* pixs);
-         internal static  extern void ccbDestroy(CCBORD** pccb);
-         internal static  extern int ccbaAddCcb(CCBORDA* ccba, CCBORD* ccb);
-         internal static  extern int ccbaGetCount(CCBORDA* ccba);
-         internal static  extern CCBORD* ccbaGetCcb(CCBORDA* ccba, int index);
-         internal static  extern CCBORDA* pixGetAllCCBorders(PIX* pixs);
-         internal static  extern CCBORD* pixGetCCBorders(PIX* pixs, HandleRef box);
-         internal static  extern PTAA* pixGetOuterBordersPtaa(PIX* pixs);
-         internal static  extern PTA* pixGetOuterBorderPta(PIX* pixs, HandleRef box);
-         internal static  extern int pixGetOuterBorder(CCBORD* ccb, PIX* pixs, HandleRef box);
-         internal static  extern int pixGetHoleBorder(CCBORD* ccb, PIX* pixs, HandleRef box, int xs, int ys);
-         internal static  extern int findNextBorderPixel(int w, int h, l_uint32* data, int wpl, int px, int py, l_int32* pqpos, l_int32* pnpx, l_int32* pnpy);
-         internal static  extern void locateOutsideSeedPixel(int fpx, int fpy, int spx, int spy, l_int32* pxs, l_int32* pys);
-         internal static  extern int ccbaGenerateGlobalLocs(CCBORDA* ccba);
-         internal static  extern int ccbaGenerateStepChains(CCBORDA* ccba);
-         internal static  extern int ccbaStepChainsToPixCoords(CCBORDA* ccba, int coordtype);
-         internal static  extern int ccbaGenerateSPGlobalLocs(CCBORDA* ccba, int ptsflag);
-         internal static  extern int ccbaGenerateSinglePath(CCBORDA* ccba);
-         internal static  extern PTA* getCutPathForHole(PIX* pix, PTA* pta, HandleRef boxinner, l_int32* pdir, l_int32* plen);
-         internal static  extern PIX* ccbaDisplayBorder(CCBORDA* ccba);
-         internal static  extern PIX* ccbaDisplaySPBorder(CCBORDA* ccba);
-         internal static  extern PIX* ccbaDisplayImage1(CCBORDA* ccba);
-         internal static  extern PIX* ccbaDisplayImage2(CCBORDA* ccba);
-         internal static  extern int ccbaWrite( const char* filename, CCBORDA *ccba );
-         internal static  extern int ccbaWriteStream(FILE* fp, CCBORDA* ccba);
-         internal static  extern CCBORDA* ccbaRead( const char* filename );
-         internal static  extern CCBORDA* ccbaReadStream(FILE* fp);
-         internal static  extern int ccbaWriteSVG( const char* filename, CCBORDA *ccba );
-         internal static  extern char* ccbaWriteSVGString( const char* filename, CCBORDA *ccba );
          internal static  extern HandleRef pixaThinConnected(PIXA* pixas, int type, int connectivity, int maxiters);
          internal static  extern PIX* pixThinConnected(PIX* pixs, int type, int connectivity, int maxiters);
          internal static  extern PIX* pixThinConnectedBySet(PIX* pixs, int type, SELA* sela, int maxiters);
