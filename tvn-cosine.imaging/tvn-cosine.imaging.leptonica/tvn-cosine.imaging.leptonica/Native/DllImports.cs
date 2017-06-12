@@ -793,29 +793,63 @@ namespace Leptonica.Native
         internal static extern IntPtr boxaMergeEvenOdd(HandleRef boxae, HandleRef boxao, int fillflag);
         #endregion
 
+        #region boxfunc2.c 
+        // Boxa/Box transform(shift, scale) and orthogonal rotation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaTransform")]
+        internal static extern IntPtr boxaTransform(HandleRef boxas, int shiftx, int shifty, float scalex, float scaley);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxTransform")]
+        internal static extern IntPtr boxTransform(HandleRef box, int shiftx, int shifty, float scalex, float scaley);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaTransformOrdered")]
+        internal static extern IntPtr boxaTransformOrdered(HandleRef boxas, int shiftx, int shifty, float scalex, float scaley, int xcen, int ycen, float angle, int order);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxTransformOrdered")]
+        internal static extern IntPtr boxTransformOrdered(HandleRef boxs, int shiftx, int shifty, float scalex, float scaley, int xcen, int ycen, float angle, int order);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaRotateOrth")]
+        internal static extern IntPtr boxaRotateOrth(HandleRef boxas, int w, int h, int rotation);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxRotateOrth")]
+        internal static extern IntPtr boxRotateOrth(HandleRef box, int w, int h, int rotation);
+
+        // Boxa sort
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSort")]
+        internal static extern IntPtr boxaSort(HandleRef boxas, int sorttype, int sortorder, out IntPtr pnaindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaBinSort")]
+        internal static extern IntPtr boxaBinSort(HandleRef boxas, int sorttype, int sortorder, out IntPtr pnaindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSortByIndex")]
+        internal static extern IntPtr boxaSortByIndex(HandleRef boxas, HandleRef naindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSort2d")]
+        internal static extern IntPtr boxaSort2d(HandleRef boxas, out IntPtr pnaad, int delta1, int delta2, int minh1);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSort2dByIndex")]
+        internal static extern IntPtr boxaSort2dByIndex(HandleRef boxas, HandleRef naa);
+
+        // Boxa statistics
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetRankVals")]
+        internal static extern int boxaGetRankVals(HandleRef boxa, float fract, out int px, out int py, out int pw, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetMedianVals")]
+        internal static extern int boxaGetMedianVals(HandleRef boxa, out int px, out int py, out int pw, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetAverageSize")]
+        internal static extern int boxaGetAverageSize(HandleRef boxa, out float pw, out float ph);
+
+        // Boxa array extraction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaExtractAsNuma")]
+        internal static extern int boxaExtractAsNuma(HandleRef boxa, out IntPtr pnal, out IntPtr pnat, out IntPtr pnar, out IntPtr pnab, out IntPtr pnaw, out IntPtr pnah, int keepinvalid);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaExtractAsPta")]
+        internal static extern int boxaExtractAsPta(HandleRef boxa, out IntPtr pptal, out IntPtr pptat, out IntPtr pptar, out IntPtr pptab, out IntPtr pptaw, out IntPtr pptah, int keepinvalid);
+
+        //Other Boxaa functions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaGetExtent")]
+        internal static extern int boxaaGetExtent(HandleRef baa, out int pw, out int ph, out IntPtr pbox, out IntPtr pboxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaFlattenToBoxa")]
+        internal static extern IntPtr boxaaFlattenToBoxa(HandleRef baa, out IntPtr pnaindex, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaFlattenAligned")]
+        internal static extern IntPtr boxaaFlattenAligned(HandleRef baa, int num, HandleRef fillerbox, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaEncapsulateAligned")]
+        internal static extern IntPtr boxaEncapsulateAligned(HandleRef boxa, int num, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaTranspose")]
+        internal static extern IntPtr boxaaTranspose(HandleRef baas);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaAlignBox")]
+        internal static extern int boxaaAlignBox(HandleRef baa, HandleRef box, int delta, out int pindex);
+        #endregion
+
         /* 
-         internal static  extern HandleRef boxaTransform(HandleRef boxas, int shiftx, int shifty, float scalex, float scaley);
-         internal static  extern HandleRef boxTransform(HandleRef box, int shiftx, int shifty, float scalex, float scaley);
-         internal static  extern HandleRef boxaTransformOrdered(HandleRef boxas, int shiftx, int shifty, float scalex, float scaley, int xcen, int ycen, float angle, int order);
-         internal static  extern HandleRef boxTransformOrdered(HandleRef boxs, int shiftx, int shifty, float scalex, float scaley, int xcen, int ycen, float angle, int order);
-         internal static  extern HandleRef boxaRotateOrth(HandleRef boxas, int w, int h, int rotation);
-         internal static  extern HandleRef boxRotateOrth(HandleRef box, int w, int h, int rotation);
-         internal static  extern HandleRef boxaSort(HandleRef boxas, int sorttype, int sortorder, NUMA** pnaindex);
-         internal static  extern HandleRef boxaBinSort(HandleRef boxas, int sorttype, int sortorder, NUMA** pnaindex);
-         internal static  extern HandleRef boxaSortByIndex(HandleRef boxas, NUMA* naindex);
-         internal static  extern BOXAA* boxaSort2d(HandleRef boxas, NUMAA** pnaad, int delta1, int delta2, int minh1);
-         internal static  extern BOXAA* boxaSort2dByIndex(HandleRef boxas, NUMAA* naa);
-         internal static  extern int boxaExtractAsNuma(HandleRef boxa, NUMA** pnal, NUMA** pnat, NUMA** pnar, NUMA** pnab, NUMA** pnaw, NUMA** pnah, int keepinvalid);
-         internal static  extern int boxaExtractAsPta(HandleRef boxa, PTA** pptal, PTA** pptat, PTA** pptar, PTA** pptab, PTA** pptaw, PTA** pptah, int keepinvalid);
-         internal static  extern int boxaGetRankVals(HandleRef boxa, float fract, l_int32* px, l_int32* py, l_int32* pw, l_int32* ph);
-         internal static  extern int boxaGetMedianVals(HandleRef boxa, l_int32* px, l_int32* py, l_int32* pw, l_int32* ph);
-         internal static  extern int boxaGetAverageSize(HandleRef boxa, l_float32* pw, l_float32* ph);
-         internal static  extern int boxaaGetExtent(HandleRef baa, l_int32* pw, l_int32* ph, BOX** pbox, BOXA** pboxa);
-         internal static  extern HandleRef boxaaFlattenToBoxa(HandleRef baa, NUMA** pnaindex, int copyflag);
-         internal static  extern HandleRef boxaaFlattenAligned(HandleRef baa, int num, HandleRef fillerbox, int copyflag);
-         internal static  extern BOXAA* boxaEncapsulateAligned(HandleRef boxa, int num, int copyflag);
-         internal static  extern BOXAA* boxaaTranspose(HandleRef baas);
-         internal static  extern int boxaaAlignBox(HandleRef baa, HandleRef box, int delta, l_int32* pindex);
          internal static  extern PIX* pixMaskConnComp(PIX* pixs, int connectivity, BOXA** pboxa);
          internal static  extern PIX* pixMaskBoxa(PIX* pixd, PIX* pixs, HandleRef boxa, int op);
          internal static  extern PIX* pixPaintBoxa(PIX* pixs, HandleRef boxa, uint val);

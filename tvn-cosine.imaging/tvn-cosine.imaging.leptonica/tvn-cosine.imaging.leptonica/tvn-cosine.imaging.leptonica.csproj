@@ -66,6 +66,7 @@
     <Compile Include="Implementations\BootNumGen3.cs" />
     <Compile Include="Implementations\BoxBasic.cs" />
     <Compile Include="Implementations\BoxFunc1.cs" />
+    <Compile Include="Implementations\BoxFunc2.cs" />
     <Compile Include="Implementations\Buffer.cs" />
     <Compile Include="Implementations\Baseline.cs" />
     <Compile Include="Implementations\Bardecode.cs" />
