@@ -68,6 +68,7 @@
     <Compile Include="Implementations\BoxFunc1.cs" />
     <Compile Include="Implementations\BoxFunc2.cs" />
     <Compile Include="Implementations\BoxFunc3.cs" />
+    <Compile Include="Implementations\BoxFunc4.cs" />
     <Compile Include="Implementations\Buffer.cs" />
     <Compile Include="Implementations\Baseline.cs" />
     <Compile Include="Implementations\Bardecode.cs" />

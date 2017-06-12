@@ -893,42 +893,91 @@ namespace Leptonica.Native
         internal static extern IntPtr boxaSelectLargeULBox(HandleRef boxas, float areaslop, int yslop);
         #endregion
 
+        #region boxfunc4.c
+        // Boxa and Boxaa range selection
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSelectRange")]
+        internal static extern IntPtr boxaSelectRange(HandleRef boxas, int first, int last, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaSelectRange")]
+        internal static extern IntPtr boxaaSelectRange(HandleRef baas, int first, int last, int copyflag);
+
+        // Boxa size selection
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSelectBySize")]
+        internal static extern IntPtr boxaSelectBySize(HandleRef boxas, int width, int height, int type, int relation, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaMakeSizeIndicator")]
+        internal static extern IntPtr boxaMakeSizeIndicator(HandleRef boxa, int width, int height, int type, int relation);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSelectByArea")]
+        internal static extern IntPtr boxaSelectByArea(HandleRef boxas, int area, int relation, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaMakeAreaIndicator")]
+        internal static extern IntPtr boxaMakeAreaIndicator(HandleRef boxa, int area, int relation);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSelectByWHRatio")]
+        internal static extern IntPtr boxaSelectByWHRatio(HandleRef boxas, float ratio, int relation, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaMakeWHRatioIndicator")]
+        internal static extern IntPtr boxaMakeWHRatioIndicator(HandleRef boxa, float ratio, int relation);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSelectWithIndicator")]
+        internal static extern IntPtr boxaSelectWithIndicator(HandleRef boxas, HandleRef na, out int pchanged);
+
+        // Boxa permutation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaPermutePseudorandom")]
+        internal static extern IntPtr boxaPermutePseudorandom(HandleRef boxas);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaPermuteRandom")]
+        internal static extern IntPtr boxaPermuteRandom(HandleRef boxad, HandleRef boxas);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSwapBoxes")]
+        internal static extern int boxaSwapBoxes(HandleRef boxa, int i, int j);
+
+        // Boxa and box conversions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaConvertToPta")]
+        internal static extern IntPtr boxaConvertToPta(HandleRef boxa, int ncorners);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaConvertToBoxa")]
+        internal static extern IntPtr ptaConvertToBoxa(HandleRef pta, int ncorners);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxConvertToPta")]
+        internal static extern IntPtr boxConvertToPta(HandleRef box, int ncorners);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaConvertToBox")]
+        internal static extern IntPtr ptaConvertToBox(HandleRef pta);
+
+        // Boxa sequence fitting
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSmoothSequenceLS")]
+        internal static extern IntPtr boxaSmoothSequenceLS(HandleRef boxas, float factor, int subflag, int maxdiff, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSmoothSequenceMedian")]
+        internal static extern IntPtr boxaSmoothSequenceMedian(HandleRef boxas, int halfwin, int subflag, int maxdiff, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaLinearFit")]
+        internal static extern IntPtr boxaLinearFit(HandleRef boxas, float factor, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaWindowedMedian")]
+        internal static extern IntPtr boxaWindowedMedian(HandleRef boxas, int halfwin, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaModifyWithBoxa")]
+        internal static extern IntPtr boxaModifyWithBoxa(HandleRef boxas, HandleRef boxam, int subflag, int maxdiff);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaConstrainSize")]
+        internal static extern IntPtr boxaConstrainSize(HandleRef boxas, int width, int widthflag, int height, int heightflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaReconcileEvenOddHeight")]
+        internal static extern IntPtr boxaReconcileEvenOddHeight(HandleRef boxas, int sides, int delh, int op, float factor, int start);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaReconcilePairWidth")]
+        internal static extern IntPtr boxaReconcilePairWidth(HandleRef boxas, int delw, int op, float factor, HandleRef na);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaPlotSides")]
+        internal static extern int boxaPlotSides(HandleRef boxa, [MarshalAs(UnmanagedType.AnsiBStr)] string plotname, out IntPtr pnal, out IntPtr pnat, out IntPtr pnar, out IntPtr pnab, out IntPtr ppixd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaPlotSizes")]
+        internal static extern int boxaPlotSizes(HandleRef boxa, [MarshalAs(UnmanagedType.AnsiBStr)] string plotname, out IntPtr pnaw, out IntPtr pnah, out IntPtr ppixd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaFillSequence")]
+        internal static extern IntPtr boxaFillSequence(HandleRef boxas, int useflag, int debug);
+
+        // Miscellaneous boxa functions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetExtent")]
+        internal static extern int boxaGetExtent(HandleRef boxa, out int pw, out int ph, out IntPtr pbox);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetCoverage")]
+        internal static extern int boxaGetCoverage(HandleRef boxa, int wc, int hc, int exactflag, out float pfract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaSizeRange")]
+        internal static extern int boxaaSizeRange(HandleRef baa,  out int pminw, out int pminh, out int pmaxw, out int pmaxh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSizeRange")]
+        internal static extern int boxaSizeRange(HandleRef boxa, out int pminw, out int pminh, out int pmaxw, out int pmaxh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaLocationRange")]
+        internal static extern int boxaLocationRange(HandleRef boxa, out int pminx, out int pminy, out int pmaxx, out int pmaxy);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetSizes")]
+        internal static extern int boxaGetSizes(HandleRef boxa, out IntPtr pnaw, out IntPtr pnah);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetArea")]
+        internal static extern int boxaGetArea(HandleRef boxa, out int parea);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaDisplayTiled")]
+        internal static extern IntPtr boxaDisplayTiled(HandleRef boxas, HandleRef pixa, int maxwidth, int linewidth, float scalefactor, int background, int spacing, int border);
+        #endregion
+
         /* 
-         internal static  extern HandleRef boxaSelectRange(HandleRef boxas, int first, int last, int copyflag);
-         internal static  extern BOXAA* boxaaSelectRange(HandleRef baas, int first, int last, int copyflag);
-         internal static  extern HandleRef boxaSelectBySize(HandleRef boxas, int width, int height, int type, int relation, l_int32* pchanged);
-         internal static  extern NUMA* boxaMakeSizeIndicator(HandleRef boxa, int width, int height, int type, int relation);
-         internal static  extern HandleRef boxaSelectByArea(HandleRef boxas, int area, int relation, l_int32* pchanged);
-         internal static  extern NUMA* boxaMakeAreaIndicator(HandleRef boxa, int area, int relation);
-         internal static  extern HandleRef boxaSelectByWHRatio(HandleRef boxas, float ratio, int relation, l_int32* pchanged);
-         internal static  extern NUMA* boxaMakeWHRatioIndicator(HandleRef boxa, float ratio, int relation);
-         internal static  extern HandleRef boxaSelectWithIndicator(HandleRef boxas, NUMA* na, l_int32* pchanged);
-         internal static  extern HandleRef boxaPermutePseudorandom(HandleRef boxas);
-         internal static  extern HandleRef boxaPermuteRandom(HandleRef boxad, HandleRef boxas);
-         internal static  extern int boxaSwapBoxes(HandleRef boxa, int i, int j);
-         internal static  extern PTA* boxaConvertToPta(HandleRef boxa, int ncorners);
-         internal static  extern HandleRef ptaConvertToBoxa(HandleRef pta, int ncorners);
-         internal static  extern PTA* boxConvertToPta(HandleRef box, int ncorners);
-         internal static  extern HandleRef ptaConvertToBox(HandleRef pta);
-         internal static  extern HandleRef boxaSmoothSequenceLS(HandleRef boxas, float factor, int subflag, int maxdiff, int debug);
-         internal static  extern HandleRef boxaSmoothSequenceMedian(HandleRef boxas, int halfwin, int subflag, int maxdiff, int debug);
-         internal static  extern HandleRef boxaLinearFit(HandleRef boxas, float factor, int debug);
-         internal static  extern HandleRef boxaWindowedMedian(HandleRef boxas, int halfwin, int debug);
-         internal static  extern HandleRef boxaModifyWithBoxa(HandleRef boxas, HandleRef boxam, int subflag, int maxdiff);
-         internal static  extern HandleRef boxaConstrainSize(HandleRef boxas, int width, int widthflag, int height, int heightflag);
-         internal static  extern HandleRef boxaReconcileEvenOddHeight(HandleRef boxas, int sides, int delh, int op, float factor, int start);
-         internal static  extern HandleRef boxaReconcilePairWidth(HandleRef boxas, int delw, int op, float factor, NUMA* na);
-         internal static  extern int boxaPlotSides(HandleRef boxa, const char* plotname, NUMA **pnal, NUMA** pnat, NUMA **pnar, NUMA** pnab, PIX **ppixd );
-         internal static  extern int boxaPlotSizes(HandleRef boxa, const char* plotname, NUMA **pnaw, NUMA** pnah, PIX **ppixd );
-         internal static  extern HandleRef boxaFillSequence(HandleRef boxas, int useflag, int debug);
-         internal static  extern int boxaGetExtent(HandleRef boxa, l_int32* pw, l_int32* ph, BOX** pbox);
-         internal static  extern int boxaGetCoverage(HandleRef boxa, int wc, int hc, int exactflag, l_float32* pfract);
-         internal static  extern int boxaaSizeRange(HandleRef baa, l_int32* pminw, l_int32* pminh, l_int32* pmaxw, l_int32* pmaxh);
-         internal static  extern int boxaSizeRange(HandleRef boxa, l_int32* pminw, l_int32* pminh, l_int32* pmaxw, l_int32* pmaxh);
-         internal static  extern int boxaLocationRange(HandleRef boxa, l_int32* pminx, l_int32* pminy, l_int32* pmaxx, l_int32* pmaxy);
-         internal static  extern int boxaGetSizes(HandleRef boxa, NUMA** pnaw, NUMA** pnah);
-         internal static  extern int boxaGetArea(HandleRef boxa, l_int32* parea);
-         internal static  extern PIX* boxaDisplayTiled(HandleRef boxas, HandleRef pixa, int maxwidth, int linewidth, float scalefactor, int background, int spacing, int border);
          internal static  extern L_BYTEA* l_byteaCreate(size_t nbytes);
          internal static  extern L_BYTEA* l_byteaInitFromMem(l_uint8* data, size_t size);
          internal static  extern L_BYTEA* l_byteaInitFromFile( const char* fname );
