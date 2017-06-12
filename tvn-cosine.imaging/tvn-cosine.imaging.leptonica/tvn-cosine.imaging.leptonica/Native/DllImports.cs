@@ -39,6 +39,11 @@ namespace Leptonica.Native
                 initialised = true;
             }
         }
+
+        internal static int pixWriteStreamBmp(object cdata, HandleRef size)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #region internal constants
@@ -496,30 +501,50 @@ namespace Leptonica.Native
 
         // Setting a transparent alpha component over a white background
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetAlphaOverWhite")]
-        internal static extern IntPtr pixSetAlphaOverWhite(HandleRef pixs); 
+        internal static extern IntPtr pixSetAlphaOverWhite(HandleRef pixs);
+        #endregion
+
+        #region bmf.c 
+        // Acquisition and generation of bitmap fonts. 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bmfCreate")]
+        internal static extern IntPtr bmfCreate([MarshalAs(UnmanagedType.AnsiBStr)] string dir, int fontsize);
+
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bmfDestroy")]
+        internal static extern void bmfDestroy(ref IntPtr pbmf);
+
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bmfGetPix")]
+        internal static extern IntPtr bmfGetPix(HandleRef bmf, char chr);
+
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bmfGetWidth")]
+        internal static extern int bmfGetWidth(HandleRef bmf, char chr, out int pw);
+
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bmfGetBaseline")]
+        internal static extern int bmfGetBaseline(HandleRef bmf, char chr, out int pbaseline);
+
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetFont")]
+        internal static extern IntPtr pixaGetFont([MarshalAs(UnmanagedType.AnsiBStr)] string dir, int fontsize, out int pbl0, out int pbl1, out int pbl2);
+
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSaveFont")]
+        internal static extern int pixaSaveFont([MarshalAs(UnmanagedType.AnsiBStr)] string indir, [MarshalAs(UnmanagedType.AnsiBStr)] string outdir, int fontsize);
+
+        #endregion
+
+        #region bmpio.c
+        // Read bmp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadStreamBmp")]
+        internal static extern IntPtr pixReadStreamBmp(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadMemBmp")]
+        internal static extern IntPtr pixReadMemBmp(IntPtr cdata, IntPtr size);
+
+        // Write bmp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamBmp")]
+        internal static extern int pixWriteStreamBmp(IntPtr fp, HandleRef pix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemBmp")]
+        internal static extern int pixWriteMemBmp(out IntPtr pfdata, out IntPtr pfsize, HandleRef pixs);
         #endregion
 
         /* 
-         
-         
-         
-       
-        
-     
-        
-         
-         
-         internal static  extern L_BMF* bmfCreate( const char* dir, int fontsize );
-         internal static  extern void bmfDestroy(L_BMF** pbmf);
-         internal static  extern PIX* bmfGetPix(L_BMF* bmf, char chr);
-         internal static  extern int bmfGetWidth(L_BMF* bmf, char chr, l_int32* pw);
-         internal static  extern int bmfGetBaseline(L_BMF* bmf, char chr, l_int32* pbaseline);
-         internal static  extern PIXA* pixaGetFont( const char* dir, int fontsize, l_int32* pbl0, int *pbl1, l_int32* pbl2 );
-         internal static  extern int pixaSaveFont( const char* indir, const char* outdir, int fontsize );
-         internal static  extern PIX* pixReadStreamBmp(FILE* fp);
-         internal static  extern PIX* pixReadMemBmp( const l_uint8* cdata, size_t size );
-         internal static  extern int pixWriteStreamBmp(FILE* fp, PIX* pix);
-         internal static  extern int pixWriteMemBmp(l_uint8** pfdata, size_t* pfsize, PIX* pixs);
+          
          internal static  extern PIXA* l_bootnum_gen1(void );
          internal static  extern PIXA* l_bootnum_gen2(void );
          internal static  extern PIXA* l_bootnum_gen3(void );

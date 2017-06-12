@@ -42,6 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Definitions\Bmf\BmfData.cs" />
+    <Compile Include="Definitions\Bmf\ConstantsForDecidingWhenTextBlockIsDividedIntoParagraphs.cs" />
+    <Compile Include="Definitions\Bmf\L_Bmf.cs" />
+    <Compile Include="Definitions\Bmp\BMP_FileHeader.cs" />
+    <Compile Include="Definitions\Bmp\BMP_InfoHeader.cs" />
     <Compile Include="Implementations\Blend.cs" />
     <Compile Include="Implementations\BinReduce.cs" />
     <Compile Include="Implementations\BinExpand.cs" />
@@ -54,6 +59,8 @@
     <Compile Include="Definitions\Morph\DistanceFunctionBCFlags.cs" />
     <Compile Include="Definitions\Morph\GrayscaleIntensityScalingFlags.cs" />
     <Compile Include="Definitions\Morph\ImageComparisonFlags.cs" />
+    <Compile Include="Implementations\Bmf.cs" />
+    <Compile Include="Implementations\BmpIO.cs" />
     <Compile Include="Implementations\Buffer.cs" />
     <Compile Include="Implementations\Baseline.cs" />
     <Compile Include="Implementations\Bardecode.cs" />
@@ -109,7 +116,7 @@
     <Compile Include="Definitions\Array\L_Bytea.cs" />
     <Compile Include="Definitions\Array\L_DnaHash.cs" />
     <Compile Include="Definitions\Buffer\L_ByteBuffer.cs" />
-    <Compile Include="Definitions\L_Bilateral\L_Bilateral.cs" />
+    <Compile Include="Definitions\Bilateral\L_Bilateral.cs" />
     <Compile Include="Definitions\Morph\L_Kernel.cs" />
     <Compile Include="Definitions\Morph\MorphologicaBoundaryConditionFlags.cs" />
     <Compile Include="Definitions\Morph\MorphologicalOperationFlags.cs" />
