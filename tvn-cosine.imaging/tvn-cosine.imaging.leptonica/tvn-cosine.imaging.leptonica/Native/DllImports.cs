@@ -543,10 +543,23 @@ namespace Leptonica.Native
         internal static extern int pixWriteMemBmp(out IntPtr pfdata, out IntPtr pfsize, HandleRef pixs);
         #endregion
 
+        #region bootnumgen1.c
+        // Auto-generated deserializer
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_bootnum_gen1")]
+        internal static extern IntPtr l_bootnum_gen1(IntPtr vo);
+        #endregion
+
+        #region bootnumgen2.c
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_bootnum_gen2")]
+        internal static extern IntPtr l_bootnum_gen2(IntPtr vo);
+        #endregion
+
+        #region bootnumgen3.c
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_bootnum_gen3")]
+        internal static extern IntPtr l_bootnum_gen3(IntPtr vo);
+        #endregion
         /* 
-          
-         internal static  extern PIXA* l_bootnum_gen1(void );
-         internal static  extern PIXA* l_bootnum_gen2(void );
+           
          internal static  extern PIXA* l_bootnum_gen3(void );
          internal static  extern BOX* boxCreate(l_int32 x, int y, int w, int h);
          internal static  extern BOX* boxCreateValid(l_int32 x, int y, int w, int h);

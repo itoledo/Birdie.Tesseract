@@ -61,6 +61,9 @@
     <Compile Include="Definitions\Morph\ImageComparisonFlags.cs" />
     <Compile Include="Implementations\Bmf.cs" />
     <Compile Include="Implementations\BmpIO.cs" />
+    <Compile Include="Implementations\BootNumGen1.cs" />
+    <Compile Include="Implementations\BootNumGen2.cs" />
+    <Compile Include="Implementations\BootNumGen3.cs" />
     <Compile Include="Implementations\Buffer.cs" />
     <Compile Include="Implementations\Baseline.cs" />
     <Compile Include="Implementations\Bardecode.cs" />
