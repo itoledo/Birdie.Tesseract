@@ -558,115 +558,206 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_bootnum_gen3")]
         internal static extern IntPtr l_bootnum_gen3(IntPtr vo);
         #endregion
+
+        #region boxbasic.c
+
+        // Box creation, copy, clone, destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxCreate")]
+        internal static extern IntPtr boxCreate(int x, int y, int w, int h);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxCreateValid")]
+        internal static extern IntPtr boxCreateValid(int x, int y, int w, int h);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxCopy")]
+        internal static extern IntPtr boxCopy(HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxClone")]
+        internal static extern IntPtr boxClone(HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxDestroy")]
+        internal static extern void boxDestroy(ref IntPtr pbox);
+
+        // Box accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxGetGeometry")]
+        internal static extern int boxGetGeometry(HandleRef box, out int px, out int py, out int pw, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxSetGeometry")]
+        internal static extern int boxSetGeometry(HandleRef box, int x, int y, int w, int h);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxGetSideLocations")]
+        internal static extern int boxGetSideLocations(HandleRef box, out int pl, out int pr, out int pt, out int pb);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxSetSideLocations")]
+        internal static extern int boxSetSideLocations(HandleRef box, int l, int r, int t, int b);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxGetRefcount")]
+        internal static extern int boxGetRefcount(HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxChangeRefcount")]
+        internal static extern int boxChangeRefcount(HandleRef box, int delta);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxIsValid")]
+        internal static extern int boxIsValid(HandleRef box, out int pvalid);
+
+        // Boxa creation, copy, destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaCreate")]
+        internal static extern IntPtr boxaCreate(int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaCopy")]
+        internal static extern IntPtr boxaCopy(HandleRef boxa, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaDestroy")]
+        internal static extern void boxaDestroy(ref IntPtr pboxa);
+
+        // Boxa array extension
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaAddBox")]
+        internal static extern int boxaAddBox(HandleRef boxa, HandleRef box, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaExtendArray")]
+        internal static extern int boxaExtendArray(HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaExtendArrayToSize")]
+        internal static extern int boxaExtendArrayToSize(HandleRef boxa, int size);
+
+        // Boxa accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetCount")]
+        internal static extern int boxaGetCount(HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetValidCount")]
+        internal static extern int boxaGetValidCount(HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetBox")]
+        internal static extern IntPtr boxaGetBox(HandleRef boxa, int index, int accessflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetValidBox")]
+        internal static extern IntPtr boxaGetValidBox(HandleRef boxa, int index, int accessflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaFindInvalidBoxes")]
+        internal static extern IntPtr boxaFindInvalidBoxes(HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetBoxGeometry")]
+        internal static extern int boxaGetBoxGeometry(HandleRef boxa, int index, out int px, out int py, out int pw, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaIsFull")]
+        internal static extern int boxaIsFull(HandleRef boxa, out int pfull);
+
+        // Boxa array modifiers
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaReplaceBox")]
+        internal static extern int boxaReplaceBox(HandleRef boxa, int index, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaInsertBox")]
+        internal static extern int boxaInsertBox(HandleRef boxa, int index, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaRemoveBox")]
+        internal static extern int boxaRemoveBox(HandleRef boxa, int index);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaRemoveBoxAndSave")]
+        internal static extern int boxaRemoveBoxAndSave(HandleRef boxa, int index, out IntPtr pbox);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaSaveValid")]
+        internal static extern IntPtr boxaSaveValid(HandleRef boxas, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaInitFull")]
+        internal static extern int boxaInitFull(HandleRef boxa, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaClear")]
+        internal static extern int boxaClear(HandleRef boxa);
+
+        // Boxaa creation, copy, destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaCreate")]
+        internal static extern IntPtr boxaaCreate(int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaCopy")]
+        internal static extern IntPtr boxaaCopy(HandleRef baas, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaDestroy")]
+        internal static extern void boxaaDestroy(ref IntPtr pbaa);
+
+        // Boxaa array extension
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaAddBoxa")]
+        internal static extern int boxaaAddBoxa(HandleRef baa, HandleRef ba, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaExtendArray")]
+        internal static extern int boxaaExtendArray(HandleRef baa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaExtendArrayToSize")]
+        internal static extern int boxaaExtendArrayToSize(HandleRef baa, int size);
+
+        // Boxaa accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaGetCount")]
+        internal static extern int boxaaGetCount(HandleRef baa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaGetBoxCount")]
+        internal static extern int boxaaGetBoxCount(HandleRef baa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaGetBoxa")]
+        internal static extern IntPtr boxaaGetBoxa(HandleRef baa, int index, int accessflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaGetBox")]
+        internal static extern IntPtr boxaaGetBox(HandleRef baa, int iboxa, int ibox, int accessflag);
+
+        // Boxaa array modifiers
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaInitFull")]
+        internal static extern int boxaaInitFull(HandleRef baa, HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaExtendWithInit")]
+        internal static extern int boxaaExtendWithInit(HandleRef baa, int maxindex, HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaReplaceBoxa")]
+        internal static extern int boxaaReplaceBoxa(HandleRef baa, int index, HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaInsertBoxa")]
+        internal static extern int boxaaInsertBoxa(HandleRef baa, int index, HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaRemoveBoxa")]
+        internal static extern int boxaaRemoveBoxa(HandleRef baa, int index);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaAddBox")]
+        internal static extern int boxaaAddBox(HandleRef baa, int index, HandleRef box, int accessflag);
+
+        // Boxaa serialized I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaReadFromFiles")]
+        internal static extern IntPtr boxaaReadFromFiles([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int first, int nfiles);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaRead")]
+        internal static extern IntPtr boxaaRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaReadStream")]
+        internal static extern IntPtr boxaaReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaReadMem")]
+        internal static extern IntPtr boxaaReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaWrite")]
+        internal static extern int boxaaWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef baa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaWriteStream")]
+        internal static extern int boxaaWriteStream(IntPtr fp, HandleRef baa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaWriteMem")]
+        internal static extern int boxaaWriteMem(IntPtr pdata, IntPtr psize, HandleRef baa);
+
+        // Boxa serialized I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaRead")]
+        internal static extern IntPtr boxaRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaReadStream")]
+        internal static extern IntPtr boxaReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaReadMem")]
+        internal static extern IntPtr boxaReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaWrite")]
+        internal static extern int boxaWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaWriteStream")]
+        internal static extern int boxaWriteStream(IntPtr fp, HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaWriteMem")]
+        internal static extern int boxaWriteMem(IntPtr pdata, IntPtr psize, HandleRef boxa);
+
+        // Box print (for debug)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxPrintStreamInfo")]
+        internal static extern int boxPrintStreamInfo(IntPtr fp, HandleRef box); 
+        #endregion
+
         /* 
-           
-         internal static  extern PIXA* l_bootnum_gen3(void );
-         internal static  extern BOX* boxCreate(l_int32 x, int y, int w, int h);
-         internal static  extern BOX* boxCreateValid(l_int32 x, int y, int w, int h);
-         internal static  extern BOX* boxCopy(BOX* box);
-         internal static  extern BOX* boxClone(BOX* box);
-         internal static  extern void boxDestroy(BOX** pbox);
-         internal static  extern int boxGetGeometry(BOX* box, l_int32* px, l_int32* py, l_int32* pw, l_int32* ph);
-         internal static  extern int boxSetGeometry(BOX* box, int x, int y, int w, int h);
-         internal static  extern int boxGetSideLocations(BOX* box, l_int32* pl, l_int32* pr, l_int32* pt, l_int32* pb);
-         internal static  extern int boxSetSideLocations(BOX* box, int l, int r, int t, int b);
-         internal static  extern int boxGetRefcount(BOX* box);
-         internal static  extern int boxChangeRefcount(BOX* box, int delta);
-         internal static  extern int boxIsValid(BOX* box, l_int32* pvalid);
-         internal static  extern BOXA* boxaCreate(l_int32 n);
-         internal static  extern BOXA* boxaCopy(HandleRef boxa, int copyflag);
-         internal static  extern void boxaDestroy(BOXA** pboxa);
-         internal static  extern int boxaAddBox(HandleRef boxa, BOX* box, int copyflag);
-         internal static  extern int boxaExtendArray(HandleRef boxa);
-         internal static  extern int boxaExtendArrayToSize(HandleRef boxa, int size);
-         internal static  extern int boxaGetCount(HandleRef boxa);
-         internal static  extern int boxaGetValidCount(HandleRef boxa);
-         internal static  extern BOX* boxaGetBox(HandleRef boxa, int index, int accessflag);
-         internal static  extern BOX* boxaGetValidBox(HandleRef boxa, int index, int accessflag);
-         internal static  extern NUMA* boxaFindInvalidBoxes(HandleRef boxa);
-         internal static  extern int boxaGetBoxGeometry(HandleRef boxa, int index, l_int32* px, l_int32* py, l_int32* pw, l_int32* ph);
-         internal static  extern int boxaIsFull(HandleRef boxa, l_int32* pfull);
-         internal static  extern int boxaReplaceBox(HandleRef boxa, int index, BOX* box);
-         internal static  extern int boxaInsertBox(HandleRef boxa, int index, BOX* box);
-         internal static  extern int boxaRemoveBox(HandleRef boxa, int index);
-         internal static  extern int boxaRemoveBoxAndSave(HandleRef boxa, int index, BOX** pbox);
-         internal static  extern BOXA* boxaSaveValid(HandleRef boxas, int copyflag);
-         internal static  extern int boxaInitFull(HandleRef boxa, BOX* box);
-         internal static  extern int boxaClear(HandleRef boxa);
-         internal static  extern BOXAA* boxaaCreate(l_int32 n);
-         internal static  extern BOXAA* boxaaCopy(BOXAA* baas, int copyflag);
-         internal static  extern void boxaaDestroy(BOXAA** pbaa);
-         internal static  extern int boxaaAddBoxa(BOXAA* baa, BOXA* ba, int copyflag);
-         internal static  extern int boxaaExtendArray(BOXAA* baa);
-         internal static  extern int boxaaExtendArrayToSize(BOXAA* baa, int size);
-         internal static  extern int boxaaGetCount(BOXAA* baa);
-         internal static  extern int boxaaGetBoxCount(BOXAA* baa);
-         internal static  extern BOXA* boxaaGetBoxa(BOXAA* baa, int index, int accessflag);
-         internal static  extern BOX* boxaaGetBox(BOXAA* baa, int iboxa, int ibox, int accessflag);
-         internal static  extern int boxaaInitFull(BOXAA* baa, BOXA* boxa);
-         internal static  extern int boxaaExtendWithInit(BOXAA* baa, int maxindex, BOXA* boxa);
-         internal static  extern int boxaaReplaceBoxa(BOXAA* baa, int index, BOXA* boxa);
-         internal static  extern int boxaaInsertBoxa(BOXAA* baa, int index, BOXA* boxa);
-         internal static  extern int boxaaRemoveBoxa(BOXAA* baa, int index);
-         internal static  extern int boxaaAddBox(BOXAA* baa, int index, BOX* box, int accessflag);
-         internal static  extern BOXAA* boxaaReadFromFiles( const char* dirname, const char* substr, int first, int nfiles );
-         internal static  extern BOXAA* boxaaRead( const char* filename );
-         internal static  extern BOXAA* boxaaReadStream(FILE* fp);
-         internal static  extern BOXAA* boxaaReadMem( const l_uint8* data, size_t size );
-         internal static  extern int boxaaWrite( const char* filename, BOXAA *baa );
-         internal static  extern int boxaaWriteStream(FILE* fp, BOXAA* baa);
-         internal static  extern int boxaaWriteMem(l_uint8** pdata, size_t* psize, BOXAA* baa);
-         internal static  extern BOXA* boxaRead( const char* filename );
-         internal static  extern BOXA* boxaReadStream(FILE* fp);
-         internal static  extern BOXA* boxaReadMem( const l_uint8* data, size_t size );
-         internal static  extern int boxaWrite( const char* filename, BOXA *boxa );
-         internal static  extern int boxaWriteStream(FILE* fp, BOXA* boxa);
-         internal static  extern int boxaWriteMem(l_uint8** pdata, size_t* psize, BOXA* boxa);
-         internal static  extern int boxPrintStreamInfo(FILE* fp, BOX* box);
-         internal static  extern int boxContains(BOX* box1, BOX* box2, l_int32* presult);
-         internal static  extern int boxIntersects(BOX* box1, BOX* box2, l_int32* presult);
+            
+         internal static  extern int boxContains(HandleRef box1, BOX* box2, l_int32* presult);
+         internal static  extern int boxIntersects(HandleRef box1, BOX* box2, l_int32* presult);
          internal static  extern BOXA* boxaContainedInBox(HandleRef boxas, BOX* box);
          internal static  extern int boxaContainedInBoxCount(HandleRef boxa, BOX* box, l_int32* pcount);
-         internal static  extern int boxaContainedInBoxa(HandleRef boxa1, BOXA* boxa2, l_int32* pcontained);
+         internal static  extern int boxaContainedInBoxa(HandleRef boxa1, HandleRef boxa2, l_int32* pcontained);
          internal static  extern BOXA* boxaIntersectsBox(HandleRef boxas, BOX* box);
          internal static  extern int boxaIntersectsBoxCount(HandleRef boxa, BOX* box, l_int32* pcount);
          internal static  extern BOXA* boxaClipToBox(HandleRef boxas, BOX* box);
          internal static  extern BOXA* boxaCombineOverlaps(HandleRef boxas, PIXA* pixadb);
-         internal static  extern int boxaCombineOverlapsInPair(HandleRef boxas1, BOXA* boxas2, BOXA** pboxad1, BOXA** pboxad2, PIXA* pixadb);
-         internal static  extern BOX* boxOverlapRegion(BOX* box1, BOX* box2);
-         internal static  extern BOX* boxBoundingRegion(BOX* box1, BOX* box2);
-         internal static  extern int boxOverlapFraction(BOX* box1, BOX* box2, l_float32* pfract);
-         internal static  extern int boxOverlapArea(BOX* box1, BOX* box2, l_int32* parea);
+         internal static  extern int boxaCombineOverlapsInPair(HandleRef boxas1, HandleRef boxas2, BOXA** pboxad1, BOXA** pboxad2, PIXA* pixadb);
+         internal static  extern BOX* boxOverlapRegion(HandleRef box1, BOX* box2);
+         internal static  extern BOX* boxBoundingRegion(HandleRef box1, BOX* box2);
+         internal static  extern int boxOverlapFraction(HandleRef box1, BOX* box2, l_float32* pfract);
+         internal static  extern int boxOverlapArea(HandleRef box1, BOX* box2, l_int32* parea);
          internal static  extern BOXA* boxaHandleOverlaps(HandleRef boxas, int op, int range, float min_overlap, float max_ratio, NUMA** pnamap);
-         internal static  extern int boxSeparationDistance(BOX* box1, BOX* box2, l_int32* ph_sep, l_int32* pv_sep);
-         internal static  extern int boxCompareSize(BOX* box1, BOX* box2, int type, l_int32* prel);
-         internal static  extern int boxContainsPt(BOX* box, float x, float y, l_int32* pcontains);
+         internal static  extern int boxSeparationDistance(HandleRef box1, BOX* box2, l_int32* ph_sep, l_int32* pv_sep);
+         internal static  extern int boxCompareSize(HandleRef box1, BOX* box2, int type, l_int32* prel);
+         internal static  extern int boxContainsPt(HandleRef box, float x, float y, l_int32* pcontains);
          internal static  extern BOX* boxaGetNearestToPt(HandleRef boxa, int x, int y);
          internal static  extern BOX* boxaGetNearestToLine(HandleRef boxa, int x, int y);
-         internal static  extern int boxGetCenter(BOX* box, l_float32* pcx, l_float32* pcy);
-         internal static  extern int boxIntersectByLine(BOX* box, int x, int y, float slope, l_int32* px1, l_int32* py1, l_int32* px2, l_int32* py2, l_int32* pn);
-         internal static  extern BOX* boxClipToRectangle(BOX* box, int wi, int hi);
-         internal static  extern int boxClipToRectangleParams(BOX* box, int w, int h, l_int32* pxstart, l_int32* pystart, l_int32* pxend, l_int32* pyend, l_int32* pbw, l_int32* pbh);
-         internal static  extern BOX* boxRelocateOneSide(BOX* boxd, BOX* boxs, int loc, int sideflag);
+         internal static  extern int boxGetCenter(HandleRef box, l_float32* pcx, l_float32* pcy);
+         internal static  extern int boxIntersectByLine(HandleRef box, int x, int y, float slope, l_int32* px1, l_int32* py1, l_int32* px2, l_int32* py2, l_int32* pn);
+         internal static  extern BOX* boxClipToRectangle(HandleRef box, int wi, int hi);
+         internal static  extern int boxClipToRectangleParams(HandleRef box, int w, int h, l_int32* pxstart, l_int32* pystart, l_int32* pxend, l_int32* pyend, l_int32* pbw, l_int32* pbh);
+         internal static  extern BOX* boxRelocateOneSide(HandleRef boxd, BOX* boxs, int loc, int sideflag);
          internal static  extern BOXA* boxaAdjustSides(HandleRef boxas, int delleft, int delright, int deltop, int delbot);
-         internal static  extern BOX* boxAdjustSides(BOX* boxd, BOX* boxs, int delleft, int delright, int deltop, int delbot);
-         internal static  extern BOXA* boxaSetSide(HandleRef boxad, BOXA* boxas, int side, int val, int thresh);
-         internal static  extern BOXA* boxaAdjustWidthToTarget(HandleRef boxad, BOXA* boxas, int sides, int target, int thresh);
-         internal static  extern BOXA* boxaAdjustHeightToTarget(HandleRef boxad, BOXA* boxas, int sides, int target, int thresh);
-         internal static  extern int boxEqual(BOX* box1, BOX* box2, l_int32* psame);
-         internal static  extern int boxaEqual(HandleRef boxa1, BOXA* boxa2, int maxdist, NUMA** pnaindex, l_int32* psame);
-         internal static  extern int boxSimilar(BOX* box1, BOX* box2, int leftdiff, int rightdiff, int topdiff, int botdiff, l_int32* psimilar);
-         internal static  extern int boxaSimilar(HandleRef boxa1, BOXA* boxa2, int leftdiff, int rightdiff, int topdiff, int botdiff, int debug, l_int32* psimilar, NUMA** pnasim);
-         internal static  extern int boxaJoin(HandleRef boxad, BOXA* boxas, int istart, int iend);
-         internal static  extern int boxaaJoin(BOXAA* baad, BOXAA* baas, int istart, int iend);
+         internal static  extern BOX* boxAdjustSides(HandleRef boxd, BOX* boxs, int delleft, int delright, int deltop, int delbot);
+         internal static  extern BOXA* boxaSetSide(HandleRef boxad, HandleRef boxas, int side, int val, int thresh);
+         internal static  extern BOXA* boxaAdjustWidthToTarget(HandleRef boxad, HandleRef boxas, int sides, int target, int thresh);
+         internal static  extern BOXA* boxaAdjustHeightToTarget(HandleRef boxad, HandleRef boxas, int sides, int target, int thresh);
+         internal static  extern int boxEqual(HandleRef box1, BOX* box2, l_int32* psame);
+         internal static  extern int boxaEqual(HandleRef boxa1, HandleRef boxa2, int maxdist, NUMA** pnaindex, l_int32* psame);
+         internal static  extern int boxSimilar(HandleRef box1, BOX* box2, int leftdiff, int rightdiff, int topdiff, int botdiff, l_int32* psimilar);
+         internal static  extern int boxaSimilar(HandleRef boxa1, HandleRef boxa2, int leftdiff, int rightdiff, int topdiff, int botdiff, int debug, l_int32* psimilar, NUMA** pnasim);
+         internal static  extern int boxaJoin(HandleRef boxad, HandleRef boxas, int istart, int iend);
+         internal static  extern int boxaaJoin(HandleRef baad, BOXAA* baas, int istart, int iend);
          internal static  extern int boxaSplitEvenOdd(HandleRef boxa, int fillflag, BOXA** pboxae, BOXA** pboxao);
-         internal static  extern BOXA* boxaMergeEvenOdd(HandleRef boxae, BOXA* boxao, int fillflag);
+         internal static  extern BOXA* boxaMergeEvenOdd(HandleRef boxae, HandleRef boxao, int fillflag);
          internal static  extern BOXA* boxaTransform(HandleRef boxas, int shiftx, int shifty, float scalex, float scaley);
-         internal static  extern BOX* boxTransform(BOX* box, int shiftx, int shifty, float scalex, float scaley);
+         internal static  extern BOX* boxTransform(HandleRef box, int shiftx, int shifty, float scalex, float scaley);
          internal static  extern BOXA* boxaTransformOrdered(HandleRef boxas, int shiftx, int shifty, float scalex, float scaley, int xcen, int ycen, float angle, int order);
-         internal static  extern BOX* boxTransformOrdered(BOX* boxs, int shiftx, int shifty, float scalex, float scaley, int xcen, int ycen, float angle, int order);
+         internal static  extern BOX* boxTransformOrdered(HandleRef boxs, int shiftx, int shifty, float scalex, float scaley, int xcen, int ycen, float angle, int order);
          internal static  extern BOXA* boxaRotateOrth(HandleRef boxas, int w, int h, int rotation);
-         internal static  extern BOX* boxRotateOrth(BOX* box, int w, int h, int rotation);
+         internal static  extern BOX* boxRotateOrth(HandleRef box, int w, int h, int rotation);
          internal static  extern BOXA* boxaSort(HandleRef boxas, int sorttype, int sortorder, NUMA** pnaindex);
          internal static  extern BOXA* boxaBinSort(HandleRef boxas, int sorttype, int sortorder, NUMA** pnaindex);
          internal static  extern BOXA* boxaSortByIndex(HandleRef boxas, NUMA* naindex);
@@ -677,30 +768,30 @@ namespace Leptonica.Native
          internal static  extern int boxaGetRankVals(HandleRef boxa, float fract, l_int32* px, l_int32* py, l_int32* pw, l_int32* ph);
          internal static  extern int boxaGetMedianVals(HandleRef boxa, l_int32* px, l_int32* py, l_int32* pw, l_int32* ph);
          internal static  extern int boxaGetAverageSize(HandleRef boxa, l_float32* pw, l_float32* ph);
-         internal static  extern int boxaaGetExtent(BOXAA* baa, l_int32* pw, l_int32* ph, BOX** pbox, BOXA** pboxa);
-         internal static  extern BOXA* boxaaFlattenToBoxa(BOXAA* baa, NUMA** pnaindex, int copyflag);
-         internal static  extern BOXA* boxaaFlattenAligned(BOXAA* baa, int num, BOX* fillerbox, int copyflag);
+         internal static  extern int boxaaGetExtent(HandleRef baa, l_int32* pw, l_int32* ph, BOX** pbox, BOXA** pboxa);
+         internal static  extern BOXA* boxaaFlattenToBoxa(HandleRef baa, NUMA** pnaindex, int copyflag);
+         internal static  extern BOXA* boxaaFlattenAligned(HandleRef baa, int num, BOX* fillerbox, int copyflag);
          internal static  extern BOXAA* boxaEncapsulateAligned(HandleRef boxa, int num, int copyflag);
-         internal static  extern BOXAA* boxaaTranspose(BOXAA* baas);
-         internal static  extern int boxaaAlignBox(BOXAA* baa, BOX* box, int delta, l_int32* pindex);
+         internal static  extern BOXAA* boxaaTranspose(HandleRef baas);
+         internal static  extern int boxaaAlignBox(HandleRef baa, BOX* box, int delta, l_int32* pindex);
          internal static  extern PIX* pixMaskConnComp(PIX* pixs, int connectivity, BOXA** pboxa);
-         internal static  extern PIX* pixMaskBoxa(PIX* pixd, PIX* pixs, BOXA* boxa, int op);
-         internal static  extern PIX* pixPaintBoxa(PIX* pixs, BOXA* boxa, uint val);
-         internal static  extern PIX* pixSetBlackOrWhiteBoxa(PIX* pixs, BOXA* boxa, int op);
-         internal static  extern PIX* pixPaintBoxaRandom(PIX* pixs, BOXA* boxa);
-         internal static  extern PIX* pixBlendBoxaRandom(PIX* pixs, BOXA* boxa, float fract);
-         internal static  extern PIX* pixDrawBoxa(PIX* pixs, BOXA* boxa, int width, uint val);
-         internal static  extern PIX* pixDrawBoxaRandom(PIX* pixs, BOXA* boxa, int width);
+         internal static  extern PIX* pixMaskBoxa(PIX* pixd, PIX* pixs, HandleRef boxa, int op);
+         internal static  extern PIX* pixPaintBoxa(PIX* pixs, HandleRef boxa, uint val);
+         internal static  extern PIX* pixSetBlackOrWhiteBoxa(PIX* pixs, HandleRef boxa, int op);
+         internal static  extern PIX* pixPaintBoxaRandom(PIX* pixs, HandleRef boxa);
+         internal static  extern PIX* pixBlendBoxaRandom(PIX* pixs, HandleRef boxa, float fract);
+         internal static  extern PIX* pixDrawBoxa(PIX* pixs, HandleRef boxa, int width, uint val);
+         internal static  extern PIX* pixDrawBoxaRandom(PIX* pixs, HandleRef boxa, int width);
          internal static  extern PIX* boxaaDisplay(PIX* pixs, BOXAA* baa, int linewba, int linewb, uint colorba, uint colorb, int w, int h);
          internal static  extern PIXA* pixaDisplayBoxaa(PIXA* pixas, BOXAA* baa, int colorflag, int width);
          internal static  extern BOXA* pixSplitIntoBoxa(PIX* pixs, int minsum, int skipdist, int delta, int maxbg, int maxcomps, int remainder);
          internal static  extern BOXA* pixSplitComponentIntoBoxa(PIX* pix, BOX* box, int minsum, int skipdist, int delta, int maxbg, int maxcomps, int remainder);
-         internal static  extern BOXA* makeMosaicStrips(l_int32 w, int h, int direction, int size);
-         internal static  extern int boxaCompareRegions(HandleRef boxa1, BOXA* boxa2, int areathresh, l_int32* pnsame, l_float32* pdiffarea, l_float32* pdiffxor, PIX** ppixdb);
+         internal static  extern BOXA* makeMosaicStrips(int w, int h, int direction, int size);
+         internal static  extern int boxaCompareRegions(HandleRef boxa1, HandleRef boxa2, int areathresh, l_int32* pnsame, l_float32* pdiffarea, l_float32* pdiffxor, PIX** ppixdb);
          internal static  extern BOX* pixSelectLargeULComp(PIX* pixs, float areaslop, int yslop, int connectivity);
          internal static  extern BOX* boxaSelectLargeULBox(HandleRef boxas, float areaslop, int yslop);
          internal static  extern BOXA* boxaSelectRange(HandleRef boxas, int first, int last, int copyflag);
-         internal static  extern BOXAA* boxaaSelectRange(BOXAA* baas, int first, int last, int copyflag);
+         internal static  extern BOXAA* boxaaSelectRange(HandleRef baas, int first, int last, int copyflag);
          internal static  extern BOXA* boxaSelectBySize(HandleRef boxas, int width, int height, int type, int relation, l_int32* pchanged);
          internal static  extern NUMA* boxaMakeSizeIndicator(HandleRef boxa, int width, int height, int type, int relation);
          internal static  extern BOXA* boxaSelectByArea(HandleRef boxas, int area, int relation, l_int32* pchanged);
@@ -709,17 +800,17 @@ namespace Leptonica.Native
          internal static  extern NUMA* boxaMakeWHRatioIndicator(HandleRef boxa, float ratio, int relation);
          internal static  extern BOXA* boxaSelectWithIndicator(HandleRef boxas, NUMA* na, l_int32* pchanged);
          internal static  extern BOXA* boxaPermutePseudorandom(HandleRef boxas);
-         internal static  extern BOXA* boxaPermuteRandom(HandleRef boxad, BOXA* boxas);
+         internal static  extern BOXA* boxaPermuteRandom(HandleRef boxad, HandleRef boxas);
          internal static  extern int boxaSwapBoxes(HandleRef boxa, int i, int j);
          internal static  extern PTA* boxaConvertToPta(HandleRef boxa, int ncorners);
          internal static  extern BOXA* ptaConvertToBoxa(HandleRef pta, int ncorners);
-         internal static  extern PTA* boxConvertToPta(BOX* box, int ncorners);
+         internal static  extern PTA* boxConvertToPta(HandleRef box, int ncorners);
          internal static  extern BOX* ptaConvertToBox(HandleRef pta);
          internal static  extern BOXA* boxaSmoothSequenceLS(HandleRef boxas, float factor, int subflag, int maxdiff, int debug);
          internal static  extern BOXA* boxaSmoothSequenceMedian(HandleRef boxas, int halfwin, int subflag, int maxdiff, int debug);
          internal static  extern BOXA* boxaLinearFit(HandleRef boxas, float factor, int debug);
          internal static  extern BOXA* boxaWindowedMedian(HandleRef boxas, int halfwin, int debug);
-         internal static  extern BOXA* boxaModifyWithBoxa(HandleRef boxas, BOXA* boxam, int subflag, int maxdiff);
+         internal static  extern BOXA* boxaModifyWithBoxa(HandleRef boxas, HandleRef boxam, int subflag, int maxdiff);
          internal static  extern BOXA* boxaConstrainSize(HandleRef boxas, int width, int widthflag, int height, int heightflag);
          internal static  extern BOXA* boxaReconcileEvenOddHeight(HandleRef boxas, int sides, int delh, int op, float factor, int start);
          internal static  extern BOXA* boxaReconcilePairWidth(HandleRef boxas, int delw, int op, float factor, NUMA* na);
@@ -728,7 +819,7 @@ namespace Leptonica.Native
          internal static  extern BOXA* boxaFillSequence(HandleRef boxas, int useflag, int debug);
          internal static  extern int boxaGetExtent(HandleRef boxa, l_int32* pw, l_int32* ph, BOX** pbox);
          internal static  extern int boxaGetCoverage(HandleRef boxa, int wc, int hc, int exactflag, l_float32* pfract);
-         internal static  extern int boxaaSizeRange(BOXAA* baa, l_int32* pminw, l_int32* pminh, l_int32* pmaxw, l_int32* pmaxh);
+         internal static  extern int boxaaSizeRange(HandleRef baa, l_int32* pminw, l_int32* pminh, l_int32* pmaxw, l_int32* pmaxh);
          internal static  extern int boxaSizeRange(HandleRef boxa, l_int32* pminw, l_int32* pminh, l_int32* pmaxw, l_int32* pmaxh);
          internal static  extern int boxaLocationRange(HandleRef boxa, l_int32* pminx, l_int32* pminy, l_int32* pmaxx, l_int32* pmaxy);
          internal static  extern int boxaGetSizes(HandleRef boxa, NUMA** pnaw, NUMA** pnah);
@@ -763,8 +854,8 @@ namespace Leptonica.Native
          internal static  extern PTA* pixGetOuterBorderPta(PIX* pixs, BOX* box);
          internal static  extern int pixGetOuterBorder(CCBORD* ccb, PIX* pixs, BOX* box);
          internal static  extern int pixGetHoleBorder(CCBORD* ccb, PIX* pixs, BOX* box, int xs, int ys);
-         internal static  extern int findNextBorderPixel(l_int32 w, int h, l_uint32* data, int wpl, int px, int py, l_int32* pqpos, l_int32* pnpx, l_int32* pnpy);
-         internal static  extern void locateOutsideSeedPixel(l_int32 fpx, int fpy, int spx, int spy, l_int32* pxs, l_int32* pys);
+         internal static  extern int findNextBorderPixel(int w, int h, l_uint32* data, int wpl, int px, int py, l_int32* pqpos, l_int32* pnpx, l_int32* pnpy);
+         internal static  extern void locateOutsideSeedPixel(int fpx, int fpy, int spx, int spy, l_int32* pxs, l_int32* pys);
          internal static  extern int ccbaGenerateGlobalLocs(CCBORDA* ccba);
          internal static  extern int ccbaGenerateStepChains(CCBORDA* ccba);
          internal static  extern int ccbaStepChainsToPixCoords(CCBORDA* ccba, int coordtype);
@@ -784,7 +875,7 @@ namespace Leptonica.Native
          internal static  extern PIXA* pixaThinConnected(PIXA* pixas, int type, int connectivity, int maxiters);
          internal static  extern PIX* pixThinConnected(PIX* pixs, int type, int connectivity, int maxiters);
          internal static  extern PIX* pixThinConnectedBySet(PIX* pixs, int type, SELA* sela, int maxiters);
-         internal static  extern SELA* selaMakeThinSets(l_int32 index, int debug);
+         internal static  extern SELA* selaMakeThinSets(int index, int debug);
          internal static  extern int jbCorrelation( const char* dirin, float thresh, float weight, int components, const char* rootname, int firstpage, int npages, int renderflag );
          internal static  extern int jbRankHaus( const char* dirin, int size, float rank, int components, const char* rootname, int firstpage, int npages, int renderflag );
          internal static  extern JBCLASSER* jbWordsInTextlines( const char* dirin, int reduction, int maxwidth, int maxheight, float thresh, float weight, NUMA** pnatl, int firstpage, int npages );
@@ -807,7 +898,7 @@ namespace Leptonica.Native
          internal static  extern int makeRGBIndexTables(l_uint32** prtab, l_uint32** pgtab, l_uint32** pbtab, int sigbits);
          internal static  extern int getRGBFromIndex(l_uint32 index, int sigbits, l_int32* prval, l_int32* pgval, l_int32* pbval);
          internal static  extern int pixHasHighlightRed(PIX* pixs, int factor, float fract, float fthresh, l_int32* phasred, l_float32* pratio, PIX** ppixdb);
-         internal static  extern PIX* pixColorGrayRegions(PIX* pixs, BOXA* boxa, int type, int thresh, int rval, int gval, int bval);
+         internal static  extern PIX* pixColorGrayRegions(PIX* pixs, HandleRef boxa, int type, int thresh, int rval, int gval, int bval);
          internal static  extern int pixColorGray(PIX* pixs, BOX* box, int type, int thresh, int rval, int gval, int bval);
          internal static  extern PIX* pixColorGrayMasked(PIX* pixs, PIX* pixm, int type, int thresh, int rval, int gval, int bval);
          internal static  extern PIX* pixSnapColor(PIX* pixd, PIX* pixs, uint srcval, uint dstval, int diff);
@@ -815,11 +906,11 @@ namespace Leptonica.Native
          internal static  extern PIX* pixLinearMapToTargetColor(PIX* pixd, PIX* pixs, uint srcval, uint dstval);
          internal static  extern int pixelLinearMapToTargetColor(l_uint32 scolor, uint srcmap, uint dstmap, l_uint32* pdcolor);
          internal static  extern PIX* pixShiftByComponent(PIX* pixd, PIX* pixs, uint srcval, uint dstval);
-         internal static  extern int pixelShiftByComponent(l_int32 rval, int gval, int bval, uint srcval, uint dstval, l_uint32* ppixel);
-         internal static  extern int pixelFractionalShift(l_int32 rval, int gval, int bval, float fraction, l_uint32* ppixel);
-         internal static  extern PIXCMAP* pixcmapCreate(l_int32 depth);
-         internal static  extern PIXCMAP* pixcmapCreateRandom(l_int32 depth, int hasblack, int haswhite);
-         internal static  extern PIXCMAP* pixcmapCreateLinear(l_int32 d, int nlevels);
+         internal static  extern int pixelShiftByComponent(int rval, int gval, int bval, uint srcval, uint dstval, l_uint32* ppixel);
+         internal static  extern int pixelFractionalShift(int rval, int gval, int bval, float fraction, l_uint32* ppixel);
+         internal static  extern PIXCMAP* pixcmapCreate(int depth);
+         internal static  extern PIXCMAP* pixcmapCreateRandom(int depth, int hasblack, int haswhite);
+         internal static  extern PIXCMAP* pixcmapCreateLinear(int d, int nlevels);
          internal static  extern PIXCMAP* pixcmapCopy(PIXCMAP* cmaps);
          internal static  extern void pixcmapDestroy(PIXCMAP** pcmap);
          internal static  extern int pixcmapAddColor(PIXCMAP* cmap, int rval, int gval, int bval);
@@ -873,7 +964,7 @@ namespace Leptonica.Native
          internal static  extern PIX* pixOctreeColorQuant(PIX* pixs, int colors, int ditherflag);
          internal static  extern PIX* pixOctreeColorQuantGeneral(PIX* pixs, int colors, int ditherflag, float validthresh, float colorthresh);
          internal static  extern int makeRGBToIndexTables(l_uint32** prtab, l_uint32** pgtab, l_uint32** pbtab, int cqlevels);
-         internal static  extern void getOctcubeIndexFromRGB(l_int32 rval, int gval, int bval, l_uint32* rtab, l_uint32* gtab, l_uint32* btab, l_uint32* pindex);
+         internal static  extern void getOctcubeIndexFromRGB(int rval, int gval, int bval, l_uint32* rtab, l_uint32* gtab, l_uint32* btab, l_uint32* pindex);
          internal static  extern PIX* pixOctreeQuantByPopulation(PIX* pixs, int level, int ditherflag);
          internal static  extern PIX* pixOctreeQuantNumColors(PIX* pixs, int maxcolors, int subsample);
          internal static  extern PIX* pixOctcubeQuantMixedWithGray(PIX* pixs, int depth, int graylevels, int delta);
@@ -900,8 +991,8 @@ namespace Leptonica.Native
          internal static  extern int pixColorSegmentRemoveColors(PIX* pixd, PIX* pixs, int finalcolors);
          internal static  extern PIX* pixConvertRGBToHSV(PIX* pixd, PIX* pixs);
          internal static  extern PIX* pixConvertHSVToRGB(PIX* pixd, PIX* pixs);
-         internal static  extern int convertRGBToHSV(l_int32 rval, int gval, int bval, l_int32* phval, l_int32* psval, l_int32* pvval);
-         internal static  extern int convertHSVToRGB(l_int32 hval, int sval, int vval, l_int32* prval, l_int32* pgval, l_int32* pbval);
+         internal static  extern int convertRGBToHSV(int rval, int gval, int bval, l_int32* phval, l_int32* psval, l_int32* pvval);
+         internal static  extern int convertHSVToRGB(int hval, int sval, int vval, l_int32* prval, l_int32* pgval, l_int32* pbval);
          internal static  extern int pixcmapConvertRGBToHSV(PIXCMAP* cmap);
          internal static  extern int pixcmapConvertHSVToRGB(PIXCMAP* cmap);
          internal static  extern PIX* pixConvertRGBToHue(PIX* pixs);
@@ -914,16 +1005,16 @@ namespace Leptonica.Native
          internal static  extern PIX* pixMakeHistoHV(PIX* pixs, int factor, NUMA** pnahue, NUMA** pnaval);
          internal static  extern PIX* pixMakeHistoSV(PIX* pixs, int factor, NUMA** pnasat, NUMA** pnaval);
          internal static  extern int pixFindHistoPeaksHSV(PIX* pixs, int type, int width, int height, int npeaks, float erasefactor, PTA** ppta, NUMA** pnatot, PIXA** ppixa);
-         internal static  extern PIX* displayHSVColorRange(l_int32 hval, int sval, int vval, int huehw, int sathw, int nsamp, int factor);
+         internal static  extern PIX* displayHSVColorRange(int hval, int sval, int vval, int huehw, int sathw, int nsamp, int factor);
          internal static  extern PIX* pixConvertRGBToYUV(PIX* pixd, PIX* pixs);
          internal static  extern PIX* pixConvertYUVToRGB(PIX* pixd, PIX* pixs);
-         internal static  extern int convertRGBToYUV(l_int32 rval, int gval, int bval, l_int32* pyval, l_int32* puval, l_int32* pvval);
-         internal static  extern int convertYUVToRGB(l_int32 yval, int uval, int vval, l_int32* prval, l_int32* pgval, l_int32* pbval);
+         internal static  extern int convertRGBToYUV(int rval, int gval, int bval, l_int32* pyval, l_int32* puval, l_int32* pvval);
+         internal static  extern int convertYUVToRGB(int yval, int uval, int vval, l_int32* prval, l_int32* pgval, l_int32* pbval);
          internal static  extern int pixcmapConvertRGBToYUV(PIXCMAP* cmap);
          internal static  extern int pixcmapConvertYUVToRGB(PIXCMAP* cmap);
          internal static  extern FPIXA* pixConvertRGBToXYZ(PIX* pixs);
          internal static  extern PIX* fpixaConvertXYZToRGB(FPIXA* fpixa);
-         internal static  extern int convertRGBToXYZ(l_int32 rval, int gval, int bval, l_float32* pfxval, l_float32* pfyval, l_float32* pfzval);
+         internal static  extern int convertRGBToXYZ(int rval, int gval, int bval, l_float32* pfxval, l_float32* pfyval, l_float32* pfzval);
          internal static  extern int convertXYZToRGB(float fxval, float fyval, float fzval, int blackout, l_int32* prval, l_int32* pgval, l_int32* pbval);
          internal static  extern FPIXA* fpixaConvertXYZToLAB(FPIXA* fpixas);
          internal static  extern FPIXA* fpixaConvertLABToXYZ(FPIXA* fpixas);
@@ -931,7 +1022,7 @@ namespace Leptonica.Native
          internal static  extern int convertLABToXYZ(float lval, float aval, float bval, l_float32* pxval, l_float32* pyval, l_float32* pzval);
          internal static  extern FPIXA* pixConvertRGBToLAB(PIX* pixs);
          internal static  extern PIX* fpixaConvertLABToRGB(FPIXA* fpixa);
-         internal static  extern int convertRGBToLAB(l_int32 rval, int gval, int bval, l_float32* pflval, l_float32* pfaval, l_float32* pfbval);
+         internal static  extern int convertRGBToLAB(int rval, int gval, int bval, l_float32* pflval, l_float32* pfaval, l_float32* pfbval);
          internal static  extern int convertLABToRGB(float flval, float faval, float fbval, l_int32* prval, l_int32* pgval, l_int32* pbval);
          internal static  extern int pixEqual(PIX* pix1, PIX* pix2, l_int32* psame);
          internal static  extern int pixEqualWithAlpha(PIX* pix1, PIX* pix2, int use_alpha, l_int32* psame);
@@ -998,7 +1089,7 @@ namespace Leptonica.Native
          internal static  extern FPIX* fpixConvolve(FPIX* fpixs, L_KERNEL* kel, int normflag);
          internal static  extern FPIX* fpixConvolveSep(FPIX* fpixs, L_KERNEL* kelx, L_KERNEL* kely, int normflag);
          internal static  extern PIX* pixConvolveWithBias(PIX* pixs, L_KERNEL* kel1, L_KERNEL* kel2, int force8, l_int32* pbias);
-         internal static  extern void l_setConvolveSampling(l_int32 xfact, int yfact);
+         internal static  extern void l_setConvolveSampling(int xfact, int yfact);
          internal static  extern PIX* pixAddGaussianNoise(PIX* pixs, float stdev);
          internal static  extern float gaussDistribSampling();
          internal static  extern int pixCorrelationScore(PIX* pix1, PIX* pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, l_int32* tab, l_float32* pscore);
@@ -1006,9 +1097,9 @@ namespace Leptonica.Native
          internal static  extern int pixCorrelationScoreSimple(PIX* pix1, PIX* pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, l_int32* tab, l_float32* pscore);
          internal static  extern int pixCorrelationScoreShifted(PIX* pix1, PIX* pix2, int area1, int area2, int delx, int dely, l_int32* tab, l_float32* pscore);
          internal static  extern L_DEWARP* dewarpCreate(PIX* pixs, int pageno);
-         internal static  extern L_DEWARP* dewarpCreateRef(l_int32 pageno, int refpage);
+         internal static  extern L_DEWARP* dewarpCreateRef(int pageno, int refpage);
          internal static  extern void dewarpDestroy(L_DEWARP** pdew);
-         internal static  extern L_DEWARPA* dewarpaCreate(l_int32 nptrs, int sampling, int redfactor, int minlines, int maxdist);
+         internal static  extern L_DEWARPA* dewarpaCreate(int nptrs, int sampling, int redfactor, int minlines, int maxdist);
          internal static  extern L_DEWARPA* dewarpaCreateFromPixacomp(PIXAC* pixac, int useboth, int sampling, int minlines, int maxdist);
          internal static  extern void dewarpaDestroy(L_DEWARPA** pdewa);
          internal static  extern int dewarpaDestroyDewarp(L_DEWARPA* dewa, int pageno);
@@ -1039,7 +1130,7 @@ namespace Leptonica.Native
          internal static  extern int dewarpBuildLineModel(L_DEWARP* dew, int opensize, const char* debugfile );
          internal static  extern int dewarpaModelStatus(L_DEWARPA* dewa, int pageno, l_int32* pvsuccess, l_int32* phsuccess);
          internal static  extern int dewarpaApplyDisparity(L_DEWARPA* dewa, int pageno, PIX* pixs, int grayin, int x, int y, PIX** ppixd, const char* debugfile );
-         internal static  extern int dewarpaApplyDisparityBoxa(L_DEWARPA* dewa, int pageno, PIX* pixs, BOXA* boxas, int mapdir, int x, int y, BOXA** pboxad, const char* debugfile );
+         internal static  extern int dewarpaApplyDisparityBoxa(L_DEWARPA* dewa, int pageno, PIX* pixs, HandleRef boxas, int mapdir, int x, int y, BOXA** pboxad, const char* debugfile );
          internal static  extern int dewarpMinimize(L_DEWARP* dew);
          internal static  extern int dewarpPopulateFullRes(L_DEWARP* dew, PIX* pix, int x, int y);
          internal static  extern int dewarpSinglePage(PIX* pixs, int thresh, int adaptive, int useboth, int check_columns, PIX** ppixd, L_DEWARPA** pdewa, int debug);
@@ -1054,8 +1145,8 @@ namespace Leptonica.Native
          internal static  extern int dewarpaModelStats(L_DEWARPA* dewa, l_int32* pnnone, l_int32* pnvsuccess, l_int32* pnvvalid, l_int32* pnhsuccess, l_int32* pnhvalid, l_int32* pnref);
          internal static  extern int dewarpaShowArrays(L_DEWARPA* dewa, float scalefact, int first, int last);
          internal static  extern int dewarpDebug(L_DEWARP* dew, const char* subdirs, int index );
-         internal static  extern int dewarpShowResults(L_DEWARPA* dewa, SARRAY* sa, BOXA* boxa, int firstpage, int lastpage, const char* pdfout );
-         internal static  extern L_DNA* l_dnaCreate(l_int32 n);
+         internal static  extern int dewarpShowResults(L_DEWARPA* dewa, SARRAY* sa, HandleRef boxa, int firstpage, int lastpage, const char* pdfout );
+         internal static  extern L_DNA* l_dnaCreate(int n);
          internal static  extern L_DNA* l_dnaCreateFromIArray(l_int32* iarray, int size);
          internal static  extern L_DNA* l_dnaCreateFromDArray(l_float64* darray, int size, int copyflag);
          internal static  extern L_DNA* l_dnaMakeSequence(l_float64 startval, l_float64 increment, int size);
@@ -1084,8 +1175,8 @@ namespace Leptonica.Native
          internal static  extern L_DNA* l_dnaReadStream(FILE* fp);
          internal static  extern int l_dnaWrite( const char* filename, L_DNA *da );
          internal static  extern int l_dnaWriteStream(FILE* fp, L_DNA* da);
-         internal static  extern L_DNAA* l_dnaaCreate(l_int32 n);
-         internal static  extern L_DNAA* l_dnaaCreateFull(l_int32 nptr, int n);
+         internal static  extern L_DNAA* l_dnaaCreate(int n);
+         internal static  extern L_DNAA* l_dnaaCreateFull(int nptr, int n);
          internal static  extern int l_dnaaTruncate(L_DNAA* daa);
          internal static  extern void l_dnaaDestroy(L_DNAA** pdaa);
          internal static  extern int l_dnaaAddDna(L_DNAA* daa, L_DNA* da, int copyflag);
@@ -1109,7 +1200,7 @@ namespace Leptonica.Native
          internal static  extern L_DNA* l_dnaIntersectionByAset(L_DNA* da1, L_DNA* da2);
          internal static  extern L_ASET* l_asetCreateFromDna(L_DNA* da);
          internal static  extern L_DNA* l_dnaDiffAdjValues(L_DNA* das);
-         internal static  extern L_DNAHASH* l_dnaHashCreate(l_int32 nbuckets, int initsize);
+         internal static  extern L_DNAHASH* l_dnaHashCreate(int nbuckets, int initsize);
          internal static  extern void l_dnaHashDestroy(L_DNAHASH** pdahash);
          internal static  extern int l_dnaHashGetCount(L_DNAHASH* dahash);
          internal static  extern int l_dnaHashGetTotalCount(L_DNAHASH* dahash);
@@ -1164,7 +1255,7 @@ namespace Leptonica.Native
          internal static  extern PIX* pixHMTDwa_1(PIX* pixd, PIX* pixs, const char* selname );
          internal static  extern PIX* pixFHMTGen_1(PIX* pixd, PIX* pixs, const char* selname );
          internal static  extern int fhmtgen_low_1(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, int index);
-         internal static  extern int pixItalicWords(PIX* pixs, BOXA* boxaw, PIX* pixw, BOXA** pboxa, int debugflag);
+         internal static  extern int pixItalicWords(PIX* pixs, HandleRef boxaw, PIX* pixw, BOXA** pboxa, int debugflag);
          internal static  extern int pixOrientDetect(PIX* pixs, l_float32* pupconf, l_float32* pleftconf, int mincount, int debug);
          internal static  extern int makeOrientDecision(float upconf, float leftconf, float minupconf, float minratio, l_int32* porient, int debug);
          internal static  extern int pixUpDownDetect(PIX* pixs, l_float32* pconf, int mincount, int debug);
@@ -1181,7 +1272,7 @@ namespace Leptonica.Native
          internal static  extern PIX* pixMorphDwa_1(PIX* pixd, PIX* pixs, int operation, char* selname);
          internal static  extern PIX* pixFMorphopGen_1(PIX* pixd, PIX* pixs, int operation, char* selname);
          internal static  extern int fmorphopgen_low_1(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, int index);
-         internal static  extern FPIX* fpixCreate(l_int32 width, int height);
+         internal static  extern FPIX* fpixCreate(int width, int height);
          internal static  extern FPIX* fpixCreateTemplate(FPIX* fpixs);
          internal static  extern FPIX* fpixClone(FPIX* fpix);
          internal static  extern FPIX* fpixCopy(FPIX* fpixd, FPIX* fpixs);
@@ -1200,7 +1291,7 @@ namespace Leptonica.Native
          internal static  extern int fpixSetData(FPIX* fpix, l_float32* data);
          internal static  extern int fpixGetPixel(FPIX* fpix, int x, int y, l_float32* pval);
          internal static  extern int fpixSetPixel(FPIX* fpix, int x, int y, float val);
-         internal static  extern FPIXA* fpixaCreate(l_int32 n);
+         internal static  extern FPIXA* fpixaCreate(int n);
          internal static  extern FPIXA* fpixaCopy(FPIXA* fpixa, int copyflag);
          internal static  extern void fpixaDestroy(FPIXA** pfpixa);
          internal static  extern int fpixaAddFPix(FPIXA* fpixa, FPIX* fpix, int copyflag);
@@ -1211,7 +1302,7 @@ namespace Leptonica.Native
          internal static  extern l_float32* fpixaGetData(FPIXA* fpixa, int index);
          internal static  extern int fpixaGetPixel(FPIXA* fpixa, int index, int x, int y, l_float32* pval);
          internal static  extern int fpixaSetPixel(FPIXA* fpixa, int index, int x, int y, float val);
-         internal static  extern DPIX* dpixCreate(l_int32 width, int height);
+         internal static  extern DPIX* dpixCreate(int width, int height);
          internal static  extern DPIX* dpixCreateTemplate(DPIX* dpixs);
          internal static  extern DPIX* dpixClone(DPIX* dpix);
          internal static  extern DPIX* dpixCopy(DPIX* dpixd, DPIX* dpixs);
@@ -1301,21 +1392,21 @@ namespace Leptonica.Native
          internal static  extern int gplotSimpleXYN(NUMA* nax, NUMAA* naay, int plotstyle, int outformat, const char* outroot, const char* title );
          internal static  extern GPLOT* gplotRead( const char* filename );
          internal static  extern int gplotWrite( const char* filename, GPLOT *gplot );
-         internal static  extern PTA* generatePtaLine(l_int32 x1, int y1, int x2, int y2);
-         internal static  extern PTA* generatePtaWideLine(l_int32 x1, int y1, int x2, int y2, int width);
-         internal static  extern PTA* generatePtaBox(BOX* box, int width);
+         internal static  extern PTA* generatePtaLine(int x1, int y1, int x2, int y2);
+         internal static  extern PTA* generatePtaWideLine(int x1, int y1, int x2, int y2, int width);
+         internal static  extern PTA* generatePtaBox(HandleRef box, int width);
          internal static  extern PTA* generatePtaBoxa(HandleRef boxa, int width, int removedups);
-         internal static  extern PTA* generatePtaHashBox(BOX* box, int spacing, int width, int orient, int outline);
+         internal static  extern PTA* generatePtaHashBox(HandleRef box, int spacing, int width, int orient, int outline);
          internal static  extern PTA* generatePtaHashBoxa(HandleRef boxa, int spacing, int width, int orient, int outline, int removedups);
          internal static  extern PTAA* generatePtaaBoxa(HandleRef boxa);
          internal static  extern PTAA* generatePtaaHashBoxa(HandleRef boxa, int spacing, int width, int orient, int outline);
          internal static  extern PTA* generatePtaPolyline(HandleRef ptas, int width, int closeflag, int removedups);
-         internal static  extern PTA* generatePtaGrid(l_int32 w, int h, int nx, int ny, int width);
+         internal static  extern PTA* generatePtaGrid(int w, int h, int nx, int ny, int width);
          internal static  extern PTA* convertPtaLineTo4cc(HandleRef ptas);
-         internal static  extern PTA* generatePtaFilledCircle(l_int32 radius);
-         internal static  extern PTA* generatePtaFilledSquare(l_int32 side);
-         internal static  extern PTA* generatePtaLineFromPt(l_int32 x, int y, l_float64 length, l_float64 radang);
-         internal static  extern int locatePtRadially(l_int32 xr, int yr, l_float64 dist, l_float64 radang, l_float64* px, l_float64* py);
+         internal static  extern PTA* generatePtaFilledCircle(int radius);
+         internal static  extern PTA* generatePtaFilledSquare(int side);
+         internal static  extern PTA* generatePtaLineFromPt(int x, int y, l_float64 length, l_float64 radang);
+         internal static  extern int locatePtRadially(int xr, int yr, l_float64 dist, l_float64 radang, l_float64* px, l_float64* py);
          internal static  extern int pixRenderPlotFromNuma(PIX** ppix, NUMA* na, int plotloc, int linewidth, int max, uint color);
          internal static  extern PTA* makePlotPtaFromNuma(NUMA* na, int size, int plotloc, int linewidth, int max);
          internal static  extern int pixRenderPlotFromNumaGen(PIX** ppix, NUMA* na, int orient, int linewidth, int refpos, int max, int drawref, uint color);
@@ -1329,16 +1420,16 @@ namespace Leptonica.Native
          internal static  extern int pixRenderBox(PIX* pix, BOX* box, int width, int op);
          internal static  extern int pixRenderBoxArb(PIX* pix, BOX* box, int width, byte rval, byte gval, byte bval);
          internal static  extern int pixRenderBoxBlend(PIX* pix, BOX* box, int width, byte rval, byte gval, byte bval, float fract);
-         internal static  extern int pixRenderBoxa(PIX* pix, BOXA* boxa, int width, int op);
-         internal static  extern int pixRenderBoxaArb(PIX* pix, BOXA* boxa, int width, byte rval, byte gval, byte bval);
-         internal static  extern int pixRenderBoxaBlend(PIX* pix, BOXA* boxa, int width, byte rval, byte gval, byte bval, float fract, int removedups);
+         internal static  extern int pixRenderBoxa(PIX* pix, HandleRef boxa, int width, int op);
+         internal static  extern int pixRenderBoxaArb(PIX* pix, HandleRef boxa, int width, byte rval, byte gval, byte bval);
+         internal static  extern int pixRenderBoxaBlend(PIX* pix, HandleRef boxa, int width, byte rval, byte gval, byte bval, float fract, int removedups);
          internal static  extern int pixRenderHashBox(PIX* pix, BOX* box, int spacing, int width, int orient, int outline, int op);
          internal static  extern int pixRenderHashBoxArb(PIX* pix, BOX* box, int spacing, int width, int orient, int outline, int rval, int gval, int bval);
          internal static  extern int pixRenderHashBoxBlend(PIX* pix, BOX* box, int spacing, int width, int orient, int outline, int rval, int gval, int bval, float fract);
          internal static  extern int pixRenderHashMaskArb(PIX* pix, PIX* pixm, int x, int y, int spacing, int width, int orient, int outline, int rval, int gval, int bval);
-         internal static  extern int pixRenderHashBoxa(PIX* pix, BOXA* boxa, int spacing, int width, int orient, int outline, int op);
-         internal static  extern int pixRenderHashBoxaArb(PIX* pix, BOXA* boxa, int spacing, int width, int orient, int outline, int rval, int gval, int bval);
-         internal static  extern int pixRenderHashBoxaBlend(PIX* pix, BOXA* boxa, int spacing, int width, int orient, int outline, int rval, int gval, int bval, float fract);
+         internal static  extern int pixRenderHashBoxa(PIX* pix, HandleRef boxa, int spacing, int width, int orient, int outline, int op);
+         internal static  extern int pixRenderHashBoxaArb(PIX* pix, HandleRef boxa, int spacing, int width, int orient, int outline, int rval, int gval, int bval);
+         internal static  extern int pixRenderHashBoxaBlend(PIX* pix, HandleRef boxa, int spacing, int width, int orient, int outline, int rval, int gval, int bval, float fract);
          internal static  extern int pixRenderPolyline(PIX* pix, PTA* ptas, int width, int op, int closeflag);
          internal static  extern int pixRenderPolylineArb(PIX* pix, PTA* ptas, int width, byte rval, byte gval, byte bval, int closeflag);
          internal static  extern int pixRenderPolylineBlend(PIX* pix, PTA* ptas, int width, byte rval, byte gval, byte bval, float fract, int closeflag, int removedups);
@@ -1372,8 +1463,8 @@ namespace Leptonica.Native
          internal static  extern PIX* pixThresholdTo4bpp(PIX* pixs, int nlevels, int cmapflag);
          internal static  extern PIX* pixThresholdOn8bpp(PIX* pixs, int nlevels, int cmapflag);
          internal static  extern PIX* pixThresholdGrayArb(PIX* pixs, const char* edgevals, int outdepth, int use_average, int setblack, int setwhite );
-         internal static  extern l_int32* makeGrayQuantIndexTable(l_int32 nlevels);
-         internal static  extern l_int32* makeGrayQuantTargetTable(l_int32 nlevels, int depth);
+         internal static  extern l_int32* makeGrayQuantIndexTable(int nlevels);
+         internal static  extern l_int32* makeGrayQuantTargetTable(int nlevels, int depth);
          internal static  extern int makeGrayQuantTableArb(NUMA* na, int outdepth, l_int32** ptab, PIXCMAP** pcmap);
          internal static  extern int makeGrayQuantColormapArb(PIX* pixs, l_int32* tab, int outdepth, PIXCMAP** pcmap);
          internal static  extern PIX* pixGenerateMaskByBand32(PIX* pixs, uint refval, int delm, int delp, float fractm, float fractp);
@@ -1389,7 +1480,7 @@ namespace Leptonica.Native
          internal static  extern int make8To2DitherTables(l_int32** ptabval, l_int32** ptab38, l_int32** ptab14, int cliptoblack, int cliptowhite);
          internal static  extern void thresholdTo2bppLow(l_uint32* datad, int h, int wpld, l_uint32* datas, int wpls, l_int32* tab);
          internal static  extern void thresholdTo4bppLow(l_uint32* datad, int h, int wpld, l_uint32* datas, int wpls, l_int32* tab);
-         internal static  extern L_HEAP* lheapCreate(l_int32 nalloc, int direction);
+         internal static  extern L_HEAP* lheapCreate(int nalloc, int direction);
          internal static  extern void lheapDestroy(L_HEAP** plh, int freeflag);
          internal static  extern int lheapAdd(L_HEAP* lh, void* item);
          internal static  extern void* lheapRemove(L_HEAP* lh);
@@ -1399,29 +1490,29 @@ namespace Leptonica.Native
          internal static  extern int lheapSort(L_HEAP* lh);
          internal static  extern int lheapSortStrictOrder(L_HEAP* lh);
          internal static  extern int lheapPrint(FILE* fp, L_HEAP* lh);
-         internal static  extern JBCLASSER* jbRankHausInit(l_int32 components, int maxwidth, int maxheight, int size, float rank);
-         internal static  extern JBCLASSER* jbCorrelationInit(l_int32 components, int maxwidth, int maxheight, float thresh, float weightfactor);
-         internal static  extern JBCLASSER* jbCorrelationInitWithoutComponents(l_int32 components, int maxwidth, int maxheight, float thresh, float weightfactor);
+         internal static  extern JBCLASSER* jbRankHausInit(int components, int maxwidth, int maxheight, int size, float rank);
+         internal static  extern JBCLASSER* jbCorrelationInit(int components, int maxwidth, int maxheight, float thresh, float weightfactor);
+         internal static  extern JBCLASSER* jbCorrelationInitWithoutComponents(int components, int maxwidth, int maxheight, float thresh, float weightfactor);
          internal static  extern int jbAddPages(JBCLASSER* classer, SARRAY* safiles);
          internal static  extern int jbAddPage(JBCLASSER* classer, PIX* pixs);
-         internal static  extern int jbAddPageComponents(JBCLASSER* classer, PIX* pixs, BOXA* boxas, PIXA* pixas);
-         internal static  extern int jbClassifyRankHaus(JBCLASSER* classer, BOXA* boxa, PIXA* pixas);
+         internal static  extern int jbAddPageComponents(JBCLASSER* classer, PIX* pixs, HandleRef boxas, PIXA* pixas);
+         internal static  extern int jbClassifyRankHaus(JBCLASSER* classer, HandleRef boxa, PIXA* pixas);
          internal static  extern int pixHaustest(PIX* pix1, PIX* pix2, PIX* pix3, PIX* pix4, float delx, float dely, int maxdiffw, int maxdiffh);
          internal static  extern int pixRankHaustest(PIX* pix1, PIX* pix2, PIX* pix3, PIX* pix4, float delx, float dely, int maxdiffw, int maxdiffh, int area1, int area3, float rank, l_int32* tab8);
-         internal static  extern int jbClassifyCorrelation(JBCLASSER* classer, BOXA* boxa, PIXA* pixas);
+         internal static  extern int jbClassifyCorrelation(JBCLASSER* classer, HandleRef boxa, PIXA* pixas);
          internal static  extern int jbGetComponents(PIX* pixs, int components, int maxwidth, int maxheight, BOXA** pboxad, PIXA** ppixad);
          internal static  extern int pixWordMaskByDilation(PIX* pixs, int maxdil, PIX** ppixm, l_int32* psize);
          internal static  extern int pixWordBoxesByDilation(PIX* pixs, int maxdil, int minwidth, int minheight, int maxwidth, int maxheight, BOXA** pboxa, l_int32* psize);
          internal static  extern PIXA* jbAccumulateComposites(PIXAA* pixaa, NUMA** pna, PTA** pptat);
          internal static  extern PIXA* jbTemplatesFromComposites(PIXA* pixac, NUMA* na);
-         internal static  extern JBCLASSER* jbClasserCreate(l_int32 method, int components);
+         internal static  extern JBCLASSER* jbClasserCreate(int method, int components);
          internal static  extern void jbClasserDestroy(JBCLASSER** pclasser);
          internal static  extern JBDATA* jbDataSave(JBCLASSER* classer);
          internal static  extern void jbDataDestroy(JBDATA** pdata);
          internal static  extern int jbDataWrite( const char* rootout, JBDATA *jbdata );
          internal static  extern JBDATA* jbDataRead( const char* rootname );
          internal static  extern PIXA* jbDataRender(JBDATA* data, int debugflag);
-         internal static  extern int jbGetULCorners(JBCLASSER* classer, PIX* pixs, BOXA* boxa);
+         internal static  extern int jbGetULCorners(JBCLASSER* classer, PIX* pixs, HandleRef boxa);
          internal static  extern int jbGetLLCorners(JBCLASSER* classer);
          internal static  extern int readHeaderJp2k( const char* filename, int *pw, l_int32* ph, int *pbps, l_int32* pspp );
          internal static  extern int freadHeaderJp2k(FILE* fp, l_int32* pw, l_int32* ph, l_int32* pbps, l_int32* pspp);
@@ -1445,7 +1536,7 @@ namespace Leptonica.Native
          internal static  extern int readHeaderMemJpeg( const l_uint8* data, size_t size, l_int32* pw, int *ph, l_int32* pspp, int *pycck, l_int32* pcmyk );
          internal static  extern int pixWriteMemJpeg(l_uint8** pdata, size_t* psize, PIX* pix, int quality, int progressive);
          internal static  extern int pixSetChromaSampling(PIX* pix, int sampling);
-         internal static  extern L_KERNEL* kernelCreate(l_int32 height, int width);
+         internal static  extern L_KERNEL* kernelCreate(int height, int width);
          internal static  extern void kernelDestroy(L_KERNEL** pkel);
          internal static  extern L_KERNEL* kernelCopy(L_KERNEL* kels);
          internal static  extern int kernelGetElement(L_KERNEL* kel, int row, int col, l_float32* pval);
@@ -1456,20 +1547,20 @@ namespace Leptonica.Native
          internal static  extern int kernelGetMinMax(L_KERNEL* kel, l_float32* pmin, l_float32* pmax);
          internal static  extern L_KERNEL* kernelNormalize(L_KERNEL* kels, float normsum);
          internal static  extern L_KERNEL* kernelInvert(L_KERNEL* kels);
-         internal static  extern l_float32** create2dFloatArray(l_int32 sy, int sx);
+         internal static  extern l_float32** create2dFloatArray(int sy, int sx);
          internal static  extern L_KERNEL* kernelRead( const char* fname );
          internal static  extern L_KERNEL* kernelReadStream(FILE* fp);
          internal static  extern int kernelWrite( const char* fname, L_KERNEL *kel );
          internal static  extern int kernelWriteStream(FILE* fp, L_KERNEL* kel);
-         internal static  extern L_KERNEL* kernelCreateFromString(l_int32 h, int w, int cy, int cx, const char* kdata );
+         internal static  extern L_KERNEL* kernelCreateFromString(int h, int w, int cy, int cx, const char* kdata );
          internal static  extern L_KERNEL* kernelCreateFromFile( const char* filename );
          internal static  extern L_KERNEL* kernelCreateFromPix(PIX* pix, int cy, int cx);
          internal static  extern PIX* kernelDisplayInPix(L_KERNEL* kel, int size, int gthick);
          internal static  extern NUMA* parseStringForNumbers( const char* str, const char* seps );
-         internal static  extern L_KERNEL* makeFlatKernel(l_int32 height, int width, int cy, int cx);
-         internal static  extern L_KERNEL* makeGaussianKernel(l_int32 halfheight, int halfwidth, float stdev, float max);
-         internal static  extern int makeGaussianKernelSep(l_int32 halfheight, int halfwidth, float stdev, float max, L_KERNEL** pkelx, L_KERNEL** pkely);
-         internal static  extern L_KERNEL* makeDoGKernel(l_int32 halfheight, int halfwidth, float stdev, float ratio);
+         internal static  extern L_KERNEL* makeFlatKernel(int height, int width, int cy, int cx);
+         internal static  extern L_KERNEL* makeGaussianKernel(int halfheight, int halfwidth, float stdev, float max);
+         internal static  extern int makeGaussianKernelSep(int halfheight, int halfwidth, float stdev, float max, L_KERNEL** pkelx, L_KERNEL** pkely);
+         internal static  extern L_KERNEL* makeDoGKernel(int halfheight, int halfwidth, float stdev, float ratio);
          internal static  extern char* getImagelibVersions();
          internal static  extern void listDestroy(DLLIST** phead);
          internal static  extern int listAddToHead(DLLIST** phead, void* data);
@@ -1484,7 +1575,7 @@ namespace Leptonica.Native
          internal static  extern int listGetCount(DLLIST* head);
          internal static  extern int listReverse(DLLIST** phead);
          internal static  extern int listJoin(DLLIST** phead1, DLLIST** phead2);
-         internal static  extern L_AMAP* l_amapCreate(l_int32 keytype);
+         internal static  extern L_AMAP* l_amapCreate(int keytype);
          internal static  extern RB_TYPE* l_amapFind(L_AMAP* m, RB_TYPE key);
          internal static  extern void l_amapInsert(L_AMAP* m, RB_TYPE key, RB_TYPE value);
          internal static  extern void l_amapDelete(L_AMAP* m, RB_TYPE key);
@@ -1494,7 +1585,7 @@ namespace Leptonica.Native
          internal static  extern L_AMAP_NODE* l_amapGetLast(L_AMAP* m);
          internal static  extern L_AMAP_NODE* l_amapGetPrev(L_AMAP_NODE* n);
          internal static  extern int l_amapSize(L_AMAP* m);
-         internal static  extern L_ASET* l_asetCreate(l_int32 keytype);
+         internal static  extern L_ASET* l_asetCreate(int keytype);
          internal static  extern RB_TYPE* l_asetFind(L_ASET* s, RB_TYPE key);
          internal static  extern void l_asetInsert(L_ASET* s, RB_TYPE key);
          internal static  extern void l_asetDelete(L_ASET* s, RB_TYPE key);
@@ -1504,7 +1595,7 @@ namespace Leptonica.Native
          internal static  extern L_ASET_NODE* l_asetGetLast(L_ASET* s);
          internal static  extern L_ASET_NODE* l_asetGetPrev(L_ASET_NODE* n);
          internal static  extern int l_asetSize(L_ASET* s);
-         internal static  extern PIX* generateBinaryMaze(l_int32 w, int h, int xi, int yi, float wallps, float ranis);
+         internal static  extern PIX* generateBinaryMaze(int w, int h, int xi, int yi, float wallps, float ranis);
          internal static  extern PTA* pixSearchBinaryMaze(PIX* pixs, int xi, int yi, int xf, int yf, PIX** ppixd);
          internal static  extern PTA* pixSearchGrayMaze(PIX* pixs, int xi, int yi, int xf, int yf, PIX** ppixd);
          internal static  extern PIX* pixDilate(PIX* pixd, PIX* pixs, SEL* sel);
@@ -1520,15 +1611,15 @@ namespace Leptonica.Native
          internal static  extern PIX* pixOpenBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
          internal static  extern PIX* pixCloseBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
          internal static  extern PIX* pixCloseSafeBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-         internal static  extern int selectComposableSels(l_int32 size, int direction, SEL** psel1, SEL** psel2);
-         internal static  extern int selectComposableSizes(l_int32 size, l_int32* pfactor1, l_int32* pfactor2);
+         internal static  extern int selectComposableSels(int size, int direction, SEL** psel1, SEL** psel2);
+         internal static  extern int selectComposableSizes(int size, l_int32* pfactor1, l_int32* pfactor2);
          internal static  extern PIX* pixDilateCompBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
          internal static  extern PIX* pixErodeCompBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
          internal static  extern PIX* pixOpenCompBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
          internal static  extern PIX* pixCloseCompBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
          internal static  extern PIX* pixCloseSafeCompBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-         internal static  extern void resetMorphBoundaryCondition(l_int32 bc);
-         internal static  extern uint getMorphBorderPixelColor(l_int32 type, int depth);
+         internal static  extern void resetMorphBoundaryCondition(int bc);
+         internal static  extern uint getMorphBorderPixelColor(int type, int depth);
          internal static  extern PIX* pixExtractBoundary(PIX* pixs, int type);
          internal static  extern PIX* pixMorphSequenceMasked(PIX* pixs, PIX* pixm, const char* sequence, int dispsep );
          internal static  extern PIX* pixMorphSequenceByComponent(PIX* pixs, const char* sequence, int connectivity, int minw, int minh, BOXA** pboxa );
@@ -1562,7 +1653,7 @@ namespace Leptonica.Native
          internal static  extern PIX* pixErodeCompBrickExtendDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
          internal static  extern PIX* pixOpenCompBrickExtendDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
          internal static  extern PIX* pixCloseCompBrickExtendDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-         internal static  extern int getExtendedCompositeParameters(l_int32 size, l_int32* pn, l_int32* pextra, l_int32* pactualsize);
+         internal static  extern int getExtendedCompositeParameters(int size, l_int32* pn, l_int32* pextra, l_int32* pactualsize);
          internal static  extern PIX* pixMorphSequence(PIX* pixs, const char* sequence, int dispsep );
          internal static  extern PIX* pixMorphCompSequence(PIX* pixs, const char* sequence, int dispsep );
          internal static  extern PIX* pixMorphSequenceDwa(PIX* pixs, const char* sequence, int dispsep );
@@ -1570,7 +1661,7 @@ namespace Leptonica.Native
          internal static  extern int morphSequenceVerify(SARRAY* sa);
          internal static  extern PIX* pixGrayMorphSequence(PIX* pixs, const char* sequence, int dispsep, int dispy );
          internal static  extern PIX* pixColorMorphSequence(PIX* pixs, const char* sequence, int dispsep, int dispy );
-         internal static  extern NUMA* numaCreate(l_int32 n);
+         internal static  extern NUMA* numaCreate(int n);
          internal static  extern NUMA* numaCreateFromIArray(l_int32* iarray, int size);
          internal static  extern NUMA* numaCreateFromFArray(l_float32* farray, int size, int copyflag);
          internal static  extern NUMA* numaCreateFromString( const char* str );
@@ -1602,8 +1693,8 @@ namespace Leptonica.Native
          internal static  extern int numaWrite( const char* filename, NUMA *na );
          internal static  extern int numaWriteStream(FILE* fp, NUMA* na);
          internal static  extern int numaWriteMem(l_uint8** pdata, size_t* psize, NUMA* na);
-         internal static  extern NUMAA* numaaCreate(l_int32 n);
-         internal static  extern NUMAA* numaaCreateFull(l_int32 nptr, int n);
+         internal static  extern NUMAA* numaaCreate(int n);
+         internal static  extern NUMAA* numaaCreateFull(int nptr, int n);
          internal static  extern int numaaTruncate(NUMAA* naa);
          internal static  extern void numaaDestroy(NUMAA** pnaa);
          internal static  extern int numaaAddNuma(NUMAA* naa, NUMA* na, int copyflag);
@@ -1670,7 +1761,7 @@ namespace Leptonica.Native
          internal static  extern int numaIsSorted(NUMA* nas, int sortorder, l_int32* psorted);
          internal static  extern int numaSortPair(NUMA* nax, NUMA* nay, int sortorder, NUMA** pnasx, NUMA** pnasy);
          internal static  extern NUMA* numaInvertMap(NUMA* nas);
-         internal static  extern NUMA* numaPseudorandomSequence(l_int32 size, int seed);
+         internal static  extern NUMA* numaPseudorandomSequence(int size, int seed);
          internal static  extern NUMA* numaRandomPermutation(NUMA* nas, int seed);
          internal static  extern int numaGetRankValue(NUMA* na, float fract, NUMA* nasort, int usebins, l_float32* pval);
          internal static  extern int numaGetMedian(NUMA* na, l_float32* pval);
@@ -1717,7 +1808,7 @@ namespace Leptonica.Native
          internal static  extern NUMA* numaCrossingsByPeaks(NUMA* nax, NUMA* nay, float delta);
          internal static  extern int numaEvalBestHaarParameters(NUMA* nas, float relweight, int nwidth, int nshift, float minwidth, float maxwidth, l_float32* pbestwidth, l_float32* pbestshift, l_float32* pbestscore);
          internal static  extern int numaEvalHaarSum(NUMA* nas, float width, float shift, float relweight, l_float32* pscore);
-         internal static  extern NUMA* genConstrainedNumaInRange(l_int32 first, int last, int nmax, int use_pairs);
+         internal static  extern NUMA* genConstrainedNumaInRange(int first, int last, int nmax, int use_pairs);
          internal static  extern int pixGetRegionsBinary(PIX* pixs, PIX** ppixhm, PIX** ppixtm, PIX** ppixtb, PIXA* pixadb);
          internal static  extern PIX* pixGenHalftoneMask(PIX* pixs, PIX** ppixtext, l_int32* phtfound, int debug);
          internal static  extern PIX* pixGenerateHalftoneMask(PIX* pixs, PIX** ppixtext, l_int32* phtfound, PIXA* pixadb);
@@ -1737,7 +1828,7 @@ namespace Leptonica.Native
          internal static  extern int pixFindLargeRectangles(PIX* pixs, int polarity, int nrect, BOXA** pboxa, PIX** ppixdb);
          internal static  extern int pixFindLargestRectangle(PIX* pixs, int polarity, BOX** pbox, PIX** ppixdb);
          internal static  extern int pixSetSelectCmap(PIX* pixs, BOX* box, int sindex, int rval, int gval, int bval);
-         internal static  extern int pixColorGrayRegionsCmap(PIX* pixs, BOXA* boxa, int type, int rval, int gval, int bval);
+         internal static  extern int pixColorGrayRegionsCmap(PIX* pixs, HandleRef boxa, int type, int rval, int gval, int bval);
          internal static  extern int pixColorGrayCmap(PIX* pixs, BOX* box, int type, int rval, int gval, int bval);
          internal static  extern int pixColorGrayMaskedCmap(PIX* pixs, PIX* pixm, int type, int rval, int gval, int bval);
          internal static  extern int addColorizedGrayToCmap(PIXCMAP* cmap, int type, int rval, int gval, int bval, NUMA** pna);
@@ -1765,10 +1856,10 @@ namespace Leptonica.Native
          internal static  extern int pixWriteMemPdf(l_uint8** pdata, size_t* pnbytes, PIX* pix, int res, const char* title );
          internal static  extern int convertSegmentedFilesToPdf( const char* dirname, const char* substr, int res, int type, int thresh, BOXAA* baa, int quality, float scalefactor, const char* title, const char* fileout );
          internal static  extern BOXAA* convertNumberedMasksToBoxaa( const char* dirname, const char* substr, int numpre, int numpost );
-         internal static  extern int convertToPdfSegmented( const char* filein, int res, int type, int thresh, BOXA* boxa, int quality, float scalefactor, const char* title, const char* fileout );
-         internal static  extern int pixConvertToPdfSegmented(PIX* pixs, int res, int type, int thresh, BOXA* boxa, int quality, float scalefactor, const char* title, const char* fileout );
-         internal static  extern int convertToPdfDataSegmented( const char* filein, int res, int type, int thresh, BOXA* boxa, int quality, float scalefactor, const char* title, byte **pdata, size_t* pnbytes );
-         internal static  extern int pixConvertToPdfDataSegmented(PIX* pixs, int res, int type, int thresh, BOXA* boxa, int quality, float scalefactor, const char* title, byte **pdata, size_t* pnbytes );
+         internal static  extern int convertToPdfSegmented( const char* filein, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, const char* title, const char* fileout );
+         internal static  extern int pixConvertToPdfSegmented(PIX* pixs, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, const char* title, const char* fileout );
+         internal static  extern int convertToPdfDataSegmented( const char* filein, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, const char* title, byte **pdata, size_t* pnbytes );
+         internal static  extern int pixConvertToPdfDataSegmented(PIX* pixs, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, const char* title, byte **pdata, size_t* pnbytes );
          internal static  extern int concatenatePdf( const char* dirname, const char* substr, const char* fileout );
          internal static  extern int saConcatenatePdf(SARRAY* sa, const char* fileout );
          internal static  extern int ptraConcatenatePdf(L_PTRA* pa, const char* fileout );
@@ -1786,14 +1877,14 @@ namespace Leptonica.Native
          internal static  extern L_COMP_DATA* l_generateG4Data( const char* fname, int ascii85flag );
          internal static  extern int cidConvertToPdfData(L_COMP_DATA* cid, const char* title, byte **pdata, size_t* pnbytes );
          internal static  extern void l_CIDataDestroy(L_COMP_DATA** pcid);
-         internal static  extern void l_pdfSetG4ImageMask(l_int32 flag);
-         internal static  extern void l_pdfSetDateAndVersion(l_int32 flag);
+         internal static  extern void l_pdfSetG4ImageMask(int flag);
+         internal static  extern void l_pdfSetDateAndVersion(int flag);
          internal static  extern void setPixMemoryManager(alloc_fn allocator, dealloc_fn deallocator);
-         internal static  extern PIX* pixCreate(l_int32 width, int height, int depth);
-         internal static  extern PIX* pixCreateNoInit(l_int32 width, int height, int depth);
+         internal static  extern PIX* pixCreate(int width, int height, int depth);
+         internal static  extern PIX* pixCreateNoInit(int width, int height, int depth);
          internal static  extern PIX* pixCreateTemplate(PIX* pixs);
          internal static  extern PIX* pixCreateTemplateNoInit(PIX* pixs);
-         internal static  extern PIX* pixCreateHeader(l_int32 width, int height, int depth);
+         internal static  extern PIX* pixCreateHeader(int width, int height, int depth);
          internal static  extern PIX* pixClone(PIX* pixs);
          internal static  extern void pixDestroy(PIX** ppix);
          internal static  extern PIX* pixCopy(PIX* pixd, PIX* pixs);
@@ -1886,8 +1977,8 @@ namespace Leptonica.Native
          internal static  extern int pixSetRGBComponent(PIX* pixd, PIX* pixs, int comp);
          internal static  extern PIX* pixGetRGBComponentCmap(PIX* pixs, int comp);
          internal static  extern int pixCopyRGBComponent(PIX* pixd, PIX* pixs, int comp);
-         internal static  extern int composeRGBPixel(l_int32 rval, int gval, int bval, l_uint32* ppixel);
-         internal static  extern int composeRGBAPixel(l_int32 rval, int gval, int bval, int aval, l_uint32* ppixel);
+         internal static  extern int composeRGBPixel(int rval, int gval, int bval, l_uint32* ppixel);
+         internal static  extern int composeRGBAPixel(int rval, int gval, int bval, int aval, l_uint32* ppixel);
          internal static  extern void extractRGBValues(l_uint32 pixel, l_int32* prval, l_int32* pgval, l_int32* pbval);
          internal static  extern void extractRGBAValues(l_uint32 pixel, l_int32* prval, l_int32* pgval, l_int32* pbval, l_int32* paval);
          internal static  extern int extractMinMaxComponent(l_uint32 pixel, int type);
@@ -1997,13 +2088,13 @@ namespace Leptonica.Native
          internal static  extern int pixFindOverlapFraction(PIX* pixs1, PIX* pixs2, int x2, int y2, l_int32* tab, l_float32* pratio, l_int32* pnoverlap);
          internal static  extern BOXA* pixFindRectangleComps(PIX* pixs, int dist, int minw, int minh);
          internal static  extern int pixConformsToRectangle(PIX* pixs, BOX* box, int dist, l_int32* pconforms);
-         internal static  extern PIXA* pixClipRectangles(PIX* pixs, BOXA* boxa);
+         internal static  extern PIXA* pixClipRectangles(PIX* pixs, HandleRef boxa);
          internal static  extern PIX* pixClipRectangle(PIX* pixs, BOX* box, BOX** pboxc);
          internal static  extern PIX* pixClipMasked(PIX* pixs, PIX* pixm, int x, int y, uint outval);
          internal static  extern int pixCropToMatch(PIX* pixs1, PIX* pixs2, PIX** ppixd1, PIX** ppixd2);
          internal static  extern PIX* pixCropToSize(PIX* pixs, int w, int h);
          internal static  extern PIX* pixResizeToMatch(PIX* pixs, PIX* pixt, int w, int h);
-         internal static  extern PIX* pixMakeFrameMask(l_int32 w, int h, float hf1, float hf2, float vf1, float vf2);
+         internal static  extern PIX* pixMakeFrameMask(int w, int h, float hf1, float hf2, float vf1, float vf2);
          internal static  extern int pixFractionFgInMask(PIX* pix1, PIX* pix2, l_float32* pfract);
          internal static  extern int pixClipToForeground(PIX* pixs, PIX** ppixd, BOX** pbox);
          internal static  extern int pixTestClipToForeground(PIX* pixs, l_int32* pcanclip);
@@ -2019,9 +2110,9 @@ namespace Leptonica.Native
          internal static  extern int pixMinMaxNearLine(PIX* pixs, int x1, int y1, int x2, int y2, int dist, int direction, NUMA** pnamin, NUMA** pnamax, l_float32* pminave, l_float32* pmaxave);
          internal static  extern PIX* pixRankRowTransform(PIX* pixs);
          internal static  extern PIX* pixRankColumnTransform(PIX* pixs);
-         internal static  extern PIXA* pixaCreate(l_int32 n);
+         internal static  extern PIXA* pixaCreate(int n);
          internal static  extern PIXA* pixaCreateFromPix(PIX* pixs, int n, int cellw, int cellh);
-         internal static  extern PIXA* pixaCreateFromBoxa(PIX* pixs, BOXA* boxa, l_int32* pcropwarn);
+         internal static  extern PIXA* pixaCreateFromBoxa(PIX* pixs, HandleRef boxa, l_int32* pcropwarn);
          internal static  extern PIXA* pixaSplitPix(PIX* pixs, int nx, int ny, int borderwidth, uint bordercolor);
          internal static  extern void pixaDestroy(PIXA** ppixa);
          internal static  extern PIXA* pixaCopy(PIXA* pixa, int copyflag);
@@ -2036,7 +2127,7 @@ namespace Leptonica.Native
          internal static  extern int pixaGetBoxaCount(PIXA* pixa);
          internal static  extern BOX* pixaGetBox(PIXA* pixa, int index, int accesstype);
          internal static  extern int pixaGetBoxGeometry(PIXA* pixa, int index, l_int32* px, l_int32* py, l_int32* pw, l_int32* ph);
-         internal static  extern int pixaSetBoxa(PIXA* pixa, BOXA* boxa, int accesstype);
+         internal static  extern int pixaSetBoxa(PIXA* pixa, HandleRef boxa, int accesstype);
          internal static  extern PIX** pixaGetPixArray(PIXA* pixa);
          internal static  extern int pixaVerifyDepth(PIXA* pixa, l_int32* pmaxdepth);
          internal static  extern int pixaIsFull(PIXA* pixa, l_int32* pfullpa, l_int32* pfullba);
@@ -2053,7 +2144,7 @@ namespace Leptonica.Native
          internal static  extern int pixaJoin(PIXA* pixad, PIXA* pixas, int istart, int iend);
          internal static  extern PIXA* pixaInterleave(PIXA* pixa1, PIXA* pixa2, int copyflag);
          internal static  extern int pixaaJoin(PIXAA* paad, PIXAA* paas, int istart, int iend);
-         internal static  extern PIXAA* pixaaCreate(l_int32 n);
+         internal static  extern PIXAA* pixaaCreate(int n);
          internal static  extern PIXAA* pixaaCreateFromPixa(PIXA* pixa, int n, int type, int copyflag);
          internal static  extern void pixaaDestroy(PIXAA** ppaa);
          internal static  extern int pixaaAddPixa(PIXAA* paa, PIXA* pixa, int copyflag);
@@ -2084,7 +2175,7 @@ namespace Leptonica.Native
          internal static  extern int pixaaWrite( const char* filename, PIXAA *paa );
          internal static  extern int pixaaWriteStream(FILE* fp, PIXAA* paa);
          internal static  extern int pixaaWriteMem(l_uint8** pdata, size_t* psize, PIXAA* paa);
-         internal static  extern PIXACC* pixaccCreate(l_int32 w, int h, int negflag);
+         internal static  extern PIXACC* pixaccCreate(int w, int h, int negflag);
          internal static  extern PIXACC* pixaccCreateFromPix(PIX* pix, int negflag);
          internal static  extern void pixaccDestroy(PIXACC** ppixacc);
          internal static  extern PIX* pixaccFinal(PIXACC* pixacc, int outdepth);
@@ -2176,7 +2267,7 @@ namespace Leptonica.Native
          internal static  extern PIX* pixAddGray(PIX* pixd, PIX* pixs1, PIX* pixs2);
          internal static  extern PIX* pixSubtractGray(PIX* pixd, PIX* pixs1, PIX* pixs2);
          internal static  extern PIX* pixThresholdToValue(PIX* pixd, PIX* pixs, int threshval, int setval);
-         internal static  extern PIX* pixInitAccumulate(l_int32 w, int h, uint offset);
+         internal static  extern PIX* pixInitAccumulate(int w, int h, uint offset);
          internal static  extern PIX* pixFinalAccumulate(PIX* pixs, uint offset, int depth);
          internal static  extern PIX* pixFinalAccumulateThreshold(PIX* pixs, uint offset, uint threshold);
          internal static  extern int pixAccumulate(PIX* pixd, PIX* pixs, int op);
@@ -2189,17 +2280,17 @@ namespace Leptonica.Native
          internal static  extern uint linearScaleRGBVal(l_uint32 sval, float factor);
          internal static  extern uint logScaleRGBVal(l_uint32 sval, l_float32* tab, float factor);
          internal static  extern l_float32* makeLogBase2Tab(void );
-         internal static  extern float getLogBase2(l_int32 val, l_float32* logtab);
+         internal static  extern float getLogBase2(int val, l_float32* logtab);
          internal static  extern PIXC* pixcompCreateFromPix(PIX* pix, int comptype);
          internal static  extern PIXC* pixcompCreateFromString(l_uint8* data, size_t size, int copyflag);
          internal static  extern PIXC* pixcompCreateFromFile( const char* filename, int comptype );
          internal static  extern void pixcompDestroy(PIXC** ppixc);
          internal static  extern PIXC* pixcompCopy(PIXC* pixcs);
          internal static  extern int pixcompGetDimensions(PIXC* pixc, l_int32* pw, l_int32* ph, l_int32* pd);
-         internal static  extern int pixcompDetermineFormat(l_int32 comptype, int d, int cmapflag, l_int32* pformat);
+         internal static  extern int pixcompDetermineFormat(int comptype, int d, int cmapflag, l_int32* pformat);
          internal static  extern PIX* pixCreateFromPixcomp(PIXC* pixc);
-         internal static  extern PIXAC* pixacompCreate(l_int32 n);
-         internal static  extern PIXAC* pixacompCreateWithInit(l_int32 n, int offset, PIX* pix, int comptype);
+         internal static  extern PIXAC* pixacompCreate(int n);
+         internal static  extern PIXAC* pixacompCreateWithInit(int n, int offset, PIX* pix, int comptype);
          internal static  extern PIXAC* pixacompCreateFromPixa(PIXA* pixa, int comptype, int accesstype);
          internal static  extern PIXAC* pixacompCreateFromFiles( const char* dirname, const char* substr, int comptype );
          internal static  extern PIXAC* pixacompCreateFromSA(SARRAY* sa, int comptype);
@@ -2286,7 +2377,7 @@ namespace Leptonica.Native
          internal static  extern PIX* pixConvertToSubpixelRGB(PIX* pixs, float scalex, float scaley, int order);
          internal static  extern PIX* pixConvertGrayToSubpixelRGB(PIX* pixs, float scalex, float scaley, int order);
          internal static  extern PIX* pixConvertColorToSubpixelRGB(PIX* pixs, float scalex, float scaley, int order);
-         internal static  extern void l_setNeutralBoostVal(l_int32 val);
+         internal static  extern void l_setNeutralBoostVal(int val);
          internal static  extern PIX* pixConnCompTransform(PIX* pixs, int connect, int depth);
          internal static  extern PIX* pixConnCompAreaTransform(PIX* pixs, int connect);
          internal static  extern int pixConnCompIncrInit(PIX* pixs, int conn, PIX** ppixd, PTAA** pptaa, l_int32* pncc);
@@ -2310,7 +2401,7 @@ namespace Leptonica.Native
          internal static  extern int pixWritePng( const char* filename, PIX *pix, float gamma );
          internal static  extern int pixWriteStreamPng(FILE* fp, PIX* pix, float gamma);
          internal static  extern int pixSetZlibCompression(PIX* pix, int compval);
-         internal static  extern void l_pngSetReadStrip16To8(l_int32 flag);
+         internal static  extern void l_pngSetReadStrip16To8(int flag);
          internal static  extern PIX* pixReadMemPng( const l_uint8* filedata, size_t filesize );
          internal static  extern int pixWriteMemPng(l_uint8** pfiledata, size_t* pfilesize, PIX* pix, float gamma);
          internal static  extern PIX* pixReadStreamPnm(FILE* fp);
@@ -2349,7 +2440,7 @@ namespace Leptonica.Native
          internal static  extern int pixWriteStreamPS(FILE* fp, PIX* pix, BOX* box, int res, float scale);
          internal static  extern char* pixWriteStringPS(PIX* pixs, BOX* box, int res, float scale);
          internal static  extern char* generateUncompressedPS(char* hexdata, int w, int h, int d, int psbpl, int bps, float xpt, float ypt, float wpt, float hpt, int boxflag);
-         internal static  extern void getScaledParametersPS(BOX* box, int wpix, int hpix, int res, float scale, l_float32* pxpt, l_float32* pypt, l_float32* pwpt, l_float32* phpt);
+         internal static  extern void getScaledParametersPS(HandleRef box, int wpix, int hpix, int res, float scale, l_float32* pxpt, l_float32* pypt, l_float32* pwpt, l_float32* phpt);
          internal static  extern void convertByteToHexAscii(l_uint8 byteval, char* pnib1, char* pnib2);
          internal static  extern int convertJpegToPSEmbed( const char* filein, const char* fileout );
          internal static  extern int convertJpegToPS( const char* filein, const char* fileout, const char* operation, int x, int y, int res, float scale, int pageno, int endpage );
@@ -2365,10 +2456,10 @@ namespace Leptonica.Native
          internal static  extern int convertFlateToPSString( const char* filein, char** poutstr, int *pnbytes, int x, int y, int res, float scale, int pageno, int endpage );
          internal static  extern char* generateFlatePS( const char* filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int pageno, int endpage );
          internal static  extern int pixWriteMemPS(l_uint8** pdata, size_t* psize, PIX* pix, BOX* box, int res, float scale);
-         internal static  extern int getResLetterPage(l_int32 w, int h, float fillfract);
-         internal static  extern int getResA4Page(l_int32 w, int h, float fillfract);
-         internal static  extern void l_psWriteBoundingBox(l_int32 flag);
-         internal static  extern PTA* ptaCreate(l_int32 n);
+         internal static  extern int getResLetterPage(int w, int h, float fillfract);
+         internal static  extern int getResA4Page(int w, int h, float fillfract);
+         internal static  extern void l_psWriteBoundingBox(int flag);
+         internal static  extern PTA* ptaCreate(int n);
          internal static  extern PTA* ptaCreateFromNuma(NUMA* nax, NUMA* nay);
          internal static  extern void ptaDestroy(PTA** ppta);
          internal static  extern PTA* ptaCopy(HandleRef pta);
@@ -2391,7 +2482,7 @@ namespace Leptonica.Native
          internal static  extern int ptaWrite( const char* filename, PTA *pta, int type );
          internal static  extern int ptaWriteStream(FILE* fp, PTA* pta, int type);
          internal static  extern int ptaWriteMem(l_uint8** pdata, size_t* psize, PTA* pta, int type);
-         internal static  extern PTAA* ptaaCreate(l_int32 n);
+         internal static  extern PTAA* ptaaCreate(int n);
          internal static  extern void ptaaDestroy(PTAA** pptaa);
          internal static  extern int ptaaAddPta(PTAA* ptaa, PTA* pta, int copyflag);
          internal static  extern int ptaaGetCount(PTAA* ptaa);
@@ -2465,7 +2556,7 @@ namespace Leptonica.Native
          internal static  extern PTA* ptaIntersectionByHash(HandleRef pta1, PTA* pta2);
          internal static  extern int ptaFindPtByHash(HandleRef pta, L_DNAHASH* dahash, int x, int y, l_int32* pindex);
          internal static  extern L_DNAHASH* l_dnaHashCreateFromPta(HandleRef pta);
-         internal static  extern L_PTRA* ptraCreate(l_int32 n);
+         internal static  extern L_PTRA* ptraCreate(int n);
          internal static  extern void ptraDestroy(L_PTRA** ppa, int freeflag, int warnflag);
          internal static  extern int ptraAdd(L_PTRA* pa, void* item);
          internal static  extern int ptraInsert(L_PTRA* pa, int index, void* item, int shiftflag);
@@ -2479,7 +2570,7 @@ namespace Leptonica.Native
          internal static  extern int ptraGetMaxIndex(L_PTRA* pa, l_int32* pmaxindex);
          internal static  extern int ptraGetActualCount(L_PTRA* pa, l_int32* pcount);
          internal static  extern void* ptraGetPtrToItem(L_PTRA* pa, int index);
-         internal static  extern L_PTRAA* ptraaCreate(l_int32 n);
+         internal static  extern L_PTRAA* ptraaCreate(int n);
          internal static  extern void ptraaDestroy(L_PTRAA** ppaa, int freeflag, int warnflag);
          internal static  extern int ptraaGetSize(L_PTRAA* paa, l_int32* psize);
          internal static  extern int ptraaInsertPtra(L_PTRAA* paa, int index, L_PTRA* pa);
@@ -2489,12 +2580,12 @@ namespace Leptonica.Native
          internal static  extern int pixQuadtreeVariance(PIX* pixs, int nlevels, PIX* pix_ma, DPIX* dpix_msa, FPIXA** pfpixa_v, FPIXA** pfpixa_rv);
          internal static  extern int pixMeanInRectangle(PIX* pixs, BOX* box, PIX* pixma, l_float32* pval);
          internal static  extern int pixVarianceInRectangle(PIX* pixs, BOX* box, PIX* pix_ma, DPIX* dpix_msa, l_float32* pvar, l_float32* prvar);
-         internal static  extern BOXAA* boxaaQuadtreeRegions(l_int32 w, int h, int nlevels);
+         internal static  extern BOXAA* boxaaQuadtreeRegions(int w, int h, int nlevels);
          internal static  extern int quadtreeGetParent(FPIXA* fpixa, int level, int x, int y, l_float32* pval);
          internal static  extern int quadtreeGetChildren(FPIXA* fpixa, int level, int x, int y, l_float32* pval00, l_float32* pval10, l_float32* pval01, l_float32* pval11);
-         internal static  extern int quadtreeMaxLevels(l_int32 w, int h);
+         internal static  extern int quadtreeMaxLevels(int w, int h);
          internal static  extern PIX* fpixaDisplayQuadtree(FPIXA* fpixa, int factor, int fontsize);
-         internal static  extern L_QUEUE* lqueueCreate(l_int32 nalloc);
+         internal static  extern L_QUEUE* lqueueCreate(int nalloc);
          internal static  extern void lqueueDestroy(L_QUEUE** plq, int freeflag);
          internal static  extern int lqueueAdd(L_QUEUE* lq, void* item);
          internal static  extern void* lqueueRemove(L_QUEUE* lq);
@@ -2505,7 +2596,7 @@ namespace Leptonica.Native
          internal static  extern PIX* pixRankFilterGray(PIX* pixs, int wf, int hf, float rank);
          internal static  extern PIX* pixMedianFilter(PIX* pixs, int wf, int hf);
          internal static  extern PIX* pixRankFilterWithScaling(PIX* pixs, int wf, int hf, float rank, float scalefactor);
-         internal static  extern L_RBTREE* l_rbtreeCreate(l_int32 keytype);
+         internal static  extern L_RBTREE* l_rbtreeCreate(int keytype);
          internal static  extern RB_TYPE* l_rbtreeLookup(L_RBTREE* t, RB_TYPE key);
          internal static  extern void l_rbtreeInsert(L_RBTREE* t, RB_TYPE key, RB_TYPE value);
          internal static  extern void l_rbtreeDelete(L_RBTREE* t, RB_TYPE key);
@@ -2545,7 +2636,7 @@ namespace Leptonica.Native
          internal static  extern L_RECOG* recogCreateFromRecog(L_RECOG* recs, int scalew, int scaleh, int linew, int threshold, int maxyshift);
          internal static  extern L_RECOG* recogCreateFromPixa(PIXA* pixa, int scalew, int scaleh, int linew, int threshold, int maxyshift);
          internal static  extern L_RECOG* recogCreateFromPixaNoFinish(PIXA* pixa, int scalew, int scaleh, int linew, int threshold, int maxyshift);
-         internal static  extern L_RECOG* recogCreate(l_int32 scalew, int scaleh, int linew, int threshold, int maxyshift);
+         internal static  extern L_RECOG* recogCreate(int scalew, int scaleh, int linew, int threshold, int maxyshift);
          internal static  extern void recogDestroy(L_RECOG** precog);
          internal static  extern int recogGetCount(L_RECOG* recog);
          internal static  extern int recogSetParams(L_RECOG* recog, int type, int min_nopad, float max_wh_ratio, float max_ht_ratio);
@@ -2578,7 +2669,7 @@ namespace Leptonica.Native
          internal static  extern int rchaExtract(L_RCHA* rcha, NUMA** pnaindex, NUMA** pnascore, SARRAY** psatext, NUMA** pnasample, NUMA** pnaxloc, NUMA** pnayloc, NUMA** pnawidth);
          internal static  extern int rchExtract(L_RCH* rch, l_int32* pindex, l_float32* pscore, char** ptext, l_int32* psample, l_int32* pxloc, l_int32* pyloc, l_int32* pwidth);
          internal static  extern PIX* recogProcessToIdentify(L_RECOG* recog, PIX* pixs, int pad);
-         internal static  extern SARRAY* recogExtractNumbers(L_RECOG* recog, BOXA* boxas, float scorethresh, int spacethresh, BOXAA** pbaa, NUMAA** pnaa);
+         internal static  extern SARRAY* recogExtractNumbers(L_RECOG* recog, HandleRef boxas, float scorethresh, int spacethresh, BOXAA** pbaa, NUMAA** pnaa);
          internal static  extern PIXA* showExtractNumbers(PIX* pixs, SARRAY* sa, BOXAA* baa, NUMAA* naa, PIX** ppixdb);
          internal static  extern int recogTrainLabeled(L_RECOG* recog, PIX* pixs, BOX* box, char* text, int debug);
          internal static  extern int recogProcessLabeled(L_RECOG* recog, PIX* pixs, BOX* box, char* text, PIX** ppix);
@@ -2597,14 +2688,14 @@ namespace Leptonica.Native
          internal static  extern int recogPadDigitTrainingSet(L_RECOG** precog, int scaleh, int linew);
          internal static  extern int recogIsPaddingNeeded(L_RECOG* recog, SARRAY** psa);
          internal static  extern PIXA* recogAddDigitPadTemplates(L_RECOG* recog, SARRAY* sa);
-         internal static  extern L_RECOG* recogMakeBootDigitRecog(l_int32 scaleh, int linew, int maxyshift, int debug);
-         internal static  extern PIXA* recogMakeBootDigitTemplates(l_int32 debug);
+         internal static  extern L_RECOG* recogMakeBootDigitRecog(int scaleh, int linew, int maxyshift, int debug);
+         internal static  extern PIXA* recogMakeBootDigitTemplates(int debug);
          internal static  extern int recogShowContent(FILE* fp, L_RECOG* recog, int index, int display);
          internal static  extern int recogDebugAverages(L_RECOG** precog, int debug);
          internal static  extern int recogShowAverageTemplates(L_RECOG* recog);
          internal static  extern int recogShowMatchesInRange(L_RECOG* recog, PIXA* pixa, float minscore, float maxscore, int display);
          internal static  extern PIX* recogShowMatch(L_RECOG* recog, PIX* pix1, PIX* pix2, BOX* box, int index, float score);
-         internal static  extern int regTestSetup(l_int32 argc, char** argv, L_REGPARAMS** prp);
+         internal static  extern int regTestSetup(int argc, char** argv, L_REGPARAMS** prp);
          internal static  extern int regTestCleanup(L_REGPARAMS* rp);
          internal static  extern int regTestCompareValues(L_REGPARAMS* rp, float val1, float val2, float delta);
          internal static  extern int regTestCompareStrings(L_REGPARAMS* rp, l_uint8* string1, size_t bytes1, l_uint8* string2, size_t bytes2);
@@ -2661,9 +2752,9 @@ namespace Leptonica.Native
          internal static  extern int pixFindMaxHorizontalRunOnLine(PIX* pix, int y, l_int32* pxstart, l_int32* psize);
          internal static  extern int pixFindMaxVerticalRunOnLine(PIX* pix, int x, l_int32* pystart, l_int32* psize);
          internal static  extern int runlengthMembershipOnLine(l_int32* buffer, int size, int depth, l_int32* start, l_int32* end, int n);
-         internal static  extern l_int32* makeMSBitLocTab(l_int32 bitval);
-         internal static  extern SARRAY* sarrayCreate(l_int32 n);
-         internal static  extern SARRAY* sarrayCreateInitialized(l_int32 n, char* initstr);
+         internal static  extern l_int32* makeMSBitLocTab(int bitval);
+         internal static  extern SARRAY* sarrayCreate(int n);
+         internal static  extern SARRAY* sarrayCreateInitialized(int n, char* initstr);
          internal static  extern SARRAY* sarrayCreateWordsFromString( const char*string );
          internal static  extern SARRAY* sarrayCreateLinesFromString( const char*string, int blankflag );
          internal static  extern void sarrayDestroy(SARRAY** psa);
@@ -2710,7 +2801,7 @@ namespace Leptonica.Native
          internal static  extern SARRAY* sarrayIntersectionByHash(SARRAY* sa1, SARRAY* sa2);
          internal static  extern int sarrayFindStringByHash(SARRAY* sa, L_DNAHASH* dahash, const char* str, int *pindex );
          internal static  extern L_DNAHASH* l_dnaHashCreateFromSarray(SARRAY* sa);
-         internal static  extern SARRAY* sarrayGenerateIntegers(l_int32 n);
+         internal static  extern SARRAY* sarrayGenerateIntegers(int n);
          internal static  extern PIX* pixScale(PIX* pixs, float scalex, float scaley);
          internal static  extern PIX* pixScaleToSizeRel(PIX* pixs, int delw, int delh);
          internal static  extern PIX* pixScaleToSize(PIX* pixs, int wd, int hd);
@@ -2811,14 +2902,14 @@ namespace Leptonica.Native
          internal static  extern void seedfillGrayInvLowSimple(l_uint32* datas, int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
          internal static  extern void distanceFunctionLow(l_uint32* datad, int w, int h, int d, int wpld, int connectivity);
          internal static  extern void seedspreadLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datat, int wplt, int connectivity);
-         internal static  extern SELA* selaCreate(l_int32 n);
+         internal static  extern SELA* selaCreate(int n);
          internal static  extern void selaDestroy(SELA** psela);
-         internal static  extern SEL* selCreate(l_int32 height, int width, const char* name );
+         internal static  extern SEL* selCreate(int height, int width, const char* name );
          internal static  extern void selDestroy(SEL** psel);
          internal static  extern SEL* selCopy(SEL* sel);
-         internal static  extern SEL* selCreateBrick(l_int32 h, int w, int cy, int cx, int type);
-         internal static  extern SEL* selCreateComb(l_int32 factor1, int factor2, int direction);
-         internal static  extern l_int32** create2dIntArray(l_int32 sy, int sx);
+         internal static  extern SEL* selCreateBrick(int h, int w, int cy, int cx, int type);
+         internal static  extern SEL* selCreateComb(int factor1, int factor2, int direction);
+         internal static  extern l_int32** create2dIntArray(int sy, int sx);
          internal static  extern int selaAddSel(SELA* sela, SEL* sel, const char* selname, int copyflag );
          internal static  extern int selaGetCount(SELA* sela);
          internal static  extern SEL* selaGetSel(SELA* sela, int i);
@@ -2832,7 +2923,7 @@ namespace Leptonica.Native
          internal static  extern int selGetTypeAtOrigin(SEL* sel, l_int32* ptype);
          internal static  extern char* selaGetBrickName(SELA* sela, int hsize, int vsize);
          internal static  extern char* selaGetCombName(SELA* sela, int size, int direction);
-         internal static  extern int getCompositeParameters(l_int32 size, l_int32* psize1, l_int32* psize2, char** pnameh1, char** pnameh2, char** pnamev1, char** pnamev2);
+         internal static  extern int getCompositeParameters(int size, l_int32* psize1, l_int32* psize2, char** pnameh1, char** pnameh2, char** pnamev1, char** pnamev2);
          internal static  extern SARRAY* selaGetSelnames(SELA* sela);
          internal static  extern int selFindMaxTranslations(SEL* sel, l_int32* pxp, l_int32* pyp, l_int32* pxn, l_int32* pyn);
          internal static  extern SEL* selRotateOrth(SEL* sel, int quads);
@@ -2901,13 +2992,13 @@ namespace Leptonica.Native
          internal static  extern int pixWriteMemSpix(l_uint8** pdata, size_t* psize, PIX* pix);
          internal static  extern int pixSerializeToMemory(PIX* pixs, l_uint32** pdata, size_t* pnbytes);
          internal static  extern PIX* pixDeserializeFromMemory( const l_uint32* data, size_t nbytes );
-         internal static  extern L_STACK* lstackCreate(l_int32 nalloc);
+         internal static  extern L_STACK* lstackCreate(int nalloc);
          internal static  extern void lstackDestroy(L_STACK** plstack, int freeflag);
          internal static  extern int lstackAdd(L_STACK* lstack, void* item);
          internal static  extern void* lstackRemove(L_STACK* lstack);
          internal static  extern int lstackGetCount(L_STACK* lstack);
          internal static  extern int lstackPrint(FILE* fp, L_STACK* lstack);
-         internal static  extern L_STRCODE* strcodeCreate(l_int32 fileno);
+         internal static  extern L_STRCODE* strcodeCreate(int fileno);
          internal static  extern int strcodeCreateFromFile( const char* filein, int fileno, const char* outdir );
          internal static  extern int strcodeGenerate(L_STRCODE* strcode, const char* filein, const char* type );
          internal static  extern int strcodeFinalize(L_STRCODE** pstrcode, const char* outdir );
@@ -2963,7 +3054,7 @@ namespace Leptonica.Native
          internal static  extern int pixaWriteMemMultipageTiff(l_uint8** pdata, size_t* psize, PIXA* pixa);
          internal static  extern int pixWriteMemTiff(l_uint8** pdata, size_t* psize, PIX* pix, int comptype);
          internal static  extern int pixWriteMemTiffCustom(l_uint8** pdata, size_t* psize, PIX* pix, int comptype, NUMA* natags, SARRAY* savals, SARRAY* satypes, NUMA* nasizes);
-         internal static  extern int setMsgSeverity(l_int32 newsev);
+         internal static  extern int setMsgSeverity(int newsev);
          internal static  extern int returnErrorInt( const char* msg, const char* procname, int ival );
          internal static  extern float returnErrorFloat( const char* msg, const char* procname, float fval );
          internal static  extern void* returnErrorPtr( const char* msg, const char* procname, void* pval );
@@ -2974,12 +3065,12 @@ namespace Leptonica.Native
          internal static  extern uint convertOnBigEnd32(l_uint32 wordin);
          internal static  extern int fileCorruptByDeletion( const char* filein, float loc, float size, const char* fileout );
          internal static  extern int fileCorruptByMutation( const char* filein, float loc, float size, const char* fileout );
-         internal static  extern int genRandomIntegerInRange(l_int32 range, int seed, l_int32* pval);
+         internal static  extern int genRandomIntegerInRange(int range, int seed, l_int32* pval);
          internal static  extern int lept_roundftoi(float fval);
          internal static  extern int l_hashStringToUint64( const char* str, l_uint64 *phash );
-         internal static  extern int l_hashPtToUint64(l_int32 x, int y, l_uint64* phash);
-         internal static  extern int l_hashFloat64ToUint64(l_int32 nbuckets, l_float64 val, l_uint64* phash);
-         internal static  extern int findNextLargerPrime(l_int32 start, l_uint32* pprime);
+         internal static  extern int l_hashPtToUint64(int x, int y, l_uint64* phash);
+         internal static  extern int l_hashFloat64ToUint64(int nbuckets, l_float64 val, l_uint64* phash);
+         internal static  extern int findNextLargerPrime(int start, l_uint32* pprime);
          internal static  extern int lept_isPrime(l_uint64 n, l_int32* pis_prime, l_uint32* pfactor);
          internal static  extern uint convertBinaryToGrayCode(l_uint32 val);
          internal static  extern uint convertGrayCodeToBinary(l_uint32 val);
@@ -3078,7 +3169,7 @@ namespace Leptonica.Native
          internal static  extern int pixChooseOutputFormat(PIX* pix);
          internal static  extern int getImpliedFileFormat( const char* filename );
          internal static  extern int pixGetAutoFormat(PIX* pix, l_int32* pformat);
-         internal static  extern const char* getFormatExtension (l_int32 format );
+         internal static  extern const char* getFormatExtension (int format );
          internal static  extern int pixWriteMem(l_uint8** pdata, size_t* psize, PIX* pix, int format);
          internal static  extern int l_fileDisplay( const char* fname, int x, int y, float scale );
          internal static  extern int pixDisplay(PIX* pixs, int x, int y);
@@ -3086,10 +3177,10 @@ namespace Leptonica.Native
          internal static  extern int pixSaveTiled(PIX* pixs, PIXA* pixa, float scalefactor, int newrow, int space, int dp);
          internal static  extern int pixSaveTiledOutline(PIX* pixs, PIXA* pixa, float scalefactor, int newrow, int space, int linewidth, int dp);
          internal static  extern int pixSaveTiledWithText(PIX* pixs, PIXA* pixa, int outwidth, int newrow, int space, int linewidth, L_BMF* bmf, const char* textstr, uint val, int location );
-         internal static  extern void l_chooseDisplayProg(l_int32 selection);
+         internal static  extern void l_chooseDisplayProg(int selection);
          internal static  extern int pixDisplayWrite(PIX* pixs, int reduction);
          internal static  extern int pixDisplayWriteFormat(PIX* pixs, int reduction, int format);
-         internal static  extern int pixDisplayMultiple(l_int32 res, float scalefactor, const char* fileout );
+         internal static  extern int pixDisplayMultiple(int res, float scalefactor, const char* fileout );
          internal static  extern l_uint8* zlibCompress(l_uint8* datain, size_t nin, size_t* pnout);
          internal static  extern l_uint8* zlibUncompress(l_uint8* datain, size_t nin, size_t* pnout);
         */
