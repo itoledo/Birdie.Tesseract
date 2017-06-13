@@ -142,6 +142,7 @@
     <Compile Include="Implementations\CCBoard.cs" />
     <Compile Include="Implementations\CCThin.cs" />
     <Compile Include="Implementations\ClassApp.cs" />
+    <Compile Include="Implementations\ColorContent.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

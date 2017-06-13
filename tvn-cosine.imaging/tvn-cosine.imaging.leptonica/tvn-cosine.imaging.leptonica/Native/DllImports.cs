@@ -1122,13 +1122,13 @@ namespace Leptonica.Native
         #region classapp.c
         // Top-level jb2 correlation and rank-hausdorff 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbCorrelation")]
-        internal static extern int jbCorrelation([MarshalAs(UnmanagedType.AnsiBStr)]  string dirin, float thresh, float weight, int components, [MarshalAs(UnmanagedType.AnsiBStr)]  string rootname, int firstpage, int npages, int renderflag );
+        internal static extern int jbCorrelation([MarshalAs(UnmanagedType.AnsiBStr)]  string dirin, float thresh, float weight, int components, [MarshalAs(UnmanagedType.AnsiBStr)]  string rootname, int firstpage, int npages, int renderflag);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbRankHaus")]
-        internal static extern int jbRankHaus([MarshalAs(UnmanagedType.AnsiBStr)]  string dirin, int size, float rank, int components, [MarshalAs(UnmanagedType.AnsiBStr)]  string rootname, int firstpage, int npages, int renderflag );
+        internal static extern int jbRankHaus([MarshalAs(UnmanagedType.AnsiBStr)]  string dirin, int size, float rank, int components, [MarshalAs(UnmanagedType.AnsiBStr)]  string rootname, int firstpage, int npages, int renderflag);
 
         // Extract and classify words in textline order 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbWordsInTextlines")]
-        internal static extern IntPtr  jbWordsInTextlines([MarshalAs(UnmanagedType.AnsiBStr)]  string dirin, int reduction, int maxwidth, int maxheight, float thresh, float weight, out IntPtr pnatl, int firstpage, int npages );
+        internal static extern IntPtr jbWordsInTextlines([MarshalAs(UnmanagedType.AnsiBStr)]  string dirin, int reduction, int maxwidth, int maxheight, float thresh, float weight, out IntPtr pnatl, int firstpage, int npages);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetWordsInTextlines")]
         internal static extern int pixGetWordsInTextlines(HandleRef pixs, int reduction, int minwidth, int minheight, int maxwidth, int maxheight, out IntPtr pboxad, out IntPtr ppixad, out IntPtr pnai);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetWordBoxesInTextlines")]
@@ -1141,29 +1141,75 @@ namespace Leptonica.Native
         internal static extern int numaaCompareImagesByBoxes(HandleRef naa1, HandleRef naa2, int nperline, int nreq, int maxshiftx, int maxshifty, int delx, int dely, out int psame, int debugflag);
         #endregion
 
+        #region colorcontent.c
+        // Builds an image of the color content, on a per-pixel basis, as a measure of the amount of divergence of each color  component(R, G, B) from gray.
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorContent")]
+        internal static extern int pixColorContent(HandleRef pixs, int rwhite, int gwhite, int bwhite, int mingray, out IntPtr ppixr, out IntPtr ppixg, out IntPtr ppixb);
+
+        // Finds the 'amount' of color in an image, on a per-pixel basis, as a measure of the difference of the pixel color from gray.
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorMagnitude")]
+        internal static extern IntPtr pixColorMagnitude(HandleRef pixs, int rwhite, int gwhite, int bwhite, int type);
+
+        // Generates a mask over pixels that have sufficient color and are not too close to gray pixels.
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMaskOverColorPixels")]
+        internal static extern IntPtr pixMaskOverColorPixels(HandleRef pixs, int threshdiff, int mindist);
+
+        // Generates mask over pixels within a prescribed cube in RGB space
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMaskOverColorRange")]
+        internal static extern IntPtr pixMaskOverColorRange(HandleRef pixs, int rmin, int rmax, int gmin, int gmax, int bmin, int bmax);
+
+        // Finds the fraction of pixels with "color" that are not close to black
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorFraction")]
+        internal static extern int pixColorFraction(HandleRef pixs, int darkthresh, int lightthresh, int diffthresh, int factor, out float ppixfract, out float pcolorfract);
+
+        // Determine if there are significant color regions that are not background in a page image
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindColorRegions")]
+        internal static extern int pixFindColorRegions(HandleRef pixs, HandleRef pixm, int factor, int lightthresh, int darkthresh, int mindiff, int colordiff, float edgefract, out float pcolorfract, out IntPtr pcolormask1, out IntPtr pcolormask2, HandleRef pixadb);
+
+        // Finds the number of perceptually significant gray intensities in a grayscale image.
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixNumSignificantGrayColors")]
+        internal static extern int pixNumSignificantGrayColors(HandleRef pixs, int darkthresh, int lightthresh, float minfract, int factor, out int pncolors);
+
+        // Identifies images where color quantization will cause posterization  due to the existence of many colors in low-gradient regions.
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorsForQuantization")]
+        internal static extern int pixColorsForQuantization(HandleRef pixs, int thresh, out int pncolors, out int piscolor, int debug);
+
+        // Finds the number of unique colors in an image
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixNumColors")]
+        internal static extern int pixNumColors(HandleRef pixs, int factor, out int pncolors);
+
+        // Find the most "populated" colors in the image(and quantize)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetMostPopulatedColors")]
+        internal static extern int pixGetMostPopulatedColors(HandleRef pixs, int sigbits, int factor, int ncolors, out IntPtr parray, out IntPtr pcmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSimpleColorQuantize")]
+        internal static extern IntPtr pixSimpleColorQuantize(HandleRef pixs, int sigbits, int factor, int ncolors);
+
+        // Constructs a color histogram based on rgb indices
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRGBHistogram")]
+        internal static extern IntPtr pixGetRGBHistogram(HandleRef pixs, int sigbits, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeRGBIndexTables")]
+        internal static extern int makeRGBIndexTables(out IntPtr prtab, out IntPtr pgtab, out IntPtr pbtab, int sigbits);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getRGBFromIndex")]
+        internal static extern int getRGBFromIndex(uint index, int sigbits, out int prval, out int pgval, out int pbval);
+
+        // Identify images that have highlight(red) color
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHasHighlightRed")]
+        internal static extern int pixHasHighlightRed(HandleRef pixs, int factor, float fract, float fthresh, out int phasred, out float pratio, out IntPtr ppixdb);
+        #endregion
+
+
+
+
+
+
         /* 
-         internal static  extern int pixColorContent(PIX* pixs, int rwhite, int gwhite, int bwhite, int mingray, PIX** ppixr, PIX** ppixg, PIX** ppixb);
-         internal static  extern PIX* pixColorMagnitude(PIX* pixs, int rwhite, int gwhite, int bwhite, int type);
-         internal static  extern PIX* pixMaskOverColorPixels(PIX* pixs, int threshdiff, int mindist);
-         internal static  extern PIX* pixMaskOverColorRange(PIX* pixs, int rmin, int rmax, int gmin, int gmax, int bmin, int bmax);
-         internal static  extern int pixColorFraction(PIX* pixs, int darkthresh, int lightthresh, int diffthresh, int factor, l_float32* ppixfract, l_float32* pcolorfract);
-         internal static  extern int pixFindColorRegions(PIX* pixs, PIX* pixm, int factor, int lightthresh, int darkthresh, int mindiff, int colordiff, float edgefract, l_float32* pcolorfract, PIX** pcolormask1, PIX** pcolormask2, HandleRef pixadb);
-         internal static  extern int pixNumSignificantGrayColors(PIX* pixs, int darkthresh, int lightthresh, float minfract, int factor, l_int32* pncolors);
-         internal static  extern int pixColorsForQuantization(PIX* pixs, int thresh, l_int32* pncolors, l_int32* piscolor, int debug);
-         internal static  extern int pixNumColors(PIX* pixs, int factor, l_int32* pncolors);
-         internal static  extern int pixGetMostPopulatedColors(PIX* pixs, int sigbits, int factor, int ncolors, l_uint32** parray, PIXCMAP** pcmap);
-         internal static  extern PIX* pixSimpleColorQuantize(PIX* pixs, int sigbits, int factor, int ncolors);
-         internal static  extern NUMA* pixGetRGBHistogram(PIX* pixs, int sigbits, int factor);
-         internal static  extern int makeRGBIndexTables(l_uint32** prtab, l_uint32** pgtab, l_uint32** pbtab, int sigbits);
-         internal static  extern int getRGBFromIndex(l_uint32 index, int sigbits, l_int32* prval, l_int32* pgval, l_int32* pbval);
-         internal static  extern int pixHasHighlightRed(PIX* pixs, int factor, float fract, float fthresh, l_int32* phasred, l_float32* pratio, PIX** ppixdb);
          internal static  extern PIX* pixColorGrayRegions(PIX* pixs, HandleRef boxa, int type, int thresh, int rval, int gval, int bval);
          internal static  extern int pixColorGray(PIX* pixs, HandleRef box, int type, int thresh, int rval, int gval, int bval);
          internal static  extern PIX* pixColorGrayMasked(PIX* pixs, PIX* pixm, int type, int thresh, int rval, int gval, int bval);
          internal static  extern PIX* pixSnapColor(PIX* pixd, PIX* pixs, uint srcval, uint dstval, int diff);
          internal static  extern PIX* pixSnapColorCmap(PIX* pixd, PIX* pixs, uint srcval, uint dstval, int diff);
          internal static  extern PIX* pixLinearMapToTargetColor(PIX* pixd, PIX* pixs, uint srcval, uint dstval);
-         internal static  extern int pixelLinearMapToTargetColor(l_uint32 scolor, uint srcmap, uint dstmap, l_uint32* pdcolor);
+         internal static  extern int pixelLinearMapToTargetColor(uint scolor, uint srcmap, uint dstmap, l_uint32* pdcolor);
          internal static  extern PIX* pixShiftByComponent(PIX* pixd, PIX* pixs, uint srcval, uint dstval);
          internal static  extern int pixelShiftByComponent(int rval, int gval, int bval, uint srcval, uint dstval, l_uint32* ppixel);
          internal static  extern int pixelFractionalShift(int rval, int gval, int bval, float fraction, l_uint32* ppixel);
@@ -1200,7 +1246,7 @@ namespace Leptonica.Native
          internal static  extern int pixcmapGetNearestGrayIndex(PIXCMAP* cmap, int val, l_int32* pindex);
          internal static  extern int pixcmapGetDistanceToColor(PIXCMAP* cmap, int index, int rval, int gval, int bval, l_int32* pdist);
          internal static  extern int pixcmapGetRangeValues(PIXCMAP* cmap, int select, l_int32* pminval, l_int32* pmaxval, l_int32* pminindex, l_int32* pmaxindex);
-         internal static  extern PIXCMAP* pixcmapGrayToColor(l_uint32 color);
+         internal static  extern PIXCMAP* pixcmapGrayToColor(uint color);
          internal static  extern PIXCMAP* pixcmapColorToGray(PIXCMAP* cmaps, float rwt, float gwt, float bwt);
          internal static  extern PIXCMAP* pixcmapConvertTo4(PIXCMAP* cmaps);
          internal static  extern PIXCMAP* pixcmapConvertTo8(PIXCMAP* cmaps);
@@ -2238,9 +2284,9 @@ namespace Leptonica.Native
          internal static  extern int pixCopyRGBComponent(PIX* pixd, PIX* pixs, int comp);
          internal static  extern int composeRGBPixel(int rval, int gval, int bval, l_uint32* ppixel);
          internal static  extern int composeRGBAPixel(int rval, int gval, int bval, int aval, l_uint32* ppixel);
-         internal static  extern void extractRGBValues(l_uint32 pixel, l_int32* prval, l_int32* pgval, l_int32* pbval);
-         internal static  extern void extractRGBAValues(l_uint32 pixel, l_int32* prval, l_int32* pgval, l_int32* pbval, l_int32* paval);
-         internal static  extern int extractMinMaxComponent(l_uint32 pixel, int type);
+         internal static  extern void extractRGBValues(uint pixel, l_int32* prval, l_int32* pgval, l_int32* pbval);
+         internal static  extern void extractRGBAValues(uint pixel, l_int32* prval, l_int32* pgval, l_int32* pbval, l_int32* paval);
+         internal static  extern int extractMinMaxComponent(uint pixel, int type);
          internal static  extern int pixGetRGBLine(PIX* pixs, int row, l_uint8* bufr, l_uint8* bufg, l_uint8* bufb);
          internal static  extern PIX* pixEndianByteSwapNew(PIX* pixs);
          internal static  extern int pixEndianByteSwap(PIX* pixs);
@@ -2536,8 +2582,8 @@ namespace Leptonica.Native
          internal static  extern PIX* pixMinOrMax(PIX* pixd, PIX* pixs1, PIX* pixs2, int type);
          internal static  extern PIX* pixMaxDynamicRange(PIX* pixs, int type);
          internal static  extern PIX* pixMaxDynamicRangeRGB(PIX* pixs, int type);
-         internal static  extern uint linearScaleRGBVal(l_uint32 sval, float factor);
-         internal static  extern uint logScaleRGBVal(l_uint32 sval, l_float32* tab, float factor);
+         internal static  extern uint linearScaleRGBVal(uint sval, float factor);
+         internal static  extern uint logScaleRGBVal(uint sval, l_float32* tab, float factor);
          internal static  extern l_float32* makeLogBase2Tab(void );
          internal static  extern float getLogBase2(int val, l_float32* logtab);
          internal static  extern PIXC* pixcompCreateFromPix(PIX* pix, int comptype);
@@ -3320,8 +3366,8 @@ namespace Leptonica.Native
          internal static  extern int filesAreIdentical( const char* fname1, const char* fname2, int *psame );
          internal static  extern l_uint16 convertOnLittleEnd16(l_uint16 shortin);
          internal static  extern l_uint16 convertOnBigEnd16(l_uint16 shortin);
-         internal static  extern uint convertOnLittleEnd32(l_uint32 wordin);
-         internal static  extern uint convertOnBigEnd32(l_uint32 wordin);
+         internal static  extern uint convertOnLittleEnd32(uint wordin);
+         internal static  extern uint convertOnBigEnd32(uint wordin);
          internal static  extern int fileCorruptByDeletion( const char* filein, float loc, float size, const char* fileout );
          internal static  extern int fileCorruptByMutation( const char* filein, float loc, float size, const char* fileout );
          internal static  extern int genRandomIntegerInRange(int range, int seed, l_int32* pval);
@@ -3331,8 +3377,8 @@ namespace Leptonica.Native
          internal static  extern int l_hashFloat64ToUint64(int nbuckets, l_float64 val, l_uint64* phash);
          internal static  extern int findNextLargerPrime(int start, l_uint32* pprime);
          internal static  extern int lept_isPrime(l_uint64 n, l_int32* pis_prime, l_uint32* pfactor);
-         internal static  extern uint convertBinaryToGrayCode(l_uint32 val);
-         internal static  extern uint convertGrayCodeToBinary(l_uint32 val);
+         internal static  extern uint convertBinaryToGrayCode(uint val);
+         internal static  extern uint convertGrayCodeToBinary(uint val);
          internal static  extern char* getLeptonicaVersion();
          internal static  extern void startTimer(void );
          internal static  extern float stopTimer(void );
