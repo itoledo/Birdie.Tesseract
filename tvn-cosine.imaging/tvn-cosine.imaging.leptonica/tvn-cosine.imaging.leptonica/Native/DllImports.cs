@@ -1445,42 +1445,91 @@ namespace Leptonica.Native
         internal static extern int pixColorSegmentRemoveColors(HandleRef pixd, HandleRef pixs, int finalcolors);
         #endregion
 
+        #region colorspace.c
+        // Colorspace conversion between RGB and HSV
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToHSV")]
+        internal static extern IntPtr pixConvertRGBToHSV(HandleRef pixd, HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertHSVToRGB")]
+        internal static extern IntPtr pixConvertHSVToRGB(HandleRef pixd, HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertRGBToHSV")]
+        internal static extern int convertRGBToHSV(int rval, int gval, int bval, out int phval, out int psval, out int pvval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertHSVToRGB")]
+        internal static extern int convertHSVToRGB(int hval, int sval, int vval, out int prval, out int pgval, out int pbval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapConvertRGBToHSV")]
+        internal static extern int pixcmapConvertRGBToHSV(HandleRef cmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapConvertHSVToRGB")]
+        internal static extern int pixcmapConvertHSVToRGB(HandleRef cmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToHue")]
+        internal static extern IntPtr pixConvertRGBToHue(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToSaturation")]
+        internal static extern IntPtr pixConvertRGBToSaturation(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToValue")]
+        internal static extern IntPtr pixConvertRGBToValue(HandleRef pixs);
+
+        // Selection and display of range of colors in HSV space
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMakeRangeMaskHS")]
+        internal static extern IntPtr pixMakeRangeMaskHS(HandleRef pixs, int huecenter, int huehw, int satcenter, int sathw, int regionflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMakeRangeMaskHV")]
+        internal static extern IntPtr pixMakeRangeMaskHV(HandleRef pixs, int huecenter, int huehw, int valcenter, int valhw, int regionflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMakeRangeMaskSV")]
+        internal static extern IntPtr pixMakeRangeMaskSV(HandleRef pixs, int satcenter, int sathw, int valcenter, int valhw, int regionflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMakeHistoHS")]
+        internal static extern IntPtr pixMakeHistoHS(HandleRef pixs, int factor, out IntPtr pnahue, out IntPtr pnasat);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMakeHistoHV")]
+        internal static extern IntPtr pixMakeHistoHV(HandleRef pixs, int factor, out IntPtr pnahue, out IntPtr pnaval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMakeHistoSV")]
+        internal static extern IntPtr pixMakeHistoSV(HandleRef pixs, int factor, out IntPtr pnasat, out IntPtr pnaval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindHistoPeaksHSV")]
+        internal static extern int pixFindHistoPeaksHSV(HandleRef pixs, int type, int width, int height, int npeaks, float erasefactor, out IntPtr ppta, out IntPtr pnatot, out IntPtr ppixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "displayHSVColorRange")]
+        internal static extern IntPtr displayHSVColorRange(int hval, int sval, int vval, int huehw, int sathw, int nsamp, int factor);
+
+        // Colorspace conversion between RGB and YUV
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToYUV")]
+        internal static extern IntPtr pixConvertRGBToYUV(HandleRef pixd, HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertYUVToRGB")]
+        internal static extern IntPtr pixConvertYUVToRGB(HandleRef pixd, HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertRGBToYUV")]
+        internal static extern int convertRGBToYUV(int rval, int gval, int bval, out int pyval, out int puval, out int pvval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertYUVToRGB")]
+        internal static extern int convertYUVToRGB(int yval, int uval, int vval, out int prval, out int pgval, out int pbval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapConvertRGBToYUV")]
+        internal static extern int pixcmapConvertRGBToYUV(HandleRef cmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapConvertYUVToRGB")]
+        internal static extern int pixcmapConvertYUVToRGB(HandleRef cmap);
+
+        // Colorspace conversion between RGB and XYZ
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToXYZ")]
+        internal static extern IntPtr pixConvertRGBToXYZ(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaConvertXYZToRGB")]
+        internal static extern IntPtr fpixaConvertXYZToRGB(HandleRef fpixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertRGBToXYZ")]
+        internal static extern int convertRGBToXYZ(int rval, int gval, int bval, out float pfxval, out float pfyval, out float pfzval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertXYZToRGB")]
+        internal static extern int convertXYZToRGB(float fxval, float fyval, float fzval, int blackout, out int prval, out int pgval, out int pbval);
+
+        // Colorspace conversion between XYZ and LAB
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaConvertXYZToLAB")]
+        internal static extern IntPtr fpixaConvertXYZToLAB(HandleRef fpixas);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaConvertLABToXYZ")]
+        internal static extern IntPtr fpixaConvertLABToXYZ(HandleRef fpixas);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertXYZToLAB")]
+        internal static extern int convertXYZToLAB(float xval, float yval, float zval, out float plval, out float paval, out float pbval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertLABToXYZ")]
+        internal static extern int convertLABToXYZ(float lval, float aval, float bval, out float pxval, out float pyval, out float pzval);
+
+        // Colorspace conversion between RGB and LAB
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToLAB")]
+        internal static extern IntPtr pixConvertRGBToLAB(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaConvertLABToRGB")]
+        internal static extern IntPtr fpixaConvertLABToRGB(HandleRef fpixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertRGBToLAB")]
+        internal static extern int convertRGBToLAB(int rval, int gval, int bval, out float pflval, out float pfaval, out float pfbval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertLABToRGB")]
+        internal static extern int convertLABToRGB(float flval, float faval, float fbval, out int prval, out int pgval, out int pbval);
+        #endregion
+
         /* 
-         internal static  extern PIX* pixConvertRGBToHSV(PIX* pixd, PIX* pixs);
-         internal static  extern PIX* pixConvertHSVToRGB(PIX* pixd, PIX* pixs);
-         internal static  extern int convertRGBToHSV(int rval, int gval, int bval, l_int32* phval, l_int32* psval, l_int32* pvval);
-         internal static  extern int convertHSVToRGB(int hval, int sval, int vval, l_int32* prval, l_int32* pgval, l_int32* pbval);
-         internal static  extern int pixcmapConvertRGBToHSV(HandleRef  cmap);
-         internal static  extern int pixcmapConvertHSVToRGB(HandleRef  cmap);
-         internal static  extern PIX* pixConvertRGBToHue(PIX* pixs);
-         internal static  extern PIX* pixConvertRGBToSaturation(PIX* pixs);
-         internal static  extern PIX* pixConvertRGBToValue(PIX* pixs);
-         internal static  extern PIX* pixMakeRangeMaskHS(PIX* pixs, int huecenter, int huehw, int satcenter, int sathw, int regionflag);
-         internal static  extern PIX* pixMakeRangeMaskHV(PIX* pixs, int huecenter, int huehw, int valcenter, int valhw, int regionflag);
-         internal static  extern PIX* pixMakeRangeMaskSV(PIX* pixs, int satcenter, int sathw, int valcenter, int valhw, int regionflag);
-         internal static  extern PIX* pixMakeHistoHS(PIX* pixs, int factor, NUMA** pnahue, NUMA** pnasat);
-         internal static  extern PIX* pixMakeHistoHV(PIX* pixs, int factor, NUMA** pnahue, NUMA** pnaval);
-         internal static  extern PIX* pixMakeHistoSV(PIX* pixs, int factor, NUMA** pnasat, NUMA** pnaval);
-         internal static  extern int pixFindHistoPeaksHSV(PIX* pixs, int type, int width, int height, int npeaks, float erasefactor, PTA** ppta, NUMA** pnatot, PIXA** ppixa);
-         internal static  extern PIX* displayHSVColorRange(int hval, int sval, int vval, int huehw, int sathw, int nsamp, int factor);
-         internal static  extern PIX* pixConvertRGBToYUV(PIX* pixd, PIX* pixs);
-         internal static  extern PIX* pixConvertYUVToRGB(PIX* pixd, PIX* pixs);
-         internal static  extern int convertRGBToYUV(int rval, int gval, int bval, l_int32* pyval, l_int32* puval, l_int32* pvval);
-         internal static  extern int convertYUVToRGB(int yval, int uval, int vval, l_int32* prval, l_int32* pgval, l_int32* pbval);
-         internal static  extern int pixcmapConvertRGBToYUV(HandleRef  cmap);
-         internal static  extern int pixcmapConvertYUVToRGB(HandleRef  cmap);
-         internal static  extern FPIXA* pixConvertRGBToXYZ(PIX* pixs);
-         internal static  extern PIX* fpixaConvertXYZToRGB(FPIXA* fpixa);
-         internal static  extern int convertRGBToXYZ(int rval, int gval, int bval, l_float32* pfxval, l_float32* pfyval, l_float32* pfzval);
-         internal static  extern int convertXYZToRGB(float fxval, float fyval, float fzval, int blackout, l_int32* prval, l_int32* pgval, l_int32* pbval);
-         internal static  extern FPIXA* fpixaConvertXYZToLAB(FPIXA* fpixas);
-         internal static  extern FPIXA* fpixaConvertLABToXYZ(FPIXA* fpixas);
-         internal static  extern int convertXYZToLAB(float xval, float yval, float zval, l_float32* plval, l_float32* paval, l_float32* pbval);
-         internal static  extern int convertLABToXYZ(float lval, float aval, float bval, l_float32* pxval, l_float32* pyval, l_float32* pzval);
-         internal static  extern FPIXA* pixConvertRGBToLAB(PIX* pixs);
-         internal static  extern PIX* fpixaConvertLABToRGB(FPIXA* fpixa);
-         internal static  extern int convertRGBToLAB(int rval, int gval, int bval, l_float32* pflval, l_float32* pfaval, l_float32* pfbval);
-         internal static  extern int convertLABToRGB(float flval, float faval, float fbval, l_int32* prval, l_int32* pgval, l_int32* pbval);
          internal static  extern int pixEqual(PIX* pix1, PIX* pix2, l_int32* psame);
          internal static  extern int pixEqualWithAlpha(PIX* pix1, PIX* pix2, int use_alpha, l_int32* psame);
          internal static  extern int pixEqualWithCmap(PIX* pix1, PIX* pix2, l_int32* psame);
