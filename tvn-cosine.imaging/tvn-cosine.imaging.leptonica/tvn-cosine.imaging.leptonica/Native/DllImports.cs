@@ -1605,19 +1605,41 @@ namespace Leptonica.Native
         internal static extern int pixBestCorrelation(HandleRef pix1, HandleRef pix2, int area1, int area2, int etransx, int etransy, int maxshift, out int tab8, out int pdelx, out int pdely, out float pscore, int debugflag);
         #endregion
 
+        #region conncomp.c
+        // Top-level calls:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConnComp")]
+        internal static extern IntPtr pixConnComp(HandleRef pixs, out IntPtr ppixa, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConnCompPixa")]
+        internal static extern IntPtr pixConnCompPixa(HandleRef pixs, out IntPtr ppixa, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConnCompBB")]
+        internal static extern IntPtr pixConnCompBB(HandleRef pixs, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCountConnComp")]
+        internal static extern int pixCountConnComp(HandleRef pixs, int connectivity, out int pcount);
+
+        // Identify the next c.c.to be erased:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "nextOnPixelInRaster")]
+        internal static extern int nextOnPixelInRaster(HandleRef pixs, int xstart, int ystart, out int px, out int py);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "nextOnPixelInRasterLow")]
+        internal static extern int nextOnPixelInRasterLow(IntPtr data, int w, int h, int wpl, int xstart, int ystart, out int px, out int py);
+
+        // Erase the c.c., saving the b.b.:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfillBB")]
+        internal static extern IntPtr pixSeedfillBB(HandleRef pixs, HandleRef stack, int x, int y, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfill4BB")]
+        internal static extern IntPtr pixSeedfill4BB(HandleRef pixs, HandleRef stack, int x, int y);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfill8BB")]
+        internal static extern IntPtr pixSeedfill8BB(HandleRef pixs, HandleRef stack, int x, int y);
+
+        // Just erase the c.c.:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfill")]
+        internal static extern int pixSeedfill(HandleRef pixs, HandleRef stack, int x, int y, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfill4")]
+        internal static extern int pixSeedfill4(HandleRef pixs, HandleRef stack, int x, int y);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfill8")]
+        internal static extern int pixSeedfill8(HandleRef pixs, HandleRef stack, int x, int y);
+        #endregion
+
         /* 
-         internal static  extern HandleRef pixConnComp(PIX* pixs, PIXA** ppixa, int connectivity);
-         internal static  extern HandleRef pixConnCompPixa(PIX* pixs, PIXA** ppixa, int connectivity);
-         internal static  extern HandleRef pixConnCompBB(PIX* pixs, int connectivity);
-         internal static  extern int pixCountConnComp(PIX* pixs, int connectivity, l_int32* pcount);
-         internal static  extern int nextOnPixelInRaster(PIX* pixs, int xstart, int ystart, l_int32* px, l_int32* py);
-         internal static  extern int nextOnPixelInRasterLow(l_uint32* data, int w, int h, int wpl, int xstart, int ystart, l_int32* px, l_int32* py);
-         internal static  extern HandleRef pixSeedfillBB(PIX* pixs, L_STACK* stack, int x, int y, int connectivity);
-         internal static  extern HandleRef pixSeedfill4BB(PIX* pixs, L_STACK* stack, int x, int y);
-         internal static  extern HandleRef pixSeedfill8BB(PIX* pixs, L_STACK* stack, int x, int y);
-         internal static  extern int pixSeedfill(PIX* pixs, L_STACK* stack, int x, int y, int connectivity);
-         internal static  extern int pixSeedfill4(PIX* pixs, L_STACK* stack, int x, int y);
-         internal static  extern int pixSeedfill8(PIX* pixs, L_STACK* stack, int x, int y);
          internal static  extern int convertFilesTo1bpp( const char* dirin, const char* substr, int upscaling, int thresh, int firstpage, int npages, const char* dirout, int outformat );
          internal static  extern PIX* pixBlockconv(PIX* pix, int wc, int hc);
          internal static  extern PIX* pixBlockconvGray(PIX* pixs, PIX* pixacc, int wc, int hc);

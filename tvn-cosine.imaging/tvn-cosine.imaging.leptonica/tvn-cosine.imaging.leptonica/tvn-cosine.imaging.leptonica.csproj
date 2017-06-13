@@ -58,6 +58,8 @@
     <Compile Include="Definitions\JBClass\ForJbGetComponentsYypeOfComponentToExtractFromImages.cs" />
     <Compile Include="Definitions\JBClass\JbClasser.cs" />
     <Compile Include="Definitions\JBClass\JbData.cs" />
+    <Compile Include="Definitions\Stack\FillSeg.cs" />
+    <Compile Include="Definitions\Stack\L_Stack.cs" />
     <Compile Include="Implementations\Blend.cs" />
     <Compile Include="Implementations\BinReduce.cs" />
     <Compile Include="Implementations\BinExpand.cs" />
@@ -154,6 +156,7 @@
     <Compile Include="Implementations\ColorSeg.cs" />
     <Compile Include="Implementations\ColorSpace.cs" />
     <Compile Include="Implementations\Compare.cs" />
+    <Compile Include="Implementations\ConnComp.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
