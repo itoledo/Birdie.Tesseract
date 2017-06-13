@@ -1345,27 +1345,76 @@ namespace Leptonica.Native
         internal static extern int pixcmapShiftByComponent(HandleRef cmap, uint srcval, uint dstval);
         #endregion
 
+        #region colormorph.c
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorMorph")]
+        internal static extern IntPtr pixColorMorph(HandleRef pixs, int type, int hsize, int vsize);
+        #endregion
+
+        #region colorquant1.c
+        // (1) Two-pass adaptive octree color quantization
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOctreeColorQuant")]
+        internal static extern IntPtr pixOctreeColorQuant(HandleRef pixs, int colors, int ditherflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOctreeColorQuantGeneral")]
+        internal static extern IntPtr pixOctreeColorQuantGeneral(HandleRef pixs, int colors, int ditherflag, float validthresh, float colorthresh);
+
+        // Helper index functions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeRGBToIndexTables")]
+        internal static extern int makeRGBToIndexTables(out IntPtr prtab, out IntPtr pgtab, out IntPtr pbtab, int cqlevels);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getOctcubeIndexFromRGB")]
+        internal static extern void getOctcubeIndexFromRGB(int rval, int gval, int bval, IntPtr rtab, IntPtr gtab, IntPtr btab, out uint  pindex);
+
+        // (2) Adaptive octree quantization based on population at a fixed level
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOctreeQuantByPopulation")]
+        internal static extern IntPtr pixOctreeQuantByPopulation(HandleRef pixs, int level, int ditherflag);
+
+        // (3) Adaptive octree quantization to 4 and 8 bpp with specified number of output colors in colormap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOctreeQuantNumColors")]
+        internal static extern IntPtr pixOctreeQuantNumColors(HandleRef pixs, int maxcolors, int subsample);
+
+        // (4) Mixed color/gray quantization with specified number of colors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOctcubeQuantMixedWithGray")]
+        internal static extern IntPtr pixOctcubeQuantMixedWithGray(HandleRef pixs, int depth, int graylevels, int delta);
+
+        // (5) Fixed partition octcube quantization with 256 cells
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFixedOctcubeQuant256")]
+        internal static extern IntPtr pixFixedOctcubeQuant256(HandleRef pixs, int ditherflag);
+
+        // (6) Fixed partition quantization for images with few colors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFewColorsOctcubeQuant1")]
+        internal static extern IntPtr pixFewColorsOctcubeQuant1(HandleRef pixs, int level);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFewColorsOctcubeQuant2")]
+        internal static extern IntPtr pixFewColorsOctcubeQuant2(HandleRef pixs, int level, HandleRef na, int ncolors, out int pnerrors);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFewColorsOctcubeQuantMixed")]
+        internal static extern IntPtr pixFewColorsOctcubeQuantMixed(HandleRef pixs, int level, int darkthresh, int lightthresh, int diffthresh, float minfract, int maxspan);
+
+        // (7) Fixed partition octcube quantization at specified level with quantized output to RGB
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFixedOctcubeQuantGenRGB")]
+        internal static extern IntPtr pixFixedOctcubeQuantGenRGB(HandleRef pixs, int level);
+
+        // (8) Color quantize RGB image using existing colormap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixQuantFromCmap")]
+        internal static extern IntPtr pixQuantFromCmap(HandleRef pixs, HandleRef cmap, int mindepth, int level, int metric);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOctcubeQuantFromCmap")]
+        internal static extern IntPtr pixOctcubeQuantFromCmap(HandleRef pixs, HandleRef cmap, int mindepth, int level, int metric);
+
+        // Generation of octcube histogram
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOctcubeHistogram")]
+        internal static extern IntPtr pixOctcubeHistogram(HandleRef pixs, int level, out int pncolors);
+
+        // Get filled octcube table from colormap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapToOctcubeLUT")]
+        internal static extern IntPtr pixcmapToOctcubeLUT(HandleRef cmap, int level, int metric);
+
+        // Strip out unused elements in colormap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRemoveUnusedColors")]
+        internal static extern int pixRemoveUnusedColors(HandleRef pixs);
+
+        // Find number of occupied octcubes at the specified level
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixNumberOccupiedOctcubes")]
+        internal static extern int pixNumberOccupiedOctcubes(HandleRef pix, int level, int mincount, float minfract, out int pncolors);
+        #endregion
 
         /* 
-         internal static  extern PIX* pixColorMorph(PIX* pixs, int type, int hsize, int vsize);
-         internal static  extern PIX* pixOctreeColorQuant(PIX* pixs, int colors, int ditherflag);
-         internal static  extern PIX* pixOctreeColorQuantGeneral(PIX* pixs, int colors, int ditherflag, float validthresh, float colorthresh);
-         internal static  extern int makeRGBToIndexTables(l_uint32** prtab, l_uint32** pgtab, l_uint32** pbtab, int cqlevels);
-         internal static  extern void getOctcubeIndexFromRGB(int rval, int gval, int bval, l_uint32* rtab, l_uint32* gtab, l_uint32* btab, l_uint32* pindex);
-         internal static  extern PIX* pixOctreeQuantByPopulation(PIX* pixs, int level, int ditherflag);
-         internal static  extern PIX* pixOctreeQuantNumColors(PIX* pixs, int maxcolors, int subsample);
-         internal static  extern PIX* pixOctcubeQuantMixedWithGray(PIX* pixs, int depth, int graylevels, int delta);
-         internal static  extern PIX* pixFixedOctcubeQuant256(PIX* pixs, int ditherflag);
-         internal static  extern PIX* pixFewColorsOctcubeQuant1(PIX* pixs, int level);
-         internal static  extern PIX* pixFewColorsOctcubeQuant2(PIX* pixs, int level, NUMA* na, int ncolors, l_int32* pnerrors);
-         internal static  extern PIX* pixFewColorsOctcubeQuantMixed(PIX* pixs, int level, int darkthresh, int lightthresh, int diffthresh, float minfract, int maxspan);
-         internal static  extern PIX* pixFixedOctcubeQuantGenRGB(PIX* pixs, int level);
-         internal static  extern PIX* pixQuantFromCmap(PIX* pixs, HandleRef cmap, int mindepth, int level, int metric);
-         internal static  extern PIX* pixOctcubeQuantFromCmap(PIX* pixs, HandleRef cmap, int mindepth, int level, int metric);
-         internal static  extern NUMA* pixOctcubeHistogram(PIX* pixs, int level, l_int32* pncolors);
-         internal static  extern l_int32* pixcmapToOctcubeLUT(HandleRef  cmap, int level, int metric);
-         internal static  extern int pixRemoveUnusedColors(PIX* pixs);
-         internal static  extern int pixNumberOccupiedOctcubes(PIX* pix, int level, int mincount, float minfract, l_int32* pncolors);
          internal static  extern PIX* pixMedianCutQuant(PIX* pixs, int ditherflag);
          internal static  extern PIX* pixMedianCutQuantGeneral(PIX* pixs, int ditherflag, int outdepth, int maxcolors, int sigbits, int maxsub, int checkbw);
          internal static  extern PIX* pixMedianCutQuantMixed(PIX* pixs, int ncolor, int ngray, int darkthresh, int lightthresh, int diffthresh);

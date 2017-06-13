@@ -51,6 +51,9 @@
     <Compile Include="Definitions\CCBord\CCBorda.cs" />
     <Compile Include="Definitions\CCBord\UseInCcbaGenerateSPGlobalLocs.cs" />
     <Compile Include="Definitions\CCBord\UseInCcbaStepChainsToPixCoords.cs" />
+    <Compile Include="Definitions\ColorQuant\ColorQuantCell.cs" />
+    <Compile Include="Definitions\ColorQuant\L_OctcubePop.cs" />
+    <Compile Include="Definitions\ColorQuant\OctcubeQuantCell.cs" />
     <Compile Include="Definitions\JBClass\ClassifierMethods.cs" />
     <Compile Include="Definitions\JBClass\ForJbGetComponentsYypeOfComponentToExtractFromImages.cs" />
     <Compile Include="Definitions\JBClass\JbClasser.cs" />
@@ -145,6 +148,8 @@
     <Compile Include="Implementations\ColorContent.cs" />
     <Compile Include="Implementations\Coloring.cs" />
     <Compile Include="Implementations\Colormap.cs" />
+    <Compile Include="Implementations\ColorMorph.cs" />
+    <Compile Include="Implementations\ColorQuant1.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
