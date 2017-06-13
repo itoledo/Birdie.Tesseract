@@ -1431,12 +1431,21 @@ namespace Leptonica.Native
         internal static extern IntPtr pixMedianCutHisto(HandleRef pixs, int sigbits, int subsample);
         #endregion
 
+        #region colorseg.c
+        // Unsupervised color segmentation 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorSegment")]
+        internal static extern IntPtr pixColorSegment(HandleRef pixs, int maxdist, int maxcolors, int selsize, int finalcolors, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorSegmentCluster")]
+        internal static extern IntPtr pixColorSegmentCluster(HandleRef pixs, int maxdist, int maxcolors, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAssignToNearestColor")]
+        internal static extern int pixAssignToNearestColor(HandleRef pixd, HandleRef pixs, HandleRef pixm, int level, IntPtr countarray);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorSegmentClean")]
+        internal static extern int pixColorSegmentClean(HandleRef pixs, int selsize, IntPtr countarray);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorSegmentRemoveColors")]
+        internal static extern int pixColorSegmentRemoveColors(HandleRef pixd, HandleRef pixs, int finalcolors);
+        #endregion
+
         /* 
-         internal static  extern PIX* pixColorSegment(PIX* pixs, int maxdist, int maxcolors, int selsize, int finalcolors, int debugflag);
-         internal static  extern PIX* pixColorSegmentCluster(PIX* pixs, int maxdist, int maxcolors, int debugflag);
-         internal static  extern int pixAssignToNearestColor(PIX* pixd, PIX* pixs, PIX* pixm, int level, l_int32* countarray);
-         internal static  extern int pixColorSegmentClean(PIX* pixs, int selsize, l_int32* countarray);
-         internal static  extern int pixColorSegmentRemoveColors(PIX* pixd, PIX* pixs, int finalcolors);
          internal static  extern PIX* pixConvertRGBToHSV(PIX* pixd, PIX* pixs);
          internal static  extern PIX* pixConvertHSVToRGB(PIX* pixd, PIX* pixs);
          internal static  extern int convertRGBToHSV(int rval, int gval, int bval, l_int32* phval, l_int32* psval, l_int32* pvval);

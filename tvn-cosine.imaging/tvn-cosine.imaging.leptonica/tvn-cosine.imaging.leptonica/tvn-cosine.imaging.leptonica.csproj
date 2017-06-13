@@ -151,6 +151,7 @@
     <Compile Include="Implementations\ColorMorph.cs" />
     <Compile Include="Implementations\ColorQuant1.cs" />
     <Compile Include="Implementations\ColorQuant2.cs" />
+    <Compile Include="Implementations\ColorSeg.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
