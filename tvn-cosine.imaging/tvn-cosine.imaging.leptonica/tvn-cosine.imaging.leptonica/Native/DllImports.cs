@@ -1227,62 +1227,126 @@ namespace Leptonica.Native
         internal static extern int pixelFractionalShift(int rval, int gval, int bval, float fraction, out uint ppixel);
         #endregion
 
+        #region colormap.c
+        // Colormap creation, copy, destruction, addition
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapCreate")]
+        internal static extern IntPtr pixcmapCreate(int depth);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapCreateRandom")]
+        internal static extern IntPtr pixcmapCreateRandom(int depth, int hasblack, int haswhite);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapCreateLinear")]
+        internal static extern IntPtr pixcmapCreateLinear(int d, int nlevels);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapCopy")]
+        internal static extern IntPtr pixcmapCopy(HandleRef cmaps);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapDestroy")]
+        internal static extern void pixcmapDestroy(ref IntPtr pcmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapAddColor")]
+        internal static extern int pixcmapAddColor(HandleRef cmap, int rval, int gval, int bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapAddRGBA")]
+        internal static extern int pixcmapAddRGBA(HandleRef cmap, int rval, int gval, int bval, int aval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapAddNewColor")]
+        internal static extern int pixcmapAddNewColor(HandleRef cmap, int rval, int gval, int bval, out int pindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapAddNearestColor")]
+        internal static extern int pixcmapAddNearestColor(HandleRef cmap, int rval, int gval, int bval, out int pindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapUsableColor")]
+        internal static extern int pixcmapUsableColor(HandleRef cmap, int rval, int gval, int bval, out int pusable);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapAddBlackOrWhite")]
+        internal static extern int pixcmapAddBlackOrWhite(HandleRef cmap, int color, out int pindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapSetBlackAndWhite")]
+        internal static extern int pixcmapSetBlackAndWhite(HandleRef cmap, int setblack, int setwhite);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetCount")]
+        internal static extern int pixcmapGetCount(HandleRef cmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetDepth")]
+        internal static extern int pixcmapGetDepth(HandleRef cmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetMinDepth")]
+        internal static extern int pixcmapGetMinDepth(HandleRef cmap, out int pmindepth);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetFreeCount")]
+        internal static extern int pixcmapGetFreeCount(HandleRef cmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapClear")]
+        internal static extern int pixcmapClear(HandleRef cmap);
 
+        // Colormap random access and test 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetColor")]
+        internal static extern int pixcmapGetColor(HandleRef cmap, int index, out int prval, out int pgval, out int pbval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetColor32")]
+        internal static extern int pixcmapGetColor32(HandleRef cmap, int index, out int pval32);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetRGBA")]
+        internal static extern int pixcmapGetRGBA(HandleRef cmap, int index, out int prval, out int pgval, out int pbval, out int paval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetRGBA32")]
+        internal static extern int pixcmapGetRGBA32(HandleRef cmap, int index, out int pval32);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapResetColor")]
+        internal static extern int pixcmapResetColor(HandleRef cmap, int index, int rval, int gval, int bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapSetAlpha")]
+        internal static extern int pixcmapSetAlpha(HandleRef cmap, int index, int aval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetIndex")]
+        internal static extern int pixcmapGetIndex(HandleRef cmap, int rval, int gval, int bval, out int pindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapHasColor")]
+        internal static extern int pixcmapHasColor(HandleRef cmap, out int pcolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapIsOpaque")]
+        internal static extern int pixcmapIsOpaque(HandleRef cmap, out int popaque);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapIsBlackAndWhite")]
+        internal static extern int pixcmapIsBlackAndWhite(HandleRef cmap, out int pblackwhite);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapCountGrayColors")]
+        internal static extern int pixcmapCountGrayColors(HandleRef cmap, out int pngray);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetRankIntensity")]
+        internal static extern int pixcmapGetRankIntensity(HandleRef cmap, float rankval, out int pindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetNearestIndex")]
+        internal static extern int pixcmapGetNearestIndex(HandleRef cmap, int rval, int gval, int bval, out int pindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetNearestGrayIndex")]
+        internal static extern int pixcmapGetNearestGrayIndex(HandleRef cmap, int val, out int pindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetDistanceToColor")]
+        internal static extern int pixcmapGetDistanceToColor(HandleRef cmap, int index, int rval, int gval, int bval, out int pdist);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGetRangeValues")]
+        internal static extern int pixcmapGetRangeValues(HandleRef cmap, int select, out int pminval, out int pmaxval, out int pminindex, out int pmaxindex);
+
+        // Colormap conversion
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGrayToColor")]
+        internal static extern IntPtr pixcmapGrayToColor(uint color);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapColorToGray")]
+        internal static extern IntPtr pixcmapColorToGray(HandleRef cmaps, float rwt, float gwt, float bwt);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapConvertTo4")]
+        internal static extern IntPtr pixcmapConvertTo4(HandleRef cmaps);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapConvertTo8")]
+        internal static extern IntPtr pixcmapConvertTo8(HandleRef cmaps);
+
+        // Colormap I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapRead")]
+        internal static extern IntPtr pixcmapRead([MarshalAs(UnmanagedType.AnsiBStr)]  string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapReadStream")]
+        internal static extern IntPtr pixcmapReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapReadMem")]
+        internal static extern IntPtr pixcmapReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapWrite")]
+        internal static extern int pixcmapWrite([MarshalAs(UnmanagedType.AnsiBStr)]  string filename, HandleRef cmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapWriteStream")]
+        internal static extern int pixcmapWriteStream(IntPtr fp, HandleRef cmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapWriteMem")]
+        internal static extern int pixcmapWriteMem(out IntPtr pdata, out IntPtr psize, HandleRef cmap);
+
+        // Extract colormap arrays and serialization
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapToArrays")]
+        internal static extern int pixcmapToArrays(HandleRef cmap, out IntPtr prmap, out IntPtr pgmap, out IntPtr pbmap, out IntPtr pamap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapToRGBTable")]
+        internal static extern int pixcmapToRGBTable(HandleRef cmap, out IntPtr ptab, out int pncolors);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapSerializeToMemory")]
+        internal static extern int pixcmapSerializeToMemory(HandleRef cmap, int cpc, out int pncolors, out IntPtr pdata);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapDeserializeFromMemory")]
+        internal static extern IntPtr pixcmapDeserializeFromMemory(IntPtr data, int cpc, int ncolors);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapConvertToHex")]
+        internal static extern IntPtr pixcmapConvertToHex(IntPtr data, int ncolors);
+
+        // Colormap transforms
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapGammaTRC")]
+        internal static extern int pixcmapGammaTRC(HandleRef cmap, float gamma, int minval, int maxval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapContrastTRC")]
+        internal static extern int pixcmapContrastTRC(HandleRef cmap, float factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapShiftIntensity")]
+        internal static extern int pixcmapShiftIntensity(HandleRef cmap, float fraction);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcmapShiftByComponent")]
+        internal static extern int pixcmapShiftByComponent(HandleRef cmap, uint srcval, uint dstval);
+        #endregion
 
 
         /* 
-         internal static  extern PIXCMAP* pixcmapCreate(int depth);
-         internal static  extern PIXCMAP* pixcmapCreateRandom(int depth, int hasblack, int haswhite);
-         internal static  extern PIXCMAP* pixcmapCreateLinear(int d, int nlevels);
-         internal static  extern PIXCMAP* pixcmapCopy(PIXCMAP* cmaps);
-         internal static  extern void pixcmapDestroy(PIXCMAP** pcmap);
-         internal static  extern int pixcmapAddColor(PIXCMAP* cmap, int rval, int gval, int bval);
-         internal static  extern int pixcmapAddRGBA(PIXCMAP* cmap, int rval, int gval, int bval, int aval);
-         internal static  extern int pixcmapAddNewColor(PIXCMAP* cmap, int rval, int gval, int bval, l_int32* pindex);
-         internal static  extern int pixcmapAddNearestColor(PIXCMAP* cmap, int rval, int gval, int bval, l_int32* pindex);
-         internal static  extern int pixcmapUsableColor(PIXCMAP* cmap, int rval, int gval, int bval, l_int32* pusable);
-         internal static  extern int pixcmapAddBlackOrWhite(PIXCMAP* cmap, int color, l_int32* pindex);
-         internal static  extern int pixcmapSetBlackAndWhite(PIXCMAP* cmap, int setblack, int setwhite);
-         internal static  extern int pixcmapGetCount(PIXCMAP* cmap);
-         internal static  extern int pixcmapGetFreeCount(PIXCMAP* cmap);
-         internal static  extern int pixcmapGetDepth(PIXCMAP* cmap);
-         internal static  extern int pixcmapGetMinDepth(PIXCMAP* cmap, l_int32* pmindepth);
-         internal static  extern int pixcmapClear(PIXCMAP* cmap);
-         internal static  extern int pixcmapGetColor(PIXCMAP* cmap, int index, l_int32* prval, l_int32* pgval, l_int32* pbval);
-         internal static  extern int pixcmapGetColor32(PIXCMAP* cmap, int index, l_uint32* pval32);
-         internal static  extern int pixcmapGetRGBA(PIXCMAP* cmap, int index, l_int32* prval, l_int32* pgval, l_int32* pbval, l_int32* paval);
-         internal static  extern int pixcmapGetRGBA32(PIXCMAP* cmap, int index, l_uint32* pval32);
-         internal static  extern int pixcmapResetColor(PIXCMAP* cmap, int index, int rval, int gval, int bval);
-         internal static  extern int pixcmapSetAlpha(PIXCMAP* cmap, int index, int aval);
-         internal static  extern int pixcmapGetIndex(PIXCMAP* cmap, int rval, int gval, int bval, l_int32* pindex);
-         internal static  extern int pixcmapHasColor(PIXCMAP* cmap, l_int32* pcolor);
-         internal static  extern int pixcmapIsOpaque(PIXCMAP* cmap, l_int32* popaque);
-         internal static  extern int pixcmapIsBlackAndWhite(PIXCMAP* cmap, l_int32* pblackwhite);
-         internal static  extern int pixcmapCountGrayColors(PIXCMAP* cmap, l_int32* pngray);
-         internal static  extern int pixcmapGetRankIntensity(PIXCMAP* cmap, float rankval, l_int32* pindex);
-         internal static  extern int pixcmapGetNearestIndex(PIXCMAP* cmap, int rval, int gval, int bval, l_int32* pindex);
-         internal static  extern int pixcmapGetNearestGrayIndex(PIXCMAP* cmap, int val, l_int32* pindex);
-         internal static  extern int pixcmapGetDistanceToColor(PIXCMAP* cmap, int index, int rval, int gval, int bval, l_int32* pdist);
-         internal static  extern int pixcmapGetRangeValues(PIXCMAP* cmap, int select, l_int32* pminval, l_int32* pmaxval, l_int32* pminindex, l_int32* pmaxindex);
-         internal static  extern PIXCMAP* pixcmapGrayToColor(uint color);
-         internal static  extern PIXCMAP* pixcmapColorToGray(PIXCMAP* cmaps, float rwt, float gwt, float bwt);
-         internal static  extern PIXCMAP* pixcmapConvertTo4(PIXCMAP* cmaps);
-         internal static  extern PIXCMAP* pixcmapConvertTo8(PIXCMAP* cmaps);
-         internal static  extern PIXCMAP* pixcmapRead( const char* filename );
-         internal static  extern PIXCMAP* pixcmapReadStream(FILE* fp);
-         internal static  extern PIXCMAP* pixcmapReadMem( const l_uint8* data, size_t size );
-         internal static  extern int pixcmapWrite( const char* filename, PIXCMAP *cmap );
-         internal static  extern int pixcmapWriteStream(FILE* fp, PIXCMAP* cmap);
-         internal static  extern int pixcmapWriteMem(l_uint8** pdata, size_t* psize, PIXCMAP* cmap);
-         internal static  extern int pixcmapToArrays(PIXCMAP* cmap, l_int32** prmap, l_int32** pgmap, l_int32** pbmap, l_int32** pamap);
-         internal static  extern int pixcmapToRGBTable(PIXCMAP* cmap, l_uint32** ptab, l_int32* pncolors);
-         internal static  extern int pixcmapSerializeToMemory(PIXCMAP* cmap, int cpc, l_int32* pncolors, l_uint8** pdata);
-         internal static  extern PIXCMAP* pixcmapDeserializeFromMemory(l_uint8* data, int cpc, int ncolors);
-         internal static  extern char* pixcmapConvertToHex(l_uint8* data, int ncolors);
-         internal static  extern int pixcmapGammaTRC(PIXCMAP* cmap, float gamma, int minval, int maxval);
-         internal static  extern int pixcmapContrastTRC(PIXCMAP* cmap, float factor);
-         internal static  extern int pixcmapShiftIntensity(PIXCMAP* cmap, float fraction);
-         internal static  extern int pixcmapShiftByComponent(PIXCMAP* cmap, uint srcval, uint dstval);
          internal static  extern PIX* pixColorMorph(PIX* pixs, int type, int hsize, int vsize);
          internal static  extern PIX* pixOctreeColorQuant(PIX* pixs, int colors, int ditherflag);
          internal static  extern PIX* pixOctreeColorQuantGeneral(PIX* pixs, int colors, int ditherflag, float validthresh, float colorthresh);
@@ -1296,10 +1360,10 @@ namespace Leptonica.Native
          internal static  extern PIX* pixFewColorsOctcubeQuant2(PIX* pixs, int level, NUMA* na, int ncolors, l_int32* pnerrors);
          internal static  extern PIX* pixFewColorsOctcubeQuantMixed(PIX* pixs, int level, int darkthresh, int lightthresh, int diffthresh, float minfract, int maxspan);
          internal static  extern PIX* pixFixedOctcubeQuantGenRGB(PIX* pixs, int level);
-         internal static  extern PIX* pixQuantFromCmap(PIX* pixs, PIXCMAP* cmap, int mindepth, int level, int metric);
-         internal static  extern PIX* pixOctcubeQuantFromCmap(PIX* pixs, PIXCMAP* cmap, int mindepth, int level, int metric);
+         internal static  extern PIX* pixQuantFromCmap(PIX* pixs, HandleRef cmap, int mindepth, int level, int metric);
+         internal static  extern PIX* pixOctcubeQuantFromCmap(PIX* pixs, HandleRef cmap, int mindepth, int level, int metric);
          internal static  extern NUMA* pixOctcubeHistogram(PIX* pixs, int level, l_int32* pncolors);
-         internal static  extern l_int32* pixcmapToOctcubeLUT(PIXCMAP* cmap, int level, int metric);
+         internal static  extern l_int32* pixcmapToOctcubeLUT(HandleRef  cmap, int level, int metric);
          internal static  extern int pixRemoveUnusedColors(PIX* pixs);
          internal static  extern int pixNumberOccupiedOctcubes(PIX* pix, int level, int mincount, float minfract, l_int32* pncolors);
          internal static  extern PIX* pixMedianCutQuant(PIX* pixs, int ditherflag);
@@ -1316,8 +1380,8 @@ namespace Leptonica.Native
          internal static  extern PIX* pixConvertHSVToRGB(PIX* pixd, PIX* pixs);
          internal static  extern int convertRGBToHSV(int rval, int gval, int bval, l_int32* phval, l_int32* psval, l_int32* pvval);
          internal static  extern int convertHSVToRGB(int hval, int sval, int vval, l_int32* prval, l_int32* pgval, l_int32* pbval);
-         internal static  extern int pixcmapConvertRGBToHSV(PIXCMAP* cmap);
-         internal static  extern int pixcmapConvertHSVToRGB(PIXCMAP* cmap);
+         internal static  extern int pixcmapConvertRGBToHSV(HandleRef  cmap);
+         internal static  extern int pixcmapConvertHSVToRGB(HandleRef  cmap);
          internal static  extern PIX* pixConvertRGBToHue(PIX* pixs);
          internal static  extern PIX* pixConvertRGBToSaturation(PIX* pixs);
          internal static  extern PIX* pixConvertRGBToValue(PIX* pixs);
@@ -1333,8 +1397,8 @@ namespace Leptonica.Native
          internal static  extern PIX* pixConvertYUVToRGB(PIX* pixd, PIX* pixs);
          internal static  extern int convertRGBToYUV(int rval, int gval, int bval, l_int32* pyval, l_int32* puval, l_int32* pvval);
          internal static  extern int convertYUVToRGB(int yval, int uval, int vval, l_int32* prval, l_int32* pgval, l_int32* pbval);
-         internal static  extern int pixcmapConvertRGBToYUV(PIXCMAP* cmap);
-         internal static  extern int pixcmapConvertYUVToRGB(PIXCMAP* cmap);
+         internal static  extern int pixcmapConvertRGBToYUV(HandleRef  cmap);
+         internal static  extern int pixcmapConvertYUVToRGB(HandleRef  cmap);
          internal static  extern FPIXA* pixConvertRGBToXYZ(PIX* pixs);
          internal static  extern PIX* fpixaConvertXYZToRGB(FPIXA* fpixa);
          internal static  extern int convertRGBToXYZ(int rval, int gval, int bval, l_float32* pfxval, l_float32* pfyval, l_float32* pfzval);
@@ -1350,7 +1414,7 @@ namespace Leptonica.Native
          internal static  extern int pixEqual(PIX* pix1, PIX* pix2, l_int32* psame);
          internal static  extern int pixEqualWithAlpha(PIX* pix1, PIX* pix2, int use_alpha, l_int32* psame);
          internal static  extern int pixEqualWithCmap(PIX* pix1, PIX* pix2, l_int32* psame);
-         internal static  extern int cmapEqual(PIXCMAP* cmap1, PIXCMAP* cmap2, int ncomps, l_int32* psame);
+         internal static  extern int cmapEqual(HandleRef  cmap1, HandleRef cmap2, int ncomps, l_int32* psame);
          internal static  extern int pixUsesCmapColor(PIX* pixs, l_int32* pcolor);
          internal static  extern int pixCorrelationBinary(PIX* pix1, PIX* pix2, l_float32* pval);
          internal static  extern PIX* pixDisplayDiffBinary(PIX* pix1, PIX* pix2);
@@ -1374,8 +1438,8 @@ namespace Leptonica.Native
          internal static  extern int compareTilesByHisto(NUMAA* naa1, NUMAA* naa2, float minratio, int w1, int h1, int w2, int h2, l_float32* pscore, HandleRef pixadebug);
          internal static  extern int pixCompareGrayByHisto(PIX* pix1, PIX* pix2, HandleRef box1, HandleRef box2, float minratio, int maxgray, int factor, int nx, int ny, l_float32* pscore, int debugflag);
          internal static  extern int pixCropAlignedToCentroid(PIX* pix1, PIX* pix2, int factor, BOX** pbox1, BOX** pbox2);
-         internal static  extern l_uint8* l_compressGrayHistograms(NUMAA* naa, int w, int h, size_t* psize);
-         internal static  extern NUMAA* l_uncompressGrayHistograms(l_uint8* bytea, size_t size, l_int32* pw, l_int32* ph);
+         internal static  extern l_uint8* l_compressGrayHistograms(NUMAA* naa, int w, int h, IntPtr psize);
+         internal static  extern NUMAA* l_uncompressGrayHistograms(l_uint8* bytea, IntPtr size, l_int32* pw, l_int32* ph);
          internal static  extern int pixCompareWithTranslation(PIX* pix1, PIX* pix2, int thresh, l_int32* pdelx, l_int32* pdely, l_float32* pscore, int debugflag);
          internal static  extern int pixBestCorrelation(PIX* pix1, PIX* pix2, int area1, int area2, int etransx, int etransy, int maxshift, l_int32* tab8, l_int32* pdelx, l_int32* pdely, l_float32* pscore, int debugflag);
          internal static  extern HandleRef pixConnComp(PIX* pixs, PIXA** ppixa, int connectivity);
@@ -1433,17 +1497,17 @@ namespace Leptonica.Native
          internal static  extern int dewarpaSetCheckColumns(L_DEWARPA* dewa, int check_columns);
          internal static  extern int dewarpaSetMaxDistance(L_DEWARPA* dewa, int maxdist);
          internal static  extern L_DEWARP* dewarpRead( const char* filename );
-         internal static  extern L_DEWARP* dewarpReadStream(FILE* fp);
-         internal static  extern L_DEWARP* dewarpReadMem( const l_uint8* data, size_t size );
+         internal static  extern L_DEWARP* dewarpReadStream( IntPtr fp);
+         internal static  extern L_DEWARP* dewarpReadMem( IntPtr data, IntPtr size );
          internal static  extern int dewarpWrite( const char* filename, L_DEWARP *dew );
-         internal static  extern int dewarpWriteStream(FILE* fp, L_DEWARP* dew);
-         internal static  extern int dewarpWriteMem(l_uint8** pdata, size_t* psize, L_DEWARP* dew);
+         internal static  extern int dewarpWriteStream( IntPtr fp, L_DEWARP* dew);
+         internal static  extern int dewarpWriteMem(l_uint8** pdata, IntPtr psize, L_DEWARP* dew);
          internal static  extern L_DEWARPA* dewarpaRead( const char* filename );
-         internal static  extern L_DEWARPA* dewarpaReadStream(FILE* fp);
-         internal static  extern L_DEWARPA* dewarpaReadMem( const l_uint8* data, size_t size );
+         internal static  extern L_DEWARPA* dewarpaReadStream( IntPtr fp);
+         internal static  extern L_DEWARPA* dewarpaReadMem( IntPtr data, IntPtr size );
          internal static  extern int dewarpaWrite( const char* filename, L_DEWARPA *dewa );
-         internal static  extern int dewarpaWriteStream(FILE* fp, L_DEWARPA* dewa);
-         internal static  extern int dewarpaWriteMem(l_uint8** pdata, size_t* psize, L_DEWARPA* dewa);
+         internal static  extern int dewarpaWriteStream( IntPtr fp, L_DEWARPA* dewa);
+         internal static  extern int dewarpaWriteMem(l_uint8** pdata, IntPtr psize, L_DEWARPA* dewa);
          internal static  extern int dewarpBuildPageModel(L_DEWARP* dew, const char* debugfile );
          internal static  extern int dewarpFindVertDisparity(L_DEWARP* dew, PTAA* ptaa, int rotflag);
          internal static  extern int dewarpFindHorizDisparity(L_DEWARP* dew, PTAA* ptaa);
@@ -1464,7 +1528,7 @@ namespace Leptonica.Native
          internal static  extern int dewarpaInsertRefModels(L_DEWARPA* dewa, int notests, int debug);
          internal static  extern int dewarpaStripRefModels(L_DEWARPA* dewa);
          internal static  extern int dewarpaRestoreModels(L_DEWARPA* dewa);
-         internal static  extern int dewarpaInfo(FILE* fp, L_DEWARPA* dewa);
+         internal static  extern int dewarpaInfo( IntPtr fp, L_DEWARPA* dewa);
          internal static  extern int dewarpaModelStats(L_DEWARPA* dewa, l_int32* pnnone, l_int32* pnvsuccess, l_int32* pnvvalid, l_int32* pnhsuccess, l_int32* pnhvalid, l_int32* pnref);
          internal static  extern int dewarpaShowArrays(L_DEWARPA* dewa, float scalefact, int first, int last);
          internal static  extern int dewarpDebug(L_DEWARP* dew, const char* subdirs, int index );
@@ -1495,9 +1559,9 @@ namespace Leptonica.Native
          internal static  extern int l_dnaSetParameters(L_DNA* da, l_float64 startx, l_float64 delx);
          internal static  extern int l_dnaCopyParameters(L_DNA* dad, L_DNA* das);
          internal static  extern L_DNA* l_dnaRead( const char* filename );
-         internal static  extern L_DNA* l_dnaReadStream(FILE* fp);
+         internal static  extern L_DNA* l_dnaReadStream( IntPtr fp);
          internal static  extern int l_dnaWrite( const char* filename, L_DNA *da );
-         internal static  extern int l_dnaWriteStream(FILE* fp, L_DNA* da);
+         internal static  extern int l_dnaWriteStream( IntPtr fp, L_DNA* da);
          internal static  extern L_DNAA* l_dnaaCreate(int n);
          internal static  extern L_DNAA* l_dnaaCreateFull(int nptr, int n);
          internal static  extern int l_dnaaTruncate(L_DNAA* daa);
@@ -1511,9 +1575,9 @@ namespace Leptonica.Native
          internal static  extern int l_dnaaGetValue(L_DNAA* daa, int i, int j, l_float64* pval);
          internal static  extern int l_dnaaAddNumber(L_DNAA* daa, int index, l_float64 val);
          internal static  extern L_DNAA* l_dnaaRead( const char* filename );
-         internal static  extern L_DNAA* l_dnaaReadStream(FILE* fp);
+         internal static  extern L_DNAA* l_dnaaReadStream( IntPtr fp);
          internal static  extern int l_dnaaWrite( const char* filename, L_DNAA *daa );
-         internal static  extern int l_dnaaWriteStream(FILE* fp, L_DNAA* daa);
+         internal static  extern int l_dnaaWriteStream( IntPtr fp, L_DNAA* daa);
          internal static  extern int l_dnaJoin(L_DNA* dad, L_DNA* das, int istart, int iend);
          internal static  extern L_DNA* l_dnaaFlattenToDna(L_DNAA* daa);
          internal static  extern NUMA* l_dnaConvertToNuma(L_DNA* da);
@@ -1645,20 +1709,20 @@ namespace Leptonica.Native
          internal static  extern int dpixGetPixel(DPIX* dpix, int x, int y, l_float64* pval);
          internal static  extern int dpixSetPixel(DPIX* dpix, int x, int y, l_float64 val);
          internal static  extern FPIX* fpixRead( const char* filename );
-         internal static  extern FPIX* fpixReadStream(FILE* fp);
-         internal static  extern FPIX* fpixReadMem( const l_uint8* data, size_t size );
+         internal static  extern FPIX* fpixReadStream( IntPtr fp);
+         internal static  extern FPIX* fpixReadMem( IntPtr data, IntPtr size );
          internal static  extern int fpixWrite( const char* filename, FPIX *fpix );
-         internal static  extern int fpixWriteStream(FILE* fp, FPIX* fpix);
-         internal static  extern int fpixWriteMem(l_uint8** pdata, size_t* psize, FPIX* fpix);
+         internal static  extern int fpixWriteStream( IntPtr fp, FPIX* fpix);
+         internal static  extern int fpixWriteMem(l_uint8** pdata, IntPtr psize, FPIX* fpix);
          internal static  extern FPIX* fpixEndianByteSwap(FPIX* fpixd, FPIX* fpixs);
          internal static  extern DPIX* dpixRead( const char* filename );
-         internal static  extern DPIX* dpixReadStream(FILE* fp);
-         internal static  extern DPIX* dpixReadMem( const l_uint8* data, size_t size );
+         internal static  extern DPIX* dpixReadStream( IntPtr fp);
+         internal static  extern DPIX* dpixReadMem( IntPtr data, IntPtr size );
          internal static  extern int dpixWrite( const char* filename, DPIX *dpix );
-         internal static  extern int dpixWriteStream(FILE* fp, DPIX* dpix);
-         internal static  extern int dpixWriteMem(l_uint8** pdata, size_t* psize, DPIX* dpix);
+         internal static  extern int dpixWriteStream( IntPtr fp, DPIX* dpix);
+         internal static  extern int dpixWriteMem(l_uint8** pdata, IntPtr psize, DPIX* dpix);
          internal static  extern DPIX* dpixEndianByteSwap(DPIX* dpixd, DPIX* dpixs);
-         internal static  extern int fpixPrintStream(FILE* fp, FPIX* fpix, int factor);
+         internal static  extern int fpixPrintStream( IntPtr fp, FPIX* fpix, int factor);
          internal static  extern FPIX* pixConvertToFPix(PIX* pixs, int ncomps);
          internal static  extern DPIX* pixConvertToDPix(PIX* pixs, int ncomps);
          internal static  extern PIX* fpixConvertToPix(FPIX* fpixs, int outdepth, int negvals, int errorflag);
@@ -1696,10 +1760,10 @@ namespace Leptonica.Native
          internal static  extern int linearInterpolatePixelFloat(l_float32* datas, int w, int h, float x, float y, float inval, l_float32* pval);
          internal static  extern PIX* fpixThresholdToPix(FPIX* fpix, float thresh);
          internal static  extern FPIX* pixComponentFunction(PIX* pix, float rnum, float gnum, float bnum, float rdenom, float gdenom, float bdenom);
-         internal static  extern PIX* pixReadStreamGif(FILE* fp);
-         internal static  extern int pixWriteStreamGif(FILE* fp, PIX* pix);
-         internal static  extern PIX* pixReadMemGif( const l_uint8* cdata, size_t size );
-         internal static  extern int pixWriteMemGif(l_uint8** pdata, size_t* psize, PIX* pix);
+         internal static  extern PIX* pixReadStreamGif( IntPtr fp);
+         internal static  extern int pixWriteStreamGif( IntPtr fp, PIX* pix);
+         internal static  extern PIX* pixReadMemGif( IntPtr cdata, IntPtr size );
+         internal static  extern int pixWriteMemGif(l_uint8** pdata, IntPtr psize, PIX* pix);
          internal static  extern GPLOT* gplotCreate( const char* rootname, int outformat, const char* title, const char* xlabel, const char* ylabel );
          internal static  extern void gplotDestroy(GPLOT** pgplot);
          internal static  extern int gplotAddPlot(GPLOT* gplot, NUMA* nax, NUMA* nay, int plotstyle, const char* plottitle );
@@ -1793,7 +1857,7 @@ namespace Leptonica.Native
          internal static  extern PIX* pixGenerateMaskByBand32(PIX* pixs, uint refval, int delm, int delp, float fractm, float fractp);
          internal static  extern PIX* pixGenerateMaskByDiscr32(PIX* pixs, uint refval1, uint refval2, int distflag);
          internal static  extern PIX* pixGrayQuantFromHisto(PIX* pixd, PIX* pixs, PIX* pixm, float minfract, int maxsize);
-         internal static  extern PIX* pixGrayQuantFromCmap(PIX* pixs, PIXCMAP* cmap, int mindepth);
+         internal static  extern PIX* pixGrayQuantFromCmap(PIX* pixs, HandleRef cmap, int mindepth);
          internal static  extern void ditherToBinaryLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, l_uint32* bufs1, l_uint32* bufs2, int lowerclip, int upperclip);
          internal static  extern void ditherToBinaryLineLow(l_uint32* lined, int w, l_uint32* bufs1, l_uint32* bufs2, int lowerclip, int upperclip, int lastlineflag);
          internal static  extern void thresholdToBinaryLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int d, int wpls, int thresh);
@@ -1812,7 +1876,7 @@ namespace Leptonica.Native
          internal static  extern int lheapSwapDown(L_HEAP* lh);
          internal static  extern int lheapSort(L_HEAP* lh);
          internal static  extern int lheapSortStrictOrder(L_HEAP* lh);
-         internal static  extern int lheapPrint(FILE* fp, L_HEAP* lh);
+         internal static  extern int lheapPrint( IntPtr fp, L_HEAP* lh);
          internal static  extern JBCLASSER* jbRankHausInit(int components, int maxwidth, int maxheight, int size, float rank);
          internal static  extern JBCLASSER* jbCorrelationInit(int components, int maxwidth, int maxheight, float thresh, float weightfactor);
          internal static  extern JBCLASSER* jbCorrelationInitWithoutComponents(int components, int maxwidth, int maxheight, float thresh, float weightfactor);
@@ -1838,26 +1902,26 @@ namespace Leptonica.Native
          internal static  extern int jbGetULCorners(JBCLASSER* classer, PIX* pixs, HandleRef boxa);
          internal static  extern int jbGetLLCorners(JBCLASSER* classer);
          internal static  extern int readHeaderJp2k( const char* filename, int *pw, l_int32* ph, int *pbps, l_int32* pspp );
-         internal static  extern int freadHeaderJp2k(FILE* fp, l_int32* pw, l_int32* ph, l_int32* pbps, l_int32* pspp);
-         internal static  extern int readHeaderMemJp2k( const l_uint8* data, size_t size, l_int32* pw, int *ph, l_int32* pbps, int *pspp );
-         internal static  extern int fgetJp2kResolution(FILE* fp, l_int32* pxres, l_int32* pyres);
+         internal static  extern int freadHeaderJp2k( IntPtr fp, l_int32* pw, l_int32* ph, l_int32* pbps, l_int32* pspp);
+         internal static  extern int readHeaderMemJp2k( IntPtr data, IntPtr size, l_int32* pw, int *ph, l_int32* pbps, int *pspp );
+         internal static  extern int fgetJp2kResolution( IntPtr fp, l_int32* pxres, l_int32* pyres);
          internal static  extern PIX* pixReadJp2k( const char* filename, uint reduction, HandleRef box, int hint, int debug );
-         internal static  extern PIX* pixReadStreamJp2k(FILE* fp, uint reduction, HandleRef box, int hint, int debug);
+         internal static  extern PIX* pixReadStreamJp2k( IntPtr fp, uint reduction, HandleRef box, int hint, int debug);
          internal static  extern int pixWriteJp2k( const char* filename, PIX *pix, int quality, int nlevels, int hint, int debug );
-         internal static  extern int pixWriteStreamJp2k(FILE* fp, PIX* pix, int quality, int nlevels, int hint, int debug);
-         internal static  extern PIX* pixReadMemJp2k( const l_uint8* data, size_t size, uint reduction, BOX *box, int hint, int debug );
-         internal static  extern int pixWriteMemJp2k(l_uint8** pdata, size_t* psize, PIX* pix, int quality, int nlevels, int hint, int debug);
+         internal static  extern int pixWriteStreamJp2k( IntPtr fp, PIX* pix, int quality, int nlevels, int hint, int debug);
+         internal static  extern PIX* pixReadMemJp2k( IntPtr data, IntPtr size, uint reduction, BOX *box, int hint, int debug );
+         internal static  extern int pixWriteMemJp2k(l_uint8** pdata, IntPtr psize, PIX* pix, int quality, int nlevels, int hint, int debug);
          internal static  extern PIX* pixReadJpeg( const char* filename, int cmapflag, int reduction, int *pnwarn, int hint );
-         internal static  extern PIX* pixReadStreamJpeg(FILE* fp, int cmapflag, int reduction, l_int32* pnwarn, int hint);
+         internal static  extern PIX* pixReadStreamJpeg( IntPtr fp, int cmapflag, int reduction, l_int32* pnwarn, int hint);
          internal static  extern int readHeaderJpeg( const char* filename, int *pw, l_int32* ph, int *pspp, l_int32* pycck, int *pcmyk );
-         internal static  extern int freadHeaderJpeg(FILE* fp, l_int32* pw, l_int32* ph, l_int32* pspp, l_int32* pycck, l_int32* pcmyk);
-         internal static  extern int fgetJpegResolution(FILE* fp, l_int32* pxres, l_int32* pyres);
-         internal static  extern int fgetJpegComment(FILE* fp, l_uint8** pcomment);
+         internal static  extern int freadHeaderJpeg( IntPtr fp, l_int32* pw, l_int32* ph, l_int32* pspp, l_int32* pycck, l_int32* pcmyk);
+         internal static  extern int fgetJpegResolution( IntPtr fp, l_int32* pxres, l_int32* pyres);
+         internal static  extern int fgetJpegComment( IntPtr fp, l_uint8** pcomment);
          internal static  extern int pixWriteJpeg( const char* filename, PIX *pix, int quality, int progressive );
-         internal static  extern int pixWriteStreamJpeg(FILE* fp, PIX* pixs, int quality, int progressive);
-         internal static  extern PIX* pixReadMemJpeg( const l_uint8* data, size_t size, int cmflag, int reduction, l_int32* pnwarn, int hint );
-         internal static  extern int readHeaderMemJpeg( const l_uint8* data, size_t size, l_int32* pw, int *ph, l_int32* pspp, int *pycck, l_int32* pcmyk );
-         internal static  extern int pixWriteMemJpeg(l_uint8** pdata, size_t* psize, PIX* pix, int quality, int progressive);
+         internal static  extern int pixWriteStreamJpeg( IntPtr fp, PIX* pixs, int quality, int progressive);
+         internal static  extern PIX* pixReadMemJpeg( IntPtr data, IntPtr size, int cmflag, int reduction, l_int32* pnwarn, int hint );
+         internal static  extern int readHeaderMemJpeg( IntPtr data, IntPtr size, l_int32* pw, int *ph, l_int32* pspp, int *pycck, l_int32* pcmyk );
+         internal static  extern int pixWriteMemJpeg(l_uint8** pdata, IntPtr psize, PIX* pix, int quality, int progressive);
          internal static  extern int pixSetChromaSampling(PIX* pix, int sampling);
          internal static  extern L_KERNEL* kernelCreate(int height, int width);
          internal static  extern void kernelDestroy(L_KERNEL** pkel);
@@ -1872,9 +1936,9 @@ namespace Leptonica.Native
          internal static  extern L_KERNEL* kernelInvert(L_KERNEL* kels);
          internal static  extern l_float32** create2dFloatArray(int sy, int sx);
          internal static  extern L_KERNEL* kernelRead( const char* fname );
-         internal static  extern L_KERNEL* kernelReadStream(FILE* fp);
+         internal static  extern L_KERNEL* kernelReadStream( IntPtr fp);
          internal static  extern int kernelWrite( const char* fname, L_KERNEL *kel );
-         internal static  extern int kernelWriteStream(FILE* fp, L_KERNEL* kel);
+         internal static  extern int kernelWriteStream( IntPtr fp, L_KERNEL* kel);
          internal static  extern L_KERNEL* kernelCreateFromString(int h, int w, int cy, int cx, const char* kdata );
          internal static  extern L_KERNEL* kernelCreateFromFile( const char* filename );
          internal static  extern L_KERNEL* kernelCreateFromPix(PIX* pix, int cy, int cx);
@@ -2011,11 +2075,11 @@ namespace Leptonica.Native
          internal static  extern int numaCopyParameters(NUMA* nad, NUMA* nas);
          internal static  extern SARRAY* numaConvertToSarray(NUMA* na, int size1, int size2, int addzeros, int type);
          internal static  extern NUMA* numaRead( const char* filename );
-         internal static  extern NUMA* numaReadStream(FILE* fp);
-         internal static  extern NUMA* numaReadMem( const l_uint8* data, size_t size );
+         internal static  extern NUMA* numaReadStream( IntPtr fp);
+         internal static  extern NUMA* numaReadMem( IntPtr data, IntPtr size );
          internal static  extern int numaWrite( const char* filename, NUMA *na );
-         internal static  extern int numaWriteStream(FILE* fp, NUMA* na);
-         internal static  extern int numaWriteMem(l_uint8** pdata, size_t* psize, NUMA* na);
+         internal static  extern int numaWriteStream( IntPtr fp, NUMA* na);
+         internal static  extern int numaWriteMem(l_uint8** pdata, IntPtr psize, NUMA* na);
          internal static  extern NUMAA* numaaCreate(int n);
          internal static  extern NUMAA* numaaCreateFull(int nptr, int n);
          internal static  extern int numaaTruncate(NUMAA* naa);
@@ -2030,11 +2094,11 @@ namespace Leptonica.Native
          internal static  extern int numaaGetValue(NUMAA* naa, int i, int j, l_float32* pfval, l_int32* pival);
          internal static  extern int numaaAddNumber(NUMAA* naa, int index, float val);
          internal static  extern NUMAA* numaaRead( const char* filename );
-         internal static  extern NUMAA* numaaReadStream(FILE* fp);
-         internal static  extern NUMAA* numaaReadMem( const l_uint8* data, size_t size );
+         internal static  extern NUMAA* numaaReadStream( IntPtr fp);
+         internal static  extern NUMAA* numaaReadMem( IntPtr data, IntPtr size );
          internal static  extern int numaaWrite( const char* filename, NUMAA *naa );
-         internal static  extern int numaaWriteStream(FILE* fp, NUMAA* naa);
-         internal static  extern int numaaWriteMem(l_uint8** pdata, size_t* psize, NUMAA* naa);
+         internal static  extern int numaaWriteStream( IntPtr fp, NUMAA* naa);
+         internal static  extern int numaaWriteMem(l_uint8** pdata, IntPtr psize, NUMAA* naa);
          internal static  extern NUMA* numaArithOp(NUMA* nad, NUMA* na1, NUMA* na2, int op);
          internal static  extern NUMA* numaLogicalOp(NUMA* nad, NUMA* na1, NUMA* na2, int op);
          internal static  extern NUMA* numaInvert(NUMA* nad, NUMA* nas);
@@ -2154,7 +2218,7 @@ namespace Leptonica.Native
          internal static  extern int pixColorGrayRegionsCmap(PIX* pixs, HandleRef boxa, int type, int rval, int gval, int bval);
          internal static  extern int pixColorGrayCmap(PIX* pixs, HandleRef box, int type, int rval, int gval, int bval);
          internal static  extern int pixColorGrayMaskedCmap(PIX* pixs, PIX* pixm, int type, int rval, int gval, int bval);
-         internal static  extern int addColorizedGrayToCmap(PIXCMAP* cmap, int type, int rval, int gval, int bval, NUMA** pna);
+         internal static  extern int addColorizedGrayToCmap(HandleRef  cmap, int type, int rval, int gval, int bval, NUMA** pna);
          internal static  extern int pixSetSelectMaskedCmap(PIX* pixs, PIX* pixm, int x, int y, int sindex, int rval, int gval, int bval);
          internal static  extern int pixSetMaskedCmap(PIX* pixs, PIX* pixm, int x, int y, int rval, int gval, int bval);
          internal static  extern char* parseForProtos( const char* filein, const char* prestring );
@@ -2162,34 +2226,34 @@ namespace Leptonica.Native
          internal static  extern HandleRef boxaPruneSortedOnOverlap(HandleRef boxas, float maxoverlap);
          internal static  extern int convertFilesToPdf( const char* dirname, const char* substr, int res, float scalefactor, int type, int quality, const char* title, const char* fileout );
          internal static  extern int saConvertFilesToPdf(SARRAY* sa, int res, float scalefactor, int type, int quality, const char* title, const char* fileout );
-         internal static  extern int saConvertFilesToPdfData(SARRAY* sa, int res, float scalefactor, int type, int quality, const char* title, byte **pdata, size_t* pnbytes );
+         internal static  extern int saConvertFilesToPdfData(SARRAY* sa, int res, float scalefactor, int type, int quality, const char* title, byte **pdata, IntPtr pnbytes );
          internal static  extern int selectDefaultPdfEncoding(PIX* pix, l_int32* ptype);
          internal static  extern int convertUnscaledFilesToPdf( const char* dirname, const char* substr, const char* title, const char* fileout );
          internal static  extern int saConvertUnscaledFilesToPdf(SARRAY* sa, const char* title, const char* fileout );
-         internal static  extern int saConvertUnscaledFilesToPdfData(SARRAY* sa, const char* title, byte **pdata, size_t* pnbytes );
-         internal static  extern int convertUnscaledToPdfData( const char* fname, const char* title, byte **pdata, size_t* pnbytes );
+         internal static  extern int saConvertUnscaledFilesToPdfData(SARRAY* sa, const char* title, byte **pdata, IntPtr pnbytes );
+         internal static  extern int convertUnscaledToPdfData( const char* fname, const char* title, byte **pdata, IntPtr pnbytes );
          internal static  extern int pixaConvertToPdf(PIXA* pixa, int res, float scalefactor, int type, int quality, const char* title, const char* fileout );
-         internal static  extern int pixaConvertToPdfData(PIXA* pixa, int res, float scalefactor, int type, int quality, const char* title, byte **pdata, size_t* pnbytes );
+         internal static  extern int pixaConvertToPdfData(PIXA* pixa, int res, float scalefactor, int type, int quality, const char* title, byte **pdata, IntPtr pnbytes );
          internal static  extern int convertToPdf( const char* filein, int type, int quality, const char* fileout, int x, int y, int res, const char* title, L_PDF_DATA **plpd, int position );
-         internal static  extern int convertImageDataToPdf(l_uint8* imdata, size_t size, int type, int quality, const char* fileout, int x, int y, int res, const char* title, L_PDF_DATA **plpd, int position );
-         internal static  extern int convertToPdfData( const char* filein, int type, int quality, byte **pdata, size_t* pnbytes, int x, int y, int res, const char* title, L_PDF_DATA **plpd, int position );
-         internal static  extern int convertImageDataToPdfData(l_uint8* imdata, size_t size, int type, int quality, l_uint8** pdata, size_t* pnbytes, int x, int y, int res, const char* title, L_PDF_DATA **plpd, int position );
+         internal static  extern int convertImageDataToPdf(l_uint8* imdata, IntPtr size, int type, int quality, const char* fileout, int x, int y, int res, const char* title, L_PDF_DATA **plpd, int position );
+         internal static  extern int convertToPdfData( const char* filein, int type, int quality, byte **pdata, IntPtr pnbytes, int x, int y, int res, const char* title, L_PDF_DATA **plpd, int position );
+         internal static  extern int convertImageDataToPdfData(l_uint8* imdata, IntPtr size, int type, int quality, l_uint8** pdata, IntPtr pnbytes, int x, int y, int res, const char* title, L_PDF_DATA **plpd, int position );
          internal static  extern int pixConvertToPdf(PIX* pix, int type, int quality, const char* fileout, int x, int y, int res, const char* title, L_PDF_DATA **plpd, int position );
-         internal static  extern int pixWriteStreamPdf(FILE* fp, PIX* pix, int res, const char* title );
-         internal static  extern int pixWriteMemPdf(l_uint8** pdata, size_t* pnbytes, PIX* pix, int res, const char* title );
+         internal static  extern int pixWriteStreamPdf( IntPtr fp, PIX* pix, int res, const char* title );
+         internal static  extern int pixWriteMemPdf(l_uint8** pdata, IntPtr pnbytes, PIX* pix, int res, const char* title );
          internal static  extern int convertSegmentedFilesToPdf( const char* dirname, const char* substr, int res, int type, int thresh, BOXAA* baa, int quality, float scalefactor, const char* title, const char* fileout );
          internal static  extern BOXAA* convertNumberedMasksToBoxaa( const char* dirname, const char* substr, int numpre, int numpost );
          internal static  extern int convertToPdfSegmented( const char* filein, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, const char* title, const char* fileout );
          internal static  extern int pixConvertToPdfSegmented(PIX* pixs, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, const char* title, const char* fileout );
-         internal static  extern int convertToPdfDataSegmented( const char* filein, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, const char* title, byte **pdata, size_t* pnbytes );
-         internal static  extern int pixConvertToPdfDataSegmented(PIX* pixs, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, const char* title, byte **pdata, size_t* pnbytes );
+         internal static  extern int convertToPdfDataSegmented( const char* filein, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, const char* title, byte **pdata, IntPtr pnbytes );
+         internal static  extern int pixConvertToPdfDataSegmented(PIX* pixs, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, const char* title, byte **pdata, IntPtr pnbytes );
          internal static  extern int concatenatePdf( const char* dirname, const char* substr, const char* fileout );
          internal static  extern int saConcatenatePdf(SARRAY* sa, const char* fileout );
          internal static  extern int ptraConcatenatePdf(L_PTRA* pa, const char* fileout );
-         internal static  extern int concatenatePdfToData( const char* dirname, const char* substr, byte **pdata, size_t* pnbytes );
-         internal static  extern int saConcatenatePdfToData(SARRAY* sa, l_uint8** pdata, size_t* pnbytes);
-         internal static  extern int pixConvertToPdfData(PIX* pix, int type, int quality, l_uint8** pdata, size_t* pnbytes, int x, int y, int res, const char* title, L_PDF_DATA **plpd, int position );
-         internal static  extern int ptraConcatenatePdfToData(L_PTRA* pa_data, SARRAY* sa, l_uint8** pdata, size_t* pnbytes);
+         internal static  extern int concatenatePdfToData( const char* dirname, const char* substr, byte **pdata, IntPtr pnbytes );
+         internal static  extern int saConcatenatePdfToData(SARRAY* sa, l_uint8** pdata, IntPtr pnbytes);
+         internal static  extern int pixConvertToPdfData(PIX* pix, int type, int quality, l_uint8** pdata, IntPtr pnbytes, int x, int y, int res, const char* title, L_PDF_DATA **plpd, int position );
+         internal static  extern int ptraConcatenatePdfToData(L_PTRA* pa_data, SARRAY* sa, l_uint8** pdata, IntPtr pnbytes);
          internal static  extern int convertTiffMultipageToPdf( const char* filein, const char* fileout );
          internal static  extern int l_generateCIDataForPdf( const char* fname, PIX *pix, int quality, L_COMP_DATA **pcid );
          internal static  extern L_COMP_DATA* l_generateFlateDataPdf( const char* fname, PIX *pixs );
@@ -2198,7 +2262,7 @@ namespace Leptonica.Native
          internal static  extern int pixGenerateCIData(PIX* pixs, int type, int quality, int ascii85, L_COMP_DATA** pcid);
          internal static  extern L_COMP_DATA* l_generateFlateData( const char* fname, int ascii85flag );
          internal static  extern L_COMP_DATA* l_generateG4Data( const char* fname, int ascii85flag );
-         internal static  extern int cidConvertToPdfData(L_COMP_DATA* cid, const char* title, byte **pdata, size_t* pnbytes );
+         internal static  extern int cidConvertToPdfData(L_COMP_DATA* cid, const char* title, byte **pdata, IntPtr pnbytes );
          internal static  extern void l_CIDataDestroy(L_COMP_DATA** pcid);
          internal static  extern void l_pdfSetG4ImageMask(int flag);
          internal static  extern void l_pdfSetDateAndVersion(int flag);
@@ -2248,15 +2312,15 @@ namespace Leptonica.Native
          internal static  extern int pixSetText(PIX* pix, const char* textstring );
          internal static  extern int pixAddText(PIX* pix, const char* textstring );
          internal static  extern int pixCopyText(PIX* pixd, PIX* pixs);
-         internal static  extern PIXCMAP* pixGetColormap(PIX* pix);
-         internal static  extern int pixSetColormap(PIX* pix, PIXCMAP* colormap);
+         internal static  extern HandleRef pixGetColormap(PIX* pix);
+         internal static  extern int pixSetColormap(PIX* pix, HandleRef colormap);
          internal static  extern int pixDestroyColormap(PIX* pix);
          internal static  extern l_uint32* pixGetData(PIX* pix);
          internal static  extern int pixSetData(PIX* pix, l_uint32* data);
          internal static  extern l_uint32* pixExtractData(PIX* pixs);
          internal static  extern int pixFreeData(PIX* pix);
          internal static  extern void** pixGetLinePtrs(PIX* pix, l_int32* psize);
-         internal static  extern int pixPrintStreamInfo(FILE* fp, PIX* pix, const char* text );
+         internal static  extern int pixPrintStreamInfo( IntPtr fp, PIX* pix, const char* text );
          internal static  extern int pixGetPixel(PIX* pix, int x, int y, l_uint32* pval);
          internal static  extern int pixSetPixel(PIX* pix, int x, int y, uint val);
          internal static  extern int pixGetRGBPixel(PIX* pix, int x, int y, l_int32* prval, l_int32* pgval, l_int32* pbval);
@@ -2311,7 +2375,7 @@ namespace Leptonica.Native
          internal static  extern int lineEndianByteSwap(l_uint32* datad, l_uint32* datas, int wpl);
          internal static  extern PIX* pixEndianTwoByteSwapNew(PIX* pixs);
          internal static  extern int pixEndianTwoByteSwap(PIX* pixs);
-         internal static  extern int pixGetRasterData(PIX* pixs, l_uint8** pdata, size_t* pnbytes);
+         internal static  extern int pixGetRasterData(PIX* pixs, l_uint8** pdata, IntPtr pnbytes);
          internal static  extern int pixAlphaIsOpaque(PIX* pix, l_int32* popaque);
          internal static  extern l_uint8** pixSetupByteProcessing(PIX* pix, l_int32* pw, l_int32* ph);
          internal static  extern int pixCleanupByteProcessing(PIX* pix, l_uint8** lineptrs);
@@ -2457,7 +2521,7 @@ namespace Leptonica.Native
          internal static  extern int pixaCountText(PIXA* pixa, l_int32* pntext);
          internal static  extern int pixaSetText(PIXA* pixa, SARRAY* sa);
          internal static  extern void*** pixaGetLinePtrs(PIXA* pixa, l_int32* psize);
-         internal static  extern int pixaWriteStreamInfo(FILE* fp, HandleRef pixa);
+         internal static  extern int pixaWriteStreamInfo( IntPtr fp, HandleRef pixa);
          internal static  extern int pixaReplacePix(PIXA* pixa, int index, PIX* pix, HandleRef box);
          internal static  extern int pixaInsertPix(PIXA* pixa, int index, PIX* pixs, HandleRef box);
          internal static  extern int pixaRemovePix(PIXA* pixa, int index);
@@ -2485,19 +2549,19 @@ namespace Leptonica.Native
          internal static  extern int pixaaClear(PIXAA* paa);
          internal static  extern int pixaaTruncate(PIXAA* paa);
          internal static  extern HandleRef pixaRead( const char* filename );
-         internal static  extern HandleRef pixaReadStream(FILE* fp);
-         internal static  extern HandleRef pixaReadMem( const l_uint8* data, size_t size );
+         internal static  extern HandleRef pixaReadStream( IntPtr fp);
+         internal static  extern HandleRef pixaReadMem( IntPtr data, IntPtr size );
          internal static  extern int pixaWrite( const char* filename, PIXA *pixa );
-         internal static  extern int pixaWriteStream(FILE* fp, HandleRef pixa);
-         internal static  extern int pixaWriteMem(l_uint8** pdata, size_t* psize, HandleRef pixa);
+         internal static  extern int pixaWriteStream( IntPtr fp, HandleRef pixa);
+         internal static  extern int pixaWriteMem(l_uint8** pdata, IntPtr psize, HandleRef pixa);
          internal static  extern HandleRef pixaReadBoth( const char* filename );
          internal static  extern PIXAA* pixaaReadFromFiles( const char* dirname, const char* substr, int first, int nfiles );
          internal static  extern PIXAA* pixaaRead( const char* filename );
-         internal static  extern PIXAA* pixaaReadStream(FILE* fp);
-         internal static  extern PIXAA* pixaaReadMem( const l_uint8* data, size_t size );
+         internal static  extern PIXAA* pixaaReadStream( IntPtr fp);
+         internal static  extern PIXAA* pixaaReadMem( IntPtr data, IntPtr size );
          internal static  extern int pixaaWrite( const char* filename, PIXAA *paa );
-         internal static  extern int pixaaWriteStream(FILE* fp, PIXAA* paa);
-         internal static  extern int pixaaWriteMem(l_uint8** pdata, size_t* psize, PIXAA* paa);
+         internal static  extern int pixaaWriteStream( IntPtr fp, PIXAA* paa);
+         internal static  extern int pixaaWriteMem(l_uint8** pdata, IntPtr psize, PIXAA* paa);
          internal static  extern PIXACC* pixaccCreate(int w, int h, int negflag);
          internal static  extern PIXACC* pixaccCreateFromPix(PIX* pix, int negflag);
          internal static  extern void pixaccDestroy(PIXACC** ppixacc);
@@ -2577,7 +2641,7 @@ namespace Leptonica.Native
          internal static  extern HandleRef convertToNUpPixa( const char* dir, const char* substr, int nx, int ny, int tw, int spacing, int border, int fontsize );
          internal static  extern HandleRef pixaConvertToNUpPixa(PIXA* pixas, SARRAY* sa, int nx, int ny, int tw, int spacing, int border, int fontsize);
          internal static  extern int pixaCompareInPdf(PIXA* pixa1, HandleRef pixa2, int nx, int ny, int tw, int spacing, int border, int fontsize, const char* fileout );
-         internal static  extern int pmsCreate(size_t minsize, size_t smallest, NUMA* numalloc, const char* logfile );
+         internal static  extern int pmsCreate(size_t minsize, IntPtr smallest, NUMA* numalloc, const char* logfile );
          internal static  extern void pmsDestroy();
          internal static  extern void* pmsCustomAlloc(size_t nbytes);
          internal static  extern void pmsCustomDealloc(void* data);
@@ -2605,7 +2669,7 @@ namespace Leptonica.Native
          internal static  extern l_float32* makeLogBase2Tab(void );
          internal static  extern float getLogBase2(int val, l_float32* logtab);
          internal static  extern PIXC* pixcompCreateFromPix(PIX* pix, int comptype);
-         internal static  extern PIXC* pixcompCreateFromString(l_uint8* data, size_t size, int copyflag);
+         internal static  extern PIXC* pixcompCreateFromString(l_uint8* data, IntPtr size, int copyflag);
          internal static  extern PIXC* pixcompCreateFromFile( const char* filename, int comptype );
          internal static  extern void pixcompDestroy(PIXC** ppixc);
          internal static  extern PIXC* pixcompCopy(PIXC* pixcs);
@@ -2637,15 +2701,15 @@ namespace Leptonica.Native
          internal static  extern int pixacompJoin(PIXAC* pixacd, PIXAC* pixacs, int istart, int iend);
          internal static  extern PIXAC* pixacompInterleave(PIXAC* pixac1, PIXAC* pixac2);
          internal static  extern PIXAC* pixacompRead( const char* filename );
-         internal static  extern PIXAC* pixacompReadStream(FILE* fp);
-         internal static  extern PIXAC* pixacompReadMem( const l_uint8* data, size_t size );
+         internal static  extern PIXAC* pixacompReadStream( IntPtr fp);
+         internal static  extern PIXAC* pixacompReadMem( IntPtr data, IntPtr size );
          internal static  extern int pixacompWrite( const char* filename, PIXAC *pixac );
-         internal static  extern int pixacompWriteStream(FILE* fp, PIXAC* pixac);
-         internal static  extern int pixacompWriteMem(l_uint8** pdata, size_t* psize, PIXAC* pixac);
+         internal static  extern int pixacompWriteStream( IntPtr fp, PIXAC* pixac);
+         internal static  extern int pixacompWriteMem(l_uint8** pdata, IntPtr psize, PIXAC* pixac);
          internal static  extern int pixacompConvertToPdf(PIXAC* pixac, int res, float scalefactor, int type, int quality, const char* title, const char* fileout );
-         internal static  extern int pixacompConvertToPdfData(PIXAC* pixac, int res, float scalefactor, int type, int quality, const char* title, byte **pdata, size_t* pnbytes );
-         internal static  extern int pixacompWriteStreamInfo(FILE* fp, PIXAC* pixac, const char* text );
-         internal static  extern int pixcompWriteStreamInfo(FILE* fp, PIXC* pixc, const char* text );
+         internal static  extern int pixacompConvertToPdfData(PIXAC* pixac, int res, float scalefactor, int type, int quality, const char* title, byte **pdata, IntPtr pnbytes );
+         internal static  extern int pixacompWriteStreamInfo( IntPtr fp, PIXAC* pixac, const char* text );
+         internal static  extern int pixcompWriteStreamInfo( IntPtr fp, PIXC* pixc, const char* text );
          internal static  extern PIX* pixacompDisplayTiledAndScaled(PIXAC* pixac, int outdepth, int tilewidth, int ncols, int background, int spacing, int border);
          internal static  extern PIX* pixThreshold8(PIX* pixs, int d, int nlevels, int cmapflag);
          internal static  extern PIX* pixRemoveColormapGeneral(PIX* pixs, int type, int ifnocmap);
@@ -2714,29 +2778,29 @@ namespace Leptonica.Native
          internal static  extern PIX* pixTilingGetTile(PIXTILING* pt, int i, int j);
          internal static  extern int pixTilingNoStripOnPaint(PIXTILING* pt);
          internal static  extern int pixTilingPaintTile(PIX* pixd, int i, int j, PIX* pixs, PIXTILING* pt);
-         internal static  extern PIX* pixReadStreamPng(FILE* fp);
+         internal static  extern PIX* pixReadStreamPng( IntPtr fp);
          internal static  extern int readHeaderPng( const char* filename, int *pw, l_int32* ph, int *pbps, l_int32* pspp, int *piscmap );
-         internal static  extern int freadHeaderPng(FILE* fp, l_int32* pw, l_int32* ph, l_int32* pbps, l_int32* pspp, l_int32* piscmap);
-         internal static  extern int readHeaderMemPng( const l_uint8* data, size_t size, l_int32* pw, int *ph, l_int32* pbps, int *pspp, l_int32* piscmap );
-         internal static  extern int fgetPngResolution(FILE* fp, l_int32* pxres, l_int32* pyres);
+         internal static  extern int freadHeaderPng( IntPtr fp, l_int32* pw, l_int32* ph, l_int32* pbps, l_int32* pspp, l_int32* piscmap);
+         internal static  extern int readHeaderMemPng( IntPtr data, IntPtr size, l_int32* pw, int *ph, l_int32* pbps, int *pspp, l_int32* piscmap );
+         internal static  extern int fgetPngResolution( IntPtr fp, l_int32* pxres, l_int32* pyres);
          internal static  extern int isPngInterlaced( const char* filename, int *pinterlaced );
-         internal static  extern int fgetPngColormapInfo(FILE* fp, PIXCMAP** pcmap, l_int32* ptransparency);
+         internal static  extern int fgetPngColormapInfo( IntPtr fp, PIXCMAP** pcmap, l_int32* ptransparency);
          internal static  extern int pixWritePng( const char* filename, PIX *pix, float gamma );
-         internal static  extern int pixWriteStreamPng(FILE* fp, PIX* pix, float gamma);
+         internal static  extern int pixWriteStreamPng( IntPtr fp, PIX* pix, float gamma);
          internal static  extern int pixSetZlibCompression(PIX* pix, int compval);
          internal static  extern void l_pngSetReadStrip16To8(int flag);
-         internal static  extern PIX* pixReadMemPng( const l_uint8* filedata, size_t filesize );
-         internal static  extern int pixWriteMemPng(l_uint8** pfiledata, size_t* pfilesize, PIX* pix, float gamma);
-         internal static  extern PIX* pixReadStreamPnm(FILE* fp);
+         internal static  extern PIX* pixReadMemPng( IntPtr filedata, IntPtr filesize );
+         internal static  extern int pixWriteMemPng(l_uint8** pfiledata, IntPtr pfilesize, PIX* pix, float gamma);
+         internal static  extern PIX* pixReadStreamPnm( IntPtr fp);
          internal static  extern int readHeaderPnm( const char* filename, int *pw, l_int32* ph, int *pd, l_int32* ptype, int *pbps, l_int32* pspp );
-         internal static  extern int freadHeaderPnm(FILE* fp, l_int32* pw, l_int32* ph, l_int32* pd, l_int32* ptype, l_int32* pbps, l_int32* pspp);
-         internal static  extern int pixWriteStreamPnm(FILE* fp, PIX* pix);
-         internal static  extern int pixWriteStreamAsciiPnm(FILE* fp, PIX* pix);
-         internal static  extern int pixWriteStreamPam(FILE* fp, PIX* pix);
-         internal static  extern PIX* pixReadMemPnm( const l_uint8* data, size_t size );
-         internal static  extern int readHeaderMemPnm( const l_uint8* data, size_t size, l_int32* pw, int *ph, l_int32* pd, int *ptype, l_int32* pbps, int *pspp );
-         internal static  extern int pixWriteMemPnm(l_uint8** pdata, size_t* psize, PIX* pix);
-         internal static  extern int pixWriteMemPam(l_uint8** pdata, size_t* psize, PIX* pix);
+         internal static  extern int freadHeaderPnm( IntPtr fp, l_int32* pw, l_int32* ph, l_int32* pd, l_int32* ptype, l_int32* pbps, l_int32* pspp);
+         internal static  extern int pixWriteStreamPnm( IntPtr fp, PIX* pix);
+         internal static  extern int pixWriteStreamAsciiPnm( IntPtr fp, PIX* pix);
+         internal static  extern int pixWriteStreamPam( IntPtr fp, PIX* pix);
+         internal static  extern PIX* pixReadMemPnm( IntPtr data, IntPtr size );
+         internal static  extern int readHeaderMemPnm( IntPtr data, IntPtr size, l_int32* pw, int *ph, l_int32* pd, int *ptype, l_int32* pbps, int *pspp );
+         internal static  extern int pixWriteMemPnm(l_uint8** pdata, IntPtr psize, PIX* pix);
+         internal static  extern int pixWriteMemPam(l_uint8** pdata, IntPtr psize, PIX* pix);
          internal static  extern PIX* pixProjectiveSampledPta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
          internal static  extern PIX* pixProjectiveSampled(PIX* pixs, l_float32* vc, int incolor);
          internal static  extern PIX* pixProjectivePta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
@@ -2760,7 +2824,7 @@ namespace Leptonica.Native
          internal static  extern int convertToPSEmbed( const char* filein, const char* fileout, int level );
          internal static  extern int pixaWriteCompressedToPS(PIXA* pixa, const char* fileout, int res, int level );
          internal static  extern int pixWritePSEmbed( const char* filein, const char* fileout );
-         internal static  extern int pixWriteStreamPS(FILE* fp, PIX* pix, HandleRef box, int res, float scale);
+         internal static  extern int pixWriteStreamPS( IntPtr fp, PIX* pix, HandleRef box, int res, float scale);
          internal static  extern char* pixWriteStringPS(PIX* pixs, HandleRef box, int res, float scale);
          internal static  extern char* generateUncompressedPS(char* hexdata, int w, int h, int d, int psbpl, int bps, float xpt, float ypt, float wpt, float hpt, int boxflag);
          internal static  extern void getScaledParametersPS(HandleRef box, int wpix, int hpix, int res, float scale, l_float32* pxpt, l_float32* pypt, l_float32* pwpt, l_float32* phpt);
@@ -2778,7 +2842,7 @@ namespace Leptonica.Native
          internal static  extern int convertFlateToPS( const char* filein, const char* fileout, const char* operation, int x, int y, int res, float scale, int pageno, int endpage );
          internal static  extern int convertFlateToPSString( const char* filein, char** poutstr, int *pnbytes, int x, int y, int res, float scale, int pageno, int endpage );
          internal static  extern char* generateFlatePS( const char* filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int pageno, int endpage );
-         internal static  extern int pixWriteMemPS(l_uint8** pdata, size_t* psize, PIX* pix, HandleRef box, int res, float scale);
+         internal static  extern int pixWriteMemPS(l_uint8** pdata, IntPtr psize, PIX* pix, HandleRef box, int res, float scale);
          internal static  extern int getResLetterPage(int w, int h, float fillfract);
          internal static  extern int getResA4Page(int w, int h, float fillfract);
          internal static  extern void l_psWriteBoundingBox(int flag);
@@ -2800,11 +2864,11 @@ namespace Leptonica.Native
          internal static  extern int ptaSetPt(HandleRef pta, int index, float x, float y);
          internal static  extern int ptaGetArrays(HandleRef pta, NUMA** pnax, NUMA** pnay);
          internal static  extern PTA* ptaRead( const char* filename );
-         internal static  extern PTA* ptaReadStream(FILE* fp);
-         internal static  extern PTA* ptaReadMem( const l_uint8* data, size_t size );
+         internal static  extern PTA* ptaReadStream( IntPtr fp);
+         internal static  extern PTA* ptaReadMem( IntPtr data, IntPtr size );
          internal static  extern int ptaWrite( const char* filename, PTA *pta, int type );
-         internal static  extern int ptaWriteStream(FILE* fp, PTA* pta, int type);
-         internal static  extern int ptaWriteMem(l_uint8** pdata, size_t* psize, PTA* pta, int type);
+         internal static  extern int ptaWriteStream( IntPtr fp, PTA* pta, int type);
+         internal static  extern int ptaWriteMem(l_uint8** pdata, IntPtr psize, PTA* pta, int type);
          internal static  extern PTAA* ptaaCreate(int n);
          internal static  extern void ptaaDestroy(PTAA** pptaa);
          internal static  extern int ptaaAddPta(PTAA* ptaa, PTA* pta, int copyflag);
@@ -2816,11 +2880,11 @@ namespace Leptonica.Native
          internal static  extern int ptaaAddPt(PTAA* ptaa, int ipta, float x, float y);
          internal static  extern int ptaaTruncate(PTAA* ptaa);
          internal static  extern PTAA* ptaaRead( const char* filename );
-         internal static  extern PTAA* ptaaReadStream(FILE* fp);
-         internal static  extern PTAA* ptaaReadMem( const l_uint8* data, size_t size );
+         internal static  extern PTAA* ptaaReadStream( IntPtr fp);
+         internal static  extern PTAA* ptaaReadMem( IntPtr data, IntPtr size );
          internal static  extern int ptaaWrite( const char* filename, PTAA *ptaa, int type );
-         internal static  extern int ptaaWriteStream(FILE* fp, PTAA* ptaa, int type);
-         internal static  extern int ptaaWriteMem(l_uint8** pdata, size_t* psize, PTAA* ptaa, int type);
+         internal static  extern int ptaaWriteStream( IntPtr fp, PTAA* ptaa, int type);
+         internal static  extern int ptaaWriteMem(l_uint8** pdata, IntPtr psize, PTAA* ptaa, int type);
          internal static  extern PTA* ptaSubsample(HandleRef ptas, int subfactor);
          internal static  extern int ptaJoin(HandleRef ptad, PTA* ptas, int istart, int iend);
          internal static  extern int ptaaJoin(PTAA* ptaad, PTAA* ptaas, int istart, int iend);
@@ -2913,7 +2977,7 @@ namespace Leptonica.Native
          internal static  extern int lqueueAdd(L_QUEUE* lq, void* item);
          internal static  extern void* lqueueRemove(L_QUEUE* lq);
          internal static  extern int lqueueGetCount(L_QUEUE* lq);
-         internal static  extern int lqueuePrint(FILE* fp, L_QUEUE* lq);
+         internal static  extern int lqueuePrint( IntPtr fp, L_QUEUE* lq);
          internal static  extern PIX* pixRankFilter(PIX* pixs, int wf, int hf, float rank);
          internal static  extern PIX* pixRankFilterRGB(PIX* pixs, int wf, int hf, float rank);
          internal static  extern PIX* pixRankFilterGray(PIX* pixs, int wf, int hf, float rank);
@@ -2929,7 +2993,7 @@ namespace Leptonica.Native
          internal static  extern L_RBTREE_NODE* l_rbtreeGetLast(L_RBTREE* t);
          internal static  extern L_RBTREE_NODE* l_rbtreeGetPrev(L_RBTREE_NODE* n);
          internal static  extern int l_rbtreeGetCount(L_RBTREE* t);
-         internal static  extern void l_rbtreePrint(FILE* fp, L_RBTREE* t);
+         internal static  extern void l_rbtreePrint( IntPtr fp, L_RBTREE* t);
          internal static  extern SARRAY* pixProcessBarcodes(PIX* pixs, int format, int method, SARRAY** psaw, int debugflag);
          internal static  extern HandleRef pixExtractBarcodes(PIX* pixs, int debugflag);
          internal static  extern SARRAY* pixReadBarcodes(PIXA* pixa, int format, int method, SARRAY** psaw, int debugflag);
@@ -2946,14 +3010,14 @@ namespace Leptonica.Native
          internal static  extern PIX* pixRead( const char* filename );
          internal static  extern PIX* pixReadWithHint( const char* filename, int hint );
          internal static  extern PIX* pixReadIndexed(SARRAY* sa, int index);
-         internal static  extern PIX* pixReadStream(FILE* fp, int hint);
+         internal static  extern PIX* pixReadStream( IntPtr fp, int hint);
          internal static  extern int pixReadHeader( const char* filename, int *pformat, l_int32* pw, int *ph, l_int32* pbps, int *pspp, l_int32* piscmap );
          internal static  extern int findFileFormat( const char* filename, int *pformat );
-         internal static  extern int findFileFormatStream(FILE* fp, l_int32* pformat);
-         internal static  extern int findFileFormatBuffer( const l_uint8* buf, int *pformat );
-         internal static  extern int fileFormatIsTiff(FILE* fp);
-         internal static  extern PIX* pixReadMem( const l_uint8* data, size_t size );
-         internal static  extern int pixReadHeaderMem( const l_uint8* data, size_t size, l_int32* pformat, int *pw, l_int32* ph, int *pbps, l_int32* pspp, int *piscmap );
+         internal static  extern int findFileFormatStream( IntPtr fp, l_int32* pformat);
+         internal static  extern int findFileFormatBuffer( IntPtr buf, int *pformat );
+         internal static  extern int fileFormatIsTiff( IntPtr fp);
+         internal static  extern PIX* pixReadMem( IntPtr data, IntPtr size );
+         internal static  extern int pixReadHeaderMem( IntPtr data, IntPtr size, l_int32* pformat, int *pw, l_int32* ph, int *pbps, l_int32* pspp, int *piscmap );
          internal static  extern int writeImageFileInfo( const char* filename, FILE *fpout, int headeronly );
          internal static  extern int ioFormatTest( const char* filename );
          internal static  extern L_RECOG* recogCreateFromRecog(L_RECOG* recs, int scalew, int scaleh, int linew, int threshold, int maxyshift);
@@ -2968,11 +3032,11 @@ namespace Leptonica.Native
          internal static  extern int recogGetClassString(L_RECOG* recog, int index, char** pcharstr);
          internal static  extern int l_convertCharstrToInt( const char* str, int *pval );
          internal static  extern L_RECOG* recogRead( const char* filename );
-         internal static  extern L_RECOG* recogReadStream(FILE* fp);
-         internal static  extern L_RECOG* recogReadMem( const l_uint8* data, size_t size );
+         internal static  extern L_RECOG* recogReadStream( IntPtr fp);
+         internal static  extern L_RECOG* recogReadMem( IntPtr data, IntPtr size );
          internal static  extern int recogWrite( const char* filename, L_RECOG *recog );
-         internal static  extern int recogWriteStream(FILE* fp, L_RECOG* recog);
-         internal static  extern int recogWriteMem(l_uint8** pdata, size_t* psize, L_RECOG* recog);
+         internal static  extern int recogWriteStream( IntPtr fp, L_RECOG* recog);
+         internal static  extern int recogWriteMem(l_uint8** pdata, IntPtr psize, L_RECOG* recog);
          internal static  extern HandleRef recogExtractPixa(L_RECOG* recog);
          internal static  extern HandleRef recogDecode(L_RECOG* recog, PIX* pixs, int nlevels, PIX** ppixdb);
          internal static  extern int recogCreateDid(L_RECOG* recog, PIX* pixs);
@@ -3013,7 +3077,7 @@ namespace Leptonica.Native
          internal static  extern HandleRef recogAddDigitPadTemplates(L_RECOG* recog, SARRAY* sa);
          internal static  extern L_RECOG* recogMakeBootDigitRecog(int scaleh, int linew, int maxyshift, int debug);
          internal static  extern HandleRef recogMakeBootDigitTemplates(int debug);
-         internal static  extern int recogShowContent(FILE* fp, L_RECOG* recog, int index, int display);
+         internal static  extern int recogShowContent( IntPtr fp, L_RECOG* recog, int index, int display);
          internal static  extern int recogDebugAverages(L_RECOG** precog, int debug);
          internal static  extern int recogShowAverageTemplates(L_RECOG* recog);
          internal static  extern int recogShowMatchesInRange(L_RECOG* recog, HandleRef pixa, float minscore, float maxscore, int display);
@@ -3021,7 +3085,7 @@ namespace Leptonica.Native
          internal static  extern int regTestSetup(int argc, char** argv, L_REGPARAMS** prp);
          internal static  extern int regTestCleanup(L_REGPARAMS* rp);
          internal static  extern int regTestCompareValues(L_REGPARAMS* rp, float val1, float val2, float delta);
-         internal static  extern int regTestCompareStrings(L_REGPARAMS* rp, l_uint8* string1, size_t bytes1, l_uint8* string2, size_t bytes2);
+         internal static  extern int regTestCompareStrings(L_REGPARAMS* rp, l_uint8* string1, IntPtr bytes1, l_uint8* string2, IntPtr bytes2);
          internal static  extern int regTestComparePix(L_REGPARAMS* rp, PIX* pix1, PIX* pix2);
          internal static  extern int regTestCompareSimilarPix(L_REGPARAMS* rp, PIX* pix1, PIX* pix2, int mindiff, float maxfract, int printstats);
          internal static  extern int regTestCheckFile(L_REGPARAMS* rp, const char* localname );
@@ -3103,11 +3167,11 @@ namespace Leptonica.Native
          internal static  extern SARRAY* sarraySelectByRange(SARRAY* sain, int first, int last);
          internal static  extern int sarrayParseRange(SARRAY* sa, int start, l_int32* pactualstart, l_int32* pend, l_int32* pnewstart, const char* substr, int loc );
          internal static  extern SARRAY* sarrayRead( const char* filename );
-         internal static  extern SARRAY* sarrayReadStream(FILE* fp);
-         internal static  extern SARRAY* sarrayReadMem( const l_uint8* data, size_t size );
+         internal static  extern SARRAY* sarrayReadStream( IntPtr fp);
+         internal static  extern SARRAY* sarrayReadMem( IntPtr data, IntPtr size );
          internal static  extern int sarrayWrite( const char* filename, SARRAY *sa );
-         internal static  extern int sarrayWriteStream(FILE* fp, SARRAY* sa);
-         internal static  extern int sarrayWriteMem(l_uint8** pdata, size_t* psize, SARRAY* sa);
+         internal static  extern int sarrayWriteStream( IntPtr fp, SARRAY* sa);
+         internal static  extern int sarrayWriteMem(l_uint8** pdata, IntPtr psize, SARRAY* sa);
          internal static  extern int sarrayAppend( const char* filename, SARRAY *sa );
          internal static  extern SARRAY* getNumberedPathnamesInDirectory( const char* dirname, const char* substr, int numpre, int numpost, int maxnum );
          internal static  extern SARRAY* getSortedPathnamesInDirectory( const char* dirname, const char* substr, int first, int nfiles );
@@ -3251,13 +3315,13 @@ namespace Leptonica.Native
          internal static  extern int selFindMaxTranslations(SEL* sel, l_int32* pxp, l_int32* pyp, l_int32* pxn, l_int32* pyn);
          internal static  extern SEL* selRotateOrth(SEL* sel, int quads);
          internal static  extern SELA* selaRead( const char* fname );
-         internal static  extern SELA* selaReadStream(FILE* fp);
+         internal static  extern SELA* selaReadStream( IntPtr fp);
          internal static  extern SEL* selRead( const char* fname );
-         internal static  extern SEL* selReadStream(FILE* fp);
+         internal static  extern SEL* selReadStream( IntPtr fp);
          internal static  extern int selaWrite( const char* fname, SELA *sela );
-         internal static  extern int selaWriteStream(FILE* fp, SELA* sela);
+         internal static  extern int selaWriteStream( IntPtr fp, SELA* sela);
          internal static  extern int selWrite( const char* fname, SEL *sel );
-         internal static  extern int selWriteStream(FILE* fp, SEL* sel);
+         internal static  extern int selWriteStream( IntPtr fp, SEL* sel);
          internal static  extern SEL* selCreateFromString( const char* text, int h, int w, const char* name );
          internal static  extern char* selPrintToString(SEL* sel);
          internal static  extern SELA* selaCreateFromFile( const char* filename );
@@ -3306,21 +3370,21 @@ namespace Leptonica.Native
          internal static  extern int pixFindSkewOrthogonalRange(PIX* pixs, l_float32* pangle, l_float32* pconf, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, float confprior);
          internal static  extern int pixFindDifferentialSquareSum(PIX* pixs, l_float32* psum);
          internal static  extern int pixFindNormalizedSquareSum(PIX* pixs, l_float32* phratio, l_float32* pvratio, l_float32* pfract);
-         internal static  extern PIX* pixReadStreamSpix(FILE* fp);
+         internal static  extern PIX* pixReadStreamSpix( IntPtr fp);
          internal static  extern int readHeaderSpix( const char* filename, int *pwidth, l_int32* pheight, int *pbps, l_int32* pspp, int *piscmap );
-         internal static  extern int freadHeaderSpix(FILE* fp, l_int32* pwidth, l_int32* pheight, l_int32* pbps, l_int32* pspp, l_int32* piscmap);
+         internal static  extern int freadHeaderSpix( IntPtr fp, l_int32* pwidth, l_int32* pheight, l_int32* pbps, l_int32* pspp, l_int32* piscmap);
          internal static  extern int sreadHeaderSpix( const l_uint32* data, int *pwidth, l_int32* pheight, int *pbps, l_int32* pspp, int *piscmap );
-         internal static  extern int pixWriteStreamSpix(FILE* fp, PIX* pix);
-         internal static  extern PIX* pixReadMemSpix( const l_uint8* data, size_t size );
-         internal static  extern int pixWriteMemSpix(l_uint8** pdata, size_t* psize, PIX* pix);
-         internal static  extern int pixSerializeToMemory(PIX* pixs, l_uint32** pdata, size_t* pnbytes);
-         internal static  extern PIX* pixDeserializeFromMemory( const l_uint32* data, size_t nbytes );
+         internal static  extern int pixWriteStreamSpix( IntPtr fp, PIX* pix);
+         internal static  extern PIX* pixReadMemSpix( IntPtr data, IntPtr size );
+         internal static  extern int pixWriteMemSpix(l_uint8** pdata, IntPtr psize, PIX* pix);
+         internal static  extern int pixSerializeToMemory(PIX* pixs, l_uint32** pdata, IntPtr pnbytes);
+         internal static  extern PIX* pixDeserializeFromMemory( const l_uint32* data, IntPtr nbytes );
          internal static  extern L_STACK* lstackCreate(int nalloc);
          internal static  extern void lstackDestroy(L_STACK** plstack, int freeflag);
          internal static  extern int lstackAdd(L_STACK* lstack, void* item);
          internal static  extern void* lstackRemove(L_STACK* lstack);
          internal static  extern int lstackGetCount(L_STACK* lstack);
-         internal static  extern int lstackPrint(FILE* fp, L_STACK* lstack);
+         internal static  extern int lstackPrint( IntPtr fp, L_STACK* lstack);
          internal static  extern L_STRCODE* strcodeCreate(int fileno);
          internal static  extern int strcodeCreateFromFile( const char* filein, int fileno, const char* outdir );
          internal static  extern int strcodeGenerate(L_STRCODE* strcode, const char* filein, const char* type );
@@ -3353,30 +3417,30 @@ namespace Leptonica.Native
          internal static  extern int bmfGetStringWidth(L_BMF* bmf, const char* textstr, int *pw );
          internal static  extern SARRAY* splitStringToParagraphs(char* textstr, int splitflag);
          internal static  extern PIX* pixReadTiff( const char* filename, int n );
-         internal static  extern PIX* pixReadStreamTiff(FILE* fp, int n);
+         internal static  extern PIX* pixReadStreamTiff( IntPtr fp, int n);
          internal static  extern int pixWriteTiff( const char* filename, PIX *pix, int comptype, const char* modestr );
          internal static  extern int pixWriteTiffCustom( const char* filename, PIX *pix, int comptype, const char* modestr, NUMA *natags, SARRAY* savals, SARRAY *satypes, NUMA* nasizes );
-         internal static  extern int pixWriteStreamTiff(FILE* fp, PIX* pix, int comptype);
-         internal static  extern int pixWriteStreamTiffWA(FILE* fp, PIX* pix, int comptype, const char* modestr );
-         internal static  extern PIX* pixReadFromMultipageTiff( const char* fname, size_t *poffset );
+         internal static  extern int pixWriteStreamTiff( IntPtr fp, PIX* pix, int comptype);
+         internal static  extern int pixWriteStreamTiffWA( IntPtr fp, PIX* pix, int comptype, const char* modestr );
+         internal static  extern PIX* pixReadFromMultipageTiff( const char* fname, IntPtr *poffset );
          internal static  extern HandleRef pixaReadMultipageTiff( const char* filename );
          internal static  extern int pixaWriteMultipageTiff( const char* fname, PIXA *pixa );
          internal static  extern int writeMultipageTiff( const char* dirin, const char* substr, const char* fileout );
          internal static  extern int writeMultipageTiffSA(SARRAY* sa, const char* fileout );
-         internal static  extern int fprintTiffInfo(FILE* fpout, const char* tiffile );
-         internal static  extern int tiffGetCount(FILE* fp, l_int32* pn);
-         internal static  extern int getTiffResolution(FILE* fp, l_int32* pxres, l_int32* pyres);
+         internal static  extern int fprintTiffInfo( IntPtr fpout, const char* tiffile );
+         internal static  extern int tiffGetCount( IntPtr fp, l_int32* pn);
+         internal static  extern int getTiffResolution( IntPtr fp, l_int32* pxres, l_int32* pyres);
          internal static  extern int readHeaderTiff( const char* filename, int n, l_int32* pwidth, int *pheight, l_int32* pbps, int *pspp, l_int32* pres, int *pcmap, l_int32* pformat );
-         internal static  extern int freadHeaderTiff(FILE* fp, int n, l_int32* pwidth, l_int32* pheight, l_int32* pbps, l_int32* pspp, l_int32* pres, l_int32* pcmap, l_int32* pformat);
-         internal static  extern int readHeaderMemTiff( const l_uint8* cdata, size_t size, int n, int *pwidth, l_int32* pheight, int *pbps, l_int32* pspp, int *pres, l_int32* pcmap, int *pformat );
-         internal static  extern int findTiffCompression(FILE* fp, l_int32* pcomptype);
-         internal static  extern int extractG4DataFromFile( const char* filein, byte **pdata, size_t* pnbytes, int *pw, l_int32* ph, int *pminisblack );
-         internal static  extern PIX* pixReadMemTiff( const l_uint8* cdata, size_t size, int n );
-         internal static  extern PIX* pixReadMemFromMultipageTiff( const l_uint8* cdata, size_t size, size_t* poffset );
-         internal static  extern HandleRef pixaReadMemMultipageTiff( const l_uint8* data, size_t size );
-         internal static  extern int pixaWriteMemMultipageTiff(l_uint8** pdata, size_t* psize, HandleRef pixa);
-         internal static  extern int pixWriteMemTiff(l_uint8** pdata, size_t* psize, PIX* pix, int comptype);
-         internal static  extern int pixWriteMemTiffCustom(l_uint8** pdata, size_t* psize, PIX* pix, int comptype, NUMA* natags, SARRAY* savals, SARRAY* satypes, NUMA* nasizes);
+         internal static  extern int freadHeaderTiff( IntPtr fp, int n, l_int32* pwidth, l_int32* pheight, l_int32* pbps, l_int32* pspp, l_int32* pres, l_int32* pcmap, l_int32* pformat);
+         internal static  extern int readHeaderMemTiff( IntPtr cdata, IntPtr size, int n, int *pwidth, l_int32* pheight, int *pbps, l_int32* pspp, int *pres, l_int32* pcmap, int *pformat );
+         internal static  extern int findTiffCompression( IntPtr fp, l_int32* pcomptype);
+         internal static  extern int extractG4DataFromFile( const char* filein, byte **pdata, IntPtr pnbytes, int *pw, l_int32* ph, int *pminisblack );
+         internal static  extern PIX* pixReadMemTiff( IntPtr cdata, IntPtr size, int n );
+         internal static  extern PIX* pixReadMemFromMultipageTiff( IntPtr cdata, IntPtr size, IntPtr poffset );
+         internal static  extern HandleRef pixaReadMemMultipageTiff( IntPtr data, IntPtr size );
+         internal static  extern int pixaWriteMemMultipageTiff(l_uint8** pdata, IntPtr psize, HandleRef pixa);
+         internal static  extern int pixWriteMemTiff(l_uint8** pdata, IntPtr psize, PIX* pix, int comptype);
+         internal static  extern int pixWriteMemTiffCustom(l_uint8** pdata, IntPtr psize, PIX* pix, int comptype, NUMA* natags, SARRAY* savals, SARRAY* satypes, NUMA* nasizes);
          internal static  extern int setMsgSeverity(int newsev);
          internal static  extern int returnErrorInt( const char* msg, const char* procname, int ival );
          internal static  extern float returnErrorFloat( const char* msg, const char* procname, float fval );
@@ -3409,8 +3473,8 @@ namespace Leptonica.Native
          internal static  extern char* stringNew( const char* src );
          internal static  extern int stringCopy(char* dest, const char* src, int n );
          internal static  extern int stringReplace(char** pdest, const char* src );
-         internal static  extern int stringLength( const char* src, size_t size );
-         internal static  extern int stringCat(char* dest, size_t size, const char* src );
+         internal static  extern int stringLength( const char* src, IntPtr size );
+         internal static  extern int stringCat(char* dest, IntPtr size, const char* src );
          internal static  extern char* stringConcatNew( const char* first, ... );
          internal static  extern char* stringJoin( const char* src1, const char* src2 );
          internal static  extern int stringJoinIP(char** psrc1, const char* src2 );
@@ -3421,27 +3485,27 @@ namespace Leptonica.Native
          internal static  extern int stringFindSubstr( const char* src, const char* sub, int *ploc );
          internal static  extern char* stringReplaceSubstr( const char* src, const char* sub1, const char* sub2, int *pfound, l_int32* ploc );
          internal static  extern char* stringReplaceEachSubstr( const char* src, const char* sub1, const char* sub2, int *pcount );
-         internal static  extern L_DNA* arrayFindEachSequence( const l_uint8* data, size_t datalen, const l_uint8* sequence, size_t seqlen );
-         internal static  extern int arrayFindSequence( const l_uint8* data, size_t datalen, const l_uint8* sequence, size_t seqlen, l_int32* poffset, int *pfound );
+         internal static  extern L_DNA* arrayFindEachSequence( IntPtr data, IntPtr datalen, IntPtr sequence, IntPtr seqlen );
+         internal static  extern int arrayFindSequence( IntPtr data, IntPtr datalen, IntPtr sequence, IntPtr seqlen, l_int32* poffset, int *pfound );
          internal static  extern void* reallocNew(void** pindata, int oldsize, int newsize);
-         internal static  extern l_uint8* l_binaryRead( const char* filename, size_t *pnbytes );
-         internal static  extern l_uint8* l_binaryReadStream(FILE* fp, size_t* pnbytes);
-         internal static  extern l_uint8* l_binaryReadSelect( const char* filename, size_t start, size_t nbytes, size_t *pnread );
-         internal static  extern l_uint8* l_binaryReadSelectStream(FILE* fp, size_t start, size_t nbytes, size_t* pnread);
-         internal static  extern int l_binaryWrite( const char* filename, const char* operation, void* data, size_t nbytes );
-         internal static  extern size_t nbytesInFile( const char* filename );
-         internal static  extern size_t fnbytesInFile(FILE* fp);
-         internal static  extern l_uint8* l_binaryCopy(l_uint8* datas, size_t size);
+         internal static  extern l_uint8* l_binaryRead( const char* filename, IntPtr *pnbytes );
+         internal static  extern l_uint8* l_binaryReadStream( IntPtr fp, IntPtr pnbytes);
+         internal static  extern l_uint8* l_binaryReadSelect( const char* filename, IntPtr start, IntPtr nbytes, IntPtr *pnread );
+         internal static  extern l_uint8* l_binaryReadSelectStream( IntPtr fp, IntPtr start, IntPtr nbytes, IntPtr pnread);
+         internal static  extern int l_binaryWrite( const char* filename, const char* operation, void* data, IntPtr nbytes );
+         internal static  extern IntPtr nbytesInFile( const char* filename );
+         internal static  extern IntPtr fnbytesInFile( IntPtr fp);
+         internal static  extern l_uint8* l_binaryCopy(l_uint8* datas, IntPtr size);
          internal static  extern int fileCopy( const char* srcfile, const char* newfile );
          internal static  extern int fileConcatenate( const char* srcfile, const char* destfile );
          internal static  extern int fileAppendString( const char* filename, const char* str );
-         internal static  extern FILE* fopenReadStream( const char* filename );
-         internal static  extern FILE* fopenWriteStream( const char* filename, const char* modestring );
-         internal static  extern FILE* fopenReadFromMemory( const l_uint8* data, size_t size );
-         internal static  extern FILE* fopenWriteWinTempfile();
-         internal static  extern FILE* lept_fopen( const char* filename, const char* mode );
-         internal static  extern int lept_fclose(FILE* fp);
-         internal static  extern void* lept_calloc(size_t nmemb, size_t size);
+         internal static  extern  IntPtr fopenReadStream( const char* filename );
+         internal static  extern  IntPtr fopenWriteStream( const char* filename, const char* modestring );
+         internal static  extern  IntPtr fopenReadFromMemory( IntPtr data, IntPtr size );
+         internal static  extern  IntPtr fopenWriteWinTempfile();
+         internal static  extern  IntPtr lept_fopen( const char* filename, const char* mode );
+         internal static  extern int lept_fclose( IntPtr fp);
+         internal static  extern void* lept_calloc(size_t nmemb, IntPtr size);
          internal static  extern void lept_free(void* ptr);
          internal static  extern int lept_mkdir( const char* subdir );
          internal static  extern int lept_rmdir( const char* subdir );
@@ -3457,8 +3521,8 @@ namespace Leptonica.Native
          internal static  extern char* appendSubdirs( const char* basedir, const char* subdirs );
          internal static  extern int convertSepCharsInPath(char* path, int type);
          internal static  extern char* genPathname( const char* dir, const char* fname );
-         internal static  extern int makeTempDirname(char* result, size_t nbytes, const char* subdir );
-         internal static  extern int modifyTrailingSlash(char* path, size_t nbytes, int flag);
+         internal static  extern int makeTempDirname(char* result, IntPtr nbytes, const char* subdir );
+         internal static  extern int modifyTrailingSlash(char* path, IntPtr nbytes, int flag);
          internal static  extern char* l_makeTempFilename();
          internal static  extern int extractNumberFromFilename( const char* fname, int numpre, int numpost );
          internal static  extern PIX* pixSimpleCaptcha(PIX* pixs, int border, int nterms, uint seed, uint color, int cmapflag);
@@ -3477,23 +3541,23 @@ namespace Leptonica.Native
          internal static  extern int wshedBasins(L_WSHED* wshed, PIXA** ppixa, NUMA** pnalevels);
          internal static  extern PIX* wshedRenderFill(L_WSHED* wshed);
          internal static  extern PIX* wshedRenderColors(L_WSHED* wshed);
-         internal static  extern PIX* pixReadStreamWebP(FILE* fp);
-         internal static  extern PIX* pixReadMemWebP( const l_uint8* filedata, size_t filesize );
+         internal static  extern PIX* pixReadStreamWebP( IntPtr fp);
+         internal static  extern PIX* pixReadMemWebP( IntPtr filedata, IntPtr filesize );
          internal static  extern int readHeaderWebP( const char* filename, int *pw, l_int32* ph, int *pspp );
-         internal static  extern int readHeaderMemWebP( const l_uint8* data, size_t size, l_int32* pw, int *ph, l_int32* pspp );
+         internal static  extern int readHeaderMemWebP( IntPtr data, IntPtr size, l_int32* pw, int *ph, l_int32* pspp );
          internal static  extern int pixWriteWebP( const char* filename, PIX *pixs, int quality, int lossless );
-         internal static  extern int pixWriteStreamWebP(FILE* fp, PIX* pixs, int quality, int lossless);
-         internal static  extern int pixWriteMemWebP(l_uint8** pencdata, size_t* pencsize, PIX* pixs, int quality, int lossless);
+         internal static  extern int pixWriteStreamWebP( IntPtr fp, PIX* pixs, int quality, int lossless);
+         internal static  extern int pixWriteMemWebP(l_uint8** pencdata, IntPtr pencsize, PIX* pixs, int quality, int lossless);
          internal static  extern int pixaWriteFiles( const char* rootname, PIXA *pixa, int format );
          internal static  extern int pixWrite( const char* fname, PIX *pix, int format );
          internal static  extern int pixWriteAutoFormat( const char* filename, PIX *pix );
-         internal static  extern int pixWriteStream(FILE* fp, PIX* pix, int format);
+         internal static  extern int pixWriteStream( IntPtr fp, PIX* pix, int format);
          internal static  extern int pixWriteImpliedFormat( const char* filename, PIX *pix, int quality, int progressive );
          internal static  extern int pixChooseOutputFormat(PIX* pix);
          internal static  extern int getImpliedFileFormat( const char* filename );
          internal static  extern int pixGetAutoFormat(PIX* pix, l_int32* pformat);
          internal static  extern const char* getFormatExtension (int format );
-         internal static  extern int pixWriteMem(l_uint8** pdata, size_t* psize, PIX* pix, int format);
+         internal static  extern int pixWriteMem(l_uint8** pdata, IntPtr psize, PIX* pix, int format);
          internal static  extern int l_fileDisplay( const char* fname, int x, int y, float scale );
          internal static  extern int pixDisplay(PIX* pixs, int x, int y);
          internal static  extern int pixDisplayWithTitle(PIX* pixs, int x, int y, const char* title, int dispflag );
@@ -3504,8 +3568,8 @@ namespace Leptonica.Native
          internal static  extern int pixDisplayWrite(PIX* pixs, int reduction);
          internal static  extern int pixDisplayWriteFormat(PIX* pixs, int reduction, int format);
          internal static  extern int pixDisplayMultiple(int res, float scalefactor, const char* fileout );
-         internal static  extern l_uint8* zlibCompress(l_uint8* datain, size_t nin, size_t* pnout);
-         internal static  extern l_uint8* zlibUncompress(l_uint8* datain, size_t nin, size_t* pnout);
+         internal static  extern l_uint8* zlibCompress(l_uint8* datain, IntPtr nin, IntPtr pnout);
+         internal static  extern l_uint8* zlibUncompress(l_uint8* datain, IntPtr nin, IntPtr pnout);
         */
     }
 }
