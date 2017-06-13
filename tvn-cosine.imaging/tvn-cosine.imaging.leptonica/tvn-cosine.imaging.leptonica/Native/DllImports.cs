@@ -1529,38 +1529,83 @@ namespace Leptonica.Native
         internal static extern int convertLABToRGB(float flval, float faval, float fbval, out int prval, out int pgval, out int pbval);
         #endregion
 
+        #region compare.c
+        // Test for pix equality
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixEqual")]
+        internal static extern int pixEqual(HandleRef pix1, HandleRef pix2, out int psame);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixEqualWithAlpha")]
+        internal static extern int pixEqualWithAlpha(HandleRef pix1, HandleRef pix2, int use_alpha, out int psame);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixEqualWithCmap")]
+        internal static extern int pixEqualWithCmap(HandleRef pix1, HandleRef pix2, out int psame);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cmapEqual")]
+        internal static extern int cmapEqual(HandleRef cmap1, HandleRef cmap2, int ncomps, out int psame);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUsesCmapColor")]
+        internal static extern int pixUsesCmapColor(HandleRef pixs, out int pcolor);
+
+        // Binary correlation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCorrelationBinary")]
+        internal static extern int pixCorrelationBinary(HandleRef pix1, HandleRef pix2, out float pval);
+
+        // Difference of two images of same size
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDisplayDiffBinary")]
+        internal static extern IntPtr pixDisplayDiffBinary(HandleRef pix1, HandleRef pix2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCompareBinary")]
+        internal static extern int pixCompareBinary(HandleRef pix1, HandleRef pix2, int comptype, out float pfract, out IntPtr ppixdiff);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCompareGrayOrRGB")]
+        internal static extern int pixCompareGrayOrRGB(HandleRef pix1, HandleRef pix2, int comptype, int plottype, out int psame, out float pdiff, out float prmsdiff, out IntPtr ppixdiff);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCompareGray")]
+        internal static extern int pixCompareGray(HandleRef pix1, HandleRef pix2, int comptype, int plottype, out int psame, out float pdiff, out float prmsdiff, out IntPtr ppixdiff);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCompareRGB")]
+        internal static extern int pixCompareRGB(HandleRef pix1, HandleRef pix2, int comptype, int plottype, out int psame, out float pdiff, out float prmsdiff, out IntPtr ppixdiff);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCompareTiled")]
+        internal static extern int pixCompareTiled(HandleRef pix1, HandleRef pix2, int sx, int sy, int type, out IntPtr ppixdiff);
+
+        // Other measures of the difference of two images of the same size
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCompareRankDifference")]
+        internal static extern IntPtr pixCompareRankDifference(HandleRef pix1, HandleRef pix2, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTestForSimilarity")]
+        internal static extern int pixTestForSimilarity(HandleRef pix1, HandleRef pix2, int factor, int mindiff, float maxfract, float maxave, out int psimilar, int printstats);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetDifferenceStats")]
+        internal static extern int pixGetDifferenceStats(HandleRef pix1, HandleRef pix2, int factor, int mindiff, out float pfractdiff, out float pavediff, int printstats);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetDifferenceHistogram")]
+        internal static extern IntPtr pixGetDifferenceHistogram(HandleRef pix1, HandleRef pix2, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetPerceptualDiff")]
+        internal static extern int pixGetPerceptualDiff(HandleRef pixs1, HandleRef pixs2, int sampling, int dilation, int mindiff, out float pfract, out IntPtr ppixdiff1, out IntPtr ppixdiff2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetPSNR")]
+        internal static extern int pixGetPSNR(HandleRef pix1, HandleRef pix2, int factor, out float ppsnr);
+
+        // Comparison of photo regions by histogram
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaComparePhotoRegionsByHisto")]
+        internal static extern int pixaComparePhotoRegionsByHisto(HandleRef pixa, float minratio, float textthresh, int factor, int nx, int ny, float simthresh, out IntPtr pnai, out IntPtr pscores, out IntPtr ppixd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixComparePhotoRegionsByHisto")]
+        internal static extern int pixComparePhotoRegionsByHisto(HandleRef pix1, HandleRef pix2, HandleRef box1, HandleRef box2, float minratio, int factor, int nx, int ny, out float pscore, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenPhotoHistos")]
+        internal static extern int pixGenPhotoHistos(HandleRef pixs, HandleRef box, int factor, float thresh, int nx, int ny, out IntPtr pnaa, out int pw, out int ph, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixPadToCenterCentroid")]
+        internal static extern IntPtr pixPadToCenterCentroid(HandleRef pixs, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCentroid8")]
+        internal static extern int pixCentroid8(HandleRef pixs, int factor, out float pcx, out float pcy);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDecideIfPhotoImage")]
+        internal static extern int pixDecideIfPhotoImage(HandleRef pix, int factor, int nx, int ny, float thresh, out IntPtr pnaa, HandleRef pixadebug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "compareTilesByHisto")]
+        internal static extern int compareTilesByHisto(HandleRef naa1, HandleRef naa2, float minratio, int w1, int h1, int w2, int h2, out float pscore, HandleRef pixadebug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCompareGrayByHisto")]
+        internal static extern int pixCompareGrayByHisto(HandleRef pix1, HandleRef pix2, HandleRef box1, HandleRef box2, float minratio, int maxgray, int factor, int nx, int ny, out float pscore, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCropAlignedToCentroid")]
+        internal static extern int pixCropAlignedToCentroid(HandleRef pix1, HandleRef pix2, int factor, out IntPtr pbox1, out IntPtr pbox2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_compressGrayHistograms")]
+        internal static extern IntPtr l_compressGrayHistograms(HandleRef naa, int w, int h, IntPtr psize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_uncompressGrayHistograms")]
+        internal static extern IntPtr l_uncompressGrayHistograms(IntPtr bytea, IntPtr size, out int pw, out int ph);
+
+        // Translated images at the same resolution
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCompareWithTranslation")]
+        internal static extern int pixCompareWithTranslation(HandleRef pix1, HandleRef pix2, int thresh, out int pdelx, out int pdely, out float pscore, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBestCorrelation")]
+        internal static extern int pixBestCorrelation(HandleRef pix1, HandleRef pix2, int area1, int area2, int etransx, int etransy, int maxshift, out int tab8, out int pdelx, out int pdely, out float pscore, int debugflag);
+        #endregion
+
         /* 
-         internal static  extern int pixEqual(PIX* pix1, PIX* pix2, l_int32* psame);
-         internal static  extern int pixEqualWithAlpha(PIX* pix1, PIX* pix2, int use_alpha, l_int32* psame);
-         internal static  extern int pixEqualWithCmap(PIX* pix1, PIX* pix2, l_int32* psame);
-         internal static  extern int cmapEqual(HandleRef  cmap1, HandleRef cmap2, int ncomps, l_int32* psame);
-         internal static  extern int pixUsesCmapColor(PIX* pixs, l_int32* pcolor);
-         internal static  extern int pixCorrelationBinary(PIX* pix1, PIX* pix2, l_float32* pval);
-         internal static  extern PIX* pixDisplayDiffBinary(PIX* pix1, PIX* pix2);
-         internal static  extern int pixCompareBinary(PIX* pix1, PIX* pix2, int comptype, l_float32* pfract, PIX** ppixdiff);
-         internal static  extern int pixCompareGrayOrRGB(PIX* pix1, PIX* pix2, int comptype, int plottype, l_int32* psame, l_float32* pdiff, l_float32* prmsdiff, PIX** ppixdiff);
-         internal static  extern int pixCompareGray(PIX* pix1, PIX* pix2, int comptype, int plottype, l_int32* psame, l_float32* pdiff, l_float32* prmsdiff, PIX** ppixdiff);
-         internal static  extern int pixCompareRGB(PIX* pix1, PIX* pix2, int comptype, int plottype, l_int32* psame, l_float32* pdiff, l_float32* prmsdiff, PIX** ppixdiff);
-         internal static  extern int pixCompareTiled(PIX* pix1, PIX* pix2, int sx, int sy, int type, PIX** ppixdiff);
-         internal static  extern NUMA* pixCompareRankDifference(PIX* pix1, PIX* pix2, int factor);
-         internal static  extern int pixTestForSimilarity(PIX* pix1, PIX* pix2, int factor, int mindiff, float maxfract, float maxave, l_int32* psimilar, int printstats);
-         internal static  extern int pixGetDifferenceStats(PIX* pix1, PIX* pix2, int factor, int mindiff, l_float32* pfractdiff, l_float32* pavediff, int printstats);
-         internal static  extern NUMA* pixGetDifferenceHistogram(PIX* pix1, PIX* pix2, int factor);
-         internal static  extern int pixGetPerceptualDiff(PIX* pixs1, PIX* pixs2, int sampling, int dilation, int mindiff, l_float32* pfract, PIX** ppixdiff1, PIX** ppixdiff2);
-         internal static  extern int pixGetPSNR(PIX* pix1, PIX* pix2, int factor, l_float32* ppsnr);
-         internal static  extern int pixaComparePhotoRegionsByHisto(PIXA* pixa, float minratio, float textthresh, int factor, int nx, int ny, float simthresh, NUMA** pnai, l_float32** pscores, PIX** ppixd);
-         internal static  extern int pixComparePhotoRegionsByHisto(PIX* pix1, PIX* pix2, HandleRef box1, HandleRef box2, float minratio, int factor, int nx, int ny, l_float32* pscore, int debugflag);
-         internal static  extern int pixGenPhotoHistos(PIX* pixs, HandleRef box, int factor, float thresh, int nx, int ny, NUMAA** pnaa, l_int32* pw, l_int32* ph, int debugflag);
-         internal static  extern PIX* pixPadToCenterCentroid(PIX* pixs, int factor);
-         internal static  extern int pixCentroid8(PIX* pixs, int factor, l_float32* pcx, l_float32* pcy);
-         internal static  extern int pixDecideIfPhotoImage(PIX* pix, int factor, int nx, int ny, float thresh, NUMAA** pnaa, HandleRef pixadebug);
-         internal static  extern int compareTilesByHisto(NUMAA* naa1, NUMAA* naa2, float minratio, int w1, int h1, int w2, int h2, l_float32* pscore, HandleRef pixadebug);
-         internal static  extern int pixCompareGrayByHisto(PIX* pix1, PIX* pix2, HandleRef box1, HandleRef box2, float minratio, int maxgray, int factor, int nx, int ny, l_float32* pscore, int debugflag);
-         internal static  extern int pixCropAlignedToCentroid(PIX* pix1, PIX* pix2, int factor, BOX** pbox1, BOX** pbox2);
-         internal static  extern l_uint8* l_compressGrayHistograms(NUMAA* naa, int w, int h, IntPtr psize);
-         internal static  extern NUMAA* l_uncompressGrayHistograms(l_uint8* bytea, IntPtr size, l_int32* pw, l_int32* ph);
-         internal static  extern int pixCompareWithTranslation(PIX* pix1, PIX* pix2, int thresh, l_int32* pdelx, l_int32* pdely, l_float32* pscore, int debugflag);
-         internal static  extern int pixBestCorrelation(PIX* pix1, PIX* pix2, int area1, int area2, int etransx, int etransy, int maxshift, l_int32* tab8, l_int32* pdelx, l_int32* pdely, l_float32* pscore, int debugflag);
          internal static  extern HandleRef pixConnComp(PIX* pixs, PIXA** ppixa, int connectivity);
          internal static  extern HandleRef pixConnCompPixa(PIX* pixs, PIXA** ppixa, int connectivity);
          internal static  extern HandleRef pixConnCompBB(PIX* pixs, int connectivity);

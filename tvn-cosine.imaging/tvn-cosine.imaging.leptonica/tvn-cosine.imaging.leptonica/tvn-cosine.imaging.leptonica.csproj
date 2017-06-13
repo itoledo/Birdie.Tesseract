@@ -153,6 +153,7 @@
     <Compile Include="Implementations\ColorQuant2.cs" />
     <Compile Include="Implementations\ColorSeg.cs" />
     <Compile Include="Implementations\ColorSpace.cs" />
+    <Compile Include="Implementations\Compare.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
