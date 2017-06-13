@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Leptonica.Implementations
+namespace Leptonica 
 {
     public static class BoxBasic
     {  // Box creation, copy, clone, destruction
