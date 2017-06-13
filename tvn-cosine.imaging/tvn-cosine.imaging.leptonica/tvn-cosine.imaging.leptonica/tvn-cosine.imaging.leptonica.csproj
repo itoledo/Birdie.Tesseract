@@ -51,6 +51,10 @@
     <Compile Include="Definitions\CCBord\CCBorda.cs" />
     <Compile Include="Definitions\CCBord\UseInCcbaGenerateSPGlobalLocs.cs" />
     <Compile Include="Definitions\CCBord\UseInCcbaStepChainsToPixCoords.cs" />
+    <Compile Include="Definitions\JBClass\ClassifierMethods.cs" />
+    <Compile Include="Definitions\JBClass\ForJbGetComponentsYypeOfComponentToExtractFromImages.cs" />
+    <Compile Include="Definitions\JBClass\JbClasser.cs" />
+    <Compile Include="Definitions\JBClass\JbData.cs" />
     <Compile Include="Implementations\Blend.cs" />
     <Compile Include="Implementations\BinReduce.cs" />
     <Compile Include="Implementations\BinExpand.cs" />
@@ -136,6 +140,8 @@
     <Compile Include="Definitions\Morph\MorphologicalTophatFlags.cs" />
     <Compile Include="Implementations\ByteArray.cs" />
     <Compile Include="Implementations\CCBoard.cs" />
+    <Compile Include="Implementations\CCThin.cs" />
+    <Compile Include="Implementations\ClassApp.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

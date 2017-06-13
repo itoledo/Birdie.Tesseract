@@ -1108,18 +1108,40 @@ namespace Leptonica.Native
 
         #endregion
 
+        #region ccthin.c
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaThinConnected")]
+        internal static extern IntPtr pixaThinConnected(HandleRef pixas, int type, int connectivity, int maxiters);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThinConnected")]
+        internal static extern IntPtr pixThinConnected(HandleRef pixs, int type, int connectivity, int maxiters);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThinConnectedBySet")]
+        internal static extern IntPtr pixThinConnectedBySet(HandleRef pixs, int type, HandleRef sela, int maxiters);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaMakeThinSets")]
+        internal static extern IntPtr selaMakeThinSets(int index, int debug);
+        #endregion
+
+        #region classapp.c
+        // Top-level jb2 correlation and rank-hausdorff 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbCorrelation")]
+        internal static extern int jbCorrelation([MarshalAs(UnmanagedType.AnsiBStr)]  string dirin, float thresh, float weight, int components, [MarshalAs(UnmanagedType.AnsiBStr)]  string rootname, int firstpage, int npages, int renderflag );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbRankHaus")]
+        internal static extern int jbRankHaus([MarshalAs(UnmanagedType.AnsiBStr)]  string dirin, int size, float rank, int components, [MarshalAs(UnmanagedType.AnsiBStr)]  string rootname, int firstpage, int npages, int renderflag );
+
+        // Extract and classify words in textline order 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbWordsInTextlines")]
+        internal static extern IntPtr  jbWordsInTextlines([MarshalAs(UnmanagedType.AnsiBStr)]  string dirin, int reduction, int maxwidth, int maxheight, float thresh, float weight, out IntPtr pnatl, int firstpage, int npages );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetWordsInTextlines")]
+        internal static extern int pixGetWordsInTextlines(HandleRef pixs, int reduction, int minwidth, int minheight, int maxwidth, int maxheight, out IntPtr pboxad, out IntPtr ppixad, out IntPtr pnai);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetWordBoxesInTextlines")]
+        internal static extern int pixGetWordBoxesInTextlines(HandleRef pixs, int reduction, int minwidth, int minheight, int maxwidth, int maxheight, out IntPtr pboxad, out IntPtr pnai);
+
+        // Use word bounding boxes to compare page images 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaExtractSortedPattern")]
+        internal static extern IntPtr boxaExtractSortedPattern(HandleRef boxa, HandleRef na);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaaCompareImagesByBoxes")]
+        internal static extern int numaaCompareImagesByBoxes(HandleRef naa1, HandleRef naa2, int nperline, int nreq, int maxshiftx, int maxshifty, int delx, int dely, out int psame, int debugflag);
+        #endregion
+
         /* 
-         internal static  extern HandleRef pixaThinConnected(PIXA* pixas, int type, int connectivity, int maxiters);
-         internal static  extern PIX* pixThinConnected(PIX* pixs, int type, int connectivity, int maxiters);
-         internal static  extern PIX* pixThinConnectedBySet(PIX* pixs, int type, SELA* sela, int maxiters);
-         internal static  extern SELA* selaMakeThinSets(int index, int debug);
-         internal static  extern int jbCorrelation( const char* dirin, float thresh, float weight, int components, const char* rootname, int firstpage, int npages, int renderflag );
-         internal static  extern int jbRankHaus( const char* dirin, int size, float rank, int components, const char* rootname, int firstpage, int npages, int renderflag );
-         internal static  extern JBCLASSER* jbWordsInTextlines( const char* dirin, int reduction, int maxwidth, int maxheight, float thresh, float weight, NUMA** pnatl, int firstpage, int npages );
-         internal static  extern int pixGetWordsInTextlines(PIX* pixs, int reduction, int minwidth, int minheight, int maxwidth, int maxheight, BOXA** pboxad, PIXA** ppixad, NUMA** pnai);
-         internal static  extern int pixGetWordBoxesInTextlines(PIX* pixs, int reduction, int minwidth, int minheight, int maxwidth, int maxheight, BOXA** pboxad, NUMA** pnai);
-         internal static  extern NUMAA* boxaExtractSortedPattern(HandleRef boxa, NUMA* na);
-         internal static  extern int numaaCompareImagesByBoxes(NUMAA* naa1, NUMAA* naa2, int nperline, int nreq, int maxshiftx, int maxshifty, int delx, int dely, l_int32* psame, int debugflag);
          internal static  extern int pixColorContent(PIX* pixs, int rwhite, int gwhite, int bwhite, int mingray, PIX** ppixr, PIX** ppixg, PIX** ppixb);
          internal static  extern PIX* pixColorMagnitude(PIX* pixs, int rwhite, int gwhite, int bwhite, int type);
          internal static  extern PIX* pixMaskOverColorPixels(PIX* pixs, int threshdiff, int mindist);
