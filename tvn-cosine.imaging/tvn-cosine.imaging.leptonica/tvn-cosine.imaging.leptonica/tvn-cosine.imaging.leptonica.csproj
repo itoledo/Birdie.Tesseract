@@ -159,6 +159,7 @@
     <Compile Include="Implementations\ConnComp.cs" />
     <Compile Include="Implementations\ConvertFiles.cs" />
     <Compile Include="Implementations\Convolve.cs" />
+    <Compile Include="Implementations\CorrelScore.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

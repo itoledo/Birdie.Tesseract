@@ -1721,12 +1721,21 @@ namespace Leptonica.Native
         internal static extern float gaussDistribSampling();
         #endregion
 
+        #region correlscore.c
+        // Optimized 2 pix correlators(for jbig2 clustering)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gaussDistribSampling")]
+        internal static extern int pixCorrelationScore(HandleRef pix1, HandleRef pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, out int tab, out float pscore);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gaussDistribSampling")]
+        internal static extern int pixCorrelationScoreThresholded(HandleRef pix1, HandleRef pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, out int tab, out int downcount, float score_threshold);
+
+        // Simple 2 pix correlators
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gaussDistribSampling")]
+        internal static extern int pixCorrelationScoreSimple(HandleRef pix1, HandleRef pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, out int tab, out float pscore);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gaussDistribSampling")]
+        internal static extern int pixCorrelationScoreShifted(HandleRef pix1, HandleRef pix2, int area1, int area2, int delx, int dely, out int tab, out float pscore);
+        #endregion
 
         /* 
-         internal static  extern int pixCorrelationScore(PIX* pix1, PIX* pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, l_int32* tab, l_float32* pscore);
-         internal static  extern int pixCorrelationScoreThresholded(PIX* pix1, PIX* pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, l_int32* tab, l_int32* downcount, float score_threshold);
-         internal static  extern int pixCorrelationScoreSimple(PIX* pix1, PIX* pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, l_int32* tab, l_float32* pscore);
-         internal static  extern int pixCorrelationScoreShifted(PIX* pix1, PIX* pix2, int area1, int area2, int delx, int dely, l_int32* tab, l_float32* pscore);
          internal static  extern L_DEWARP* dewarpCreate(PIX* pixs, int pageno);
          internal static  extern L_DEWARP* dewarpCreateRef(int pageno, int refpage);
          internal static  extern void dewarpDestroy(L_DEWARP** pdew);
