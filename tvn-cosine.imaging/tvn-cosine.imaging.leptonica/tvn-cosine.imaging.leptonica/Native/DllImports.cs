@@ -1361,7 +1361,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeRGBToIndexTables")]
         internal static extern int makeRGBToIndexTables(out IntPtr prtab, out IntPtr pgtab, out IntPtr pbtab, int cqlevels);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getOctcubeIndexFromRGB")]
-        internal static extern void getOctcubeIndexFromRGB(int rval, int gval, int bval, IntPtr rtab, IntPtr gtab, IntPtr btab, out uint  pindex);
+        internal static extern void getOctcubeIndexFromRGB(int rval, int gval, int bval, IntPtr rtab, IntPtr gtab, IntPtr btab, out uint pindex);
 
         // (2) Adaptive octree quantization based on population at a fixed level
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOctreeQuantByPopulation")]
@@ -1414,12 +1414,24 @@ namespace Leptonica.Native
         internal static extern int pixNumberOccupiedOctcubes(HandleRef pix, int level, int mincount, float minfract, out int pncolors);
         #endregion
 
+        #region colorquant2.c
+        // Modified median cut color quantization 
+        // High level
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMedianCutQuant")]
+        internal static extern IntPtr pixMedianCutQuant(HandleRef pixs, int ditherflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMedianCutQuantGeneral")]
+        internal static extern IntPtr pixMedianCutQuantGeneral(HandleRef pixs, int ditherflag, int outdepth, int maxcolors, int sigbits, int maxsub, int checkbw);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMedianCutQuantMixed")]
+        internal static extern IntPtr pixMedianCutQuantMixed(HandleRef pixs, int ncolor, int ngray, int darkthresh, int lightthresh, int diffthresh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFewColorsMedianCutQuantMixed")]
+        internal static extern IntPtr pixFewColorsMedianCutQuantMixed(HandleRef pixs, int ncolor, int ngray, int maxncolors, int darkthresh, int lightthresh, int diffthresh);
+
+        // Median cut indexed histogram
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMedianCutHisto")]
+        internal static extern IntPtr pixMedianCutHisto(HandleRef pixs, int sigbits, int subsample);
+        #endregion
+
         /* 
-         internal static  extern PIX* pixMedianCutQuant(PIX* pixs, int ditherflag);
-         internal static  extern PIX* pixMedianCutQuantGeneral(PIX* pixs, int ditherflag, int outdepth, int maxcolors, int sigbits, int maxsub, int checkbw);
-         internal static  extern PIX* pixMedianCutQuantMixed(PIX* pixs, int ncolor, int ngray, int darkthresh, int lightthresh, int diffthresh);
-         internal static  extern PIX* pixFewColorsMedianCutQuantMixed(PIX* pixs, int ncolor, int ngray, int maxncolors, int darkthresh, int lightthresh, int diffthresh);
-         internal static  extern l_int32* pixMedianCutHisto(PIX* pixs, int sigbits, int subsample);
          internal static  extern PIX* pixColorSegment(PIX* pixs, int maxdist, int maxcolors, int selsize, int finalcolors, int debugflag);
          internal static  extern PIX* pixColorSegmentCluster(PIX* pixs, int maxdist, int maxcolors, int debugflag);
          internal static  extern int pixAssignToNearestColor(PIX* pixd, PIX* pixs, PIX* pixm, int level, l_int32* countarray);
