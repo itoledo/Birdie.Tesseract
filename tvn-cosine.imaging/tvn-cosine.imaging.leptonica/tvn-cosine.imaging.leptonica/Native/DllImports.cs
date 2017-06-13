@@ -1641,35 +1641,88 @@ namespace Leptonica.Native
 
         #region convertfiles.c
         // Conversion to 1 bpp
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfill8")]
-        internal static extern int convertFilesTo1bpp([MarshalAs(UnmanagedType.AnsiBStr)] string dirin, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int upscaling, int thresh, int firstpage, int npages, [MarshalAs(UnmanagedType.AnsiBStr)] string dirout, int outformat );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertFilesTo1bpp")]
+        internal static extern int convertFilesTo1bpp([MarshalAs(UnmanagedType.AnsiBStr)] string dirin, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int upscaling, int thresh, int firstpage, int npages, [MarshalAs(UnmanagedType.AnsiBStr)] string dirout, int outformat);
         #endregion
 
+        #region convolve.c
+        // Top level grayscale or color block convolution
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlockconv")]
+        internal static extern IntPtr pixBlockconv(HandleRef pix, int wc, int hc);
+
+        // Grayscale block convolution
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlockconvGray")]
+        internal static extern IntPtr pixBlockconvGray(HandleRef pixs, HandleRef pixacc, int wc, int hc);
+
+        // Accumulator for 1, 8 and 32 bpp convolution
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlockconvAccum")]
+        internal static extern IntPtr pixBlockconvAccum(HandleRef pixs);
+
+        // Un-normalized grayscale block convolution
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlockconvGrayUnnormalized")]
+        internal static extern IntPtr pixBlockconvGrayUnnormalized(HandleRef pixs, int wc, int hc);
+
+        // Tiled grayscale or color block convolution
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlockconvTiled")]
+        internal static extern IntPtr pixBlockconvTiled(HandleRef pix, int wc, int hc, int nx, int ny);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlockconvGrayTile")]
+        internal static extern IntPtr pixBlockconvGrayTile(HandleRef pixs, HandleRef pixacc, int wc, int hc);
+
+        // Convolution for mean, mean square, variance and rms deviation in specified window
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWindowedStats")]
+        internal static extern int pixWindowedStats(HandleRef pixs, int wc, int hc, int hasborder, out IntPtr ppixm, out IntPtr ppixms, out IntPtr pfpixv, out IntPtr pfpixrv);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWindowedMean")]
+        internal static extern IntPtr pixWindowedMean(HandleRef pixs, int wc, int hc, int hasborder, int normflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWindowedMeanSquare")]
+        internal static extern IntPtr pixWindowedMeanSquare(HandleRef pixs, int wc, int hc, int hasborder);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWindowedVariance")]
+        internal static extern int pixWindowedVariance(HandleRef pixm, HandleRef pixms, out IntPtr pfpixv, out IntPtr pfpixrv);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMeanSquareAccum")]
+        internal static extern IntPtr pixMeanSquareAccum(HandleRef pixs);
+
+        // Binary block sum and rank filter
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlockrank")]
+        internal static extern IntPtr pixBlockrank(HandleRef pixs, HandleRef pixacc, int wc, int hc, float rank);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlocksum")]
+        internal static extern IntPtr pixBlocksum(HandleRef pixs, HandleRef pixacc, int wc, int hc);
+
+        // Census transform
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCensusTransform")]
+        internal static extern IntPtr pixCensusTransform(HandleRef pixs, int halfsize, HandleRef pixacc);
+
+        // Generic convolution(with Pix)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvolve")]
+        internal static extern IntPtr pixConvolve(HandleRef pixs, HandleRef kel, int outdepth, int normflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvolveSep")]
+        internal static extern IntPtr pixConvolveSep(HandleRef pixs, HandleRef kelx, HandleRef kely, int outdepth, int normflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvolveRGB")]
+        internal static extern IntPtr pixConvolveRGB(HandleRef pixs, HandleRef kel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvolveRGBSep")]
+        internal static extern IntPtr pixConvolveRGBSep(HandleRef pixs, HandleRef kelx, HandleRef kely);
+
+        // Generic convolution(with float arrays)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixConvolve")]
+        internal static extern IntPtr fpixConvolve(HandleRef fpixs, HandleRef kel, int normflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixConvolveSep")]
+        internal static extern IntPtr fpixConvolveSep(HandleRef fpixs, HandleRef kelx, HandleRef kely, int normflag);
+
+        // Convolution with bias(for non-negative output)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvolveWithBias")]
+        internal static extern IntPtr pixConvolveWithBias(HandleRef pixs, HandleRef kel1, HandleRef kel2, int force8, out int pbias);
+
+        // Set parameter for convolution subsampling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_setConvolveSampling")]
+        internal static extern void l_setConvolveSampling(int xfact, int yfact);
+
+        //  Additive gaussian noise
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddGaussianNoise")]
+        internal static extern IntPtr pixAddGaussianNoise(HandleRef pixs, float stdev);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gaussDistribSampling")]
+        internal static extern float gaussDistribSampling();
+        #endregion
+
+
         /* 
-         internal static  extern PIX* pixBlockconv(PIX* pix, int wc, int hc);
-         internal static  extern PIX* pixBlockconvGray(PIX* pixs, PIX* pixacc, int wc, int hc);
-         internal static  extern PIX* pixBlockconvAccum(PIX* pixs);
-         internal static  extern PIX* pixBlockconvGrayUnnormalized(PIX* pixs, int wc, int hc);
-         internal static  extern PIX* pixBlockconvTiled(PIX* pix, int wc, int hc, int nx, int ny);
-         internal static  extern PIX* pixBlockconvGrayTile(PIX* pixs, PIX* pixacc, int wc, int hc);
-         internal static  extern int pixWindowedStats(PIX* pixs, int wc, int hc, int hasborder, PIX** ppixm, PIX** ppixms, FPIX** pfpixv, FPIX** pfpixrv);
-         internal static  extern PIX* pixWindowedMean(PIX* pixs, int wc, int hc, int hasborder, int normflag);
-         internal static  extern PIX* pixWindowedMeanSquare(PIX* pixs, int wc, int hc, int hasborder);
-         internal static  extern int pixWindowedVariance(PIX* pixm, PIX* pixms, FPIX** pfpixv, FPIX** pfpixrv);
-         internal static  extern DPIX* pixMeanSquareAccum(PIX* pixs);
-         internal static  extern PIX* pixBlockrank(PIX* pixs, PIX* pixacc, int wc, int hc, float rank);
-         internal static  extern PIX* pixBlocksum(PIX* pixs, PIX* pixacc, int wc, int hc);
-         internal static  extern PIX* pixCensusTransform(PIX* pixs, int halfsize, PIX* pixacc);
-         internal static  extern PIX* pixConvolve(PIX* pixs, L_KERNEL* kel, int outdepth, int normflag);
-         internal static  extern PIX* pixConvolveSep(PIX* pixs, L_KERNEL* kelx, L_KERNEL* kely, int outdepth, int normflag);
-         internal static  extern PIX* pixConvolveRGB(PIX* pixs, L_KERNEL* kel);
-         internal static  extern PIX* pixConvolveRGBSep(PIX* pixs, L_KERNEL* kelx, L_KERNEL* kely);
-         internal static  extern FPIX* fpixConvolve(FPIX* fpixs, L_KERNEL* kel, int normflag);
-         internal static  extern FPIX* fpixConvolveSep(FPIX* fpixs, L_KERNEL* kelx, L_KERNEL* kely, int normflag);
-         internal static  extern PIX* pixConvolveWithBias(PIX* pixs, L_KERNEL* kel1, L_KERNEL* kel2, int force8, l_int32* pbias);
-         internal static  extern void l_setConvolveSampling(int xfact, int yfact);
-         internal static  extern PIX* pixAddGaussianNoise(PIX* pixs, float stdev);
-         internal static  extern float gaussDistribSampling();
          internal static  extern int pixCorrelationScore(PIX* pix1, PIX* pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, l_int32* tab, l_float32* pscore);
          internal static  extern int pixCorrelationScoreThresholded(PIX* pix1, PIX* pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, l_int32* tab, l_int32* downcount, float score_threshold);
          internal static  extern int pixCorrelationScoreSimple(PIX* pix1, PIX* pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, l_int32* tab, l_float32* pscore);

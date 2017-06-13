@@ -1,6 +1,6 @@
 ﻿using System; 
 
-namespace Leptonica.Implementations
+namespace Leptonica 
 {
     public static class ConvertFiles
     {
