@@ -1639,8 +1639,13 @@ namespace Leptonica.Native
         internal static extern int pixSeedfill8(HandleRef pixs, HandleRef stack, int x, int y);
         #endregion
 
+        #region convertfiles.c
+        // Conversion to 1 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfill8")]
+        internal static extern int convertFilesTo1bpp([MarshalAs(UnmanagedType.AnsiBStr)] string dirin, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int upscaling, int thresh, int firstpage, int npages, [MarshalAs(UnmanagedType.AnsiBStr)] string dirout, int outformat );
+        #endregion
+
         /* 
-         internal static  extern int convertFilesTo1bpp( const char* dirin, const char* substr, int upscaling, int thresh, int firstpage, int npages, const char* dirout, int outformat );
          internal static  extern PIX* pixBlockconv(PIX* pix, int wc, int hc);
          internal static  extern PIX* pixBlockconvGray(PIX* pixs, PIX* pixacc, int wc, int hc);
          internal static  extern PIX* pixBlockconvAccum(PIX* pixs);
