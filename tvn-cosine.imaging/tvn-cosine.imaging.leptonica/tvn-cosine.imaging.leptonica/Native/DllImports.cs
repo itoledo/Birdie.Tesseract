@@ -1197,22 +1197,40 @@ namespace Leptonica.Native
         internal static extern int pixHasHighlightRed(HandleRef pixs, int factor, float fract, float fthresh, out int phasred, out float pratio, out IntPtr ppixdb);
         #endregion
 
+        #region coloring.c
+        // Coloring "gray" pixels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorGrayRegions")]
+        internal static extern IntPtr pixColorGrayRegions(HandleRef pixs, HandleRef boxa, int type, int thresh, int rval, int gval, int bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorGray")]
+        internal static extern int pixColorGray(HandleRef pixs, HandleRef box, int type, int thresh, int rval, int gval, int bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorGrayMasked")]
+        internal static extern IntPtr pixColorGrayMasked(HandleRef pixs, HandleRef pixm, int type, int thresh, int rval, int gval, int bval);
 
+        // Adjusting one or more colors to a target color
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSnapColor")]
+        internal static extern IntPtr pixSnapColor(HandleRef pixd, HandleRef pixs, uint srcval, uint dstval, int diff);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSnapColorCmap")]
+        internal static extern IntPtr pixSnapColorCmap(HandleRef pixd, HandleRef pixs, uint srcval, uint dstval, int diff);
+
+        // Piecewise linear color mapping based on a source/target pair
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixLinearMapToTargetColor")]
+        internal static extern IntPtr pixLinearMapToTargetColor(HandleRef pixd, HandleRef pixs, uint srcval, uint dstval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixelLinearMapToTargetColor")]
+        internal static extern int pixelLinearMapToTargetColor(uint scolor, uint srcmap, uint dstmap, out uint pdcolor);
+
+        // Fractional shift of RGB towards black or white
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixShiftByComponent")]
+        internal static extern IntPtr pixShiftByComponent(HandleRef pixd, HandleRef pixs, uint srcval, uint dstval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixelShiftByComponent")]
+        internal static extern int pixelShiftByComponent(int rval, int gval, int bval, uint srcval, uint dstval, out uint ppixel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixelFractionalShift")]
+        internal static extern int pixelFractionalShift(int rval, int gval, int bval, float fraction, out uint ppixel);
+        #endregion
 
 
 
 
         /* 
-         internal static  extern PIX* pixColorGrayRegions(PIX* pixs, HandleRef boxa, int type, int thresh, int rval, int gval, int bval);
-         internal static  extern int pixColorGray(PIX* pixs, HandleRef box, int type, int thresh, int rval, int gval, int bval);
-         internal static  extern PIX* pixColorGrayMasked(PIX* pixs, PIX* pixm, int type, int thresh, int rval, int gval, int bval);
-         internal static  extern PIX* pixSnapColor(PIX* pixd, PIX* pixs, uint srcval, uint dstval, int diff);
-         internal static  extern PIX* pixSnapColorCmap(PIX* pixd, PIX* pixs, uint srcval, uint dstval, int diff);
-         internal static  extern PIX* pixLinearMapToTargetColor(PIX* pixd, PIX* pixs, uint srcval, uint dstval);
-         internal static  extern int pixelLinearMapToTargetColor(uint scolor, uint srcmap, uint dstmap, l_uint32* pdcolor);
-         internal static  extern PIX* pixShiftByComponent(PIX* pixd, PIX* pixs, uint srcval, uint dstval);
-         internal static  extern int pixelShiftByComponent(int rval, int gval, int bval, uint srcval, uint dstval, l_uint32* ppixel);
-         internal static  extern int pixelFractionalShift(int rval, int gval, int bval, float fraction, l_uint32* ppixel);
          internal static  extern PIXCMAP* pixcmapCreate(int depth);
          internal static  extern PIXCMAP* pixcmapCreateRandom(int depth, int hasblack, int haswhite);
          internal static  extern PIXCMAP* pixcmapCreateLinear(int d, int nlevels);
