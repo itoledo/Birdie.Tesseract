@@ -2509,22 +2509,46 @@ namespace Leptonica.Native
         internal static extern int pixWriteMemGif(out IntPtr pdata, IntPtr psize, HandleRef pix);
         #endregion
 
+        #region gplot.c
+        // Basic plotting functions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotCreate")]
+        internal static extern IntPtr gplotCreate([MarshalAs(UnmanagedType.AnsiBStr)] string rootname, int outformat, [MarshalAs(UnmanagedType.AnsiBStr)] string title, [MarshalAs(UnmanagedType.AnsiBStr)] string xlabel, [MarshalAs(UnmanagedType.AnsiBStr)] string ylabel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotDestroy")]
+        internal static extern void gplotDestroy(ref IntPtr pgplot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotAddPlot")]
+        internal static extern int gplotAddPlot(HandleRef gplot, HandleRef nax, HandleRef nay, int plotstyle, [MarshalAs(UnmanagedType.AnsiBStr)] string plottitle);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotSetScaling")]
+        internal static extern int gplotSetScaling(HandleRef gplot, int scaling);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotMakeOutput")]
+        internal static extern int gplotMakeOutput(HandleRef gplot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotGenCommandFile")]
+        internal static extern int gplotGenCommandFile(HandleRef gplot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotGenDataFiles")]
+        internal static extern int gplotGenDataFiles(HandleRef gplot);
+
+        // Quick and dirty plots
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotSimple1")]
+        internal static extern int gplotSimple1(HandleRef na, int outformat, [MarshalAs(UnmanagedType.AnsiBStr)] string outroot, [MarshalAs(UnmanagedType.AnsiBStr)] string title);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotSimple2")]
+        internal static extern int gplotSimple2(HandleRef na1, HandleRef na2, int outformat, [MarshalAs(UnmanagedType.AnsiBStr)] string outroot, [MarshalAs(UnmanagedType.AnsiBStr)] string title);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotSimpleN")]
+        internal static extern int gplotSimpleN(HandleRef naa, int outformat, [MarshalAs(UnmanagedType.AnsiBStr)] string outroot, [MarshalAs(UnmanagedType.AnsiBStr)] string title);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotSimpleXY1")]
+        internal static extern int gplotSimpleXY1(HandleRef nax, HandleRef nay, int plotstyle, int outformat, [MarshalAs(UnmanagedType.AnsiBStr)] string outroot, [MarshalAs(UnmanagedType.AnsiBStr)] string title);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotSimpleXY2")]
+        internal static extern int gplotSimpleXY2(HandleRef nax, HandleRef nay1, HandleRef nay2, int plotstyle, int outformat, [MarshalAs(UnmanagedType.AnsiBStr)] string outroot, [MarshalAs(UnmanagedType.AnsiBStr)] string title);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotSimpleXYN")]
+        internal static extern int gplotSimpleXYN(HandleRef nax, HandleRef naay, int plotstyle, int outformat, [MarshalAs(UnmanagedType.AnsiBStr)] string outroot, [MarshalAs(UnmanagedType.AnsiBStr)] string title);
+
+        // Serialize for I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotRead")]
+        internal static extern IntPtr gplotRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gplotWrite")]
+        internal static extern int gplotWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef gplot);
+        #endregion
+
+
         /*
-        internal static extern GPLOT* gplotCreate(  [MarshalAs(UnmanagedType.AnsiBStr)] string rootname, int outformat,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string xlabel,  [MarshalAs(UnmanagedType.AnsiBStr)] string ylabel );
-        internal static extern void gplotDestroy(GPLOT** pgplot);
-        internal static extern int gplotAddPlot(GPLOT* gplot, NUMA* nax, NUMA* nay, int plotstyle,  [MarshalAs(UnmanagedType.AnsiBStr)] string plottitle );
-        internal static extern int gplotSetScaling(GPLOT* gplot, int scaling);
-        internal static extern int gplotMakeOutput(GPLOT* gplot);
-        internal static extern int gplotGenCommandFile(GPLOT* gplot);
-        internal static extern int gplotGenDataFiles(GPLOT* gplot);
-        internal static extern int gplotSimple1(NUMA* na, int outformat,  [MarshalAs(UnmanagedType.AnsiBStr)] string outroot,  [MarshalAs(UnmanagedType.AnsiBStr)] string title );
-        internal static extern int gplotSimple2(NUMA* na1, NUMA* na2, int outformat,  [MarshalAs(UnmanagedType.AnsiBStr)] string outroot,  [MarshalAs(UnmanagedType.AnsiBStr)] string title );
-        internal static extern int gplotSimpleN(NUMAA* naa, int outformat,  [MarshalAs(UnmanagedType.AnsiBStr)] string outroot,  [MarshalAs(UnmanagedType.AnsiBStr)] string title );
-        internal static extern int gplotSimpleXY1(NUMA* nax, NUMA* nay, int plotstyle, int outformat,  [MarshalAs(UnmanagedType.AnsiBStr)] string outroot,  [MarshalAs(UnmanagedType.AnsiBStr)] string title );
-        internal static extern int gplotSimpleXY2(NUMA* nax, NUMA* nay1, NUMA* nay2, int plotstyle, int outformat,  [MarshalAs(UnmanagedType.AnsiBStr)] string outroot,  [MarshalAs(UnmanagedType.AnsiBStr)] string title );
-        internal static extern int gplotSimpleXYN(NUMA* nax, NUMAA* naay, int plotstyle, int outformat,  [MarshalAs(UnmanagedType.AnsiBStr)] string outroot,  [MarshalAs(UnmanagedType.AnsiBStr)] string title );
-        internal static extern GPLOT* gplotRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern int gplotWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, GPLOT *gplot );
          internal static extern PTA* generatePtaLine(int x1, int y1, int x2, int y2);
         internal static extern PTA* generatePtaWideLine(int x1, int y1, int x2, int y2, int width);
         internal static extern PTA* generatePtaBox(HandleRef box, int width);

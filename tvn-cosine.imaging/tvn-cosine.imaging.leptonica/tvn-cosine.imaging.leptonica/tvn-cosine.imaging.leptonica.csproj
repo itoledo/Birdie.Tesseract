@@ -60,6 +60,10 @@
     <Compile Include="Definitions\Environ\L_WallTimer.cs" />
     <Compile Include="Definitions\Environ\PathSeparatorConversion.cs" />
     <Compile Include="Definitions\Environ\SimpleSearchStateVariables.cs" />
+    <Compile Include="Definitions\GPlot\GPlot.cs" />
+    <Compile Include="Definitions\GPlot\GPLOT_OUTPUT.cs" />
+    <Compile Include="Definitions\GPlot\GPLOT_SCALING.cs" />
+    <Compile Include="Definitions\GPlot\GPLOT_STYLE.cs" />
     <Compile Include="Definitions\JBClass\ClassifierMethods.cs" />
     <Compile Include="Definitions\JBClass\ForJbGetComponentsYypeOfComponentToExtractFromImages.cs" />
     <Compile Include="Definitions\JBClass\JbClasser.cs" />
@@ -198,6 +202,7 @@
     <Compile Include="Implementations\FPix1.cs" />
     <Compile Include="Implementations\FPix2.cs" />
     <Compile Include="Implementations\GifIO.cs" />
+    <Compile Include="Implementations\GPlot.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
