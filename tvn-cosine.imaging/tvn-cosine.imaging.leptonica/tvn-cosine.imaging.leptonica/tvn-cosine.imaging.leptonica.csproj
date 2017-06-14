@@ -191,6 +191,8 @@
     <Compile Include="Implementations\FhmtGenLow1.cs" />
     <Compile Include="Implementations\FindItalic.cs" />
     <Compile Include="Implementations\FlipDetect.cs" />
+    <Compile Include="Implementations\FlipHmtGen.cs" />
+    <Compile Include="Implementations\FMorphAuto.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
