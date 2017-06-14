@@ -2661,16 +2661,29 @@ namespace Leptonica.Native
         internal static extern IntPtr pixGeneratePtaBoundary(HandleRef pixs, int width);
         #endregion
 
+        #region graymorph.c
+        // Top-level grayscale morphological operations(van Herk / Gil-Werman)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixErodeGray")]
+        internal static extern IntPtr pixErodeGray(HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDilateGray")]
+        internal static extern IntPtr pixDilateGray(HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOpenGray")]
+        internal static extern IntPtr pixOpenGray(HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseGray")]
+        internal static extern IntPtr pixCloseGray(HandleRef pixs, int hsize, int vsize);
+
+        // Special operations for 1x3, 3x1 and 3x3 Sels(direct)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixErodeGray3")]
+        internal static extern IntPtr pixErodeGray3(HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDilateGray3")]
+        internal static extern IntPtr pixDilateGray3(HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOpenGray3")]
+        internal static extern IntPtr pixOpenGray3(HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseGray3")]
+        internal static extern IntPtr pixCloseGray3(HandleRef pixs, int hsize, int vsize);
+        #endregion
         /*
 
-        internal static extern PIX* pixErodeGray(PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixDilateGray(PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixOpenGray(PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixCloseGray(PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixErodeGray3(PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixDilateGray3(PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixOpenGray3(PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixCloseGray3(PIX* pixs, int hsize, int vsize);
         internal static extern PIX* pixDitherToBinary(PIX* pixs);
         internal static extern PIX* pixDitherToBinarySpec(PIX* pixs, int lowerclip, int upperclip);
         internal static extern PIX* pixThresholdToBinary(PIX* pixs, int thresh);

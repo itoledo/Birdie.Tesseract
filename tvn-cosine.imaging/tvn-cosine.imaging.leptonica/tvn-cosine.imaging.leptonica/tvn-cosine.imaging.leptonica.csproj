@@ -204,6 +204,7 @@
     <Compile Include="Implementations\GifIO.cs" />
     <Compile Include="Implementations\GPlot.cs" />
     <Compile Include="Implementations\Graphics.cs" />
+    <Compile Include="Implementations\GrayMorph.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
