@@ -2044,9 +2044,9 @@ namespace Leptonica.Native
         #region dwacomb.2.c
         // Top-level fast binary morphology with auto-generated sels
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMorphDwa_2")]
-        internal static extern IntPtr pixMorphDwa_2(HandleRef pixd, HandleRef pixs, int operation, [MarshalAs(UnmanagedType.AnsiBStr)] string  selname);
+        internal static extern IntPtr pixMorphDwa_2(HandleRef pixd, HandleRef pixs, int operation, [MarshalAs(UnmanagedType.AnsiBStr)] string selname);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFMorphopGen_2")]
-        internal static extern IntPtr pixFMorphopGen_2(HandleRef pixd, HandleRef pixs, int operation, [MarshalAs(UnmanagedType.AnsiBStr)] string  selname);
+        internal static extern IntPtr pixFMorphopGen_2(HandleRef pixd, HandleRef pixs, int operation, [MarshalAs(UnmanagedType.AnsiBStr)] string selname);
         #endregion
 
         #region dwacomblow.2.c
@@ -2086,11 +2086,11 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "encodeAscii85")]
         internal static extern IntPtr encodeAscii85(IntPtr inarray, int insize, out int poutsize);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "decodeAscii85")]
-        internal static extern IntPtr decodeAscii85( [MarshalAs(UnmanagedType.AnsiBStr)] string inarray, int insize, out int poutsize);
+        internal static extern IntPtr decodeAscii85([MarshalAs(UnmanagedType.AnsiBStr)] string inarray, int insize, out int poutsize);
 
         // String reformatting for base 64 encoded data
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "reformatPacked64")]
-        internal static extern IntPtr reformatPacked64( [MarshalAs(UnmanagedType.AnsiBStr)] string inarray, int insize, int leadspace, int linechars, int addquotes, out int poutsize);
+        internal static extern IntPtr reformatPacked64([MarshalAs(UnmanagedType.AnsiBStr)] string inarray, int insize, int leadspace, int linechars, int addquotes, out int poutsize);
         #endregion
 
         #region enhance.c
@@ -2102,7 +2102,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGammaTRCWithAlpha")]
         internal static extern IntPtr pixGammaTRCWithAlpha(HandleRef pixd, HandleRef pixs, float gamma, int minval, int maxval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGammaTRC")]
-        internal static extern IntPtr  numaGammaTRC(float gamma, int minval, int maxval);
+        internal static extern IntPtr numaGammaTRC(float gamma, int minval, int maxval);
 
         // Contrast enhancement
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixContrastTRC")]
@@ -2110,13 +2110,13 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixContrastTRCMasked")]
         internal static extern IntPtr pixContrastTRCMasked(HandleRef pixd, HandleRef pixs, HandleRef pixm, float factor);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaContrastTRC")]
-        internal static extern IntPtr  numaContrastTRC(float factor);
+        internal static extern IntPtr numaContrastTRC(float factor);
 
         // Histogram equalization
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixEqualizeTRC")]
         internal static extern IntPtr pixEqualizeTRC(HandleRef pixd, HandleRef pixs, float fract, int factor);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaEqualizeTRC")]
-        internal static extern IntPtr  numaEqualizeTRC(HandleRef pix, float fract, int factor);
+        internal static extern IntPtr numaEqualizeTRC(HandleRef pix, float fract, int factor);
 
         // Generic TRC mapper
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTRCMap")]
@@ -2171,9 +2171,15 @@ namespace Leptonica.Native
         internal static extern int fhmtautogen2(HandleRef sela, int fileindex, [MarshalAs(UnmanagedType.AnsiBStr)] string filename);
         #endregion
 
+        #region fhmtgen.1.c
+        // Top-level fast hit-miss transform with auto-generated sels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHMTDwa_1")]
+        internal static extern IntPtr pixHMTDwa_1(HandleRef pixd, HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string selname);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFHMTGen_1")]
+        internal static extern IntPtr pixFHMTGen_1(HandleRef pixd, HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string selname);
+        #endregion
+
         /*
-        internal static extern PIX* pixHMTDwa_1(PIX* pixd, PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string selname );
-        internal static extern PIX* pixFHMTGen_1(PIX* pixd, PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string selname );
         internal static extern int fhmtgen_low_1(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, int index);
         internal static extern int pixItalicWords(PIX* pixs, HandleRef boxaw, PIX* pixw, BOXA** pboxa, int debugflag);
         internal static extern int pixOrientDetect(PIX* pixs, l_float32* pupconf, l_float32* pleftconf, int mincount, int debug);

@@ -187,6 +187,7 @@
     <Compile Include="Implementations\Encoding.cs" />
     <Compile Include="Implementations\Enhance.cs" />
     <Compile Include="Implementations\FhmtAuto.cs" />
+    <Compile Include="Implementations\FhmtGen1.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
