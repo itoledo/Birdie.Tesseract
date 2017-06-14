@@ -2395,44 +2395,105 @@ namespace Leptonica.Native
         internal static extern int fpixPrintStream(IntPtr fp, HandleRef fpix, int factor);
         #endregion
 
+        #region fpix2.c
+        // Interconversions between Pix, FPix and DPix
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertToFPix")]
+        internal static extern IntPtr pixConvertToFPix(HandleRef pixs, int ncomps);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertToDPix")]
+        internal static extern IntPtr pixConvertToDPix(HandleRef pixs, int ncomps);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixConvertToPix")]
+        internal static extern IntPtr fpixConvertToPix(HandleRef fpixs, int outdepth, int negvals, int errorflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixDisplayMaxDynamicRange")]
+        internal static extern IntPtr fpixDisplayMaxDynamicRange(HandleRef fpixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixConvertToDPix")]
+        internal static extern IntPtr fpixConvertToDPix(HandleRef fpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixConvertToPix")]
+        internal static extern IntPtr dpixConvertToPix(HandleRef dpixs, int outdepth, int negvals, int errorflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixConvertToFPix")]
+        internal static extern IntPtr dpixConvertToFPix(HandleRef dpix);
+
+        // Min/max value
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixGetMin")]
+        internal static extern int fpixGetMin(HandleRef fpix, out float pminval, out int pxminloc, out int pyminloc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixGetMax")]
+        internal static extern int fpixGetMax(HandleRef fpix, out float pmaxval, out int pxmaxloc, out int pymaxloc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixGetMin")]
+        internal static extern int dpixGetMin(HandleRef dpix, out double pminval, out int pxminloc, out int pyminloc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixGetMax")]
+        internal static extern int dpixGetMax(HandleRef dpix, out double pmaxval, out int pxmaxloc, out int pymaxloc);
+
+        // Integer scaling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixScaleByInteger")]
+        internal static extern IntPtr fpixScaleByInteger(HandleRef fpixs, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixScaleByInteger")]
+        internal static extern IntPtr dpixScaleByInteger(HandleRef dpixs, int factor);
+
+        // Arithmetic operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixLinearCombination")]
+        internal static extern IntPtr fpixLinearCombination(HandleRef fpixd, HandleRef fpixs1, HandleRef fpixs2, float a, float b);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixAddMultConstant")]
+        internal static extern int fpixAddMultConstant(HandleRef fpix, float addc, float multc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixLinearCombination")]
+        internal static extern IntPtr dpixLinearCombination(HandleRef dpixd, HandleRef dpixs1, HandleRef dpixs2, float a, float b);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixAddMultConstant")]
+        internal static extern int dpixAddMultConstant(HandleRef dpix, double addc, double multc);
+
+        // Set all
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixSetAllArbitrary")]
+        internal static extern int fpixSetAllArbitrary(HandleRef fpix, float inval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixSetAllArbitrary")]
+        internal static extern int dpixSetAllArbitrary(HandleRef dpix, double inval);
+
+        // FPix border functions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixAddBorder")]
+        internal static extern IntPtr fpixAddBorder(HandleRef fpixs, int left, int right, int top, int bot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixRemoveBorder")]
+        internal static extern IntPtr fpixRemoveBorder(HandleRef fpixs, int left, int right, int top, int bot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixAddMirroredBorder")]
+        internal static extern IntPtr fpixAddMirroredBorder(HandleRef fpixs, int left, int right, int top, int bot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixAddContinuedBorder")]
+        internal static extern IntPtr fpixAddContinuedBorder(HandleRef fpixs, int left, int right, int top, int bot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixAddSlopeBorder")]
+        internal static extern IntPtr fpixAddSlopeBorder(HandleRef fpixs, int left, int right, int top, int bot);
+
+        // FPix simple rasterop
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixRasterop")]
+        internal static extern int fpixRasterop(HandleRef fpixd, int dx, int dy, int dw, int dh, HandleRef fpixs, int sx, int sy);
+
+        // FPix rotation by multiples of 90 degrees
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixRotateOrth")]
+        internal static extern IntPtr fpixRotateOrth(HandleRef fpixs, int quads);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixRotate180")]
+        internal static extern IntPtr fpixRotate180(HandleRef fpixd, HandleRef fpixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixRotate90")]
+        internal static extern IntPtr fpixRotate90(HandleRef fpixs, int direction);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixFlipLR")]
+        internal static extern IntPtr fpixFlipLR(HandleRef fpixd, HandleRef fpixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixFlipTB")]
+        internal static extern IntPtr fpixFlipTB(HandleRef fpixd, HandleRef fpixs);
+
+        // FPix affine and projective interpolated transforms
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixAffinePta")]
+        internal static extern IntPtr fpixAffinePta(HandleRef fpixs, HandleRef ptad, HandleRef ptas, int border, float inval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixAffine")]
+        internal static extern IntPtr fpixAffine(HandleRef fpixs, IntPtr vc, float inval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixProjectivePta")]
+        internal static extern IntPtr fpixProjectivePta(HandleRef fpixs, HandleRef ptad, HandleRef ptas, int border, float inval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixProjective")]
+        internal static extern IntPtr fpixProjective(HandleRef fpixs, IntPtr vc, float inval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "linearInterpolatePixelFloat")]
+        internal static extern int linearInterpolatePixelFloat(IntPtr datas, int w, int h, float x, float y, float inval, out float pval);
+
+        // Thresholding to 1 bpp Pix
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixThresholdToPix")]
+        internal static extern IntPtr fpixThresholdToPix(HandleRef fpix, float thresh);
+
+        // Generate function from components
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixComponentFunction")]
+        internal static extern IntPtr pixComponentFunction(HandleRef pix, float rnum, float gnum, float bnum, float rdenom, float gdenom, float bdenom);
+        #endregion
+
         /*
-        internal static extern FPIX* pixConvertToFPix(PIX* pixs, int ncomps);
-        internal static extern DPIX* pixConvertToDPix(PIX* pixs, int ncomps);
-        internal static extern PIX* fpixConvertToPix(FPIX* fpixs, int outdepth, int negvals, int errorflag);
-        internal static extern PIX* fpixDisplayMaxDynamicRange(FPIX* fpixs);
-        internal static extern DPIX* fpixConvertToDPix(FPIX* fpix);
-        internal static extern PIX* dpixConvertToPix(DPIX* dpixs, int outdepth, int negvals, int errorflag);
-        internal static extern FPIX* dpixConvertToFPix(DPIX* dpix);
-        internal static extern int fpixGetMin(FPIX* fpix, l_float32* pminval, l_int32* pxminloc, l_int32* pyminloc);
-        internal static extern int fpixGetMax(FPIX* fpix, l_float32* pmaxval, l_int32* pxmaxloc, l_int32* pymaxloc);
-        internal static extern int dpixGetMin(DPIX* dpix, l_float64* pminval, l_int32* pxminloc, l_int32* pyminloc);
-        internal static extern int dpixGetMax(DPIX* dpix, l_float64* pmaxval, l_int32* pxmaxloc, l_int32* pymaxloc);
-        internal static extern FPIX* fpixScaleByInteger(FPIX* fpixs, int factor);
-        internal static extern DPIX* dpixScaleByInteger(DPIX* dpixs, int factor);
-        internal static extern FPIX* fpixLinearCombination(FPIX* fpixd, FPIX* fpixs1, FPIX* fpixs2, float a, float b);
-        internal static extern int fpixAddMultConstant(FPIX* fpix, float addc, float multc);
-        internal static extern DPIX* dpixLinearCombination(DPIX* dpixd, DPIX* dpixs1, DPIX* dpixs2, float a, float b);
-        internal static extern int dpixAddMultConstant(DPIX* dpix, double addc, double multc);
-        internal static extern int fpixSetAllArbitrary(FPIX* fpix, float inval);
-        internal static extern int dpixSetAllArbitrary(DPIX* dpix, double inval);
-        internal static extern FPIX* fpixAddBorder(FPIX* fpixs, int left, int right, int top, int bot);
-        internal static extern FPIX* fpixRemoveBorder(FPIX* fpixs, int left, int right, int top, int bot);
-        internal static extern FPIX* fpixAddMirroredBorder(FPIX* fpixs, int left, int right, int top, int bot);
-        internal static extern FPIX* fpixAddContinuedBorder(FPIX* fpixs, int left, int right, int top, int bot);
-        internal static extern FPIX* fpixAddSlopeBorder(FPIX* fpixs, int left, int right, int top, int bot);
-        internal static extern int fpixRasterop(FPIX* fpixd, int dx, int dy, int dw, int dh, FPIX* fpixs, int sx, int sy);
-        internal static extern FPIX* fpixRotateOrth(FPIX* fpixs, int quads);
-        internal static extern FPIX* fpixRotate180(FPIX* fpixd, FPIX* fpixs);
-        internal static extern FPIX* fpixRotate90(FPIX* fpixs, int direction);
-        internal static extern FPIX* fpixFlipLR(FPIX* fpixd, FPIX* fpixs);
-        internal static extern FPIX* fpixFlipTB(FPIX* fpixd, FPIX* fpixs);
-        internal static extern FPIX* fpixAffinePta(FPIX* fpixs, PTA* ptad, PTA* ptas, int border, float inval);
-        internal static extern FPIX* fpixAffine(FPIX* fpixs, l_float32* vc, float inval);
-        internal static extern FPIX* fpixProjectivePta(FPIX* fpixs, PTA* ptad, PTA* ptas, int border, float inval);
-        internal static extern FPIX* fpixProjective(FPIX* fpixs, l_float32* vc, float inval);
-        internal static extern int linearInterpolatePixelFloat(l_float32* datas, int w, int h, float x, float y, float inval, l_float32* pval);
-        internal static extern PIX* fpixThresholdToPix(FPIX* fpix, float thresh);
-        internal static extern FPIX* pixComponentFunction(PIX* pix, float rnum, float gnum, float bnum, float rdenom, float gdenom, float bdenom);
         internal static extern PIX* pixReadStreamGif(IntPtr fp);
         internal static extern int pixWriteStreamGif(IntPtr fp, PIX* pix);
         internal static extern PIX* pixReadMemGif(IntPtr cdata, IntPtr size);

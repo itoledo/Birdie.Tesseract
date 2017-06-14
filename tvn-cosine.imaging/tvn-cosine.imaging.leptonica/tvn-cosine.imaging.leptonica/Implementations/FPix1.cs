@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Leptonica.Implementations
+namespace Leptonica 
 {
     public static class FPix1
     {

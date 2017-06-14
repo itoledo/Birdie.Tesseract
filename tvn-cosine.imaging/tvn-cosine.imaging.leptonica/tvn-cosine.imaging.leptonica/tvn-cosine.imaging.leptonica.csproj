@@ -196,6 +196,7 @@
     <Compile Include="Implementations\FMorphGen1.cs" />
     <Compile Include="Implementations\FMorphGenLow1.cs" />
     <Compile Include="Implementations\FPix1.cs" />
+    <Compile Include="Implementations\FPix2.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
