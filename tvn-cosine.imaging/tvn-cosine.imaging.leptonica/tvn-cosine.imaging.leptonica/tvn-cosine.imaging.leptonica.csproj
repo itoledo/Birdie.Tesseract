@@ -181,6 +181,7 @@
     <Compile Include="Implementations\DwaCombLow.cs" />
     <Compile Include="Implementations\Edge.cs" />
     <Compile Include="Implementations\Encoding.cs" />
+    <Compile Include="Implementations\Enhance.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

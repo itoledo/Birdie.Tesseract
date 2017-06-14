@@ -2093,31 +2093,75 @@ namespace Leptonica.Native
         internal static extern IntPtr reformatPacked64( [MarshalAs(UnmanagedType.AnsiBStr)] string inarray, int insize, int leadspace, int linechars, int addquotes, out int poutsize);
         #endregion
 
+        #region enhance.c
+        // Gamma TRC(tone reproduction curve) mapping
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGammaTRC")]
+        internal static extern IntPtr pixGammaTRC(HandleRef pixd, HandleRef pixs, float gamma, int minval, int maxval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGammaTRCMasked")]
+        internal static extern IntPtr pixGammaTRCMasked(HandleRef pixd, HandleRef pixs, HandleRef pixm, float gamma, int minval, int maxval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGammaTRCWithAlpha")]
+        internal static extern IntPtr pixGammaTRCWithAlpha(HandleRef pixd, HandleRef pixs, float gamma, int minval, int maxval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGammaTRC")]
+        internal static extern IntPtr  numaGammaTRC(float gamma, int minval, int maxval);
+
+        // Contrast enhancement
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixContrastTRC")]
+        internal static extern IntPtr pixContrastTRC(HandleRef pixd, HandleRef pixs, float factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixContrastTRCMasked")]
+        internal static extern IntPtr pixContrastTRCMasked(HandleRef pixd, HandleRef pixs, HandleRef pixm, float factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaContrastTRC")]
+        internal static extern IntPtr  numaContrastTRC(float factor);
+
+        // Histogram equalization
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixEqualizeTRC")]
+        internal static extern IntPtr pixEqualizeTRC(HandleRef pixd, HandleRef pixs, float fract, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaEqualizeTRC")]
+        internal static extern IntPtr  numaEqualizeTRC(HandleRef pix, float fract, int factor);
+
+        // Generic TRC mapper
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTRCMap")]
+        internal static extern int pixTRCMap(HandleRef pixs, HandleRef pixm, HandleRef na);
+
+        // Unsharp-masking
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUnsharpMasking")]
+        internal static extern IntPtr pixUnsharpMasking(HandleRef pixs, int halfwidth, float fract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUnsharpMaskingGray")]
+        internal static extern IntPtr pixUnsharpMaskingGray(HandleRef pixs, int halfwidth, float fract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUnsharpMaskingFast")]
+        internal static extern IntPtr pixUnsharpMaskingFast(HandleRef pixs, int halfwidth, float fract, int direction);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUnsharpMaskingGrayFast")]
+        internal static extern IntPtr pixUnsharpMaskingGrayFast(HandleRef pixs, int halfwidth, float fract, int direction);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUnsharpMaskingGray1D")]
+        internal static extern IntPtr pixUnsharpMaskingGray1D(HandleRef pixs, int halfwidth, float fract, int direction);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUnsharpMaskingGray2D")]
+        internal static extern IntPtr pixUnsharpMaskingGray2D(HandleRef pixs, int halfwidth, float fract);
+
+        // Hue and saturation modification
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixModifyHue")]
+        internal static extern IntPtr pixModifyHue(HandleRef pixd, HandleRef pixs, float fract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixModifySaturation")]
+        internal static extern IntPtr pixModifySaturation(HandleRef pixd, HandleRef pixs, float fract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMeasureSaturation")]
+        internal static extern int pixMeasureSaturation(HandleRef pixs, int factor, out float psat);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixModifyBrightness")]
+        internal static extern IntPtr pixModifyBrightness(HandleRef pixd, HandleRef pixs, float fract);
+
+        // Color shifting
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorShiftRGB")]
+        internal static extern IntPtr pixColorShiftRGB(HandleRef pixs, float rfract, float gfract, float bfract);
+
+        // General multiplicative constant color transform
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMultConstantColor")]
+        internal static extern IntPtr pixMultConstantColor(HandleRef pixs, float rfact, float gfact, float bfact);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMultMatrixColor")]
+        internal static extern IntPtr pixMultMatrixColor(HandleRef pixs, HandleRef kel);
+
+        // Edge by bandpass
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHalfEdgeByBandpass")]
+        internal static extern IntPtr pixHalfEdgeByBandpass(HandleRef pixs, int sm1h, int sm1v, int sm2h, int sm2v);
+        #endregion
+
         /*
-        internal static extern PIX* pixGammaTRC(PIX* pixd, PIX* pixs, float gamma, int minval, int maxval);
-        internal static extern PIX* pixGammaTRCMasked(PIX* pixd, PIX* pixs, PIX* pixm, float gamma, int minval, int maxval);
-        internal static extern PIX* pixGammaTRCWithAlpha(PIX* pixd, PIX* pixs, float gamma, int minval, int maxval);
-        internal static extern NUMA* numaGammaTRC(float gamma, int minval, int maxval);
-        internal static extern PIX* pixContrastTRC(PIX* pixd, PIX* pixs, float factor);
-        internal static extern PIX* pixContrastTRCMasked(PIX* pixd, PIX* pixs, PIX* pixm, float factor);
-        internal static extern NUMA* numaContrastTRC(float factor);
-        internal static extern PIX* pixEqualizeTRC(PIX* pixd, PIX* pixs, float fract, int factor);
-        internal static extern NUMA* numaEqualizeTRC(PIX* pix, float fract, int factor);
-        internal static extern int pixTRCMap(PIX* pixs, PIX* pixm, NUMA* na);
-        internal static extern PIX* pixUnsharpMasking(PIX* pixs, int halfwidth, float fract);
-        internal static extern PIX* pixUnsharpMaskingGray(PIX* pixs, int halfwidth, float fract);
-        internal static extern PIX* pixUnsharpMaskingFast(PIX* pixs, int halfwidth, float fract, int direction);
-        internal static extern PIX* pixUnsharpMaskingGrayFast(PIX* pixs, int halfwidth, float fract, int direction);
-        internal static extern PIX* pixUnsharpMaskingGray1D(PIX* pixs, int halfwidth, float fract, int direction);
-        internal static extern PIX* pixUnsharpMaskingGray2D(PIX* pixs, int halfwidth, float fract);
-        internal static extern PIX* pixModifyHue(PIX* pixd, PIX* pixs, float fract);
-        internal static extern PIX* pixModifySaturation(PIX* pixd, PIX* pixs, float fract);
-        internal static extern int pixMeasureSaturation(PIX* pixs, int factor, l_float32* psat);
-        internal static extern PIX* pixModifyBrightness(PIX* pixd, PIX* pixs, float fract);
-        internal static extern PIX* pixColorShiftRGB(PIX* pixs, float rfract, float gfract, float bfract);
-        internal static extern PIX* pixMultConstantColor(PIX* pixs, float rfact, float gfact, float bfact);
-        internal static extern PIX* pixMultMatrixColor(PIX* pixs, L_KERNEL* kel);
-        internal static extern PIX* pixHalfEdgeByBandpass(PIX* pixs, int sm1h, int sm1v, int sm2h, int sm2v);
         internal static extern int fhmtautogen(SELA* sela, int fileindex,  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
         internal static extern int fhmtautogen1(SELA* sela, int fileindex,  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
         internal static extern int fhmtautogen2(SELA* sela, int fileindex,  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
