@@ -1985,21 +1985,30 @@ namespace Leptonica.Native
 
         #region dnafunc1.c
         // Rearrangements
-        internal static extern int l_dnaJoin(L_DNA* dad, L_DNA* das, int istart, int iend);
-        internal static extern L_DNA* l_dnaaFlattenToDna(L_DNAA* daa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaJoin")]
+        internal static extern int l_dnaJoin(HandleRef dad, HandleRef das, int istart, int iend);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaaFlattenToDna")]
+        internal static extern IntPtr l_dnaaFlattenToDna(HandleRef daa);
 
         // Conversion between numa and dna
-        internal static extern NUMA* l_dnaConvertToNuma(L_DNA* da);
-        internal static extern L_DNA* numaConvertToDna(NUMA* na);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaConvertToNuma")]
+        internal static extern IntPtr l_dnaConvertToNuma(HandleRef da);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaConvertToDna")]
+        internal static extern IntPtr numaConvertToDna(HandleRef na);
 
         // Set operations using aset (rbtree)
-        internal static extern L_DNA* l_dnaUnionByAset(L_DNA* da1, L_DNA* da2);
-        internal static extern L_DNA* l_dnaRemoveDupsByAset(L_DNA* das);
-        internal static extern L_DNA* l_dnaIntersectionByAset(L_DNA* da1, L_DNA* da2);
-        internal static extern L_ASET* l_asetCreateFromDna(L_DNA* da);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaUnionByAset")]
+        internal static extern IntPtr l_dnaUnionByAset(HandleRef da1, HandleRef da2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaRemoveDupsByAset")]
+        internal static extern IntPtr l_dnaRemoveDupsByAset(HandleRef das);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaIntersectionByAset")]
+        internal static extern IntPtr l_dnaIntersectionByAset(HandleRef da1, HandleRef da2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetCreateFromDna")]
+        internal static extern IntPtr  l_asetCreateFromDna(HandleRef da);
 
         // Miscellaneous operations
-        internal static extern L_DNA* l_dnaDiffAdjValues(L_DNA* das);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaDiffAdjValues")]
+        internal static extern IntPtr l_dnaDiffAdjValues(HandleRef das);
         #endregion
 
         /*
