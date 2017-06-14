@@ -2179,9 +2179,19 @@ namespace Leptonica.Native
         internal static extern IntPtr pixFHMTGen_1(HandleRef pixd, HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string selname);
         #endregion
 
+        #region fhmtgenlow.1.c
+        // Fast hmt dispatcher 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fhmtgen_low_1")]
+        internal static extern int fhmtgen_low_1(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, int index);
+        #endregion
+
+        #region finditalic.c
+        // Locate italic words. 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixItalicWords")]
+        internal static extern int pixItalicWords(HandleRef pixs, HandleRef boxaw, HandleRef pixw, out IntPtr pboxa, int debugflag);
+        #endregion
+
         /*
-        internal static extern int fhmtgen_low_1(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, int index);
-        internal static extern int pixItalicWords(PIX* pixs, HandleRef boxaw, PIX* pixw, BOXA** pboxa, int debugflag);
         internal static extern int pixOrientDetect(PIX* pixs, l_float32* pupconf, l_float32* pleftconf, int mincount, int debug);
         internal static extern int makeOrientDecision(float upconf, float leftconf, float minupconf, float minratio, l_int32* porient, int debug);
         internal static extern int pixUpDownDetect(PIX* pixs, l_float32* pconf, int mincount, int debug);
