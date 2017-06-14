@@ -2004,25 +2004,44 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaIntersectionByAset")]
         internal static extern IntPtr l_dnaIntersectionByAset(HandleRef da1, HandleRef da2);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetCreateFromDna")]
-        internal static extern IntPtr  l_asetCreateFromDna(HandleRef da);
+        internal static extern IntPtr l_asetCreateFromDna(HandleRef da);
 
         // Miscellaneous operations
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaDiffAdjValues")]
         internal static extern IntPtr l_dnaDiffAdjValues(HandleRef das);
         #endregion
 
+        #region dnahash.c
+        // DnaHash creation, destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaHashCreate")]
+        internal static extern IntPtr l_dnaHashCreate(int nbuckets, int initsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaHashDestroy")]
+        internal static extern void l_dnaHashDestroy(ref IntPtr pdahash);
+
+        // DnaHash: Accessors and modifiers*
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaHashGetCount")]
+        internal static extern int l_dnaHashGetCount(HandleRef dahash);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaHashGetTotalCount")]
+        internal static extern int l_dnaHashGetTotalCount(HandleRef dahash);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaHashGetDna")]
+        internal static extern IntPtr l_dnaHashGetDna(HandleRef dahash, long key, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaHashAdd")]
+        internal static extern int l_dnaHashAdd(HandleRef dahash, long key, double value);
+
+        // DnaHash: Operations on Dna
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaHashCreateFromDna")]
+        internal static extern IntPtr l_dnaHashCreateFromDna(HandleRef da);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaRemoveDupsByHash")]
+        internal static extern int l_dnaRemoveDupsByHash(HandleRef das, out IntPtr pdad, out IntPtr pdahash);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaMakeHistoByHash")]
+        internal static extern int l_dnaMakeHistoByHash(HandleRef das, out IntPtr pdahash, out IntPtr pdav, out IntPtr pdac);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaIntersectionByHash")]
+        internal static extern IntPtr l_dnaIntersectionByHash(HandleRef da1, HandleRef da2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaFindValByHash")]
+        internal static extern int l_dnaFindValByHash(HandleRef da, HandleRef dahash, double val, out int pindex);
+        #endregion
+
         /*
-        internal static extern L_DNAHASH* l_dnaHashCreate(int nbuckets, int initsize);
-        internal static extern void l_dnaHashDestroy(L_DNAHASH** pdahash);
-        internal static extern int l_dnaHashGetCount(L_DNAHASH* dahash);
-        internal static extern int l_dnaHashGetTotalCount(L_DNAHASH* dahash);
-        internal static extern L_DNA* l_dnaHashGetDna(L_DNAHASH* dahash, l_uint64 key, int copyflag);
-        internal static extern int l_dnaHashAdd(L_DNAHASH* dahash, l_uint64 key, double value);
-        internal static extern L_DNAHASH* l_dnaHashCreateFromDna(L_DNA* da);
-        internal static extern int l_dnaRemoveDupsByHash(L_DNA* das, L_DNA** pdad, L_DNAHASH** pdahash);
-        internal static extern int l_dnaMakeHistoByHash(L_DNA* das, L_DNAHASH** pdahash, L_DNA** pdav, L_DNA** pdac);
-        internal static extern L_DNA* l_dnaIntersectionByHash(L_DNA* da1, L_DNA* da2);
-        internal static extern int l_dnaFindValByHash(L_DNA* da, L_DNAHASH* dahash, double val, l_int32* pindex);
         internal static extern PIX* pixMorphDwa_2(PIX* pixd, PIX* pixs, int operation, char* selname);
         internal static extern PIX* pixFMorphopGen_2(PIX* pixd, PIX* pixs, int operation, char* selname);
         internal static extern int fmorphopgen_low_2(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, int index);

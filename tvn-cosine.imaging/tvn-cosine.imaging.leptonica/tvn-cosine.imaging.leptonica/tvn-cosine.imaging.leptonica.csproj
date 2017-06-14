@@ -176,6 +176,7 @@
     <Compile Include="Implementations\Dewarp4.cs" />
     <Compile Include="Implementations\DnaBasic.cs" />
     <Compile Include="Implementations\DnaFunc1.cs" />
+    <Compile Include="Implementations\DnaHash.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
