@@ -2493,11 +2493,23 @@ namespace Leptonica.Native
         internal static extern IntPtr pixComponentFunction(HandleRef pix, float rnum, float gnum, float bnum, float rdenom, float gdenom, float bdenom);
         #endregion
 
+        #region gifio.c
+        // Read gif file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadStreamGif")]
+        internal static extern IntPtr pixReadStreamGif(IntPtr fp);
+
+        // Write gif file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamGif")]
+        internal static extern int pixWriteStreamGif(IntPtr fp, HandleRef pix);
+
+        // Read/write gif from/to memory
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadMemGif")]
+        internal static extern IntPtr pixReadMemGif(IntPtr cdata, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemGif")]
+        internal static extern int pixWriteMemGif(out IntPtr pdata, IntPtr psize, HandleRef pix);
+        #endregion
+
         /*
-        internal static extern PIX* pixReadStreamGif(IntPtr fp);
-        internal static extern int pixWriteStreamGif(IntPtr fp, PIX* pix);
-        internal static extern PIX* pixReadMemGif(IntPtr cdata, IntPtr size);
-        internal static extern int pixWriteMemGif(l_uint8** pdata, IntPtr psize, PIX* pix);
         internal static extern GPLOT* gplotCreate(  [MarshalAs(UnmanagedType.AnsiBStr)] string rootname, int outformat,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string xlabel,  [MarshalAs(UnmanagedType.AnsiBStr)] string ylabel );
         internal static extern void gplotDestroy(GPLOT** pgplot);
         internal static extern int gplotAddPlot(GPLOT* gplot, NUMA* nax, NUMA* nay, int plotstyle,  [MarshalAs(UnmanagedType.AnsiBStr)] string plottitle );
