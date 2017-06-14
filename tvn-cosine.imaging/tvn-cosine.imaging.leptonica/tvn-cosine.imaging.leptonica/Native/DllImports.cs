@@ -1825,11 +1825,23 @@ namespace Leptonica.Native
         internal static extern int dewarpaModelStatus(HandleRef dewa, int pageno, out int pvsuccess, out int phsuccess);
         #endregion
 
+        #region dewarp3.c
+        // Apply disparity array to pix
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaApplyDisparity")]
+        internal static extern int dewarpaApplyDisparity(HandleRef dewa, int pageno, HandleRef pixs, int grayin, int x, int y, out IntPtr ppixd, [MarshalAs(UnmanagedType.AnsiBStr)] string debugfile );
+
+        // Apply disparity array to boxa
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaApplyDisparityBoxa")]
+        internal static extern int dewarpaApplyDisparityBoxa(HandleRef dewa, int pageno, HandleRef pixs, HandleRef boxas, int mapdir, int x, int y, out IntPtr pboxad, [MarshalAs(UnmanagedType.AnsiBStr)] string debugfile );
+
+        // Stripping out data and populating full res disparity
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpMinimize")]
+        internal static extern int dewarpMinimize(HandleRef dew);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpPopulateFullRes")]
+        internal static extern int dewarpPopulateFullRes(HandleRef dew, HandleRef pix, int x, int y);
+        #endregion
+
         /* 
-         internal static  extern int dewarpaApplyDisparity(L_DEWARPA* dewa, int pageno, PIX* pixs, int grayin, int x, int y, PIX** ppixd, const char* debugfile );
-         internal static  extern int dewarpaApplyDisparityBoxa(L_DEWARPA* dewa, int pageno, PIX* pixs, HandleRef boxas, int mapdir, int x, int y, BOXA** pboxad, const char* debugfile );
-         internal static  extern int dewarpMinimize(L_DEWARP* dew);
-         internal static  extern int dewarpPopulateFullRes(L_DEWARP* dew, PIX* pix, int x, int y);
          internal static  extern int dewarpSinglePage(PIX* pixs, int thresh, int adaptive, int useboth, int check_columns, PIX** ppixd, L_DEWARPA** pdewa, int debug);
          internal static  extern int dewarpSinglePageInit(PIX* pixs, int thresh, int adaptive, int useboth, int check_columns, PIX** ppixb, L_DEWARPA** pdewa);
          internal static  extern int dewarpSinglePageRun(PIX* pixs, PIX* pixb, L_DEWARPA* dewa, PIX** ppixd, int debug);
