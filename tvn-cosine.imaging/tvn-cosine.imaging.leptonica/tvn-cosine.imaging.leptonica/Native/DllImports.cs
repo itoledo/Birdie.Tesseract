@@ -2072,15 +2072,28 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetLastOffPixelInRun")]
         internal static extern int pixGetLastOffPixelInRun(HandleRef pixs, int x, int y, int direction, out int ploc);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetLastOnPixelInRun")]
-        internal static extern int pixGetLastOnPixelInRun(HandleRef pixs, int x, int y, int direction, out int ploc); 
+        internal static extern int pixGetLastOnPixelInRun(HandleRef pixs, int x, int y, int direction, out int ploc);
+        #endregion
+
+        #region encoding.c
+        // Base64
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "encodeBase64")]
+        internal static extern IntPtr encodeBase64(IntPtr inarray, int insize, out int poutsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "decodeBase64")]
+        internal static extern IntPtr decodeBase64([MarshalAs(UnmanagedType.AnsiBStr)] string inarray, int insize, out int poutsize);
+
+        // Ascii85
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "encodeAscii85")]
+        internal static extern IntPtr encodeAscii85(IntPtr inarray, int insize, out int poutsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "decodeAscii85")]
+        internal static extern IntPtr decodeAscii85( [MarshalAs(UnmanagedType.AnsiBStr)] string inarray, int insize, out int poutsize);
+
+        // String reformatting for base 64 encoded data
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "reformatPacked64")]
+        internal static extern IntPtr reformatPacked64( [MarshalAs(UnmanagedType.AnsiBStr)] string inarray, int insize, int leadspace, int linechars, int addquotes, out int poutsize);
         #endregion
 
         /*
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  encodeBase64(l_uint8* inarray, int insize, l_int32* poutsize);
-        internal static extern l_uint8* decodeBase64(  [MarshalAs(UnmanagedType.AnsiBStr)] string inarray, int insize, l_int32* poutsize );
-         internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  encodeAscii85(l_uint8* inarray, int insize, l_int32* poutsize);
-        internal static extern l_uint8* decodeAscii85(char* inarray, int insize, l_int32* poutsize);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  reformatPacked64(char* inarray, int insize, int leadspace, int linechars, int addquotes, l_int32* poutsize);
         internal static extern PIX* pixGammaTRC(PIX* pixd, PIX* pixs, float gamma, int minval, int maxval);
         internal static extern PIX* pixGammaTRCMasked(PIX* pixd, PIX* pixs, PIX* pixm, float gamma, int minval, int maxval);
         internal static extern PIX* pixGammaTRCWithAlpha(PIX* pixd, PIX* pixs, float gamma, int minval, int maxval);
@@ -2417,7 +2430,7 @@ namespace Leptonica.Native
         internal static extern L_KERNEL* makeGaussianKernel(int halfheight, int halfwidth, float stdev, float max);
         internal static extern int makeGaussianKernelSep(int halfheight, int halfwidth, float stdev, float max, L_KERNEL** pkelx, L_KERNEL** pkely);
         internal static extern L_KERNEL* makeDoGKernel(int halfheight, int halfwidth, float stdev, float ratio);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  getImagelibVersions();
+        internal static extern IntPtr  getImagelibVersions();
         internal static extern void listDestroy(DLLIST** phead);
         internal static extern int listAddToHead(DLLIST** phead, void* data);
         internal static extern int listAddToTail(DLLIST** phead, DLLIST** ptail, void* data);
@@ -2690,7 +2703,7 @@ namespace Leptonica.Native
         internal static extern int addColorizedGrayToCmap(HandleRef cmap, int type, int rval, int gval, int bval, NUMA** pna);
         internal static extern int pixSetSelectMaskedCmap(PIX* pixs, PIX* pixm, int x, int y, int sindex, int rval, int gval, int bval);
         internal static extern int pixSetMaskedCmap(PIX* pixs, PIX* pixm, int x, int y, int rval, int gval, int bval);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  parseForProtos(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string prestring );
+        internal static extern IntPtr  parseForProtos(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string prestring );
         internal static extern HandleRef boxaGetWhiteblocks(HandleRef boxas, HandleRef box, int sortflag, int maxboxes, float maxoverlap, int maxperim, float fract, int maxpops);
         internal static extern HandleRef boxaPruneSortedOnOverlap(HandleRef boxas, float maxoverlap);
         internal static extern int convertFilesToPdf(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int res, float scalefactor, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
@@ -2704,9 +2717,9 @@ namespace Leptonica.Native
          internal static extern int pixaConvertToPdf(PIXA* pixa, int res, float scalefactor, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
         internal static extern int pixaConvertToPdfData(PIXA* pixa, int res, float scalefactor, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, byte** pdata, IntPtr pnbytes );
          internal static extern int convertToPdf(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
-        internal static extern int convertImageDataToPdf(l_uint8* imdata, IntPtr size, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
+        internal static extern int convertImageDataToPdf(IntPtr imdata, IntPtr size, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
         internal static extern int convertToPdfData(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, int type, int quality, byte** pdata, IntPtr pnbytes, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
-        internal static extern int convertImageDataToPdfData(l_uint8* imdata, IntPtr size, int type, int quality, l_uint8** pdata, IntPtr pnbytes, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
+        internal static extern int convertImageDataToPdfData(IntPtr imdata, IntPtr size, int type, int quality, l_uint8** pdata, IntPtr pnbytes, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
         internal static extern int pixConvertToPdf(PIX* pix, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
         internal static extern int pixWriteStreamPdf(IntPtr fp, PIX* pix, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title );
         internal static extern int pixWriteMemPdf(l_uint8** pdata, IntPtr pnbytes, PIX* pix, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title );
@@ -2777,7 +2790,7 @@ namespace Leptonica.Native
         internal static extern int pixSetInputFormat(PIX* pix, int informat);
         internal static extern int pixCopyInputFormat(PIX* pixd, PIX* pixs);
         internal static extern int pixSetSpecial(PIX* pix, int special);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  pixGetText(PIX* pix);
+        internal static extern IntPtr  pixGetText(PIX* pix);
         internal static extern int pixSetText(PIX* pix,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstring );
         internal static extern int pixAddText(PIX* pix,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstring );
         internal static extern int pixCopyText(PIX* pixd, PIX* pixs);
@@ -3138,7 +3151,7 @@ namespace Leptonica.Native
         internal static extern l_float32* makeLogBase2Tab(void );
         internal static extern float getLogBase2(int val, l_float32* logtab);
         internal static extern PIXC* pixcompCreateFromPix(PIX* pix, int comptype);
-        internal static extern PIXC* pixcompCreateFromString(l_uint8* data, IntPtr size, int copyflag);
+        internal static extern PIXC* pixcompCreateFromString(IntPtr data, IntPtr size, int copyflag);
         internal static extern PIXC* pixcompCreateFromFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int comptype );
         internal static extern void pixcompDestroy(PIXC** ppixc);
         internal static extern PIXC* pixcompCopy(PIXC* pixcs);
@@ -3294,23 +3307,23 @@ namespace Leptonica.Native
         internal static extern int pixaWriteCompressedToPS(PIXA* pixa,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int res, int level );
         internal static extern int pixWritePSEmbed(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
         internal static extern int pixWriteStreamPS(IntPtr fp, PIX* pix, HandleRef box, int res, float scale);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  pixWriteStringPS(PIX* pixs, HandleRef box, int res, float scale);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  generateUncompressedPS(char* hexdata, int w, int h, int d, int psbpl, int bps, float xpt, float ypt, float wpt, float hpt, int boxflag);
+        internal static extern IntPtr  pixWriteStringPS(PIX* pixs, HandleRef box, int res, float scale);
+        internal static extern IntPtr  generateUncompressedPS( [MarshalAs(UnmanagedType.AnsiBStr)] string hexdata, int w, int h, int d, int psbpl, int bps, float xpt, float ypt, float wpt, float hpt, int boxflag);
         internal static extern void getScaledParametersPS(HandleRef box, int wpix, int hpix, int res, float scale, l_float32* pxpt, l_float32* pypt, l_float32* pwpt, l_float32* phpt);
         internal static extern void convertByteToHexAscii(l_uint8 byteval, [MarshalAs(UnmanagedType.AnsiBStr)] string  pnib1, [MarshalAs(UnmanagedType.AnsiBStr)] string  pnib2);
         internal static extern int convertJpegToPSEmbed(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
         internal static extern int convertJpegToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout,  [MarshalAs(UnmanagedType.AnsiBStr)] string operation, int x, int y, int res, float scale, int pageno, int endpage );
         internal static extern int convertJpegToPSString(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, char** poutstr, int* pnbytes, int x, int y, int res, float scale, int pageno, int endpage );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  generateJpegPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int pageno, int endpage );
+        internal static extern IntPtr  generateJpegPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int pageno, int endpage );
         internal static extern int convertG4ToPSEmbed(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
         internal static extern int convertG4ToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout,  [MarshalAs(UnmanagedType.AnsiBStr)] string operation, int x, int y, int res, float scale, int pageno, int maskflag, int endpage );
         internal static extern int convertG4ToPSString(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, char** poutstr, int* pnbytes, int x, int y, int res, float scale, int pageno, int maskflag, int endpage );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  generateG4PS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int maskflag, int pageno, int endpage );
+        internal static extern IntPtr  generateG4PS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int maskflag, int pageno, int endpage );
         internal static extern int convertTiffMultipageToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, float fillfract );
         internal static extern int convertFlateToPSEmbed(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
         internal static extern int convertFlateToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout,  [MarshalAs(UnmanagedType.AnsiBStr)] string operation, int x, int y, int res, float scale, int pageno, int endpage );
         internal static extern int convertFlateToPSString(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, char** poutstr, int* pnbytes, int x, int y, int res, float scale, int pageno, int endpage );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  generateFlatePS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int pageno, int endpage );
+        internal static extern IntPtr  generateFlatePS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int pageno, int endpage );
         internal static extern int pixWriteMemPS(l_uint8** pdata, IntPtr psize, PIX* pix, HandleRef box, int res, float scale);
         internal static extern int getResLetterPage(int w, int h, float fillfract);
         internal static extern int getResA4Page(int w, int h, float fillfract);
@@ -3560,7 +3573,7 @@ namespace Leptonica.Native
         internal static extern int regTestCheckFile(L_REGPARAMS* rp,  [MarshalAs(UnmanagedType.AnsiBStr)] string localname );
         internal static extern int regTestCompareFiles(L_REGPARAMS* rp, int index1, int index2);
         internal static extern int regTestWritePixAndCheck(L_REGPARAMS* rp, PIX* pix, int format);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  regTestGenLocalFilename(L_REGPARAMS* rp, int index, int format);
+        internal static extern IntPtr  regTestGenLocalFilename(L_REGPARAMS* rp, int index, int format);
         internal static extern int pixRasterop(PIX* pixd, int dx, int dy, int dw, int dh, int op, PIX* pixs, int sx, int sy);
         internal static extern int pixRasteropVip(PIX* pixd, int bx, int bw, int vshift, int incolor);
         internal static extern int pixRasteropHip(PIX* pixd, int by, int bh, int hshift, int incolor);
@@ -3617,16 +3630,16 @@ namespace Leptonica.Native
         internal static extern SARRAY* sarrayCopy(SARRAY* sa);
         internal static extern SARRAY* sarrayClone(SARRAY* sa);
         internal static extern int sarrayAddString(SARRAY* sa, char*string, int copyflag);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  sarrayRemoveString(SARRAY* sa, int index);
+        internal static extern IntPtr  sarrayRemoveString(SARRAY* sa, int index);
         internal static extern int sarrayReplaceString(SARRAY* sa, int index, [MarshalAs(UnmanagedType.AnsiBStr)] string  newstr, int copyflag);
         internal static extern int sarrayClear(SARRAY* sa);
         internal static extern int sarrayGetCount(SARRAY* sa);
         internal static extern char** sarrayGetArray(SARRAY* sa, l_int32* pnalloc, l_int32* pn);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  sarrayGetString(SARRAY* sa, int index, int copyflag);
+        internal static extern IntPtr  sarrayGetString(SARRAY* sa, int index, int copyflag);
         internal static extern int sarrayGetRefcount(SARRAY* sa);
         internal static extern int sarrayChangeRefcount(SARRAY* sa, int delta);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  sarrayToString(SARRAY* sa, int addnlflag);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  sarrayToStringRange(SARRAY* sa, int first, int nstrings, int addnlflag);
+        internal static extern IntPtr  sarrayToString(SARRAY* sa, int addnlflag);
+        internal static extern IntPtr  sarrayToStringRange(SARRAY* sa, int first, int nstrings, int addnlflag);
         internal static extern int sarrayJoin(SARRAY* sa1, SARRAY* sa2);
         internal static extern int sarrayAppendRange(SARRAY* sa1, SARRAY* sa2, int start, int end);
         internal static extern int sarrayPadToSameSize(SARRAY* sa1, SARRAY* sa2, [MarshalAs(UnmanagedType.AnsiBStr)] string  padstring);
@@ -3718,17 +3731,17 @@ namespace Leptonica.Native
         internal static extern int scaleBinaryLow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int ws, int hs, int wpls);
         internal static extern void scaleToGray2Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_uint32* sumtab, l_uint8* valtab);
         internal static extern l_uint32* makeSumTabSG2(void );
-        internal static extern l_uint8* makeValTabSG2(void );
+        internal static extern IntPtr makeValTabSG2(void );
         internal static extern void scaleToGray3Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_uint32* sumtab, l_uint8* valtab);
         internal static extern l_uint32* makeSumTabSG3(void );
-        internal static extern l_uint8* makeValTabSG3(void );
+        internal static extern IntPtr makeValTabSG3(void );
         internal static extern void scaleToGray4Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_uint32* sumtab, l_uint8* valtab);
         internal static extern l_uint32* makeSumTabSG4(void );
-        internal static extern l_uint8* makeValTabSG4(void );
+        internal static extern IntPtr makeValTabSG4(void );
         internal static extern void scaleToGray6Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_int32* tab8, l_uint8* valtab);
-        internal static extern l_uint8* makeValTabSG6(void );
+        internal static extern IntPtr makeValTabSG6(void );
         internal static extern void scaleToGray8Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_int32* tab8, l_uint8* valtab);
-        internal static extern l_uint8* makeValTabSG8(void );
+        internal static extern IntPtr makeValTabSG8(void );
         internal static extern void scaleToGray16Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_int32* tab8);
         internal static extern int scaleMipmapLow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas1, int wpls1, l_uint32* datas2, int wpls2, float red);
         internal static extern PIX* pixSeedfillBinary(PIX* pixd, PIX* pixs, PIX* pixm, int connectivity);
@@ -3769,7 +3782,7 @@ namespace Leptonica.Native
         internal static extern int selaAddSel(SELA* sela, SEL* sel,  [MarshalAs(UnmanagedType.AnsiBStr)] string selname, int copyflag );
         internal static extern int selaGetCount(SELA* sela);
         internal static extern SEL* selaGetSel(SELA* sela, int i);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  selGetName(SEL* sel);
+        internal static extern IntPtr  selGetName(SEL* sel);
         internal static extern int selSetName(SEL* sel,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
         internal static extern int selaFindSelByName(SELA* sela,  [MarshalAs(UnmanagedType.AnsiBStr)] string name, int* pindex, SEL** psel );
          internal static extern int selGetElement(SEL* sel, int row, int col, l_int32* ptype);
@@ -3777,8 +3790,8 @@ namespace Leptonica.Native
         internal static extern int selGetParameters(SEL* sel, l_int32* psy, l_int32* psx, l_int32* pcy, l_int32* pcx);
         internal static extern int selSetOrigin(SEL* sel, int cy, int cx);
         internal static extern int selGetTypeAtOrigin(SEL* sel, l_int32* ptype);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  selaGetBrickName(SELA* sela, int hsize, int vsize);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  selaGetCombName(SELA* sela, int size, int direction);
+        internal static extern IntPtr  selaGetBrickName(SELA* sela, int hsize, int vsize);
+        internal static extern IntPtr  selaGetCombName(SELA* sela, int size, int direction);
         internal static extern int getCompositeParameters(int size, l_int32* psize1, l_int32* psize2, char** pnameh1, char** pnameh2, char** pnamev1, char** pnamev2);
         internal static extern SARRAY* selaGetSelnames(SELA* sela);
         internal static extern int selFindMaxTranslations(SEL* sel, l_int32* pxp, l_int32* pyp, l_int32* pxn, l_int32* pyn);
@@ -3792,7 +3805,7 @@ namespace Leptonica.Native
         internal static extern int selWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, SEL *sel );
          internal static extern int selWriteStream(IntPtr fp, SEL* sel);
         internal static extern SEL* selCreateFromString(  [MarshalAs(UnmanagedType.AnsiBStr)] string text, int h, int w,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  selPrintToString(SEL* sel);
+        internal static extern IntPtr  selPrintToString(SEL* sel);
         internal static extern SELA* selaCreateFromFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
         internal static extern SEL* selCreateFromPta(HandleRef pta, int cy, int cx,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
         internal static extern SEL* selCreateFromPix(PIX* pix, int cy, int cx,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
@@ -3884,7 +3897,7 @@ namespace Leptonica.Native
         internal static extern SARRAY* bmfGetLineStrings(L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, int maxw, int firstindent, int* ph );
         internal static extern NUMA* bmfGetWordWidths(L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, SARRAY *sa );
          internal static extern int bmfGetStringWidth(L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, int* pw );
-        internal static extern SARRAY* splitStringToParagraphs(char* textstr, int splitflag);
+        internal static extern SARRAY* splitStringToParagraphs( [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, int splitflag);
         internal static extern PIX* pixReadTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int n );
         internal static extern PIX* pixReadStreamTiff(IntPtr fp, int n);
         internal static extern int pixWriteTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pix, int comptype,  [MarshalAs(UnmanagedType.AnsiBStr)] string modestr );
@@ -3930,7 +3943,7 @@ namespace Leptonica.Native
         internal static extern int lept_isPrime(l_uint64 n, l_int32* pis_prime, l_uint32* pfactor);
         internal static extern uint convertBinaryToGrayCode(uint val);
         internal static extern uint convertGrayCodeToBinary(uint val);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  getLeptonicaVersion();
+        internal static extern IntPtr  getLeptonicaVersion();
         internal static extern void startTimer(void );
         internal static extern float stopTimer(void );
         internal static extern L_TIMER startTimerNested(void );
@@ -3938,33 +3951,33 @@ namespace Leptonica.Native
         internal static extern void l_getCurrentTime(l_int32* sec, l_int32* usec);
         internal static extern L_WALLTIMER* startWallTimer(void );
         internal static extern float stopWallTimer(L_WALLTIMER** ptimer);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  l_getFormattedDate();
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  stringNew(  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
-        internal static extern int stringCopy(char* dest,  [MarshalAs(UnmanagedType.AnsiBStr)] string src, int n );
+        internal static extern IntPtr  l_getFormattedDate();
+        internal static extern IntPtr  stringNew(  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
+        internal static extern int stringCopy( [MarshalAs(UnmanagedType.AnsiBStr)] string dest,  [MarshalAs(UnmanagedType.AnsiBStr)] string src, int n );
         internal static extern int stringReplace(char** pdest,  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
         internal static extern int stringLength(  [MarshalAs(UnmanagedType.AnsiBStr)] string src, IntPtr size );
-         internal static extern int stringCat(char* dest, IntPtr size,  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  stringConcatNew(  [MarshalAs(UnmanagedType.AnsiBStr)] string first, ... );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  stringJoin(  [MarshalAs(UnmanagedType.AnsiBStr)] string src1,  [MarshalAs(UnmanagedType.AnsiBStr)] string src2 );
+         internal static extern int stringCat( [MarshalAs(UnmanagedType.AnsiBStr)] string dest, IntPtr size,  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
+        internal static extern IntPtr  stringConcatNew(  [MarshalAs(UnmanagedType.AnsiBStr)] string first, ... );
+        internal static extern IntPtr  stringJoin(  [MarshalAs(UnmanagedType.AnsiBStr)] string src1,  [MarshalAs(UnmanagedType.AnsiBStr)] string src2 );
         internal static extern int stringJoinIP(char** psrc1,  [MarshalAs(UnmanagedType.AnsiBStr)] string src2 );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  stringReverse(  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  strtokSafe(char* cstr,  [MarshalAs(UnmanagedType.AnsiBStr)] string seps, char** psaveptr );
-        internal static extern int stringSplitOnToken(char* cstr,  [MarshalAs(UnmanagedType.AnsiBStr)] string seps, char** phead, char** ptail );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  stringRemoveChars(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string remchars );
+        internal static extern IntPtr  stringReverse(  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
+        internal static extern IntPtr  strtokSafe( [MarshalAs(UnmanagedType.AnsiBStr)] string cstr,  [MarshalAs(UnmanagedType.AnsiBStr)] string seps, char** psaveptr );
+        internal static extern int stringSplitOnToken( [MarshalAs(UnmanagedType.AnsiBStr)] string cstr,  [MarshalAs(UnmanagedType.AnsiBStr)] string seps, char** phead, char** ptail );
+        internal static extern IntPtr  stringRemoveChars(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string remchars );
         internal static extern int stringFindSubstr(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub, int* ploc );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  stringReplaceSubstr(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub1,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub2, int* pfound, l_int32* ploc );
-         internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  stringReplaceEachSubstr(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub1,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub2, int* pcount );
+        internal static extern IntPtr  stringReplaceSubstr(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub1,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub2, int* pfound, l_int32* ploc );
+         internal static extern IntPtr  stringReplaceEachSubstr(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub1,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub2, int* pcount );
         internal static extern L_DNA* arrayFindEachSequence(IntPtr data, IntPtr datalen, IntPtr sequence, IntPtr seqlen);
         internal static extern int arrayFindSequence(IntPtr data, IntPtr datalen, IntPtr sequence, IntPtr seqlen, l_int32* poffset, int* pfound);
         internal static extern void* reallocNew(void** pindata, int oldsize, int newsize);
-        internal static extern l_uint8* l_binaryRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr *pnbytes );
-         internal static extern l_uint8* l_binaryReadStream(IntPtr fp, IntPtr pnbytes);
-        internal static extern l_uint8* l_binaryReadSelect(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr start, IntPtr nbytes, IntPtr *pnread );
-         internal static extern l_uint8* l_binaryReadSelectStream(IntPtr fp, IntPtr start, IntPtr nbytes, IntPtr pnread);
+        internal static extern IntPtr l_binaryRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr *pnbytes );
+         internal static extern IntPtr l_binaryReadStream(IntPtr fp, IntPtr pnbytes);
+        internal static extern IntPtr l_binaryReadSelect(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr start, IntPtr nbytes, IntPtr *pnread );
+         internal static extern IntPtr l_binaryReadSelectStream(IntPtr fp, IntPtr start, IntPtr nbytes, IntPtr pnread);
         internal static extern int l_binaryWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename,  [MarshalAs(UnmanagedType.AnsiBStr)] string operation, void* data, IntPtr nbytes );
          internal static extern IntPtr nbytesInFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
         internal static extern IntPtr fnbytesInFile(IntPtr fp);
-        internal static extern l_uint8* l_binaryCopy(l_uint8* datas, IntPtr size);
+        internal static extern IntPtr l_binaryCopy(IntPtr datas, IntPtr size);
         internal static extern int fileCopy(  [MarshalAs(UnmanagedType.AnsiBStr)] string srcfile,  [MarshalAs(UnmanagedType.AnsiBStr)] string newfile );
         internal static extern int fileConcatenate(  [MarshalAs(UnmanagedType.AnsiBStr)] string srcfile,  [MarshalAs(UnmanagedType.AnsiBStr)] string destfile );
         internal static extern int fileAppendString(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename,  [MarshalAs(UnmanagedType.AnsiBStr)] string str );
@@ -3986,13 +3999,13 @@ namespace Leptonica.Native
         internal static extern int lept_cp(  [MarshalAs(UnmanagedType.AnsiBStr)] string srcfile,  [MarshalAs(UnmanagedType.AnsiBStr)] string newdir,  [MarshalAs(UnmanagedType.AnsiBStr)] string newtail, char** pnewpath );
         internal static extern int splitPathAtDirectory(  [MarshalAs(UnmanagedType.AnsiBStr)] string pathname, char** pdir, char** ptail );
         internal static extern int splitPathAtExtension(  [MarshalAs(UnmanagedType.AnsiBStr)] string pathname, char** pbasename, char** pextension );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  pathJoin(  [MarshalAs(UnmanagedType.AnsiBStr)] string dir,  [MarshalAs(UnmanagedType.AnsiBStr)] string fname );
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  appendSubdirs(  [MarshalAs(UnmanagedType.AnsiBStr)] string basedir,  [MarshalAs(UnmanagedType.AnsiBStr)] string subdirs );
-        internal static extern int convertSepCharsInPath(char* path, int type);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  genPathname(  [MarshalAs(UnmanagedType.AnsiBStr)] string dir,  [MarshalAs(UnmanagedType.AnsiBStr)] string fname );
-        internal static extern int makeTempDirname(char* result, IntPtr nbytes,  [MarshalAs(UnmanagedType.AnsiBStr)] string subdir );
-        internal static extern int modifyTrailingSlash(char* path, IntPtr nbytes, int flag);
-        internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  l_makeTempFilename();
+        internal static extern IntPtr  pathJoin(  [MarshalAs(UnmanagedType.AnsiBStr)] string dir,  [MarshalAs(UnmanagedType.AnsiBStr)] string fname );
+        internal static extern IntPtr  appendSubdirs(  [MarshalAs(UnmanagedType.AnsiBStr)] string basedir,  [MarshalAs(UnmanagedType.AnsiBStr)] string subdirs );
+        internal static extern int convertSepCharsInPath( [MarshalAs(UnmanagedType.AnsiBStr)] string path, int type);
+        internal static extern IntPtr  genPathname(  [MarshalAs(UnmanagedType.AnsiBStr)] string dir,  [MarshalAs(UnmanagedType.AnsiBStr)] string fname );
+        internal static extern int makeTempDirname( [MarshalAs(UnmanagedType.AnsiBStr)] string result, IntPtr nbytes,  [MarshalAs(UnmanagedType.AnsiBStr)] string subdir );
+        internal static extern int modifyTrailingSlash( [MarshalAs(UnmanagedType.AnsiBStr)] string path, IntPtr nbytes, int flag);
+        internal static extern IntPtr  l_makeTempFilename();
         internal static extern int extractNumberFromFilename(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, int numpre, int numpost );
         internal static extern PIX* pixSimpleCaptcha(PIX* pixs, int border, int nterms, uint seed, uint color, int cmapflag);
         internal static extern PIX* pixRandomHarmonicWarp(PIX* pixs, float xmag, float ymag, float xfreq, float yfreq, int nx, int ny, uint seed, int grayval);
@@ -4037,8 +4050,8 @@ namespace Leptonica.Native
         internal static extern int pixDisplayWrite(PIX* pixs, int reduction);
         internal static extern int pixDisplayWriteFormat(PIX* pixs, int reduction, int format);
         internal static extern int pixDisplayMultiple(int res, float scalefactor,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern l_uint8* zlibCompress(l_uint8* datain, IntPtr nin, IntPtr pnout);
-        internal static extern l_uint8* zlibUncompress(l_uint8* datain, IntPtr nin, IntPtr pnout);
+        internal static extern IntPtr zlibCompress(IntPtr datain, IntPtr nin, IntPtr pnout);
+        internal static extern IntPtr zlibUncompress(IntPtr datain, IntPtr nin, IntPtr pnout);
         */
     }
 }
