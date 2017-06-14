@@ -2161,10 +2161,17 @@ namespace Leptonica.Native
         internal static extern IntPtr pixHalfEdgeByBandpass(HandleRef pixs, int sm1h, int sm1v, int sm2h, int sm2v);
         #endregion
 
+        #region fhmtauto.c
+        // Main function calls:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fhmtautogen")]
+        internal static extern int fhmtautogen(HandleRef sela, int fileindex, [MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fhmtautogen1")]
+        internal static extern int fhmtautogen1(HandleRef sela, int fileindex, [MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fhmtautogen2")]
+        internal static extern int fhmtautogen2(HandleRef sela, int fileindex, [MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        #endregion
+
         /*
-        internal static extern int fhmtautogen(SELA* sela, int fileindex,  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern int fhmtautogen1(SELA* sela, int fileindex,  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern int fhmtautogen2(SELA* sela, int fileindex,  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
         internal static extern PIX* pixHMTDwa_1(PIX* pixd, PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string selname );
         internal static extern PIX* pixFHMTGen_1(PIX* pixd, PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string selname );
         internal static extern int fhmtgen_low_1(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, int index);
