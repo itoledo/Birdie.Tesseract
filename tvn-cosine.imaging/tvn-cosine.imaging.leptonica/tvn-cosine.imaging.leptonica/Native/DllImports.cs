@@ -2191,16 +2191,31 @@ namespace Leptonica.Native
         internal static extern int pixItalicWords(HandleRef pixs, HandleRef boxaw, HandleRef pixw, out IntPtr pboxa, int debugflag);
         #endregion
 
+        #region flipdetect.c
+        // Page orientation detection(pure rotation by 90 degree increments):
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOrientDetect")]
+        internal static extern int pixOrientDetect(HandleRef pixs, out float pupconf, out float pleftconf, int mincount, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeOrientDecision")]
+        internal static extern int makeOrientDecision(float upconf, float leftconf, float minupconf, float minratio, out int porient, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUpDownDetect")]
+        internal static extern int pixUpDownDetect(HandleRef pixs, out float pconf, int mincount, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUpDownDetectGeneral")]
+        internal static extern int pixUpDownDetectGeneral(HandleRef pixs, out float pconf, int mincount, int npixels, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOrientDetectDwa")]
+        internal static extern int pixOrientDetectDwa(HandleRef pixs, out float pupconf, out float pleftconf, int mincount, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUpDownDetectDwa")]
+        internal static extern int pixUpDownDetectDwa(HandleRef pixs, out float pconf, int mincount, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUpDownDetectGeneralDwa")]
+        internal static extern int pixUpDownDetectGeneralDwa(HandleRef pixs, out float pconf, int mincount, int npixels, int debug); 
+
+        // Page mirror detection(flip 180 degrees about line in plane of image):
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMirrorDetect")]
+        internal static extern int pixMirrorDetect(HandleRef pixs, out float pconf, int mincount, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMirrorDetectDwa")]
+        internal static extern int pixMirrorDetectDwa(HandleRef pixs, out float pconf, int mincount, int debug);
+        #endregion
+
         /*
-        internal static extern int pixOrientDetect(PIX* pixs, l_float32* pupconf, l_float32* pleftconf, int mincount, int debug);
-        internal static extern int makeOrientDecision(float upconf, float leftconf, float minupconf, float minratio, l_int32* porient, int debug);
-        internal static extern int pixUpDownDetect(PIX* pixs, l_float32* pconf, int mincount, int debug);
-        internal static extern int pixUpDownDetectGeneral(PIX* pixs, l_float32* pconf, int mincount, int npixels, int debug);
-        internal static extern int pixOrientDetectDwa(PIX* pixs, l_float32* pupconf, l_float32* pleftconf, int mincount, int debug);
-        internal static extern int pixUpDownDetectDwa(PIX* pixs, l_float32* pconf, int mincount, int debug);
-        internal static extern int pixUpDownDetectGeneralDwa(PIX* pixs, l_float32* pconf, int mincount, int npixels, int debug);
-        internal static extern int pixMirrorDetect(PIX* pixs, l_float32* pconf, int mincount, int debug);
-        internal static extern int pixMirrorDetectDwa(PIX* pixs, l_float32* pconf, int mincount, int debug);
         internal static extern PIX* pixFlipFHMTGen(PIX* pixd, PIX* pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string  selname);
         internal static extern int fmorphautogen(SELA* sela, int fileindex,  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
         internal static extern int fmorphautogen1(SELA* sela, int fileindex,  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
