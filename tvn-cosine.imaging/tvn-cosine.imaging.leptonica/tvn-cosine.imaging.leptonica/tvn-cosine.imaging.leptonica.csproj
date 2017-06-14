@@ -177,7 +177,8 @@
     <Compile Include="Implementations\DnaBasic.cs" />
     <Compile Include="Implementations\DnaFunc1.cs" />
     <Compile Include="Implementations\DnaHash.cs" />
-    <Compile Include="lib\DwaComb2.cs" />
+    <Compile Include="Implementations\DwaComb2.cs" />
+    <Compile Include="Implementations\DwaCombLow.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

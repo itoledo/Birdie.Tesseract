@@ -2049,8 +2049,14 @@ namespace Leptonica.Native
         internal static extern IntPtr pixFMorphopGen_2(HandleRef pixd, HandleRef pixs, int operation, [MarshalAs(UnmanagedType.AnsiBStr)] string  selname);
         #endregion
 
+        #region dwacomblow.2.c
+        //  Dispatcher:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fmorphopgen_low_2")]
+        internal static extern int fmorphopgen_low_2(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, int index);
+   
+        #endregion
+
         /*
-        internal static extern int fmorphopgen_low_2(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, int index);
         internal static extern PIX* pixSobelEdgeFilter(PIX* pixs, int orientflag);
         internal static extern PIX* pixTwoSidedEdgeFilter(PIX* pixs, int orientflag);
         internal static extern int pixMeasureEdgeSmoothness(PIX* pixs, int side, int minjump, int minreversal, l_float32* pjpl, l_float32* pjspl, l_float32* prpl,  [MarshalAs(UnmanagedType.AnsiBStr)] string debugfile );
