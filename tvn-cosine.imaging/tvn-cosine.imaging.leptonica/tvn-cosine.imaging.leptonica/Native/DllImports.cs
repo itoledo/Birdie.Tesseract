@@ -2682,30 +2682,85 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseGray3")]
         internal static extern IntPtr pixCloseGray3(HandleRef pixs, int hsize, int vsize);
         #endregion
+
+        #region grayquant.c
+        // Floyd-Steinberg dithering to binary
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDitherToBinary")]
+        internal static extern IntPtr pixDitherToBinary(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDitherToBinarySpec")]
+        internal static extern IntPtr pixDitherToBinarySpec(HandleRef pixs, int lowerclip, int upperclip);
+
+        // Simple(pixelwise) binarization with fixed threshold
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThresholdToBinary")]
+        internal static extern IntPtr pixThresholdToBinary(HandleRef pixs, int thresh);
+
+        // Binarization with variable threshold
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixVarThresholdToBinary")]
+        internal static extern IntPtr pixVarThresholdToBinary(HandleRef pixs, HandleRef pixg);
+
+        // Binarization by adaptive mapping
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAdaptThresholdToBinary")]
+        internal static extern IntPtr pixAdaptThresholdToBinary(HandleRef pixs, HandleRef pixm, float gamma);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAdaptThresholdToBinaryGen")]
+        internal static extern IntPtr pixAdaptThresholdToBinaryGen(HandleRef pixs, HandleRef pixm, float gamma, int blackval, int whiteval, int thresh);
+
+        // Generate a binary mask from pixels of particular values
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateMaskByValue")]
+        internal static extern IntPtr pixGenerateMaskByValue(HandleRef pixs, int val, int usecmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateMaskByBand")]
+        internal static extern IntPtr pixGenerateMaskByBand(HandleRef pixs, int lower, int upper, int inband, int usecmap);
+
+        // Dithering to 2 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDitherTo2bpp")]
+        internal static extern IntPtr pixDitherTo2bpp(HandleRef pixs, int cmapflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDitherTo2bppSpec")]
+        internal static extern IntPtr pixDitherTo2bppSpec(HandleRef pixs, int lowerclip, int upperclip, int cmapflag);
+
+        // Simple(pixelwise) thresholding to 2 bpp with optional cmap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThresholdTo2bpp")]
+        internal static extern IntPtr pixThresholdTo2bpp(HandleRef pixs, int nlevels, int cmapflag);
+
+        // Simple(pixelwise) thresholding from 8 bpp to 4 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThresholdTo4bpp")]
+        internal static extern IntPtr pixThresholdTo4bpp(HandleRef pixs, int nlevels, int cmapflag);
+
+        // Simple(pixelwise) quantization on 8 bpp grayscale
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThresholdOn8bpp")]
+        internal static extern IntPtr pixThresholdOn8bpp(HandleRef pixs, int nlevels, int cmapflag);
+
+        // Arbitrary(pixelwise) thresholding from 8 bpp to 2, 4 or 8 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThresholdGrayArb")]
+        internal static extern IntPtr pixThresholdGrayArb(HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string edgevals, int outdepth, int use_average, int setblack, int setwhite);
+
+        // Quantization tables for linear thresholds of grayscale images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeGrayQuantIndexTable")]
+        internal static extern IntPtr makeGrayQuantIndexTable(int nlevels);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeGrayQuantTargetTable")]
+        internal static extern IntPtr makeGrayQuantTargetTable(int nlevels, int depth);
+
+        // Quantization table for arbitrary thresholding of grayscale images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeGrayQuantTableArb")]
+        internal static extern int makeGrayQuantTableArb(HandleRef na, int outdepth, out IntPtr ptab, out IntPtr pcmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeGrayQuantColormapArb")]
+        internal static extern int makeGrayQuantColormapArb(HandleRef pixs, IntPtr tab, int outdepth, out IntPtr pcmap);
+
+        // Thresholding from 32 bpp rgb to 1 bpp (really color quantization, but it's better placed in this file)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateMaskByBand32")]
+        internal static extern IntPtr pixGenerateMaskByBand32(HandleRef pixs, uint refval, int delm, int delp, float fractm, float fractp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateMaskByDiscr32")]
+        internal static extern IntPtr pixGenerateMaskByDiscr32(HandleRef pixs, uint refval1, uint refval2, int distflag);
+
+        // Histogram - based grayscale quantization
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGrayQuantFromHisto")]
+        internal static extern IntPtr pixGrayQuantFromHisto(HandleRef pixd, HandleRef pixs, HandleRef pixm, float minfract, int maxsize);
+
+        // Color quantize grayscale image using existing colormap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGrayQuantFromCmap")]
+        internal static extern IntPtr pixGrayQuantFromCmap(HandleRef pixs, HandleRef cmap, int mindepth);
+        #endregion
+
         /*
 
-        internal static extern PIX* pixDitherToBinary(PIX* pixs);
-        internal static extern PIX* pixDitherToBinarySpec(PIX* pixs, int lowerclip, int upperclip);
-        internal static extern PIX* pixThresholdToBinary(PIX* pixs, int thresh);
-        internal static extern PIX* pixVarThresholdToBinary(PIX* pixs, PIX* pixg);
-        internal static extern PIX* pixAdaptThresholdToBinary(PIX* pixs, PIX* pixm, float gamma);
-        internal static extern PIX* pixAdaptThresholdToBinaryGen(PIX* pixs, PIX* pixm, float gamma, int blackval, int whiteval, int thresh);
-        internal static extern PIX* pixGenerateMaskByValue(PIX* pixs, int val, int usecmap);
-        internal static extern PIX* pixGenerateMaskByBand(PIX* pixs, int lower, int upper, int inband, int usecmap);
-        internal static extern PIX* pixDitherTo2bpp(PIX* pixs, int cmapflag);
-        internal static extern PIX* pixDitherTo2bppSpec(PIX* pixs, int lowerclip, int upperclip, int cmapflag);
-        internal static extern PIX* pixThresholdTo2bpp(PIX* pixs, int nlevels, int cmapflag);
-        internal static extern PIX* pixThresholdTo4bpp(PIX* pixs, int nlevels, int cmapflag);
-        internal static extern PIX* pixThresholdOn8bpp(PIX* pixs, int nlevels, int cmapflag);
-        internal static extern PIX* pixThresholdGrayArb(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string edgevals, int outdepth, int use_average, int setblack, int setwhite );
-        internal static extern l_int32* makeGrayQuantIndexTable(int nlevels);
-        internal static extern l_int32* makeGrayQuantTargetTable(int nlevels, int depth);
-        internal static extern int makeGrayQuantTableArb(NUMA* na, int outdepth, l_int32** ptab, PIXCMAP** pcmap);
-        internal static extern int makeGrayQuantColormapArb(PIX* pixs, l_int32* tab, int outdepth, PIXCMAP** pcmap);
-        internal static extern PIX* pixGenerateMaskByBand32(PIX* pixs, uint refval, int delm, int delp, float fractm, float fractp);
-        internal static extern PIX* pixGenerateMaskByDiscr32(PIX* pixs, uint refval1, uint refval2, int distflag);
-        internal static extern PIX* pixGrayQuantFromHisto(PIX* pixd, PIX* pixs, PIX* pixm, float minfract, int maxsize);
-        internal static extern PIX* pixGrayQuantFromCmap(PIX* pixs, HandleRef cmap, int mindepth);
         internal static extern void ditherToBinaryLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, l_uint32* bufs1, l_uint32* bufs2, int lowerclip, int upperclip);
         internal static extern void ditherToBinaryLineLow(l_uint32* lined, int w, l_uint32* bufs1, l_uint32* bufs2, int lowerclip, int upperclip, int lastlineflag);
         internal static extern void thresholdToBinaryLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int d, int wpls, int thresh);
