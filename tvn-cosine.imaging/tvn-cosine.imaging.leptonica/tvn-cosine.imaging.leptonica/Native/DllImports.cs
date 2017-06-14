@@ -2547,57 +2547,122 @@ namespace Leptonica.Native
         internal static extern int gplotWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef gplot);
         #endregion
 
+        #region graphics.c
+        // Pta generation for arbitrary shapes built with lines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaLine")]
+        internal static extern IntPtr generatePtaLine(int x1, int y1, int x2, int y2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaWideLine")]
+        internal static extern IntPtr generatePtaWideLine(int x1, int y1, int x2, int y2, int width);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaBox")]
+        internal static extern IntPtr generatePtaBox(HandleRef box, int width);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaBoxa")]
+        internal static extern IntPtr generatePtaBoxa(HandleRef boxa, int width, int removedups);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaHashBox")]
+        internal static extern IntPtr generatePtaHashBox(HandleRef box, int spacing, int width, int orient, int outline);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaHashBoxa")]
+        internal static extern IntPtr generatePtaHashBoxa(HandleRef boxa, int spacing, int width, int orient, int outline, int removedups);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaaBoxa")]
+        internal static extern IntPtr generatePtaaBoxa(HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaaHashBoxa")]
+        internal static extern IntPtr generatePtaaHashBoxa(HandleRef boxa, int spacing, int width, int orient, int outline);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaPolyline")]
+        internal static extern IntPtr generatePtaPolyline(HandleRef ptas, int width, int closeflag, int removedups);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaGrid")]
+        internal static extern IntPtr generatePtaGrid(int w, int h, int nx, int ny, int width);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertPtaLineTo4cc")]
+        internal static extern IntPtr convertPtaLineTo4cc(HandleRef ptas);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaFilledCircle")]
+        internal static extern IntPtr generatePtaFilledCircle(int radius);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaFilledSquare")]
+        internal static extern IntPtr generatePtaFilledSquare(int side);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generatePtaLineFromPt")]
+        internal static extern IntPtr generatePtaLineFromPt(int x, int y, double length, double radang);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "locatePtRadially")]
+        internal static extern int locatePtRadially(int xr, int yr, double dist, double radang, out double px, out double py);
+
+        // Rendering function plots directly on images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderPlotFromNuma")]
+        internal static extern int pixRenderPlotFromNuma(out IntPtr ppix, HandleRef na, int plotloc, int linewidth, int max, uint color);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makePlotPtaFromNuma")]
+        internal static extern IntPtr makePlotPtaFromNuma(HandleRef na, int size, int plotloc, int linewidth, int max);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderPlotFromNumaGen")]
+        internal static extern int pixRenderPlotFromNumaGen(out IntPtr ppix, HandleRef na, int orient, int linewidth, int refpos, int max, int drawref, uint color);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makePlotPtaFromNumaGen")]
+        internal static extern IntPtr makePlotPtaFromNumaGen(HandleRef na, int orient, int linewidth, int refpos, int max, int drawref);
+
+        // Pta rendering
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderPta")]
+        internal static extern int pixRenderPta(HandleRef pix, HandleRef pta, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderPtaArb")]
+        internal static extern int pixRenderPtaArb(HandleRef pix, HandleRef pta, byte rval, byte gval, byte bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderPtaBlend")]
+        internal static extern int pixRenderPtaBlend(HandleRef pix, HandleRef pta, byte rval, byte gval, byte bval, float fract);
+
+        // Rendering of arbitrary shapes built with lines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderLine")]
+        internal static extern int pixRenderLine(HandleRef pix, int x1, int y1, int x2, int y2, int width, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderLineArb")]
+        internal static extern int pixRenderLineArb(HandleRef pix, int x1, int y1, int x2, int y2, int width, byte rval, byte gval, byte bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderLineBlend")]
+        internal static extern int pixRenderLineBlend(HandleRef pix, int x1, int y1, int x2, int y2, int width, byte rval, byte gval, byte bval, float fract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderBox")]
+        internal static extern int pixRenderBox(HandleRef pix, HandleRef box, int width, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderBoxArb")]
+        internal static extern int pixRenderBoxArb(HandleRef pix, HandleRef box, int width, byte rval, byte gval, byte bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderBoxBlend")]
+        internal static extern int pixRenderBoxBlend(HandleRef pix, HandleRef box, int width, byte rval, byte gval, byte bval, float fract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderBoxa")]
+        internal static extern int pixRenderBoxa(HandleRef pix, HandleRef boxa, int width, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderBoxaArb")]
+        internal static extern int pixRenderBoxaArb(HandleRef pix, HandleRef boxa, int width, byte rval, byte gval, byte bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderBoxaBlend")]
+        internal static extern int pixRenderBoxaBlend(HandleRef pix, HandleRef boxa, int width, byte rval, byte gval, byte bval, float fract, int removedups);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderHashBox")]
+        internal static extern int pixRenderHashBox(HandleRef pix, HandleRef box, int spacing, int width, int orient, int outline, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderHashBoxArb")]
+        internal static extern int pixRenderHashBoxArb(HandleRef pix, HandleRef box, int spacing, int width, int orient, int outline, int rval, int gval, int bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderHashBoxBlend")]
+        internal static extern int pixRenderHashBoxBlend(HandleRef pix, HandleRef box, int spacing, int width, int orient, int outline, int rval, int gval, int bval, float fract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderHashMaskArb")]
+        internal static extern int pixRenderHashMaskArb(HandleRef pix, HandleRef pixm, int x, int y, int spacing, int width, int orient, int outline, int rval, int gval, int bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderHashBoxa")]
+        internal static extern int pixRenderHashBoxa(HandleRef pix, HandleRef boxa, int spacing, int width, int orient, int outline, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderHashBoxaArb")]
+        internal static extern int pixRenderHashBoxaArb(HandleRef pix, HandleRef boxa, int spacing, int width, int orient, int outline, int rval, int gval, int bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderHashBoxaBlend")]
+        internal static extern int pixRenderHashBoxaBlend(HandleRef pix, HandleRef boxa, int spacing, int width, int orient, int outline, int rval, int gval, int bval, float fract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderPolyline")]
+        internal static extern int pixRenderPolyline(HandleRef pix, HandleRef ptas, int width, int op, int closeflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderPolylineArb")]
+        internal static extern int pixRenderPolylineArb(HandleRef pix, HandleRef ptas, int width, byte rval, byte gval, byte bval, int closeflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderPolylineBlend")]
+        internal static extern int pixRenderPolylineBlend(HandleRef pix, HandleRef ptas, int width, byte rval, byte gval, byte bval, float fract, int closeflag, int removedups);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderGridArb")]
+        internal static extern int pixRenderGridArb(HandleRef pix, int nx, int ny, int width, byte rval, byte gval, byte bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderRandomCmapPtaa")]
+        internal static extern IntPtr pixRenderRandomCmapPtaa(HandleRef pix, HandleRef ptaa, int polyflag, int width, int closeflag);
+
+        // Rendering and filling of polygons
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderPolygon")]
+        internal static extern IntPtr pixRenderPolygon(HandleRef ptas, int width, out int pxmin, out int pymin);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFillPolygon")]
+        internal static extern IntPtr pixFillPolygon(HandleRef pixs, HandleRef pta, int xmin, int ymin);
+
+        // Contour rendering on grayscale images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRenderContours")]
+        internal static extern IntPtr pixRenderContours(HandleRef pixs, int startval, int incr, int outdepth);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixAutoRenderContours")]
+        internal static extern IntPtr fpixAutoRenderContours(HandleRef fpix, int ncontours);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixRenderContours")]
+        internal static extern IntPtr fpixRenderContours(HandleRef fpixs, float incr, float proxim);
+
+        // Boundary pt generation on 1 bpp images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGeneratePtaBoundary")]
+        internal static extern IntPtr pixGeneratePtaBoundary(HandleRef pixs, int width);
+        #endregion
 
         /*
-         internal static extern PTA* generatePtaLine(int x1, int y1, int x2, int y2);
-        internal static extern PTA* generatePtaWideLine(int x1, int y1, int x2, int y2, int width);
-        internal static extern PTA* generatePtaBox(HandleRef box, int width);
-        internal static extern PTA* generatePtaBoxa(HandleRef boxa, int width, int removedups);
-        internal static extern PTA* generatePtaHashBox(HandleRef box, int spacing, int width, int orient, int outline);
-        internal static extern PTA* generatePtaHashBoxa(HandleRef boxa, int spacing, int width, int orient, int outline, int removedups);
-        internal static extern PTAA* generatePtaaBoxa(HandleRef boxa);
-        internal static extern PTAA* generatePtaaHashBoxa(HandleRef boxa, int spacing, int width, int orient, int outline);
-        internal static extern PTA* generatePtaPolyline(HandleRef ptas, int width, int closeflag, int removedups);
-        internal static extern PTA* generatePtaGrid(int w, int h, int nx, int ny, int width);
-        internal static extern PTA* convertPtaLineTo4cc(HandleRef ptas);
-        internal static extern PTA* generatePtaFilledCircle(int radius);
-        internal static extern PTA* generatePtaFilledSquare(int side);
-        internal static extern PTA* generatePtaLineFromPt(int x, int y, double length, double radang);
-        internal static extern int locatePtRadially(int xr, int yr, double dist, double radang, l_float64* px, l_float64* py);
-        internal static extern int pixRenderPlotFromNuma(PIX** ppix, NUMA* na, int plotloc, int linewidth, int max, uint color);
-        internal static extern PTA* makePlotPtaFromNuma(NUMA* na, int size, int plotloc, int linewidth, int max);
-        internal static extern int pixRenderPlotFromNumaGen(PIX** ppix, NUMA* na, int orient, int linewidth, int refpos, int max, int drawref, uint color);
-        internal static extern PTA* makePlotPtaFromNumaGen(NUMA* na, int orient, int linewidth, int refpos, int max, int drawref);
-        internal static extern int pixRenderPta(PIX* pix, PTA* pta, int op);
-        internal static extern int pixRenderPtaArb(PIX* pix, PTA* pta, byte rval, byte gval, byte bval);
-        internal static extern int pixRenderPtaBlend(PIX* pix, PTA* pta, byte rval, byte gval, byte bval, float fract);
-        internal static extern int pixRenderLine(PIX* pix, int x1, int y1, int x2, int y2, int width, int op);
-        internal static extern int pixRenderLineArb(PIX* pix, int x1, int y1, int x2, int y2, int width, byte rval, byte gval, byte bval);
-        internal static extern int pixRenderLineBlend(PIX* pix, int x1, int y1, int x2, int y2, int width, byte rval, byte gval, byte bval, float fract);
-        internal static extern int pixRenderBox(PIX* pix, HandleRef box, int width, int op);
-        internal static extern int pixRenderBoxArb(PIX* pix, HandleRef box, int width, byte rval, byte gval, byte bval);
-        internal static extern int pixRenderBoxBlend(PIX* pix, HandleRef box, int width, byte rval, byte gval, byte bval, float fract);
-        internal static extern int pixRenderBoxa(PIX* pix, HandleRef boxa, int width, int op);
-        internal static extern int pixRenderBoxaArb(PIX* pix, HandleRef boxa, int width, byte rval, byte gval, byte bval);
-        internal static extern int pixRenderBoxaBlend(PIX* pix, HandleRef boxa, int width, byte rval, byte gval, byte bval, float fract, int removedups);
-        internal static extern int pixRenderHashBox(PIX* pix, HandleRef box, int spacing, int width, int orient, int outline, int op);
-        internal static extern int pixRenderHashBoxArb(PIX* pix, HandleRef box, int spacing, int width, int orient, int outline, int rval, int gval, int bval);
-        internal static extern int pixRenderHashBoxBlend(PIX* pix, HandleRef box, int spacing, int width, int orient, int outline, int rval, int gval, int bval, float fract);
-        internal static extern int pixRenderHashMaskArb(PIX* pix, PIX* pixm, int x, int y, int spacing, int width, int orient, int outline, int rval, int gval, int bval);
-        internal static extern int pixRenderHashBoxa(PIX* pix, HandleRef boxa, int spacing, int width, int orient, int outline, int op);
-        internal static extern int pixRenderHashBoxaArb(PIX* pix, HandleRef boxa, int spacing, int width, int orient, int outline, int rval, int gval, int bval);
-        internal static extern int pixRenderHashBoxaBlend(PIX* pix, HandleRef boxa, int spacing, int width, int orient, int outline, int rval, int gval, int bval, float fract);
-        internal static extern int pixRenderPolyline(PIX* pix, PTA* ptas, int width, int op, int closeflag);
-        internal static extern int pixRenderPolylineArb(PIX* pix, PTA* ptas, int width, byte rval, byte gval, byte bval, int closeflag);
-        internal static extern int pixRenderPolylineBlend(PIX* pix, PTA* ptas, int width, byte rval, byte gval, byte bval, float fract, int closeflag, int removedups);
-        internal static extern int pixRenderGridArb(PIX* pix, int nx, int ny, int width, byte rval, byte gval, byte bval);
-        internal static extern PIX* pixRenderRandomCmapPtaa(PIX* pix, PTAA* ptaa, int polyflag, int width, int closeflag);
-        internal static extern PIX* pixRenderPolygon(HandleRef ptas, int width, l_int32* pxmin, l_int32* pymin);
-        internal static extern PIX* pixFillPolygon(PIX* pixs, PTA* pta, int xmin, int ymin);
-        internal static extern PIX* pixRenderContours(PIX* pixs, int startval, int incr, int outdepth);
-        internal static extern PIX* fpixAutoRenderContours(FPIX* fpix, int ncontours);
-        internal static extern PIX* fpixRenderContours(FPIX* fpixs, float incr, float proxim);
-        internal static extern PTA* pixGeneratePtaBoundary(PIX* pixs, int width);
+
         internal static extern PIX* pixErodeGray(PIX* pixs, int hsize, int vsize);
         internal static extern PIX* pixDilateGray(PIX* pixs, int hsize, int vsize);
         internal static extern PIX* pixOpenGray(PIX* pixs, int hsize, int vsize);

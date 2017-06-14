@@ -227,8 +227,7 @@ namespace Leptonica
 
             return Native.DllImports.fpixSetPixel((HandleRef)fpix, x, y, val);
         }
-
-
+         
         // FPixa Create/copy/destroy
         public static FPixa fpixaCreate(int n)
         {
