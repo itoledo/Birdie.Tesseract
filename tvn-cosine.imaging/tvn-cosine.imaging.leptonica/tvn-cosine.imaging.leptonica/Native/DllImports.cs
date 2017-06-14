@@ -2206,7 +2206,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUpDownDetectDwa")]
         internal static extern int pixUpDownDetectDwa(HandleRef pixs, out float pconf, int mincount, int debug);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUpDownDetectGeneralDwa")]
-        internal static extern int pixUpDownDetectGeneralDwa(HandleRef pixs, out float pconf, int mincount, int npixels, int debug); 
+        internal static extern int pixUpDownDetectGeneralDwa(HandleRef pixs, out float pconf, int mincount, int npixels, int debug);
 
         // Page mirror detection(flip 180 degrees about line in plane of image):
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMirrorDetect")]
@@ -2231,10 +2231,21 @@ namespace Leptonica.Native
         internal static extern int fmorphautogen2(HandleRef sela, int fileindex, [MarshalAs(UnmanagedType.AnsiBStr)] string filename);
         #endregion
 
+        #region fmorphgen.1.c
+        // Top-level fast binary morphology with auto-generated sels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMorphDwa_1")]
+        internal static extern IntPtr pixMorphDwa_1(HandleRef pixd, HandleRef pixs, int operation, [MarshalAs(UnmanagedType.AnsiBStr)] string selname);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFMorphopGen_1")]
+        internal static extern IntPtr pixFMorphopGen_1(HandleRef pixd, HandleRef pixs, int operation, [MarshalAs(UnmanagedType.AnsiBStr)] string selname);
+        #endregion
+
+        #region fmorphgenlow.1.c
+        // Low-level fast binary morphology with auto-generated sels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fmorphopgen_low_1")]
+        internal static extern int fmorphopgen_low_1(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, int index);
+        #endregion
+
         /*
-        internal static extern PIX* pixMorphDwa_1(PIX* pixd, PIX* pixs, int operation, [MarshalAs(UnmanagedType.AnsiBStr)] string  selname);
-        internal static extern PIX* pixFMorphopGen_1(PIX* pixd, PIX* pixs, int operation, [MarshalAs(UnmanagedType.AnsiBStr)] string  selname);
-        internal static extern int fmorphopgen_low_1(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, int index);
         internal static extern FPIX* fpixCreate(int width, int height);
         internal static extern FPIX* fpixCreateTemplate(FPIX* fpixs);
         internal static extern FPIX* fpixClone(FPIX* fpix);

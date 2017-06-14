@@ -193,6 +193,8 @@
     <Compile Include="Implementations\FlipDetect.cs" />
     <Compile Include="Implementations\FlipHmtGen.cs" />
     <Compile Include="Implementations\FMorphAuto.cs" />
+    <Compile Include="Implementations\FMorphGen1.cs" />
+    <Compile Include="Implementations\FMorphGenLow1.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
