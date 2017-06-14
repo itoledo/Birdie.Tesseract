@@ -165,6 +165,7 @@
     <Compile Include="Implementations\Dewarp1.cs" />
     <Compile Include="Implementations\Dewarp2.cs" />
     <Compile Include="Implementations\Dewarp3.cs" />
+    <Compile Include="Implementations\Dewarp4.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

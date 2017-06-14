@@ -1841,20 +1841,41 @@ namespace Leptonica.Native
         internal static extern int dewarpPopulateFullRes(HandleRef dew, HandleRef pix, int x, int y);
         #endregion
 
+        #region dewarp4.c
+        // Top-level single page dewarper
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpSinglePage")]
+        internal static extern int dewarpSinglePage(HandleRef pixs, int thresh, int adaptive, int useboth, int check_columns, out IntPtr ppixd, out IntPtr pdewa, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpSinglePageInit")]
+        internal static extern int dewarpSinglePageInit(HandleRef pixs, int thresh, int adaptive, int useboth, int check_columns, out IntPtr ppixb, out IntPtr pdewa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpSinglePageRun")]
+        internal static extern int dewarpSinglePageRun(HandleRef pixs, HandleRef pixb, HandleRef dewa, out IntPtr ppixd, int debug);
+
+        // Operations on dewarpa
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaListPages")]
+        internal static extern int dewarpaListPages(HandleRef dewa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaSetValidModels")]
+        internal static extern int dewarpaSetValidModels(HandleRef dewa, int notests, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaInsertRefModels")]
+        internal static extern int dewarpaInsertRefModels(HandleRef dewa, int notests, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaStripRefModels")]
+        internal static extern int dewarpaStripRefModels(HandleRef dewa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaRestoreModels")]
+        internal static extern int dewarpaRestoreModels(HandleRef dewa);
+
+        // Dewarp debugging output
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaInfo")]
+        internal static extern int dewarpaInfo(IntPtr fp, HandleRef dewa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaModelStats")]
+        internal static extern int dewarpaModelStats(HandleRef dewa, out int pnnone, out int pnvsuccess, out int pnvvalid, out int pnhsuccess, out int pnhvalid, out int pnref);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaShowArrays")]
+        internal static extern int dewarpaShowArrays(HandleRef dewa, float scalefact, int first, int last);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpDebug")]
+        internal static extern int dewarpDebug(HandleRef dew, [MarshalAs(UnmanagedType.AnsiBStr)] string subdirs, int index );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpShowResults")]
+        internal static extern int dewarpShowResults(HandleRef dewa, HandleRef sa, HandleRef boxa, int firstpage, int lastpage, [MarshalAs(UnmanagedType.AnsiBStr)] string pdfout );
+        #endregion
+
         /* 
-         internal static  extern int dewarpSinglePage(PIX* pixs, int thresh, int adaptive, int useboth, int check_columns, PIX** ppixd, L_DEWARPA** pdewa, int debug);
-         internal static  extern int dewarpSinglePageInit(PIX* pixs, int thresh, int adaptive, int useboth, int check_columns, PIX** ppixb, L_DEWARPA** pdewa);
-         internal static  extern int dewarpSinglePageRun(PIX* pixs, PIX* pixb, L_DEWARPA* dewa, PIX** ppixd, int debug);
-         internal static  extern int dewarpaListPages(L_DEWARPA* dewa);
-         internal static  extern int dewarpaSetValidModels(L_DEWARPA* dewa, int notests, int debug);
-         internal static  extern int dewarpaInsertRefModels(L_DEWARPA* dewa, int notests, int debug);
-         internal static  extern int dewarpaStripRefModels(L_DEWARPA* dewa);
-         internal static  extern int dewarpaRestoreModels(L_DEWARPA* dewa);
-         internal static  extern int dewarpaInfo( IntPtr fp, L_DEWARPA* dewa);
-         internal static  extern int dewarpaModelStats(L_DEWARPA* dewa, l_int32* pnnone, l_int32* pnvsuccess, l_int32* pnvvalid, l_int32* pnhsuccess, l_int32* pnhvalid, l_int32* pnref);
-         internal static  extern int dewarpaShowArrays(L_DEWARPA* dewa, float scalefact, int first, int last);
-         internal static  extern int dewarpDebug(L_DEWARP* dew, const char* subdirs, int index );
-         internal static  extern int dewarpShowResults(L_DEWARPA* dewa, SARRAY* sa, HandleRef boxa, int firstpage, int lastpage, const char* pdfout );
          internal static  extern L_DNA* l_dnaCreate(int n);
          internal static  extern L_DNA* l_dnaCreateFromIArray(l_int32* iarray, int size);
          internal static  extern L_DNA* l_dnaCreateFromDArray(l_float64* darray, int size, int copyflag);
