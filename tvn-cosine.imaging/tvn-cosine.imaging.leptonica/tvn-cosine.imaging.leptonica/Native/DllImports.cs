@@ -1983,17 +1983,26 @@ namespace Leptonica.Native
         internal static extern int l_dnaaWriteStream(IntPtr fp, HandleRef daa);
         #endregion
 
-
-        /*
+        #region dnafunc1.c
+        // Rearrangements
         internal static extern int l_dnaJoin(L_DNA* dad, L_DNA* das, int istart, int iend);
         internal static extern L_DNA* l_dnaaFlattenToDna(L_DNAA* daa);
+
+        // Conversion between numa and dna
         internal static extern NUMA* l_dnaConvertToNuma(L_DNA* da);
         internal static extern L_DNA* numaConvertToDna(NUMA* na);
+
+        // Set operations using aset (rbtree)
         internal static extern L_DNA* l_dnaUnionByAset(L_DNA* da1, L_DNA* da2);
         internal static extern L_DNA* l_dnaRemoveDupsByAset(L_DNA* das);
         internal static extern L_DNA* l_dnaIntersectionByAset(L_DNA* da1, L_DNA* da2);
         internal static extern L_ASET* l_asetCreateFromDna(L_DNA* da);
+
+        // Miscellaneous operations
         internal static extern L_DNA* l_dnaDiffAdjValues(L_DNA* das);
+        #endregion
+
+        /*
         internal static extern L_DNAHASH* l_dnaHashCreate(int nbuckets, int initsize);
         internal static extern void l_dnaHashDestroy(L_DNAHASH** pdahash);
         internal static extern int l_dnaHashGetCount(L_DNAHASH* dahash);
