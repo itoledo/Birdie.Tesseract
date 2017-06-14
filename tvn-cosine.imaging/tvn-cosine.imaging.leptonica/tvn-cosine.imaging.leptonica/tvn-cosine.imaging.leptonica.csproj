@@ -179,6 +179,7 @@
     <Compile Include="Implementations\DnaHash.cs" />
     <Compile Include="Implementations\DwaComb2.cs" />
     <Compile Include="Implementations\DwaCombLow.cs" />
+    <Compile Include="Implementations\Edge.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

@@ -2053,16 +2053,29 @@ namespace Leptonica.Native
         //  Dispatcher:
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fmorphopgen_low_2")]
         internal static extern int fmorphopgen_low_2(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, int index);
-   
+        #endregion
+
+        #region edge.c
+        // Sobel edge detecting filter
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSobelEdgeFilter")]
+        internal static extern IntPtr pixSobelEdgeFilter(HandleRef pixs, int orientflag);
+
+        // Two-sided edge gradient filter
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTwoSidedEdgeFilter")]
+        internal static extern IntPtr pixTwoSidedEdgeFilter(HandleRef pixs, int orientflag);
+
+        // Measurement of edge smoothness
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMeasureEdgeSmoothness")]
+        internal static extern int pixMeasureEdgeSmoothness(HandleRef pixs, int side, int minjump, int minreversal, out float pjpl, out float pjspl, out float prpl, [MarshalAs(UnmanagedType.AnsiBStr)] string debugfile);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetEdgeProfile")]
+        internal static extern IntPtr pixGetEdgeProfile(HandleRef pixs, int side, [MarshalAs(UnmanagedType.AnsiBStr)] string debugfile);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetLastOffPixelInRun")]
+        internal static extern int pixGetLastOffPixelInRun(HandleRef pixs, int x, int y, int direction, out int ploc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetLastOnPixelInRun")]
+        internal static extern int pixGetLastOnPixelInRun(HandleRef pixs, int x, int y, int direction, out int ploc); 
         #endregion
 
         /*
-        internal static extern PIX* pixSobelEdgeFilter(PIX* pixs, int orientflag);
-        internal static extern PIX* pixTwoSidedEdgeFilter(PIX* pixs, int orientflag);
-        internal static extern int pixMeasureEdgeSmoothness(PIX* pixs, int side, int minjump, int minreversal, l_float32* pjpl, l_float32* pjspl, l_float32* prpl,  [MarshalAs(UnmanagedType.AnsiBStr)] string debugfile );
-        internal static extern NUMA* pixGetEdgeProfile(PIX* pixs, int side,  [MarshalAs(UnmanagedType.AnsiBStr)] string debugfile );
-        internal static extern int pixGetLastOffPixelInRun(PIX* pixs, int x, int y, int direction, l_int32* ploc);
-        internal static extern int pixGetLastOnPixelInRun(PIX* pixs, int x, int y, int direction, l_int32* ploc);
         internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  encodeBase64(l_uint8* inarray, int insize, l_int32* poutsize);
         internal static extern l_uint8* decodeBase64(  [MarshalAs(UnmanagedType.AnsiBStr)] string inarray, int insize, l_int32* poutsize );
          internal static extern [MarshalAs(UnmanagedType.AnsiBStr)] string  encodeAscii85(l_uint8* inarray, int insize, l_int32* poutsize);
