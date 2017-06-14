@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Leptonica 
+namespace Leptonica
 {
     public static class BoxBasic
-    {  // Box creation, copy, clone, destruction
+    {  
+        // Box creation, copy, clone, destruction
         public static Box boxCreate(int x, int y, int w, int h)
         {
             var pointer = Native.DllImports.boxCreate(x, y, w, h);

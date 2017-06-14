@@ -2245,71 +2245,157 @@ namespace Leptonica.Native
         internal static extern int fmorphopgen_low_1(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, int index);
         #endregion
 
+        #region fpix1.c
+        // FPix Create/copy/destroy
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixCreate")]
+        internal static extern IntPtr fpixCreate(int width, int height);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixCreateTemplate")]
+        internal static extern IntPtr fpixCreateTemplate(HandleRef fpixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixClone")]
+        internal static extern IntPtr fpixClone(HandleRef fpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixCopy")]
+        internal static extern IntPtr fpixCopy(HandleRef fpixd, HandleRef fpixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixResizeImageData")]
+        internal static extern int fpixResizeImageData(HandleRef fpixd, HandleRef fpixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixDestroy")]
+        internal static extern void fpixDestroy(ref IntPtr pfpix);
+
+        // FPix accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixGetDimensions")]
+        internal static extern int fpixGetDimensions(HandleRef fpix, out int pw, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixSetDimensions")]
+        internal static extern int fpixSetDimensions(HandleRef fpix, int w, int h);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixGetWpl")]
+        internal static extern int fpixGetWpl(HandleRef fpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixSetWpl")]
+        internal static extern int fpixSetWpl(HandleRef fpix, int wpl);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixGetRefcount")]
+        internal static extern int fpixGetRefcount(HandleRef fpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixChangeRefcount")]
+        internal static extern int fpixChangeRefcount(HandleRef fpix, int delta);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixGetResolution")]
+        internal static extern int fpixGetResolution(HandleRef fpix, out int pxres, out int pyres);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixSetResolution")]
+        internal static extern int fpixSetResolution(HandleRef fpix, int xres, int yres);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixCopyResolution")]
+        internal static extern int fpixCopyResolution(HandleRef fpixd, HandleRef fpixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixGetData")]
+        internal static extern IntPtr fpixGetData(HandleRef fpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixSetData")]
+        internal static extern int fpixSetData(HandleRef fpix, IntPtr data);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixGetPixel")]
+        internal static extern int fpixGetPixel(HandleRef fpix, int x, int y, out float pval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixSetPixel")]
+        internal static extern int fpixSetPixel(HandleRef fpix, int x, int y, float val);
+
+        // FPixa Create/copy/destroy
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaCreate")]
+        internal static extern IntPtr fpixaCreate(int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaCopy")]
+        internal static extern IntPtr fpixaCopy(HandleRef fpixa, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaDestroy")]
+        internal static extern void fpixaDestroy(ref IntPtr pfpixa);
+
+        // FPixa addition
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaAddFPix")]
+        internal static extern int fpixaAddFPix(HandleRef fpixa, HandleRef fpix, int copyflag);
+
+        // FPixa accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaGetCount")]
+        internal static extern int fpixaGetCount(HandleRef fpixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaChangeRefcount")]
+        internal static extern int fpixaChangeRefcount(HandleRef fpixa, int delta);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaGetFPix")]
+        internal static extern IntPtr fpixaGetFPix(HandleRef fpixa, int index, int accesstype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaGetFPixDimensions")]
+        internal static extern int fpixaGetFPixDimensions(HandleRef fpixa, int index, out int pw, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaGetData")]
+        internal static extern IntPtr fpixaGetData(HandleRef fpixa, int index);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaGetPixel")]
+        internal static extern int fpixaGetPixel(HandleRef fpixa, int index, int x, int y, out float pval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaSetPixel")]
+        internal static extern int fpixaSetPixel(HandleRef fpixa, int index, int x, int y, float val);
+
+        // DPix Create/copy/destroy
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixCreate")]
+        internal static extern IntPtr dpixCreate(int width, int height);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixCreateTemplate")]
+        internal static extern IntPtr dpixCreateTemplate(HandleRef dpixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixClone")]
+        internal static extern IntPtr dpixClone(HandleRef dpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixCopy")]
+        internal static extern IntPtr dpixCopy(HandleRef dpixd, HandleRef dpixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixResizeImageData")]
+        internal static extern int dpixResizeImageData(HandleRef dpixd, HandleRef dpixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixDestroy")]
+        internal static extern void dpixDestroy(ref IntPtr pdpix);
+
+        // DPix accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixGetDimensions")]
+        internal static extern int dpixGetDimensions(HandleRef dpix, out int pw, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixSetDimensions")]
+        internal static extern int dpixSetDimensions(HandleRef dpix, int w, int h);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixGetWpl")]
+        internal static extern int dpixGetWpl(HandleRef dpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixSetWpl")]
+        internal static extern int dpixSetWpl(HandleRef dpix, int wpl);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixGetRefcount")]
+        internal static extern int dpixGetRefcount(HandleRef dpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixChangeRefcount")]
+        internal static extern int dpixChangeRefcount(HandleRef dpix, int delta);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixGetResolution")]
+        internal static extern int dpixGetResolution(HandleRef dpix, out int pxres, out int pyres);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixSetResolution")]
+        internal static extern int dpixSetResolution(HandleRef dpix, int xres, int yres);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixCopyResolution")]
+        internal static extern int dpixCopyResolution(HandleRef dpixd, HandleRef dpixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixGetData")]
+        internal static extern IntPtr dpixGetData(HandleRef dpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixSetData")]
+        internal static extern int dpixSetData(HandleRef dpix, IntPtr data);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixGetPixel")]
+        internal static extern int dpixGetPixel(HandleRef dpix, int x, int y, out double pval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixSetPixel")]
+        internal static extern int dpixSetPixel(HandleRef dpix, int x, int y, double val);
+
+        // FPix serialized I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixRead")]
+        internal static extern IntPtr fpixRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixReadStream")]
+        internal static extern IntPtr fpixReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixReadMem")]
+        internal static extern IntPtr fpixReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixWrite")]
+        internal static extern int fpixWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef fpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixWriteStream")]
+        internal static extern int fpixWriteStream(IntPtr fp, HandleRef fpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixWriteMem")]
+        internal static extern int fpixWriteMem(out IntPtr pdata, IntPtr psize, HandleRef fpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixEndianByteSwap")]
+        internal static extern IntPtr fpixEndianByteSwap(HandleRef fpixd, HandleRef fpixs);
+
+        // DPix serialized I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixRead")]
+        internal static extern IntPtr dpixRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixReadStream")]
+        internal static extern IntPtr dpixReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixReadMem")]
+        internal static extern IntPtr dpixReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixWrite")]
+        internal static extern int dpixWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef dpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixWriteStream")]
+        internal static extern int dpixWriteStream(IntPtr fp, HandleRef dpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixWriteMem")]
+        internal static extern int dpixWriteMem(out IntPtr pdata, IntPtr psize, HandleRef dpix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dpixEndianByteSwap")]
+        internal static extern IntPtr dpixEndianByteSwap(HandleRef dpixd, HandleRef dpixs);
+
+        // Print FPix(subsampled, for debugging)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixPrintStream")]
+        internal static extern int fpixPrintStream(IntPtr fp, HandleRef fpix, int factor);
+        #endregion
+
         /*
-        internal static extern FPIX* fpixCreate(int width, int height);
-        internal static extern FPIX* fpixCreateTemplate(FPIX* fpixs);
-        internal static extern FPIX* fpixClone(FPIX* fpix);
-        internal static extern FPIX* fpixCopy(FPIX* fpixd, FPIX* fpixs);
-        internal static extern int fpixResizeImageData(FPIX* fpixd, FPIX* fpixs);
-        internal static extern void fpixDestroy(FPIX** pfpix);
-        internal static extern int fpixGetDimensions(FPIX* fpix, l_int32* pw, l_int32* ph);
-        internal static extern int fpixSetDimensions(FPIX* fpix, int w, int h);
-        internal static extern int fpixGetWpl(FPIX* fpix);
-        internal static extern int fpixSetWpl(FPIX* fpix, int wpl);
-        internal static extern int fpixGetRefcount(FPIX* fpix);
-        internal static extern int fpixChangeRefcount(FPIX* fpix, int delta);
-        internal static extern int fpixGetResolution(FPIX* fpix, l_int32* pxres, l_int32* pyres);
-        internal static extern int fpixSetResolution(FPIX* fpix, int xres, int yres);
-        internal static extern int fpixCopyResolution(FPIX* fpixd, FPIX* fpixs);
-        internal static extern l_float32* fpixGetData(FPIX* fpix);
-        internal static extern int fpixSetData(FPIX* fpix, l_float32* data);
-        internal static extern int fpixGetPixel(FPIX* fpix, int x, int y, l_float32* pval);
-        internal static extern int fpixSetPixel(FPIX* fpix, int x, int y, float val);
-        internal static extern FPIXA* fpixaCreate(int n);
-        internal static extern FPIXA* fpixaCopy(FPIXA* fpixa, int copyflag);
-        internal static extern void fpixaDestroy(FPIXA** pfpixa);
-        internal static extern int fpixaAddFPix(FPIXA* fpixa, FPIX* fpix, int copyflag);
-        internal static extern int fpixaGetCount(FPIXA* fpixa);
-        internal static extern int fpixaChangeRefcount(FPIXA* fpixa, int delta);
-        internal static extern FPIX* fpixaGetFPix(FPIXA* fpixa, int index, int accesstype);
-        internal static extern int fpixaGetFPixDimensions(FPIXA* fpixa, int index, l_int32* pw, l_int32* ph);
-        internal static extern l_float32* fpixaGetData(FPIXA* fpixa, int index);
-        internal static extern int fpixaGetPixel(FPIXA* fpixa, int index, int x, int y, l_float32* pval);
-        internal static extern int fpixaSetPixel(FPIXA* fpixa, int index, int x, int y, float val);
-        internal static extern DPIX* dpixCreate(int width, int height);
-        internal static extern DPIX* dpixCreateTemplate(DPIX* dpixs);
-        internal static extern DPIX* dpixClone(DPIX* dpix);
-        internal static extern DPIX* dpixCopy(DPIX* dpixd, DPIX* dpixs);
-        internal static extern int dpixResizeImageData(DPIX* dpixd, DPIX* dpixs);
-        internal static extern void dpixDestroy(DPIX** pdpix);
-        internal static extern int dpixGetDimensions(DPIX* dpix, l_int32* pw, l_int32* ph);
-        internal static extern int dpixSetDimensions(DPIX* dpix, int w, int h);
-        internal static extern int dpixGetWpl(DPIX* dpix);
-        internal static extern int dpixSetWpl(DPIX* dpix, int wpl);
-        internal static extern int dpixGetRefcount(DPIX* dpix);
-        internal static extern int dpixChangeRefcount(DPIX* dpix, int delta);
-        internal static extern int dpixGetResolution(DPIX* dpix, l_int32* pxres, l_int32* pyres);
-        internal static extern int dpixSetResolution(DPIX* dpix, int xres, int yres);
-        internal static extern int dpixCopyResolution(DPIX* dpixd, DPIX* dpixs);
-        internal static extern l_float64* dpixGetData(DPIX* dpix);
-        internal static extern int dpixSetData(DPIX* dpix, l_float64* data);
-        internal static extern int dpixGetPixel(DPIX* dpix, int x, int y, l_float64* pval);
-        internal static extern int dpixSetPixel(DPIX* dpix, int x, int y, double val);
-        internal static extern FPIX* fpixRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern FPIX* fpixReadStream(IntPtr fp);
-        internal static extern FPIX* fpixReadMem(IntPtr data, IntPtr size);
-        internal static extern int fpixWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, FPIX *fpix );
-         internal static extern int fpixWriteStream(IntPtr fp, FPIX* fpix);
-        internal static extern int fpixWriteMem(l_uint8** pdata, IntPtr psize, FPIX* fpix);
-        internal static extern FPIX* fpixEndianByteSwap(FPIX* fpixd, FPIX* fpixs);
-        internal static extern DPIX* dpixRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern DPIX* dpixReadStream(IntPtr fp);
-        internal static extern DPIX* dpixReadMem(IntPtr data, IntPtr size);
-        internal static extern int dpixWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, DPIX *dpix );
-         internal static extern int dpixWriteStream(IntPtr fp, DPIX* dpix);
-        internal static extern int dpixWriteMem(l_uint8** pdata, IntPtr psize, DPIX* dpix);
-        internal static extern DPIX* dpixEndianByteSwap(DPIX* dpixd, DPIX* dpixs);
-        internal static extern int fpixPrintStream(IntPtr fp, FPIX* fpix, int factor);
         internal static extern FPIX* pixConvertToFPix(PIX* pixs, int ncomps);
         internal static extern DPIX* pixConvertToDPix(PIX* pixs, int ncomps);
         internal static extern PIX* fpixConvertToPix(FPIX* fpixs, int outdepth, int negvals, int errorflag);
