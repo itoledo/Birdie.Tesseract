@@ -1723,44 +1723,83 @@ namespace Leptonica.Native
 
         #region correlscore.c
         // Optimized 2 pix correlators(for jbig2 clustering)
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gaussDistribSampling")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCorrelationScore")]
         internal static extern int pixCorrelationScore(HandleRef pix1, HandleRef pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, out int tab, out float pscore);
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gaussDistribSampling")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCorrelationScoreThresholded")]
         internal static extern int pixCorrelationScoreThresholded(HandleRef pix1, HandleRef pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, out int tab, out int downcount, float score_threshold);
 
         // Simple 2 pix correlators
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gaussDistribSampling")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCorrelationScoreSimple")]
         internal static extern int pixCorrelationScoreSimple(HandleRef pix1, HandleRef pix2, int area1, int area2, float delx, float dely, int maxdiffw, int maxdiffh, out int tab, out float pscore);
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gaussDistribSampling")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCorrelationScoreShifted")]
         internal static extern int pixCorrelationScoreShifted(HandleRef pix1, HandleRef pix2, int area1, int area2, int delx, int dely, out int tab, out float pscore);
         #endregion
 
+        #region dewarp1.c 
+        // Create/destroy dewarp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpCreate")]
+        internal static extern IntPtr dewarpCreate(HandleRef pixs, int pageno);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpCreateRef")]
+        internal static extern IntPtr dewarpCreateRef(int pageno, int refpage);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpDestroy")]
+        internal static extern void dewarpDestroy(ref IntPtr pdew);
+
+        // Create/destroy dewarpa
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaCreate")]
+        internal static extern IntPtr dewarpaCreate(int nptrs, int sampling, int redfactor, int minlines, int maxdist);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaCreateFromPixacomp")]
+        internal static extern IntPtr dewarpaCreateFromPixacomp(HandleRef pixac, int useboth, int sampling, int minlines, int maxdist);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaDestroy")]
+        internal static extern void dewarpaDestroy(ref IntPtr pdewa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaDestroyDewarp")]
+        internal static extern int dewarpaDestroyDewarp(ref IntPtr dewa, int pageno);
+
+        // Dewarpa insertion/extraction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaInsertDewarp")]
+        internal static extern int dewarpaInsertDewarp(HandleRef dewa, HandleRef dew);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaGetDewarp")]
+        internal static extern IntPtr dewarpaGetDewarp(HandleRef dewa, int index);
+
+        // Setting parameters to control rendering from the model
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaSetCurvatures")]
+        internal static extern int dewarpaSetCurvatures(HandleRef dewa, int max_linecurv, int min_diff_linecurv, int max_diff_linecurv, int max_edgecurv, int max_diff_edgecurv, int max_edgeslope);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaUseBothArrays")]
+        internal static extern int dewarpaUseBothArrays(HandleRef dewa, int useboth);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaSetCheckColumns")]
+        internal static extern int dewarpaSetCheckColumns(HandleRef dewa, int check_columns);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaSetMaxDistance")]
+        internal static extern int dewarpaSetMaxDistance(HandleRef dewa, int maxdist);
+
+        // Dewarp serialized I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpRead")]
+        internal static extern IntPtr dewarpRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpReadStream")]
+        internal static extern IntPtr dewarpReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpReadMem")]
+        internal static extern IntPtr dewarpReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpWrite")]
+        internal static extern int dewarpWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef dew);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpWriteStream")]
+        internal static extern int dewarpWriteStream(IntPtr fp, HandleRef dew);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpWriteMem")]
+        internal static extern int dewarpWriteMem(out IntPtr pdata, IntPtr psize, HandleRef dew);
+
+        // Dewarpa serialized I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaRead")]
+        internal static extern IntPtr dewarpaRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaReadStream")]
+        internal static extern IntPtr dewarpaReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaReadMem")]
+        internal static extern IntPtr dewarpaReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaWrite")]
+        internal static extern int dewarpaWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef dewa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaWriteStream")]
+        internal static extern int dewarpaWriteStream(IntPtr fp, HandleRef dewa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaWriteMem")]
+        internal static extern int dewarpaWriteMem(out IntPtr pdata, IntPtr psize, HandleRef dewa);
+        #endregion
+
         /* 
-         internal static  extern L_DEWARP* dewarpCreate(PIX* pixs, int pageno);
-         internal static  extern L_DEWARP* dewarpCreateRef(int pageno, int refpage);
-         internal static  extern void dewarpDestroy(L_DEWARP** pdew);
-         internal static  extern L_DEWARPA* dewarpaCreate(int nptrs, int sampling, int redfactor, int minlines, int maxdist);
-         internal static  extern L_DEWARPA* dewarpaCreateFromPixacomp(PIXAC* pixac, int useboth, int sampling, int minlines, int maxdist);
-         internal static  extern void dewarpaDestroy(L_DEWARPA** pdewa);
-         internal static  extern int dewarpaDestroyDewarp(L_DEWARPA* dewa, int pageno);
-         internal static  extern int dewarpaInsertDewarp(L_DEWARPA* dewa, L_DEWARP* dew);
-         internal static  extern L_DEWARP* dewarpaGetDewarp(L_DEWARPA* dewa, int index);
-         internal static  extern int dewarpaSetCurvatures(L_DEWARPA* dewa, int max_linecurv, int min_diff_linecurv, int max_diff_linecurv, int max_edgecurv, int max_diff_edgecurv, int max_edgeslope);
-         internal static  extern int dewarpaUseBothArrays(L_DEWARPA* dewa, int useboth);
-         internal static  extern int dewarpaSetCheckColumns(L_DEWARPA* dewa, int check_columns);
-         internal static  extern int dewarpaSetMaxDistance(L_DEWARPA* dewa, int maxdist);
-         internal static  extern L_DEWARP* dewarpRead( const char* filename );
-         internal static  extern L_DEWARP* dewarpReadStream( IntPtr fp);
-         internal static  extern L_DEWARP* dewarpReadMem( IntPtr data, IntPtr size );
-         internal static  extern int dewarpWrite( const char* filename, L_DEWARP *dew );
-         internal static  extern int dewarpWriteStream( IntPtr fp, L_DEWARP* dew);
-         internal static  extern int dewarpWriteMem(l_uint8** pdata, IntPtr psize, L_DEWARP* dew);
-         internal static  extern L_DEWARPA* dewarpaRead( const char* filename );
-         internal static  extern L_DEWARPA* dewarpaReadStream( IntPtr fp);
-         internal static  extern L_DEWARPA* dewarpaReadMem( IntPtr data, IntPtr size );
-         internal static  extern int dewarpaWrite( const char* filename, L_DEWARPA *dewa );
-         internal static  extern int dewarpaWriteStream( IntPtr fp, L_DEWARPA* dewa);
-         internal static  extern int dewarpaWriteMem(l_uint8** pdata, IntPtr psize, L_DEWARPA* dewa);
          internal static  extern int dewarpBuildPageModel(L_DEWARP* dew, const char* debugfile );
          internal static  extern int dewarpFindVertDisparity(L_DEWARP* dew, PTAA* ptaa, int rotflag);
          internal static  extern int dewarpFindHorizDisparity(L_DEWARP* dew, PTAA* ptaa);
