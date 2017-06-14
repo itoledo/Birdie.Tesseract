@@ -56,6 +56,10 @@
     <Compile Include="Definitions\ColorQuant\OctcubeQuantCell.cs" />
     <Compile Include="Definitions\Dewarp\L_Dewarp.cs" />
     <Compile Include="Definitions\Dewarp\L_Dewarpa.cs" />
+    <Compile Include="Definitions\Environ\ControlPrintingOfErrorWarningAndInfoMessages.cs" />
+    <Compile Include="Definitions\Environ\L_WallTimer.cs" />
+    <Compile Include="Definitions\Environ\PathSeparatorConversion.cs" />
+    <Compile Include="Definitions\Environ\SimpleSearchStateVariables.cs" />
     <Compile Include="Definitions\JBClass\ClassifierMethods.cs" />
     <Compile Include="Definitions\JBClass\ForJbGetComponentsYypeOfComponentToExtractFromImages.cs" />
     <Compile Include="Definitions\JBClass\JbClasser.cs" />
