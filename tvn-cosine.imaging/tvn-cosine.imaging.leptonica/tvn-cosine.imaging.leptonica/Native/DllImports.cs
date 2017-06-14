@@ -1799,15 +1799,33 @@ namespace Leptonica.Native
         internal static extern int dewarpaWriteMem(out IntPtr pdata, IntPtr psize, HandleRef dewa);
         #endregion
 
+        #region dewarp2.c
+        // Build basic page disparity model
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpBuildPageModel")]
+        internal static extern int dewarpBuildPageModel(HandleRef dew, [MarshalAs(UnmanagedType.AnsiBStr)] string debugfile );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpFindVertDisparity")]
+        internal static extern int dewarpFindVertDisparity(HandleRef dew, HandleRef ptaa, int rotflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpFindHorizDisparity")]
+        internal static extern int dewarpFindHorizDisparity(HandleRef dew, HandleRef ptaa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpGetTextlineCenters")]
+        internal static extern IntPtr dewarpGetTextlineCenters(HandleRef pixs, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpRemoveShortLines")]
+        internal static extern IntPtr dewarpRemoveShortLines(HandleRef pixs, HandleRef ptaas, float fract, int debugflag);
+
+        // Build disparity model for slope near binding
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpFindHorizSlopeDisparity")]
+        internal static extern int dewarpFindHorizSlopeDisparity(HandleRef dew, HandleRef pixb, float fractthresh, int parity);
+
+        // Build the line disparity model
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpBuildLineModel")]
+        internal static extern int dewarpBuildLineModel(HandleRef dew, int opensize, [MarshalAs(UnmanagedType.AnsiBStr)] string debugfile );
+
+        // Query model status
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "dewarpaModelStatus")]
+        internal static extern int dewarpaModelStatus(HandleRef dewa, int pageno, out int pvsuccess, out int phsuccess);
+        #endregion
+
         /* 
-         internal static  extern int dewarpBuildPageModel(L_DEWARP* dew, const char* debugfile );
-         internal static  extern int dewarpFindVertDisparity(L_DEWARP* dew, PTAA* ptaa, int rotflag);
-         internal static  extern int dewarpFindHorizDisparity(L_DEWARP* dew, PTAA* ptaa);
-         internal static  extern PTAA* dewarpGetTextlineCenters(PIX* pixs, int debugflag);
-         internal static  extern PTAA* dewarpRemoveShortLines(PIX* pixs, PTAA* ptaas, float fract, int debugflag);
-         internal static  extern int dewarpFindHorizSlopeDisparity(L_DEWARP* dew, PIX* pixb, float fractthresh, int parity);
-         internal static  extern int dewarpBuildLineModel(L_DEWARP* dew, int opensize, const char* debugfile );
-         internal static  extern int dewarpaModelStatus(L_DEWARPA* dewa, int pageno, l_int32* pvsuccess, l_int32* phsuccess);
          internal static  extern int dewarpaApplyDisparity(L_DEWARPA* dewa, int pageno, PIX* pixs, int grayin, int x, int y, PIX** ppixd, const char* debugfile );
          internal static  extern int dewarpaApplyDisparityBoxa(L_DEWARPA* dewa, int pageno, PIX* pixs, HandleRef boxas, int mapdir, int x, int y, BOXA** pboxad, const char* debugfile );
          internal static  extern int dewarpMinimize(L_DEWARP* dew);
