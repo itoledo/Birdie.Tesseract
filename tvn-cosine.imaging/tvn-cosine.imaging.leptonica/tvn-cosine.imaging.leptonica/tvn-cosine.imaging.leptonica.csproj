@@ -76,6 +76,7 @@
     <Compile Include="Definitions\JBClass\ForJbGetComponentsYypeOfComponentToExtractFromImages.cs" />
     <Compile Include="Definitions\JBClass\JbClasser.cs" />
     <Compile Include="Definitions\JBClass\JbData.cs" />
+    <Compile Include="Definitions\List\DoubleLinkedList.cs" />
     <Compile Include="Definitions\RBTree\L_AMap.cs" />
     <Compile Include="Definitions\RBTree\L_AMap_Node.cs" />
     <Compile Include="Definitions\RBTree\L_ASet.cs" />
@@ -221,6 +222,9 @@
     <Compile Include="Implementations\JpegIO.cs" />
     <Compile Include="Implementations\Jpk2IO.cs" />
     <Compile Include="Implementations\Kernel.cs" />
+    <Compile Include="Implementations\LibVersions.cs" />
+    <Compile Include="Implementations\List.cs" />
+    <Compile Include="Implementations\Map.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

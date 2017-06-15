@@ -3030,42 +3030,92 @@ namespace Leptonica.Native
         internal static extern IntPtr makeDoGKernel(int halfheight, int halfwidth, float stdev, float ratio);
         #endregion
 
+        #region libversions.c
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getImagelibVersions")]
+        internal static extern IntPtr getImagelibVersions();
+        #endregion
+
+        #region list.c 
+        // Inserting and removing elements 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listDestroy")]
+        internal static extern void listDestroy(ref IntPtr phead);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listAddToHead")]
+        internal static extern int listAddToHead(out IntPtr phead, IntPtr data);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listAddToTail")]
+        internal static extern int listAddToTail(out IntPtr phead, out IntPtr ptail, IntPtr data);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listInsertBefore")]
+        internal static extern int listInsertBefore(out IntPtr phead, HandleRef elem, IntPtr data);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listInsertAfter")]
+        internal static extern int listInsertAfter(out IntPtr phead, HandleRef elem, IntPtr data);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listRemoveElement")]
+        internal static extern IntPtr listRemoveElement(out IntPtr phead, HandleRef elem);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listRemoveFromHead")]
+        internal static extern IntPtr listRemoveFromHead(out IntPtr phead);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listRemoveFromTail")]
+        internal static extern IntPtr listRemoveFromTail(out IntPtr phead, out IntPtr ptail);
+
+        // Other list operations 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listFindElement")]
+        internal static extern IntPtr listFindElement(HandleRef head, IntPtr data);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listFindTail")]
+        internal static extern IntPtr listFindTail(HandleRef head);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listGetCount")]
+        internal static extern int listGetCount(HandleRef head);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listReverse")]
+        internal static extern int listReverse(out IntPtr phead);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "listJoin")]
+        internal static extern int listJoin(out IntPtr phead1, out IntPtr phead2);
+
+        #endregion
+
+        #region map.c
+        // Interface to(a) map using a general key and storing general values
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_amapCreate")]
+        internal static extern IntPtr l_amapCreate(int keytype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_amapFind")]
+        internal static extern IntPtr l_amapFind(HandleRef m, HandleRef key);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_amapInsert")]
+        internal static extern void l_amapInsert(HandleRef m, HandleRef key, HandleRef value);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_amapDelete")]
+        internal static extern void l_amapDelete(HandleRef m, HandleRef key);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_amapDestroy")]
+        internal static extern void l_amapDestroy(ref IntPtr pm);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_amapGetFirst")]
+        internal static extern IntPtr l_amapGetFirst(HandleRef m);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_amapGetNext")]
+        internal static extern IntPtr l_amapGetNext(HandleRef n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_amapGetLast")]
+        internal static extern IntPtr l_amapGetLast(HandleRef m);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_amapGetPrev")]
+        internal static extern IntPtr l_amapGetPrev(HandleRef n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_amapSize")]
+        internal static extern int l_amapSize(HandleRef m);
+
+        // Interface to(a) set using a general key
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetCreate")]
+        internal static extern IntPtr l_asetCreate(int keytype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetFind")]
+        internal static extern IntPtr l_asetFind(HandleRef s, HandleRef key);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetInsert")]
+        internal static extern void l_asetInsert(HandleRef s, HandleRef key);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetDelete")]
+        internal static extern void l_asetDelete(HandleRef s, HandleRef key);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetDestroy")]
+        internal static extern void l_asetDestroy(ref IntPtr ps);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetGetFirst")]
+        internal static extern IntPtr l_asetGetFirst(HandleRef s);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetGetNext")]
+        internal static extern IntPtr l_asetGetNext(HandleRef n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetGetLast")]
+        internal static extern IntPtr l_asetGetLast(HandleRef s);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetGetPrev")]
+        internal static extern IntPtr l_asetGetPrev(HandleRef n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetSize")]
+        internal static extern int l_asetSize(HandleRef s);
+        #endregion
+
         /*
 
-        internal static extern IntPtr  getImagelibVersions();
-        internal static extern void listDestroy(DLLIST** phead);
-        internal static extern int listAddToHead(DLLIST** phead, void* data);
-        internal static extern int listAddToTail(DLLIST** phead, DLLIST** ptail, void* data);
-        internal static extern int listInsertBefore(DLLIST** phead, DLLIST* elem, void* data);
-        internal static extern int listInsertAfter(DLLIST** phead, DLLIST* elem, void* data);
-        internal static extern void* listRemoveElement(DLLIST** phead, DLLIST* elem);
-        internal static extern void* listRemoveFromHead(DLLIST** phead);
-        internal static extern void* listRemoveFromTail(DLLIST** phead, DLLIST** ptail);
-        internal static extern DLLIST* listFindElement(DLLIST* head, void* data);
-        internal static extern DLLIST* listFindTail(DLLIST* head);
-        internal static extern int listGetCount(DLLIST* head);
-        internal static extern int listReverse(DLLIST** phead);
-        internal static extern int listJoin(DLLIST** phead1, DLLIST** phead2);
-        internal static extern L_AMAP* l_amapCreate(int keytype);
-        internal static extern RB_TYPE* l_amapFind(L_AMAP* m, RB_TYPE key);
-        internal static extern void l_amapInsert(L_AMAP* m, RB_TYPE key, RB_TYPE value);
-        internal static extern void l_amapDelete(L_AMAP* m, RB_TYPE key);
-        internal static extern void l_amapDestroy(L_AMAP** pm);
-        internal static extern L_AMAP_NODE* l_amapGetFirst(L_AMAP* m);
-        internal static extern L_AMAP_NODE* l_amapGetNext(L_AMAP_NODE* n);
-        internal static extern L_AMAP_NODE* l_amapGetLast(L_AMAP* m);
-        internal static extern L_AMAP_NODE* l_amapGetPrev(L_AMAP_NODE* n);
-        internal static extern int l_amapSize(L_AMAP* m);
-        internal static extern L_ASET* l_asetCreate(int keytype);
-        internal static extern RB_TYPE* l_asetFind(L_ASET* s, RB_TYPE key);
-        internal static extern void l_asetInsert(L_ASET* s, RB_TYPE key);
-        internal static extern void l_asetDelete(L_ASET* s, RB_TYPE key);
-        internal static extern void l_asetDestroy(L_ASET** ps);
-        internal static extern L_ASET_NODE* l_asetGetFirst(L_ASET* s);
-        internal static extern L_ASET_NODE* l_asetGetNext(L_ASET_NODE* n);
-        internal static extern L_ASET_NODE* l_asetGetLast(L_ASET* s);
-        internal static extern L_ASET_NODE* l_asetGetPrev(L_ASET_NODE* n);
-        internal static extern int l_asetSize(L_ASET* s);
         internal static extern PIX* generateBinaryMaze(int w, int h, int xi, int yi, float wallps, float ranis);
         internal static extern PTA* pixSearchBinaryMaze(PIX* pixs, int xi, int yi, int xf, int yf, PIX** ppixd);
         internal static extern PTA* pixSearchGrayMaze(PIX* pixs, int xi, int yi, int xf, int yf, PIX** ppixd);
