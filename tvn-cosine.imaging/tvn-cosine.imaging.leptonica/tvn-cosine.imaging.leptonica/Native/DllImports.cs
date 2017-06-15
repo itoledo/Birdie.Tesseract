@@ -2759,27 +2759,71 @@ namespace Leptonica.Native
         internal static extern IntPtr pixGrayQuantFromCmap(HandleRef pixs, HandleRef cmap, int mindepth);
         #endregion
 
+        #region grayquantlow.c
+        // Floyd-Steinberg dithering to binary
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ditherToBinaryLow")]
+        internal static extern void ditherToBinaryLow(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, IntPtr bufs1, IntPtr bufs2, int lowerclip, int upperclip);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ditherToBinaryLineLow")]
+        internal static extern void ditherToBinaryLineLow(IntPtr lined, int w, IntPtr bufs1, IntPtr bufs2, int lowerclip, int upperclip, int lastlineflag);
+
+        // Simple(pixelwise) binarization
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "thresholdToBinaryLow")]
+        internal static extern void thresholdToBinaryLow(IntPtr datad, int w, int h, int wpld, IntPtr datas, int d, int wpls, int thresh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "thresholdToBinaryLineLow")]
+        internal static extern void thresholdToBinaryLineLow(IntPtr lined, int w, IntPtr lines, int d, int thresh);
+
+        // Thresholding from 8 bpp to 2 bpp 
+        // Floyd-Steinberg-like dithering to 2 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ditherTo2bppLow")]
+        internal static extern void ditherTo2bppLow(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, IntPtr bufs1, IntPtr bufs2, IntPtr tabval, IntPtr tab38, IntPtr tab14);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ditherTo2bppLineLow")]
+        internal static extern void ditherTo2bppLineLow(IntPtr lined, int w, IntPtr bufs1, IntPtr bufs2, IntPtr tabval, IntPtr tab38, IntPtr tab14, int lastlineflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "make8To2DitherTables")]
+        internal static extern int make8To2DitherTables(out IntPtr ptabval, out IntPtr ptab38, out IntPtr ptab14, int cliptoblack, int cliptowhite);
+
+        // Simple thresholding to 2 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "thresholdTo2bppLow")]
+        internal static extern void thresholdTo2bppLow(IntPtr datad, int h, int wpld, IntPtr datas, int wpls, IntPtr tab);
+         
+        // Simple thresholding to 4 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "thresholdTo4bppLow")]
+        internal static extern void thresholdTo4bppLow(IntPtr datad, int h, int wpld, IntPtr datas, int wpls, IntPtr tab);
+        #endregion
+
+        #region heap.c
+        // Create/Destroy L_Heap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lheapCreate")]
+        internal static extern IntPtr lheapCreate(int nalloc, int direction);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lheapDestroy")]
+        internal static extern void lheapDestroy(ref IntPtr plh, int freeflag);
+
+        // Operations to add/remove to/from the heap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lheapAdd")]
+        internal static extern int lheapAdd(HandleRef lh, IntPtr item);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lheapRemove")]
+        internal static extern IntPtr lheapRemove(HandleRef lh);
+
+        // Heap operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lheapSwapUp")]
+        internal static extern int lheapSwapUp(HandleRef lh, int index);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lheapSwapDown")]
+        internal static extern int lheapSwapDown(HandleRef lh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lheapSort")]
+        internal static extern int lheapSort(HandleRef lh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lheapSortStrictOrder")]
+        internal static extern int lheapSortStrictOrder(HandleRef lh);
+
+        // Accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lheapGetCount")]
+        internal static extern int lheapGetCount(HandleRef lh);
+
+        // Debug output
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lheapPrint")]
+        internal static extern int lheapPrint(IntPtr fp, HandleRef lh);
+        #endregion
+
         /*
 
-        internal static extern void ditherToBinaryLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, l_uint32* bufs1, l_uint32* bufs2, int lowerclip, int upperclip);
-        internal static extern void ditherToBinaryLineLow(l_uint32* lined, int w, l_uint32* bufs1, l_uint32* bufs2, int lowerclip, int upperclip, int lastlineflag);
-        internal static extern void thresholdToBinaryLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int d, int wpls, int thresh);
-        internal static extern void thresholdToBinaryLineLow(l_uint32* lined, int w, l_uint32* lines, int d, int thresh);
-        internal static extern void ditherTo2bppLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, l_uint32* bufs1, l_uint32* bufs2, l_int32* tabval, l_int32* tab38, l_int32* tab14);
-        internal static extern void ditherTo2bppLineLow(l_uint32* lined, int w, l_uint32* bufs1, l_uint32* bufs2, l_int32* tabval, l_int32* tab38, l_int32* tab14, int lastlineflag);
-        internal static extern int make8To2DitherTables(l_int32** ptabval, l_int32** ptab38, l_int32** ptab14, int cliptoblack, int cliptowhite);
-        internal static extern void thresholdTo2bppLow(l_uint32* datad, int h, int wpld, l_uint32* datas, int wpls, l_int32* tab);
-        internal static extern void thresholdTo4bppLow(l_uint32* datad, int h, int wpld, l_uint32* datas, int wpls, l_int32* tab);
-        internal static extern L_HEAP* lheapCreate(int nalloc, int direction);
-        internal static extern void lheapDestroy(L_HEAP** plh, int freeflag);
-        internal static extern int lheapAdd(L_HEAP* lh, void* item);
-        internal static extern void* lheapRemove(L_HEAP* lh);
-        internal static extern int lheapGetCount(L_HEAP* lh);
-        internal static extern int lheapSwapUp(L_HEAP* lh, int index);
-        internal static extern int lheapSwapDown(L_HEAP* lh);
-        internal static extern int lheapSort(L_HEAP* lh);
-        internal static extern int lheapSortStrictOrder(L_HEAP* lh);
-        internal static extern int lheapPrint(IntPtr fp, L_HEAP* lh);
         internal static extern JBCLASSER* jbRankHausInit(int components, int maxwidth, int maxheight, int size, float rank);
         internal static extern JBCLASSER* jbCorrelationInit(int components, int maxwidth, int maxheight, float thresh, float weightfactor);
         internal static extern JBCLASSER* jbCorrelationInitWithoutComponents(int components, int maxwidth, int maxheight, float thresh, float weightfactor);

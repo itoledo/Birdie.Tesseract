@@ -64,6 +64,7 @@
     <Compile Include="Definitions\GPlot\GPLOT_OUTPUT.cs" />
     <Compile Include="Definitions\GPlot\GPLOT_SCALING.cs" />
     <Compile Include="Definitions\GPlot\GPLOT_STYLE.cs" />
+    <Compile Include="Definitions\Heap\L_Heap.cs" />
     <Compile Include="Definitions\JBClass\ClassifierMethods.cs" />
     <Compile Include="Definitions\JBClass\ForJbGetComponentsYypeOfComponentToExtractFromImages.cs" />
     <Compile Include="Definitions\JBClass\JbClasser.cs" />
@@ -206,6 +207,8 @@
     <Compile Include="Implementations\Graphics.cs" />
     <Compile Include="Implementations\GrayMorph.cs" />
     <Compile Include="Implementations\GrayQuant.cs" />
+    <Compile Include="Implementations\GrayQuantLow.cs" />
+    <Compile Include="Implementations\Heap.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
