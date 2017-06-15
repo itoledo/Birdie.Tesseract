@@ -3284,15 +3284,38 @@ namespace Leptonica.Native
         internal static extern int getExtendedCompositeParameters(int size, out int pn, out int pextra, out int pactualsize);
         #endregion
 
+        #region morphseq.c
+        // Run a sequence of binary rasterop morphological operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMorphSequence")]
+        internal static extern IntPtr pixMorphSequence(HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep);
+
+        // Run a sequence of binary composite rasterop morphological operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMorphCompSequence")]
+        internal static extern IntPtr pixMorphCompSequence(HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep);
+
+        // Run a sequence of binary dwa morphological operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMorphSequenceDwa")]
+        internal static extern IntPtr pixMorphSequenceDwa(HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep);
+
+        // Run a sequence of binary composite dwa morphological operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMorphCompSequenceDwa")]
+        internal static extern IntPtr pixMorphCompSequenceDwa(HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep);
+
+        // Parser verifier for binary morphological operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "morphSequenceVerify")]
+        internal static extern int morphSequenceVerify(HandleRef sa);
+
+        // Run a sequence of grayscale morphological operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGrayMorphSequence")]
+        internal static extern IntPtr pixGrayMorphSequence(HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep, int dispy);
+
+        // Run a sequence of color morphological operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorMorphSequence")]
+        internal static extern IntPtr pixColorMorphSequence(HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep, int dispy);
+        #endregion
+
         /*
 
-        internal static extern PIX* pixMorphSequence(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep );
-        internal static extern PIX* pixMorphCompSequence(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep );
-        internal static extern PIX* pixMorphSequenceDwa(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep );
-        internal static extern PIX* pixMorphCompSequenceDwa(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep );
-        internal static extern int morphSequenceVerify(SARRAY* sa);
-        internal static extern PIX* pixGrayMorphSequence(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep, int dispy );
-        internal static extern PIX* pixColorMorphSequence(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep, int dispy );
         internal static extern NUMA* numaCreate(int n);
         internal static extern NUMA* numaCreateFromIArray(l_int32* iarray, int size);
         internal static extern NUMA* numaCreateFromFArray(l_float32* farray, int size, int copyflag);
