@@ -3180,29 +3180,78 @@ namespace Leptonica.Native
         internal static extern uint getMorphBorderPixelColor(int type, int depth);
         #endregion
 
+        #region morphapp.c
+        // Extraction of boundary pixels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExtractBoundary")]
+        internal static extern IntPtr pixExtractBoundary(HandleRef pixs, int type);
+
+        // Selective morph sequence operation under mask
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMorphSequenceMasked")]
+        internal static extern IntPtr pixMorphSequenceMasked(HandleRef pixs, HandleRef pixm, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep);
+
+        // Selective morph sequence operation on each component
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMorphSequenceByComponent")]
+        internal static extern IntPtr pixMorphSequenceByComponent(HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int connectivity, int minw, int minh, out IntPtr pboxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaMorphSequenceByComponent")]
+        internal static extern IntPtr pixaMorphSequenceByComponent(HandleRef pixas, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int minw, int minh);
+
+        // Selective morph sequence operation on each region
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMorphSequenceByRegion")]
+        internal static extern IntPtr pixMorphSequenceByRegion(HandleRef pixs, HandleRef pixm, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int connectivity, int minw, int minh, out IntPtr pboxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaMorphSequenceByRegion")]
+        internal static extern IntPtr pixaMorphSequenceByRegion(HandleRef pixs, HandleRef pixam, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int minw, int minh);
+
+        // Union and intersection of parallel composite operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUnionOfMorphOps")]
+        internal static extern IntPtr pixUnionOfMorphOps(HandleRef pixs, HandleRef sela, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixIntersectionOfMorphOps")]
+        internal static extern IntPtr pixIntersectionOfMorphOps(HandleRef pixs, HandleRef sela, int type);
+
+        // Selective connected component filling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSelectiveConnCompFill")]
+        internal static extern IntPtr pixSelectiveConnCompFill(HandleRef pixs, int connectivity, int minw, int minh);
+
+        // Removal of matched patterns
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRemoveMatchedPattern")]
+        internal static extern int pixRemoveMatchedPattern(HandleRef pixs, HandleRef pixp, HandleRef pixe, int x0, int y0, int dsize);
+
+        // Display of matched patterns
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDisplayMatchedPattern")]
+        internal static extern IntPtr pixDisplayMatchedPattern(HandleRef pixs, HandleRef pixp, HandleRef pixe, int x0, int y0, uint color, float scale, int nlevels);
+
+        // Extension of pixa by iterative erosion or dilation(and by scaling)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaExtendByMorph")]
+        internal static extern IntPtr pixaExtendByMorph(HandleRef pixas, int type, int niters, HandleRef sel, int include);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaExtendByScaling")]
+        internal static extern IntPtr pixaExtendByScaling(HandleRef pixas, HandleRef nasc, int type, int include);
+
+        // Iterative morphological seed filling(don't use for real work)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfillMorph")]
+        internal static extern IntPtr pixSeedfillMorph(HandleRef pixs, HandleRef pixm, int maxiters, int connectivity);
+
+        // Granulometry on binary images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRunHistogramMorph")]
+        internal static extern IntPtr pixRunHistogramMorph(HandleRef pixs, int runtype, int direction, int maxsize);
+
+        // Composite operations on grayscale images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTophat")]
+        internal static extern IntPtr pixTophat(HandleRef pixs, int hsize, int vsize, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHDome")]
+        internal static extern IntPtr pixHDome(HandleRef pixs, int height, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFastTophat")]
+        internal static extern IntPtr pixFastTophat(HandleRef pixs, int xsize, int ysize, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMorphGradient")]
+        internal static extern IntPtr pixMorphGradient(HandleRef pixs, int hsize, int vsize, int smoothing);
+
+        // Centroid of component
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaCentroids")]
+        internal static extern IntPtr pixaCentroids(HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCentroid")]
+        internal static extern int pixCentroid(HandleRef pix, IntPtr centtab, IntPtr sumtab, out float pxave, out float pyave);
+        #endregion
+
         /*
 
-        internal static extern PIX* pixExtractBoundary(PIX* pixs, int type);
-        internal static extern PIX* pixMorphSequenceMasked(PIX* pixs, PIX* pixm,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep );
-        internal static extern PIX* pixMorphSequenceByComponent(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int connectivity, int minw, int minh, BOXA** pboxa );
-         internal static extern HandleRef pixaMorphSequenceByComponent(PIXA* pixas,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int minw, int minh );
-        internal static extern PIX* pixMorphSequenceByRegion(PIX* pixs, PIX* pixm,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int connectivity, int minw, int minh, BOXA** pboxa );
-         internal static extern HandleRef pixaMorphSequenceByRegion(PIX* pixs, HandleRef pixam,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int minw, int minh );
-        internal static extern PIX* pixUnionOfMorphOps(PIX* pixs, SELA* sela, int type);
-        internal static extern PIX* pixIntersectionOfMorphOps(PIX* pixs, SELA* sela, int type);
-        internal static extern PIX* pixSelectiveConnCompFill(PIX* pixs, int connectivity, int minw, int minh);
-        internal static extern int pixRemoveMatchedPattern(PIX* pixs, PIX* pixp, PIX* pixe, int x0, int y0, int dsize);
-        internal static extern PIX* pixDisplayMatchedPattern(PIX* pixs, PIX* pixp, PIX* pixe, int x0, int y0, uint color, float scale, int nlevels);
-        internal static extern HandleRef pixaExtendByMorph(PIXA* pixas, int type, int niters, SEL* sel, int include);
-        internal static extern HandleRef pixaExtendByScaling(PIXA* pixas, NUMA* nasc, int type, int include);
-        internal static extern PIX* pixSeedfillMorph(PIX* pixs, PIX* pixm, int maxiters, int connectivity);
-        internal static extern NUMA* pixRunHistogramMorph(PIX* pixs, int runtype, int direction, int maxsize);
-        internal static extern PIX* pixTophat(PIX* pixs, int hsize, int vsize, int type);
-        internal static extern PIX* pixHDome(PIX* pixs, int height, int connectivity);
-        internal static extern PIX* pixFastTophat(PIX* pixs, int xsize, int ysize, int type);
-        internal static extern PIX* pixMorphGradient(PIX* pixs, int hsize, int vsize, int smoothing);
-        internal static extern PTA* pixaCentroids(PIXA* pixa);
-        internal static extern int pixCentroid(PIX* pix, l_int32* centtab, l_int32* sumtab, l_float32* pxave, l_float32* pyave);
         internal static extern PIX* pixDilateBrickDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
         internal static extern PIX* pixErodeBrickDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
         internal static extern PIX* pixOpenBrickDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
