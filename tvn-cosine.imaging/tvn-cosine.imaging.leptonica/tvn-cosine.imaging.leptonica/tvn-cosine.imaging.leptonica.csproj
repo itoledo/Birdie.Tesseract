@@ -231,6 +231,7 @@
     <Compile Include="Implementations\MorphDwa.cs" />
     <Compile Include="Implementations\MorphSeq.cs" />
     <Compile Include="Implementations\NumaBasic.cs" />
+    <Compile Include="Implementations\NumaFunc1.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
