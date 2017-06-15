@@ -228,6 +228,7 @@
     <Compile Include="Implementations\Maze.cs" />
     <Compile Include="Implementations\Morph.cs" />
     <Compile Include="Implementations\MorphApp.cs" />
+    <Compile Include="Implementations\MorphDwa.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

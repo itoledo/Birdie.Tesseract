@@ -3250,21 +3250,42 @@ namespace Leptonica.Native
         internal static extern int pixCentroid(HandleRef pix, IntPtr centtab, IntPtr sumtab, out float pxave, out float pyave);
         #endregion
 
+        #region morphdwa.c 
+        // Binary morphological(dwa) ops with brick Sels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDilateBrickDwa")]
+        internal static extern IntPtr pixDilateBrickDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixErodeBrickDwa")]
+        internal static extern IntPtr pixErodeBrickDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOpenBrickDwa")]
+        internal static extern IntPtr pixOpenBrickDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseBrickDwa")]
+        internal static extern IntPtr pixCloseBrickDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+
+        // Binary composite morphological(dwa) ops with brick Sels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDilateCompBrickDwa")]
+        internal static extern IntPtr pixDilateCompBrickDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixErodeCompBrickDwa")]
+        internal static extern IntPtr pixErodeCompBrickDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOpenCompBrickDwa")]
+        internal static extern IntPtr pixOpenCompBrickDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseCompBrickDwa")]
+        internal static extern IntPtr pixCloseCompBrickDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+
+        // Binary extended composite morphological(dwa) ops with brick Sels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDilateCompBrickExtendDwa")]
+        internal static extern IntPtr pixDilateCompBrickExtendDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixErodeCompBrickExtendDwa")]
+        internal static extern IntPtr pixErodeCompBrickExtendDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOpenCompBrickExtendDwa")]
+        internal static extern IntPtr pixOpenCompBrickExtendDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseCompBrickExtendDwa")]
+        internal static extern IntPtr pixCloseCompBrickExtendDwa(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getExtendedCompositeParameters")]
+        internal static extern int getExtendedCompositeParameters(int size, out int pn, out int pextra, out int pactualsize);
+        #endregion
+
         /*
 
-        internal static extern PIX* pixDilateBrickDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixErodeBrickDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixOpenBrickDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixCloseBrickDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixDilateCompBrickDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixErodeCompBrickDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixOpenCompBrickDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixCloseCompBrickDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixDilateCompBrickExtendDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixErodeCompBrickExtendDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixOpenCompBrickExtendDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixCloseCompBrickExtendDwa(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern int getExtendedCompositeParameters(int size, l_int32* pn, l_int32* pextra, l_int32* pactualsize);
         internal static extern PIX* pixMorphSequence(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep );
         internal static extern PIX* pixMorphCompSequence(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep );
         internal static extern PIX* pixMorphSequenceDwa(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep );
