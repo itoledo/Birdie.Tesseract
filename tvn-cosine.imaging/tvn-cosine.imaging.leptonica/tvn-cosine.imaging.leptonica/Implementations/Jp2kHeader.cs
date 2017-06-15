@@ -1,9 +1,10 @@
-﻿using System; 
+﻿using System;
 
 namespace Leptonica
 {
     public static class Jp2kHeader
-    {  // Read header
+    {
+        // Read header
         public static int readHeaderJp2k(string filename, out int pw, out int ph, out int pbps, out int pspp)
         {
             if (string.IsNullOrWhiteSpace(filename))

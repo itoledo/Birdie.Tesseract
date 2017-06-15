@@ -2900,51 +2900,138 @@ namespace Leptonica.Native
         internal static extern int fgetJp2kResolution(IntPtr fp, out int pxres, out int pyres);
         #endregion
 
+        #region jp2kio.c
+        // Read jp2k from file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadJp2k")]
+        internal static extern IntPtr pixReadJp2k([MarshalAs(UnmanagedType.AnsiBStr)] string filename, uint reduction, HandleRef box, int hint, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadStreamJp2k")]
+        internal static extern IntPtr pixReadStreamJp2k(IntPtr fp, uint reduction, HandleRef box, int hint, int debug);
+
+        // Write jp2k to file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteJp2k")]
+        internal static extern int pixWriteJp2k([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pix, int quality, int nlevels, int hint, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamJp2k")]
+        internal static extern int pixWriteStreamJp2k(IntPtr fp, HandleRef pix, int quality, int nlevels, int hint, int debug);
+
+        // Read/write to memory
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadMemJp2k")]
+        internal static extern IntPtr pixReadMemJp2k(IntPtr data, IntPtr size, uint reduction, HandleRef box, int hint, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemJp2k")]
+        internal static extern int pixWriteMemJp2k(out IntPtr pdata, IntPtr psize, HandleRef pix, int quality, int nlevels, int hint, int debug);
+        #endregion
+
+        #region jpegio.c
+        // Read jpeg from file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadJpeg")]
+        internal static extern IntPtr pixReadJpeg([MarshalAs(UnmanagedType.AnsiBStr)] string filename, int cmapflag, int reduction, out int pnwarn, int hint);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadStreamJpeg")]
+        internal static extern IntPtr pixReadStreamJpeg(IntPtr fp, int cmapflag, int reduction, out int pnwarn, int hint);
+
+        // Read jpeg metadata from file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderJpeg")]
+        internal static extern int readHeaderJpeg([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pw, out int ph, out int pspp, out int pycck, out int pcmyk);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "freadHeaderJpeg")]
+        internal static extern int freadHeaderJpeg(IntPtr fp, out int pw, out int ph, out int pspp, out int pycck, out int pcmyk);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fgetJpegResolution")]
+        internal static extern int fgetJpegResolution(IntPtr fp, out int pxres, out int pyres);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fgetJpegComment")]
+        internal static extern int fgetJpegComment(IntPtr fp, out IntPtr pcomment);
+
+        // Write jpeg to file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteJpeg")]
+        internal static extern int pixWriteJpeg([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pix, int quality, int progressive);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamJpeg")]
+        internal static extern int pixWriteStreamJpeg(IntPtr fp, HandleRef pixs, int quality, int progressive);
+
+        // Read/write to memory
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadMemJpeg")]
+        internal static extern IntPtr pixReadMemJpeg(IntPtr data, IntPtr size, int cmflag, int reduction, out int pnwarn, int hint);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderMemJpeg")]
+        internal static extern int readHeaderMemJpeg(IntPtr data, IntPtr size, out int pw, out int ph, out int pspp, out int pycck, out int pcmyk);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemJpeg")]
+        internal static extern int pixWriteMemJpeg(out IntPtr pdata, IntPtr psize, HandleRef pix, int quality, int progressive);
+
+        // Setting special flag for chroma sampling on write
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetChromaSampling")]
+        internal static extern int pixSetChromaSampling(HandleRef pix, int sampling);
+        #endregion
+
+        #region kernel.c
+        // Create/destroy/copy
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelCreate")]
+        internal static extern IntPtr kernelCreate(int height, int width);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelDestroy")]
+        internal static extern void kernelDestroy(ref IntPtr pkel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelCopy")]
+        internal static extern IntPtr kernelCopy(HandleRef kels);
+
+        // Accessors:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelGetElement")]
+        internal static extern int kernelGetElement(HandleRef kel, int row, int col, out float pval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelSetElement")]
+        internal static extern int kernelSetElement(HandleRef kel, int row, int col, float val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelGetParameters")]
+        internal static extern int kernelGetParameters(HandleRef kel, out int psy, out int psx, out int pcy,  out int pcx);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelSetOrigin")]
+        internal static extern int kernelSetOrigin(HandleRef kel, int cy, int cx);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelGetSum")]
+        internal static extern int kernelGetSum(HandleRef kel, out float psum);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelGetMinMax")]
+        internal static extern int kernelGetMinMax(HandleRef kel, out float pmin, out float pmax);
+
+        // Normalize/invert
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelNormalize")]
+        internal static extern IntPtr kernelNormalize(HandleRef kels, float normsum);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelInvert")]
+        internal static extern IntPtr kernelInvert(HandleRef kels);
+
+        // Helper function
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "create2dFloatArray")]
+        internal static extern IntPtr create2dFloatArray(int sy, int sx);
+
+        // Serialized I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelRead")]
+        internal static extern IntPtr kernelRead([MarshalAs(UnmanagedType.AnsiBStr)] string fname);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelReadStream")]
+        internal static extern IntPtr kernelReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelWrite")]
+        internal static extern int kernelWrite([MarshalAs(UnmanagedType.AnsiBStr)] string fname, HandleRef kel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelWriteStream")]
+        internal static extern int kernelWriteStream(IntPtr fp, HandleRef kel);
+
+        //  Making a kernel from a compiled string
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelCreateFromString")]
+        internal static extern IntPtr kernelCreateFromString(int h, int w, int cy, int cx, [MarshalAs(UnmanagedType.AnsiBStr)] string kdata);
+
+        // Making a kernel from a simple file format
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelCreateFromFile")]
+        internal static extern IntPtr kernelCreateFromFile([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+
+        // Making a kernel from a Pix
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelCreateFromPix")]
+        internal static extern IntPtr kernelCreateFromPix(HandleRef pix, int cy, int cx);
+
+        // Display a kernel in a pix
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelDisplayInPix")]
+        internal static extern IntPtr kernelDisplayInPix(HandleRef kel, int size, int gthick);
+
+        // Parse string to extract numbers
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "parseStringForNumbers")]
+        internal static extern IntPtr parseStringForNumbers([MarshalAs(UnmanagedType.AnsiBStr)] string str, [MarshalAs(UnmanagedType.AnsiBStr)] string seps);
+
+        // Simple parametric kernels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeFlatKernel")]
+        internal static extern IntPtr makeFlatKernel(int height, int width, int cy, int cx);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeGaussianKernel")]
+        internal static extern IntPtr makeGaussianKernel(int halfheight, int halfwidth, float stdev, float max);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeGaussianKernelSep")]
+        internal static extern int makeGaussianKernelSep(int halfheight, int halfwidth, float stdev, float max, out IntPtr pkelx, out IntPtr pkely);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeDoGKernel")]
+        internal static extern IntPtr makeDoGKernel(int halfheight, int halfwidth, float stdev, float ratio);
+        #endregion
+
         /*
 
-        internal static extern PIX* pixReadJp2k(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, uint reduction, HandleRef box, int hint, int debug );
-        internal static extern PIX* pixReadStreamJp2k(IntPtr fp, uint reduction, HandleRef box, int hint, int debug);
-        internal static extern int pixWriteJp2k(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pix, int quality, int nlevels, int hint, int debug );
-        internal static extern int pixWriteStreamJp2k(IntPtr fp, PIX* pix, int quality, int nlevels, int hint, int debug);
-        internal static extern PIX* pixReadMemJp2k(IntPtr data, IntPtr size, uint reduction, BOX* box, int hint, int debug);
-        internal static extern int pixWriteMemJp2k(l_uint8** pdata, IntPtr psize, PIX* pix, int quality, int nlevels, int hint, int debug);
-        internal static extern PIX* pixReadJpeg(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int cmapflag, int reduction, int* pnwarn, int hint );
-        internal static extern PIX* pixReadStreamJpeg(IntPtr fp, int cmapflag, int reduction, l_int32* pnwarn, int hint);
-        internal static extern int readHeaderJpeg(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int* pw, l_int32* ph, int* pspp, l_int32* pycck, int* pcmyk );
-        internal static extern int freadHeaderJpeg(IntPtr fp, l_int32* pw, l_int32* ph, l_int32* pspp, l_int32* pycck, l_int32* pcmyk);
-        internal static extern int fgetJpegResolution(IntPtr fp, l_int32* pxres, l_int32* pyres);
-        internal static extern int fgetJpegComment(IntPtr fp, l_uint8** pcomment);
-        internal static extern int pixWriteJpeg(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pix, int quality, int progressive );
-        internal static extern int pixWriteStreamJpeg(IntPtr fp, PIX* pixs, int quality, int progressive);
-        internal static extern PIX* pixReadMemJpeg(IntPtr data, IntPtr size, int cmflag, int reduction, l_int32* pnwarn, int hint);
-        internal static extern int readHeaderMemJpeg(IntPtr data, IntPtr size, l_int32* pw, int* ph, l_int32* pspp, int* pycck, l_int32* pcmyk);
-        internal static extern int pixWriteMemJpeg(l_uint8** pdata, IntPtr psize, PIX* pix, int quality, int progressive);
-        internal static extern int pixSetChromaSampling(PIX* pix, int sampling);
-        internal static extern L_KERNEL* kernelCreate(int height, int width);
-        internal static extern void kernelDestroy(L_KERNEL** pkel);
-        internal static extern L_KERNEL* kernelCopy(L_KERNEL* kels);
-        internal static extern int kernelGetElement(L_KERNEL* kel, int row, int col, l_float32* pval);
-        internal static extern int kernelSetElement(L_KERNEL* kel, int row, int col, float val);
-        internal static extern int kernelGetParameters(L_KERNEL* kel, l_int32* psy, l_int32* psx, l_int32* pcy, l_int32* pcx);
-        internal static extern int kernelSetOrigin(L_KERNEL* kel, int cy, int cx);
-        internal static extern int kernelGetSum(L_KERNEL* kel, l_float32* psum);
-        internal static extern int kernelGetMinMax(L_KERNEL* kel, l_float32* pmin, l_float32* pmax);
-        internal static extern L_KERNEL* kernelNormalize(L_KERNEL* kels, float normsum);
-        internal static extern L_KERNEL* kernelInvert(L_KERNEL* kels);
-        internal static extern l_float32** create2dFloatArray(int sy, int sx);
-        internal static extern L_KERNEL* kernelRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname );
-        internal static extern L_KERNEL* kernelReadStream(IntPtr fp);
-        internal static extern int kernelWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, L_KERNEL *kel );
-         internal static extern int kernelWriteStream(IntPtr fp, L_KERNEL* kel);
-        internal static extern L_KERNEL* kernelCreateFromString(int h, int w, int cy, int cx,  [MarshalAs(UnmanagedType.AnsiBStr)] string kdata );
-        internal static extern L_KERNEL* kernelCreateFromFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern L_KERNEL* kernelCreateFromPix(PIX* pix, int cy, int cx);
-        internal static extern PIX* kernelDisplayInPix(L_KERNEL* kel, int size, int gthick);
-        internal static extern NUMA* parseStringForNumbers(  [MarshalAs(UnmanagedType.AnsiBStr)] string str,  [MarshalAs(UnmanagedType.AnsiBStr)] string seps );
-        internal static extern L_KERNEL* makeFlatKernel(int height, int width, int cy, int cx);
-        internal static extern L_KERNEL* makeGaussianKernel(int halfheight, int halfwidth, float stdev, float max);
-        internal static extern int makeGaussianKernelSep(int halfheight, int halfwidth, float stdev, float max, L_KERNEL** pkelx, L_KERNEL** pkely);
-        internal static extern L_KERNEL* makeDoGKernel(int halfheight, int halfwidth, float stdev, float ratio);
         internal static extern IntPtr  getImagelibVersions();
         internal static extern void listDestroy(DLLIST** phead);
         internal static extern int listAddToHead(DLLIST** phead, void* data);
