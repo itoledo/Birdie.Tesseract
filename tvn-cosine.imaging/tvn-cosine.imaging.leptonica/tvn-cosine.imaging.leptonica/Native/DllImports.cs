@@ -3119,37 +3119,69 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generateBinaryMaze")]
         internal static extern IntPtr generateBinaryMaze(int w, int h, int xi, int yi, float wallps, float ranis);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSearchBinaryMaze")]
-        internal static extern IntPtr pixSearchBinaryMaze(HandleRef pixs, int xi, int yi, int xf, int yf, out IntPtr  ppixd);
+        internal static extern IntPtr pixSearchBinaryMaze(HandleRef pixs, int xi, int yi, int xf, int yf, out IntPtr ppixd);
 
         // Generalizing a maze to a grayscale image, the search is now for the  shortest  or least cost path, for some given cost function. 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSearchGrayMaze")]
         internal static extern IntPtr pixSearchGrayMaze(HandleRef pixs, int xi, int yi, int xf, int yf, out IntPtr ppixd);
         #endregion
 
+        #region morph.c
+        // Generic binary morphological ops implemented with rasterop
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDilate")]
+        internal static extern IntPtr pixDilate(HandleRef pixd, HandleRef pixs, HandleRef sel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixErode")]
+        internal static extern IntPtr pixErode(HandleRef pixd, HandleRef pixs, HandleRef sel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHMT")]
+        internal static extern IntPtr pixHMT(HandleRef pixd, HandleRef pixs, HandleRef sel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOpen")]
+        internal static extern IntPtr pixOpen(HandleRef pixd, HandleRef pixs, HandleRef sel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClose")]
+        internal static extern IntPtr pixClose(HandleRef pixd, HandleRef pixs, HandleRef sel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseSafe")]
+        internal static extern IntPtr pixCloseSafe(HandleRef pixd, HandleRef pixs, HandleRef sel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOpenGeneralized")]
+        internal static extern IntPtr pixOpenGeneralized(HandleRef pixd, HandleRef pixs, HandleRef sel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseGeneralized")]
+        internal static extern IntPtr pixCloseGeneralized(HandleRef pixd, HandleRef pixs, HandleRef sel);
+
+        // Binary morphological(raster) ops with brick Sels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDilateBrick")]
+        internal static extern IntPtr pixDilateBrick(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixErodeBrick")]
+        internal static extern IntPtr pixErodeBrick(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOpenBrick")]
+        internal static extern IntPtr pixOpenBrick(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseBrick")]
+        internal static extern IntPtr pixCloseBrick(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseSafeBrick")]
+        internal static extern IntPtr pixCloseSafeBrick(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+
+        // Binary composed morphological(raster) ops with brick Sels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selectComposableSels")]
+        internal static extern int selectComposableSels(int size, int direction, out IntPtr psel1, out IntPtr psel2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selectComposableSizes")]
+        internal static extern int selectComposableSizes(int size, out int pfactor1, out int pfactor2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDilateCompBrick")]
+        internal static extern IntPtr pixDilateCompBrick(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixErodeCompBrick")]
+        internal static extern IntPtr pixErodeCompBrick(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOpenCompBrick")]
+        internal static extern IntPtr pixOpenCompBrick(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseCompBrick")]
+        internal static extern IntPtr pixCloseCompBrick(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCloseSafeCompBrick")]
+        internal static extern IntPtr pixCloseSafeCompBrick(HandleRef pixd, HandleRef pixs, int hsize, int vsize);
+
+        // Functions associated with boundary conditions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "resetMorphBoundaryCondition")]
+        internal static extern void resetMorphBoundaryCondition(int bc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getMorphBorderPixelColor")]
+        internal static extern uint getMorphBorderPixelColor(int type, int depth);
+        #endregion
+
         /*
 
-        internal static extern PIX* pixDilate(PIX* pixd, PIX* pixs, SEL* sel);
-        internal static extern PIX* pixErode(PIX* pixd, PIX* pixs, SEL* sel);
-        internal static extern PIX* pixHMT(PIX* pixd, PIX* pixs, SEL* sel);
-        internal static extern PIX* pixOpen(PIX* pixd, PIX* pixs, SEL* sel);
-        internal static extern PIX* pixClose(PIX* pixd, PIX* pixs, SEL* sel);
-        internal static extern PIX* pixCloseSafe(PIX* pixd, PIX* pixs, SEL* sel);
-        internal static extern PIX* pixOpenGeneralized(PIX* pixd, PIX* pixs, SEL* sel);
-        internal static extern PIX* pixCloseGeneralized(PIX* pixd, PIX* pixs, SEL* sel);
-        internal static extern PIX* pixDilateBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixErodeBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixOpenBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixCloseBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixCloseSafeBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern int selectComposableSels(int size, int direction, SEL** psel1, SEL** psel2);
-        internal static extern int selectComposableSizes(int size, l_int32* pfactor1, l_int32* pfactor2);
-        internal static extern PIX* pixDilateCompBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixErodeCompBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixOpenCompBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixCloseCompBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern PIX* pixCloseSafeCompBrick(PIX* pixd, PIX* pixs, int hsize, int vsize);
-        internal static extern void resetMorphBoundaryCondition(int bc);
-        internal static extern uint getMorphBorderPixelColor(int type, int depth);
         internal static extern PIX* pixExtractBoundary(PIX* pixs, int type);
         internal static extern PIX* pixMorphSequenceMasked(PIX* pixs, PIX* pixm,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep );
         internal static extern PIX* pixMorphSequenceByComponent(PIX* pixs,  [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int connectivity, int minw, int minh, BOXA** pboxa );

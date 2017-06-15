@@ -226,6 +226,7 @@
     <Compile Include="Implementations\List.cs" />
     <Compile Include="Implementations\Map.cs" />
     <Compile Include="Implementations\Maze.cs" />
+    <Compile Include="Implementations\Morph.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
