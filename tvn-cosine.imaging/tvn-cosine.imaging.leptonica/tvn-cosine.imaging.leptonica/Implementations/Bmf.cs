@@ -1,8 +1,7 @@
-﻿using Leptonica.Definitions.L_Bmf;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Leptonica 
+namespace Leptonica
 {
     public static class Bmf
     {

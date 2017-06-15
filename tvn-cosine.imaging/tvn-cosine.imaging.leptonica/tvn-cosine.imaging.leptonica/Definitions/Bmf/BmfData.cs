@@ -1,4 +1,4 @@
-﻿namespace Leptonica.Definitions.Bmf
+﻿namespace Leptonica 
 {
     public static class BmfData
     {

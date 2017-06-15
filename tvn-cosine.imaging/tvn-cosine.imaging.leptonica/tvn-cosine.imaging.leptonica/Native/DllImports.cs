@@ -2784,7 +2784,7 @@ namespace Leptonica.Native
         // Simple thresholding to 2 bpp
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "thresholdTo2bppLow")]
         internal static extern void thresholdTo2bppLow(IntPtr datad, int h, int wpld, IntPtr datas, int wpls, IntPtr tab);
-         
+
         // Simple thresholding to 4 bpp
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "thresholdTo4bppLow")]
         internal static extern void thresholdTo4bppLow(IntPtr datad, int h, int wpld, IntPtr datas, int wpls, IntPtr tab);
@@ -2822,32 +2822,74 @@ namespace Leptonica.Native
         internal static extern int lheapPrint(IntPtr fp, HandleRef lh);
         #endregion
 
+        #region jbclass.c
+        // Initialization 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbRankHausInit")]
+        internal static extern IntPtr jbRankHausInit(int components, int maxwidth, int maxheight, int size, float rank);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbCorrelationInit")]
+        internal static extern IntPtr jbCorrelationInit(int components, int maxwidth, int maxheight, float thresh, float weightfactor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbCorrelationInitWithoutComponents")]
+        internal static extern IntPtr jbCorrelationInitWithoutComponents(int components, int maxwidth, int maxheight, float thresh, float weightfactor);
+
+        // Classify the pages 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbAddPages")]
+        internal static extern int jbAddPages(HandleRef classer, HandleRef safiles);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbAddPage")]
+        internal static extern int jbAddPage(HandleRef classer, HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbAddPageComponents")]
+        internal static extern int jbAddPageComponents(HandleRef classer, HandleRef pixs, HandleRef boxas, HandleRef pixas);
+
+        // Rank hausdorff classifier 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbClassifyRankHaus")]
+        internal static extern int jbClassifyRankHaus(HandleRef classer, HandleRef boxa, HandleRef pixas);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHaustest")]
+        internal static extern int pixHaustest(HandleRef pix1, HandleRef pix2, HandleRef pix3, HandleRef pix4, float delx, float dely, int maxdiffw, int maxdiffh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRankHaustest")]
+        internal static extern int pixRankHaustest(HandleRef pix1, HandleRef pix2, HandleRef pix3, HandleRef pix4, float delx, float dely, int maxdiffw, int maxdiffh, int area1, int area3, float rank, IntPtr tab8);
+
+        // Binary correlation classifier 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbClassifyCorrelation")]
+        internal static extern int jbClassifyCorrelation(HandleRef classer, HandleRef boxa, HandleRef pixas);
+
+        // Determine the image components we start with 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbGetComponents")]
+        internal static extern int jbGetComponents(HandleRef pixs, int components, int maxwidth, int maxheight, out IntPtr pboxad, out IntPtr ppixad);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWordMaskByDilation")]
+        internal static extern int pixWordMaskByDilation(HandleRef pixs, int maxdil, out IntPtr ppixm, out int psize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWordBoxesByDilation")]
+        internal static extern int pixWordBoxesByDilation(HandleRef pixs, int maxdil, int minwidth, int minheight, int maxwidth, int maxheight, out IntPtr pboxa, out int psize);
+
+        // Build grayscale composites(templates) 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbAccumulateComposites")]
+        internal static extern IntPtr jbAccumulateComposites(HandleRef pixaa, out IntPtr pna, out IntPtr pptat);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbTemplatesFromComposites")]
+        internal static extern IntPtr jbTemplatesFromComposites(HandleRef pixac, HandleRef na);
+
+        // Utility functions for Classer 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbClasserCreate")]
+        internal static extern IntPtr jbClasserCreate(int method, int components);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbClasserDestroy")]
+        internal static extern void jbClasserDestroy(ref IntPtr pclasser);
+
+        // Utility functions for Data 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbDataSave")]
+        internal static extern IntPtr jbDataSave(HandleRef classer);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbDataDestroy")]
+        internal static extern void jbDataDestroy(ref IntPtr pdata);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbDataWrite")]
+        internal static extern int jbDataWrite([MarshalAs(UnmanagedType.AnsiBStr)] string rootout, HandleRef jbdata);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbDataRead")]
+        internal static extern IntPtr jbDataRead([MarshalAs(UnmanagedType.AnsiBStr)] string rootname);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbDataRender")]
+        internal static extern IntPtr jbDataRender(HandleRef data, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbGetULCorners")]
+        internal static extern int jbGetULCorners(HandleRef classer, HandleRef pixs, HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "jbGetLLCorners")]
+        internal static extern int jbGetLLCorners(HandleRef classer);
+        #endregion
+
         /*
 
-        internal static extern JBCLASSER* jbRankHausInit(int components, int maxwidth, int maxheight, int size, float rank);
-        internal static extern JBCLASSER* jbCorrelationInit(int components, int maxwidth, int maxheight, float thresh, float weightfactor);
-        internal static extern JBCLASSER* jbCorrelationInitWithoutComponents(int components, int maxwidth, int maxheight, float thresh, float weightfactor);
-        internal static extern int jbAddPages(JBCLASSER* classer, SARRAY* safiles);
-        internal static extern int jbAddPage(JBCLASSER* classer, PIX* pixs);
-        internal static extern int jbAddPageComponents(JBCLASSER* classer, PIX* pixs, HandleRef boxas, HandleRef pixas);
-        internal static extern int jbClassifyRankHaus(JBCLASSER* classer, HandleRef boxa, HandleRef pixas);
-        internal static extern int pixHaustest(PIX* pix1, PIX* pix2, PIX* pix3, PIX* pix4, float delx, float dely, int maxdiffw, int maxdiffh);
-        internal static extern int pixRankHaustest(PIX* pix1, PIX* pix2, PIX* pix3, PIX* pix4, float delx, float dely, int maxdiffw, int maxdiffh, int area1, int area3, float rank, l_int32* tab8);
-        internal static extern int jbClassifyCorrelation(JBCLASSER* classer, HandleRef boxa, HandleRef pixas);
-        internal static extern int jbGetComponents(PIX* pixs, int components, int maxwidth, int maxheight, BOXA** pboxad, PIXA** ppixad);
-        internal static extern int pixWordMaskByDilation(PIX* pixs, int maxdil, PIX** ppixm, l_int32* psize);
-        internal static extern int pixWordBoxesByDilation(PIX* pixs, int maxdil, int minwidth, int minheight, int maxwidth, int maxheight, BOXA** pboxa, l_int32* psize);
-        internal static extern HandleRef jbAccumulateComposites(PIXAA* pixaa, NUMA** pna, PTA** pptat);
-        internal static extern HandleRef jbTemplatesFromComposites(PIXA* pixac, NUMA* na);
-        internal static extern JBCLASSER* jbClasserCreate(int method, int components);
-        internal static extern void jbClasserDestroy(JBCLASSER** pclasser);
-        internal static extern JBDATA* jbDataSave(JBCLASSER* classer);
-        internal static extern void jbDataDestroy(JBDATA** pdata);
-        internal static extern int jbDataWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string rootout, JBDATA *jbdata );
-         internal static extern JBDATA* jbDataRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string rootname );
-        internal static extern HandleRef jbDataRender(JBDATA* data, int debugflag);
-        internal static extern int jbGetULCorners(JBCLASSER* classer, PIX* pixs, HandleRef boxa);
-        internal static extern int jbGetLLCorners(JBCLASSER* classer);
         internal static extern int readHeaderJp2k(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int* pw, l_int32* ph, int* pbps, l_int32* pspp );
          internal static extern int freadHeaderJp2k(IntPtr fp, l_int32* pw, l_int32* ph, l_int32* pbps, l_int32* pspp);
         internal static extern int readHeaderMemJp2k(IntPtr data, IntPtr size, l_int32* pw, int* ph, l_int32* pbps, int* pspp);

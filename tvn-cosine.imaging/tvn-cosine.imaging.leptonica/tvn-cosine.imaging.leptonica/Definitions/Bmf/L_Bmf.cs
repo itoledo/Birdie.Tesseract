@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Leptonica.Definitions.L_Bmf
+namespace Leptonica 
 {
     /// <summary>
     /// Data structure to hold bitmap fonts and related data 

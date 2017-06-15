@@ -1,6 +1,5 @@
-﻿namespace Leptonica.Definitions.L_Bmf
-{
-
+﻿namespace Leptonica 
+{ 
     /// <summary>
     /// Constants for deciding when text block is divided into paragraphs
     /// </summary>

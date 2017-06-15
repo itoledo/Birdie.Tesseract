@@ -1,6 +1,6 @@
 ﻿using System; 
 
-namespace Leptonica.Definitions.Bmp
+namespace Leptonica 
 {
     /// <summary>
     /// Bmp Info header

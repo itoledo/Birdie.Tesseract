@@ -1,4 +1,4 @@
-﻿namespace Leptonica.Definitions.Environ
+﻿namespace Leptonica 
 {
     /// <summary>
     /// Path separator conversion

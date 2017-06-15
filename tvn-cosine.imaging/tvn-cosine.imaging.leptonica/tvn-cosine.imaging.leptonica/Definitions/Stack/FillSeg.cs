@@ -1,6 +1,6 @@
 ﻿using System; 
 
-namespace Leptonica.Definitions.Stack
+namespace Leptonica 
 {
     /// <summary>
     /// The struct FillSeg is used by the Heckbert seedfill algorithm to hold information about image segments that are waiting to be
