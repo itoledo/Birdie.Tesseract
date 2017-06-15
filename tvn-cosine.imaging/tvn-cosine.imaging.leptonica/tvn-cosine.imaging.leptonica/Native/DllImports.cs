@@ -2971,7 +2971,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelSetElement")]
         internal static extern int kernelSetElement(HandleRef kel, int row, int col, float val);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelGetParameters")]
-        internal static extern int kernelGetParameters(HandleRef kel, out int psy, out int psx, out int pcy,  out int pcx);
+        internal static extern int kernelGetParameters(HandleRef kel, out int psy, out int psx, out int pcy, out int pcx);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelSetOrigin")]
         internal static extern int kernelSetOrigin(HandleRef kel, int cy, int cx);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "kernelGetSum")]
@@ -3114,11 +3114,20 @@ namespace Leptonica.Native
         internal static extern int l_asetSize(HandleRef s);
         #endregion
 
+        #region maze.c
+        // This is a game with a pedagogical slant.
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generateBinaryMaze")]
+        internal static extern IntPtr generateBinaryMaze(int w, int h, int xi, int yi, float wallps, float ranis);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSearchBinaryMaze")]
+        internal static extern IntPtr pixSearchBinaryMaze(HandleRef pixs, int xi, int yi, int xf, int yf, out IntPtr  ppixd);
+
+        // Generalizing a maze to a grayscale image, the search is now for the  shortest  or least cost path, for some given cost function. 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSearchGrayMaze")]
+        internal static extern IntPtr pixSearchGrayMaze(HandleRef pixs, int xi, int yi, int xf, int yf, out IntPtr ppixd);
+        #endregion
+
         /*
 
-        internal static extern PIX* generateBinaryMaze(int w, int h, int xi, int yi, float wallps, float ranis);
-        internal static extern PTA* pixSearchBinaryMaze(PIX* pixs, int xi, int yi, int xf, int yf, PIX** ppixd);
-        internal static extern PTA* pixSearchGrayMaze(PIX* pixs, int xi, int yi, int xf, int yf, PIX** ppixd);
         internal static extern PIX* pixDilate(PIX* pixd, PIX* pixs, SEL* sel);
         internal static extern PIX* pixErode(PIX* pixd, PIX* pixs, SEL* sel);
         internal static extern PIX* pixHMT(PIX* pixd, PIX* pixs, SEL* sel);
