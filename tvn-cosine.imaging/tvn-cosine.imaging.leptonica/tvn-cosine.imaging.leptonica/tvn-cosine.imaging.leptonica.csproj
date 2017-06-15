@@ -217,6 +217,7 @@
     <Compile Include="Implementations\GrayQuantLow.cs" />
     <Compile Include="Implementations\Heap.cs" />
     <Compile Include="Implementations\JbClass.cs" />
+    <Compile Include="Implementations\Jp2kHeader.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

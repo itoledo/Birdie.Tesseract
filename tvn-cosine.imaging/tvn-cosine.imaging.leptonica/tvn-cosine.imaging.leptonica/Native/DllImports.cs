@@ -2888,12 +2888,20 @@ namespace Leptonica.Native
         internal static extern int jbGetLLCorners(HandleRef classer);
         #endregion
 
+        #region jp2kheader.c
+        // Read header
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderJp2k")]
+        internal static extern int readHeaderJp2k([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pw, out int ph, out int pbps, out int pspp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "freadHeaderJp2k")]
+        internal static extern int freadHeaderJp2k(IntPtr fp, out int pw, out int ph, out int pbps, out int pspp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderMemJp2k")]
+        internal static extern int readHeaderMemJp2k(IntPtr data, IntPtr size, out int pw, out int ph, out int pbps, out int pspp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fgetJp2kResolution")]
+        internal static extern int fgetJp2kResolution(IntPtr fp, out int pxres, out int pyres);
+        #endregion
+
         /*
 
-        internal static extern int readHeaderJp2k(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int* pw, l_int32* ph, int* pbps, l_int32* pspp );
-         internal static extern int freadHeaderJp2k(IntPtr fp, l_int32* pw, l_int32* ph, l_int32* pbps, l_int32* pspp);
-        internal static extern int readHeaderMemJp2k(IntPtr data, IntPtr size, l_int32* pw, int* ph, l_int32* pbps, int* pspp);
-        internal static extern int fgetJp2kResolution(IntPtr fp, l_int32* pxres, l_int32* pyres);
         internal static extern PIX* pixReadJp2k(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, uint reduction, HandleRef box, int hint, int debug );
         internal static extern PIX* pixReadStreamJp2k(IntPtr fp, uint reduction, HandleRef box, int hint, int debug);
         internal static extern int pixWriteJp2k(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pix, int quality, int nlevels, int hint, int debug );
