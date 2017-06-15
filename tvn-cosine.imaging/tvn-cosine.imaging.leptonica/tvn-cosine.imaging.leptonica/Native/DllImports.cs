@@ -3314,59 +3314,87 @@ namespace Leptonica.Native
         internal static extern IntPtr pixColorMorphSequence(HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string sequence, int dispsep, int dispy);
         #endregion
 
+        #region numabasic.c
+        // Numa creation, destruction, copy, clone, etc.
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorMorphSequence")]
+        internal static extern IntPtr numaCreate(int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorMorphSequence")]
+        internal static extern IntPtr numaCreateFromIArray(IntPtr iarray, int size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorMorphSequence")]
+        internal static extern IntPtr numaCreateFromFArray(IntPtr farray, int size, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorMorphSequence")]
+        internal static extern IntPtr numaCreateFromString([MarshalAs(UnmanagedType.AnsiBStr)] string str);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorMorphSequence")]
+        internal static extern void numaDestroy(ref IntPtr pna);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorMorphSequence")]
+        internal static extern IntPtr numaCopy(HandleRef na);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorMorphSequence")]
+        internal static extern IntPtr numaClone(HandleRef na);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorMorphSequence")]
+        internal static extern int numaEmpty(HandleRef na);
+
+        // Add/remove number(float or integer)
+        internal static extern int numaAddNumber(HandleRef na, float val);
+        internal static extern int numaInsertNumber(HandleRef na, int index, float val);
+        internal static extern int numaRemoveNumber(HandleRef na, int index);
+        internal static extern int numaReplaceNumber(HandleRef na, int index, float val);
+
+        // Numa accessors
+        internal static extern int numaGetCount(HandleRef na);
+        internal static extern int numaSetCount(HandleRef na, int newcount);
+        internal static extern int numaGetFValue(HandleRef na, int index, out float pval);
+        internal static extern int numaGetIValue(HandleRef na, int index, out int pival);
+        internal static extern int numaSetValue(HandleRef na, int index, float val);
+        internal static extern int numaShiftValue(HandleRef na, int index, float diff);
+        internal static extern IntPtr numaGetIArray(HandleRef na);
+        internal static extern IntPtr numaGetFArray(HandleRef na, int copyflag);
+        internal static extern int numaGetRefcount(HandleRef na);
+        internal static extern int numaChangeRefcount(HandleRef na, int delta);
+        internal static extern int numaGetParameters(HandleRef na, out float pstartx, out float pdelx);
+        internal static extern int numaSetParameters(HandleRef na, float startx, float delx);
+        internal static extern int numaCopyParameters(HandleRef nad, HandleRef nas);
+
+        // Convert to string array
+        internal static extern IntPtr numaConvertToSarray(HandleRef na, int size1, int size2, int addzeros, int type);
+
+        // Serialize numa for I/O
+        internal static extern IntPtr numaRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        internal static extern IntPtr numaReadStream(IntPtr fp);
+        internal static extern IntPtr numaReadMem(IntPtr data, IntPtr size);
+        internal static extern int numaWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef na);
+        internal static extern int numaWriteStream(IntPtr fp, HandleRef na);
+        internal static extern int numaWriteMem(out IntPtr pdata, IntPtr psize, HandleRef na);
+
+        // Numaa creation, destruction, truncation
+        internal static extern IntPtr numaaCreate(int n);
+        internal static extern IntPtr numaaCreateFull(int nptr, int n);
+        internal static extern int numaaTruncate(HandleRef naa);
+        internal static extern void numaaDestroy(ref IntPtr pnaa);
+
+        // Add Numa to Numaa
+        internal static extern int numaaAddNuma(HandleRef naa, HandleRef na, int copyflag);
+
+        // Numaa accessors
+        internal static extern int numaaGetCount(HandleRef naa);
+        internal static extern int numaaGetNumaCount(HandleRef naa, int index);
+        internal static extern int numaaGetNumberCount(HandleRef naa);
+        internal static extern IntPtr numaaGetPtrArray(HandleRef naa);
+        internal static extern IntPtr numaaGetNuma(HandleRef naa, int index, int accessflag);
+        internal static extern int numaaReplaceNuma(HandleRef naa, int index, HandleRef na);
+        internal static extern int numaaGetValue(HandleRef naa, int i, int j, out float pfval, out int pival);
+        internal static extern int numaaAddNumber(HandleRef naa, int index, float val);
+
+        // Serialize numaa for I/O
+        internal static extern IntPtr numaaRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        internal static extern IntPtr numaaReadStream(IntPtr fp);
+        internal static extern IntPtr numaaReadMem(IntPtr data, IntPtr size);
+        internal static extern int numaaWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef naa);
+        internal static extern int numaaWriteStream(IntPtr fp, HandleRef naa);
+        internal static extern int numaaWriteMem(out IntPtr pdata, IntPtr psize, HandleRef naa);
+        #endregion
+
         /*
 
-        internal static extern NUMA* numaCreate(int n);
-        internal static extern NUMA* numaCreateFromIArray(l_int32* iarray, int size);
-        internal static extern NUMA* numaCreateFromFArray(l_float32* farray, int size, int copyflag);
-        internal static extern NUMA* numaCreateFromString(  [MarshalAs(UnmanagedType.AnsiBStr)] string str );
-        internal static extern void numaDestroy(NUMA** pna);
-        internal static extern NUMA* numaCopy(NUMA* na);
-        internal static extern NUMA* numaClone(NUMA* na);
-        internal static extern int numaEmpty(NUMA* na);
-        internal static extern int numaAddNumber(NUMA* na, float val);
-        internal static extern int numaInsertNumber(NUMA* na, int index, float val);
-        internal static extern int numaRemoveNumber(NUMA* na, int index);
-        internal static extern int numaReplaceNumber(NUMA* na, int index, float val);
-        internal static extern int numaGetCount(NUMA* na);
-        internal static extern int numaSetCount(NUMA* na, int newcount);
-        internal static extern int numaGetFValue(NUMA* na, int index, l_float32* pval);
-        internal static extern int numaGetIValue(NUMA* na, int index, l_int32* pival);
-        internal static extern int numaSetValue(NUMA* na, int index, float val);
-        internal static extern int numaShiftValue(NUMA* na, int index, float diff);
-        internal static extern l_int32* numaGetIArray(NUMA* na);
-        internal static extern l_float32* numaGetFArray(NUMA* na, int copyflag);
-        internal static extern int numaGetRefcount(NUMA* na);
-        internal static extern int numaChangeRefcount(NUMA* na, int delta);
-        internal static extern int numaGetParameters(NUMA* na, l_float32* pstartx, l_float32* pdelx);
-        internal static extern int numaSetParameters(NUMA* na, float startx, float delx);
-        internal static extern int numaCopyParameters(NUMA* nad, NUMA* nas);
-        internal static extern SARRAY* numaConvertToSarray(NUMA* na, int size1, int size2, int addzeros, int type);
-        internal static extern NUMA* numaRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern NUMA* numaReadStream(IntPtr fp);
-        internal static extern NUMA* numaReadMem(IntPtr data, IntPtr size);
-        internal static extern int numaWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, NUMA *na );
-         internal static extern int numaWriteStream(IntPtr fp, NUMA* na);
-        internal static extern int numaWriteMem(l_uint8** pdata, IntPtr psize, NUMA* na);
-        internal static extern NUMAA* numaaCreate(int n);
-        internal static extern NUMAA* numaaCreateFull(int nptr, int n);
-        internal static extern int numaaTruncate(NUMAA* naa);
-        internal static extern void numaaDestroy(NUMAA** pnaa);
-        internal static extern int numaaAddNuma(NUMAA* naa, NUMA* na, int copyflag);
-        internal static extern int numaaGetCount(NUMAA* naa);
-        internal static extern int numaaGetNumaCount(NUMAA* naa, int index);
-        internal static extern int numaaGetNumberCount(NUMAA* naa);
-        internal static extern NUMA** numaaGetPtrArray(NUMAA* naa);
-        internal static extern NUMA* numaaGetNuma(NUMAA* naa, int index, int accessflag);
-        internal static extern int numaaReplaceNuma(NUMAA* naa, int index, NUMA* na);
-        internal static extern int numaaGetValue(NUMAA* naa, int i, int j, l_float32* pfval, l_int32* pival);
-        internal static extern int numaaAddNumber(NUMAA* naa, int index, float val);
-        internal static extern NUMAA* numaaRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern NUMAA* numaaReadStream(IntPtr fp);
-        internal static extern NUMAA* numaaReadMem(IntPtr data, IntPtr size);
-        internal static extern int numaaWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, NUMAA *naa );
-         internal static extern int numaaWriteStream(IntPtr fp, NUMAA* naa);
-        internal static extern int numaaWriteMem(l_uint8** pdata, IntPtr psize, NUMAA* naa);
         internal static extern NUMA* numaArithOp(NUMA* nad, NUMA* na1, NUMA* na2, int op);
         internal static extern NUMA* numaLogicalOp(NUMA* nad, NUMA* na1, NUMA* na2, int op);
         internal static extern NUMA* numaInvert(NUMA* nad, NUMA* nas);
