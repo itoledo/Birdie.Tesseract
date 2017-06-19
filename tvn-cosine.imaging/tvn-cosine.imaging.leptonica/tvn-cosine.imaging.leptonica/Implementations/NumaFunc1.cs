@@ -524,33 +524,301 @@ namespace Leptonica
         }
 
         // Sorting
-        public static int numaSortGeneral(this Numa na, out Numa pnasort, out Numa pnaindex, out Numa pnainvert, int sortorder, int sorttype);
-        public static Numa numaSortAutoSelect(this Numa nas, int sortorder);
-        public static Numa numaSortIndexAutoSelect(this Numa nas, int sortorder);
-        public static int numaChooseSortType(this Numa nas);
-        public static Numa numaSort(this Numa naout, Numa nain, int sortorder);
-        public static Numa numaBinSort(this Numa nas, int sortorder);
-        public static Numa numaGetSortIndex(this Numa na, int sortorder);
-        public static Numa numaGetBinSortIndex(this Numa nas, int sortorder);
-        public static Numa numaSortByIndex(this Numa nas, Numa naindex);
-        public static int numaIsSorted(this Numa nas, int sortorder, out int psorted);
-        public static int numaSortPair(this Numa nax, Numa nay, int sortorder, out Numa pnasx, out Numa pnasy);
-        public static Numa numaInvertMap(this Numa nas);
+        public static int numaSortGeneral(this Numa na, out Numa pnasort, out Numa pnaindex, out Numa pnainvert, int sortorder, int sorttype)
+        {
+            if (null == na)
+            {
+                throw new ArgumentNullException("na cannot be null.");
+            }
+
+            IntPtr pnasortPtr, pnaindexPtr, pnainvertPtr;
+            var result = Native.DllImports.numaSortGeneral((HandleRef)na, out pnasortPtr, out pnaindexPtr, out pnainvertPtr, sortorder, sorttype);
+            pnasort = new Numa(pnasortPtr);
+            pnaindex = new Numa(pnaindexPtr);
+            pnainvert = new Numa(pnainvertPtr);
+
+            return result;
+        }
+
+        public static Numa numaSortAutoSelect(this Numa nas, int sortorder)
+        {
+            if (null == nas)
+            {
+                throw new ArgumentNullException("nas cannot be null.");
+            }
+            var pointer = Native.DllImports.numaSortAutoSelect((HandleRef)nas, sortorder);
+            if (IntPtr.Zero == pointer)
+            {
+                return null;
+            }
+            else
+            {
+                return new Numa(pointer);
+            }
+        }
+
+        public static Numa numaSortIndexAutoSelect(this Numa nas, int sortorder)
+        {
+            if (null == nas)
+            {
+                throw new ArgumentNullException("nas cannot be null.");
+            }
+            var pointer = Native.DllImports.numaSortIndexAutoSelect((HandleRef)nas, sortorder);
+            if (IntPtr.Zero == pointer)
+            {
+                return null;
+            }
+            else
+            {
+                return new Numa(pointer);
+            }
+        }
+
+        public static int numaChooseSortType(this Numa nas)
+        {
+            if (null == nas)
+            {
+                throw new ArgumentNullException("nas cannot be null.");
+            }
+
+            return Native.DllImports.numaChooseSortType((HandleRef)nas);
+        }
+
+        public static Numa numaSort(this Numa naout, Numa nain, int sortorder)
+        {
+            if (null == nain)
+            {
+                throw new ArgumentNullException("nain cannot be null.");
+            }
+            var pointer = Native.DllImports.numaSort((HandleRef)naout, (HandleRef)nain, sortorder);
+            if (IntPtr.Zero == pointer)
+            {
+                return null;
+            }
+            else
+            {
+                return new Numa(pointer);
+            }
+        }
+
+        public static Numa numaGetSortIndex(this Numa na, int sortorder)
+        {
+            if (null == na)
+            {
+                throw new ArgumentNullException("nas cannot be null.");
+            }
+            var pointer = Native.DllImports.numaGetSortIndex((HandleRef)na, sortorder);
+            if (IntPtr.Zero == pointer)
+            {
+                return null;
+            }
+            else
+            {
+                return new Numa(pointer);
+            }
+        }
+
+        public static Numa numaGetBinSortIndex(this Numa nas, int sortorder)
+        {
+            if (null == nas)
+            {
+                throw new ArgumentNullException("nas cannot be null.");
+            }
+            var pointer = Native.DllImports.numaGetBinSortIndex((HandleRef)nas, sortorder);
+            if (IntPtr.Zero == pointer)
+            {
+                return null;
+            }
+            else
+            {
+                return new Numa(pointer);
+            }
+        }
+
+        public static Numa numaSortByIndex(this Numa nas, Numa naindex)
+        {
+            if (null == nas
+             || null == naindex)
+            {
+                throw new ArgumentNullException("nas, naindex cannot be null.");
+            }
+
+            var pointer = Native.DllImports.numaSortByIndex((HandleRef)nas, (HandleRef)naindex);
+            if (IntPtr.Zero == pointer)
+            {
+                return null;
+            }
+            else
+            {
+                return new Numa(pointer);
+            }
+        }
+
+        public static int numaIsSorted(this Numa nas, int sortorder, out int psorted)
+        {
+            if (null == nas)
+            {
+                throw new ArgumentNullException("nas cannot be null.");
+            }
+
+            return Native.DllImports.numaIsSorted((HandleRef)nas, sortorder, out psorted);
+        }
+
+        public static int numaSortPair(this Numa nax, Numa nay, int sortorder, out Numa pnasx, out Numa pnasy)
+        {
+            if (null == nax
+             || null == nay)
+            {
+                throw new ArgumentNullException("nax, nay cannot be null.");
+            }
+
+            IntPtr pnasxPtr, pnasyPtr;
+            var result = Native.DllImports.numaSortPair((HandleRef)nax, (HandleRef)nay, sortorder, out pnasxPtr, out pnasyPtr);
+            pnasx = new Numa(pnasxPtr);
+            pnasy = new Numa(pnasyPtr);
+
+            return result;
+        }
+
+        public static Numa numaInvertMap(this Numa nas)
+        {
+            if (null == nas)
+            {
+                throw new ArgumentNullException("nas, naindex cannot be null.");
+            }
+
+            var pointer = Native.DllImports.numaInvertMap((HandleRef)nas);
+            if (IntPtr.Zero == pointer)
+            {
+                return null;
+            }
+            else
+            {
+                return new Numa(pointer);
+            }
+        }
 
         // Random permutation
-        public static Numa numaPseudorandomSequence(int size, int seed);
-        public static Numa numaRandomPermutation(this Numa nas, int seed);
+        public static Numa numaPseudorandomSequence(int size, int seed)
+        {
+            var pointer = Native.DllImports.numaPseudorandomSequence(size, seed);
+            if (IntPtr.Zero == pointer)
+            {
+                return null;
+            }
+            else
+            {
+                return new Numa(pointer);
+            }
+        }
+
+        public static Numa numaRandomPermutation(this Numa nas, int seed)
+        {
+            if (null == nas)
+            {
+                throw new ArgumentNullException("nas, naindex cannot be null.");
+            }
+
+            var pointer = Native.DllImports.numaRandomPermutation((HandleRef)nas, seed);
+            if (IntPtr.Zero == pointer)
+            {
+                return null;
+            }
+            else
+            {
+                return new Numa(pointer);
+            }
+        }
+
 
         // Functions requiring sorting
-        public static int numaGetRankValue(this Numa na, float fract, Numa nasort, int usebins, out float pval);
-        public static int numaGetMedian(this Numa na, out float pval);
-        public static int numaGetBinnedMedian(this Numa na, out int pval);
-        public static int numaGetMode(this Numa na, out float pval, out int pcount);
-        public static int numaGetMedianVariation(this Numa na, out float pmedval, out float pmedvar);
+        public static int numaGetRankValue(this Numa na, float fract, Numa nasort, int usebins, out float pval)
+        {
+            if (null == na)
+            {
+                throw new ArgumentNullException("na cannot be null.");
+            }
+
+            return Native.DllImports.numaGetRankValue((HandleRef)na, fract, (HandleRef)nasort, usebins, out pval);
+        }
+
+        public static int numaGetMedian(this Numa na, out float pval)
+        {
+            if (null == na)
+            {
+                throw new ArgumentNullException("na cannot be null.");
+            }
+
+            return Native.DllImports.numaGetMedian((HandleRef)na, out pval);
+        }
+
+        public static int numaGetBinnedMedian(this Numa na, out int pval)
+        {
+            if (null == na)
+            {
+                throw new ArgumentNullException("na cannot be null.");
+            }
+
+            return Native.DllImports.numaGetBinnedMedian((HandleRef)na, out pval);
+        }
+
+        public static int numaGetMode(this Numa na, out float pval, out int pcount)
+        {
+            if (null == na)
+            {
+                throw new ArgumentNullException("na cannot be null.");
+            }
+
+            return Native.DllImports.numaGetMode((HandleRef)na, out pval, out pcount);
+        }
+
+        public static int numaGetMedianVariation(this Numa na, out float pmedval, out float pmedvar)
+        {
+            if (null == na)
+            {
+                throw new ArgumentNullException("na cannot be null.");
+            }
+
+            return Native.DllImports.numaGetMedianVariation((HandleRef)na, out pmedval, out pmedvar);
+        }
 
         // Rearrangements
-        public static int numaJoin(this Numa nad, Numa nas, int istart, int iend);
-        public static int numaaJoin(this Numaa naad, Numaa naas, int istart, int iend);
-        public static Numa numaaFlattenToNuma(this Numaa naa);
+        public static int numaJoin(this Numa nad, Numa nas, int istart, int iend)
+        {
+            if (null == nad)
+            {
+                throw new ArgumentNullException("nad cannot be null.");
+            }
+
+            return Native.DllImports.numaJoin((HandleRef)nad, (HandleRef)nas, istart, iend);
+        }
+
+        public static int numaaJoin(this Numaa naad, Numaa naas, int istart, int iend)
+        {
+            if (null == naad)
+            {
+                throw new ArgumentNullException("naad cannot be null.");
+            }
+
+            return Native.DllImports.numaaJoin((HandleRef)naad, (HandleRef)naas, istart, iend);
+        }
+
+        public static Numa numaaFlattenToNuma(this Numaa naa)
+        {
+            if (null == naa)
+            {
+                throw new ArgumentNullException("naa cannot be null.");
+            }
+
+            var pointer = Native.DllImports.numaaFlattenToNuma((HandleRef)naa);
+            if (IntPtr.Zero == pointer)
+            {
+                return null;
+            }
+            else
+            {
+                return new Numa(pointer);
+            }
+        }
     }
 }
