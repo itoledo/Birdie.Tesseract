@@ -3601,7 +3601,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaWindowedMedian")]
         internal static extern IntPtr numaWindowedMedian(HandleRef nas, int halfwin);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaConvertToInt")]
-        internal static extern IntPtr numaConvertToInt(HandleRef nas); 
+        internal static extern IntPtr numaConvertToInt(HandleRef nas);
 
         // Histogram generation and statistics
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaMakeHistogram")]
@@ -3670,74 +3670,91 @@ namespace Leptonica.Native
 
         #region pageseg.c
         // Top level page segmentation
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRegionsBinary")]
         internal static extern int pixGetRegionsBinary(HandleRef pixs, out IntPtr ppixhm, out IntPtr ppixtm, out IntPtr ppixtb, HandleRef pixadb);
 
         // Halftone region extraction
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenHalftoneMask")]
         internal static extern IntPtr pixGenHalftoneMask(HandleRef pixs, out IntPtr ppixtext, out int phtfound, int debug);
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateHalftoneMask")]
         internal static extern IntPtr pixGenerateHalftoneMask(HandleRef pixs, out IntPtr ppixtext, out int phtfound, HandleRef pixadb);
 
         // Textline extraction
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenTextlineMask")]
         internal static extern IntPtr pixGenTextlineMask(HandleRef pixs, out IntPtr ppixvws, out int ptlfound, HandleRef pixadb);
 
         // Textblock extraction
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenTextblockMask")]
         internal static extern IntPtr pixGenTextblockMask(HandleRef pixs, HandleRef pixvws, HandleRef pixadb);
 
         // Location of page foreground
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindPageForeground")]
         internal static extern IntPtr pixFindPageForeground(HandleRef pixs, int threshold, int mindist, int erasedist, int pagenum, int showmorph, int display, [MarshalAs(UnmanagedType.AnsiBStr)] string pdfdir);
 
         // Extraction of characters from image with only text
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSplitIntoCharacters")]
         internal static extern int pixSplitIntoCharacters(HandleRef pixs, int minw, int minh, out IntPtr pboxa, out IntPtr ppixa, out IntPtr ppixdebug);
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSplitComponentWithProfile")]
         internal static extern IntPtr pixSplitComponentWithProfile(HandleRef pixs, int delta, int mindel, out IntPtr ppixdebug);
 
         // Extraction of lines of text
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExtractTextlines")]
         internal static extern IntPtr pixExtractTextlines(HandleRef pixs, int maxw, int maxh, int minw, int minh, int adjw, int adjh, HandleRef pixadb);
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExtractRawTextlines")]
         internal static extern IntPtr pixExtractRawTextlines(HandleRef pixs, int maxw, int maxh, int adjw, int adjh, HandleRef pixadb);
 
         // How many text columns
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCountTextColumns")]
         internal static extern int pixCountTextColumns(HandleRef pixs, float deltafract, float peakfract, float clipfract, out int pncols, HandleRef pixadb);
 
         // Decision: text vs photo
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDecideIfText")]
         internal static extern int pixDecideIfText(HandleRef pixs, HandleRef box, out int pistext, HandleRef pixadb);
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindThreshFgExtent")]
         internal static extern int pixFindThreshFgExtent(HandleRef pixs, int thresh, out int ptop, out int pbot);
 
         // Decision: table vs text
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDecideIfTable")]
         internal static extern int pixDecideIfTable(HandleRef pixs, HandleRef box, out int pistable, HandleRef pixadb);
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixPrepare1bpp")]
         internal static extern IntPtr pixPrepare1bpp(HandleRef pixs, HandleRef box, float cropfract, int outres);
 
         // Estimate the grayscale background value
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixEstimateBackground")]
         internal static extern int pixEstimateBackground(HandleRef pixs, int darkthresh, float edgecrop, out int pbg);
 
         // Largest white or black rectangles in an image
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindLargeRectangles")]
         internal static extern int pixFindLargeRectangles(HandleRef pixs, int polarity, int nrect, out IntPtr pboxa, out IntPtr ppixdb);
-        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaErode")]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindLargestRectangle")]
         internal static extern int pixFindLargestRectangle(HandleRef pixs, int polarity, out IntPtr pbox, out IntPtr ppixdb);
         #endregion
 
+        #region paintcmap.c
+        // Repaint selected pixels in region
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetSelectCmap")]
+        internal static extern int pixSetSelectCmap(HandleRef pixs, HandleRef box, int sindex, int rval, int gval, int bval);
+
+        // Repaint non-white pixels in region
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorGrayRegionsCmap")]
+        internal static extern int pixColorGrayRegionsCmap(HandleRef pixs, HandleRef boxa, int type, int rval, int gval, int bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorGrayCmap")]
+        internal static extern int pixColorGrayCmap(HandleRef pixs, HandleRef box, int type, int rval, int gval, int bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorGrayMaskedCmap")]
+        internal static extern int pixColorGrayMaskedCmap(HandleRef pixs, HandleRef pixm, int type, int rval, int gval, int bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "addColorizedGrayToCmap")]
+        internal static extern int addColorizedGrayToCmap(HandleRef cmap, int type, int rval, int gval, int bval, out IntPtr pna);
+
+        // Repaint selected pixels through mask
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetSelectMaskedCmap")]
+        internal static extern int pixSetSelectMaskedCmap(HandleRef pixs, HandleRef pixm, int x, int y, int sindex, int rval, int gval, int bval);
+
+        // Repaint all pixels through mask
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetMaskedCmap")]
+        internal static extern int pixSetMaskedCmap(HandleRef pixs, HandleRef pixm, int x, int y, int rval, int gval, int bval);
+        #endregion
+
         /*
-        internal static extern int pixSetSelectCmap(PIX* pixs, HandleRef box, int sindex, int rval, int gval, int bval);
-        internal static extern int pixColorGrayRegionsCmap(PIX* pixs, HandleRef boxa, int type, int rval, int gval, int bval);
-        internal static extern int pixColorGrayCmap(PIX* pixs, HandleRef box, int type, int rval, int gval, int bval);
-        internal static extern int pixColorGrayMaskedCmap(PIX* pixs, PIX* pixm, int type, int rval, int gval, int bval);
-        internal static extern int addColorizedGrayToCmap(HandleRef cmap, int type, int rval, int gval, int bval, NUMA** pna);
-        internal static extern int pixSetSelectMaskedCmap(PIX* pixs, PIX* pixm, int x, int y, int sindex, int rval, int gval, int bval);
-        internal static extern int pixSetMaskedCmap(PIX* pixs, PIX* pixm, int x, int y, int rval, int gval, int bval);
         internal static extern IntPtr  parseForProtos(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string prestring );
         internal static extern HandleRef boxaGetWhiteblocks(HandleRef boxas, HandleRef box, int sortflag, int maxboxes, float maxoverlap, int maxperim, float fract, int maxpops);
         internal static extern HandleRef boxaPruneSortedOnOverlap(HandleRef boxas, float maxoverlap);

@@ -22,6 +22,7 @@ namespace Leptonica
             return result;
         }
 
+
         // Halftone region extraction
         [Obsolete("pixGenHalftoneMask depricated")]
         public static Pix pixGenHalftoneMask(this Pix pixs, out Pix ppixtext, out int phtfound, int debug)
@@ -64,6 +65,7 @@ namespace Leptonica
             }
         }
 
+
         // Textline extraction
         public static Pix pixGenTextlineMask(this Pix pixs, out Pix ppixvws, out int ptlfound, Pixa pixadb)
         {
@@ -84,6 +86,7 @@ namespace Leptonica
                 return new Pix(pointer);
             }
         }
+
 
         // Textblock extraction
         public static Pix pixGenTextblockMask(this Pix pixs, Pix pixvws, Pixa pixadb)
@@ -106,6 +109,7 @@ namespace Leptonica
             }
         }
 
+
         // Location of page foreground
         public static Pix pixFindPageForeground(this Pix pixs, int threshold, int mindist, int erasedist, int pagenum, int showmorph, int display, string pdfdir)
         {
@@ -124,6 +128,7 @@ namespace Leptonica
                 return new Pix(pointer);
             }
         }
+
 
         // Extraction of characters from image with only text
         public static int pixSplitIntoCharacters(this Pix pixs, int minw, int minh, out Boxa pboxa, out Pixa ppixa, out Pix ppixdebug)
@@ -213,6 +218,7 @@ namespace Leptonica
             return Native.DllImports.pixCountTextColumns((HandleRef)pixs, deltafract, peakfract, clipfract, out pncols, (HandleRef)pixadb);
         }
 
+
         // Decision: text vs photo
         public static int pixDecideIfText(this Pix pixs, Box box, out int pistext, Pixa pixadb)
         {
@@ -233,6 +239,7 @@ namespace Leptonica
 
             return Native.DllImports.pixFindThreshFgExtent((HandleRef)pixs, thresh, out ptop, out pbot);
         }
+
 
         // Decision: table vs text
         public static int pixDecideIfTable(this Pix pixs, Box box, out int pistable, Pixa pixadb)
@@ -263,6 +270,7 @@ namespace Leptonica
             }
         }
 
+
         // Estimate the grayscale background value
         public static int pixEstimateBackground(this Pix pixs, int darkthresh, float edgecrop, out int pbg)
         {
@@ -273,6 +281,7 @@ namespace Leptonica
 
             return Native.DllImports.pixEstimateBackground((HandleRef)pixs, darkthresh, edgecrop, out pbg);
         }
+
 
         // Largest white or black rectangles in an image
         public static int pixFindLargeRectangles(this Pix pixs, int polarity, int nrect, out Boxa pboxa, out Pix ppixdb)

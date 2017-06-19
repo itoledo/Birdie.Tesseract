@@ -234,6 +234,7 @@
     <Compile Include="Implementations\NumaFunc1.cs" />
     <Compile Include="Implementations\NumaFunc2.cs" />
     <Compile Include="Implementations\PageSeg.cs" />
+    <Compile Include="Implementations\PaintCMap.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
