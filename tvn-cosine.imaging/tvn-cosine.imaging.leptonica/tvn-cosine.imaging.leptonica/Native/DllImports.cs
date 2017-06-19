@@ -4011,66 +4011,155 @@ namespace Leptonica.Native
         internal static extern int pixPrintStreamInfo(IntPtr fp, HandleRef pix, [MarshalAs(UnmanagedType.AnsiBStr)] string text);
         #endregion
 
-        /*
-        internal static extern int pixGetPixel(PIX* pix, int x, int y, l_uint32* pval);
-        internal static extern int pixSetPixel(PIX* pix, int x, int y, uint val);
-        internal static extern int pixGetRGBPixel(PIX* pix, int x, int y, l_int32* prval, l_int32* pgval, l_int32* pbval);
-        internal static extern int pixSetRGBPixel(PIX* pix, int x, int y, int rval, int gval, int bval);
-        internal static extern int pixGetRandomPixel(PIX* pix, l_uint32* pval, l_int32* px, l_int32* py);
-        internal static extern int pixClearPixel(PIX* pix, int x, int y);
-        internal static extern int pixFlipPixel(PIX* pix, int x, int y);
-        internal static extern void setPixelLow(l_uint32* line, int x, int depth, uint val);
-        internal static extern int pixGetBlackOrWhiteVal(PIX* pixs, int op, l_uint32* pval);
-        internal static extern int pixClearAll(PIX* pix);
-        internal static extern int pixSetAll(PIX* pix);
-        internal static extern int pixSetAllGray(PIX* pix, int grayval);
-        internal static extern int pixSetAllArbitrary(PIX* pix, uint val);
-        internal static extern int pixSetBlackOrWhite(PIX* pixs, int op);
-        internal static extern int pixSetComponentArbitrary(PIX* pix, int comp, int val);
-        internal static extern int pixClearInRect(PIX* pix, HandleRef box);
-        internal static extern int pixSetInRect(PIX* pix, HandleRef box);
-        internal static extern int pixSetInRectArbitrary(PIX* pix, HandleRef box, uint val);
-        internal static extern int pixBlendInRect(PIX* pixs, HandleRef box, uint val, float fract);
-        internal static extern int pixSetPadBits(PIX* pix, int val);
-        internal static extern int pixSetPadBitsBand(PIX* pix, int by, int bh, int val);
-        internal static extern int pixSetOrClearBorder(PIX* pixs, int left, int right, int top, int bot, int op);
-        internal static extern int pixSetBorderVal(PIX* pixs, int left, int right, int top, int bot, uint val);
-        internal static extern int pixSetBorderRingVal(PIX* pixs, int dist, uint val);
-        internal static extern int pixSetMirroredBorder(PIX* pixs, int left, int right, int top, int bot);
-        internal static extern PIX* pixCopyBorder(PIX* pixd, PIX* pixs, int left, int right, int top, int bot);
-        internal static extern PIX* pixAddBorder(PIX* pixs, int npix, uint val);
-        internal static extern PIX* pixAddBlackOrWhiteBorder(PIX* pixs, int left, int right, int top, int bot, int op);
-        internal static extern PIX* pixAddBorderGeneral(PIX* pixs, int left, int right, int top, int bot, uint val);
-        internal static extern PIX* pixRemoveBorder(PIX* pixs, int npix);
-        internal static extern PIX* pixRemoveBorderGeneral(PIX* pixs, int left, int right, int top, int bot);
-        internal static extern PIX* pixRemoveBorderToSize(PIX* pixs, int wd, int hd);
-        internal static extern PIX* pixAddMirroredBorder(PIX* pixs, int left, int right, int top, int bot);
-        internal static extern PIX* pixAddRepeatedBorder(PIX* pixs, int left, int right, int top, int bot);
-        internal static extern PIX* pixAddMixedBorder(PIX* pixs, int left, int right, int top, int bot);
-        internal static extern PIX* pixAddContinuedBorder(PIX* pixs, int left, int right, int top, int bot);
-        internal static extern int pixShiftAndTransferAlpha(PIX* pixd, PIX* pixs, float shiftx, float shifty);
-        internal static extern PIX* pixDisplayLayersRGBA(PIX* pixs, uint val, int maxw);
-        internal static extern PIX* pixCreateRGBImage(PIX* pixr, PIX* pixg, PIX* pixb);
-        internal static extern PIX* pixGetRGBComponent(PIX* pixs, int comp);
-        internal static extern int pixSetRGBComponent(PIX* pixd, PIX* pixs, int comp);
-        internal static extern PIX* pixGetRGBComponentCmap(PIX* pixs, int comp);
-        internal static extern int pixCopyRGBComponent(PIX* pixd, PIX* pixs, int comp);
-        internal static extern int composeRGBPixel(int rval, int gval, int bval, l_uint32* ppixel);
-        internal static extern int composeRGBAPixel(int rval, int gval, int bval, int aval, l_uint32* ppixel);
-        internal static extern void extractRGBValues(uint pixel, l_int32* prval, l_int32* pgval, l_int32* pbval);
-        internal static extern void extractRGBAValues(uint pixel, l_int32* prval, l_int32* pgval, l_int32* pbval, l_int32* paval);
+        #region pix2.c
+        // Pixel poking
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetPixel")]
+        internal static extern int pixGetPixel(HandleRef pix, int x, int y, out uint pval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetPixel")]
+        internal static extern int pixSetPixel(HandleRef pix, int x, int y, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRGBPixel")]
+        internal static extern int pixGetRGBPixel(HandleRef pix, int x, int y, out int prval, out int pgval, out int pbval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetRGBPixel")]
+        internal static extern int pixSetRGBPixel(HandleRef pix, int x, int y, int rval, int gval, int bval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRandomPixel")]
+        internal static extern int pixGetRandomPixel(HandleRef pix, out uint pval, out int px, out int py);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClearPixel")]
+        internal static extern int pixClearPixel(HandleRef pix, int x, int y);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFlipPixel")]
+        internal static extern int pixFlipPixel(HandleRef pix, int x, int y);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "setPixelLow")]
+        internal static extern void setPixelLow(IntPtr line, int x, int depth, uint val);
+
+        // Find black or white value
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetBlackOrWhiteVal")]
+        internal static extern int pixGetBlackOrWhiteVal(HandleRef pixs, int op, out uint pval);
+
+        // Full image clear/set/set-to-arbitrary-value
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClearAll")]
+        internal static extern int pixClearAll(HandleRef pix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetAll")]
+        internal static extern int pixSetAll(HandleRef pix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetAllGray")]
+        internal static extern int pixSetAllGray(HandleRef pix, int grayval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetAllArbitrary")]
+        internal static extern int pixSetAllArbitrary(HandleRef pix, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetBlackOrWhite")]
+        internal static extern int pixSetBlackOrWhite(HandleRef pixs, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetComponentArbitrary")]
+        internal static extern int pixSetComponentArbitrary(HandleRef pix, int comp, int val);
+
+        // Rectangular region clear/set/set-to-arbitrary-value/blend
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClearInRect")]
+        internal static extern int pixClearInRect(HandleRef pix, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetInRect")]
+        internal static extern int pixSetInRect(HandleRef pix, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetInRectArbitrary")]
+        internal static extern int pixSetInRectArbitrary(HandleRef pix, HandleRef box, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBlendInRect")]
+        internal static extern int pixBlendInRect(HandleRef pixs, HandleRef box, uint val, float fract);
+
+        // Set pad bits
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetPadBits")]
+        internal static extern int pixSetPadBits(HandleRef pix, int val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetPadBitsBand")]
+        internal static extern int pixSetPadBitsBand(HandleRef pix, int by, int bh, int val);
+
+        // Assign border pixels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetOrClearBorder")]
+        internal static extern int pixSetOrClearBorder(HandleRef pixs, int left, int right, int top, int bot, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetBorderVal")]
+        internal static extern int pixSetBorderVal(HandleRef pixs, int left, int right, int top, int bot, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetBorderRingVal")]
+        internal static extern int pixSetBorderRingVal(HandleRef pixs, int dist, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetMirroredBorder")]
+        internal static extern int pixSetMirroredBorder(HandleRef pixs, int left, int right, int top, int bot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopyBorder")]
+        internal static extern IntPtr pixCopyBorder(HandleRef pixd, HandleRef pixs, int left, int right, int top, int bot);
+
+        // Add and remove border
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddBorder")]
+        internal static extern IntPtr pixAddBorder(HandleRef pixs, int npix, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddBlackOrWhiteBorder")]
+        internal static extern IntPtr pixAddBlackOrWhiteBorder(HandleRef pixs, int left, int right, int top, int bot, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddBorderGeneral")]
+        internal static extern IntPtr pixAddBorderGeneral(HandleRef pixs, int left, int right, int top, int bot, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRemoveBorder")]
+        internal static extern IntPtr pixRemoveBorder(HandleRef pixs, int npix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRemoveBorderGeneral")]
+        internal static extern IntPtr pixRemoveBorderGeneral(HandleRef pixs, int left, int right, int top, int bot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRemoveBorderToSize")]
+        internal static extern IntPtr pixRemoveBorderToSize(HandleRef pixs, int wd, int hd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddMirroredBorder")]
+        internal static extern IntPtr pixAddMirroredBorder(HandleRef pixs, int left, int right, int top, int bot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddRepeatedBorder")]
+        internal static extern IntPtr pixAddRepeatedBorder(HandleRef pixs, int left, int right, int top, int bot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddMixedBorder")]
+        internal static extern IntPtr pixAddMixedBorder(HandleRef pixs, int left, int right, int top, int bot);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddContinuedBorder")]
+        internal static extern IntPtr pixAddContinuedBorder(HandleRef pixs, int left, int right, int top, int bot);
+
+        // Helper functions using alpha
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixShiftAndTransferAlpha")]
+        internal static extern int pixShiftAndTransferAlpha(HandleRef pixd, HandleRef pixs, float shiftx, float shifty);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDisplayLayersRGBA")]
+        internal static extern IntPtr pixDisplayLayersRGBA(HandleRef pixs, uint val, int maxw);
+
+        // Color sample setting and extraction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCreateRGBImage")]
+        internal static extern IntPtr pixCreateRGBImage(HandleRef pixr, HandleRef pixg, HandleRef pixb);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRGBComponent")]
+        internal static extern IntPtr pixGetRGBComponent(HandleRef pixs, int comp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetRGBComponent")]
+        internal static extern int pixSetRGBComponent(HandleRef pixd, HandleRef pixs, int comp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRGBComponentCmap")]
+        internal static extern IntPtr pixGetRGBComponentCmap(HandleRef pixs, int comp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopyRGBComponent")]
+        internal static extern int pixCopyRGBComponent(HandleRef pixd, HandleRef pixs, int comp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "composeRGBPixel")]
+        internal static extern int composeRGBPixel(int rval, int gval, int bval, out uint ppixel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "composeRGBAPixel")]
+        internal static extern int composeRGBAPixel(int rval, int gval, int bval, int aval, out uint ppixel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "extractRGBValues")]
+        internal static extern void extractRGBValues(uint pixel, out int prval, out int pgval, out int pbval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "extractRGBAValues")]
+        internal static extern void extractRGBAValues(uint pixel, out int prval, out int pgval, out int pbval, out int paval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "extractMinMaxComponent")]
         internal static extern int extractMinMaxComponent(uint pixel, int type);
-        internal static extern int pixGetRGBLine(PIX* pixs, int row, l_uint8* bufr, l_uint8* bufg, l_uint8* bufb);
-        internal static extern PIX* pixEndianByteSwapNew(PIX* pixs);
-        internal static extern int pixEndianByteSwap(PIX* pixs);
-        internal static extern int lineEndianByteSwap(l_uint32* datad, l_uint32* datas, int wpl);
-        internal static extern PIX* pixEndianTwoByteSwapNew(PIX* pixs);
-        internal static extern int pixEndianTwoByteSwap(PIX* pixs);
-        internal static extern int pixGetRasterData(PIX* pixs, l_uint8** pdata, IntPtr pnbytes);
-        internal static extern int pixAlphaIsOpaque(PIX* pix, l_int32* popaque);
-        internal static extern l_uint8** pixSetupByteProcessing(PIX* pix, l_int32* pw, l_int32* ph);
-        internal static extern int pixCleanupByteProcessing(PIX* pix, l_uint8** lineptrs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRGBLine")]
+        internal static extern int pixGetRGBLine(HandleRef pixs, int row, IntPtr bufr, IntPtr bufg, IntPtr bufb);
+
+        // Conversion between big and little endians
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixEndianByteSwapNew")]
+        internal static extern IntPtr pixEndianByteSwapNew(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixEndianByteSwap")]
+        internal static extern int pixEndianByteSwap(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lineEndianByteSwap")]
+        internal static extern int lineEndianByteSwap(IntPtr datad, IntPtr datas, int wpl);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixEndianTwoByteSwapNew")]
+        internal static extern IntPtr pixEndianTwoByteSwapNew(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixEndianTwoByteSwap")]
+        internal static extern int pixEndianTwoByteSwap(HandleRef pixs);
+
+        // Extract raster data as binary string
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRasterData")]
+        internal static extern int pixGetRasterData(HandleRef pixs, out IntPtr pdata, out IntPtr pnbytes);
+
+        // Test alpha component opaqueness
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAlphaIsOpaque")]
+        internal static extern int pixAlphaIsOpaque(HandleRef pix, out int popaque);
+
+        // Setup helpers for 8 bpp byte processing
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetupByteProcessing")]
+        internal static extern IntPtr pixSetupByteProcessing(HandleRef pix, out int pw, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCleanupByteProcessing")]
+        internal static extern int pixCleanupByteProcessing(HandleRef pix, out IntPtr lineptrs);
+
+        // Setting parameters for antialias masking with alpha transforms
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_setAlphaMaskBorder")]
         internal static extern void l_setAlphaMaskBorder(float val1, float val2);
+        #endregion
+
+        /*
         internal static extern int pixSetMasked(PIX* pixd, PIX* pixm, uint val);
         internal static extern int pixSetMaskedGeneral(PIX* pixd, PIX* pixm, uint val, int x, int y);
         internal static extern int pixCombineMasked(PIX* pixd, PIX* pixs, PIX* pixm);
