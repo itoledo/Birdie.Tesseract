@@ -3841,21 +3841,51 @@ namespace Leptonica.Native
         internal static extern int saConcatenatePdfToData(HandleRef sa, out IntPtr pdata, IntPtr pnbytes);
         #endregion
 
-        /*
-        internal static extern int pixConvertToPdfData(PIX* pix, int type, int quality, l_uint8** pdata, IntPtr pnbytes, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
-        internal static extern int ptraConcatenatePdfToData(L_PTRA* pa_data, SARRAY* sa, l_uint8** pdata, IntPtr pnbytes);
-        internal static extern int convertTiffMultipageToPdf(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int l_generateCIDataForPdf(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, PIX *pix, int quality, L_COMP_DATA **pcid );
-         internal static extern L_COMP_DATA* l_generateFlateDataPdf(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, PIX *pixs );
-         internal static extern L_COMP_DATA* l_generateJpegData(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, int ascii85flag );
-        internal static extern int l_generateCIData(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, int type, int quality, int ascii85, L_COMP_DATA** pcid );
-         internal static extern int pixGenerateCIData(PIX* pixs, int type, int quality, int ascii85, L_COMP_DATA** pcid);
-        internal static extern L_COMP_DATA* l_generateFlateData(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, int ascii85flag );
-        internal static extern L_COMP_DATA* l_generateG4Data(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, int ascii85flag );
-        internal static extern int cidConvertToPdfData(L_COMP_DATA* cid,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, byte** pdata, IntPtr pnbytes );
-         internal static extern void l_CIDataDestroy(L_COMP_DATA** pcid);
+        #region pdfio2.c 
+        // Intermediate function for single page, multi-image conversion
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertToPdfData")]
+        internal static extern int pixConvertToPdfData(HandleRef pix, int type, int quality, out IntPtr pdata, IntPtr pnbytes, int x, int y, int res, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr plpd, int position);
+
+        // Intermediate function for generating multipage pdf output
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraConcatenatePdfToData")]
+        internal static extern int ptraConcatenatePdfToData(HandleRef pa_data, HandleRef sa, out IntPtr pdata, IntPtr pnbytes);
+
+        // Convert tiff multipage to pdf file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertTiffMultipageToPdf")]
+        internal static extern int convertTiffMultipageToPdf([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+
+        // Low-level CID-based operations Without transcoding
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_generateCIDataForPdf")]
+        internal static extern int l_generateCIDataForPdf([MarshalAs(UnmanagedType.AnsiBStr)] string fname, HandleRef pix, int quality, out IntPtr pcid);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_generateFlateDataPdf")]
+        internal static extern IntPtr l_generateFlateDataPdf([MarshalAs(UnmanagedType.AnsiBStr)] string fname, HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_generateJpegData")]
+        internal static extern IntPtr l_generateJpegData([MarshalAs(UnmanagedType.AnsiBStr)] string fname, int ascii85flag);
+
+        // With transcoding
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_generateCIData")]
+        internal static extern int l_generateCIData([MarshalAs(UnmanagedType.AnsiBStr)] string fname, int type, int quality, int ascii85, out IntPtr pcid);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateCIData")]
+        internal static extern int pixGenerateCIData(HandleRef pixs, int type, int quality, int ascii85, out IntPtr pcid);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_generateFlateData")]
+        internal static extern IntPtr l_generateFlateData([MarshalAs(UnmanagedType.AnsiBStr)] string fname, int ascii85flag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_generateG4Data")]
+        internal static extern IntPtr l_generateG4Data([MarshalAs(UnmanagedType.AnsiBStr)] string fname, int ascii85flag);
+
+        // Other
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cidConvertToPdfData")]
+        internal static extern int cidConvertToPdfData(HandleRef cid, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr pdata, IntPtr pnbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_CIDataDestroy")]
+        internal static extern void l_CIDataDestroy(ref IntPtr pcid);
+
+        // Set flags for special modes
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_pdfSetG4ImageMask")]
         internal static extern void l_pdfSetG4ImageMask(int flag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_pdfSetDateAndVersion")]
         internal static extern void l_pdfSetDateAndVersion(int flag);
+        #endregion
+
+        /*
         internal static extern void setPixMemoryManager(alloc_fn allocator, dealloc_fn deallocator);
         internal static extern PIX* pixCreate(int width, int height, int depth);
         internal static extern PIX* pixCreateNoInit(int width, int height, int depth);
