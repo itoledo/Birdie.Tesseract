@@ -284,6 +284,7 @@
     <Compile Include="Definitions\Morph\StructuringElementTypes.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\Pix1.cs" />
     <Content Include="lib\x64\jpeg.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
