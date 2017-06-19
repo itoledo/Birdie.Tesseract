@@ -83,6 +83,7 @@ namespace Leptonica
             return Native.DllImports.numaAddToNumber((HandleRef)na, index, val);
         }
 
+
         // Simple extractions
         public static int numaGetMin(this Numa na, out float pminval, out int piminloc)
         {
@@ -278,8 +279,7 @@ namespace Leptonica
                 return new Numa(pointer);
             }
         }
-
-
+         
         public static int numaCountNonzeroRuns(this Numa na, out int pcount)
         {
             if (null == na)
@@ -378,6 +378,7 @@ namespace Leptonica
             }
         }
 
+
         // Signal feature extraction
         public static Numa numaLowPassIntervals(this Numa nas, float thresh, float maxn)
         {
@@ -431,6 +432,7 @@ namespace Leptonica
             return Native.DllImports.numaGetEdgeValues((HandleRef)na, edge, out pstart, out pend, out psign);
         }
 
+
         // Interpolation
         public static int numaInterpolateEqxVal(float startx, float deltax, Numa nay, int type, float xval, out float pyval)
         {
@@ -465,8 +467,7 @@ namespace Leptonica
 
             return result;
         }
-
-
+         
         public static int numaInterpolateArbxInterval(this Numa nax, Numa nay, int type, float x0, float x1, int npts, out Numa pnadx, out Numa pnady)
         {
             if (null == nax
@@ -482,6 +483,7 @@ namespace Leptonica
 
             return result;
         }
+
 
         // Functions requiring interpolation
         public static int numaFitMax(this Numa na, out float pmaxval, Numa naloc, out float pmaxloc)
@@ -522,6 +524,7 @@ namespace Leptonica
 
             return result;
         }
+
 
         // Sorting
         public static int numaSortGeneral(this Numa na, out Numa pnasort, out Numa pnaindex, out Numa pnainvert, int sortorder, int sorttype)
@@ -698,6 +701,7 @@ namespace Leptonica
             }
         }
 
+
         // Random permutation
         public static Numa numaPseudorandomSequence(int size, int seed)
         {
@@ -781,6 +785,7 @@ namespace Leptonica
 
             return Native.DllImports.numaGetMedianVariation((HandleRef)na, out pmedval, out pmedvar);
         }
+
 
         // Rearrangements
         public static int numaJoin(this Numa nad, Numa nas, int istart, int iend)

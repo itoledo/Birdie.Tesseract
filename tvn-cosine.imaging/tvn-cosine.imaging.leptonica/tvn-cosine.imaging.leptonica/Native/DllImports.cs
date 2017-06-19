@@ -3439,131 +3439,131 @@ namespace Leptonica.Native
         #region numafunc1.c
         // Arithmetic and logic 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaArithOp")]
-        internal static extern IntPtr numaArithOp( HandleRef nad,  HandleRef na1,  HandleRef na2, int op);
+        internal static extern IntPtr numaArithOp(HandleRef nad, HandleRef na1, HandleRef na2, int op);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaLogicalOp")]
-        internal static extern IntPtr numaLogicalOp( HandleRef nad,  HandleRef na1,  HandleRef na2, int op);
+        internal static extern IntPtr numaLogicalOp(HandleRef nad, HandleRef na1, HandleRef na2, int op);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaInvert")]
-        internal static extern IntPtr numaInvert( HandleRef nad,  HandleRef nas);
+        internal static extern IntPtr numaInvert(HandleRef nad, HandleRef nas);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSimilar")]
-        internal static extern int numaSimilar( HandleRef na1,  HandleRef na2, float maxdiff, out int psimilar);
+        internal static extern int numaSimilar(HandleRef na1, HandleRef na2, float maxdiff, out int psimilar);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaAddToNumber")]
-        internal static extern int numaAddToNumber( HandleRef na, int index, float val);
+        internal static extern int numaAddToNumber(HandleRef na, int index, float val);
 
         // Simple extractions
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetMin")]
-        internal static extern int numaGetMin( HandleRef na, out float pminval, out int piminloc);
+        internal static extern int numaGetMin(HandleRef na, out float pminval, out int piminloc);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetMax")]
-        internal static extern int numaGetMax( HandleRef na, out float pmaxval, out int pimaxloc);
+        internal static extern int numaGetMax(HandleRef na, out float pmaxval, out int pimaxloc);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetSum")]
-        internal static extern int numaGetSum( HandleRef na, out float psum);
+        internal static extern int numaGetSum(HandleRef na, out float psum);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetPartialSums")]
-        internal static extern IntPtr numaGetPartialSums( HandleRef na);
+        internal static extern IntPtr numaGetPartialSums(HandleRef na);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetSumOnInterval")]
-        internal static extern int numaGetSumOnInterval( HandleRef na, int first, int last, out float psum);
+        internal static extern int numaGetSumOnInterval(HandleRef na, int first, int last, out float psum);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaHasOnlyIntegers")]
-        internal static extern int numaHasOnlyIntegers( HandleRef na, int maxsamples, out int pallints);
+        internal static extern int numaHasOnlyIntegers(HandleRef na, int maxsamples, out int pallints);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSubsample")]
-        internal static extern IntPtr numaSubsample( HandleRef nas, int subfactor);
+        internal static extern IntPtr numaSubsample(HandleRef nas, int subfactor);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaMakeDelta")]
-        internal static extern IntPtr numaMakeDelta( HandleRef nas);
+        internal static extern IntPtr numaMakeDelta(HandleRef nas);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaMakeSequence")]
         internal static extern IntPtr numaMakeSequence(float startval, float increment, int size);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaMakeConstant")]
         internal static extern IntPtr numaMakeConstant(float val, int size);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaMakeAbsValue")]
-        internal static extern IntPtr numaMakeAbsValue( HandleRef nad,  HandleRef nas);
+        internal static extern IntPtr numaMakeAbsValue(HandleRef nad, HandleRef nas);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaAddBorder")]
-        internal static extern IntPtr numaAddBorder( HandleRef nas, int left, int right, float val);
+        internal static extern IntPtr numaAddBorder(HandleRef nas, int left, int right, float val);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaAddSpecifiedBorder")]
-        internal static extern IntPtr numaAddSpecifiedBorder( HandleRef nas, int left, int right, int type);
+        internal static extern IntPtr numaAddSpecifiedBorder(HandleRef nas, int left, int right, int type);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaRemoveBorder")]
-        internal static extern IntPtr numaRemoveBorder( HandleRef nas, int left, int right);
+        internal static extern IntPtr numaRemoveBorder(HandleRef nas, int left, int right);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaCountNonzeroRuns")]
-        internal static extern int numaCountNonzeroRuns( HandleRef na, out int pcount);
+        internal static extern int numaCountNonzeroRuns(HandleRef na, out int pcount);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetNonzeroRange")]
-        internal static extern int numaGetNonzeroRange( HandleRef na, float eps, out int pfirst, out int plast);
+        internal static extern int numaGetNonzeroRange(HandleRef na, float eps, out int pfirst, out int plast);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetCountRelativeToZero")]
-        internal static extern int numaGetCountRelativeToZero( HandleRef na, int type, out int pcount);
+        internal static extern int numaGetCountRelativeToZero(HandleRef na, int type, out int pcount);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaClipToInterval")]
-        internal static extern IntPtr numaClipToInterval( HandleRef nas, int first, int last);
+        internal static extern IntPtr numaClipToInterval(HandleRef nas, int first, int last);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaMakeThresholdIndicator")]
-        internal static extern IntPtr numaMakeThresholdIndicator( HandleRef nas, float thresh, int type);
+        internal static extern IntPtr numaMakeThresholdIndicator(HandleRef nas, float thresh, int type);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaUniformSampling")]
-        internal static extern IntPtr numaUniformSampling( HandleRef nas, int nsamp);
+        internal static extern IntPtr numaUniformSampling(HandleRef nas, int nsamp);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaReverse")]
-        internal static extern IntPtr numaReverse( HandleRef nad,  HandleRef nas);
+        internal static extern IntPtr numaReverse(HandleRef nad, HandleRef nas);
 
         // Signal feature extraction
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaLowPassIntervals")]
-        internal static extern IntPtr numaLowPassIntervals( HandleRef nas, float thresh, float maxn);
+        internal static extern IntPtr numaLowPassIntervals(HandleRef nas, float thresh, float maxn);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaThresholdEdges")]
-        internal static extern IntPtr numaThresholdEdges( HandleRef nas, float thresh1, float thresh2, float maxn);
+        internal static extern IntPtr numaThresholdEdges(HandleRef nas, float thresh1, float thresh2, float maxn);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetSpanValues")]
-        internal static extern int numaGetSpanValues( HandleRef na, int span, out int pstart, out int pend);
+        internal static extern int numaGetSpanValues(HandleRef na, int span, out int pstart, out int pend);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetEdgeValues")]
-        internal static extern int numaGetEdgeValues( HandleRef na, int edge, out int pstart, out int pend, out int psign);
+        internal static extern int numaGetEdgeValues(HandleRef na, int edge, out int pstart, out int pend, out int psign);
 
         // Interpolation
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaInterpolateEqxVal")]
-        internal static extern int numaInterpolateEqxVal(float startx, float deltax,  HandleRef nay, int type, float xval,  out float pyval);
+        internal static extern int numaInterpolateEqxVal(float startx, float deltax, HandleRef nay, int type, float xval, out float pyval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaInterpolateArbxVal")]
-        internal static extern int numaInterpolateArbxVal( HandleRef nax,  HandleRef nay, int type, float xval,  out float pyval);
+        internal static extern int numaInterpolateArbxVal(HandleRef nax, HandleRef nay, int type, float xval, out float pyval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaInterpolateEqxInterval")]
-        internal static extern int numaInterpolateEqxInterval(float startx, float deltax,  HandleRef nasy, int type, float x0, float x1, int npts, out IntPtr pnax, out IntPtr pnay);
+        internal static extern int numaInterpolateEqxInterval(float startx, float deltax, HandleRef nasy, int type, float x0, float x1, int npts, out IntPtr pnax, out IntPtr pnay);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaInterpolateArbxInterval")]
-        internal static extern int numaInterpolateArbxInterval( HandleRef nax,  HandleRef nay, int type, float x0, float x1, int npts, out IntPtr pnadx, out IntPtr pnady);
+        internal static extern int numaInterpolateArbxInterval(HandleRef nax, HandleRef nay, int type, float x0, float x1, int npts, out IntPtr pnadx, out IntPtr pnady);
 
         // Functions requiring interpolation
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaFitMax")]
-        internal static extern int numaFitMax( HandleRef na,  out float pmaxval,  HandleRef naloc,  out float pmaxloc);
+        internal static extern int numaFitMax(HandleRef na, out float pmaxval, HandleRef naloc, out float pmaxloc);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaDifferentiateInterval")]
-        internal static extern int numaDifferentiateInterval( HandleRef nax,  HandleRef nay, float x0, float x1, int npts, out IntPtr pnadx, out IntPtr pnady);
+        internal static extern int numaDifferentiateInterval(HandleRef nax, HandleRef nay, float x0, float x1, int npts, out IntPtr pnadx, out IntPtr pnady);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaIntegrateInterval")]
-        internal static extern int numaIntegrateInterval( HandleRef nax,  HandleRef nay, float x0, float x1, int npts,  out float psum);
+        internal static extern int numaIntegrateInterval(HandleRef nax, HandleRef nay, float x0, float x1, int npts, out float psum);
 
         // Sorting
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
-        internal static extern int numaSortGeneral( HandleRef na, out IntPtr pnasort, out IntPtr pnaindex, out IntPtr pnainvert, int sortorder, int sorttype);
+        internal static extern int numaSortGeneral(HandleRef na, out IntPtr pnasort, out IntPtr pnaindex, out IntPtr pnainvert, int sortorder, int sorttype);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortAutoSelect")]
-        internal static extern IntPtr numaSortAutoSelect( HandleRef nas, int sortorder);
+        internal static extern IntPtr numaSortAutoSelect(HandleRef nas, int sortorder);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortIndexAutoSelect")]
-        internal static extern IntPtr numaSortIndexAutoSelect( HandleRef nas, int sortorder);
+        internal static extern IntPtr numaSortIndexAutoSelect(HandleRef nas, int sortorder);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaChooseSortType")]
-        internal static extern int numaChooseSortType( HandleRef nas);
+        internal static extern int numaChooseSortType(HandleRef nas);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSort")]
-        internal static extern IntPtr numaSort( HandleRef naout,  HandleRef nain, int sortorder);
+        internal static extern IntPtr numaSort(HandleRef naout, HandleRef nain, int sortorder);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaBinSort")]
-        internal static extern IntPtr numaBinSort( HandleRef nas, int sortorder);
+        internal static extern IntPtr numaBinSort(HandleRef nas, int sortorder);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetSortIndex")]
-        internal static extern IntPtr numaGetSortIndex( HandleRef na, int sortorder);
+        internal static extern IntPtr numaGetSortIndex(HandleRef na, int sortorder);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetBinSortIndex")]
-        internal static extern IntPtr numaGetBinSortIndex( HandleRef nas, int sortorder);
+        internal static extern IntPtr numaGetBinSortIndex(HandleRef nas, int sortorder);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortByIndex")]
-        internal static extern IntPtr numaSortByIndex( HandleRef nas,  HandleRef naindex);
+        internal static extern IntPtr numaSortByIndex(HandleRef nas, HandleRef naindex);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaIsSorted")]
-        internal static extern int numaIsSorted( HandleRef nas, int sortorder,  out int psorted);
+        internal static extern int numaIsSorted(HandleRef nas, int sortorder, out int psorted);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortPair")]
-        internal static extern int numaSortPair( HandleRef nax,  HandleRef nay, int sortorder, out IntPtr pnasx, out IntPtr pnasy);
+        internal static extern int numaSortPair(HandleRef nax, HandleRef nay, int sortorder, out IntPtr pnasx, out IntPtr pnasy);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaInvertMap")]
-        internal static extern IntPtr numaInvertMap( HandleRef nas);
+        internal static extern IntPtr numaInvertMap(HandleRef nas);
 
         // Random permutation
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaPseudorandomSequence")]
         internal static extern IntPtr numaPseudorandomSequence(int size, int seed);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaRandomPermutation")]
-        internal static extern IntPtr numaRandomPermutation( HandleRef nas, int seed);
+        internal static extern IntPtr numaRandomPermutation(HandleRef nas, int seed);
 
         // Functions requiring sorting
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetRankValue")]
-        internal static extern int numaGetRankValue( HandleRef na, float fract,  HandleRef nasort, int usebins,  out float pval);
+        internal static extern int numaGetRankValue(HandleRef na, float fract, HandleRef nasort, int usebins, out float pval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetMedian")]
-        internal static extern int numaGetMedian( HandleRef na,  out float pval);
+        internal static extern int numaGetMedian(HandleRef na, out float pval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetBinnedMedian")]
-        internal static extern int numaGetBinnedMedian( HandleRef na,  out int pval);
+        internal static extern int numaGetBinnedMedian(HandleRef na, out int pval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetMode")]
-        internal static extern int numaGetMode( HandleRef na,  out float pval,  out int pcount);
+        internal static extern int numaGetMode(HandleRef na, out float pval, out int pcount);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaGetMedianVariation")]
-        internal static extern int numaGetMedianVariation( HandleRef na,  out float pmedval,  out float pmedvar);
+        internal static extern int numaGetMedianVariation(HandleRef na, out float pmedval, out float pmedvar);
 
         // Rearrangements
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaJoin")]
@@ -3574,45 +3574,101 @@ namespace Leptonica.Native
         internal static extern IntPtr numaaFlattenToNuma(HandleRef naa);
         #endregion
 
+        #region numafunc2.c
+        // Morphological(min/max) operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaErode(HandleRef nas, int size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaDilate(HandleRef nas, int size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaOpen(HandleRef nas, int size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaClose(HandleRef nas, int size);
+
+        // Other transforms
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaTransform(HandleRef nas, float shift, float scale);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaSimpleStats(HandleRef na, int first, int last, out float pmean, out float pvar, out float prvar);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaWindowedStats(HandleRef nas, int wc, out IntPtr pnam, out IntPtr pnams, out IntPtr pnav, out IntPtr pnarv);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaWindowedMean(HandleRef nas, int wc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaWindowedMeanSquare(HandleRef nas, int wc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaWindowedVariance(HandleRef nam, HandleRef nams, out IntPtr pnav, out IntPtr pnarv);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaWindowedMedian(HandleRef nas, int halfwin);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaConvertToInt(HandleRef nas); 
+
+        // Histogram generation and statistics
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaMakeHistogram(HandleRef na, int maxbins, out int pbinsize, out int pbinstart);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaMakeHistogramAuto(HandleRef na, int maxbins);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaMakeHistogramClipped(HandleRef na, float binsize, float maxsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaRebinHistogram(HandleRef nas, int newsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaNormalizeHistogram(HandleRef nas, float tsum);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaGetStatsUsingHistogram(HandleRef na, int maxbins, out float pmin, out float pmax, out float pmean, out float pvariance, out float pmedian, float rank, out float prval, out IntPtr phisto);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaGetHistogramStats(HandleRef nahisto, float startx, float deltax, out float pxmean, out float pxmedian, out float pxmode, out float pxvariance);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaGetHistogramStatsOnInterval(HandleRef nahisto, float startx, float deltax, int ifirst, int ilast, out float pxmean, out float pxmedian, out float pxmode, out float pxvariance);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaMakeRankFromHistogram(float startx, float deltax, HandleRef nasy, int npts, out IntPtr pnax, out IntPtr pnay);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaHistogramGetRankFromVal(HandleRef na, float rval, out float prank);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaHistogramGetValFromRank(HandleRef na, float rank, out float prval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaDiscretizeRankAndIntensity(HandleRef na, int nbins, out IntPtr pnarbin, out IntPtr pnam, out IntPtr pnar, out IntPtr pnabb);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaGetRankBinValues(HandleRef na, int nbins, out IntPtr pnarbin, out IntPtr pnam);
+
+        // Splitting a distribution
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaSplitDistribution(HandleRef na, float scorefract, out int psplitindex, out float pave1, out float pave2, out float pnum1, out float pnum2, out IntPtr pnascore);
+
+        // Comparing histograms
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int grayHistogramsToEMD(HandleRef naa1, HandleRef naa2, out IntPtr pnad);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaEarthMoverDistance(HandleRef na1, HandleRef na2, out float pdist);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int grayInterHistogramStats(HandleRef naa, int wc, out IntPtr pnam, out IntPtr pnams, out IntPtr pnav, out IntPtr pnarv);
+
+        // Extrema finding
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaFindPeaks(HandleRef nas, int nmax, float fract1, float fract2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaFindExtrema(HandleRef nas, float delta, out IntPtr pnav);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaCountReversals(HandleRef nas, float minreversal, out int pnr, out float pnrpl);
+
+        // Threshold crossings and frequency analysis
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaSelectCrossingThreshold(HandleRef nax, HandleRef nay, float estthresh, out float pbestthresh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaCrossingsByThreshold(HandleRef nax, HandleRef nay, float thresh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr numaCrossingsByPeaks(HandleRef nax, HandleRef nay, float delta);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaEvalBestHaarParameters(HandleRef nas, float relweight, int nwidth, int nshift, float minwidth, float maxwidth, out float pbestwidth, out float pbestshift, out float pbestscore);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern int numaEvalHaarSum(HandleRef nas, float width, float shift, float relweight, out float pscore);
+
+        // Generating numbers in a range under constraints
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaSortGeneral")]
+        internal static extern IntPtr genConstrainedNumaInRange(int first, int last, int nmax, int use_pairs);
+        #endregion
+
         /*
-        internal static extern NUMA* numaErode(NUMA* nas, int size);
-        internal static extern NUMA* numaDilate(NUMA* nas, int size);
-        internal static extern NUMA* numaOpen(NUMA* nas, int size);
-        internal static extern NUMA* numaClose(NUMA* nas, int size);
-        internal static extern NUMA* numaTransform(NUMA* nas, float shift, float scale);
-        internal static extern int numaSimpleStats(NUMA* na, int first, int last, l_float32* pmean, l_float32* pvar, l_float32* prvar);
-        internal static extern int numaWindowedStats(NUMA* nas, int wc, NUMA** pnam, NUMA** pnams, NUMA** pnav, NUMA** pnarv);
-        internal static extern NUMA* numaWindowedMean(NUMA* nas, int wc);
-        internal static extern NUMA* numaWindowedMeanSquare(NUMA* nas, int wc);
-        internal static extern int numaWindowedVariance(NUMA* nam, NUMA* nams, NUMA** pnav, NUMA** pnarv);
-        internal static extern NUMA* numaWindowedMedian(NUMA* nas, int halfwin);
-        internal static extern NUMA* numaConvertToInt(NUMA* nas);
-        internal static extern NUMA* numaMakeHistogram(NUMA* na, int maxbins, l_int32* pbinsize, l_int32* pbinstart);
-        internal static extern NUMA* numaMakeHistogramAuto(NUMA* na, int maxbins);
-        internal static extern NUMA* numaMakeHistogramClipped(NUMA* na, float binsize, float maxsize);
-        internal static extern NUMA* numaRebinHistogram(NUMA* nas, int newsize);
-        internal static extern NUMA* numaNormalizeHistogram(NUMA* nas, float tsum);
-        internal static extern int numaGetStatsUsingHistogram(NUMA* na, int maxbins, l_float32* pmin, l_float32* pmax, l_float32* pmean, l_float32* pvariance, l_float32* pmedian, float rank, l_float32* prval, NUMA** phisto);
-        internal static extern int numaGetHistogramStats(NUMA* nahisto, float startx, float deltax, l_float32* pxmean, l_float32* pxmedian, l_float32* pxmode, l_float32* pxvariance);
-        internal static extern int numaGetHistogramStatsOnInterval(NUMA* nahisto, float startx, float deltax, int ifirst, int ilast, l_float32* pxmean, l_float32* pxmedian, l_float32* pxmode, l_float32* pxvariance);
-        internal static extern int numaMakeRankFromHistogram(float startx, float deltax, NUMA* nasy, int npts, NUMA** pnax, NUMA** pnay);
-        internal static extern int numaHistogramGetRankFromVal(NUMA* na, float rval, l_float32* prank);
-        internal static extern int numaHistogramGetValFromRank(NUMA* na, float rank, l_float32* prval);
-        internal static extern int numaDiscretizeRankAndIntensity(NUMA* na, int nbins, NUMA** pnarbin, NUMA** pnam, NUMA** pnar, NUMA** pnabb);
-        internal static extern int numaGetRankBinValues(NUMA* na, int nbins, NUMA** pnarbin, NUMA** pnam);
-        internal static extern int numaSplitDistribution(NUMA* na, float scorefract, l_int32* psplitindex, l_float32* pave1, l_float32* pave2, l_float32* pnum1, l_float32* pnum2, NUMA** pnascore);
-        internal static extern int grayHistogramsToEMD(NUMAA* naa1, NUMAA* naa2, NUMA** pnad);
-        internal static extern int numaEarthMoverDistance(NUMA* na1, NUMA* na2, l_float32* pdist);
-        internal static extern int grayInterHistogramStats(NUMAA* naa, int wc, NUMA** pnam, NUMA** pnams, NUMA** pnav, NUMA** pnarv);
-        internal static extern NUMA* numaFindPeaks(NUMA* nas, int nmax, float fract1, float fract2);
-        internal static extern NUMA* numaFindExtrema(NUMA* nas, float delta, NUMA** pnav);
-        internal static extern int numaCountReversals(NUMA* nas, float minreversal, l_int32* pnr, l_float32* pnrpl);
-        internal static extern int numaSelectCrossingThreshold(NUMA* nax, NUMA* nay, float estthresh, l_float32* pbestthresh);
-        internal static extern NUMA* numaCrossingsByThreshold(NUMA* nax, NUMA* nay, float thresh);
-        internal static extern NUMA* numaCrossingsByPeaks(NUMA* nax, NUMA* nay, float delta);
-        internal static extern int numaEvalBestHaarParameters(NUMA* nas, float relweight, int nwidth, int nshift, float minwidth, float maxwidth, l_float32* pbestwidth, l_float32* pbestshift, l_float32* pbestscore);
-        internal static extern int numaEvalHaarSum(NUMA* nas, float width, float shift, float relweight, l_float32* pscore);
-        internal static extern NUMA* genConstrainedNumaInRange(int first, int last, int nmax, int use_pairs);
         internal static extern int pixGetRegionsBinary(PIX* pixs, PIX** ppixhm, PIX** ppixtm, PIX** ppixtb, HandleRef pixadb);
         internal static extern PIX* pixGenHalftoneMask(PIX* pixs, PIX** ppixtext, l_int32* phtfound, int debug);
         internal static extern PIX* pixGenerateHalftoneMask(PIX* pixs, PIX** ppixtext, l_int32* phtfound, HandleRef pixadb);
