@@ -245,6 +245,7 @@
     <Compile Include="Implementations\PdfIO1.cs" />
     <Compile Include="Implementations\PdfIO2.cs" />
     <Compile Include="Implementations\Pix2.cs" />
+    <Compile Include="Implementations\Pix3.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

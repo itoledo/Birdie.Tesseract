@@ -4159,50 +4159,113 @@ namespace Leptonica.Native
         internal static extern void l_setAlphaMaskBorder(float val1, float val2);
         #endregion
 
+        #region pix3.c
+        // Masked operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetMasked")]
+        internal static extern int pixSetMasked(HandleRef pixd, HandleRef pixm, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetMaskedGeneral")]
+        internal static extern int pixSetMaskedGeneral(HandleRef pixd, HandleRef pixm, uint val, int x, int y);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCombineMasked")]
+        internal static extern int pixCombineMasked(HandleRef pixd, HandleRef pixs, HandleRef pixm);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCombineMaskedGeneral")]
+        internal static extern int pixCombineMaskedGeneral(HandleRef pixd, HandleRef pixs, HandleRef pixm, int x, int y);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixPaintThroughMask")]
+        internal static extern int pixPaintThroughMask(HandleRef pixd, HandleRef pixm, int x, int y, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixPaintSelfThroughMask")]
+        internal static extern int pixPaintSelfThroughMask(HandleRef pixd, HandleRef pixm, int x, int y, int searchdir, int mindist, int tilesize, int ntiles, int distblend);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMakeMaskFromVal")]
+        internal static extern IntPtr pixMakeMaskFromVal(HandleRef pixs, int val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMakeMaskFromLUT")]
+        internal static extern IntPtr pixMakeMaskFromLUT(HandleRef pixs, IntPtr tab);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMakeArbMaskFromRGB")]
+        internal static extern IntPtr pixMakeArbMaskFromRGB(HandleRef pixs, float rc, float gc, float bc, float thresh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetUnderTransparency")]
+        internal static extern IntPtr pixSetUnderTransparency(HandleRef pixs, uint val, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMakeAlphaFromMask")]
+        internal static extern IntPtr pixMakeAlphaFromMask(HandleRef pixs, int dist, out IntPtr pbox);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetColorNearMaskBoundary")]
+        internal static extern int pixGetColorNearMaskBoundary(HandleRef pixs, HandleRef pixm, HandleRef box, int dist, out uint pval, int debug);
+
+        // One and two-image boolean operations on arbitrary depth images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixInvert")]
+        internal static extern IntPtr pixInvert(HandleRef pixd, HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixOr")]
+        internal static extern IntPtr pixOr(HandleRef pixd, HandleRef pixs1, HandleRef pixs2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAnd")]
+        internal static extern IntPtr pixAnd(HandleRef pixd, HandleRef pixs1, HandleRef pixs2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixXor")]
+        internal static extern IntPtr pixXor(HandleRef pixd, HandleRef pixs1, HandleRef pixs2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSubtract")]
+        internal static extern IntPtr pixSubtract(HandleRef pixd, HandleRef pixs1, HandleRef pixs2);
+
+        // Foreground pixel counting in 1 bpp images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixZero")]
+        internal static extern int pixZero(HandleRef pix, out int pempty);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixForegroundFraction")]
+        internal static extern int pixForegroundFraction(HandleRef pix, out float pfract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaCountPixels")]
+        internal static extern IntPtr pixaCountPixels(HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCountPixels")]
+        internal static extern int pixCountPixels(HandleRef pix, out int pcount, IntPtr tab8);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCountByRow")]
+        internal static extern IntPtr pixCountByRow(HandleRef pix, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCountByColumn")]
+        internal static extern IntPtr pixCountByColumn(HandleRef pix, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCountPixelsByRow")]
+        internal static extern IntPtr pixCountPixelsByRow(HandleRef pix, IntPtr tab8);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCountPixelsByColumn")]
+        internal static extern IntPtr pixCountPixelsByColumn(HandleRef pix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCountPixelsInRow")]
+        internal static extern int pixCountPixelsInRow(HandleRef pix, int row, out int pcount, IntPtr tab8);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetMomentByColumn")]
+        internal static extern IntPtr pixGetMomentByColumn(HandleRef pix, int order);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThresholdPixelSum")]
+        internal static extern int pixThresholdPixelSum(HandleRef pix, int thresh, out int pabove, IntPtr tab8);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makePixelSumTab8")]
+        internal static extern IntPtr makePixelSumTab8(IntPtr v);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makePixelCentroidTab8")]
+        internal static extern IntPtr makePixelCentroidTab8(IntPtr v);
+
+        // Average of pixel values in gray images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAverageByRow")]
+        internal static extern IntPtr pixAverageByRow(HandleRef pix, HandleRef box, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAverageByColumn")]
+        internal static extern IntPtr pixAverageByColumn(HandleRef pix, HandleRef box, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAverageInRect")]
+        internal static extern int pixAverageInRect(HandleRef pix, HandleRef box, out float pave);
+
+        // Variance of pixel values in gray images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixVarianceByRow")]
+        internal static extern IntPtr pixVarianceByRow(HandleRef pix, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixVarianceByColumn")]
+        internal static extern IntPtr pixVarianceByColumn(HandleRef pix, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixVarianceInRect")]
+        internal static extern int pixVarianceInRect(HandleRef pix, HandleRef box, out float prootvar);
+
+        // Average of absolute value of pixel differences in gray images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAbsDiffByRow")]
+        internal static extern IntPtr pixAbsDiffByRow(HandleRef pix, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAbsDiffByColumn")]
+        internal static extern IntPtr pixAbsDiffByColumn(HandleRef pix, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAbsDiffInRect")]
+        internal static extern int pixAbsDiffInRect(HandleRef pix, HandleRef box, int dir, out float pabsdiff);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAbsDiffOnLine")]
+        internal static extern int pixAbsDiffOnLine(HandleRef pix, int x1, int y1, int x2, int y2, out float pabsdiff);
+
+        // Count of pixels with specific value
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCountArbInRect")]
+        internal static extern int pixCountArbInRect(HandleRef pixs, HandleRef box, int val, int factor, out int pcount);
+
+        // Mirrored tiling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMirroredTiling")]
+        internal static extern IntPtr pixMirroredTiling(HandleRef pixs, int w, int h);
+
+        // Representative tile near but outside region
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindRepCloseTile")]
+        internal static extern int pixFindRepCloseTile(HandleRef pixs, HandleRef box, int searchdir, int mindist, int tsize, int ntiles, out IntPtr pboxtile, int debug);
+        #endregion
+
         /*
-        internal static extern int pixSetMasked(PIX* pixd, PIX* pixm, uint val);
-        internal static extern int pixSetMaskedGeneral(PIX* pixd, PIX* pixm, uint val, int x, int y);
-        internal static extern int pixCombineMasked(PIX* pixd, PIX* pixs, PIX* pixm);
-        internal static extern int pixCombineMaskedGeneral(PIX* pixd, PIX* pixs, PIX* pixm, int x, int y);
-        internal static extern int pixPaintThroughMask(PIX* pixd, PIX* pixm, int x, int y, uint val);
-        internal static extern int pixPaintSelfThroughMask(PIX* pixd, PIX* pixm, int x, int y, int searchdir, int mindist, int tilesize, int ntiles, int distblend);
-        internal static extern PIX* pixMakeMaskFromVal(PIX* pixs, int val);
-        internal static extern PIX* pixMakeMaskFromLUT(PIX* pixs, l_int32* tab);
-        internal static extern PIX* pixMakeArbMaskFromRGB(PIX* pixs, float rc, float gc, float bc, float thresh);
-        internal static extern PIX* pixSetUnderTransparency(PIX* pixs, uint val, int debug);
-        internal static extern PIX* pixMakeAlphaFromMask(PIX* pixs, int dist, BOX** pbox);
-        internal static extern int pixGetColorNearMaskBoundary(PIX* pixs, PIX* pixm, HandleRef box, int dist, l_uint32* pval, int debug);
-        internal static extern PIX* pixInvert(PIX* pixd, PIX* pixs);
-        internal static extern PIX* pixOr(PIX* pixd, PIX* pixs1, PIX* pixs2);
-        internal static extern PIX* pixAnd(PIX* pixd, PIX* pixs1, PIX* pixs2);
-        internal static extern PIX* pixXor(PIX* pixd, PIX* pixs1, PIX* pixs2);
-        internal static extern PIX* pixSubtract(PIX* pixd, PIX* pixs1, PIX* pixs2);
-        internal static extern int pixZero(PIX* pix, l_int32* pempty);
-        internal static extern int pixForegroundFraction(PIX* pix, l_float32* pfract);
-        internal static extern NUMA* pixaCountPixels(PIXA* pixa);
-        internal static extern int pixCountPixels(PIX* pix, l_int32* pcount, l_int32* tab8);
-        internal static extern NUMA* pixCountByRow(PIX* pix, HandleRef box);
-        internal static extern NUMA* pixCountByColumn(PIX* pix, HandleRef box);
-        internal static extern NUMA* pixCountPixelsByRow(PIX* pix, l_int32* tab8);
-        internal static extern NUMA* pixCountPixelsByColumn(PIX* pix);
-        internal static extern int pixCountPixelsInRow(PIX* pix, int row, l_int32* pcount, l_int32* tab8);
-        internal static extern NUMA* pixGetMomentByColumn(PIX* pix, int order);
-        internal static extern int pixThresholdPixelSum(PIX* pix, int thresh, l_int32* pabove, l_int32* tab8);
-        internal static extern l_int32* makePixelSumTab8(void );
-        internal static extern l_int32* makePixelCentroidTab8(void );
-        internal static extern NUMA* pixAverageByRow(PIX* pix, HandleRef box, int type);
-        internal static extern NUMA* pixAverageByColumn(PIX* pix, HandleRef box, int type);
-        internal static extern int pixAverageInRect(PIX* pix, HandleRef box, l_float32* pave);
-        internal static extern NUMA* pixVarianceByRow(PIX* pix, HandleRef box);
-        internal static extern NUMA* pixVarianceByColumn(PIX* pix, HandleRef box);
-        internal static extern int pixVarianceInRect(PIX* pix, HandleRef box, l_float32* prootvar);
-        internal static extern NUMA* pixAbsDiffByRow(PIX* pix, HandleRef box);
-        internal static extern NUMA* pixAbsDiffByColumn(PIX* pix, HandleRef box);
-        internal static extern int pixAbsDiffInRect(PIX* pix, HandleRef box, int dir, l_float32* pabsdiff);
-        internal static extern int pixAbsDiffOnLine(PIX* pix, int x1, int y1, int x2, int y2, l_float32* pabsdiff);
-        internal static extern int pixCountArbInRect(PIX* pixs, HandleRef box, int val, int factor, l_int32* pcount);
-        internal static extern PIX* pixMirroredTiling(PIX* pixs, int w, int h);
-        internal static extern int pixFindRepCloseTile(PIX* pixs, HandleRef box, int searchdir, int mindist, int tsize, int ntiles, BOX** pboxtile, int debug);
         internal static extern NUMA* pixGetGrayHistogram(PIX* pixs, int factor);
         internal static extern NUMA* pixGetGrayHistogramMasked(PIX* pixs, PIX* pixm, int x, int y, int factor);
         internal static extern NUMA* pixGetGrayHistogramInRect(PIX* pixs, HandleRef box, int factor);
