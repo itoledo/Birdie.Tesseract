@@ -4265,44 +4265,89 @@ namespace Leptonica.Native
         internal static extern int pixFindRepCloseTile(HandleRef pixs, HandleRef box, int searchdir, int mindist, int tsize, int ntiles, out IntPtr pboxtile, int debug);
         #endregion
 
+        #region pix4.c
+        // Pixel histogram, rank val, averaging and min/max
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetGrayHistogram")]
+        internal static extern IntPtr pixGetGrayHistogram(HandleRef pixs, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetGrayHistogramMasked")]
+        internal static extern IntPtr pixGetGrayHistogramMasked(HandleRef pixs, HandleRef pixm, int x, int y, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetGrayHistogramInRect")]
+        internal static extern IntPtr pixGetGrayHistogramInRect(HandleRef pixs, HandleRef box, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetGrayHistogramTiled")]
+        internal static extern IntPtr pixGetGrayHistogramTiled(HandleRef pixs, int factor, int nx, int ny);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetColorHistogram")]
+        internal static extern int pixGetColorHistogram(HandleRef pixs, int factor, out IntPtr pnar, out IntPtr pnag, out IntPtr pnab);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetColorHistogramMasked")]
+        internal static extern int pixGetColorHistogramMasked(HandleRef pixs, HandleRef pixm, int x, int y, int factor, out IntPtr pnar, out IntPtr pnag, out IntPtr pnab);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetCmapHistogram")]
+        internal static extern IntPtr pixGetCmapHistogram(HandleRef pixs, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetCmapHistogramMasked")]
+        internal static extern IntPtr pixGetCmapHistogramMasked(HandleRef pixs, HandleRef pixm, int x, int y, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetCmapHistogramInRect")]
+        internal static extern IntPtr pixGetCmapHistogramInRect(HandleRef pixs, HandleRef box, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCountRGBColors")]
+        internal static extern int pixCountRGBColors(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetColorAmapHistogram")]
+        internal static extern IntPtr pixGetColorAmapHistogram(HandleRef pixs, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "amapGetCountForColor")]
+        internal static extern int amapGetCountForColor(HandleRef amap, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRankValue")]
+        internal static extern int pixGetRankValue(HandleRef pixs, int factor, float rank, out uint pvalue);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRankValueMaskedRGB")]
+        internal static extern int pixGetRankValueMaskedRGB(HandleRef pixs, HandleRef pixm, int x, int y, int factor, float rank, out float prval, out float pgval, out float pbval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRankValueMasked")]
+        internal static extern int pixGetRankValueMasked(HandleRef pixs, HandleRef pixm, int x, int y, int factor, float rank, out float pval, out IntPtr pna);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetAverageValue")]
+        internal static extern int pixGetAverageValue(HandleRef pixs, int factor, int type, out uint pvalue);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetAverageMaskedRGB")]
+        internal static extern int pixGetAverageMaskedRGB(HandleRef pixs, HandleRef pixm, int x, int y, int factor, int type, out float prval, out float pgval, out float pbval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetAverageMasked")]
+        internal static extern int pixGetAverageMasked(HandleRef pixs, HandleRef pixm, int x, int y, int factor, int type, out float pval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetAverageTiledRGB")]
+        internal static extern int pixGetAverageTiledRGB(HandleRef pixs, int sx, int sy, int type, out IntPtr ppixr, out IntPtr ppixg, out IntPtr ppixb);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetAverageTiled")]
+        internal static extern IntPtr pixGetAverageTiled(HandleRef pixs, int sx, int sy, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRowStats")]
+        internal static extern int pixRowStats(HandleRef pixs, HandleRef box, out IntPtr pnamean, out IntPtr pnamedian, out IntPtr pnamode, out IntPtr pnamodecount, out IntPtr pnavar, out IntPtr pnarootvar);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColumnStats")]
+        internal static extern int pixColumnStats(HandleRef pixs, HandleRef box, out IntPtr pnamean, out IntPtr pnamedian, out IntPtr pnamode, out IntPtr pnamodecount, out IntPtr pnavar, out IntPtr pnarootvar);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRangeValues")]
+        internal static extern int pixGetRangeValues(HandleRef pixs, int factor, int color, out int pminval, out int pmaxval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetExtremeValue")]
+        internal static extern int pixGetExtremeValue(HandleRef pixs, int factor, int type, out int prval, out int pgval, out int pbval, out int pgrayval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetMaxValueInRect")]
+        internal static extern int pixGetMaxValueInRect(HandleRef pixs, HandleRef box, out uint pmaxval, out int pxmax, out int pymax);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetBinnedComponentRange")]
+        internal static extern int pixGetBinnedComponentRange(HandleRef pixs, int nbins, int factor, int color, out int pminval, out int pmaxval, out IntPtr pcarray, int fontsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRankColorArray")]
+        internal static extern int pixGetRankColorArray(HandleRef pixs, int nbins, int type, int factor, out IntPtr pcarray, int debugflag, int fontsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetBinnedColor")]
+        internal static extern int pixGetBinnedColor(HandleRef pixs, HandleRef pixg, int factor, int nbins, HandleRef nalut, out IntPtr pcarray, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDisplayColorArray")]
+        internal static extern IntPtr pixDisplayColorArray(IntPtr carray, int ncolors, int side, int ncols, int fontsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRankBinByStrip")]
+        internal static extern IntPtr pixRankBinByStrip(HandleRef pixs, int direction, int size, int nbins, int type);
+
+        // Pixelwise aligned statistics
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetAlignedStats")]
+        internal static extern IntPtr pixaGetAlignedStats(HandleRef pixa, int type, int nbins, int thresh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaExtractColumnFromEachPix")]
+        internal static extern int pixaExtractColumnFromEachPix(HandleRef pixa, int col, HandleRef pixd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRowStats")]
+        internal static extern int pixGetRowStats(HandleRef pixs, int type, int nbins, int thresh, IntPtr colvect);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetColumnStats")]
+        internal static extern int pixGetColumnStats(HandleRef pixs, int type, int nbins, int thresh, IntPtr rowvect);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetPixelColumn")]
+        internal static extern int pixSetPixelColumn(HandleRef pix, int col, IntPtr colvect);
+
+        // Foreground/background estimation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThresholdForFgBg")]
+        internal static extern int pixThresholdForFgBg(HandleRef pixs, int factor, int thresh, out int pfgval, out int pbgval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSplitDistributionFgBg")]
+        internal static extern int pixSplitDistributionFgBg(HandleRef pixs, float scorefract, int factor, out int pthresh, out int pfgval, out int pbgval, out IntPtr ppixdb);
+        #endregion
+
         /*
-        internal static extern NUMA* pixGetGrayHistogram(PIX* pixs, int factor);
-        internal static extern NUMA* pixGetGrayHistogramMasked(PIX* pixs, PIX* pixm, int x, int y, int factor);
-        internal static extern NUMA* pixGetGrayHistogramInRect(PIX* pixs, HandleRef box, int factor);
-        internal static extern NUMAA* pixGetGrayHistogramTiled(PIX* pixs, int factor, int nx, int ny);
-        internal static extern int pixGetColorHistogram(PIX* pixs, int factor, NUMA** pnar, NUMA** pnag, NUMA** pnab);
-        internal static extern int pixGetColorHistogramMasked(PIX* pixs, PIX* pixm, int x, int y, int factor, NUMA** pnar, NUMA** pnag, NUMA** pnab);
-        internal static extern NUMA* pixGetCmapHistogram(PIX* pixs, int factor);
-        internal static extern NUMA* pixGetCmapHistogramMasked(PIX* pixs, PIX* pixm, int x, int y, int factor);
-        internal static extern NUMA* pixGetCmapHistogramInRect(PIX* pixs, HandleRef box, int factor);
-        internal static extern int pixCountRGBColors(PIX* pixs);
-        internal static extern L_AMAP* pixGetColorAmapHistogram(PIX* pixs, int factor);
-        internal static extern int amapGetCountForColor(L_AMAP* amap, uint val);
-        internal static extern int pixGetRankValue(PIX* pixs, int factor, float rank, l_uint32* pvalue);
-        internal static extern int pixGetRankValueMaskedRGB(PIX* pixs, PIX* pixm, int x, int y, int factor, float rank, l_float32* prval, l_float32* pgval, l_float32* pbval);
-        internal static extern int pixGetRankValueMasked(PIX* pixs, PIX* pixm, int x, int y, int factor, float rank, l_float32* pval, NUMA** pna);
-        internal static extern int pixGetAverageValue(PIX* pixs, int factor, int type, l_uint32* pvalue);
-        internal static extern int pixGetAverageMaskedRGB(PIX* pixs, PIX* pixm, int x, int y, int factor, int type, l_float32* prval, l_float32* pgval, l_float32* pbval);
-        internal static extern int pixGetAverageMasked(PIX* pixs, PIX* pixm, int x, int y, int factor, int type, l_float32* pval);
-        internal static extern int pixGetAverageTiledRGB(PIX* pixs, int sx, int sy, int type, PIX** ppixr, PIX** ppixg, PIX** ppixb);
-        internal static extern PIX* pixGetAverageTiled(PIX* pixs, int sx, int sy, int type);
-        internal static extern int pixRowStats(PIX* pixs, HandleRef box, NUMA** pnamean, NUMA** pnamedian, NUMA** pnamode, NUMA** pnamodecount, NUMA** pnavar, NUMA** pnarootvar);
-        internal static extern int pixColumnStats(PIX* pixs, HandleRef box, NUMA** pnamean, NUMA** pnamedian, NUMA** pnamode, NUMA** pnamodecount, NUMA** pnavar, NUMA** pnarootvar);
-        internal static extern int pixGetRangeValues(PIX* pixs, int factor, int color, l_int32* pminval, l_int32* pmaxval);
-        internal static extern int pixGetExtremeValue(PIX* pixs, int factor, int type, l_int32* prval, l_int32* pgval, l_int32* pbval, l_int32* pgrayval);
-        internal static extern int pixGetMaxValueInRect(PIX* pixs, HandleRef box, l_uint32* pmaxval, l_int32* pxmax, l_int32* pymax);
-        internal static extern int pixGetBinnedComponentRange(PIX* pixs, int nbins, int factor, int color, l_int32* pminval, l_int32* pmaxval, l_uint32** pcarray, int fontsize);
-        internal static extern int pixGetRankColorArray(PIX* pixs, int nbins, int type, int factor, l_uint32** pcarray, int debugflag, int fontsize);
-        internal static extern int pixGetBinnedColor(PIX* pixs, PIX* pixg, int factor, int nbins, NUMA* nalut, l_uint32** pcarray, int debugflag);
-        internal static extern PIX* pixDisplayColorArray(l_uint32* carray, int ncolors, int side, int ncols, int fontsize);
-        internal static extern PIX* pixRankBinByStrip(PIX* pixs, int direction, int size, int nbins, int type);
-        internal static extern PIX* pixaGetAlignedStats(PIXA* pixa, int type, int nbins, int thresh);
-        internal static extern int pixaExtractColumnFromEachPix(PIXA* pixa, int col, PIX* pixd);
-        internal static extern int pixGetRowStats(PIX* pixs, int type, int nbins, int thresh, l_float32* colvect);
-        internal static extern int pixGetColumnStats(PIX* pixs, int type, int nbins, int thresh, l_float32* rowvect);
-        internal static extern int pixSetPixelColumn(PIX* pix, int col, l_float32* colvect);
-        internal static extern int pixThresholdForFgBg(PIX* pixs, int factor, int thresh, l_int32* pfgval, l_int32* pbgval);
-        internal static extern int pixSplitDistributionFgBg(PIX* pixs, float scorefract, int factor, l_int32* pthresh, l_int32* pfgval, l_int32* pbgval, PIX** ppixdb);
         internal static extern int pixaFindDimensions(PIXA* pixa, NUMA** pnaw, NUMA** pnah);
         internal static extern int pixFindAreaPerimRatio(PIX* pixs, l_int32* tab, l_float32* pfract);
         internal static extern NUMA* pixaFindPerimToAreaRatio(PIXA* pixa);
