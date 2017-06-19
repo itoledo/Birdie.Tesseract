@@ -3754,38 +3754,94 @@ namespace Leptonica.Native
         internal static extern int pixSetMaskedCmap(HandleRef pixs, HandleRef pixm, int x, int y, int rval, int gval, int bval);
         #endregion
 
+        #region parseprotos.c
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "parseForProtos")]
+        internal static extern IntPtr parseForProtos([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string prestring);
+        #endregion
+
+        #region partition.c
+        // Whitespace block extraction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaGetWhiteblocks")]
+        internal static extern IntPtr boxaGetWhiteblocks(HandleRef boxas, HandleRef box, int sortflag, int maxboxes, float maxoverlap, int maxperim, float fract, int maxpops);
+
+        // Helpers 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaPruneSortedOnOverlap")]
+        internal static extern IntPtr boxaPruneSortedOnOverlap(HandleRef boxas, float maxoverlap);
+        #endregion
+
+        #region pdfio1.c
+        // 1. Convert specified image files to pdf(one image file per page)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertFilesToPdf")]
+        internal static extern int convertFilesToPdf([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int res, float scalefactor, int type, int quality, [MarshalAs(UnmanagedType.AnsiBStr)] string title, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "saConvertFilesToPdf")]
+        internal static extern int saConvertFilesToPdf(HandleRef sa, int res, float scalefactor, int type, int quality, [MarshalAs(UnmanagedType.AnsiBStr)] string title, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "saConvertFilesToPdfData")]
+        internal static extern int saConvertFilesToPdfData(HandleRef sa, int res, float scalefactor, int type, int quality, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr pdata, IntPtr pnbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selectDefaultPdfEncoding")]
+        internal static extern int selectDefaultPdfEncoding(HandleRef pix, out int ptype);
+
+        // 2. Convert specified image files to pdf without scaling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertUnscaledFilesToPdf")]
+        internal static extern int convertUnscaledFilesToPdf([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, [MarshalAs(UnmanagedType.AnsiBStr)] string title, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "saConvertUnscaledFilesToPdf")]
+        internal static extern int saConvertUnscaledFilesToPdf(HandleRef sa, [MarshalAs(UnmanagedType.AnsiBStr)] string title, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "saConvertUnscaledFilesToPdfData")]
+        internal static extern int saConvertUnscaledFilesToPdfData(HandleRef sa, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr pdata, IntPtr pnbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertUnscaledToPdfData")]
+        internal static extern int convertUnscaledToPdfData([MarshalAs(UnmanagedType.AnsiBStr)] string fname, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr pdata, IntPtr pnbytes);
+
+        // 3. Convert multiple images to pdf(one image per page)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaConvertToPdf")]
+        internal static extern int pixaConvertToPdf(HandleRef pixa, int res, float scalefactor, int type, int quality, [MarshalAs(UnmanagedType.AnsiBStr)] string title, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaConvertToPdfData")]
+        internal static extern int pixaConvertToPdfData(HandleRef pixa, int res, float scalefactor, int type, int quality, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr pdata, IntPtr pnbytes);
+
+        // 4. Single page, multi-image converters
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertToPdf")]
+        internal static extern int convertToPdf([MarshalAs(UnmanagedType.AnsiBStr)] string filein, int type, int quality, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int x, int y, int res, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr plpd, int position);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertImageDataToPdf")]
+        internal static extern int convertImageDataToPdf(IntPtr imdata, IntPtr size, int type, int quality, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int x, int y, int res, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr plpd, int position);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertToPdfData")]
+        internal static extern int convertToPdfData([MarshalAs(UnmanagedType.AnsiBStr)] string filein, int type, int quality, out IntPtr pdata, IntPtr pnbytes, int x, int y, int res, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr plpd, int position);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertImageDataToPdfData")]
+        internal static extern int convertImageDataToPdfData(IntPtr imdata, IntPtr size, int type, int quality, out IntPtr pdata, IntPtr pnbytes, int x, int y, int res, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr plpd, int position);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertToPdf")]
+        internal static extern int pixConvertToPdf(HandleRef pix, int type, int quality, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int x, int y, int res, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr plpd, int position);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamPdf")]
+        internal static extern int pixWriteStreamPdf(IntPtr fp, HandleRef pix, int res, [MarshalAs(UnmanagedType.AnsiBStr)] string title);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemPdf")]
+        internal static extern int pixWriteMemPdf(out IntPtr pdata, IntPtr pnbytes, HandleRef pix, int res, [MarshalAs(UnmanagedType.AnsiBStr)] string title);
+
+        // 5. Segmented multi-page, multi-image converter
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertSegmentedFilesToPdf")]
+        internal static extern int convertSegmentedFilesToPdf([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int res, int type, int thresh, HandleRef baa, int quality, float scalefactor, [MarshalAs(UnmanagedType.AnsiBStr)] string title, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertNumberedMasksToBoxaa")]
+        internal static extern IntPtr convertNumberedMasksToBoxaa([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int numpre, int numpost);
+
+        // 6. Segmented single page, multi-image converters
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertToPdfSegmented")]
+        internal static extern int convertToPdfSegmented([MarshalAs(UnmanagedType.AnsiBStr)] string filein, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, [MarshalAs(UnmanagedType.AnsiBStr)] string title, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertToPdfSegmented")]
+        internal static extern int pixConvertToPdfSegmented(HandleRef pixs, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, [MarshalAs(UnmanagedType.AnsiBStr)] string title, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertToPdfDataSegmented")]
+        internal static extern int convertToPdfDataSegmented([MarshalAs(UnmanagedType.AnsiBStr)] string filein, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr pdata, IntPtr pnbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertToPdfDataSegmented")]
+        internal static extern int pixConvertToPdfDataSegmented(HandleRef pixs, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr pdata, IntPtr pnbytes);
+
+        // 7. Multipage concatenation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "concatenatePdf")]
+        internal static extern int concatenatePdf([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "saConcatenatePdf")]
+        internal static extern int saConcatenatePdf(HandleRef sa, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraConcatenatePdf")]
+        internal static extern int ptraConcatenatePdf(HandleRef pa, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "concatenatePdfToData")]
+        internal static extern int concatenatePdfToData([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, out IntPtr pdata, IntPtr pnbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "saConcatenatePdfToData")]
+        internal static extern int saConcatenatePdfToData(HandleRef sa, out IntPtr pdata, IntPtr pnbytes);
+        #endregion
+
         /*
-        internal static extern IntPtr  parseForProtos(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string prestring );
-        internal static extern HandleRef boxaGetWhiteblocks(HandleRef boxas, HandleRef box, int sortflag, int maxboxes, float maxoverlap, int maxperim, float fract, int maxpops);
-        internal static extern HandleRef boxaPruneSortedOnOverlap(HandleRef boxas, float maxoverlap);
-        internal static extern int convertFilesToPdf(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int res, float scalefactor, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int saConvertFilesToPdf(SARRAY* sa, int res, float scalefactor, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int saConvertFilesToPdfData(SARRAY* sa, int res, float scalefactor, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, byte** pdata, IntPtr pnbytes );
-         internal static extern int selectDefaultPdfEncoding(PIX* pix, l_int32* ptype);
-        internal static extern int convertUnscaledFilesToPdf(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int saConvertUnscaledFilesToPdf(SARRAY* sa,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int saConvertUnscaledFilesToPdfData(SARRAY* sa,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, byte** pdata, IntPtr pnbytes );
-         internal static extern int convertUnscaledToPdfData(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, byte** pdata, IntPtr pnbytes );
-         internal static extern int pixaConvertToPdf(PIXA* pixa, int res, float scalefactor, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int pixaConvertToPdfData(PIXA* pixa, int res, float scalefactor, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, byte** pdata, IntPtr pnbytes );
-         internal static extern int convertToPdf(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
-        internal static extern int convertImageDataToPdf(IntPtr imdata, IntPtr size, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
-        internal static extern int convertToPdfData(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, int type, int quality, byte** pdata, IntPtr pnbytes, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
-        internal static extern int convertImageDataToPdfData(IntPtr imdata, IntPtr size, int type, int quality, l_uint8** pdata, IntPtr pnbytes, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
-        internal static extern int pixConvertToPdf(PIX* pix, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
-        internal static extern int pixWriteStreamPdf(IntPtr fp, PIX* pix, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title );
-        internal static extern int pixWriteMemPdf(l_uint8** pdata, IntPtr pnbytes, PIX* pix, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title );
-        internal static extern int convertSegmentedFilesToPdf(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int res, int type, int thresh, BOXAA* baa, int quality, float scalefactor,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern BOXAA* convertNumberedMasksToBoxaa(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int numpre, int numpost );
-        internal static extern int convertToPdfSegmented(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int pixConvertToPdfSegmented(PIX* pixs, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int convertToPdfDataSegmented(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, byte** pdata, IntPtr pnbytes );
-         internal static extern int pixConvertToPdfDataSegmented(PIX* pixs, int res, int type, int thresh, HandleRef boxa, int quality, float scalefactor,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, byte** pdata, IntPtr pnbytes );
-         internal static extern int concatenatePdf(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int saConcatenatePdf(SARRAY* sa,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int ptraConcatenatePdf(L_PTRA* pa,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int concatenatePdfToData(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, byte** pdata, IntPtr pnbytes );
-         internal static extern int saConcatenatePdfToData(SARRAY* sa, l_uint8** pdata, IntPtr pnbytes);
         internal static extern int pixConvertToPdfData(PIX* pix, int type, int quality, l_uint8** pdata, IntPtr pnbytes, int x, int y, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, L_PDF_DATA **plpd, int position );
         internal static extern int ptraConcatenatePdfToData(L_PTRA* pa_data, SARRAY* sa, l_uint8** pdata, IntPtr pnbytes);
         internal static extern int convertTiffMultipageToPdf(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );

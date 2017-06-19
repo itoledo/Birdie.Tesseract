@@ -77,6 +77,11 @@
     <Compile Include="Definitions\JBClass\JbClasser.cs" />
     <Compile Include="Definitions\JBClass\JbData.cs" />
     <Compile Include="Definitions\List\DoubleLinkedList.cs" />
+    <Compile Include="Definitions\Ptra\AccessorFlagsForL_Ptraa.cs" />
+    <Compile Include="Definitions\Ptra\FlagsForInsertionIntoL_Ptra.cs" />
+    <Compile Include="Definitions\Ptra\FlagsForRemovalFromL_Ptra.cs" />
+    <Compile Include="Definitions\Ptra\L_Ptra.cs" />
+    <Compile Include="Definitions\Ptra\L_Ptraa.cs" />
     <Compile Include="Definitions\RBTree\L_AMap.cs" />
     <Compile Include="Definitions\RBTree\L_AMap_Node.cs" />
     <Compile Include="Definitions\RBTree\L_ASet.cs" />
@@ -235,6 +240,9 @@
     <Compile Include="Implementations\NumaFunc2.cs" />
     <Compile Include="Implementations\PageSeg.cs" />
     <Compile Include="Implementations\PaintCMap.cs" />
+    <Compile Include="Implementations\ParseProtos.cs" />
+    <Compile Include="Implementations\Partition.cs" />
+    <Compile Include="Implementations\PdfIO1.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
