@@ -4347,44 +4347,101 @@ namespace Leptonica.Native
         internal static extern int pixSplitDistributionFgBg(HandleRef pixs, float scorefract, int factor, out int pthresh, out int pfgval, out int pbgval, out IntPtr ppixdb);
         #endregion
 
+        #region pix5.c
+        // Measurement of properties
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindDimensions")]
+        internal static extern int pixaFindDimensions(HandleRef pixa, out IntPtr  pnaw, out IntPtr  pnah);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindAreaPerimRatio")]
+        internal static extern int pixFindAreaPerimRatio(HandleRef pixs, IntPtr tab,  out float pfract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindPerimToAreaRatio")]
+        internal static extern IntPtr pixaFindPerimToAreaRatio(HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindPerimToAreaRatio")]
+        internal static extern int pixFindPerimToAreaRatio(HandleRef pixs, IntPtr tab,  out float pfract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindPerimSizeRatio")]
+        internal static extern IntPtr pixaFindPerimSizeRatio(HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindPerimSizeRatio")]
+        internal static extern int pixFindPerimSizeRatio(HandleRef pixs, IntPtr tab,  out float pratio);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindAreaFraction")]
+        internal static extern IntPtr pixaFindAreaFraction(HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindAreaFraction")]
+        internal static extern int pixFindAreaFraction(HandleRef pixs, IntPtr tab,  out float pfract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindAreaFractionMasked")]
+        internal static extern IntPtr pixaFindAreaFractionMasked(HandleRef pixa, HandleRef pixm, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindAreaFractionMasked")]
+        internal static extern int pixFindAreaFractionMasked(HandleRef pixs, HandleRef box, HandleRef pixm, IntPtr tab,  out float pfract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindWidthHeightRatio")]
+        internal static extern IntPtr pixaFindWidthHeightRatio(HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindWidthHeightProduct")]
+        internal static extern IntPtr pixaFindWidthHeightProduct(HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindOverlapFraction")]
+        internal static extern int pixFindOverlapFraction(HandleRef pixs1, HandleRef pixs2, int x2, int y2, IntPtr tab,  out float pratio, out int pnoverlap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindRectangleComps")]
+        internal static extern IntPtr pixFindRectangleComps(HandleRef pixs, int dist, int minw, int minh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConformsToRectangle")]
+        internal static extern int pixConformsToRectangle(HandleRef pixs, HandleRef box, int dist, out int pconforms);
+
+        // Extract rectangular region
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipRectangles")]
+        internal static extern IntPtr pixClipRectangles(HandleRef pixs, HandleRef boxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipRectangle")]
+        internal static extern IntPtr pixClipRectangle(HandleRef pixs, HandleRef box, out IntPtr  pboxc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipMasked")]
+        internal static extern IntPtr pixClipMasked(HandleRef pixs, HandleRef pixm, int x, int y, uint outval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCropToMatch")]
+        internal static extern int pixCropToMatch(HandleRef pixs1, HandleRef pixs2, out IntPtr  ppixd1, out IntPtr  ppixd2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCropToSize")]
+        internal static extern IntPtr pixCropToSize(HandleRef pixs, int w, int h);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixResizeToMatch")]
+        internal static extern IntPtr pixResizeToMatch(HandleRef pixs, HandleRef pixt, int w, int h);
+
+        // Make a frame mask
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMakeFrameMask")]
+        internal static extern IntPtr pixMakeFrameMask(int w, int h, float hf1, float hf2, float vf1, float vf2);
+
+        // Fraction of Fg pixels under a mask
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFractionFgInMask")]
+        internal static extern int pixFractionFgInMask(HandleRef pix1, HandleRef pix2, out float pfract);
+
+        // Clip to foreground
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipToForeground")]
+        internal static extern int pixClipToForeground(HandleRef pixs, out IntPtr  ppixd, out IntPtr  pbox);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTestClipToForeground")]
+        internal static extern int pixTestClipToForeground(HandleRef pixs, out int pcanclip);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipBoxToForeground")]
+        internal static extern int pixClipBoxToForeground(HandleRef pixs, HandleRef boxs, out IntPtr  ppixd, out IntPtr  pboxd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScanForForeground")]
+        internal static extern int pixScanForForeground(HandleRef pixs, HandleRef box, int scanflag, out int ploc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipBoxToEdges")]
+        internal static extern int pixClipBoxToEdges(HandleRef pixs, HandleRef boxs, int lowthresh, int highthresh, int maxwidth, int factor, out IntPtr  ppixd, out IntPtr  pboxd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScanForEdge")]
+        internal static extern int pixScanForEdge(HandleRef pixs, HandleRef box, int lowthresh, int highthresh, int maxwidth, int factor, int scanflag, out int ploc);
+
+        // Extract pixel averages and reversals along lines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExtractOnLine")]
+        internal static extern IntPtr pixExtractOnLine(HandleRef pixs, int x1, int y1, int x2, int y2, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAverageOnLine")]
+        internal static extern float pixAverageOnLine(HandleRef pixs, int x1, int y1, int x2, int y2, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAverageIntensityProfile")]
+        internal static extern IntPtr pixAverageIntensityProfile(HandleRef pixs, float fract, int dir, int first, int last, int factor1, int factor2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReversalProfile")]
+        internal static extern IntPtr pixReversalProfile(HandleRef pixs, float fract, int dir, int first, int last, int minreversal, int factor1, int factor2);
+
+        // Extract windowed variance along a line
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWindowedVarianceOnLine")]
+        internal static extern int pixWindowedVarianceOnLine(HandleRef pixs, int dir, int loc, int c1, int c2, int size, out IntPtr  pnad);
+
+        // Extract min/max of pixel values near lines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMinMaxNearLine")]
+        internal static extern int pixMinMaxNearLine(HandleRef pixs, int x1, int y1, int x2, int y2, int dist, int direction, out IntPtr  pnamin, out IntPtr  pnamax, out float pminave, out float pmaxave);
+
+        // Rank row and column transforms
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRankRowTransform")]
+        internal static extern IntPtr pixRankRowTransform(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRankColumnTransform")]
+        internal static extern IntPtr pixRankColumnTransform(HandleRef pixs);
+        #endregion
+
         /*
-        internal static extern int pixaFindDimensions(PIXA* pixa, NUMA** pnaw, NUMA** pnah);
-        internal static extern int pixFindAreaPerimRatio(PIX* pixs, l_int32* tab, l_float32* pfract);
-        internal static extern NUMA* pixaFindPerimToAreaRatio(PIXA* pixa);
-        internal static extern int pixFindPerimToAreaRatio(PIX* pixs, l_int32* tab, l_float32* pfract);
-        internal static extern NUMA* pixaFindPerimSizeRatio(PIXA* pixa);
-        internal static extern int pixFindPerimSizeRatio(PIX* pixs, l_int32* tab, l_float32* pratio);
-        internal static extern NUMA* pixaFindAreaFraction(PIXA* pixa);
-        internal static extern int pixFindAreaFraction(PIX* pixs, l_int32* tab, l_float32* pfract);
-        internal static extern NUMA* pixaFindAreaFractionMasked(PIXA* pixa, PIX* pixm, int debug);
-        internal static extern int pixFindAreaFractionMasked(PIX* pixs, HandleRef box, PIX* pixm, l_int32* tab, l_float32* pfract);
-        internal static extern NUMA* pixaFindWidthHeightRatio(PIXA* pixa);
-        internal static extern NUMA* pixaFindWidthHeightProduct(PIXA* pixa);
-        internal static extern int pixFindOverlapFraction(PIX* pixs1, PIX* pixs2, int x2, int y2, l_int32* tab, l_float32* pratio, l_int32* pnoverlap);
-        internal static extern HandleRef pixFindRectangleComps(PIX* pixs, int dist, int minw, int minh);
-        internal static extern int pixConformsToRectangle(PIX* pixs, HandleRef box, int dist, l_int32* pconforms);
-        internal static extern HandleRef pixClipRectangles(PIX* pixs, HandleRef boxa);
-        internal static extern PIX* pixClipRectangle(PIX* pixs, HandleRef box, BOX** pboxc);
-        internal static extern PIX* pixClipMasked(PIX* pixs, PIX* pixm, int x, int y, uint outval);
-        internal static extern int pixCropToMatch(PIX* pixs1, PIX* pixs2, PIX** ppixd1, PIX** ppixd2);
-        internal static extern PIX* pixCropToSize(PIX* pixs, int w, int h);
-        internal static extern PIX* pixResizeToMatch(PIX* pixs, PIX* pixt, int w, int h);
-        internal static extern PIX* pixMakeFrameMask(int w, int h, float hf1, float hf2, float vf1, float vf2);
-        internal static extern int pixFractionFgInMask(PIX* pix1, PIX* pix2, l_float32* pfract);
-        internal static extern int pixClipToForeground(PIX* pixs, PIX** ppixd, BOX** pbox);
-        internal static extern int pixTestClipToForeground(PIX* pixs, l_int32* pcanclip);
-        internal static extern int pixClipBoxToForeground(PIX* pixs, HandleRef boxs, PIX** ppixd, BOX** pboxd);
-        internal static extern int pixScanForForeground(PIX* pixs, HandleRef box, int scanflag, l_int32* ploc);
-        internal static extern int pixClipBoxToEdges(PIX* pixs, HandleRef boxs, int lowthresh, int highthresh, int maxwidth, int factor, PIX** ppixd, BOX** pboxd);
-        internal static extern int pixScanForEdge(PIX* pixs, HandleRef box, int lowthresh, int highthresh, int maxwidth, int factor, int scanflag, l_int32* ploc);
-        internal static extern NUMA* pixExtractOnLine(PIX* pixs, int x1, int y1, int x2, int y2, int factor);
-        internal static extern float pixAverageOnLine(PIX* pixs, int x1, int y1, int x2, int y2, int factor);
-        internal static extern NUMA* pixAverageIntensityProfile(PIX* pixs, float fract, int dir, int first, int last, int factor1, int factor2);
-        internal static extern NUMA* pixReversalProfile(PIX* pixs, float fract, int dir, int first, int last, int minreversal, int factor1, int factor2);
-        internal static extern int pixWindowedVarianceOnLine(PIX* pixs, int dir, int loc, int c1, int c2, int size, NUMA** pnad);
-        internal static extern int pixMinMaxNearLine(PIX* pixs, int x1, int y1, int x2, int y2, int dist, int direction, NUMA** pnamin, NUMA** pnamax, l_float32* pminave, l_float32* pmaxave);
-        internal static extern PIX* pixRankRowTransform(PIX* pixs);
-        internal static extern PIX* pixRankColumnTransform(PIX* pixs);
         internal static extern HandleRef pixaCreate(int n);
         internal static extern HandleRef pixaCreateFromPix(PIX* pixs, int n, int cellw, int cellh);
         internal static extern HandleRef pixaCreateFromBoxa(PIX* pixs, HandleRef boxa, l_int32* pcropwarn);
