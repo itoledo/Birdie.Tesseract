@@ -4627,49 +4627,103 @@ namespace Leptonica.Native
         internal static extern int pixaccMultConstAccumulate(HandleRef pixacc, HandleRef pix, float factor);
         #endregion
 
+        #region pixafunc1.c
+        // Filters
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSelectBySize")]
+        internal static extern IntPtr pixSelectBySize(HandleRef pixs, int width, int height, int connectivity, int type, int relation, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSelectBySize")]
+        internal static extern IntPtr pixaSelectBySize(HandleRef pixas, int width, int height, int type, int relation, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaMakeSizeIndicator")]
+        internal static extern IntPtr pixaMakeSizeIndicator(HandleRef pixa, int width, int height, int type, int relation);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSelectByPerimToAreaRatio")]
+        internal static extern IntPtr pixSelectByPerimToAreaRatio(HandleRef pixs, float thresh, int connectivity, int type, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSelectByPerimToAreaRatio")]
+        internal static extern IntPtr pixaSelectByPerimToAreaRatio(HandleRef pixas, float thresh, int type, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSelectByPerimSizeRatio")]
+        internal static extern IntPtr pixSelectByPerimSizeRatio(HandleRef pixs, float thresh, int connectivity, int type, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSelectByPerimSizeRatio")]
+        internal static extern IntPtr pixaSelectByPerimSizeRatio(HandleRef pixas, float thresh, int type, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSelectByAreaFraction")]
+        internal static extern IntPtr pixSelectByAreaFraction(HandleRef pixs, float thresh, int connectivity, int type, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSelectByAreaFraction")]
+        internal static extern IntPtr pixaSelectByAreaFraction(HandleRef pixas, float thresh, int type, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSelectByWidthHeightRatio")]
+        internal static extern IntPtr pixSelectByWidthHeightRatio(HandleRef pixs, float thresh, int connectivity, int type, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSelectByWidthHeightRatio")]
+        internal static extern IntPtr pixaSelectByWidthHeightRatio(HandleRef pixas, float thresh, int type, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSelectByNumConnComp")]
+        internal static extern IntPtr pixaSelectByNumConnComp(HandleRef pixas, int nmin, int nmax, int connectivity, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSelectWithIndicator")]
+        internal static extern IntPtr pixaSelectWithIndicator(HandleRef pixas, HandleRef na, out int pchanged);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRemoveWithIndicator")]
+        internal static extern int pixRemoveWithIndicator(HandleRef pixs, HandleRef pixa, HandleRef na);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddWithIndicator")]
+        internal static extern int pixAddWithIndicator(HandleRef pixs, HandleRef pixa, HandleRef na);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSelectWithString")]
+        internal static extern IntPtr pixaSelectWithString(HandleRef pixas, [MarshalAs(UnmanagedType.AnsiBStr)] string str, IntPtr perror);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaRenderComponent")]
+        internal static extern IntPtr pixaRenderComponent(HandleRef pixs, HandleRef pixa, int index);
+
+        // Sort functions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSort")]
+        internal static extern IntPtr pixaSort(HandleRef pixas, int sorttype, int sortorder, out IntPtr pnaindex, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaBinSort")]
+        internal static extern IntPtr pixaBinSort(HandleRef pixas, int sorttype, int sortorder, out IntPtr pnaindex, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSortByIndex")]
+        internal static extern IntPtr pixaSortByIndex(HandleRef pixas, HandleRef naindex, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSort2dByIndex")]
+        internal static extern IntPtr pixaSort2dByIndex(HandleRef pixas, HandleRef naa, int copyflag);
+
+        // Pixa and Pixaa range selection
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSelectRange")]
+        internal static extern IntPtr pixaSelectRange(HandleRef pixas, int first, int last, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaSelectRange")]
+        internal static extern IntPtr pixaaSelectRange(HandleRef paas, int first, int last, int copyflag);
+
+        // Pixa and Pixaa scaling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaScaleToSize")]
+        internal static extern IntPtr pixaaScaleToSize(HandleRef paas, int wd, int hd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaScaleToSizeVar")]
+        internal static extern IntPtr pixaaScaleToSizeVar(HandleRef paas, HandleRef nawd, HandleRef nahd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaScaleToSize")]
+        internal static extern IntPtr pixaScaleToSize(HandleRef pixas, int wd, int hd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaScaleToSizeRel")]
+        internal static extern IntPtr pixaScaleToSizeRel(HandleRef pixas, int delw, int delh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaScale")]
+        internal static extern IntPtr pixaScale(HandleRef pixas, float scalex, float scaley);
+
+        // Miscellaneous
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaAddBorderGeneral")]
+        internal static extern IntPtr pixaAddBorderGeneral(HandleRef pixad, HandleRef pixas, int left, int right, int top, int bot, uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaFlattenToPixa")]
+        internal static extern IntPtr pixaaFlattenToPixa(HandleRef paa, out IntPtr pnaindex, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaSizeRange")]
+        internal static extern int pixaaSizeRange(HandleRef paa, out int pminw, out int pminh, out int pmaxw, out int pmaxh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSizeRange")]
+        internal static extern int pixaSizeRange(HandleRef pixa, out int pminw, out int pminh, out int pmaxw, out int pmaxh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaClipToPix")]
+        internal static extern IntPtr pixaClipToPix(HandleRef pixas, HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaClipToForeground")]
+        internal static extern int pixaClipToForeground(HandleRef pixas, out IntPtr ppixad, out IntPtr pboxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetRenderingDepth")]
+        internal static extern int pixaGetRenderingDepth(HandleRef pixa, out int pdepth);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaHasColor")]
+        internal static extern int pixaHasColor(HandleRef pixa, out int phascolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaAnyColormaps")]
+        internal static extern int pixaAnyColormaps(HandleRef pixa, out int phascmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetDepthInfo")]
+        internal static extern int pixaGetDepthInfo(HandleRef pixa, out int pmaxdepth, out int psame);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaConvertToSameDepth")]
+        internal static extern IntPtr pixaConvertToSameDepth(HandleRef pixas);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaEqual")]
+        internal static extern int pixaEqual(HandleRef pixa1, HandleRef pixa2, int maxdist, out IntPtr pnaindex, out int psame);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaRotateOrth")]
+        internal static extern IntPtr pixaRotateOrth(HandleRef pixas, int rotation);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSetFullSizeBoxa")]
+        internal static extern int pixaSetFullSizeBoxa(HandleRef pixa);
+        #endregion
+
         /*
-        internal static extern PIX* pixSelectBySize(PIX* pixs, int width, int height, int connectivity, int type, int relation, l_int32* pchanged);
-        internal static extern HandleRef pixaSelectBySize(PIXA* pixas, int width, int height, int type, int relation, l_int32* pchanged);
-        internal static extern NUMA* pixaMakeSizeIndicator(PIXA* pixa, int width, int height, int type, int relation);
-        internal static extern PIX* pixSelectByPerimToAreaRatio(PIX* pixs, float thresh, int connectivity, int type, l_int32* pchanged);
-        internal static extern HandleRef pixaSelectByPerimToAreaRatio(PIXA* pixas, float thresh, int type, l_int32* pchanged);
-        internal static extern PIX* pixSelectByPerimSizeRatio(PIX* pixs, float thresh, int connectivity, int type, l_int32* pchanged);
-        internal static extern HandleRef pixaSelectByPerimSizeRatio(PIXA* pixas, float thresh, int type, l_int32* pchanged);
-        internal static extern PIX* pixSelectByAreaFraction(PIX* pixs, float thresh, int connectivity, int type, l_int32* pchanged);
-        internal static extern HandleRef pixaSelectByAreaFraction(PIXA* pixas, float thresh, int type, l_int32* pchanged);
-        internal static extern PIX* pixSelectByWidthHeightRatio(PIX* pixs, float thresh, int connectivity, int type, l_int32* pchanged);
-        internal static extern HandleRef pixaSelectByWidthHeightRatio(PIXA* pixas, float thresh, int type, l_int32* pchanged);
-        internal static extern HandleRef pixaSelectByNumConnComp(PIXA* pixas, int nmin, int nmax, int connectivity, l_int32* pchanged);
-        internal static extern HandleRef pixaSelectWithIndicator(PIXA* pixas, NUMA* na, l_int32* pchanged);
-        internal static extern int pixRemoveWithIndicator(PIX* pixs, HandleRef pixa, NUMA* na);
-        internal static extern int pixAddWithIndicator(PIX* pixs, HandleRef pixa, NUMA* na);
-        internal static extern HandleRef pixaSelectWithString(PIXA* pixas,  [MarshalAs(UnmanagedType.AnsiBStr)] string str, int* perror );
-        internal static extern PIX* pixaRenderComponent(PIX* pixs, HandleRef pixa, int index);
-        internal static extern HandleRef pixaSort(PIXA* pixas, int sorttype, int sortorder, NUMA** pnaindex, int copyflag);
-        internal static extern HandleRef pixaBinSort(PIXA* pixas, int sorttype, int sortorder, NUMA** pnaindex, int copyflag);
-        internal static extern HandleRef pixaSortByIndex(PIXA* pixas, NUMA* naindex, int copyflag);
-        internal static extern PIXAA* pixaSort2dByIndex(PIXA* pixas, NUMAA* naa, int copyflag);
-        internal static extern HandleRef pixaSelectRange(PIXA* pixas, int first, int last, int copyflag);
-        internal static extern PIXAA* pixaaSelectRange(PIXAA* paas, int first, int last, int copyflag);
-        internal static extern PIXAA* pixaaScaleToSize(PIXAA* paas, int wd, int hd);
-        internal static extern PIXAA* pixaaScaleToSizeVar(PIXAA* paas, NUMA* nawd, NUMA* nahd);
-        internal static extern HandleRef pixaScaleToSize(PIXA* pixas, int wd, int hd);
-        internal static extern HandleRef pixaScaleToSizeRel(PIXA* pixas, int delw, int delh);
-        internal static extern HandleRef pixaScale(PIXA* pixas, float scalex, float scaley);
-        internal static extern HandleRef pixaAddBorderGeneral(PIXA* pixad, HandleRef pixas, int left, int right, int top, int bot, uint val);
-        internal static extern HandleRef pixaaFlattenToPixa(PIXAA* paa, NUMA** pnaindex, int copyflag);
-        internal static extern int pixaaSizeRange(PIXAA* paa, l_int32* pminw, l_int32* pminh, l_int32* pmaxw, l_int32* pmaxh);
-        internal static extern int pixaSizeRange(PIXA* pixa, l_int32* pminw, l_int32* pminh, l_int32* pmaxw, l_int32* pmaxh);
-        internal static extern HandleRef pixaClipToPix(PIXA* pixas, PIX* pixs);
-        internal static extern int pixaClipToForeground(PIXA* pixas, PIXA** ppixad, BOXA** pboxa);
-        internal static extern int pixaGetRenderingDepth(PIXA* pixa, l_int32* pdepth);
-        internal static extern int pixaHasColor(PIXA* pixa, l_int32* phascolor);
-        internal static extern int pixaAnyColormaps(PIXA* pixa, l_int32* phascmap);
-        internal static extern int pixaGetDepthInfo(PIXA* pixa, l_int32* pmaxdepth, l_int32* psame);
-        internal static extern HandleRef pixaConvertToSameDepth(PIXA* pixas);
-        internal static extern int pixaEqual(PIXA* pixa1, HandleRef pixa2, int maxdist, NUMA** pnaindex, l_int32* psame);
-        internal static extern HandleRef pixaRotateOrth(PIXA* pixas, int rotation);
-        internal static extern int pixaSetFullSizeBoxa(PIXA* pixa);
         internal static extern PIX* pixaDisplay(PIXA* pixa, int w, int h);
         internal static extern PIX* pixaDisplayOnColor(PIXA* pixa, int w, int h, uint bgcolor);
         internal static extern PIX* pixaDisplayRandomCmap(PIXA* pixa, int w, int h);

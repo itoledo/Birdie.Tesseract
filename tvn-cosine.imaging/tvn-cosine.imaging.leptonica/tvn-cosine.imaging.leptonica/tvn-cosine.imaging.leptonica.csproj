@@ -250,6 +250,7 @@
     <Compile Include="Implementations\Pix5.cs" />
     <Compile Include="Implementations\PixaBasic.cs" />
     <Compile Include="Implementations\PixAcc.cs" />
+    <Compile Include="Implementations\PixaFunc1.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
