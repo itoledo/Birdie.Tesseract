@@ -4594,20 +4594,40 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaWriteStream")]
         internal static extern int pixaaWriteStream(IntPtr fp, HandleRef paa);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaWriteMem")]
-        internal static extern int pixaaWriteMem(out IntPtr pdata, IntPtr psize, HandleRef paa); 
+        internal static extern int pixaaWriteMem(out IntPtr pdata, IntPtr psize, HandleRef paa);
+        #endregion
+
+        #region pixacc.c
+        // Pixacc creation, destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaccCreate")]
+        internal static extern IntPtr pixaccCreate(int w, int h, int negflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaccCreateFromPix")]
+        internal static extern IntPtr pixaccCreateFromPix(HandleRef pix, int negflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaccDestroy")]
+        internal static extern void pixaccDestroy(ref IntPtr ppixacc);
+
+        // Pixacc finalization
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaccFinal")]
+        internal static extern IntPtr pixaccFinal(HandleRef pixacc, int outdepth);
+
+        // Pixacc accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaccGetPix")]
+        internal static extern IntPtr pixaccGetPix(HandleRef pixacc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaccGetOffset")]
+        internal static extern int pixaccGetOffset(HandleRef pixacc);
+
+        // Pixacc accumulators
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaccAdd")]
+        internal static extern int pixaccAdd(HandleRef pixacc, HandleRef pix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaccSubtract")]
+        internal static extern int pixaccSubtract(HandleRef pixacc, HandleRef pix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaccMultConst")]
+        internal static extern int pixaccMultConst(HandleRef pixacc, float factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaccMultConstAccumulate")]
+        internal static extern int pixaccMultConstAccumulate(HandleRef pixacc, HandleRef pix, float factor);
         #endregion
 
         /*
-        internal static extern PIXACC* pixaccCreate(int w, int h, int negflag);
-        internal static extern PIXACC* pixaccCreateFromPix(PIX* pix, int negflag);
-        internal static extern void pixaccDestroy(PIXACC** ppixacc);
-        internal static extern PIX* pixaccFinal(PIXACC* pixacc, int outdepth);
-        internal static extern PIX* pixaccGetPix(PIXACC* pixacc);
-        internal static extern int pixaccGetOffset(PIXACC* pixacc);
-        internal static extern int pixaccAdd(PIXACC* pixacc, PIX* pix);
-        internal static extern int pixaccSubtract(PIXACC* pixacc, PIX* pix);
-        internal static extern int pixaccMultConst(PIXACC* pixacc, float factor);
-        internal static extern int pixaccMultConstAccumulate(PIXACC* pixacc, PIX* pix, float factor);
         internal static extern PIX* pixSelectBySize(PIX* pixs, int width, int height, int connectivity, int type, int relation, l_int32* pchanged);
         internal static extern HandleRef pixaSelectBySize(PIXA* pixas, int width, int height, int type, int relation, l_int32* pchanged);
         internal static extern NUMA* pixaMakeSizeIndicator(PIXA* pixa, int width, int height, int type, int relation);

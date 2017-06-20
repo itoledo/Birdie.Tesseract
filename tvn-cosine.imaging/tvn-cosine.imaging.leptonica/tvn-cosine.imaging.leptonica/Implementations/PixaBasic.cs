@@ -468,6 +468,7 @@ namespace Leptonica
 
             }
         }
+
         public static void pixaaDestroy(this Pixaa ppaa)
         {
             if (null == ppaa)
