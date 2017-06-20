@@ -4818,43 +4818,62 @@ namespace Leptonica.Native
 
         #region pixarith.c
         // One-image grayscale arithmetic operations(8, 16, 32 bpp)
-        internal static extern int pixAddConstantGray(PIX* pixs, int val);
-        internal static extern int pixMultConstantGray(PIX* pixs, float val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddConstantGray")]
+        internal static extern int pixAddConstantGray(HandleRef pixs, int val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMultConstantGray")]
+        internal static extern int pixMultConstantGray(HandleRef pixs, float val);
 
         // Two-image grayscale arithmetic operations(8, 16, 32 bpp)
-        internal static extern PIX* pixAddGray(PIX* pixd, PIX* pixs1, PIX* pixs2);
-        internal static extern PIX* pixSubtractGray(PIX* pixd, PIX* pixs1, PIX* pixs2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddGray")]
+        internal static extern IntPtr pixAddGray(HandleRef pixd, HandleRef pixs1, HandleRef pixs2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSubtractGray")]
+        internal static extern IntPtr pixSubtractGray(HandleRef pixd, HandleRef pixs1, HandleRef pixs2);
 
         // Grayscale threshold operation(8, 16, 32 bpp)
-        internal static extern PIX* pixThresholdToValue(PIX* pixd, PIX* pixs, int threshval, int setval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThresholdToValue")]
+        internal static extern IntPtr pixThresholdToValue(HandleRef pixd, HandleRef pixs, int threshval, int setval);
 
         // Image accumulator arithmetic operations
-        internal static extern PIX* pixInitAccumulate(int w, int h, uint offset);
-        internal static extern PIX* pixFinalAccumulate(PIX* pixs, uint offset, int depth);
-        internal static extern PIX* pixFinalAccumulateThreshold(PIX* pixs, uint offset, uint threshold);
-        internal static extern int pixAccumulate(PIX* pixd, PIX* pixs, int op);
-        internal static extern int pixMultConstAccumulate(PIX* pixs, float factor, uint offset);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixInitAccumulate")]
+        internal static extern IntPtr pixInitAccumulate(int w, int h, uint offset);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFinalAccumulate")]
+        internal static extern IntPtr pixFinalAccumulate(HandleRef pixs, uint offset, int depth);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFinalAccumulateThreshold")]
+        internal static extern IntPtr pixFinalAccumulateThreshold(HandleRef pixs, uint offset, uint threshold);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAccumulate")]
+        internal static extern int pixAccumulate(HandleRef pixd, HandleRef pixs, int op);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMultConstAccumulate")]
+        internal static extern int pixMultConstAccumulate(HandleRef pixs, float factor, uint offset);
 
         // Absolute value of difference
-        internal static extern PIX* pixAbsDifference(PIX* pixs1, PIX* pixs2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAbsDifference")]
+        internal static extern IntPtr pixAbsDifference(HandleRef pixs1, HandleRef pixs2);
 
         // Sum of color images
-        internal static extern PIX* pixAddRGB(PIX* pixs1, PIX* pixs2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddRGB")]
+        internal static extern IntPtr pixAddRGB(HandleRef pixs1, HandleRef pixs2);
 
         // Two-image min and max operations(8 and 16 bpp)
-        internal static extern PIX* pixMinOrMax(PIX* pixd, PIX* pixs1, PIX* pixs2, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMinOrMax")]
+        internal static extern IntPtr pixMinOrMax(HandleRef pixd, HandleRef pixs1, HandleRef pixs2, int type);
 
         // Scale pix for maximum dynamic range
-        internal static extern PIX* pixMaxDynamicRange(PIX* pixs, int type);
-        internal static extern PIX* pixMaxDynamicRangeRGB(PIX* pixs, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMaxDynamicRange")]
+        internal static extern IntPtr pixMaxDynamicRange(HandleRef pixs, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMaxDynamicRangeRGB")]
+        internal static extern IntPtr pixMaxDynamicRangeRGB(HandleRef pixs, int type);
 
         // RGB pixel value scaling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "linearScaleRGBVal")]
         internal static extern uint linearScaleRGBVal(uint sval, float factor);
-        internal static extern uint logScaleRGBVal(uint sval, l_float32* tab, float factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "logScaleRGBVal")]
+        internal static extern uint logScaleRGBVal(uint sval, IntPtr tab, float factor);
 
         // Log base2 lookup
-        internal static extern l_float32* makeLogBase2Tab(void );
-        internal static extern float getLogBase2(int val, l_float32* logtab);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeLogBase2Tab")]
+        internal static extern IntPtr makeLogBase2Tab(IntPtr v );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getLogBase2")]
+        internal static extern float getLogBase2(int val, IntPtr logtab);
         #endregion
 
         /*

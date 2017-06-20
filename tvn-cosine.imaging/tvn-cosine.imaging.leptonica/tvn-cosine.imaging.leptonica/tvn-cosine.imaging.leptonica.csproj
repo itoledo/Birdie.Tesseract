@@ -253,6 +253,7 @@
     <Compile Include="Implementations\PixaFunc1.cs" />
     <Compile Include="Implementations\PixaFunc2.cs" />
     <Compile Include="Implementations\PixAlloc.cs" />
+    <Compile Include="Implementations\PixArith.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
