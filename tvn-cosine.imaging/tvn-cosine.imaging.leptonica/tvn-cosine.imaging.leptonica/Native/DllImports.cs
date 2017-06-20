@@ -5193,20 +5193,49 @@ namespace Leptonica.Native
         internal static extern int pixTilingPaintTile(HandleRef pixd, int i, int j, HandleRef pixs, HandleRef pt);
         #endregion
 
-        /*
-        internal static extern PIX* pixReadStreamPng(IntPtr fp);
-        internal static extern int readHeaderPng(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int* pw, l_int32* ph, int* pbps, l_int32* pspp, int* piscmap );
-        internal static extern int freadHeaderPng(IntPtr fp, l_int32* pw, l_int32* ph, l_int32* pbps, l_int32* pspp, l_int32* piscmap);
-        internal static extern int readHeaderMemPng(IntPtr data, IntPtr size, l_int32* pw, int* ph, l_int32* pbps, int* pspp, l_int32* piscmap);
-        internal static extern int fgetPngResolution(IntPtr fp, l_int32* pxres, l_int32* pyres);
-        internal static extern int isPngInterlaced(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int* pinterlaced );
-        internal static extern int fgetPngColormapInfo(IntPtr fp, PIXCMAP** pcmap, l_int32* ptransparency);
-        internal static extern int pixWritePng(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pix, float gamma );
-        internal static extern int pixWriteStreamPng(IntPtr fp, PIX* pix, float gamma);
-        internal static extern int pixSetZlibCompression(PIX* pix, int compval);
+        #region pngio.c
+        // Reading png through stream
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadStreamPng")]
+        internal static extern IntPtr pixReadStreamPng(IntPtr fp);
+
+        // Reading png header
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderPng")]
+        internal static extern int readHeaderPng([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pw, out int ph, out int pbps, out int pspp, out int piscmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "freadHeaderPng")]
+        internal static extern int freadHeaderPng(IntPtr fp, out int pw, out int ph, out int pbps, out int pspp, out int piscmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderMemPng")]
+        internal static extern int readHeaderMemPng(IntPtr data, IntPtr size, out int pw, out int ph, out int pbps, out int  pspp, out int piscmap);
+
+        // Reading png metadata
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fgetPngResolution")]
+        internal static extern int fgetPngResolution(IntPtr fp, out int pxres, out int pyres);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "isPngInterlaced")]
+        internal static extern int isPngInterlaced([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pinterlaced);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fgetPngColormapInfo")]
+        internal static extern int fgetPngColormapInfo(IntPtr fp, out IntPtr pcmap, out int ptransparency);
+
+        // Writing png through stream
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWritePng")]
+        internal static extern int pixWritePng([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pix, float gamma);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamPng")]
+        internal static extern int pixWriteStreamPng(IntPtr fp, HandleRef pix, float gamma);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetZlibCompression")]
+        internal static extern int pixSetZlibCompression(HandleRef pix, int compval);
+
+        // Set flag for special read mode
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_pngSetReadStrip16To8")]
         internal static extern void l_pngSetReadStrip16To8(int flag);
-        internal static extern PIX* pixReadMemPng(IntPtr filedata, IntPtr filesize);
-        internal static extern int pixWriteMemPng(l_uint8** pfiledata, IntPtr pfilesize, PIX* pix, float gamma);
+
+        // Reading png from memory
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadMemPng")]
+        internal static extern IntPtr pixReadMemPng(IntPtr filedata, IntPtr filesize);
+
+        // Writing png to memory
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemPng")]
+        internal static extern int pixWriteMemPng (out IntPtr pfiledata, IntPtr pfilesize, HandleRef pix, float gamma);
+        #endregion
+
+        /*
         internal static extern PIX* pixReadStreamPnm(IntPtr fp);
         internal static extern int readHeaderPnm(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int* pw, l_int32* ph, int* pd, l_int32* ptype, int* pbps, l_int32* pspp );
          internal static extern int freadHeaderPnm(IntPtr fp, l_int32* pw, l_int32* ph, l_int32* pd, l_int32* ptype, l_int32* pbps, l_int32* pspp);
@@ -5215,8 +5244,8 @@ namespace Leptonica.Native
         internal static extern int pixWriteStreamPam(IntPtr fp, PIX* pix);
         internal static extern PIX* pixReadMemPnm(IntPtr data, IntPtr size);
         internal static extern int readHeaderMemPnm(IntPtr data, IntPtr size, l_int32* pw, int* ph, l_int32* pd, int* ptype, l_int32* pbps, int* pspp);
-        internal static extern int pixWriteMemPnm(l_uint8** pdata, IntPtr psize, PIX* pix);
-        internal static extern int pixWriteMemPam(l_uint8** pdata, IntPtr psize, PIX* pix);
+        internal static extern int pixWriteMemPnm (out IntPtr pdata, IntPtr psize, PIX* pix);
+        internal static extern int pixWriteMemPam (out IntPtr pdata, IntPtr psize, PIX* pix);
         internal static extern PIX* pixProjectiveSampledPta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
         internal static extern PIX* pixProjectiveSampled(PIX* pixs, l_float32* vc, int incolor);
         internal static extern PIX* pixProjectivePta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
@@ -5258,7 +5287,7 @@ namespace Leptonica.Native
         internal static extern int convertFlateToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout,  [MarshalAs(UnmanagedType.AnsiBStr)] string operation, int x, int y, int res, float scale, int pageno, int endpage );
         internal static extern int convertFlateToPSString(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, char** poutstr, int* pnbytes, int x, int y, int res, float scale, int pageno, int endpage );
         internal static extern IntPtr  generateFlatePS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int pageno, int endpage );
-        internal static extern int pixWriteMemPS(l_uint8** pdata, IntPtr psize, PIX* pix, HandleRef box, int res, float scale);
+        internal static extern int pixWriteMemPS (out IntPtr pdata, IntPtr psize, PIX* pix, HandleRef box, int res, float scale);
         internal static extern int getResLetterPage(int w, int h, float fillfract);
         internal static extern int getResA4Page(int w, int h, float fillfract);
         internal static extern void l_psWriteBoundingBox(int flag);
@@ -5284,7 +5313,7 @@ namespace Leptonica.Native
         internal static extern PTA* ptaReadMem(IntPtr data, IntPtr size);
         internal static extern int ptaWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PTA *pta, int type );
         internal static extern int ptaWriteStream(IntPtr fp, PTA* pta, int type);
-        internal static extern int ptaWriteMem(l_uint8** pdata, IntPtr psize, PTA* pta, int type);
+        internal static extern int ptaWriteMem (out IntPtr pdata, IntPtr psize, PTA* pta, int type);
         internal static extern PTAA* ptaaCreate(int n);
         internal static extern void ptaaDestroy(PTAA** pptaa);
         internal static extern int ptaaAddPta(PTAA* ptaa, PTA* pta, int copyflag);
@@ -5300,7 +5329,7 @@ namespace Leptonica.Native
         internal static extern PTAA* ptaaReadMem(IntPtr data, IntPtr size);
         internal static extern int ptaaWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PTAA *ptaa, int type );
         internal static extern int ptaaWriteStream(IntPtr fp, PTAA* ptaa, int type);
-        internal static extern int ptaaWriteMem(l_uint8** pdata, IntPtr psize, PTAA* ptaa, int type);
+        internal static extern int ptaaWriteMem (out IntPtr pdata, IntPtr psize, PTAA* ptaa, int type);
         internal static extern PTA* ptaSubsample(HandleRef ptas, int subfactor);
         internal static extern int ptaJoin(HandleRef ptad, PTA* ptas, int istart, int iend);
         internal static extern int ptaaJoin(PTAA* ptaad, PTAA* ptaas, int istart, int iend);
@@ -5452,7 +5481,7 @@ namespace Leptonica.Native
         internal static extern L_RECOG* recogReadMem(IntPtr data, IntPtr size);
         internal static extern int recogWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, L_RECOG *recog );
          internal static extern int recogWriteStream(IntPtr fp, L_RECOG* recog);
-        internal static extern int recogWriteMem(l_uint8** pdata, IntPtr psize, L_RECOG* recog);
+        internal static extern int recogWriteMem (out IntPtr pdata, IntPtr psize, L_RECOG* recog);
         internal static extern HandleRef recogExtractPixa(L_RECOG* recog);
         internal static extern HandleRef recogDecode(L_RECOG* recog, PIX* pixs, int nlevels, PIX** ppixdb);
         internal static extern int recogCreateDid(L_RECOG* recog, PIX* pixs);
@@ -5587,7 +5616,7 @@ namespace Leptonica.Native
         internal static extern SARRAY* sarrayReadMem(IntPtr data, IntPtr size);
         internal static extern int sarrayWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, SARRAY *sa );
          internal static extern int sarrayWriteStream(IntPtr fp, SARRAY* sa);
-        internal static extern int sarrayWriteMem(l_uint8** pdata, IntPtr psize, SARRAY* sa);
+        internal static extern int sarrayWriteMem (out IntPtr pdata, IntPtr psize, SARRAY* sa);
         internal static extern int sarrayAppend(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, SARRAY *sa );
          internal static extern SARRAY* getNumberedPathnamesInDirectory(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int numpre, int numpost, int maxnum );
         internal static extern SARRAY* getSortedPathnamesInDirectory(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int first, int nfiles );
@@ -5792,7 +5821,7 @@ namespace Leptonica.Native
         internal static extern int sreadHeaderSpix( const l_uint32* data, int* pwidth, l_int32* pheight, int* pbps, l_int32* pspp, int* piscmap );
         internal static extern int pixWriteStreamSpix(IntPtr fp, PIX* pix);
         internal static extern PIX* pixReadMemSpix(IntPtr data, IntPtr size);
-        internal static extern int pixWriteMemSpix(l_uint8** pdata, IntPtr psize, PIX* pix);
+        internal static extern int pixWriteMemSpix (out IntPtr pdata, IntPtr psize, PIX* pix);
         internal static extern int pixSerializeToMemory(PIX* pixs, l_uint32** pdata, IntPtr pnbytes);
         internal static extern PIX* pixDeserializeFromMemory( const l_uint32* data, IntPtr nbytes );
          internal static extern L_STACK* lstackCreate(int nalloc);
@@ -5854,9 +5883,9 @@ namespace Leptonica.Native
         internal static extern PIX* pixReadMemTiff(IntPtr cdata, IntPtr size, int n);
         internal static extern PIX* pixReadMemFromMultipageTiff(IntPtr cdata, IntPtr size, IntPtr poffset);
         internal static extern HandleRef pixaReadMemMultipageTiff(IntPtr data, IntPtr size);
-        internal static extern int pixaWriteMemMultipageTiff(l_uint8** pdata, IntPtr psize, HandleRef pixa);
-        internal static extern int pixWriteMemTiff(l_uint8** pdata, IntPtr psize, PIX* pix, int comptype);
-        internal static extern int pixWriteMemTiffCustom(l_uint8** pdata, IntPtr psize, PIX* pix, int comptype, NUMA* natags, SARRAY* savals, SARRAY* satypes, NUMA* nasizes);
+        internal static extern int pixaWriteMemMultipageTiff (out IntPtr pdata, IntPtr psize, HandleRef pixa);
+        internal static extern int pixWriteMemTiff (out IntPtr pdata, IntPtr psize, PIX* pix, int comptype);
+        internal static extern int pixWriteMemTiffCustom (out IntPtr pdata, IntPtr psize, PIX* pix, int comptype, NUMA* natags, SARRAY* savals, SARRAY* satypes, NUMA* nasizes);
         internal static extern int setMsgSeverity(int newsev);
         internal static extern int returnErrorInt(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, int ival );
         internal static extern float returnErrorFloat(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, float fval );
@@ -5963,7 +5992,7 @@ namespace Leptonica.Native
         internal static extern int readHeaderMemWebP(IntPtr data, IntPtr size, l_int32* pw, int* ph, l_int32* pspp);
         internal static extern int pixWriteWebP(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pixs, int quality, int lossless );
         internal static extern int pixWriteStreamWebP(IntPtr fp, PIX* pixs, int quality, int lossless);
-        internal static extern int pixWriteMemWebP(l_uint8** pencdata, IntPtr pencsize, PIX* pixs, int quality, int lossless);
+        internal static extern int pixWriteMemWebP (out IntPtr pencdata, IntPtr pencsize, PIX* pixs, int quality, int lossless);
         internal static extern int pixaWriteFiles(  [MarshalAs(UnmanagedType.AnsiBStr)] string rootname, PIXA *pixa, int format );
         internal static extern int pixWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, PIX *pix, int format );
         internal static extern int pixWriteAutoFormat(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pix );
@@ -5973,7 +6002,7 @@ namespace Leptonica.Native
         internal static extern int getImpliedFileFormat(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
         internal static extern int pixGetAutoFormat(PIX* pix, l_int32* pformat);
         internal static extern  [MarshalAs(UnmanagedType.AnsiBStr)] string getFormatExtension (int format );
-        internal static extern int pixWriteMem(l_uint8** pdata, IntPtr psize, PIX* pix, int format);
+        internal static extern int pixWriteMem (out IntPtr pdata, IntPtr psize, PIX* pix, int format);
         internal static extern int l_fileDisplay(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, int x, int y, float scale );
         internal static extern int pixDisplay(PIX* pixs, int x, int y);
         internal static extern int pixDisplayWithTitle(PIX* pixs, int x, int y,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, int dispflag );

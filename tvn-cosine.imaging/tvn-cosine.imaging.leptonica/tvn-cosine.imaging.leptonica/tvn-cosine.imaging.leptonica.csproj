@@ -258,6 +258,7 @@
     <Compile Include="Implementations\PixConv.cs" />
     <Compile Include="Implementations\PixLabel.cs" />
     <Compile Include="Implementations\Pixtiling.cs" />
+    <Compile Include="Implementations\PngIO.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
