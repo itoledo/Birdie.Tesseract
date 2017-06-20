@@ -4350,31 +4350,31 @@ namespace Leptonica.Native
         #region pix5.c
         // Measurement of properties
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindDimensions")]
-        internal static extern int pixaFindDimensions(HandleRef pixa, out IntPtr  pnaw, out IntPtr  pnah);
+        internal static extern int pixaFindDimensions(HandleRef pixa, out IntPtr pnaw, out IntPtr pnah);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindAreaPerimRatio")]
-        internal static extern int pixFindAreaPerimRatio(HandleRef pixs, IntPtr tab,  out float pfract);
+        internal static extern int pixFindAreaPerimRatio(HandleRef pixs, IntPtr tab, out float pfract);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindPerimToAreaRatio")]
         internal static extern IntPtr pixaFindPerimToAreaRatio(HandleRef pixa);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindPerimToAreaRatio")]
-        internal static extern int pixFindPerimToAreaRatio(HandleRef pixs, IntPtr tab,  out float pfract);
+        internal static extern int pixFindPerimToAreaRatio(HandleRef pixs, IntPtr tab, out float pfract);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindPerimSizeRatio")]
         internal static extern IntPtr pixaFindPerimSizeRatio(HandleRef pixa);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindPerimSizeRatio")]
-        internal static extern int pixFindPerimSizeRatio(HandleRef pixs, IntPtr tab,  out float pratio);
+        internal static extern int pixFindPerimSizeRatio(HandleRef pixs, IntPtr tab, out float pratio);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindAreaFraction")]
         internal static extern IntPtr pixaFindAreaFraction(HandleRef pixa);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindAreaFraction")]
-        internal static extern int pixFindAreaFraction(HandleRef pixs, IntPtr tab,  out float pfract);
+        internal static extern int pixFindAreaFraction(HandleRef pixs, IntPtr tab, out float pfract);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindAreaFractionMasked")]
         internal static extern IntPtr pixaFindAreaFractionMasked(HandleRef pixa, HandleRef pixm, int debug);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindAreaFractionMasked")]
-        internal static extern int pixFindAreaFractionMasked(HandleRef pixs, HandleRef box, HandleRef pixm, IntPtr tab,  out float pfract);
+        internal static extern int pixFindAreaFractionMasked(HandleRef pixs, HandleRef box, HandleRef pixm, IntPtr tab, out float pfract);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindWidthHeightRatio")]
         internal static extern IntPtr pixaFindWidthHeightRatio(HandleRef pixa);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindWidthHeightProduct")]
         internal static extern IntPtr pixaFindWidthHeightProduct(HandleRef pixa);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindOverlapFraction")]
-        internal static extern int pixFindOverlapFraction(HandleRef pixs1, HandleRef pixs2, int x2, int y2, IntPtr tab,  out float pratio, out int pnoverlap);
+        internal static extern int pixFindOverlapFraction(HandleRef pixs1, HandleRef pixs2, int x2, int y2, IntPtr tab, out float pratio, out int pnoverlap);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindRectangleComps")]
         internal static extern IntPtr pixFindRectangleComps(HandleRef pixs, int dist, int minw, int minh);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConformsToRectangle")]
@@ -4384,11 +4384,11 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipRectangles")]
         internal static extern IntPtr pixClipRectangles(HandleRef pixs, HandleRef boxa);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipRectangle")]
-        internal static extern IntPtr pixClipRectangle(HandleRef pixs, HandleRef box, out IntPtr  pboxc);
+        internal static extern IntPtr pixClipRectangle(HandleRef pixs, HandleRef box, out IntPtr pboxc);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipMasked")]
         internal static extern IntPtr pixClipMasked(HandleRef pixs, HandleRef pixm, int x, int y, uint outval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCropToMatch")]
-        internal static extern int pixCropToMatch(HandleRef pixs1, HandleRef pixs2, out IntPtr  ppixd1, out IntPtr  ppixd2);
+        internal static extern int pixCropToMatch(HandleRef pixs1, HandleRef pixs2, out IntPtr ppixd1, out IntPtr ppixd2);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCropToSize")]
         internal static extern IntPtr pixCropToSize(HandleRef pixs, int w, int h);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixResizeToMatch")]
@@ -4404,15 +4404,15 @@ namespace Leptonica.Native
 
         // Clip to foreground
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipToForeground")]
-        internal static extern int pixClipToForeground(HandleRef pixs, out IntPtr  ppixd, out IntPtr  pbox);
+        internal static extern int pixClipToForeground(HandleRef pixs, out IntPtr ppixd, out IntPtr pbox);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTestClipToForeground")]
         internal static extern int pixTestClipToForeground(HandleRef pixs, out int pcanclip);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipBoxToForeground")]
-        internal static extern int pixClipBoxToForeground(HandleRef pixs, HandleRef boxs, out IntPtr  ppixd, out IntPtr  pboxd);
+        internal static extern int pixClipBoxToForeground(HandleRef pixs, HandleRef boxs, out IntPtr ppixd, out IntPtr pboxd);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScanForForeground")]
         internal static extern int pixScanForForeground(HandleRef pixs, HandleRef box, int scanflag, out int ploc);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixClipBoxToEdges")]
-        internal static extern int pixClipBoxToEdges(HandleRef pixs, HandleRef boxs, int lowthresh, int highthresh, int maxwidth, int factor, out IntPtr  ppixd, out IntPtr  pboxd);
+        internal static extern int pixClipBoxToEdges(HandleRef pixs, HandleRef boxs, int lowthresh, int highthresh, int maxwidth, int factor, out IntPtr ppixd, out IntPtr pboxd);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScanForEdge")]
         internal static extern int pixScanForEdge(HandleRef pixs, HandleRef box, int lowthresh, int highthresh, int maxwidth, int factor, int scanflag, out int ploc);
 
@@ -4428,11 +4428,11 @@ namespace Leptonica.Native
 
         // Extract windowed variance along a line
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWindowedVarianceOnLine")]
-        internal static extern int pixWindowedVarianceOnLine(HandleRef pixs, int dir, int loc, int c1, int c2, int size, out IntPtr  pnad);
+        internal static extern int pixWindowedVarianceOnLine(HandleRef pixs, int dir, int loc, int c1, int c2, int size, out IntPtr pnad);
 
         // Extract min/max of pixel values near lines
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMinMaxNearLine")]
-        internal static extern int pixMinMaxNearLine(HandleRef pixs, int x1, int y1, int x2, int y2, int dist, int direction, out IntPtr  pnamin, out IntPtr  pnamax, out float pminave, out float pmaxave);
+        internal static extern int pixMinMaxNearLine(HandleRef pixs, int x1, int y1, int x2, int y2, int dist, int direction, out IntPtr pnamin, out IntPtr pnamax, out float pminave, out float pmaxave);
 
         // Rank row and column transforms
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRankRowTransform")]
@@ -4441,72 +4441,163 @@ namespace Leptonica.Native
         internal static extern IntPtr pixRankColumnTransform(HandleRef pixs);
         #endregion
 
-        /*
-        internal static extern HandleRef pixaCreate(int n);
-        internal static extern HandleRef pixaCreateFromPix(PIX* pixs, int n, int cellw, int cellh);
-        internal static extern HandleRef pixaCreateFromBoxa(PIX* pixs, HandleRef boxa, l_int32* pcropwarn);
-        internal static extern HandleRef pixaSplitPix(PIX* pixs, int nx, int ny, int borderwidth, uint bordercolor);
-        internal static extern void pixaDestroy(PIXA** ppixa);
-        internal static extern HandleRef pixaCopy(PIXA* pixa, int copyflag);
-        internal static extern int pixaAddPix(PIXA* pixa, PIX* pix, int copyflag);
-        internal static extern int pixaAddBox(PIXA* pixa, HandleRef box, int copyflag);
-        internal static extern int pixaExtendArrayToSize(PIXA* pixa, int size);
-        internal static extern int pixaGetCount(PIXA* pixa);
-        internal static extern int pixaChangeRefcount(PIXA* pixa, int delta);
-        internal static extern PIX* pixaGetPix(PIXA* pixa, int index, int accesstype);
-        internal static extern int pixaGetPixDimensions(PIXA* pixa, int index, l_int32* pw, l_int32* ph, l_int32* pd);
-        internal static extern HandleRef pixaGetBoxa(PIXA* pixa, int accesstype);
-        internal static extern int pixaGetBoxaCount(PIXA* pixa);
-        internal static extern HandleRef pixaGetBox(PIXA* pixa, int index, int accesstype);
-        internal static extern int pixaGetBoxGeometry(PIXA* pixa, int index, l_int32* px, l_int32* py, l_int32* pw, l_int32* ph);
-        internal static extern int pixaSetBoxa(PIXA* pixa, HandleRef boxa, int accesstype);
-        internal static extern PIX** pixaGetPixArray(PIXA* pixa);
-        internal static extern int pixaVerifyDepth(PIXA* pixa, l_int32* pmaxdepth);
-        internal static extern int pixaIsFull(PIXA* pixa, l_int32* pfullpa, l_int32* pfullba);
-        internal static extern int pixaCountText(PIXA* pixa, l_int32* pntext);
-        internal static extern int pixaSetText(PIXA* pixa, SARRAY* sa);
-        internal static extern void*** pixaGetLinePtrs(PIXA* pixa, l_int32* psize);
+        #region pixabasic.c
+        // Pixa creation, destruction, copying
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaCreate")]
+        internal static extern IntPtr pixaCreate(int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaCreateFromPix")]
+        internal static extern IntPtr pixaCreateFromPix(HandleRef pixs, int n, int cellw, int cellh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaCreateFromBoxa")]
+        internal static extern IntPtr pixaCreateFromBoxa(HandleRef pixs, HandleRef boxa, out int pcropwarn);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSplitPix")]
+        internal static extern IntPtr pixaSplitPix(HandleRef pixs, int nx, int ny, int borderwidth, uint bordercolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDestroy")]
+        internal static extern void pixaDestroy(ref IntPtr ppixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaCopy")]
+        internal static extern IntPtr pixaCopy(HandleRef pixa, int copyflag);
+
+        // Pixa addition
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaAddPix")]
+        internal static extern int pixaAddPix(HandleRef pixa, HandleRef pix, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaAddBox")]
+        internal static extern int pixaAddBox(HandleRef pixa, HandleRef box, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaExtendArrayToSize")]
+        internal static extern int pixaExtendArrayToSize(HandleRef pixa, int size);
+
+        // Pixa accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetCount")]
+        internal static extern int pixaGetCount(HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaChangeRefcount")]
+        internal static extern int pixaChangeRefcount(HandleRef pixa, int delta);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetPix")]
+        internal static extern IntPtr pixaGetPix(HandleRef pixa, int index, int accesstype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetPixDimensions")]
+        internal static extern int pixaGetPixDimensions(HandleRef pixa, int index, out int pw, out int ph, out int pd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetBoxa")]
+        internal static extern IntPtr pixaGetBoxa(HandleRef pixa, int accesstype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetBoxaCount")]
+        internal static extern int pixaGetBoxaCount(HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetBox")]
+        internal static extern IntPtr pixaGetBox(HandleRef pixa, int index, int accesstype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetBoxGeometry")]
+        internal static extern int pixaGetBoxGeometry(HandleRef pixa, int index, out int px, out int py, out int pw, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSetBoxa")]
+        internal static extern int pixaSetBoxa(HandleRef pixa, HandleRef boxa, int accesstype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetPixArray")]
+        internal static extern IntPtr pixaGetPixArray(HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaVerifyDepth")]
+        internal static extern int pixaVerifyDepth(HandleRef pixa, out int pmaxdepth);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaIsFull")]
+        internal static extern int pixaIsFull(HandleRef pixa, out int pfullpa, out int pfullba);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaCountText")]
+        internal static extern int pixaCountText(HandleRef pixa, out int pntext);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSetText")]
+        internal static extern int pixaSetText(HandleRef pixa, HandleRef sa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaGetLinePtrs")]
+        internal static extern IntPtr pixaGetLinePtrs(HandleRef pixa, out int psize);
+
+        // Pixa output info
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaWriteStreamInfo")]
         internal static extern int pixaWriteStreamInfo(IntPtr fp, HandleRef pixa);
-        internal static extern int pixaReplacePix(PIXA* pixa, int index, PIX* pix, HandleRef box);
-        internal static extern int pixaInsertPix(PIXA* pixa, int index, PIX* pixs, HandleRef box);
-        internal static extern int pixaRemovePix(PIXA* pixa, int index);
-        internal static extern int pixaRemovePixAndSave(PIXA* pixa, int index, PIX** ppix, BOX** pbox);
-        internal static extern int pixaInitFull(PIXA* pixa, PIX* pix, HandleRef box);
-        internal static extern int pixaClear(PIXA* pixa);
-        internal static extern int pixaJoin(PIXA* pixad, HandleRef pixas, int istart, int iend);
-        internal static extern HandleRef pixaInterleave(PIXA* pixa1, HandleRef pixa2, int copyflag);
-        internal static extern int pixaaJoin(PIXAA* paad, PIXAA* paas, int istart, int iend);
-        internal static extern PIXAA* pixaaCreate(int n);
-        internal static extern PIXAA* pixaaCreateFromPixa(PIXA* pixa, int n, int type, int copyflag);
-        internal static extern void pixaaDestroy(PIXAA** ppaa);
-        internal static extern int pixaaAddPixa(PIXAA* paa, HandleRef pixa, int copyflag);
-        internal static extern int pixaaExtendArray(PIXAA* paa);
-        internal static extern int pixaaAddPix(PIXAA* paa, int index, PIX* pix, HandleRef box, int copyflag);
-        internal static extern int pixaaAddBox(PIXAA* paa, HandleRef box, int copyflag);
-        internal static extern int pixaaGetCount(PIXAA* paa, NUMA** pna);
-        internal static extern HandleRef pixaaGetPixa(PIXAA* paa, int index, int accesstype);
-        internal static extern HandleRef pixaaGetBoxa(PIXAA* paa, int accesstype);
-        internal static extern PIX* pixaaGetPix(PIXAA* paa, int index, int ipix, int accessflag);
-        internal static extern int pixaaVerifyDepth(PIXAA* paa, l_int32* pmaxdepth);
-        internal static extern int pixaaIsFull(PIXAA* paa, l_int32* pfull);
-        internal static extern int pixaaInitFull(PIXAA* paa, HandleRef pixa);
-        internal static extern int pixaaReplacePixa(PIXAA* paa, int index, HandleRef pixa);
-        internal static extern int pixaaClear(PIXAA* paa);
-        internal static extern int pixaaTruncate(PIXAA* paa);
-        internal static extern HandleRef pixaRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern HandleRef pixaReadStream(IntPtr fp);
-        internal static extern HandleRef pixaReadMem(IntPtr data, IntPtr size);
-        internal static extern int pixaWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIXA *pixa );
-         internal static extern int pixaWriteStream(IntPtr fp, HandleRef pixa);
-        internal static extern int pixaWriteMem(l_uint8** pdata, IntPtr psize, HandleRef pixa);
-        internal static extern HandleRef pixaReadBoth(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern PIXAA* pixaaReadFromFiles(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int first, int nfiles );
-        internal static extern PIXAA* pixaaRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern PIXAA* pixaaReadStream(IntPtr fp);
-        internal static extern PIXAA* pixaaReadMem(IntPtr data, IntPtr size);
-        internal static extern int pixaaWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIXAA *paa );
-         internal static extern int pixaaWriteStream(IntPtr fp, PIXAA* paa);
-        internal static extern int pixaaWriteMem(l_uint8** pdata, IntPtr psize, PIXAA* paa);
+
+        // Pixa array modifiers
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaReplacePix")]
+        internal static extern int pixaReplacePix(HandleRef pixa, int index, HandleRef pix, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaInsertPix")]
+        internal static extern int pixaInsertPix(HandleRef pixa, int index, HandleRef pixs, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaRemovePix")]
+        internal static extern int pixaRemovePix(HandleRef pixa, int index);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaRemovePixAndSave")]
+        internal static extern int pixaRemovePixAndSave(HandleRef pixa, int index, out IntPtr ppix, out IntPtr pbox);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaInitFull")]
+        internal static extern int pixaInitFull(HandleRef pixa, HandleRef pix, HandleRef box);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaClear")]
+        internal static extern int pixaClear(HandleRef pixa);
+
+        // Pixa and Pixaa combination
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaJoin")]
+        internal static extern int pixaJoin(HandleRef pixad, HandleRef pixas, int istart, int iend);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaInterleave")]
+        internal static extern IntPtr pixaInterleave(HandleRef pixa1, HandleRef pixa2, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaJoin")]
+        internal static extern int pixaaJoin(HandleRef paad, HandleRef paas, int istart, int iend);
+
+        // Pixaa creation, destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaCreate")]
+        internal static extern IntPtr pixaaCreate(int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaCreateFromPixa")]
+        internal static extern IntPtr pixaaCreateFromPixa(HandleRef pixa, int n, int type, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaDestroy")]
+        internal static extern void pixaaDestroy(ref IntPtr ppaa);
+
+        // Pixaa addition
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaAddPixa")]
+        internal static extern int pixaaAddPixa(HandleRef paa, HandleRef pixa, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaExtendArray")]
+        internal static extern int pixaaExtendArray(HandleRef paa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaAddPix")]
+        internal static extern int pixaaAddPix(HandleRef paa, int index, HandleRef pix, HandleRef box, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaAddBox")]
+        internal static extern int pixaaAddBox(HandleRef paa, HandleRef box, int copyflag);
+
+        // Pixaa accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaGetCount")]
+        internal static extern int pixaaGetCount(HandleRef paa, out IntPtr pna);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaGetPixa")]
+        internal static extern IntPtr pixaaGetPixa(HandleRef paa, int index, int accesstype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaGetBoxa")]
+        internal static extern IntPtr pixaaGetBoxa(HandleRef paa, int accesstype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaGetPix")]
+        internal static extern IntPtr pixaaGetPix(HandleRef paa, int index, int ipix, int accessflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaVerifyDepth")]
+        internal static extern int pixaaVerifyDepth(HandleRef paa, out int pmaxdepth);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaIsFull")]
+        internal static extern int pixaaIsFull(HandleRef paa, out int pfull);
+
+        // Pixaa array modifiers
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaInitFull")]
+        internal static extern int pixaaInitFull(HandleRef paa, HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaReplacePixa")]
+        internal static extern int pixaaReplacePixa(HandleRef paa, int index, HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaClear")]
+        internal static extern int pixaaClear(HandleRef paa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaTruncate")]
+        internal static extern int pixaaTruncate(HandleRef paa);
+
+        // Pixa serialized I/O(requires png support)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaRead")]
+        internal static extern IntPtr pixaRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaReadStream")]
+        internal static extern IntPtr pixaReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaReadMem")]
+        internal static extern IntPtr pixaReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaWrite")]
+        internal static extern int pixaWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaWriteStream")]
+        internal static extern int pixaWriteStream(IntPtr fp, HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaWriteMem")]
+        internal static extern int pixaWriteMem(out IntPtr pdata, IntPtr psize, HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaReadBoth")]
+        internal static extern IntPtr pixaReadBoth([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+
+        // Pixaa serialized I/O(requires png support)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaReadFromFiles")]
+        internal static extern IntPtr pixaaReadFromFiles([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int first, int nfiles);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaRead")]
+        internal static extern IntPtr pixaaRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaReadStream")]
+        internal static extern IntPtr pixaaReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaReadMem")]
+        internal static extern IntPtr pixaaReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaWrite")]
+        internal static extern int pixaaWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef paa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaWriteStream")]
+        internal static extern int pixaaWriteStream(IntPtr fp, HandleRef paa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaWriteMem")]
+        internal static extern int pixaaWriteMem(out IntPtr pdata, IntPtr psize, HandleRef paa); 
+        #endregion
+
+        /*
         internal static extern PIXACC* pixaccCreate(int w, int h, int negflag);
         internal static extern PIXACC* pixaccCreateFromPix(PIX* pix, int negflag);
         internal static extern void pixaccDestroy(PIXACC** ppixacc);
