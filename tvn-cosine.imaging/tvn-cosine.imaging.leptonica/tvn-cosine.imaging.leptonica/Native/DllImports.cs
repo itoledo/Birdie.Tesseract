@@ -4871,109 +4871,290 @@ namespace Leptonica.Native
 
         // Log base2 lookup
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeLogBase2Tab")]
-        internal static extern IntPtr makeLogBase2Tab(IntPtr v );
+        internal static extern IntPtr makeLogBase2Tab(IntPtr v);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getLogBase2")]
         internal static extern float getLogBase2(int val, IntPtr logtab);
         #endregion
 
-        /*
-        internal static extern PIXC* pixcompCreateFromPix(PIX* pix, int comptype);
-        internal static extern PIXC* pixcompCreateFromString(IntPtr data, IntPtr size, int copyflag);
-        internal static extern PIXC* pixcompCreateFromFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int comptype );
-        internal static extern void pixcompDestroy(PIXC** ppixc);
-        internal static extern PIXC* pixcompCopy(PIXC* pixcs);
-        internal static extern int pixcompGetDimensions(PIXC* pixc, l_int32* pw, l_int32* ph, l_int32* pd);
-        internal static extern int pixcompDetermineFormat(int comptype, int d, int cmapflag, l_int32* pformat);
-        internal static extern PIX* pixCreateFromPixcomp(PIXC* pixc);
-        internal static extern PIXAC* pixacompCreate(int n);
-        internal static extern PIXAC* pixacompCreateWithInit(int n, int offset, PIX* pix, int comptype);
-        internal static extern PIXAC* pixacompCreateFromPixa(PIXA* pixa, int comptype, int accesstype);
-        internal static extern PIXAC* pixacompCreateFromFiles(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int comptype );
-        internal static extern PIXAC* pixacompCreateFromSA(SARRAY* sa, int comptype);
-        internal static extern void pixacompDestroy(PIXAC** ppixac);
-        internal static extern int pixacompAddPix(PIXAC* pixac, PIX* pix, int comptype);
-        internal static extern int pixacompAddPixcomp(PIXAC* pixac, PIXC* pixc, int copyflag);
-        internal static extern int pixacompReplacePix(PIXAC* pixac, int index, PIX* pix, int comptype);
-        internal static extern int pixacompReplacePixcomp(PIXAC* pixac, int index, PIXC* pixc);
-        internal static extern int pixacompAddBox(PIXAC* pixac, HandleRef box, int copyflag);
-        internal static extern int pixacompGetCount(PIXAC* pixac);
-        internal static extern PIXC* pixacompGetPixcomp(PIXAC* pixac, int index, int copyflag);
-        internal static extern PIX* pixacompGetPix(PIXAC* pixac, int index);
-        internal static extern int pixacompGetPixDimensions(PIXAC* pixac, int index, l_int32* pw, l_int32* ph, l_int32* pd);
-        internal static extern HandleRef pixacompGetBoxa(PIXAC* pixac, int accesstype);
-        internal static extern int pixacompGetBoxaCount(PIXAC* pixac);
-        internal static extern HandleRef pixacompGetBox(PIXAC* pixac, int index, int accesstype);
-        internal static extern int pixacompGetBoxGeometry(PIXAC* pixac, int index, l_int32* px, l_int32* py, l_int32* pw, l_int32* ph);
-        internal static extern int pixacompGetOffset(PIXAC* pixac);
-        internal static extern int pixacompSetOffset(PIXAC* pixac, int offset);
-        internal static extern HandleRef pixaCreateFromPixacomp(PIXAC* pixac, int accesstype);
-        internal static extern int pixacompJoin(PIXAC* pixacd, PIXAC* pixacs, int istart, int iend);
-        internal static extern PIXAC* pixacompInterleave(PIXAC* pixac1, PIXAC* pixac2);
-        internal static extern PIXAC* pixacompRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern PIXAC* pixacompReadStream(IntPtr fp);
-        internal static extern PIXAC* pixacompReadMem(IntPtr data, IntPtr size);
-        internal static extern int pixacompWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIXAC *pixac );
-         internal static extern int pixacompWriteStream(IntPtr fp, PIXAC* pixac);
-        internal static extern int pixacompWriteMem(l_uint8** pdata, IntPtr psize, PIXAC* pixac);
-        internal static extern int pixacompConvertToPdf(PIXAC* pixac, int res, float scalefactor, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string title,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int pixacompConvertToPdfData(PIXAC* pixac, int res, float scalefactor, int type, int quality,  [MarshalAs(UnmanagedType.AnsiBStr)] string title, byte** pdata, IntPtr pnbytes );
-         internal static extern int pixacompWriteStreamInfo(IntPtr fp, PIXAC* pixac,  [MarshalAs(UnmanagedType.AnsiBStr)] string text );
-        internal static extern int pixcompWriteStreamInfo(IntPtr fp, PIXC* pixc,  [MarshalAs(UnmanagedType.AnsiBStr)] string text );
-        internal static extern PIX* pixacompDisplayTiledAndScaled(PIXAC* pixac, int outdepth, int tilewidth, int ncols, int background, int spacing, int border);
-        internal static extern PIX* pixThreshold8(PIX* pixs, int d, int nlevels, int cmapflag);
-        internal static extern PIX* pixRemoveColormapGeneral(PIX* pixs, int type, int ifnocmap);
-        internal static extern PIX* pixRemoveColormap(PIX* pixs, int type);
-        internal static extern int pixAddGrayColormap8(PIX* pixs);
-        internal static extern PIX* pixAddMinimalGrayColormap8(PIX* pixs);
-        internal static extern PIX* pixConvertRGBToLuminance(PIX* pixs);
-        internal static extern PIX* pixConvertRGBToGray(PIX* pixs, float rwt, float gwt, float bwt);
-        internal static extern PIX* pixConvertRGBToGrayFast(PIX* pixs);
-        internal static extern PIX* pixConvertRGBToGrayMinMax(PIX* pixs, int type);
-        internal static extern PIX* pixConvertRGBToGraySatBoost(PIX* pixs, int refval);
-        internal static extern PIX* pixConvertRGBToGrayArb(PIX* pixs, float rc, float gc, float bc);
-        internal static extern PIX* pixConvertRGBToBinaryArb(PIX* pixs, float rc, float gc, float bc, int thresh, int relation);
-        internal static extern PIX* pixConvertGrayToColormap(PIX* pixs);
-        internal static extern PIX* pixConvertGrayToColormap8(PIX* pixs, int mindepth);
-        internal static extern PIX* pixColorizeGray(PIX* pixs, uint color, int cmapflag);
-        internal static extern PIX* pixConvertRGBToColormap(PIX* pixs, int ditherflag);
-        internal static extern PIX* pixConvertCmapTo1(PIX* pixs);
-        internal static extern int pixQuantizeIfFewColors(PIX* pixs, int maxcolors, int mingraycolors, int octlevel, PIX** ppixd);
-        internal static extern PIX* pixConvert16To8(PIX* pixs, int type);
-        internal static extern PIX* pixConvertGrayToFalseColor(PIX* pixs, float gamma);
-        internal static extern PIX* pixUnpackBinary(PIX* pixs, int depth, int invert);
-        internal static extern PIX* pixConvert1To16(PIX* pixd, PIX* pixs, l_uint16 val0, l_uint16 val1);
-        internal static extern PIX* pixConvert1To32(PIX* pixd, PIX* pixs, uint val0, uint val1);
-        internal static extern PIX* pixConvert1To2Cmap(PIX* pixs);
-        internal static extern PIX* pixConvert1To2(PIX* pixd, PIX* pixs, int val0, int val1);
-        internal static extern PIX* pixConvert1To4Cmap(PIX* pixs);
-        internal static extern PIX* pixConvert1To4(PIX* pixd, PIX* pixs, int val0, int val1);
-        internal static extern PIX* pixConvert1To8Cmap(PIX* pixs);
-        internal static extern PIX* pixConvert1To8(PIX* pixd, PIX* pixs, byte val0, byte val1);
-        internal static extern PIX* pixConvert2To8(PIX* pixs, byte val0, byte val1, byte val2, byte val3, int cmapflag);
-        internal static extern PIX* pixConvert4To8(PIX* pixs, int cmapflag);
-        internal static extern PIX* pixConvert8To16(PIX* pixs, int leftshift);
-        internal static extern PIX* pixConvertTo1(PIX* pixs, int threshold);
-        internal static extern PIX* pixConvertTo1BySampling(PIX* pixs, int factor, int threshold);
-        internal static extern PIX* pixConvertTo8(PIX* pixs, int cmapflag);
-        internal static extern PIX* pixConvertTo8BySampling(PIX* pixs, int factor, int cmapflag);
-        internal static extern PIX* pixConvertTo8Color(PIX* pixs, int dither);
-        internal static extern PIX* pixConvertTo16(PIX* pixs);
-        internal static extern PIX* pixConvertTo32(PIX* pixs);
-        internal static extern PIX* pixConvertTo32BySampling(PIX* pixs, int factor);
-        internal static extern PIX* pixConvert8To32(PIX* pixs);
-        internal static extern PIX* pixConvertTo8Or32(PIX* pixs, int copyflag, int warnflag);
-        internal static extern PIX* pixConvert24To32(PIX* pixs);
-        internal static extern PIX* pixConvert32To24(PIX* pixs);
-        internal static extern PIX* pixConvert32To16(PIX* pixs, int type);
-        internal static extern PIX* pixConvert32To8(PIX* pixs, int type16, int type8);
-        internal static extern PIX* pixRemoveAlpha(PIX* pixs);
-        internal static extern PIX* pixAddAlphaTo1bpp(PIX* pixd, PIX* pixs);
-        internal static extern PIX* pixConvertLossless(PIX* pixs, int d);
-        internal static extern PIX* pixConvertForPSWrap(PIX* pixs);
-        internal static extern PIX* pixConvertToSubpixelRGB(PIX* pixs, float scalex, float scaley, int order);
-        internal static extern PIX* pixConvertGrayToSubpixelRGB(PIX* pixs, float scalex, float scaley, int order);
-        internal static extern PIX* pixConvertColorToSubpixelRGB(PIX* pixs, float scalex, float scaley, int order);
+        #region pixcomp.c
+        // Pixcomp creation and destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcompCreateFromPix")]
+        internal static extern IntPtr pixcompCreateFromPix(HandleRef pix, int comptype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcompCreateFromString")]
+        internal static extern IntPtr pixcompCreateFromString(IntPtr data, IntPtr size, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcompCreateFromFile")]
+        internal static extern IntPtr pixcompCreateFromFile([MarshalAs(UnmanagedType.AnsiBStr)] string filename, int comptype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcompDestroy")]
+        internal static extern void pixcompDestroy(ref IntPtr ppixc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcompCopy")]
+        internal static extern IntPtr pixcompCopy(HandleRef pixcs);
+
+        // Pixcomp accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcompGetDimensions")]
+        internal static extern int pixcompGetDimensions(HandleRef pixc, out int pw, out int ph, out int pd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcompDetermineFormat")]
+        internal static extern int pixcompDetermineFormat(int comptype, int d, int cmapflag, out int pformat);
+
+        // Pixcomp conversion to Pix
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCreateFromPixcomp")]
+        internal static extern IntPtr pixCreateFromPixcomp(HandleRef pixc);
+
+        // Pixacomp creation and destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompCreate")]
+        internal static extern IntPtr pixacompCreate(int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompCreateWithInit")]
+        internal static extern IntPtr pixacompCreateWithInit(int n, int offset, HandleRef pix, int comptype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompCreateFromPixa")]
+        internal static extern IntPtr pixacompCreateFromPixa(HandleRef pixa, int comptype, int accesstype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompCreateFromFiles")]
+        internal static extern IntPtr pixacompCreateFromFiles([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int comptype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompCreateFromSA")]
+        internal static extern IntPtr pixacompCreateFromSA(HandleRef sa, int comptype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompDestroy")]
+        internal static extern void pixacompDestroy(ref IntPtr ppixac);
+
+        // Pixacomp addition/replacement
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompAddPix")]
+        internal static extern int pixacompAddPix(HandleRef pixac, HandleRef pix, int comptype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompAddPixcomp")]
+        internal static extern int pixacompAddPixcomp(HandleRef pixac, HandleRef pixc, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompReplacePix")]
+        internal static extern int pixacompReplacePix(HandleRef pixac, int index, HandleRef pix, int comptype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompReplacePixcomp")]
+        internal static extern int pixacompReplacePixcomp(HandleRef pixac, int index, HandleRef pixc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompAddBox")]
+        internal static extern int pixacompAddBox(HandleRef pixac, HandleRef box, int copyflag);
+
+        // Pixacomp accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompGetCount")]
+        internal static extern int pixacompGetCount(HandleRef pixac);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompGetPixcomp")]
+        internal static extern IntPtr pixacompGetPixcomp(HandleRef pixac, int index, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompGetPix")]
+        internal static extern IntPtr pixacompGetPix(HandleRef pixac, int index);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompGetPixDimensions")]
+        internal static extern int pixacompGetPixDimensions(HandleRef pixac, int index, out int pw, out int ph, out int pd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompGetBoxa")]
+        internal static extern IntPtr pixacompGetBoxa(HandleRef pixac, int accesstype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompGetBoxaCount")]
+        internal static extern int pixacompGetBoxaCount(HandleRef pixac);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompGetBox")]
+        internal static extern IntPtr pixacompGetBox(HandleRef pixac, int index, int accesstype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompGetBoxGeometry")]
+        internal static extern int pixacompGetBoxGeometry(HandleRef pixac, int index, out int px, out int py, out int pw, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompGetOffset")]
+        internal static extern int pixacompGetOffset(HandleRef pixac);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompSetOffset")]
+        internal static extern int pixacompSetOffset(HandleRef pixac, int offset);
+
+        // Pixacomp conversion to Pixa
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaCreateFromPixacomp")]
+        internal static extern IntPtr pixaCreateFromPixacomp(HandleRef pixac, int accesstype);
+
+        // Combining pixacomp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompJoin")]
+        internal static extern int pixacompJoin(HandleRef pixacd, HandleRef pixacs, int istart, int iend);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompInterleave")]
+        internal static extern IntPtr pixacompInterleave(HandleRef pixac1, HandleRef pixac2);
+
+        // Pixacomp serialized I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompRead")]
+        internal static extern IntPtr pixacompRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompReadStream")]
+        internal static extern IntPtr pixacompReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompReadMem")]
+        internal static extern IntPtr pixacompReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompWrite")]
+        internal static extern int pixacompWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pixac);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompWriteStream")]
+        internal static extern int pixacompWriteStream(IntPtr fp, HandleRef pixac);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompWriteMem")]
+        internal static extern int pixacompWriteMem(out IntPtr pdata, IntPtr psize, HandleRef pixac);
+
+        // Conversion to pdf
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompConvertToPdf")]
+        internal static extern int pixacompConvertToPdf(HandleRef pixac, int res, float scalefactor, int type, int quality, [MarshalAs(UnmanagedType.AnsiBStr)] string title, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompConvertToPdfData")]
+        internal static extern int pixacompConvertToPdfData(HandleRef pixac, int res, float scalefactor, int type, int quality, [MarshalAs(UnmanagedType.AnsiBStr)] string title, out IntPtr pdata, IntPtr pnbytes);
+
+        // Output for debugging
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompWriteStreamInfo")]
+        internal static extern int pixacompWriteStreamInfo(IntPtr fp, HandleRef pixac, [MarshalAs(UnmanagedType.AnsiBStr)] string text);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixcompWriteStreamInfo")]
+        internal static extern int pixcompWriteStreamInfo(IntPtr fp, HandleRef pixc, [MarshalAs(UnmanagedType.AnsiBStr)] string text);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixacompDisplayTiledAndScaled")]
+        internal static extern IntPtr pixacompDisplayTiledAndScaled(HandleRef pixac, int outdepth, int tilewidth, int ncols, int background, int spacing, int border);
+        #endregion
+
+        #region pixconv.c
+        // Conversion from 8 bpp grayscale to 1, 2, 4 and 8 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThreshold8")]
+        internal static extern IntPtr pixThreshold8(HandleRef pixs, int d, int nlevels, int cmapflag);
+
+        // Conversion from colormap to full color or grayscale
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRemoveColormapGeneral")]
+        internal static extern IntPtr pixRemoveColormapGeneral(HandleRef pixs, int type, int ifnocmap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRemoveColormap")]
+        internal static extern IntPtr pixRemoveColormap(HandleRef pixs, int type);
+
+        // Add colormap losslessly(8 to 8)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddGrayColormap8")]
+        internal static extern int pixAddGrayColormap8(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddMinimalGrayColormap8")]
+        internal static extern IntPtr pixAddMinimalGrayColormap8(HandleRef pixs);
+
+        // Conversion from RGB color to grayscale
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToLuminance")]
+        internal static extern IntPtr pixConvertRGBToLuminance(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToGray")]
+        internal static extern IntPtr pixConvertRGBToGray(HandleRef pixs, float rwt, float gwt, float bwt);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToGrayFast")]
+        internal static extern IntPtr pixConvertRGBToGrayFast(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToGrayMinMax")]
+        internal static extern IntPtr pixConvertRGBToGrayMinMax(HandleRef pixs, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToGraySatBoost")]
+        internal static extern IntPtr pixConvertRGBToGraySatBoost(HandleRef pixs, int refval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToGrayArb")]
+        internal static extern IntPtr pixConvertRGBToGrayArb(HandleRef pixs, float rc, float gc, float bc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToBinaryArb")]
+        internal static extern IntPtr pixConvertRGBToBinaryArb(HandleRef pixs, float rc, float gc, float bc, int thresh, int relation);
+
+        // Conversion from grayscale to colormap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertGrayToColormap")]
+        internal static extern IntPtr pixConvertGrayToColormap(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertGrayToColormap8")]
+        internal static extern IntPtr pixConvertGrayToColormap8(HandleRef pixs, int mindepth);
+
+        // Colorizing conversion from grayscale to color
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixColorizeGray")]
+        internal static extern IntPtr pixColorizeGray(HandleRef pixs, uint color, int cmapflag);
+
+        // Conversion from RGB color to colormap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertRGBToColormap")]
+        internal static extern IntPtr pixConvertRGBToColormap(HandleRef pixs, int ditherflag);
+
+        // Conversion from colormap to 1 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertCmapTo1")]
+        internal static extern IntPtr pixConvertCmapTo1(HandleRef pixs);
+
+        // Quantization for relatively small number of colors in source
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixQuantizeIfFewColors")]
+        internal static extern int pixQuantizeIfFewColors(HandleRef pixs, int maxcolors, int mingraycolors, int octlevel, out IntPtr ppixd);
+
+        // Conversion from 16 bpp to 8 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert16To8")]
+        internal static extern IntPtr pixConvert16To8(HandleRef pixs, int type);
+
+        // Conversion from grayscale to false color
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertGrayToFalseColor")]
+        internal static extern IntPtr pixConvertGrayToFalseColor(HandleRef pixs, float gamma);
+
+        // Unpacking conversion from 1 bpp to 2, 4, 8, 16 and 32 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixUnpackBinary")]
+        internal static extern IntPtr pixUnpackBinary(HandleRef pixs, int depth, int invert);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert1To16")]
+        internal static extern IntPtr pixConvert1To16(HandleRef pixd, HandleRef pixs, ushort val0, ushort val1);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert1To32")]
+        internal static extern IntPtr pixConvert1To32(HandleRef pixd, HandleRef pixs, uint val0, uint val1);
+
+        // Unpacking conversion from 1 bpp to 2 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert1To2Cmap")]
+        internal static extern IntPtr pixConvert1To2Cmap(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert1To2")]
+        internal static extern IntPtr pixConvert1To2(HandleRef pixd, HandleRef pixs, int val0, int val1);
+
+        // Unpacking conversion from 1 bpp to 4 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert1To4Cmap")]
+        internal static extern IntPtr pixConvert1To4Cmap(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert1To4")]
+        internal static extern IntPtr pixConvert1To4(HandleRef pixd, HandleRef pixs, int val0, int val1);
+
+        // Unpacking conversion from 1, 2 and 4 bpp to 8 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert1To8Cmap")]
+        internal static extern IntPtr pixConvert1To8Cmap(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert1To8")]
+        internal static extern IntPtr pixConvert1To8(HandleRef pixd, HandleRef pixs, byte val0, byte val1);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert2To8")]
+        internal static extern IntPtr pixConvert2To8(HandleRef pixs, byte val0, byte val1, byte val2, byte val3, int cmapflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert4To8")]
+        internal static extern IntPtr pixConvert4To8(HandleRef pixs, int cmapflag);
+
+        // Unpacking conversion from 8 bpp to 16 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert8To16")]
+        internal static extern IntPtr pixConvert8To16(HandleRef pixs, int leftshift);
+
+        // Top-level conversion to 1 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertTo1")]
+        internal static extern IntPtr pixConvertTo1(HandleRef pixs, int threshold);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertTo1BySampling")]
+        internal static extern IntPtr pixConvertTo1BySampling(HandleRef pixs, int factor, int threshold);
+
+        // Top-level conversion to 8 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertTo8")]
+        internal static extern IntPtr pixConvertTo8(HandleRef pixs, int cmapflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertTo8BySampling")]
+        internal static extern IntPtr pixConvertTo8BySampling(HandleRef pixs, int factor, int cmapflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertTo8Color")]
+        internal static extern IntPtr pixConvertTo8Color(HandleRef pixs, int dither);
+
+        // Top-level conversion to 16 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertTo16")]
+        internal static extern IntPtr pixConvertTo16(HandleRef pixs);
+
+        // Top-level conversion to 32 bpp(RGB)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertTo32")]
+        internal static extern IntPtr pixConvertTo32(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertTo32BySampling")]
+        internal static extern IntPtr pixConvertTo32BySampling(HandleRef pixs, int factor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert8To32")]
+        internal static extern IntPtr pixConvert8To32(HandleRef pixs);
+
+        // Top-level conversion to 8 or 32 bpp, without colormap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertTo8Or32")]
+        internal static extern IntPtr pixConvertTo8Or32(HandleRef pixs, int copyflag, int warnflag);
+
+        // Conversion between 24 bpp and 32 bpp rgb
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert24To32")]
+        internal static extern IntPtr pixConvert24To32(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert32To24")]
+        internal static extern IntPtr pixConvert32To24(HandleRef pixs);
+
+        // Conversion between 32 bpp(1 spp) and 16 or 8 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert32To16")]
+        internal static extern IntPtr pixConvert32To16(HandleRef pixs, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvert32To8")]
+        internal static extern IntPtr pixConvert32To8(HandleRef pixs, int type16, int type8);
+
+        // Removal of alpha component by blending with white background
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRemoveAlpha")]
+        internal static extern IntPtr pixRemoveAlpha(HandleRef pixs);
+
+        // Addition of alpha component to 1 bpp
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddAlphaTo1bpp")]
+        internal static extern IntPtr pixAddAlphaTo1bpp(HandleRef pixd, HandleRef pixs);
+
+        // Lossless depth conversion(unpacking)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertLossless")]
+        internal static extern IntPtr pixConvertLossless(HandleRef pixs, int d);
+
+        // Conversion for printing in PostScript
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertForPSWrap")]
+        internal static extern IntPtr pixConvertForPSWrap(HandleRef pixs);
+
+        // Scaling conversion to subpixel RGB
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertToSubpixelRGB")]
+        internal static extern IntPtr pixConvertToSubpixelRGB(HandleRef pixs, float scalex, float scaley, int order);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertGrayToSubpixelRGB")]
+        internal static extern IntPtr pixConvertGrayToSubpixelRGB(HandleRef pixs, float scalex, float scaley, int order);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConvertColorToSubpixelRGB")]
+        internal static extern IntPtr pixConvertColorToSubpixelRGB(HandleRef pixs, float scalex, float scaley, int order);
+
+        // Setting neutral point for min/max boost conversion to gray
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_setNeutralBoostVal")]
         internal static extern void l_setNeutralBoostVal(int val);
+        #endregion
+
+        /*
         internal static extern PIX* pixConnCompTransform(PIX* pixs, int connect, int depth);
         internal static extern PIX* pixConnCompAreaTransform(PIX* pixs, int connect);
         internal static extern int pixConnCompIncrInit(PIX* pixs, int conn, PIX** ppixd, PTAA** pptaa, l_int32* pncc);
@@ -5655,8 +5836,8 @@ namespace Leptonica.Native
         internal static extern float returnErrorFloat(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, float fval );
         internal static extern void* returnErrorPtr(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, void* pval );
         internal static extern int filesAreIdentical(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname1,  [MarshalAs(UnmanagedType.AnsiBStr)] string fname2, int* psame );
-        internal static extern l_uint16 convertOnLittleEnd16(l_uint16 shortin);
-        internal static extern l_uint16 convertOnBigEnd16(l_uint16 shortin);
+        internal static extern ushort convertOnLittleEnd16( ushort  shortin);
+        internal static extern ushort convertOnBigEnd16( ushort  shortin);
         internal static extern uint convertOnLittleEnd32(uint wordin);
         internal static extern uint convertOnBigEnd32(uint wordin);
         internal static extern int fileCorruptByDeletion(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, float loc, float size,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );

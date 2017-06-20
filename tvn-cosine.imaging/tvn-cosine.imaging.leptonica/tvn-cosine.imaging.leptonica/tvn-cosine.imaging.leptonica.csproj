@@ -254,6 +254,8 @@
     <Compile Include="Implementations\PixaFunc2.cs" />
     <Compile Include="Implementations\PixAlloc.cs" />
     <Compile Include="Implementations\PixArith.cs" />
+    <Compile Include="Implementations\Pixcomp.cs" />
+    <Compile Include="Implementations\PixConv.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
