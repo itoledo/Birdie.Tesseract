@@ -5176,14 +5176,24 @@ namespace Leptonica.Native
         internal static extern IntPtr pixLocToColorTransform(HandleRef pixs);
         #endregion
 
+        #region pixtiling.c
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTilingCreate")]
+        internal static extern IntPtr pixTilingCreate(HandleRef pixs, int nx, int ny, int w, int h, int xoverlap, int yoverlap);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTilingDestroy")]
+        internal static extern void pixTilingDestroy(ref IntPtr ppt);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTilingGetCount")]
+        internal static extern int pixTilingGetCount(HandleRef pt, out int pnx, out int pny);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTilingGetSize")]
+        internal static extern int pixTilingGetSize(HandleRef pt, out int pw, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTilingGetTile")]
+        internal static extern IntPtr pixTilingGetTile(HandleRef pt, int i, int j);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTilingNoStripOnPaint")]
+        internal static extern int pixTilingNoStripOnPaint(HandleRef pt);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTilingPaintTile")]
+        internal static extern int pixTilingPaintTile(HandleRef pixd, int i, int j, HandleRef pixs, HandleRef pt);
+        #endregion
+
         /*
-        internal static extern PIXTILING* pixTilingCreate(PIX* pixs, int nx, int ny, int w, int h, int xoverlap, int yoverlap);
-        internal static extern void pixTilingDestroy(PIXTILING** ppt);
-        internal static extern int pixTilingGetCount(PIXTILING* pt, l_int32* pnx, l_int32* pny);
-        internal static extern int pixTilingGetSize(PIXTILING* pt, l_int32* pw, l_int32* ph);
-        internal static extern PIX* pixTilingGetTile(PIXTILING* pt, int i, int j);
-        internal static extern int pixTilingNoStripOnPaint(PIXTILING* pt);
-        internal static extern int pixTilingPaintTile(PIX* pixd, int i, int j, PIX* pixs, PIXTILING* pt);
         internal static extern PIX* pixReadStreamPng(IntPtr fp);
         internal static extern int readHeaderPng(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int* pw, l_int32* ph, int* pbps, l_int32* pspp, int* piscmap );
         internal static extern int freadHeaderPng(IntPtr fp, l_int32* pw, l_int32* ph, l_int32* pbps, l_int32* pspp, l_int32* piscmap);
