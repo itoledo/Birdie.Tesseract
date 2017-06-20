@@ -4723,34 +4723,80 @@ namespace Leptonica.Native
         internal static extern int pixaSetFullSizeBoxa(HandleRef pixa);
         #endregion
 
+        #region pixafunc2.c
+        // Pixa display(render into a pix)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplay")]
+        internal static extern IntPtr pixaDisplay(HandleRef pixa, int w, int h);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayOnColor")]
+        internal static extern IntPtr pixaDisplayOnColor(HandleRef pixa, int w, int h, uint bgcolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayRandomCmap")]
+        internal static extern IntPtr pixaDisplayRandomCmap(HandleRef pixa, int w, int h);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayLinearly")]
+        internal static extern IntPtr pixaDisplayLinearly(HandleRef pixas, int direction, float scalefactor, int background, int spacing, int border, out IntPtr pboxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayOnLattice")]
+        internal static extern IntPtr pixaDisplayOnLattice(HandleRef pixa, int cellw, int cellh, out int pncols, out IntPtr pboxa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayUnsplit")]
+        internal static extern IntPtr pixaDisplayUnsplit(HandleRef pixa, int nx, int ny, int borderwidth, uint bordercolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayTiled")]
+        internal static extern IntPtr pixaDisplayTiled(HandleRef pixa, int maxwidth, int background, int spacing);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayTiledInRows")]
+        internal static extern IntPtr pixaDisplayTiledInRows(HandleRef pixa, int outdepth, int maxwidth, float scalefactor, int background, int spacing, int border);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayTiledInColumns")]
+        internal static extern IntPtr pixaDisplayTiledInColumns(HandleRef pixas, int nx, float scalefactor, int spacing, int border);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayTiledAndScaled")]
+        internal static extern IntPtr pixaDisplayTiledAndScaled(HandleRef pixa, int outdepth, int tilewidth, int ncols, int background, int spacing, int border);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayTiledWithText")]
+        internal static extern IntPtr pixaDisplayTiledWithText(HandleRef pixa, int maxwidth, float scalefactor, int spacing, int border, int fontsize, uint textcolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayTiledByIndex")]
+        internal static extern IntPtr pixaDisplayTiledByIndex(HandleRef pixa, HandleRef na, int width, int spacing, int border, int fontsize, uint textcolor);
+
+        // Pixaa display(render into a pix)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaDisplay")]
+        internal static extern IntPtr pixaaDisplay(HandleRef paa, int w, int h);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaDisplayByPixa")]
+        internal static extern IntPtr pixaaDisplayByPixa(HandleRef paa, int xspace, int yspace, int maxw);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaaDisplayTiledAndScaled")]
+        internal static extern IntPtr pixaaDisplayTiledAndScaled(HandleRef paa, int outdepth, int tilewidth, int ncols, int background, int spacing, int border);
+
+        // Conversion of all pix to specified type(e.g., depth)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaConvertTo1")]
+        internal static extern IntPtr pixaConvertTo1(HandleRef pixas, int thresh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaConvertTo8")]
+        internal static extern IntPtr pixaConvertTo8(HandleRef pixas, int cmapflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaConvertTo8Color")]
+        internal static extern IntPtr pixaConvertTo8Color(HandleRef pixas, int dither);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaConvertTo32")]
+        internal static extern IntPtr pixaConvertTo32(HandleRef pixas);
+
+        // Pixa constrained selection and pdf generation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaConstrainedSelect")]
+        internal static extern IntPtr pixaConstrainedSelect(HandleRef pixas, int first, int last, int nmax, int use_pairs, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSelectToPdf")]
+        internal static extern int pixaSelectToPdf(HandleRef pixas, int first, int last, int res, float scalefactor, int type, int quality, uint color, int fontsize, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+
+        // Pixa display into multiple tiles
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaDisplayMultiTiled")]
+        internal static extern IntPtr pixaDisplayMultiTiled(HandleRef pixas, int nx, int ny, int maxw, int maxh, float scalefactor, int spacing, int border);
+
+        // Split pixa into files
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSplitIntoFiles")]
+        internal static extern int pixaSplitIntoFiles(HandleRef pixas, int nsplit, float scale, int outwidth, int write_pixa, int write_pix, int write_pdf);
+
+        // Tile N-Up
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertToNUpFiles")]
+        internal static extern int convertToNUpFiles([MarshalAs(UnmanagedType.AnsiBStr)] string dir, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int nx, int ny, int tw, int spacing, int border, int fontsize, [MarshalAs(UnmanagedType.AnsiBStr)] string outdir);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertToNUpPixa")]
+        internal static extern IntPtr convertToNUpPixa([MarshalAs(UnmanagedType.AnsiBStr)] string dir, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int nx, int ny, int tw, int spacing, int border, int fontsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaConvertToNUpPixa")]
+        internal static extern IntPtr pixaConvertToNUpPixa(HandleRef pixas, HandleRef sa, int nx, int ny, int tw, int spacing, int border, int fontsize);
+
+        // Render two pixa side-by-side for comparison*
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaCompareInPdf")]
+        internal static extern int pixaCompareInPdf(HandleRef pixa1, HandleRef pixa2, int nx, int ny, int tw, int spacing, int border, int fontsize, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+       
+        #endregion
+
         /*
-        internal static extern PIX* pixaDisplay(PIXA* pixa, int w, int h);
-        internal static extern PIX* pixaDisplayOnColor(PIXA* pixa, int w, int h, uint bgcolor);
-        internal static extern PIX* pixaDisplayRandomCmap(PIXA* pixa, int w, int h);
-        internal static extern PIX* pixaDisplayLinearly(PIXA* pixas, int direction, float scalefactor, int background, int spacing, int border, BOXA** pboxa);
-        internal static extern PIX* pixaDisplayOnLattice(PIXA* pixa, int cellw, int cellh, l_int32* pncols, BOXA** pboxa);
-        internal static extern PIX* pixaDisplayUnsplit(PIXA* pixa, int nx, int ny, int borderwidth, uint bordercolor);
-        internal static extern PIX* pixaDisplayTiled(PIXA* pixa, int maxwidth, int background, int spacing);
-        internal static extern PIX* pixaDisplayTiledInRows(PIXA* pixa, int outdepth, int maxwidth, float scalefactor, int background, int spacing, int border);
-        internal static extern PIX* pixaDisplayTiledInColumns(PIXA* pixas, int nx, float scalefactor, int spacing, int border);
-        internal static extern PIX* pixaDisplayTiledAndScaled(PIXA* pixa, int outdepth, int tilewidth, int ncols, int background, int spacing, int border);
-        internal static extern PIX* pixaDisplayTiledWithText(PIXA* pixa, int maxwidth, float scalefactor, int spacing, int border, int fontsize, uint textcolor);
-        internal static extern PIX* pixaDisplayTiledByIndex(PIXA* pixa, NUMA* na, int width, int spacing, int border, int fontsize, uint textcolor);
-        internal static extern PIX* pixaaDisplay(PIXAA* paa, int w, int h);
-        internal static extern PIX* pixaaDisplayByPixa(PIXAA* paa, int xspace, int yspace, int maxw);
-        internal static extern HandleRef pixaaDisplayTiledAndScaled(PIXAA* paa, int outdepth, int tilewidth, int ncols, int background, int spacing, int border);
-        internal static extern HandleRef pixaConvertTo1(PIXA* pixas, int thresh);
-        internal static extern HandleRef pixaConvertTo8(PIXA* pixas, int cmapflag);
-        internal static extern HandleRef pixaConvertTo8Color(PIXA* pixas, int dither);
-        internal static extern HandleRef pixaConvertTo32(PIXA* pixas);
-        internal static extern HandleRef pixaConstrainedSelect(PIXA* pixas, int first, int last, int nmax, int use_pairs, int copyflag);
-        internal static extern int pixaSelectToPdf(PIXA* pixas, int first, int last, int res, float scalefactor, int type, int quality, uint color, int fontsize,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern HandleRef pixaDisplayMultiTiled(PIXA* pixas, int nx, int ny, int maxw, int maxh, float scalefactor, int spacing, int border);
-        internal static extern int pixaSplitIntoFiles(PIXA* pixas, int nsplit, float scale, int outwidth, int write_pixa, int write_pix, int write_pdf);
-        internal static extern int convertToNUpFiles(  [MarshalAs(UnmanagedType.AnsiBStr)] string dir,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int nx, int ny, int tw, int spacing, int border, int fontsize,  [MarshalAs(UnmanagedType.AnsiBStr)] string outdir );
-        internal static extern HandleRef convertToNUpPixa(  [MarshalAs(UnmanagedType.AnsiBStr)] string dir,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int nx, int ny, int tw, int spacing, int border, int fontsize );
-        internal static extern HandleRef pixaConvertToNUpPixa(PIXA* pixas, SARRAY* sa, int nx, int ny, int tw, int spacing, int border, int fontsize);
-        internal static extern int pixaCompareInPdf(PIXA* pixa1, HandleRef pixa2, int nx, int ny, int tw, int spacing, int border, int fontsize,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
         internal static extern int pmsCreate(size_t minsize, IntPtr smallest, NUMA* numalloc,  [MarshalAs(UnmanagedType.AnsiBStr)] string logfile );
         internal static extern void pmsDestroy();
         internal static extern void* pmsCustomAlloc(size_t nbytes);
