@@ -5154,13 +5154,29 @@ namespace Leptonica.Native
         internal static extern void l_setNeutralBoostVal(int val);
         #endregion
 
+        #region pixlabel.c
+        // Label pixels by an index for connected component membership
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConnCompTransform")]
+        internal static extern IntPtr pixConnCompTransform(HandleRef pixs, int connect, int depth);
+
+        // Label pixels by the area of their connected component
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConnCompAreaTransform")]
+        internal static extern IntPtr pixConnCompAreaTransform(HandleRef pixs, int connect);
+
+        // Label pixels to allow incremental computation of connected components
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConnCompIncrInit")]
+        internal static extern int pixConnCompIncrInit(HandleRef pixs, int conn, out IntPtr ppixd, out IntPtr pptaa, out int pncc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixConnCompIncrAdd")]
+        internal static extern int pixConnCompIncrAdd(HandleRef pixs, HandleRef ptaa, out int pncc, float x, float y, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetSortedNeighborValues")]
+        internal static extern int pixGetSortedNeighborValues(HandleRef pixs, int x, int y, int conn, out IntPtr pneigh, out int pnvals);
+
+        // Label pixels with spatially-dependent color coding
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixLocToColorTransform")]
+        internal static extern IntPtr pixLocToColorTransform(HandleRef pixs);
+        #endregion
+
         /*
-        internal static extern PIX* pixConnCompTransform(PIX* pixs, int connect, int depth);
-        internal static extern PIX* pixConnCompAreaTransform(PIX* pixs, int connect);
-        internal static extern int pixConnCompIncrInit(PIX* pixs, int conn, PIX** ppixd, PTAA** pptaa, l_int32* pncc);
-        internal static extern int pixConnCompIncrAdd(PIX* pixs, PTAA* ptaa, l_int32* pncc, float x, float y, int debug);
-        internal static extern int pixGetSortedNeighborValues(PIX* pixs, int x, int y, int conn, l_int32** pneigh, l_int32* pnvals);
-        internal static extern PIX* pixLocToColorTransform(PIX* pixs);
         internal static extern PIXTILING* pixTilingCreate(PIX* pixs, int nx, int ny, int w, int h, int xoverlap, int yoverlap);
         internal static extern void pixTilingDestroy(PIXTILING** ppt);
         internal static extern int pixTilingGetCount(PIXTILING* pt, l_int32* pnx, l_int32* pny);
