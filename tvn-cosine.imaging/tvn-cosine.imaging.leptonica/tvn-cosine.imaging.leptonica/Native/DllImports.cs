@@ -5261,19 +5261,41 @@ namespace Leptonica.Native
         internal static extern int pixWriteMemPam(out IntPtr pdata, IntPtr psize, HandleRef pix);
         #endregion
 
+        #region projective.c
+        // Projective(4 pt) image transformation using a sampled (to nearest integer) transform on each dest point
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectiveSampledPta")]
+        internal static extern IntPtr pixProjectiveSampledPta(HandleRef pixs, HandleRef  ptad, HandleRef ptas, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectiveSampled")]
+        internal static extern IntPtr pixProjectiveSampled(HandleRef pixs, IntPtr vc, int incolor);
+
+        // Projective(4 pt) image transformation using interpolation (or area mapping) for anti-aliasing images that are 2, 4, or 8 bpp gray, or colormapped, or 32 bpp RGB
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectivePta")]
+        internal static extern IntPtr pixProjectivePta(HandleRef pixs, HandleRef ptad, HandleRef ptas, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjective")]
+        internal static extern IntPtr pixProjective(HandleRef pixs,  IntPtr vc , int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectivePtaColor")]
+        internal static extern IntPtr pixProjectivePtaColor(HandleRef pixs, HandleRef ptad, HandleRef ptas, uint colorval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectiveColor")]
+        internal static extern IntPtr pixProjectiveColor(HandleRef pixs,  IntPtr vc , uint colorval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectivePtaGray")]
+        internal static extern IntPtr pixProjectivePtaGray(HandleRef pixs, HandleRef ptad, HandleRef ptas, byte grayval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectiveGray")]
+        internal static extern IntPtr pixProjectiveGray(HandleRef pixs,  IntPtr vc , byte grayval);
+
+        // Projective transform including alpha(blend) component
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectivePtaWithAlpha")]
+        internal static extern IntPtr pixProjectivePtaWithAlpha(HandleRef pixs, HandleRef ptad, HandleRef ptas, HandleRef pixg, float fract, int border);
+
+        // Projective coordinate transformation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getProjectiveXformCoeffs")]
+        internal static extern int getProjectiveXformCoeffs(HandleRef ptas, HandleRef ptad, out IntPtr pvc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "projectiveXformSampledPt")]
+        internal static extern int projectiveXformSampledPt( IntPtr vc , int x, int y, out int pxp, out int pyp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "projectiveXformPt")]
+        internal static extern int projectiveXformPt( IntPtr vc , int x, int y, out float pxp, out float pyp);
+        #endregion
+
         /*
-        internal static extern PIX* pixProjectiveSampledPta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
-        internal static extern PIX* pixProjectiveSampled(PIX* pixs, l_float32* vc, int incolor);
-        internal static extern PIX* pixProjectivePta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
-        internal static extern PIX* pixProjective(PIX* pixs, l_float32* vc, int incolor);
-        internal static extern PIX* pixProjectivePtaColor(PIX* pixs, PTA* ptad, PTA* ptas, uint colorval);
-        internal static extern PIX* pixProjectiveColor(PIX* pixs, l_float32* vc, uint colorval);
-        internal static extern PIX* pixProjectivePtaGray(PIX* pixs, PTA* ptad, PTA* ptas, byte grayval);
-        internal static extern PIX* pixProjectiveGray(PIX* pixs, l_float32* vc, byte grayval);
-        internal static extern PIX* pixProjectivePtaWithAlpha(PIX* pixs, PTA* ptad, PTA* ptas, PIX* pixg, float fract, int border);
-        internal static extern int getProjectiveXformCoeffs(HandleRef ptas, PTA* ptad, l_float32** pvc);
-        internal static extern int projectiveXformSampledPt(l_float32* vc, int x, int y, l_int32* pxp, l_int32* pyp);
-        internal static extern int projectiveXformPt(l_float32* vc, int x, int y, l_float32* pxp, l_float32* pyp);
         internal static extern int convertFilesToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirin,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
         internal static extern int sarrayConvertFilesToPS(SARRAY* sa, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
         internal static extern int convertFilesFittedToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirin,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, float xpts, float ypts,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
