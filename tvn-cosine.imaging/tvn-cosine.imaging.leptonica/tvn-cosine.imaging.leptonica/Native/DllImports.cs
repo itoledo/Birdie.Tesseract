@@ -5235,17 +5235,33 @@ namespace Leptonica.Native
         internal static extern int pixWriteMemPng (out IntPtr pfiledata, IntPtr pfilesize, HandleRef pix, float gamma);
         #endregion
 
+        #region pnmio.c
+        // Stream interface
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadStreamPnm")]
+        internal static extern IntPtr pixReadStreamPnm(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderPnm")]
+        internal static extern int readHeaderPnm([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int  pw, out int ph, out int pd, out int ptype, out int pbps, out int pspp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "freadHeaderPnm")]
+        internal static extern int freadHeaderPnm(IntPtr fp, out int pw, out int ph, out int pd, out int ptype, out int pbps, out int pspp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamPnm")]
+        internal static extern int pixWriteStreamPnm(IntPtr fp, HandleRef pix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamAsciiPnm")]
+        internal static extern int pixWriteStreamAsciiPnm(IntPtr fp, HandleRef pix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamPam")]
+        internal static extern int pixWriteStreamPam(IntPtr fp, HandleRef pix);
+
+        // Read/write to memory
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadMemPnm")]
+        internal static extern IntPtr pixReadMemPnm(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderMemPnm")]
+        internal static extern int readHeaderMemPnm(IntPtr data, IntPtr size, out int pw, out int ph, out int pd, out int ptype, out int pbps, out int pspp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemPnm")]
+        internal static extern int pixWriteMemPnm(out IntPtr pdata, IntPtr psize, HandleRef pix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemPam")]
+        internal static extern int pixWriteMemPam(out IntPtr pdata, IntPtr psize, HandleRef pix);
+        #endregion
+
         /*
-        internal static extern PIX* pixReadStreamPnm(IntPtr fp);
-        internal static extern int readHeaderPnm(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int* pw, l_int32* ph, int* pd, l_int32* ptype, int* pbps, l_int32* pspp );
-         internal static extern int freadHeaderPnm(IntPtr fp, l_int32* pw, l_int32* ph, l_int32* pd, l_int32* ptype, l_int32* pbps, l_int32* pspp);
-        internal static extern int pixWriteStreamPnm(IntPtr fp, PIX* pix);
-        internal static extern int pixWriteStreamAsciiPnm(IntPtr fp, PIX* pix);
-        internal static extern int pixWriteStreamPam(IntPtr fp, PIX* pix);
-        internal static extern PIX* pixReadMemPnm(IntPtr data, IntPtr size);
-        internal static extern int readHeaderMemPnm(IntPtr data, IntPtr size, l_int32* pw, int* ph, l_int32* pd, int* ptype, l_int32* pbps, int* pspp);
-        internal static extern int pixWriteMemPnm (out IntPtr pdata, IntPtr psize, PIX* pix);
-        internal static extern int pixWriteMemPam (out IntPtr pdata, IntPtr psize, PIX* pix);
         internal static extern PIX* pixProjectiveSampledPta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
         internal static extern PIX* pixProjectiveSampled(PIX* pixs, l_float32* vc, int incolor);
         internal static extern PIX* pixProjectivePta(PIX* pixs, PTA* ptad, PTA* ptas, int incolor);
