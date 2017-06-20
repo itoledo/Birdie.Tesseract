@@ -4793,37 +4793,71 @@ namespace Leptonica.Native
         // Render two pixa side-by-side for comparison*
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaCompareInPdf")]
         internal static extern int pixaCompareInPdf(HandleRef pixa1, HandleRef pixa2, int nx, int ny, int tw, int spacing, int border, int fontsize, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
-       
+
         #endregion
 
-        /*
-        internal static extern int pmsCreate(size_t minsize, IntPtr smallest, NUMA* numalloc,  [MarshalAs(UnmanagedType.AnsiBStr)] string logfile );
+        #region pixalloc.c
+        //  Custom memory storage with allocator and deallocator 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pmsCreate")]
+        internal static extern int pmsCreate(IntPtr minsize, IntPtr smallest, HandleRef numalloc, [MarshalAs(UnmanagedType.AnsiBStr)] string logfile);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pmsDestroy")]
         internal static extern void pmsDestroy();
-        internal static extern void* pmsCustomAlloc(size_t nbytes);
-        internal static extern void pmsCustomDealloc(void* data);
-        internal static extern void* pmsGetAlloc(size_t nbytes);
-        internal static extern int pmsGetLevelForAlloc(size_t nbytes, l_int32* plevel);
-        internal static extern int pmsGetLevelForDealloc(void* data, l_int32* plevel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pmsCustomAlloc")]
+        internal static extern IntPtr pmsCustomAlloc(IntPtr nbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pmsCustomDealloc")]
+        internal static extern void pmsCustomDealloc(IntPtr data);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pmsGetAlloc")]
+        internal static extern IntPtr pmsGetAlloc(IntPtr nbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pmsGetLevelForAlloc")]
+        internal static extern int pmsGetLevelForAlloc(IntPtr nbytes, IntPtr plevel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pmsGetLevelForDealloc")]
+        internal static extern int pmsGetLevelForDealloc(IntPtr data, IntPtr plevel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pmsLogInfo")]
         internal static extern void pmsLogInfo();
+        #endregion
+
+        #region pixarith.c
+        // One-image grayscale arithmetic operations(8, 16, 32 bpp)
         internal static extern int pixAddConstantGray(PIX* pixs, int val);
         internal static extern int pixMultConstantGray(PIX* pixs, float val);
+
+        // Two-image grayscale arithmetic operations(8, 16, 32 bpp)
         internal static extern PIX* pixAddGray(PIX* pixd, PIX* pixs1, PIX* pixs2);
         internal static extern PIX* pixSubtractGray(PIX* pixd, PIX* pixs1, PIX* pixs2);
+
+        // Grayscale threshold operation(8, 16, 32 bpp)
         internal static extern PIX* pixThresholdToValue(PIX* pixd, PIX* pixs, int threshval, int setval);
+
+        // Image accumulator arithmetic operations
         internal static extern PIX* pixInitAccumulate(int w, int h, uint offset);
         internal static extern PIX* pixFinalAccumulate(PIX* pixs, uint offset, int depth);
         internal static extern PIX* pixFinalAccumulateThreshold(PIX* pixs, uint offset, uint threshold);
         internal static extern int pixAccumulate(PIX* pixd, PIX* pixs, int op);
         internal static extern int pixMultConstAccumulate(PIX* pixs, float factor, uint offset);
+
+        // Absolute value of difference
         internal static extern PIX* pixAbsDifference(PIX* pixs1, PIX* pixs2);
+
+        // Sum of color images
         internal static extern PIX* pixAddRGB(PIX* pixs1, PIX* pixs2);
+
+        // Two-image min and max operations(8 and 16 bpp)
         internal static extern PIX* pixMinOrMax(PIX* pixd, PIX* pixs1, PIX* pixs2, int type);
+
+        // Scale pix for maximum dynamic range
         internal static extern PIX* pixMaxDynamicRange(PIX* pixs, int type);
         internal static extern PIX* pixMaxDynamicRangeRGB(PIX* pixs, int type);
+
+        // RGB pixel value scaling
         internal static extern uint linearScaleRGBVal(uint sval, float factor);
         internal static extern uint logScaleRGBVal(uint sval, l_float32* tab, float factor);
+
+        // Log base2 lookup
         internal static extern l_float32* makeLogBase2Tab(void );
         internal static extern float getLogBase2(int val, l_float32* logtab);
+        #endregion
+
+        /*
         internal static extern PIXC* pixcompCreateFromPix(PIX* pix, int comptype);
         internal static extern PIXC* pixcompCreateFromString(IntPtr data, IntPtr size, int copyflag);
         internal static extern PIXC* pixcompCreateFromFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int comptype );
