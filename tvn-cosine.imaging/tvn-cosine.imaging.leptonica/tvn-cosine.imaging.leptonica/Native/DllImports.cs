@@ -5204,7 +5204,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "freadHeaderPng")]
         internal static extern int freadHeaderPng(IntPtr fp, out int pw, out int ph, out int pbps, out int pspp, out int piscmap);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderMemPng")]
-        internal static extern int readHeaderMemPng(IntPtr data, IntPtr size, out int pw, out int ph, out int pbps, out int  pspp, out int piscmap);
+        internal static extern int readHeaderMemPng(IntPtr data, IntPtr size, out int pw, out int ph, out int pbps, out int pspp, out int piscmap);
 
         // Reading png metadata
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fgetPngResolution")]
@@ -5232,7 +5232,7 @@ namespace Leptonica.Native
 
         // Writing png to memory
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemPng")]
-        internal static extern int pixWriteMemPng (out IntPtr pfiledata, IntPtr pfilesize, HandleRef pix, float gamma);
+        internal static extern int pixWriteMemPng(out IntPtr pfiledata, IntPtr pfilesize, HandleRef pix, float gamma);
         #endregion
 
         #region pnmio.c
@@ -5240,7 +5240,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadStreamPnm")]
         internal static extern IntPtr pixReadStreamPnm(IntPtr fp);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderPnm")]
-        internal static extern int readHeaderPnm([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int  pw, out int ph, out int pd, out int ptype, out int pbps, out int pspp);
+        internal static extern int readHeaderPnm([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pw, out int ph, out int pd, out int ptype, out int pbps, out int pspp);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "freadHeaderPnm")]
         internal static extern int freadHeaderPnm(IntPtr fp, out int pw, out int ph, out int pd, out int ptype, out int pbps, out int pspp);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamPnm")]
@@ -5264,7 +5264,7 @@ namespace Leptonica.Native
         #region projective.c
         // Projective(4 pt) image transformation using a sampled (to nearest integer) transform on each dest point
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectiveSampledPta")]
-        internal static extern IntPtr pixProjectiveSampledPta(HandleRef pixs, HandleRef  ptad, HandleRef ptas, int incolor);
+        internal static extern IntPtr pixProjectiveSampledPta(HandleRef pixs, HandleRef ptad, HandleRef ptas, int incolor);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectiveSampled")]
         internal static extern IntPtr pixProjectiveSampled(HandleRef pixs, IntPtr vc, int incolor);
 
@@ -5272,15 +5272,15 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectivePta")]
         internal static extern IntPtr pixProjectivePta(HandleRef pixs, HandleRef ptad, HandleRef ptas, int incolor);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjective")]
-        internal static extern IntPtr pixProjective(HandleRef pixs,  IntPtr vc , int incolor);
+        internal static extern IntPtr pixProjective(HandleRef pixs, IntPtr vc, int incolor);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectivePtaColor")]
         internal static extern IntPtr pixProjectivePtaColor(HandleRef pixs, HandleRef ptad, HandleRef ptas, uint colorval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectiveColor")]
-        internal static extern IntPtr pixProjectiveColor(HandleRef pixs,  IntPtr vc , uint colorval);
+        internal static extern IntPtr pixProjectiveColor(HandleRef pixs, IntPtr vc, uint colorval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectivePtaGray")]
         internal static extern IntPtr pixProjectivePtaGray(HandleRef pixs, HandleRef ptad, HandleRef ptas, byte grayval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectiveGray")]
-        internal static extern IntPtr pixProjectiveGray(HandleRef pixs,  IntPtr vc , byte grayval);
+        internal static extern IntPtr pixProjectiveGray(HandleRef pixs, IntPtr vc, byte grayval);
 
         // Projective transform including alpha(blend) component
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProjectivePtaWithAlpha")]
@@ -5290,9 +5290,9 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getProjectiveXformCoeffs")]
         internal static extern int getProjectiveXformCoeffs(HandleRef ptas, HandleRef ptad, out IntPtr pvc);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "projectiveXformSampledPt")]
-        internal static extern int projectiveXformSampledPt( IntPtr vc , int x, int y, out int pxp, out int pyp);
+        internal static extern int projectiveXformSampledPt(IntPtr vc, int x, int y, out int pxp, out int pyp);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "projectiveXformPt")]
-        internal static extern int projectiveXformPt( IntPtr vc , int x, int y, out float pxp, out float pyp);
+        internal static extern int projectiveXformPt(IntPtr vc, int x, int y, out float pxp, out float pyp);
         #endregion
 
         #region psio1.c
@@ -5389,46 +5389,68 @@ namespace Leptonica.Native
         internal static extern void l_psWriteBoundingBox(int flag);
         #endregion
 
-        /*
-        internal static extern PTA* ptaCreate(int n);
-        internal static extern PTA* ptaCreateFromNuma(NUMA* nax, NUMA* nay);
-        internal static extern void ptaDestroy(PTA** ppta);
-        internal static extern PTA* ptaCopy(HandleRef pta);
-        internal static extern PTA* ptaCopyRange(HandleRef ptas, int istart, int iend);
-        internal static extern PTA* ptaClone(HandleRef pta);
+        #region ptabasic.c
+        // Pta creation, destruction, copy, clone, empty
+        internal static extern IntPtr ptaCreate(int n);
+        internal static extern IntPtr ptaCreateFromNuma(HandleRef nax, HandleRef nay);
+        internal static extern void ptaDestroy(ref IntPtr ppta);
+        internal static extern IntPtr ptaCopy(HandleRef pta);
+        internal static extern IntPtr ptaCopyRange(HandleRef ptas, int istart, int iend);
+        internal static extern IntPtr ptaClone(HandleRef pta);
         internal static extern int ptaEmpty(HandleRef pta);
+
+        // Pta array extension
         internal static extern int ptaAddPt(HandleRef pta, float x, float y);
+
+        // Pta insertion and removal
         internal static extern int ptaInsertPt(HandleRef pta, int index, int x, int y);
         internal static extern int ptaRemovePt(HandleRef pta, int index);
+
+        // Pta accessors
         internal static extern int ptaGetRefcount(HandleRef pta);
         internal static extern int ptaChangeRefcount(HandleRef pta, int delta);
         internal static extern int ptaGetCount(HandleRef pta);
-        internal static extern int ptaGetPt(HandleRef pta, int index, l_float32* px, l_float32* py);
-        internal static extern int ptaGetIPt(HandleRef pta, int index, l_int32* px, l_int32* py);
+        internal static extern int ptaGetPt(HandleRef pta, int index, out float px, out float py);
+        internal static extern int ptaGetIPt(HandleRef pta, int index, out int px, out int py);
         internal static extern int ptaSetPt(HandleRef pta, int index, float x, float y);
-        internal static extern int ptaGetArrays(HandleRef pta, NUMA** pnax, NUMA** pnay);
-        internal static extern PTA* ptaRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern PTA* ptaReadStream(IntPtr fp);
-        internal static extern PTA* ptaReadMem(IntPtr data, IntPtr size);
-        internal static extern int ptaWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PTA *pta, int type );
-        internal static extern int ptaWriteStream(IntPtr fp, PTA* pta, int type);
-        internal static extern int ptaWriteMem (out IntPtr pdata, IntPtr psize, PTA* pta, int type);
-        internal static extern PTAA* ptaaCreate(int n);
-        internal static extern void ptaaDestroy(PTAA** pptaa);
-        internal static extern int ptaaAddPta(PTAA* ptaa, PTA* pta, int copyflag);
-        internal static extern int ptaaGetCount(PTAA* ptaa);
-        internal static extern PTA* ptaaGetPta(PTAA* ptaa, int index, int accessflag);
-        internal static extern int ptaaGetPt(PTAA* ptaa, int ipta, int jpt, l_float32* px, l_float32* py);
-        internal static extern int ptaaInitFull(PTAA* ptaa, PTA* pta);
-        internal static extern int ptaaReplacePta(PTAA* ptaa, int index, PTA* pta);
-        internal static extern int ptaaAddPt(PTAA* ptaa, int ipta, float x, float y);
-        internal static extern int ptaaTruncate(PTAA* ptaa);
-        internal static extern PTAA* ptaaRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern PTAA* ptaaReadStream(IntPtr fp);
-        internal static extern PTAA* ptaaReadMem(IntPtr data, IntPtr size);
-        internal static extern int ptaaWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PTAA *ptaa, int type );
-        internal static extern int ptaaWriteStream(IntPtr fp, PTAA* ptaa, int type);
-        internal static extern int ptaaWriteMem (out IntPtr pdata, IntPtr psize, PTAA* ptaa, int type);
+        internal static extern int ptaGetArrays(HandleRef pta, out IntPtr pnax, out IntPtr pnay);
+
+        // Pta serialized for I/O
+        internal static extern IntPtr ptaRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        internal static extern IntPtr ptaReadStream(IntPtr fp);
+        internal static extern IntPtr ptaReadMem(IntPtr data, IntPtr size);
+        internal static extern int ptaWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pta, int type);
+        internal static extern int ptaWriteStream(IntPtr fp, HandleRef pta, int type);
+        internal static extern int ptaWriteMem(out IntPtr pdata, IntPtr psize, HandleRef pta, int type);
+
+        // Ptaa creation, destruction
+        internal static extern IntPtr ptaaCreate(int n);
+        internal static extern void ptaaDestroy(ref IntPtr pptaa);
+
+        // Ptaa array extension
+        internal static extern int ptaaAddPta(HandleRef ptaa, HandleRef pta, int copyflag);
+
+        // Ptaa accessors
+        internal static extern int ptaaGetCount(HandleRef ptaa);
+        internal static extern IntPtr ptaaGetPta(HandleRef ptaa, int index, int accessflag);
+        internal static extern int ptaaGetPt(HandleRef ptaa, int ipta, int jpt, out float px, out float py);
+
+        // Ptaa array modifiers
+        internal static extern int ptaaInitFull(HandleRef ptaa, HandleRef pta);
+        internal static extern int ptaaReplacePta(HandleRef ptaa, int index, HandleRef pta);
+        internal static extern int ptaaAddPt(HandleRef ptaa, int ipta, float x, float y);
+        internal static extern int ptaaTruncate(HandleRef ptaa);
+
+        // Ptaa serialized for I/O
+        internal static extern IntPtr ptaaRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        internal static extern IntPtr ptaaReadStream(IntPtr fp);
+        internal static extern IntPtr ptaaReadMem(IntPtr data, IntPtr size);
+        internal static extern int ptaaWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef ptaa, int type);
+        internal static extern int ptaaWriteStream(IntPtr fp, HandleRef ptaa, int type);
+        internal static extern int ptaaWriteMem(out IntPtr pdata, IntPtr psize, HandleRef ptaa, int type);
+        #endregion
+
+        /*
         internal static extern PTA* ptaSubsample(HandleRef ptas, int subfactor);
         internal static extern int ptaJoin(HandleRef ptad, PTA* ptas, int istart, int iend);
         internal static extern int ptaaJoin(PTAA* ptaad, PTAA* ptaas, int istart, int iend);
