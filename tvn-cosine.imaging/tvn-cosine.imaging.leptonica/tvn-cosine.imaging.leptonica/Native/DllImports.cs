@@ -5715,13 +5715,23 @@ namespace Leptonica.Native
         internal static extern IntPtr fpixaDisplayQuadtree(HandleRef fpixa, int factor, int fontsize);
         #endregion
 
+        #region queue.c
+        // Create/Destroy L_Queue
+        internal static extern IntPtr lqueueCreate(int nalloc);
+        internal static extern void lqueueDestroy(ref IntPtr plq, int freeflag);
+
+        // Operations to add/remove to/from a L_Queue
+        internal static extern int lqueueAdd(HandleRef lq, IntPtr item);
+        internal static extern IntPtr lqueueRemove(HandleRef lq);
+
+        // Accessors
+        internal static extern int lqueueGetCount(HandleRef lq);
+
+        // Debug output
+        internal static extern int lqueuePrint(IntPtr fp, HandleRef lq);
+        #endregion
+
         /*
-        internal static extern L_QUEUE* lqueueCreate(int nalloc);
-        internal static extern void lqueueDestroy(L_QUEUE** plq, int freeflag);
-        internal static extern int lqueueAdd(L_QUEUE* lq, IntPtr item);
-        internal static extern IntPtr lqueueRemove(L_QUEUE* lq);
-        internal static extern int lqueueGetCount(L_QUEUE* lq);
-        internal static extern int lqueuePrint(IntPtr fp, L_QUEUE* lq);
         internal static extern PIX* pixRankFilter(PIX* pixs, int wf, int hf, float rank);
         internal static extern PIX* pixRankFilterRGB(PIX* pixs, int wf, int hf, float rank);
         internal static extern PIX* pixRankFilterGray(PIX* pixs, int wf, int hf, float rank);
