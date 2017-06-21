@@ -5685,16 +5685,37 @@ namespace Leptonica.Native
         internal static extern IntPtr ptraaFlattenToPtra(HandleRef paa);
         #endregion
 
-        /*
-        internal static extern int pixQuadtreeMean(PIX* pixs, int nlevels, PIX* pix_ma, FPIXA** pfpixa);
-        internal static extern int pixQuadtreeVariance(PIX* pixs, int nlevels, PIX* pix_ma, DPIX* dpix_msa, FPIXA** pfpixa_v, FPIXA** pfpixa_rv);
-        internal static extern int pixMeanInRectangle(PIX* pixs, HandleRef box, PIX* pixma, l_float32* pval);
-        internal static extern int pixVarianceInRectangle(PIX* pixs, HandleRef box, PIX* pix_ma, DPIX* dpix_msa, l_float32* pvar, l_float32* prvar);
-        internal static extern BOXAA* boxaaQuadtreeRegions(int w, int h, int nlevels);
-        internal static extern int quadtreeGetParent(FPIXA* fpixa, int level, int x, int y, l_float32* pval);
-        internal static extern int quadtreeGetChildren(FPIXA* fpixa, int level, int x, int y, l_float32* pval00, l_float32* pval10, l_float32* pval01, l_float32* pval11);
+        #region quadtree.c
+        // Top level quadtree linear statistics
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixQuadtreeMean")]
+        internal static extern int pixQuadtreeMean(HandleRef  pixs, int nlevels, HandleRef pix_ma, out IntPtr pfpixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixQuadtreeVariance")]
+        internal static extern int pixQuadtreeVariance(HandleRef pixs, int nlevels, HandleRef pix_ma, HandleRef dpix_msa, out IntPtr pfpixa_v, out IntPtr pfpixa_rv);
+
+        // Statistics in an arbitrary rectangle
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMeanInRectangle")]
+        internal static extern int pixMeanInRectangle(HandleRef pixs, HandleRef box, HandleRef pixma, out float pval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixVarianceInRectangle")]
+        internal static extern int pixVarianceInRectangle(HandleRef pixs, HandleRef box, HandleRef pix_ma, HandleRef dpix_msa, out float pvar, out float prvar);
+
+        // Quadtree regions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "boxaaQuadtreeRegions")]
+        internal static extern IntPtr boxaaQuadtreeRegions(int w, int h, int nlevels);
+
+        // Quadtree access
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "quadtreeGetParent")]
+        internal static extern int quadtreeGetParent(HandleRef fpixa, int level, int x, int y, out float pval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "quadtreeGetChildren")]
+        internal static extern int quadtreeGetChildren(HandleRef fpixa, int level, int x, int y, out float pval00, out float pval10, out float pval01, out float pval11);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "quadtreeMaxLevels")]
         internal static extern int quadtreeMaxLevels(int w, int h);
-        internal static extern PIX* fpixaDisplayQuadtree(FPIXA* fpixa, int factor, int fontsize);
+
+        // Display quadtree
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fpixaDisplayQuadtree")]
+        internal static extern IntPtr fpixaDisplayQuadtree(HandleRef fpixa, int factor, int fontsize);
+        #endregion
+
+        /*
         internal static extern L_QUEUE* lqueueCreate(int nalloc);
         internal static extern void lqueueDestroy(L_QUEUE** plq, int freeflag);
         internal static extern int lqueueAdd(L_QUEUE* lq, IntPtr item);
