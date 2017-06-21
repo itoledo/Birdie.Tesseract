@@ -5593,21 +5593,43 @@ namespace Leptonica.Native
         internal static extern IntPtr pixDisplayPtaa(HandleRef pixs, HandleRef ptaa);
         #endregion
 
+        #region ptafunc2.c
+        // Sorting
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaSort")]
+        internal static extern IntPtr ptaSort(HandleRef ptas, int sorttype, int sortorder, out IntPtr pnaindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaGetSortIndex")]
+        internal static extern int ptaGetSortIndex(HandleRef ptas, int sorttype, int sortorder, out IntPtr pnaindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaSortByIndex")]
+        internal static extern IntPtr ptaSortByIndex(HandleRef ptas, HandleRef naindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaaSortByIndex")]
+        internal static extern IntPtr ptaaSortByIndex(HandleRef ptaas, HandleRef naindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaGetRankValue")]
+        internal static extern int ptaGetRankValue(HandleRef pta, float fract, HandleRef ptasort, int sorttype, out float pval);
+
+        // Set operations using aset (rbtree)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaUnionByAset")]
+        internal static extern IntPtr ptaUnionByAset(HandleRef pta1, HandleRef pta2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaRemoveDupsByAset")]
+        internal static extern IntPtr ptaRemoveDupsByAset(HandleRef ptas);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaIntersectionByAset")]
+        internal static extern IntPtr ptaIntersectionByAset(HandleRef pta1, HandleRef pta2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetCreateFromPta")]
+        internal static extern IntPtr l_asetCreateFromPta(HandleRef pta);
+
+        // Set operations using hashing (dnahash)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaUnionByHash")]
+        internal static extern IntPtr ptaUnionByHash(HandleRef pta1, HandleRef pta2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaRemoveDupsByHash")]
+        internal static extern int ptaRemoveDupsByHash(HandleRef ptas, out IntPtr pptad, out IntPtr pdahash);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaIntersectionByHash")]
+        internal static extern IntPtr ptaIntersectionByHash(HandleRef pta1, HandleRef pta2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptaFindPtByHash")]
+        internal static extern int ptaFindPtByHash(HandleRef pta, HandleRef dahash, int x, int y, out int pindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaHashCreateFromPta")]
+        internal static extern IntPtr l_dnaHashCreateFromPta(HandleRef pta);
+        #endregion
+
         /*
-        internal static extern PTA* ptaSort(HandleRef ptas, int sorttype, int sortorder, NUMA** pnaindex);
-        internal static extern int ptaGetSortIndex(HandleRef ptas, int sorttype, int sortorder, NUMA** pnaindex);
-        internal static extern PTA* ptaSortByIndex(HandleRef ptas, NUMA* naindex);
-        internal static extern PTAA* ptaaSortByIndex(PTAA* ptaas, NUMA* naindex);
-        internal static extern int ptaGetRankValue(HandleRef pta, float fract, PTA* ptasort, int sorttype, l_float32* pval);
-        internal static extern PTA* ptaUnionByAset(HandleRef pta1, PTA* pta2);
-        internal static extern PTA* ptaRemoveDupsByAset(HandleRef ptas);
-        internal static extern PTA* ptaIntersectionByAset(HandleRef pta1, PTA* pta2);
-        internal static extern L_ASET* l_asetCreateFromPta(HandleRef pta);
-        internal static extern PTA* ptaUnionByHash(HandleRef pta1, PTA* pta2);
-        internal static extern int ptaRemoveDupsByHash(HandleRef ptas, PTA** pptad, L_DNAHASH** pdahash);
-        internal static extern PTA* ptaIntersectionByHash(HandleRef pta1, PTA* pta2);
-        internal static extern int ptaFindPtByHash(HandleRef pta, L_DNAHASH* dahash, int x, int y, l_int32* pindex);
-        internal static extern L_DNAHASH* l_dnaHashCreateFromPta(HandleRef pta);
         internal static extern L_PTRA* ptraCreate(int n);
         internal static extern void ptraDestroy(L_PTRA** ppa, int freeflag, int warnflag);
         internal static extern int ptraAdd(L_PTRA* pa, void* item);
