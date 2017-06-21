@@ -266,6 +266,7 @@
     <Compile Include="Implementations\PtaBasic.cs" />
     <Compile Include="Implementations\PtaFunc1.cs" />
     <Compile Include="Implementations\PtaFunc2.cs" />
+    <Compile Include="Implementations\Ptra.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

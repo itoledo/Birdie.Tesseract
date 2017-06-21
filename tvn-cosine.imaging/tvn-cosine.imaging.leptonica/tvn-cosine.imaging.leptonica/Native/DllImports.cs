@@ -5629,27 +5629,63 @@ namespace Leptonica.Native
         internal static extern IntPtr l_dnaHashCreateFromPta(HandleRef pta);
         #endregion
 
+        #region ptra.c 
+        // Ptra creation and destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraCreate")]
+        internal static extern IntPtr ptraCreate(int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraDestroy")]
+        internal static extern void ptraDestroy(ref IntPtr ppa, int freeflag, int warnflag);
+
+        // Add/insert/remove/replace generic ptr object
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraAdd")]
+        internal static extern int ptraAdd(HandleRef pa, IntPtr item);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraInsert")]
+        internal static extern int ptraInsert(HandleRef pa, int index, IntPtr item, int shiftflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraRemove")]
+        internal static extern IntPtr ptraRemove(HandleRef pa, int index, int flag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraRemoveLast")]
+        internal static extern IntPtr ptraRemoveLast(HandleRef pa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraReplace")]
+        internal static extern IntPtr ptraReplace(HandleRef pa, int index, IntPtr item, int freeflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraSwap")]
+        internal static extern int ptraSwap(HandleRef pa, int index1, int index2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraCompactArray")]
+        internal static extern int ptraCompactArray(HandleRef pa);
+
+        // Other array operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraReverse")]
+        internal static extern int ptraReverse(HandleRef pa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraJoin")]
+        internal static extern int ptraJoin(HandleRef pa1, HandleRef pa2);
+
+        // Simple Ptra accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraGetMaxIndex")]
+        internal static extern int ptraGetMaxIndex(HandleRef pa, out int pmaxindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraGetActualCount")]
+        internal static extern int ptraGetActualCount(HandleRef pa, out int pcount);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraGetPtrToItem")]
+        internal static extern IntPtr ptraGetPtrToItem(HandleRef pa, int index);
+
+        // Ptraa creation and destruction
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraaCreate")]
+        internal static extern IntPtr ptraaCreate(int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraaDestroy")]
+        internal static extern void ptraaDestroy(ref IntPtr ppaa, int freeflag, int warnflag);
+
+        // Ptraa accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraaGetSize")]
+        internal static extern int ptraaGetSize(HandleRef paa, out int psize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraaInsertPtra")]
+        internal static extern int ptraaInsertPtra(HandleRef paa, int index, HandleRef pa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraaGetPtra")]
+        internal static extern IntPtr ptraaGetPtra(HandleRef paa, int index, int accessflag);
+
+        // Ptraa conversion
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ptraaFlattenToPtra")]
+        internal static extern IntPtr ptraaFlattenToPtra(HandleRef paa);
+        #endregion
+
         /*
-        internal static extern L_PTRA* ptraCreate(int n);
-        internal static extern void ptraDestroy(L_PTRA** ppa, int freeflag, int warnflag);
-        internal static extern int ptraAdd(L_PTRA* pa, void* item);
-        internal static extern int ptraInsert(L_PTRA* pa, int index, void* item, int shiftflag);
-        internal static extern void* ptraRemove(L_PTRA* pa, int index, int flag);
-        internal static extern void* ptraRemoveLast(L_PTRA* pa);
-        internal static extern void* ptraReplace(L_PTRA* pa, int index, void* item, int freeflag);
-        internal static extern int ptraSwap(L_PTRA* pa, int index1, int index2);
-        internal static extern int ptraCompactArray(L_PTRA* pa);
-        internal static extern int ptraReverse(L_PTRA* pa);
-        internal static extern int ptraJoin(L_PTRA* pa1, L_PTRA* pa2);
-        internal static extern int ptraGetMaxIndex(L_PTRA* pa, l_int32* pmaxindex);
-        internal static extern int ptraGetActualCount(L_PTRA* pa, l_int32* pcount);
-        internal static extern void* ptraGetPtrToItem(L_PTRA* pa, int index);
-        internal static extern L_PTRAA* ptraaCreate(int n);
-        internal static extern void ptraaDestroy(L_PTRAA** ppaa, int freeflag, int warnflag);
-        internal static extern int ptraaGetSize(L_PTRAA* paa, l_int32* psize);
-        internal static extern int ptraaInsertPtra(L_PTRAA* paa, int index, L_PTRA* pa);
-        internal static extern L_PTRA* ptraaGetPtra(L_PTRAA* paa, int index, int accessflag);
-        internal static extern L_PTRA* ptraaFlattenToPtra(L_PTRAA* paa);
         internal static extern int pixQuadtreeMean(PIX* pixs, int nlevels, PIX* pix_ma, FPIXA** pfpixa);
         internal static extern int pixQuadtreeVariance(PIX* pixs, int nlevels, PIX* pix_ma, DPIX* dpix_msa, FPIXA** pfpixa_v, FPIXA** pfpixa_rv);
         internal static extern int pixMeanInRectangle(PIX* pixs, HandleRef box, PIX* pixma, l_float32* pval);
@@ -5661,8 +5697,8 @@ namespace Leptonica.Native
         internal static extern PIX* fpixaDisplayQuadtree(FPIXA* fpixa, int factor, int fontsize);
         internal static extern L_QUEUE* lqueueCreate(int nalloc);
         internal static extern void lqueueDestroy(L_QUEUE** plq, int freeflag);
-        internal static extern int lqueueAdd(L_QUEUE* lq, void* item);
-        internal static extern void* lqueueRemove(L_QUEUE* lq);
+        internal static extern int lqueueAdd(L_QUEUE* lq, IntPtr item);
+        internal static extern IntPtr lqueueRemove(L_QUEUE* lq);
         internal static extern int lqueueGetCount(L_QUEUE* lq);
         internal static extern int lqueuePrint(IntPtr fp, L_QUEUE* lq);
         internal static extern PIX* pixRankFilter(PIX* pixs, int wf, int hf, float rank);
@@ -6068,8 +6104,8 @@ namespace Leptonica.Native
         internal static extern PIX* pixDeserializeFromMemory( const l_uint32* data, IntPtr nbytes );
          internal static extern L_STACK* lstackCreate(int nalloc);
         internal static extern void lstackDestroy(L_STACK** plstack, int freeflag);
-        internal static extern int lstackAdd(L_STACK* lstack, void* item);
-        internal static extern void* lstackRemove(L_STACK* lstack);
+        internal static extern int lstackAdd(L_STACK* lstack, IntPtr item);
+        internal static extern IntPtr lstackRemove(L_STACK* lstack);
         internal static extern int lstackGetCount(L_STACK* lstack);
         internal static extern int lstackPrint(IntPtr fp, L_STACK* lstack);
         internal static extern L_STRCODE* strcodeCreate(int fileno);
@@ -6131,7 +6167,7 @@ namespace Leptonica.Native
         internal static extern int setMsgSeverity(int newsev);
         internal static extern int returnErrorInt(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, int ival );
         internal static extern float returnErrorFloat(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, float fval );
-        internal static extern void* returnErrorPtr(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, void* pval );
+        internal static extern IntPtr returnErrorPtr(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, IntPtr pval );
         internal static extern int filesAreIdentical(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname1,  [MarshalAs(UnmanagedType.AnsiBStr)] string fname2, int* psame );
         internal static extern ushort convertOnLittleEnd16( ushort  shortin);
         internal static extern ushort convertOnBigEnd16( ushort  shortin);
@@ -6174,12 +6210,12 @@ namespace Leptonica.Native
          internal static extern IntPtr  stringReplaceEachSubstr(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub1,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub2, int* pcount );
         internal static extern L_DNA* arrayFindEachSequence(IntPtr data, IntPtr datalen, IntPtr sequence, IntPtr seqlen);
         internal static extern int arrayFindSequence(IntPtr data, IntPtr datalen, IntPtr sequence, IntPtr seqlen, l_int32* poffset, int* pfound);
-        internal static extern void* reallocNew(void** pindata, int oldsize, int newsize);
+        internal static extern IntPtr reallocNew(void** pindata, int oldsize, int newsize);
         internal static extern IntPtr l_binaryRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr *pnbytes );
          internal static extern IntPtr l_binaryReadStream(IntPtr fp, IntPtr pnbytes);
         internal static extern IntPtr l_binaryReadSelect(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr start, IntPtr nbytes, IntPtr *pnread );
          internal static extern IntPtr l_binaryReadSelectStream(IntPtr fp, IntPtr start, IntPtr nbytes, IntPtr pnread);
-        internal static extern int l_binaryWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename,  [MarshalAs(UnmanagedType.AnsiBStr)] string operation, void* data, IntPtr nbytes );
+        internal static extern int l_binaryWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename,  [MarshalAs(UnmanagedType.AnsiBStr)] string operation, IntPtr data, IntPtr nbytes );
          internal static extern IntPtr nbytesInFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
         internal static extern IntPtr fnbytesInFile(IntPtr fp);
         internal static extern IntPtr l_binaryCopy(IntPtr datas, IntPtr size);
@@ -6192,7 +6228,7 @@ namespace Leptonica.Native
         internal static extern IntPtr fopenWriteWinTempfile();
         internal static extern IntPtr lept_fopen(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename,  [MarshalAs(UnmanagedType.AnsiBStr)] string mode );
         internal static extern int lept_fclose(IntPtr fp);
-        internal static extern void* lept_calloc(size_t nmemb, IntPtr size);
+        internal static extern IntPtr lept_calloc(size_t nmemb, IntPtr size);
         internal static extern void lept_free(void* ptr);
         internal static extern int lept_mkdir(  [MarshalAs(UnmanagedType.AnsiBStr)] string subdir );
         internal static extern int lept_rmdir(  [MarshalAs(UnmanagedType.AnsiBStr)] string subdir );
