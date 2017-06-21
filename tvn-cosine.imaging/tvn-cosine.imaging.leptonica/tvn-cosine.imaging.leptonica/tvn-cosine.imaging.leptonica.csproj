@@ -261,6 +261,8 @@
     <Compile Include="Implementations\PngIO.cs" />
     <Compile Include="Implementations\PnmIO.cs" />
     <Compile Include="Implementations\Projective.cs" />
+    <Compile Include="Implementations\PsIO1.cs" />
+    <Compile Include="Implementations\PsIO2.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

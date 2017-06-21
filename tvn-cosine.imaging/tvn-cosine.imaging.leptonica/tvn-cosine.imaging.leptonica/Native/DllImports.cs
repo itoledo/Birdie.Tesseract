@@ -5295,40 +5295,101 @@ namespace Leptonica.Native
         internal static extern int projectiveXformPt( IntPtr vc , int x, int y, out float pxp, out float pyp);
         #endregion
 
-        /*
-        internal static extern int convertFilesToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirin,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int sarrayConvertFilesToPS(SARRAY* sa, int res,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int convertFilesFittedToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirin,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, float xpts, float ypts,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int sarrayConvertFilesFittedToPS(SARRAY* sa, float xpts, float ypts,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int writeImageCompressedToPSFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int res, l_int32* pfirstfile, int* pindex );
-        internal static extern int convertSegmentedPagesToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string pagedir,  [MarshalAs(UnmanagedType.AnsiBStr)] string pagestr, int page_numpre,  [MarshalAs(UnmanagedType.AnsiBStr)] string maskdir,  [MarshalAs(UnmanagedType.AnsiBStr)] string maskstr, int mask_numpre, int numpost, int maxnum, float textscale, float imagescale, int threshold,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int pixWriteSegmentedPageToPS(PIX* pixs, PIX* pixm, float textscale, float imagescale, int threshold, int pageno,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int pixWriteMixedToPS(PIX* pixb, PIX* pixc, float scale, int pageno,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int convertToPSEmbed(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int level );
-        internal static extern int pixaWriteCompressedToPS(PIXA* pixa,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int res, int level );
-        internal static extern int pixWritePSEmbed(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int pixWriteStreamPS(IntPtr fp, PIX* pix, HandleRef box, int res, float scale);
-        internal static extern IntPtr  pixWriteStringPS(PIX* pixs, HandleRef box, int res, float scale);
-        internal static extern IntPtr  generateUncompressedPS( [MarshalAs(UnmanagedType.AnsiBStr)] string hexdata, int w, int h, int d, int psbpl, int bps, float xpt, float ypt, float wpt, float hpt, int boxflag);
-        internal static extern void getScaledParametersPS(HandleRef box, int wpix, int hpix, int res, float scale, l_float32* pxpt, l_float32* pypt, l_float32* pwpt, l_float32* phpt);
-        internal static extern void convertByteToHexAscii(l_uint8 byteval, [MarshalAs(UnmanagedType.AnsiBStr)] string  pnib1, [MarshalAs(UnmanagedType.AnsiBStr)] string  pnib2);
-        internal static extern int convertJpegToPSEmbed(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int convertJpegToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout,  [MarshalAs(UnmanagedType.AnsiBStr)] string operation, int x, int y, int res, float scale, int pageno, int endpage );
-        internal static extern int convertJpegToPSString(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, char** poutstr, int* pnbytes, int x, int y, int res, float scale, int pageno, int endpage );
-        internal static extern IntPtr  generateJpegPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int pageno, int endpage );
-        internal static extern int convertG4ToPSEmbed(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int convertG4ToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout,  [MarshalAs(UnmanagedType.AnsiBStr)] string operation, int x, int y, int res, float scale, int pageno, int maskflag, int endpage );
-        internal static extern int convertG4ToPSString(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, char** poutstr, int* pnbytes, int x, int y, int res, float scale, int pageno, int maskflag, int endpage );
-        internal static extern IntPtr  generateG4PS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int maskflag, int pageno, int endpage );
-        internal static extern int convertTiffMultipageToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, float fillfract );
-        internal static extern int convertFlateToPSEmbed(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int convertFlateToPS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout,  [MarshalAs(UnmanagedType.AnsiBStr)] string operation, int x, int y, int res, float scale, int pageno, int endpage );
-        internal static extern int convertFlateToPSString(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, char** poutstr, int* pnbytes, int x, int y, int res, float scale, int pageno, int endpage );
-        internal static extern IntPtr  generateFlatePS(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, L_COMP_DATA *cid, float xpt, float ypt, float wpt, float hpt, int pageno, int endpage );
-        internal static extern int pixWriteMemPS (out IntPtr pdata, IntPtr psize, PIX* pix, HandleRef box, int res, float scale);
+        #region psio1.c
+        // Convert specified files to PS
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertFilesToPS")]
+        internal static extern int convertFilesToPS([MarshalAs(UnmanagedType.AnsiBStr)] string dirin, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int res, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayConvertFilesToPS")]
+        internal static extern int sarrayConvertFilesToPS(HandleRef sa, int res, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertFilesFittedToPS")]
+        internal static extern int convertFilesFittedToPS([MarshalAs(UnmanagedType.AnsiBStr)] string dirin, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, float xpts, float ypts, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayConvertFilesFittedToPS")]
+        internal static extern int sarrayConvertFilesFittedToPS(HandleRef sa, float xpts, float ypts, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "writeImageCompressedToPSFile")]
+        internal static extern int writeImageCompressedToPSFile([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int res, out int pfirstfile, out int pindex);
+
+        // Convert mixed text/image files to PS
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertSegmentedPagesToPS")]
+        internal static extern int convertSegmentedPagesToPS([MarshalAs(UnmanagedType.AnsiBStr)] string pagedir, [MarshalAs(UnmanagedType.AnsiBStr)] string pagestr, int page_numpre, [MarshalAs(UnmanagedType.AnsiBStr)] string maskdir, [MarshalAs(UnmanagedType.AnsiBStr)] string maskstr, int mask_numpre, int numpost, int maxnum, float textscale, float imagescale, int threshold, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteSegmentedPageToPS")]
+        internal static extern int pixWriteSegmentedPageToPS(HandleRef pixs, HandleRef pixm, float textscale, float imagescale, int threshold, int pageno, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMixedToPS")]
+        internal static extern int pixWriteMixedToPS(HandleRef pixb, HandleRef pixc, float scale, int pageno, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+
+        // Convert any image file to PS for embedding
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertToPSEmbed")]
+        internal static extern int convertToPSEmbed([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int level);
+
+        // Write all images in a pixa out to PS
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaWriteCompressedToPS")]
+        internal static extern int pixaWriteCompressedToPS(HandleRef pixa, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, int res, int level);
+        #endregion
+
+        #region psio2.c
+        // For uncompressed images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWritePSEmbed")]
+        internal static extern int pixWritePSEmbed([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamPS")]
+        internal static extern int pixWriteStreamPS(IntPtr fp, HandleRef pix, HandleRef box, int res, float scale);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStringPS")]
+        internal static extern IntPtr pixWriteStringPS(HandleRef pixs, HandleRef box, int res, float scale);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generateUncompressedPS")]
+        internal static extern IntPtr generateUncompressedPS([MarshalAs(UnmanagedType.AnsiBStr)] string hexdata, int w, int h, int d, int psbpl, int bps, float xpt, float ypt, float wpt, float hpt, int boxflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getScaledParametersPS")]
+        internal static extern void getScaledParametersPS(HandleRef box, int wpix, int hpix, int res, float scale, out float pxpt, out float pypt, out float pwpt, out float phpt);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertByteToHexAscii")]
+        internal static extern void convertByteToHexAscii(byte byteval, [MarshalAs(UnmanagedType.AnsiBStr)] string pnib1, [MarshalAs(UnmanagedType.AnsiBStr)] string pnib2);
+
+        // For jpeg compressed images(use dct compression)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertJpegToPSEmbed")]
+        internal static extern int convertJpegToPSEmbed([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertJpegToPS")]
+        internal static extern int convertJpegToPS([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, [MarshalAs(UnmanagedType.AnsiBStr)] string operation, int x, int y, int res, float scale, int pageno, int endpage);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertJpegToPSString")]
+        internal static extern int convertJpegToPSString([MarshalAs(UnmanagedType.AnsiBStr)] string filein, out IntPtr poutstr, IntPtr pnbytes, int x, int y, int res, float scale, int pageno, int endpage);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generateJpegPS")]
+        internal static extern IntPtr generateJpegPS([MarshalAs(UnmanagedType.AnsiBStr)] string filein, HandleRef cid, float xpt, float ypt, float wpt, float hpt, int pageno, int endpage);
+
+        // For g4 fax compressed images(use ccitt g4 compression)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertG4ToPSEmbed")]
+        internal static extern int convertG4ToPSEmbed([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertG4ToPS")]
+        internal static extern int convertG4ToPS([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, [MarshalAs(UnmanagedType.AnsiBStr)] string operation, int x, int y, int res, float scale, int pageno, int maskflag, int endpage);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertG4ToPSString")]
+        internal static extern int convertG4ToPSString([MarshalAs(UnmanagedType.AnsiBStr)] string filein, out IntPtr poutstr, IntPtr pnbytes, int x, int y, int res, float scale, int pageno, int maskflag, int endpage);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generateG4PS")]
+        internal static extern IntPtr generateG4PS([MarshalAs(UnmanagedType.AnsiBStr)] string filein, HandleRef cid, float xpt, float ypt, float wpt, float hpt, int maskflag, int pageno, int endpage);
+
+        // For multipage tiff images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertTiffMultipageToPS")]
+        internal static extern int convertTiffMultipageToPS([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, float fillfract);
+
+        // For flate(gzip) compressed images(e.g., png)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertFlateToPSEmbed")]
+        internal static extern int convertFlateToPSEmbed([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertFlateToPS")]
+        internal static extern int convertFlateToPS([MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout, [MarshalAs(UnmanagedType.AnsiBStr)] string operation, int x, int y, int res, float scale, int pageno, int endpage);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertFlateToPSString")]
+        internal static extern int convertFlateToPSString([MarshalAs(UnmanagedType.AnsiBStr)] string filein, out IntPtr poutstr, IntPtr pnbytes, int x, int y, int res, float scale, int pageno, int endpage);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "generateFlatePS")]
+        internal static extern IntPtr generateFlatePS([MarshalAs(UnmanagedType.AnsiBStr)] string filein, HandleRef cid, float xpt, float ypt, float wpt, float hpt, int pageno, int endpage);
+
+        // Write to memory
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemPS")]
+        internal static extern int pixWriteMemPS(out IntPtr pdata, IntPtr psize, HandleRef pix, HandleRef box, int res, float scale);
+
+        // Converting resolution
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getResLetterPage")]
         internal static extern int getResLetterPage(int w, int h, float fillfract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getResA4Page")]
         internal static extern int getResA4Page(int w, int h, float fillfract);
+
+        // Setting flag for writing bounding box hint
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_psWriteBoundingBox")]
         internal static extern void l_psWriteBoundingBox(int flag);
+        #endregion
+
+        /*
         internal static extern PTA* ptaCreate(int n);
         internal static extern PTA* ptaCreateFromNuma(NUMA* nax, NUMA* nay);
         internal static extern void ptaDestroy(PTA** ppta);
