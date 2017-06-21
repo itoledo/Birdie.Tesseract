@@ -5717,26 +5717,45 @@ namespace Leptonica.Native
 
         #region queue.c
         // Create/Destroy L_Queue
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lqueueCreate")]
         internal static extern IntPtr lqueueCreate(int nalloc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lqueueDestroy")]
         internal static extern void lqueueDestroy(ref IntPtr plq, int freeflag);
 
         // Operations to add/remove to/from a L_Queue
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lqueueAdd")]
         internal static extern int lqueueAdd(HandleRef lq, IntPtr item);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lqueueRemove")]
         internal static extern IntPtr lqueueRemove(HandleRef lq);
 
         // Accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lqueueGetCount")]
         internal static extern int lqueueGetCount(HandleRef lq);
 
         // Debug output
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lqueuePrint")]
         internal static extern int lqueuePrint(IntPtr fp, HandleRef lq);
         #endregion
 
+        #region rank.c
+        // Rank filter(gray and rgb)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRankFilter")]
+        internal static extern IntPtr pixRankFilter(HandleRef pixs, int wf, int hf, float rank);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRankFilterRGB")]
+        internal static extern IntPtr pixRankFilterRGB(HandleRef pixs, int wf, int hf, float rank);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRankFilterGray")]
+        internal static extern IntPtr pixRankFilterGray(HandleRef pixs, int wf, int hf, float rank);
+
+        // Median filter
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMedianFilter")]
+        internal static extern IntPtr pixMedianFilter(HandleRef pixs, int wf, int hf);
+
+        // Rank filter(accelerated with downscaling)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRankFilterWithScaling")]
+        internal static extern IntPtr pixRankFilterWithScaling(HandleRef pixs, int wf, int hf, float rank, float scalefactor);
+        #endregion
+
         /*
-        internal static extern PIX* pixRankFilter(PIX* pixs, int wf, int hf, float rank);
-        internal static extern PIX* pixRankFilterRGB(PIX* pixs, int wf, int hf, float rank);
-        internal static extern PIX* pixRankFilterGray(PIX* pixs, int wf, int hf, float rank);
-        internal static extern PIX* pixMedianFilter(PIX* pixs, int wf, int hf);
-        internal static extern PIX* pixRankFilterWithScaling(PIX* pixs, int wf, int hf, float rank, float scalefactor);
         internal static extern L_RBTREE* l_rbtreeCreate(int keytype);
         internal static extern RB_TYPE* l_rbtreeLookup(L_RBTREE* t, RB_TYPE key);
         internal static extern void l_rbtreeInsert(L_RBTREE* t, RB_TYPE key, RB_TYPE value);
