@@ -5755,18 +5755,33 @@ namespace Leptonica.Native
         internal static extern IntPtr pixRankFilterWithScaling(HandleRef pixs, int wf, int hf, float rank, float scalefactor);
         #endregion
 
+        #region rbtree.c
+        // Interface to red-black tree
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_rbtreeCreate")]
+        internal static extern IntPtr l_rbtreeCreate(int keytype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_rbtreeLookup")]
+        internal static extern IntPtr l_rbtreeLookup(HandleRef t, HandleRef key);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_rbtreeInsert")]
+        internal static extern void l_rbtreeInsert(HandleRef t, HandleRef key, HandleRef value);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_rbtreeDelete")]
+        internal static extern void l_rbtreeDelete(HandleRef t, HandleRef key);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_rbtreeDestroy")]
+        internal static extern void l_rbtreeDestroy(ref IntPtr pt);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_rbtreeGetFirst")]
+        internal static extern IntPtr l_rbtreeGetFirst(HandleRef t);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_rbtreeGetNext")]
+        internal static extern IntPtr l_rbtreeGetNext(HandleRef n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_rbtreeGetLast")]
+        internal static extern IntPtr l_rbtreeGetLast(HandleRef t);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_rbtreeGetPrev")]
+        internal static extern IntPtr l_rbtreeGetPrev(HandleRef n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_rbtreeGetCount")]
+        internal static extern int l_rbtreeGetCount(HandleRef t);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_rbtreePrint")]
+        internal static extern void l_rbtreePrint(IntPtr fp, HandleRef t);
+        #endregion
+
         /*
-        internal static extern L_RBTREE* l_rbtreeCreate(int keytype);
-        internal static extern RB_TYPE* l_rbtreeLookup(L_RBTREE* t, RB_TYPE key);
-        internal static extern void l_rbtreeInsert(L_RBTREE* t, RB_TYPE key, RB_TYPE value);
-        internal static extern void l_rbtreeDelete(L_RBTREE* t, RB_TYPE key);
-        internal static extern void l_rbtreeDestroy(L_RBTREE** pt);
-        internal static extern L_RBTREE_NODE* l_rbtreeGetFirst(L_RBTREE* t);
-        internal static extern L_RBTREE_NODE* l_rbtreeGetNext(L_RBTREE_NODE* n);
-        internal static extern L_RBTREE_NODE* l_rbtreeGetLast(L_RBTREE* t);
-        internal static extern L_RBTREE_NODE* l_rbtreeGetPrev(L_RBTREE_NODE* n);
-        internal static extern int l_rbtreeGetCount(L_RBTREE* t);
-        internal static extern void l_rbtreePrint(IntPtr fp, L_RBTREE* t);
         internal static extern SARRAY* pixProcessBarcodes(PIX* pixs, int format, int method, SARRAY** psaw, int debugflag);
         internal static extern HandleRef pixExtractBarcodes(PIX* pixs, int debugflag);
         internal static extern SARRAY* pixReadBarcodes(PIXA* pixa, int format, int method, SARRAY** psaw, int debugflag);

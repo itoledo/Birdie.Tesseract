@@ -271,6 +271,7 @@
     <Compile Include="Implementations\QuadTree.cs" />
     <Compile Include="Implementations\Queue.cs" />
     <Compile Include="Implementations\Rank.cs" />
+    <Compile Include="Implementations\RbTree.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
