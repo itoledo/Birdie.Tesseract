@@ -284,6 +284,7 @@
     <Compile Include="Implementations\ReadFile.cs" />
     <Compile Include="Implementations\RecogBasic.cs" />
     <Compile Include="Implementations\RecogDid.cs" />
+    <Compile Include="Implementations\RecogIdent.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

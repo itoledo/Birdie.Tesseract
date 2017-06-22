@@ -5925,21 +5925,51 @@ namespace Leptonica.Native
         internal static extern int recogSetChannelParams(HandleRef recog, int nlevels);
         #endregion
 
+        #region recogident.c
+        // Top-level identification
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogIdentifyMultiple")]
+        internal static extern int recogIdentifyMultiple(HandleRef recog, HandleRef pixs, int minh, int skipsplit, out IntPtr pboxa, out IntPtr ppixa, out IntPtr ppixdb, int debugsplit);
+
+        // Segmentation and noise removal
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogSplitIntoCharacters")]
+        internal static extern int recogSplitIntoCharacters(HandleRef recog, HandleRef pixs, int minh, int skipsplit, out IntPtr pboxa, out IntPtr ppixa, int debug);
+
+        // Greedy character splitting
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogCorrelationBestRow")]
+        internal static extern int recogCorrelationBestRow(HandleRef recog, HandleRef pixs, out IntPtr pboxa, out IntPtr pnascore, out IntPtr pnaindex, out IntPtr psachar, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogCorrelationBestChar")]
+        internal static extern int recogCorrelationBestChar(HandleRef recog, HandleRef pixs, out IntPtr pbox,out float  pscore, out int pindex, out IntPtr pcharstr, out IntPtr ppixdb);
+
+        // Low-level identification of single characters
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogIdentifyPixa")]
+        internal static extern int recogIdentifyPixa(HandleRef recog, HandleRef pixa, out IntPtr ppixdb);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogIdentifyPix")]
+        internal static extern int recogIdentifyPix(HandleRef recog, HandleRef pixs, out IntPtr ppixdb);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogSkipIdentify")]
+        internal static extern int recogSkipIdentify(HandleRef recog);
+
+        // Operations for handling identification results
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rchaDestroy")]
+        internal static extern void rchaDestroy(ref IntPtr prcha);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rchDestroy")]
+        internal static extern void rchDestroy(ref IntPtr prch);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rchaExtract")]
+        internal static extern int rchaExtract(HandleRef rcha, out IntPtr pnaindex, out IntPtr pnascore, out IntPtr psatext, out IntPtr pnasample, out IntPtr pnaxloc, out IntPtr pnayloc, out IntPtr pnawidth);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rchExtract")]
+        internal static extern int rchExtract(HandleRef rch, out int pindex, out float pscore, out IntPtr ptext, out int psample, out int pxloc, out int pyloc, out int pwidth);
+
+        // Preprocessing and filtering
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogProcessToIdentify")]
+        internal static extern IntPtr recogProcessToIdentify(HandleRef recog, HandleRef pixs, int pad);
+
+        // Postprocessing
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogExtractNumbers")]
+        internal static extern IntPtr recogExtractNumbers(HandleRef recog, HandleRef boxas, float scorethresh, int spacethresh, out IntPtr pbaa, out IntPtr pnaa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "showExtractNumbers")]
+        internal static extern IntPtr showExtractNumbers(HandleRef pixs, HandleRef sa, HandleRef baa, HandleRef naa, out IntPtr ppixdb);
+        #endregion
+
         /*
-        internal static extern int recogIdentifyMultiple(L_RECOG* recog, PIX* pixs, int minh, int skipsplit, BOXA** pboxa, PIXA** ppixa, PIX** ppixdb, int debugsplit);
-        internal static extern int recogSplitIntoCharacters(L_RECOG* recog, PIX* pixs, int minh, int skipsplit, BOXA** pboxa, PIXA** ppixa, int debug);
-        internal static extern int recogCorrelationBestRow(L_RECOG* recog, PIX* pixs, BOXA** pboxa, NUMA** pnascore, NUMA** pnaindex, SARRAY** psachar, int debug);
-        internal static extern int recogCorrelationBestChar(L_RECOG* recog, PIX* pixs, BOX** pbox, l_float32* pscore, l_int32* pindex, char** pcharstr, PIX** ppixdb);
-        internal static extern int recogIdentifyPixa(L_RECOG* recog, HandleRef pixa, PIX** ppixdb);
-        internal static extern int recogIdentifyPix(L_RECOG* recog, PIX* pixs, PIX** ppixdb);
-        internal static extern int recogSkipIdentify(L_RECOG* recog);
-        internal static extern void rchaDestroy(L_RCHA** prcha);
-        internal static extern void rchDestroy(L_RCH** prch);
-        internal static extern int rchaExtract(L_RCHA* rcha, NUMA** pnaindex, NUMA** pnascore, SARRAY** psatext, NUMA** pnasample, NUMA** pnaxloc, NUMA** pnayloc, NUMA** pnawidth);
-        internal static extern int rchExtract(L_RCH* rch, l_int32* pindex, l_float32* pscore, char** ptext, l_int32* psample, l_int32* pxloc, l_int32* pyloc, l_int32* pwidth);
-        internal static extern PIX* recogProcessToIdentify(L_RECOG* recog, PIX* pixs, int pad);
-        internal static extern SARRAY* recogExtractNumbers(L_RECOG* recog, HandleRef boxas, float scorethresh, int spacethresh, BOXAA** pbaa, NUMAA** pnaa);
-        internal static extern HandleRef showExtractNumbers(PIX* pixs, SARRAY* sa, BOXAA* baa, NUMAA* naa, PIX** ppixdb);
         internal static extern int recogTrainLabeled(L_RECOG* recog, PIX* pixs, HandleRef box, [MarshalAs(UnmanagedType.AnsiBStr)] string  text, int debug);
         internal static extern int recogProcessLabeled(L_RECOG* recog, PIX* pixs, HandleRef box, [MarshalAs(UnmanagedType.AnsiBStr)] string  text, PIX** ppix);
         internal static extern int recogAddSample(L_RECOG* recog, PIX* pix, int debug);
