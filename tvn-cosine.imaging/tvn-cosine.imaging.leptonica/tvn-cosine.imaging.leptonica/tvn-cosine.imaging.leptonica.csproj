@@ -82,7 +82,7 @@
     <Compile Include="Definitions\Ptra\FlagsForRemovalFromL_Ptra.cs" />
     <Compile Include="Definitions\Ptra\L_Ptra.cs" />
     <Compile Include="Definitions\Ptra\L_Ptraa.cs" />
-    <Compile Include="Definitions\Queue.cs" />
+    <Compile Include="Definitions\Queue\Queue.cs" />
     <Compile Include="Definitions\RBTree\L_AMap.cs" />
     <Compile Include="Definitions\RBTree\L_AMap_Node.cs" />
     <Compile Include="Definitions\RBTree\L_ASet.cs" />
@@ -91,6 +91,8 @@
     <Compile Include="Definitions\RBTree\L_Rbtree_Node.cs" />
     <Compile Include="Definitions\RBTree\Rb_Type.cs" />
     <Compile Include="Definitions\RBTree\ValidKeyYypesForRedblackTreesMapsAndSets.cs" />
+    <Compile Include="Definitions\ReadBarcode\FlagsForBarcodeFormats.cs" />
+    <Compile Include="Definitions\ReadBarcode\FlagsForMethodOfExtractingBarcodeWidths.cs" />
     <Compile Include="Definitions\Stack\FillSeg.cs" />
     <Compile Include="Definitions\Stack\L_Stack.cs" />
     <Compile Include="Implementations\Blend.cs" />
@@ -272,6 +274,8 @@
     <Compile Include="Implementations\Queue.cs" />
     <Compile Include="Implementations\Rank.cs" />
     <Compile Include="Implementations\RbTree.cs" />
+    <Compile Include="Implementations\ReadBarcode.cs" />
+    <Compile Include="Implementations\ReadFile.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

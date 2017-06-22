@@ -5688,7 +5688,7 @@ namespace Leptonica.Native
         #region quadtree.c
         // Top level quadtree linear statistics
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixQuadtreeMean")]
-        internal static extern int pixQuadtreeMean(HandleRef  pixs, int nlevels, HandleRef pix_ma, out IntPtr pfpixa);
+        internal static extern int pixQuadtreeMean(HandleRef pixs, int nlevels, HandleRef pix_ma, out IntPtr pfpixa);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixQuadtreeVariance")]
         internal static extern int pixQuadtreeVariance(HandleRef pixs, int nlevels, HandleRef pix_ma, HandleRef dpix_msa, out IntPtr pfpixa_v, out IntPtr pfpixa_rv);
 
@@ -5781,33 +5781,87 @@ namespace Leptonica.Native
         internal static extern void l_rbtreePrint(IntPtr fp, HandleRef t);
         #endregion
 
-        /*
-        internal static extern SARRAY* pixProcessBarcodes(PIX* pixs, int format, int method, SARRAY** psaw, int debugflag);
-        internal static extern HandleRef pixExtractBarcodes(PIX* pixs, int debugflag);
-        internal static extern SARRAY* pixReadBarcodes(PIXA* pixa, int format, int method, SARRAY** psaw, int debugflag);
-        internal static extern NUMA* pixReadBarcodeWidths(PIX* pixs, int method, int debugflag);
-        internal static extern HandleRef pixLocateBarcodes(PIX* pixs, int thresh, PIX** ppixb, PIX** ppixm);
-        internal static extern PIX* pixDeskewBarcode(PIX* pixs, PIX* pixb, HandleRef box, int margin, int threshold, l_float32* pangle, l_float32* pconf);
-        internal static extern NUMA* pixExtractBarcodeWidths1(PIX* pixs, float thresh, float binfract, NUMA** pnaehist, NUMA** pnaohist, int debugflag);
-        internal static extern NUMA* pixExtractBarcodeWidths2(PIX* pixs, float thresh, l_float32* pwidth, NUMA** pnac, int debugflag);
-        internal static extern NUMA* pixExtractBarcodeCrossings(PIX* pixs, float thresh, int debugflag);
-        internal static extern NUMA* numaQuantizeCrossingsByWidth(NUMA* nas, float binfract, NUMA** pnaehist, NUMA** pnaohist, int debugflag);
-        internal static extern NUMA* numaQuantizeCrossingsByWindow(NUMA* nas, float ratio, l_float32* pwidth, l_float32* pfirstloc, NUMA** pnac, int debugflag);
-        internal static extern HandleRef pixaReadFiles(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr );
-        internal static extern HandleRef pixaReadFilesSA(SARRAY* sa);
-        internal static extern PIX* pixRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern PIX* pixReadWithHint(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int hint );
-        internal static extern PIX* pixReadIndexed(SARRAY* sa, int index);
-        internal static extern PIX* pixReadStream(IntPtr fp, int hint);
-        internal static extern int pixReadHeader(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int* pformat, l_int32* pw, int* ph, l_int32* pbps, int* pspp, l_int32* piscmap );
-         internal static extern int findFileFormat(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int* pformat );
-        internal static extern int findFileFormatStream(IntPtr fp, l_int32* pformat);
-        internal static extern int findFileFormatBuffer(IntPtr buf, int* pformat);
+        #region readbarcode.c
+        // Top level
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixProcessBarcodes")]
+        internal static extern IntPtr pixProcessBarcodes(HandleRef pixs, int format, int method, out IntPtr psaw, int debugflag);
+
+        // Next levels
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExtractBarcodes")]
+        internal static extern IntPtr pixExtractBarcodes(HandleRef pixs, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadBarcodes")]
+        internal static extern IntPtr pixReadBarcodes(HandleRef pixa, int format, int method, out IntPtr psaw, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadBarcodeWidths")]
+        internal static extern IntPtr pixReadBarcodeWidths(HandleRef pixs, int method, int debugflag);
+
+        // Location
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixLocateBarcodes")]
+        internal static extern IntPtr pixLocateBarcodes(HandleRef pixs, int thresh, out IntPtr ppixb, out IntPtr ppixm);
+
+        // Extraction and deskew
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDeskewBarcode")]
+        internal static extern IntPtr pixDeskewBarcode(HandleRef pixs, HandleRef pixb, HandleRef box, int margin, int threshold, out float pangle, out float pconf);
+
+        // Process to get line widths
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExtractBarcodeWidths1")]
+        internal static extern IntPtr pixExtractBarcodeWidths1(HandleRef pixs, float thresh, float binfract, out IntPtr pnaehist, out IntPtr pnaohist, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExtractBarcodeWidths2")]
+        internal static extern IntPtr pixExtractBarcodeWidths2(HandleRef pixs, float thresh, out float pwidth, out IntPtr pnac, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExtractBarcodeCrossings")]
+        internal static extern IntPtr pixExtractBarcodeCrossings(HandleRef pixs, float thresh, int debugflag);
+
+        // Signal processing for barcode widths
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaQuantizeCrossingsByWidth")]
+        internal static extern IntPtr numaQuantizeCrossingsByWidth(HandleRef nas, float binfract, out IntPtr pnaehist, out IntPtr pnaohist, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "numaQuantizeCrossingsByWindow")]
+        internal static extern IntPtr numaQuantizeCrossingsByWindow(HandleRef nas, float ratio, out float pwidth, out float pfirstloc, out IntPtr pnac, int debugflag);
+        #endregion
+
+        #region readfile.c
+        // Top-level functions for reading images from file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaReadFiles")]
+        internal static extern IntPtr pixaReadFiles([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaReadFilesSA")]
+        internal static extern IntPtr pixaReadFilesSA(HandleRef sa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRead")]
+        internal static extern IntPtr pixRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadWithHint")]
+        internal static extern IntPtr pixReadWithHint([MarshalAs(UnmanagedType.AnsiBStr)] string filename, int hint);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadIndexed")]
+        internal static extern IntPtr pixReadIndexed(HandleRef sa, int index);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadStream")]
+        internal static extern IntPtr pixReadStream(IntPtr fp, int hint);
+
+        // Read header information from file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadHeader")]
+        internal static extern int pixReadHeader([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pformat, out int pw, out int ph, out int pbps, out int pspp, out int piscmap);
+
+        // Format finders
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "findFileFormat")]
+        internal static extern int findFileFormat([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pformat);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "findFileFormatStream")]
+        internal static extern int findFileFormatStream(IntPtr fp, out int pformat);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "findFileFormatBuffer")]
+        internal static extern int findFileFormatBuffer(IntPtr buf, out int pformat);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fileFormatIsTiff")]
         internal static extern int fileFormatIsTiff(IntPtr fp);
-        internal static extern PIX* pixReadMem(IntPtr data, IntPtr size);
-        internal static extern int pixReadHeaderMem(IntPtr data, IntPtr size, l_int32* pformat, int* pw, l_int32* ph, int* pbps, l_int32* pspp, int* piscmap);
-        internal static extern int writeImageFileInfo(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, FILE *fpout, int headeronly );
-        internal static extern int ioFormatTest(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
+
+        // Read from memory
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadMem")]
+        internal static extern IntPtr pixReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadHeaderMem")]
+        internal static extern int pixReadHeaderMem(IntPtr data, IntPtr size, out int pformat, out int pw, out int ph, out int pbps, out int pspp, out int piscmap);
+
+        // Output image file information
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "writeImageFileInfo")]
+        internal static extern int writeImageFileInfo([MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr fpout, int headeronly);
+
+        // Test function for I/O with different formats
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ioFormatTest")]
+        internal static extern int ioFormatTest([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        #endregion
+
+        /*
         internal static extern L_RECOG* recogCreateFromRecog(L_RECOG* recs, int scalew, int scaleh, int linew, int threshold, int maxyshift);
         internal static extern L_RECOG* recogCreateFromPixa(PIXA* pixa, int scalew, int scaleh, int linew, int threshold, int maxyshift);
         internal static extern L_RECOG* recogCreateFromPixaNoFinish(PIXA* pixa, int scalew, int scaleh, int linew, int threshold, int maxyshift);
