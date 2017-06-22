@@ -79,6 +79,21 @@
     <Compile Include="DynamicAttributesBase.cs" />
     <Compile Include="IDynamicAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Search\Framework\EvaluationFunctions\IEvaluationFunction.cs" />
+    <Compile Include="Search\Framework\EvaluationFunctions\IHeuristicFunction.cs" />
+    <Compile Include="Search\Framework\EvaluationFunctions\IHeuristicFunctionFactory.cs" />
+    <Compile Include="Search\Framework\EvaluationFunctions\PathCostFunction.cs" />
+    <Compile Include="Search\Framework\IInformed.cs" />
+    <Compile Include="Search\Framework\Node.cs" />
+    <Compile Include="Search\Framework\NodeExpander.cs" />
+    <Compile Include="Search\Framework\Problems\DefaultGoalTest.cs" />
+    <Compile Include="Search\Framework\Problems\DefaultStepCostFunction.cs" />
+    <Compile Include="Search\Framework\Problems\IActionsFunction.cs" />
+    <Compile Include="Search\Framework\Problems\IBidirectionalProblem.cs" />
+    <Compile Include="Search\Framework\Problems\IGoalTest.cs" />
+    <Compile Include="Search\Framework\Problems\IResultFunction.cs" />
+    <Compile Include="Search\Framework\Problems\IStepCostFunction.cs" />
+    <Compile Include="Search\Framework\Problems\Problem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

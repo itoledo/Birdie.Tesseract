@@ -101,15 +101,5 @@ namespace tvn_cosine.ai.DataStructures.Queues
             return backing_collection.GetEnumerator();
         }
         #endregion 
-    }
-
-    public class PriorityQueue : PriorityQueue<object>, IQueue
-    {
-        public PriorityQueue(IComparer<object> comparer)
-            : base(comparer)
-        { }
-
-        public PriorityQueue()
-        { }
     } 
 }

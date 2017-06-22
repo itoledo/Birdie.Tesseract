@@ -1,4 +1,6 @@
-﻿namespace tvn_cosine.ai.Agents
+﻿using System;
+
+namespace tvn_cosine.ai.Agents
 {
     /// <summary>
     /// Artificial Intelligence A Modern Approach(3rd Edition): pg 50.
@@ -9,7 +11,7 @@
     /// history and thereby reflects at least some of the unobserved aspects of the
     /// current state.
     /// </summary>
-    public interface IState
+    public interface IState : IEquatable<IState>
     {
     }
 }

@@ -92,8 +92,5 @@ namespace tvn_cosine.ai.DataStructures.Queues
             return backing_collection.GetEnumerator();
         }
         #endregion 
-    }
-
-    public class FifoQueue : FifoQueue<object>, IQueue
-    { } 
+    } 
 }
