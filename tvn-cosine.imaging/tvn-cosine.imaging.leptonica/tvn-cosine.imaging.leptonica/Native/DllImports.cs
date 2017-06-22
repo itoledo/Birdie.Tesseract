@@ -5861,31 +5861,71 @@ namespace Leptonica.Native
         internal static extern int ioFormatTest([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
         #endregion
 
+        #region recogbasic.c
+        // Recog creation, destruction and access
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogCreateFromRecog")]
+        internal static extern IntPtr recogCreateFromRecog(HandleRef recs, int scalew, int scaleh, int linew, int threshold, int maxyshift);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogCreateFromPixa")]
+        internal static extern IntPtr recogCreateFromPixa(HandleRef pixa, int scalew, int scaleh, int linew, int threshold, int maxyshift);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogCreateFromPixaNoFinish")]
+        internal static extern IntPtr recogCreateFromPixaNoFinish(HandleRef pixa, int scalew, int scaleh, int linew, int threshold, int maxyshift);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogCreate")]
+        internal static extern IntPtr recogCreate(int scalew, int scaleh, int linew, int threshold, int maxyshift);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogDestroy")]
+        internal static extern void recogDestroy(ref IntPtr precog);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogGetCount")]
+        internal static extern int recogGetCount(HandleRef recog);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogSetParams")]
+        internal static extern int recogSetParams(HandleRef recog, int type, int min_nopad, float max_wh_ratio, float max_ht_ratio);
+
+        // Character/index lookup
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogGetClassIndex")]
+        internal static extern int recogGetClassIndex(HandleRef recog, int val, [MarshalAs(UnmanagedType.AnsiBStr)] string text, out int pindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogStringToIndex")]
+        internal static extern int recogStringToIndex(HandleRef recog, [MarshalAs(UnmanagedType.AnsiBStr)] string text, out int pindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogGetClassString")]
+        internal static extern int recogGetClassString(HandleRef recog, int index, out IntPtr pcharstr);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_convertCharstrToInt")]
+        internal static extern int l_convertCharstrToInt([MarshalAs(UnmanagedType.AnsiBStr)] string str, out int pval);
+
+        // Serialization
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogRead")]
+        internal static extern IntPtr recogRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogReadStream")]
+        internal static extern IntPtr recogReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogReadMem")]
+        internal static extern IntPtr recogReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogWrite")]
+        internal static extern int recogWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef recog);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogWriteStream")]
+        internal static extern int recogWriteStream(IntPtr fp, HandleRef recog);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogWriteMem")]
+        internal static extern int recogWriteMem(out IntPtr pdata, IntPtr psize, HandleRef recog);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogExtractPixa")]
+        internal static extern IntPtr recogExtractPixa(HandleRef recog);
+        #endregion
+
+        #region recogdid.c
+        // Top-level identification
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogDecode")]
+        internal static extern IntPtr recogDecode(HandleRef recog, HandleRef pixs, int nlevels, out IntPtr ppixdb);
+
+        // Create/destroy temporary DID data
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogCreateDid")]
+        internal static extern int recogCreateDid(HandleRef recog, HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogDestroyDid")]
+        internal static extern int recogDestroyDid(HandleRef recog);
+
+        // Various helpers
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogDidExists")]
+        internal static extern int recogDidExists(HandleRef recog);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogGetDid")]
+        internal static extern IntPtr recogGetDid(HandleRef recog);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogSetChannelParams")]
+        internal static extern int recogSetChannelParams(HandleRef recog, int nlevels);
+        #endregion
+
         /*
-        internal static extern L_RECOG* recogCreateFromRecog(L_RECOG* recs, int scalew, int scaleh, int linew, int threshold, int maxyshift);
-        internal static extern L_RECOG* recogCreateFromPixa(PIXA* pixa, int scalew, int scaleh, int linew, int threshold, int maxyshift);
-        internal static extern L_RECOG* recogCreateFromPixaNoFinish(PIXA* pixa, int scalew, int scaleh, int linew, int threshold, int maxyshift);
-        internal static extern L_RECOG* recogCreate(int scalew, int scaleh, int linew, int threshold, int maxyshift);
-        internal static extern void recogDestroy(L_RECOG** precog);
-        internal static extern int recogGetCount(L_RECOG* recog);
-        internal static extern int recogSetParams(L_RECOG* recog, int type, int min_nopad, float max_wh_ratio, float max_ht_ratio);
-        internal static extern int recogGetClassIndex(L_RECOG* recog, int val, [MarshalAs(UnmanagedType.AnsiBStr)] string  text, l_int32* pindex);
-        internal static extern int recogStringToIndex(L_RECOG* recog, [MarshalAs(UnmanagedType.AnsiBStr)] string  text, l_int32* pindex);
-        internal static extern int recogGetClassString(L_RECOG* recog, int index, char** pcharstr);
-        internal static extern int l_convertCharstrToInt(  [MarshalAs(UnmanagedType.AnsiBStr)] string str, int* pval );
-        internal static extern L_RECOG* recogRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern L_RECOG* recogReadStream(IntPtr fp);
-        internal static extern L_RECOG* recogReadMem(IntPtr data, IntPtr size);
-        internal static extern int recogWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, L_RECOG *recog );
-         internal static extern int recogWriteStream(IntPtr fp, L_RECOG* recog);
-        internal static extern int recogWriteMem (out IntPtr pdata, IntPtr psize, L_RECOG* recog);
-        internal static extern HandleRef recogExtractPixa(L_RECOG* recog);
-        internal static extern HandleRef recogDecode(L_RECOG* recog, PIX* pixs, int nlevels, PIX** ppixdb);
-        internal static extern int recogCreateDid(L_RECOG* recog, PIX* pixs);
-        internal static extern int recogDestroyDid(L_RECOG* recog);
-        internal static extern int recogDidExists(L_RECOG* recog);
-        internal static extern L_RDID* recogGetDid(L_RECOG* recog);
-        internal static extern int recogSetChannelParams(L_RECOG* recog, int nlevels);
         internal static extern int recogIdentifyMultiple(L_RECOG* recog, PIX* pixs, int minh, int skipsplit, BOXA** pboxa, PIXA** ppixa, PIX** ppixdb, int debugsplit);
         internal static extern int recogSplitIntoCharacters(L_RECOG* recog, PIX* pixs, int minh, int skipsplit, BOXA** pboxa, PIXA** ppixa, int debug);
         internal static extern int recogCorrelationBestRow(L_RECOG* recog, PIX* pixs, BOXA** pboxa, NUMA** pnascore, NUMA** pnaindex, SARRAY** psachar, int debug);

@@ -93,6 +93,12 @@
     <Compile Include="Definitions\RBTree\ValidKeyYypesForRedblackTreesMapsAndSets.cs" />
     <Compile Include="Definitions\ReadBarcode\FlagsForBarcodeFormats.cs" />
     <Compile Include="Definitions\ReadBarcode\FlagsForMethodOfExtractingBarcodeWidths.cs" />
+    <Compile Include="Definitions\Recog\FlagsForDescribingLimitedCharacterSets.cs" />
+    <Compile Include="Definitions\Recog\FlagsForSelectingAverageOrAllTemplates.cs" />
+    <Compile Include="Definitions\Recog\L_Rch.cs" />
+    <Compile Include="Definitions\Recog\L_Rcha.cs" />
+    <Compile Include="Definitions\Recog\L_Rdid.cs" />
+    <Compile Include="Definitions\Recog\L_Recog.cs" />
     <Compile Include="Definitions\Stack\FillSeg.cs" />
     <Compile Include="Definitions\Stack\L_Stack.cs" />
     <Compile Include="Implementations\Blend.cs" />
@@ -276,6 +282,8 @@
     <Compile Include="Implementations\RbTree.cs" />
     <Compile Include="Implementations\ReadBarcode.cs" />
     <Compile Include="Implementations\ReadFile.cs" />
+    <Compile Include="Implementations\RecogBasic.cs" />
+    <Compile Include="Implementations\RecogDid.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
