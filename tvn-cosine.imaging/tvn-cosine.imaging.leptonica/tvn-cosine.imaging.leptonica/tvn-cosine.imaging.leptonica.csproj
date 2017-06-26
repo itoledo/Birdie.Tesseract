@@ -293,6 +293,9 @@
     <Compile Include="Implementations\RopIpLow.cs" />
     <Compile Include="Implementations\RopLow.cs" />
     <Compile Include="Implementations\Rotate.cs" />
+    <Compile Include="Implementations\RotateAm.cs" />
+    <Compile Include="Implementations\RotateAmLow.cs" />
+    <Compile Include="Implementations\RotateOrth.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

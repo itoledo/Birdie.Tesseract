@@ -6118,24 +6118,73 @@ namespace Leptonica.Native
         internal static extern IntPtr pixRotateWithAlpha(HandleRef pixs, float angle, HandleRef pixg, float fract);
         #endregion
 
+        #region rotateam.c
+        // Rotation about the image center
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateAM")]
+        internal static extern IntPtr pixRotateAM(HandleRef pixs, float angle, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateAMColor")]
+        internal static extern IntPtr pixRotateAMColor(HandleRef pixs, float angle, uint colorval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateAMGray")]
+        internal static extern IntPtr pixRotateAMGray(HandleRef pixs, float angle, byte grayval);
+
+        // Rotation about the UL corner of the image
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateAMCorner")]
+        internal static extern IntPtr pixRotateAMCorner(HandleRef pixs, float angle, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateAMColorCorner")]
+        internal static extern IntPtr pixRotateAMColorCorner(HandleRef pixs, float angle, uint fillval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateAMGrayCorner")]
+        internal static extern IntPtr pixRotateAMGrayCorner(HandleRef pixs, float angle, byte grayval);
+
+        // Faster color rotation about the image center
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateAMColorFast")]
+        internal static extern IntPtr pixRotateAMColorFast(HandleRef pixs, float angle, uint colorval);
+        #endregion
+         
+        #region rotateamlow.c
+        // 32 bpp grayscale rotation about image center
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rotateAMColorLow")]
+        internal static extern void rotateAMColorLow(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, float angle, uint colorval);
+
+        // 8 bpp grayscale rotation about image center
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rotateAMGrayLow")]
+        internal static extern void rotateAMGrayLow(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, float angle, byte grayval);
+
+        // 32 bpp grayscale rotation about UL corner of image
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rotateAMColorCornerLow")]
+        internal static extern void rotateAMColorCornerLow(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, float angle, uint colorval);
+
+        // 8 bpp grayscale rotation about UL corner of image
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rotateAMGrayCornerLow")]
+        internal static extern void rotateAMGrayCornerLow(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, float angle, byte grayval);
+
+        // Fast RGB color rotation about center:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rotateAMColorFastLow")]
+        internal static extern void rotateAMColorFastLow(IntPtr datad, int w, int h, int wpld, IntPtr datas, int wpls, float angle, uint colorval);
+        #endregion
+
+        #region rotateorth.c
+        // Top-level rotation by multiples of 90 degrees
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateOrth")]
+        internal static extern IntPtr pixRotateOrth(HandleRef pixs, int quads);
+
+        // 180-degree rotation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotate180")]
+        internal static extern IntPtr pixRotate180(HandleRef pixd, HandleRef pixs);
+
+        // 90-degree rotation(both directions)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotate90")]
+        internal static extern IntPtr pixRotate90(HandleRef pixs, int direction);
+
+        // Left-right flip
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFlipLR")]
+        internal static extern IntPtr pixFlipLR(HandleRef pixd, HandleRef pixs);
+
+        // Top-bottom flip
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFlipTB")]
+        internal static extern IntPtr pixFlipTB(HandleRef pixd, HandleRef pixs);
+        #endregion
+
         /*
-        internal static extern PIX* pixRotateAM(PIX* pixs, float angle, int incolor);
-        internal static extern PIX* pixRotateAMColor(PIX* pixs, float angle, uint colorval);
-        internal static extern PIX* pixRotateAMGray(PIX* pixs, float angle, byte grayval);
-        internal static extern PIX* pixRotateAMCorner(PIX* pixs, float angle, int incolor);
-        internal static extern PIX* pixRotateAMColorCorner(PIX* pixs, float angle, uint fillval);
-        internal static extern PIX* pixRotateAMGrayCorner(PIX* pixs, float angle, byte grayval);
-        internal static extern PIX* pixRotateAMColorFast(PIX* pixs, float angle, uint colorval);
-        internal static extern void rotateAMColorLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, float angle, uint colorval);
-        internal static extern void rotateAMGrayLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, float angle, byte grayval);
-        internal static extern void rotateAMColorCornerLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, float angle, uint colorval);
-        internal static extern void rotateAMGrayCornerLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, float angle, byte grayval);
-        internal static extern void rotateAMColorFastLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datas, int wpls, float angle, uint colorval);
-        internal static extern PIX* pixRotateOrth(PIX* pixs, int quads);
-        internal static extern PIX* pixRotate180(PIX* pixd, PIX* pixs);
-        internal static extern PIX* pixRotate90(PIX* pixs, int direction);
-        internal static extern PIX* pixFlipLR(PIX* pixd, PIX* pixs);
-        internal static extern PIX* pixFlipTB(PIX* pixd, PIX* pixs);
         internal static extern PIX* pixRotateShear(PIX* pixs, int xcen, int ycen, float angle, int incolor);
         internal static extern PIX* pixRotate2Shear(PIX* pixs, int xcen, int ycen, float angle, int incolor);
         internal static extern PIX* pixRotate3Shear(PIX* pixs, int xcen, int ycen, float angle, int incolor);
