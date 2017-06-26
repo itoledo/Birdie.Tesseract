@@ -319,6 +319,7 @@
     <Compile Include="Implementations\StringCode.cs" />
     <Compile Include="Implementations\Strokes.cs" />
     <Compile Include="Implementations\Sudoku.cs" />
+    <Compile Include="Implementations\TextOps.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

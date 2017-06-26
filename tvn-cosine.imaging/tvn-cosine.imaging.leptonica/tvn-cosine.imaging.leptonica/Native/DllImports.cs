@@ -7013,18 +7013,37 @@ namespace Leptonica.Native
         internal static extern int sudokuOutput(HandleRef sud, int arraytype);
         #endregion
 
+        #region textops.c
+        // Font layout
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddSingleTextblock")]
+        internal static extern IntPtr pixAddSingleTextblock(HandleRef pixs, HandleRef bmf, [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int location, out int poverflow);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddTextlines")]
+        internal static extern IntPtr pixAddTextlines(HandleRef pixs, HandleRef bmf, [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int location);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetTextblock")]
+        internal static extern int pixSetTextblock(HandleRef pixs, HandleRef bmf, [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int x0, int y0, int wtext, int firstindent, out int poverflow);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetTextline")]
+        internal static extern int pixSetTextline(HandleRef pixs, HandleRef bmf, [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int x0, int y0, out int pwidth, out int poverflow);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaAddTextNumber")]
+        internal static extern IntPtr pixaAddTextNumber(HandleRef pixas, HandleRef bmf, HandleRef na, uint val, int location);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaAddTextlines")]
+        internal static extern IntPtr pixaAddTextlines(HandleRef pixas, HandleRef bmf, HandleRef sa, uint val, int location);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaAddPixWithText")]
+        internal static extern int pixaAddPixWithText(HandleRef pixa, HandleRef pixs, int reduction, HandleRef bmf, [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int location);
+
+        // Text size estimation and partitioning
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bmfGetLineStrings")]
+        internal static extern IntPtr bmfGetLineStrings(HandleRef bmf, [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, int maxw, int firstindent, out int ph);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bmfGetWordWidths")]
+        internal static extern IntPtr bmfGetWordWidths(HandleRef bmf, [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, HandleRef sa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "bmfGetStringWidth")]
+        internal static extern int bmfGetStringWidth(HandleRef bmf, [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, out int pw);
+
+        // Text splitting
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "splitStringToParagraphs")]
+        internal static extern IntPtr splitStringToParagraphs([MarshalAs(UnmanagedType.AnsiBStr)] string textstr, int splitflag);
+        #endregion
+
         /* 
-        internal static extern PIX* pixAddSingleTextblock(PIX* pixs, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int location, out int poverflow );
-        internal static extern PIX* pixAddTextlines(PIX* pixs, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int location );
-        internal static extern int pixSetTextblock(PIX* pixs, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int x0, int y0, int wtext, int firstindent, out int poverflow );
-         internal static extern int pixSetTextline(PIX* pixs, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int x0, int y0, out int pwidth, out int poverflow );
-         internal static extern IntPtr  pixaAddTextNumber(PIXA* pixas, L_BMF* bmf, NUMA* na, uint val, int location);
-         internal static extern IntPtr  pixaAddTextlines(PIXA* pixas, L_BMF* bmf, SARRAY* sa, uint val, int location);
-        internal static extern int pixaAddPixWithText(PIXA* pixa, PIX* pixs, int reduction, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int location );
-        internal static extern SARRAY* bmfGetLineStrings(L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, int maxw, int firstindent, out int ph );
-        internal static extern NUMA* bmfGetWordWidths(L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, SARRAY *sa );
-         internal static extern int bmfGetStringWidth(L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, out int pw );
-        internal static extern SARRAY* splitStringToParagraphs( [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, int splitflag);
         internal static extern PIX* pixReadTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int n );
         internal static extern PIX* pixReadStreamTiff(IntPtr fp, int n);
         internal static extern int pixWriteTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pix, int comptype,  [MarshalAs(UnmanagedType.AnsiBStr)] string modestr );
