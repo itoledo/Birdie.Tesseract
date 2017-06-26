@@ -103,6 +103,9 @@
     <Compile Include="Definitions\RegUtils\RunningModesForTheTest.cs" />
     <Compile Include="Definitions\Stack\FillSeg.cs" />
     <Compile Include="Definitions\Stack\L_Stack.cs" />
+    <Compile Include="Definitions\StringCode\L_GenAssoc.cs" />
+    <Compile Include="Definitions\StringCode\L_StrCode.cs" />
+    <Compile Include="Definitions\StringCode\SelectStringInStringcodeForASpecificSerializableDataType.cs" />
     <Compile Include="Implementations\Blend.cs" />
     <Compile Include="Implementations\BinReduce.cs" />
     <Compile Include="Implementations\BinExpand.cs" />
@@ -310,6 +313,8 @@
     <Compile Include="Implementations\Shear.cs" />
     <Compile Include="Implementations\Skew.cs" />
     <Compile Include="Implementations\SpixIo.cs" />
+    <Compile Include="Implementations\Stack.cs" />
+    <Compile Include="Implementations\StringCode.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

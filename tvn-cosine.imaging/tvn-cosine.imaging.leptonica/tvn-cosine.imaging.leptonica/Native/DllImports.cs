@@ -6930,20 +6930,43 @@ namespace Leptonica.Native
         internal static extern IntPtr pixDeserializeFromMemory(IntPtr data, IntPtr nbytes);
         #endregion
 
+        #region stack.c
+        // Create/Destroy
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lstackCreate")]
+        internal static extern IntPtr lstackCreate(int nalloc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lstackDestroy")]
+        internal static extern void lstackDestroy(ref IntPtr plstack, int freeflag);
+
+        // Accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lstackAdd")]
+        internal static extern int lstackAdd(HandleRef lstack, IntPtr item);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lstackRemove")]
+        internal static extern IntPtr lstackRemove(HandleRef lstack);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lstackGetCount")]
+        internal static extern int lstackGetCount(HandleRef lstack);
+
+        // Text description
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lstackPrint")]
+        internal static extern int lstackPrint(IntPtr fp, HandleRef lstack);
+        #endregion
+
+        #region stringcode.c      
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "strcodeCreate")]
+        internal static extern IntPtr strcodeCreate(int fileno);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "strcodeCreateFromFile")]
+        internal static extern int strcodeCreateFromFile([MarshalAs(UnmanagedType.AnsiBStr)] string filein, int fileno, [MarshalAs(UnmanagedType.AnsiBStr)] string outdir);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "strcodeGenerate")]
+        internal static extern int strcodeGenerate(HandleRef strcode, [MarshalAs(UnmanagedType.AnsiBStr)] string filein, [MarshalAs(UnmanagedType.AnsiBStr)] string type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "strcodeFinalize")]
+        internal static extern int strcodeFinalize(ref IntPtr pstrcode, [MarshalAs(UnmanagedType.AnsiBStr)] string outdir);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getStructStrFromFile")]
+        internal static extern int l_getStructStrFromFile([MarshalAs(UnmanagedType.AnsiBStr)] string filename, int field, out IntPtr pstr);
+        #endregion
+
         /*
       
 
-         internal static extern L_STACK* lstackCreate(int nalloc);
-        internal static extern void lstackDestroy(L_STACK** plstack, int freeflag);
-        internal static extern int lstackAdd(L_STACK* lstack, IntPtr item);
-        internal static extern IntPtr lstackRemove(L_STACK* lstack);
-        internal static extern int lstackGetCount(L_STACK* lstack);
-        internal static extern int lstackPrint(IntPtr fp, L_STACK* lstack);
-        internal static extern L_STRCODE* strcodeCreate(int fileno);
-        internal static extern int strcodeCreateFromFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, int fileno,  [MarshalAs(UnmanagedType.AnsiBStr)] string outdir );
-        internal static extern int strcodeGenerate(L_STRCODE* strcode,  [MarshalAs(UnmanagedType.AnsiBStr)] string filein,  [MarshalAs(UnmanagedType.AnsiBStr)] string type );
-        internal static extern int strcodeFinalize(L_STRCODE** pstrcode,  [MarshalAs(UnmanagedType.AnsiBStr)] string outdir );
-        internal static extern int l_getStructStrFromFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int field, char** pstr );
+
         internal static extern int pixFindStrokeLength(PIX* pixs, l_int32* tab8, out int plength);
         internal static extern int pixFindStrokeWidth(PIX* pixs, float thresh, l_int32* tab8, l_float32* pwidth, NUMA** pnahisto);
         internal static extern NUMA* pixaFindStrokeWidth(PIXA* pixa, float thresh, l_int32* tab8, int debug);
