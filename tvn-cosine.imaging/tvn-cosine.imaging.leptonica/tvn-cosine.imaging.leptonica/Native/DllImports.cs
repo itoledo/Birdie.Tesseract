@@ -7361,13 +7361,25 @@ namespace Leptonica.Native
         internal static extern IntPtr pixStereoFromPair(HandleRef pix1, HandleRef pix2, float rwt, float gwt, float bwt);
         #endregion
 
+        #region watershed.c
+        // Top-level
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedCreate")]
+        internal static extern IntPtr wshedCreate(HandleRef pixs, HandleRef pixm, int mindepth, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedDestroy")]
+        internal static extern void wshedDestroy(ref IntPtr pwshed);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedApply")]
+        internal static extern int wshedApply(HandleRef wshed);
+
+        // Output
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedBasins")]
+        internal static extern int wshedBasins(HandleRef wshed, out IntPtr ppixa, out IntPtr pnalevels);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedRenderFill")]
+        internal static extern IntPtr wshedRenderFill(HandleRef wshed);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedRenderColors")]
+        internal static extern IntPtr wshedRenderColors(HandleRef wshed);
+        #endregion
+
         /* 
-        internal static extern L_WSHED* wshedCreate(PIX* pixs, PIX* pixm, int mindepth, int debugflag);
-        internal static extern void wshedDestroy(L_WSHED** pwshed);
-        internal static extern int wshedApply(L_WSHED* wshed);
-        internal static extern int wshedBasins(L_WSHED* wshed, PIXA** ppixa, NUMA** pnalevels);
-        internal static extern PIX* wshedRenderFill(L_WSHED* wshed);
-        internal static extern PIX* wshedRenderColors(L_WSHED* wshed);
         internal static extern PIX* pixReadStreamWebP(IntPtr fp);
         internal static extern PIX* pixReadMemWebP(IntPtr filedata, IntPtr filesize);
         internal static extern int readHeaderWebP(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pw, out int ph, out int pspp );

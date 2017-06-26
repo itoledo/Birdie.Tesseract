@@ -108,6 +108,7 @@
     <Compile Include="Definitions\StringCode\SelectStringInStringcodeForASpecificSerializableDataType.cs" />
     <Compile Include="Definitions\Sudoku\ForPrintingOutArrayData.cs" />
     <Compile Include="Definitions\Sudoku\L_Sudoku.cs" />
+    <Compile Include="Definitions\Watershed\L_WShed.cs" />
     <Compile Include="Implementations\Blend.cs" />
     <Compile Include="Implementations\BinReduce.cs" />
     <Compile Include="Implementations\BinExpand.cs" />
@@ -324,6 +325,7 @@
     <Compile Include="Implementations\Utils1.cs" />
     <Compile Include="Implementations\Utils2.cs" />
     <Compile Include="Implementations\Warper.cs" />
+    <Compile Include="Implementations\WaterShed.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
