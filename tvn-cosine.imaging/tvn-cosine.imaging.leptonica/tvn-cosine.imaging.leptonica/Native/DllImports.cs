@@ -6184,13 +6184,27 @@ namespace Leptonica.Native
         internal static extern IntPtr pixFlipTB(HandleRef pixd, HandleRef pixs);
         #endregion
 
+        #region rotateshear.c
+        // Shear rotation about arbitrary point using 2 and 3 shears 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateShear")]
+        internal static extern IntPtr pixRotateShear(HandleRef pixs, int xcen, int ycen, float angle, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotate2Shear")]
+        internal static extern IntPtr pixRotate2Shear(HandleRef pixs, int xcen, int ycen, float angle, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotate3Shear")]
+        internal static extern IntPtr pixRotate3Shear(HandleRef pixs, int xcen, int ycen, float angle, int incolor);
+
+        // Shear rotation in-place about arbitrary point using 3 shears
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateShearIP")]
+        internal static extern int pixRotateShearIP(HandleRef pixs, int xcen, int ycen, float angle, int incolor);
+
+        // Shear rotation around the image center
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateShearCenter")]
+        internal static extern IntPtr pixRotateShearCenter(HandleRef pixs, float angle, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateShearCenterIP")]
+        internal static extern int pixRotateShearCenterIP(HandleRef pixs, float angle, int incolor);
+        #endregion
+
         /*
-        internal static extern PIX* pixRotateShear(PIX* pixs, int xcen, int ycen, float angle, int incolor);
-        internal static extern PIX* pixRotate2Shear(PIX* pixs, int xcen, int ycen, float angle, int incolor);
-        internal static extern PIX* pixRotate3Shear(PIX* pixs, int xcen, int ycen, float angle, int incolor);
-        internal static extern int pixRotateShearIP(PIX* pixs, int xcen, int ycen, float angle, int incolor);
-        internal static extern PIX* pixRotateShearCenter(PIX* pixs, float angle, int incolor);
-        internal static extern int pixRotateShearCenterIP(PIX* pixs, float angle, int incolor);
         internal static extern PIX* pixStrokeWidthTransform(PIX* pixs, int color, int depth, int nangles);
         internal static extern PIX* pixRunlengthTransform(PIX* pixs, int color, int direction, int depth);
         internal static extern int pixFindHorizontalRuns(PIX* pix, int y, l_int32* xstart, l_int32* xend, l_int32* pn);

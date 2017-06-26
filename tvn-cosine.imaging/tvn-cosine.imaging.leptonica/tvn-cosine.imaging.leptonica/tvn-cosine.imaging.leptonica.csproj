@@ -296,6 +296,7 @@
     <Compile Include="Implementations\RotateAm.cs" />
     <Compile Include="Implementations\RotateAmLow.cs" />
     <Compile Include="Implementations\RotateOrth.cs" />
+    <Compile Include="Implementations\RotateShear.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
