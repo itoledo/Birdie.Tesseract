@@ -6332,19 +6332,41 @@ namespace Leptonica.Native
         internal static extern IntPtr getFilenamesInDirectory([MarshalAs(UnmanagedType.AnsiBStr)] string dirname);
         #endregion
 
+        #region sarray1.c
+        // Sort
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarraySort")]
+        internal static extern IntPtr sarraySort(HandleRef saout, HandleRef sain, int sortorder);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarraySortByIndex")]
+        internal static extern IntPtr sarraySortByIndex(HandleRef sain, HandleRef naindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringCompareLexical")]
+        internal static extern int stringCompareLexical([MarshalAs(UnmanagedType.AnsiBStr)] string str1, [MarshalAs(UnmanagedType.AnsiBStr)] string str2);
+
+        // Set operations using aset (rbtree)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayUnionByAset")]
+        internal static extern IntPtr sarrayUnionByAset(HandleRef sa1, HandleRef sa2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayRemoveDupsByAset")]
+        internal static extern IntPtr sarrayRemoveDupsByAset(HandleRef sas);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayIntersectionByAset")]
+        internal static extern IntPtr sarrayIntersectionByAset(HandleRef sa1, HandleRef sa2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_asetCreateFromSarray")]
+        internal static extern IntPtr l_asetCreateFromSarray(HandleRef sa);
+
+        // Set operations using hashing (dnahash)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayRemoveDupsByHash")]
+        internal static extern int sarrayRemoveDupsByHash(HandleRef sas, out IntPtr psad, out IntPtr pdahash);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayIntersectionByHash")]
+        internal static extern IntPtr sarrayIntersectionByHash(HandleRef sa1, HandleRef sa2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayFindStringByHash")]
+        internal static extern int sarrayFindStringByHash(HandleRef sa, HandleRef dahash, [MarshalAs(UnmanagedType.AnsiBStr)] string str, out int pindex);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_dnaHashCreateFromSarray")]
+        internal static extern IntPtr l_dnaHashCreateFromSarray(HandleRef sa);
+
+        // Miscellaneous operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayGenerateIntegers")]
+        internal static extern IntPtr sarrayGenerateIntegers(int n);
+        #endregion
+
         /*
-        internal static extern SARRAY* sarraySort(SARRAY* saout, SARRAY* sain, int sortorder);
-        internal static extern SARRAY* sarraySortByIndex(SARRAY* sain, NUMA* naindex);
-        internal static extern int stringCompareLexical(  [MarshalAs(UnmanagedType.AnsiBStr)] string str1,  [MarshalAs(UnmanagedType.AnsiBStr)] string str2 );
-        internal static extern SARRAY* sarrayUnionByAset(SARRAY* sa1, SARRAY* sa2);
-        internal static extern SARRAY* sarrayRemoveDupsByAset(SARRAY* sas);
-        internal static extern SARRAY* sarrayIntersectionByAset(SARRAY* sa1, SARRAY* sa2);
-        internal static extern L_ASET* l_asetCreateFromSarray(SARRAY* sa);
-        internal static extern int sarrayRemoveDupsByHash(SARRAY* sas, SARRAY** psad, L_DNAHASH** pdahash);
-        internal static extern SARRAY* sarrayIntersectionByHash(SARRAY* sa1, SARRAY* sa2);
-        internal static extern int sarrayFindStringByHash(SARRAY* sa, L_DNAHASH* dahash,  [MarshalAs(UnmanagedType.AnsiBStr)] string str, int* pindex );
-        internal static extern L_DNAHASH* l_dnaHashCreateFromSarray(SARRAY* sa);
-        internal static extern SARRAY* sarrayGenerateIntegers(int n);
         internal static extern PIX* pixScale(PIX* pixs, float scalex, float scaley);
         internal static extern PIX* pixScaleToSizeRel(PIX* pixs, int delw, int delh);
         internal static extern PIX* pixScaleToSize(PIX* pixs, int wd, int hd);

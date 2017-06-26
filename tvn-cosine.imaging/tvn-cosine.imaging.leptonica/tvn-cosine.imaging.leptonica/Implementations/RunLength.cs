@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic; 
+using System.Runtime.InteropServices;
 
 namespace Leptonica
 {
-    public static class RunLength
+    public static  class RunLength
     {
         // Label pixels by membership in runs 
         public static Pix pixStrokeWidthTransform(this Pix pixs, int color, int depth, int nangles)
