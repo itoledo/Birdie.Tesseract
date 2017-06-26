@@ -6054,16 +6054,41 @@ namespace Leptonica.Native
         internal static extern IntPtr regTestGenLocalFilename(HandleRef rp, int index, int format);
         #endregion
 
+        #region rop.c
+        // General rasterop
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRasterop")]
+        internal static extern int pixRasterop(HandleRef pixd, int dx, int dy, int dw, int dh, int op, HandleRef pixs, int sx, int sy);
+
+        // In-place full band translation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRasteropVip")]
+        internal static extern int pixRasteropVip(HandleRef pixd, int bx, int bw, int vshift, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRasteropHip")]
+        internal static extern int pixRasteropHip(HandleRef pixd, int by, int bh, int hshift, int incolor);
+
+        // Full image translation(general and in-place)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTranslate")]
+        internal static extern IntPtr pixTranslate(HandleRef pixd, HandleRef pixs, int hshift, int vshift, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRasteropIP")]
+        internal static extern int pixRasteropIP(HandleRef pixd, int hshift, int vshift, int incolor);
+
+        // Full image rasterop with no translation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRasteropFullImage")]
+        internal static extern int pixRasteropFullImage(HandleRef pixd, HandleRef pixs, int op);
+        #endregion
+
+        #region ropiplow.c
+        // Low level in-place full height vertical block transfer 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rasteropVipLow")]
+        internal static extern void rasteropVipLow(IntPtr data, int pixw, int pixh, int depth, int wpl, int x, int w, int shift);
+
+        // Low level in-place full width horizontal block transfer 
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rasteropHipLow")]
+        internal static extern void rasteropHipLow(IntPtr data, int pixh, int depth, int wpl, int y, int h, int shift);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "shiftDataHorizontalLow")]
+        internal static extern void shiftDataHorizontalLow(IntPtr datad, int wpld, IntPtr datas, int wpls, int shift);
+        #endregion
+
         /*
-        internal static extern int pixRasterop(PIX* pixd, int dx, int dy, int dw, int dh, int op, PIX* pixs, int sx, int sy);
-        internal static extern int pixRasteropVip(PIX* pixd, int bx, int bw, int vshift, int incolor);
-        internal static extern int pixRasteropHip(PIX* pixd, int by, int bh, int hshift, int incolor);
-        internal static extern PIX* pixTranslate(PIX* pixd, PIX* pixs, int hshift, int vshift, int incolor);
-        internal static extern int pixRasteropIP(PIX* pixd, int hshift, int vshift, int incolor);
-        internal static extern int pixRasteropFullImage(PIX* pixd, PIX* pixs, int op);
-        internal static extern void rasteropVipLow(l_uint32* data, int pixw, int pixh, int depth, int wpl, int x, int w, int shift);
-        internal static extern void rasteropHipLow(l_uint32* data, int pixh, int depth, int wpl, int y, int h, int shift);
-        internal static extern void shiftDataHorizontalLow(l_uint32* datad, int wpld, l_uint32* datas, int wpls, int shift);
         internal static extern void rasteropUniLow(l_uint32* datad, int dpixw, int dpixh, int depth, int dwpl, int dx, int dy, int dw, int dh, int op);
         internal static extern void rasteropLow(l_uint32* datad, int dpixw, int dpixh, int depth, int dwpl, int dx, int dy, int dw, int dh, int op, l_uint32* datas, int spixw, int spixh, int swpl, int sx, int sy);
         internal static extern PIX* pixRotate(PIX* pixs, float angle, int type, int incolor, int width, int height);
