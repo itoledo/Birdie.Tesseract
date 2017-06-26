@@ -6204,16 +6204,37 @@ namespace Leptonica.Native
         internal static extern int pixRotateShearCenterIP(HandleRef pixs, float angle, int incolor);
         #endregion
 
+        #region runlength.c
+        // Label pixels by membership in runs
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixStrokeWidthTransform")]
+        internal static extern IntPtr pixStrokeWidthTransform(HandleRef pixs, int color, int depth, int nangles);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRunlengthTransform")]
+        internal static extern IntPtr pixRunlengthTransform(HandleRef pixs, int color, int direction, int depth);
+
+        // Find runs along horizontal and vertical lines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindHorizontalRuns")]
+        internal static extern int pixFindHorizontalRuns(HandleRef pix, int y, IntPtr xstart, IntPtr xend, out int pn);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindVerticalRuns")]
+        internal static extern int pixFindVerticalRuns(HandleRef pix, int x, IntPtr ystart, IntPtr yend, out int pn);
+
+        // Find max runs along horizontal and vertical lines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindMaxRuns")]
+        internal static extern IntPtr pixFindMaxRuns(HandleRef pix, int direction, out IntPtr pnastart);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindMaxHorizontalRunOnLine")]
+        internal static extern int pixFindMaxHorizontalRunOnLine(HandleRef pix, int y, IntPtr pxstart, out int psize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindMaxVerticalRunOnLine")]
+        internal static extern int pixFindMaxVerticalRunOnLine(HandleRef pix, int x, IntPtr pystart, out int psize);
+
+        // Compute runlength-to-membership transform on a line
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "runlengthMembershipOnLine")]
+        internal static extern int runlengthMembershipOnLine(IntPtr buffer, int size, int depth, IntPtr start, IntPtr end, int n);
+
+        // Make byte position LUT
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeMSBitLocTab")]
+        internal static extern IntPtr makeMSBitLocTab(int bitval);
+        #endregion
+
         /*
-        internal static extern PIX* pixStrokeWidthTransform(PIX* pixs, int color, int depth, int nangles);
-        internal static extern PIX* pixRunlengthTransform(PIX* pixs, int color, int direction, int depth);
-        internal static extern int pixFindHorizontalRuns(PIX* pix, int y, l_int32* xstart, l_int32* xend, l_int32* pn);
-        internal static extern int pixFindVerticalRuns(PIX* pix, int x, l_int32* ystart, l_int32* yend, l_int32* pn);
-        internal static extern NUMA* pixFindMaxRuns(PIX* pix, int direction, NUMA** pnastart);
-        internal static extern int pixFindMaxHorizontalRunOnLine(PIX* pix, int y, l_int32* pxstart, l_int32* psize);
-        internal static extern int pixFindMaxVerticalRunOnLine(PIX* pix, int x, l_int32* pystart, l_int32* psize);
-        internal static extern int runlengthMembershipOnLine(l_int32* buffer, int size, int depth, l_int32* start, l_int32* end, int n);
-        internal static extern l_int32* makeMSBitLocTab(int bitval);
         internal static extern SARRAY* sarrayCreate(int n);
         internal static extern SARRAY* sarrayCreateInitialized(int n, [MarshalAs(UnmanagedType.AnsiBStr)] string  initstr);
         internal static extern SARRAY* sarrayCreateWordsFromString( const char*string );
