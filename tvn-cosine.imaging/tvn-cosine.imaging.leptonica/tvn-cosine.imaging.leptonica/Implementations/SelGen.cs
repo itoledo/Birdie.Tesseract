@@ -6,7 +6,7 @@ namespace Leptonica
     public static class SelGen
     {
         // Generate a subsampled structuring element
-        public static Sel pixGenerateSelWithRuns((this Pix pixs, int nhlines, int nvlines, int distance, int minlength, int toppix, int botpix, int leftpix, int rightpix, out Pix ppixe)
+        public static Sel pixGenerateSelWithRuns(this Pix pixs, int nhlines, int nvlines, int distance, int minlength, int toppix, int botpix, int leftpix, int rightpix, out Pix ppixe)
         {
             throw new NotImplementedException();
         }
@@ -16,7 +16,7 @@ namespace Leptonica
             throw new NotImplementedException();
         }
 
-        public static Sel pixGenerateSelBoundary((this Pix pixs, int hitdist, int missdist, int hitskip, int missskip, int topflag, int botflag, int leftflag, int rightflag, out Pix ppixe)
+        public static Sel pixGenerateSelBoundary(this Pix pixs, int hitdist, int missdist, int hitskip, int missskip, int topflag, int botflag, int leftflag, int rightflag, out Pix ppixe)
         {
             throw new NotImplementedException();
         }

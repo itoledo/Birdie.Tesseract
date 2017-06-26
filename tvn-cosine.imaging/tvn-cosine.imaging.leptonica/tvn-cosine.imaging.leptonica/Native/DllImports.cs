@@ -6622,7 +6622,7 @@ namespace Leptonica.Native
         // Gray seedfill variations
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfillGrayBasin")]
         internal static extern IntPtr pixSeedfillGrayBasin(HandleRef pixb, HandleRef pixm, int delta, int connectivity);
-         
+
         // Distance function(source: Luc Vincent)
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDistanceFunction")]
         internal static extern IntPtr pixDistanceFunction(HandleRef pixs, int connectivity, int outdepth, int boundcond);
@@ -6675,9 +6675,9 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaCreate")]
         internal static extern IntPtr selaCreate(int n);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaDestroy")]
-        internal static extern void selaDestroy(ref IntPtr  psela);
+        internal static extern void selaDestroy(ref IntPtr psela);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selCreate")]
-        internal static extern IntPtr selCreate(int height, int width,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
+        internal static extern IntPtr selCreate(int height, int width, [MarshalAs(UnmanagedType.AnsiBStr)] string name);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selDestroy")]
         internal static extern void selDestroy(ref IntPtr psel);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selCopy")]
@@ -6727,7 +6727,7 @@ namespace Leptonica.Native
 
         // Max translations for erosion and hmt
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selFindMaxTranslations")]
-        internal static extern int selFindMaxTranslations(HandleRef sel, out int pxp, out int pyp, out int pxn, out int  pyn);
+        internal static extern int selFindMaxTranslations(HandleRef sel, out int pxp, out int pyp, out int pxn, out int pyn);
 
         // Rotation by multiples of 90 degrees
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selRotateOrth")]
@@ -6813,7 +6813,7 @@ namespace Leptonica.Native
         #region selgen.c
         // Generate a subsampled structuring element
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateSelWithRuns")]
-        internal static extern IntPtr pixGenerateSelWithRuns(HandleRef pixs, int nhlines, int nvlines, int distance, int minlength, int toppix, int botpix, int leftpix, int rightpix, out IntPtr  ppixe);
+        internal static extern IntPtr pixGenerateSelWithRuns(HandleRef pixs, int nhlines, int nvlines, int distance, int minlength, int toppix, int botpix, int leftpix, int rightpix, out IntPtr ppixe);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateSelRandom")]
         internal static extern IntPtr pixGenerateSelRandom(HandleRef pixs, float hitfract, float missfract, int distance, int toppix, int botpix, int leftpix, int rightpix, out IntPtr ppixe);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateSelBoundary")]
@@ -6829,26 +6829,45 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSubsampleBoundaryPixels")]
         internal static extern IntPtr pixSubsampleBoundaryPixels(HandleRef pixs, int skip);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "adjacentOnPixelInRaster")]
-        internal static extern int adjacentOnPixelInRaster(HandleRef pixs, int x, int y, out int  pxa, out int pya);
+        internal static extern int adjacentOnPixelInRaster(HandleRef pixs, int x, int y, out int pxa, out int pya);
 
         // Display generated sel with originating image
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDisplayHitMissSel")]
         internal static extern IntPtr pixDisplayHitMissSel(HandleRef pixs, HandleRef sel, int scalefactor, uint hitcolor, uint misscolor);
         #endregion
 
+        #region shear.c
+        // About arbitrary lines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHShear")]
+        internal static extern IntPtr pixHShear(HandleRef pixd, HandleRef pixs, int yloc, float radang, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixVShear")]
+        internal static extern IntPtr pixVShear(HandleRef pixd, HandleRef pixs, int xloc, float radang, int incolor);
+
+        // About special 'points': UL corner and center
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHShearCorner")]
+        internal static extern IntPtr pixHShearCorner(HandleRef pixd, HandleRef pixs, float radang, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixVShearCorner")]
+        internal static extern IntPtr pixVShearCorner(HandleRef pixd, HandleRef pixs, float radang, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHShearCenter")]
+        internal static extern IntPtr pixHShearCenter(HandleRef pixd, HandleRef pixs, float radang, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixVShearCenter")]
+        internal static extern IntPtr pixVShearCenter(HandleRef pixd, HandleRef pixs, float radang, int incolor);
+
+        // In place about arbitrary lines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHShearIP")]
+        internal static extern int pixHShearIP(HandleRef pixs, int yloc, float radang, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixVShearIP")]
+        internal static extern int pixVShearIP(HandleRef pixs, int xloc, float radang, int incolor);
+
+        // Linear interpolated shear about arbitrary lines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHShearLI")]
+        internal static extern IntPtr pixHShearLI(HandleRef pixs, int yloc, float radang, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixVShearLI")]
+        internal static extern IntPtr pixVShearLI(HandleRef pixs, int xloc, float radang, int incolor);
+        #endregion
         /*
       
 
-        internal static extern PIX* pixHShear(PIX* pixd, PIX* pixs, int yloc, float radang, int incolor);
-        internal static extern PIX* pixVShear(PIX* pixd, PIX* pixs, int xloc, float radang, int incolor);
-        internal static extern PIX* pixHShearCorner(PIX* pixd, PIX* pixs, float radang, int incolor);
-        internal static extern PIX* pixVShearCorner(PIX* pixd, PIX* pixs, float radang, int incolor);
-        internal static extern PIX* pixHShearCenter(PIX* pixd, PIX* pixs, float radang, int incolor);
-        internal static extern PIX* pixVShearCenter(PIX* pixd, PIX* pixs, float radang, int incolor);
-        internal static extern int pixHShearIP(PIX* pixs, int yloc, float radang, int incolor);
-        internal static extern int pixVShearIP(PIX* pixs, int xloc, float radang, int incolor);
-        internal static extern PIX* pixHShearLI(PIX* pixs, int yloc, float radang, int incolor);
-        internal static extern PIX* pixVShearLI(PIX* pixs, int xloc, float radang, int incolor);
         internal static extern PIX* pixDeskewBoth(PIX* pixs, int redsearch);
         internal static extern PIX* pixDeskew(PIX* pixs, int redsearch);
         internal static extern PIX* pixFindSkewAndDeskew(PIX* pixs, int redsearch, l_float32* pangle, l_float32* pconf);
