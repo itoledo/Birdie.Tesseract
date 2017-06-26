@@ -6139,7 +6139,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateAMColorFast")]
         internal static extern IntPtr pixRotateAMColorFast(HandleRef pixs, float angle, uint colorval);
         #endregion
-         
+
         #region rotateamlow.c
         // 32 bpp grayscale rotation about image center
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rotateAMColorLow")]
@@ -6234,44 +6234,105 @@ namespace Leptonica.Native
         internal static extern IntPtr makeMSBitLocTab(int bitval);
         #endregion
 
+        #region sarray1.c
+        // Create/Destroy/Copy
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayCreate")]
+        internal static extern IntPtr sarrayCreate(int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayCreateInitialized")]
+        internal static extern IntPtr sarrayCreateInitialized(int n, [MarshalAs(UnmanagedType.AnsiBStr)] string initstr);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayCreateWordsFromString")]
+        internal static extern IntPtr sarrayCreateWordsFromString([MarshalAs(UnmanagedType.AnsiBStr)] string str);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayCreateLinesFromString")]
+        internal static extern IntPtr sarrayCreateLinesFromString([MarshalAs(UnmanagedType.AnsiBStr)] string str, int blankflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayDestroy")]
+        internal static extern void sarrayDestroy(ref IntPtr psa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayCopy")]
+        internal static extern IntPtr sarrayCopy(HandleRef sa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayClone")]
+        internal static extern IntPtr sarrayClone(HandleRef sa);
+
+        // Add/Remove string
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeMSBitLocTab")]
+        internal static extern int sarrayAddString(HandleRef sa, [MarshalAs(UnmanagedType.AnsiBStr)] string str, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeMSBitLocTab")]
+        internal static extern IntPtr sarrayRemoveString(HandleRef sa, int index);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeMSBitLocTab")]
+        internal static extern int sarrayReplaceString(HandleRef sa, int index, [MarshalAs(UnmanagedType.AnsiBStr)] string newstr, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeMSBitLocTab")]
+        internal static extern int sarrayClear(HandleRef sa);
+
+        // Accessors
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayGetCount")]
+        internal static extern int sarrayGetCount(HandleRef sa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayGetArray")]
+        internal static extern IntPtr sarrayGetArray(HandleRef sa, out int pnalloc, out int pn);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayGetString")]
+        internal static extern IntPtr sarrayGetString(HandleRef sa, int index, int copyflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayGetRefcount")]
+        internal static extern int sarrayGetRefcount(HandleRef sa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayChangeRefcount")]
+        internal static extern int sarrayChangeRefcount(HandleRef sa, int delta);
+
+        // Conversion back to string
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayToString")]
+        internal static extern IntPtr sarrayToString(HandleRef sa, int addnlflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayToStringRange")]
+        internal static extern IntPtr sarrayToStringRange(HandleRef sa, int first, int nstrings, int addnlflag);
+
+        // Join 2 sarrays
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayJoin")]
+        internal static extern int sarrayJoin(HandleRef sa1, HandleRef sa2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayAppendRange")]
+        internal static extern int sarrayAppendRange(HandleRef sa1, HandleRef sa2, int start, int end);
+
+        // Pad an sarray to be the same size as another sarray
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayPadToSameSize")]
+        internal static extern int sarrayPadToSameSize(HandleRef sa1, HandleRef sa2, [MarshalAs(UnmanagedType.AnsiBStr)] string padstring);
+
+        // Convert word sarray to(formatted) line sarray
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayConvertWordsToLines")]
+        internal static extern IntPtr sarrayConvertWordsToLines(HandleRef sa, int linesize);
+
+        // Split string on separator list
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarraySplitString")]
+        internal static extern int sarraySplitString(HandleRef sa, [MarshalAs(UnmanagedType.AnsiBStr)] string str, [MarshalAs(UnmanagedType.AnsiBStr)] string separators);
+
+        // Filter sarray
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarraySelectBySubstring")]
+        internal static extern IntPtr sarraySelectBySubstring(HandleRef sain, [MarshalAs(UnmanagedType.AnsiBStr)] string substr);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarraySelectByRange")]
+        internal static extern IntPtr sarraySelectByRange(HandleRef sain, int first, int last);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayParseRange")]
+        internal static extern int sarrayParseRange(HandleRef sa, int start, out int pactualstart, out int pend, out int pnewstart, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int loc);
+
+        // Serialize for I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayRead")]
+        internal static extern IntPtr sarrayRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayReadStream")]
+        internal static extern IntPtr sarrayReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayReadMem")]
+        internal static extern IntPtr sarrayReadMem(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayWrite")]
+        internal static extern int sarrayWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef sa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayWriteStream")]
+        internal static extern int sarrayWriteStream(IntPtr fp, HandleRef sa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayWriteMem")]
+        internal static extern int sarrayWriteMem(out IntPtr pdata, IntPtr psize, HandleRef sa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sarrayAppend")]
+        internal static extern int sarrayAppend([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef sa);
+
+        // Directory filenames
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getNumberedPathnamesInDirectory")]
+        internal static extern IntPtr getNumberedPathnamesInDirectory([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int numpre, int numpost, int maxnum);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getSortedPathnamesInDirectory")]
+        internal static extern IntPtr getSortedPathnamesInDirectory([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int first, int nfiles);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertSortedToNumberedPathnames")]
+        internal static extern IntPtr convertSortedToNumberedPathnames(HandleRef sa, int numpre, int numpost, int maxnum);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getFilenamesInDirectory")]
+        internal static extern IntPtr getFilenamesInDirectory([MarshalAs(UnmanagedType.AnsiBStr)] string dirname);
+        #endregion
+
         /*
-        internal static extern SARRAY* sarrayCreate(int n);
-        internal static extern SARRAY* sarrayCreateInitialized(int n, [MarshalAs(UnmanagedType.AnsiBStr)] string  initstr);
-        internal static extern SARRAY* sarrayCreateWordsFromString( const char*string );
-         internal static extern SARRAY* sarrayCreateLinesFromString( const char*string, int blankflag );
-        internal static extern void sarrayDestroy(SARRAY** psa);
-        internal static extern SARRAY* sarrayCopy(SARRAY* sa);
-        internal static extern SARRAY* sarrayClone(SARRAY* sa);
-        internal static extern int sarrayAddString(SARRAY* sa, char*string, int copyflag);
-        internal static extern IntPtr  sarrayRemoveString(SARRAY* sa, int index);
-        internal static extern int sarrayReplaceString(SARRAY* sa, int index, [MarshalAs(UnmanagedType.AnsiBStr)] string  newstr, int copyflag);
-        internal static extern int sarrayClear(SARRAY* sa);
-        internal static extern int sarrayGetCount(SARRAY* sa);
-        internal static extern char** sarrayGetArray(SARRAY* sa, l_int32* pnalloc, l_int32* pn);
-        internal static extern IntPtr  sarrayGetString(SARRAY* sa, int index, int copyflag);
-        internal static extern int sarrayGetRefcount(SARRAY* sa);
-        internal static extern int sarrayChangeRefcount(SARRAY* sa, int delta);
-        internal static extern IntPtr  sarrayToString(SARRAY* sa, int addnlflag);
-        internal static extern IntPtr  sarrayToStringRange(SARRAY* sa, int first, int nstrings, int addnlflag);
-        internal static extern int sarrayJoin(SARRAY* sa1, SARRAY* sa2);
-        internal static extern int sarrayAppendRange(SARRAY* sa1, SARRAY* sa2, int start, int end);
-        internal static extern int sarrayPadToSameSize(SARRAY* sa1, SARRAY* sa2, [MarshalAs(UnmanagedType.AnsiBStr)] string  padstring);
-        internal static extern SARRAY* sarrayConvertWordsToLines(SARRAY* sa, int linesize);
-        internal static extern int sarraySplitString(SARRAY* sa,  [MarshalAs(UnmanagedType.AnsiBStr)] string str,  [MarshalAs(UnmanagedType.AnsiBStr)] string separators );
-        internal static extern SARRAY* sarraySelectBySubstring(SARRAY* sain,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr );
-        internal static extern SARRAY* sarraySelectByRange(SARRAY* sain, int first, int last);
-        internal static extern int sarrayParseRange(SARRAY* sa, int start, l_int32* pactualstart, l_int32* pend, l_int32* pnewstart,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int loc );
-        internal static extern SARRAY* sarrayRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern SARRAY* sarrayReadStream(IntPtr fp);
-        internal static extern SARRAY* sarrayReadMem(IntPtr data, IntPtr size);
-        internal static extern int sarrayWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, SARRAY *sa );
-         internal static extern int sarrayWriteStream(IntPtr fp, SARRAY* sa);
-        internal static extern int sarrayWriteMem (out IntPtr pdata, IntPtr psize, SARRAY* sa);
-        internal static extern int sarrayAppend(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, SARRAY *sa );
-         internal static extern SARRAY* getNumberedPathnamesInDirectory(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int numpre, int numpost, int maxnum );
-        internal static extern SARRAY* getSortedPathnamesInDirectory(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr, int first, int nfiles );
-        internal static extern SARRAY* convertSortedToNumberedPathnames(SARRAY* sa, int numpre, int numpost, int maxnum);
-        internal static extern SARRAY* getFilenamesInDirectory(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirname );
         internal static extern SARRAY* sarraySort(SARRAY* saout, SARRAY* sain, int sortorder);
         internal static extern SARRAY* sarraySortByIndex(SARRAY* sain, NUMA* naindex);
         internal static extern int stringCompareLexical(  [MarshalAs(UnmanagedType.AnsiBStr)] string str1,  [MarshalAs(UnmanagedType.AnsiBStr)] string str2 );

@@ -298,6 +298,7 @@
     <Compile Include="Implementations\RotateOrth.cs" />
     <Compile Include="Implementations\RotateShear.cs" />
     <Compile Include="Implementations\RunLength.cs" />
+    <Compile Include="Implementations\Sarray1.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
