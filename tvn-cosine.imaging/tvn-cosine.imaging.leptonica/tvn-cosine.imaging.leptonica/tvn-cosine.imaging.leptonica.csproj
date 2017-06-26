@@ -291,6 +291,7 @@
     <Compile Include="Implementations\RegUtils.cs" />
     <Compile Include="Implementations\Rop.cs" />
     <Compile Include="Implementations\RopIpLow.cs" />
+    <Compile Include="Implementations\RopLow.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

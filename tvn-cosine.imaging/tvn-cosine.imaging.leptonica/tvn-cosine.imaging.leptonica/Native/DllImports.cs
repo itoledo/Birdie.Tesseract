@@ -6088,9 +6088,17 @@ namespace Leptonica.Native
         internal static extern void shiftDataHorizontalLow(IntPtr datad, int wpld, IntPtr datas, int wpls, int shift);
         #endregion
 
+        #region ropow.c
+        // Low level dest-only
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rasteropUniLow")]
+        internal static extern void rasteropUniLow(IntPtr datad, int dpixw, int dpixh, int depth, int dwpl, int dx, int dy, int dw, int dh, int op);
+
+        // Low level src and dest
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "rasteropLow")]
+        internal static extern void rasteropLow(IntPtr datad, int dpixw, int dpixh, int depth, int dwpl, int dx, int dy, int dw, int dh, int op, IntPtr datas, int spixw, int spixh, int swpl, int sx, int sy);
+        #endregion
+
         /*
-        internal static extern void rasteropUniLow(l_uint32* datad, int dpixw, int dpixh, int depth, int dwpl, int dx, int dy, int dw, int dh, int op);
-        internal static extern void rasteropLow(l_uint32* datad, int dpixw, int dpixh, int depth, int dwpl, int dx, int dy, int dw, int dh, int op, l_uint32* datas, int spixw, int spixh, int swpl, int sx, int sy);
         internal static extern PIX* pixRotate(PIX* pixs, float angle, int type, int incolor, int width, int height);
         internal static extern PIX* pixEmbedForRotation(PIX* pixs, float angle, int incolor, int width, int height);
         internal static extern PIX* pixRotateBySampling(PIX* pixs, int xcen, int ycen, float angle, int incolor);
