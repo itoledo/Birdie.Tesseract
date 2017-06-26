@@ -6968,7 +6968,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindStrokeLength")]
         internal static extern int pixFindStrokeLength(HandleRef pixs, IntPtr tab8, out int plength);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindStrokeWidth")]
-        internal static extern int pixFindStrokeWidth(HandleRef pixs, float thresh, IntPtr tab8, out float  pwidth, out IntPtr pnahisto);
+        internal static extern int pixFindStrokeWidth(HandleRef pixs, float thresh, IntPtr tab8, out float pwidth, out IntPtr pnahisto);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindStrokeWidth")]
         internal static extern IntPtr pixaFindStrokeWidth(HandleRef pixa, float thresh, IntPtr tab8, int debug);
 
@@ -7107,91 +7107,227 @@ namespace Leptonica.Native
         internal static extern int pixWriteMemTiffCustom(out IntPtr pdata, IntPtr psize, HandleRef pix, int comptype, HandleRef natags, HandleRef savals, HandleRef satypes, HandleRef nasizes);
         #endregion
 
-        /* 
+        #region utils1.c
+        // Control of error, warning and info messages
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "setMsgSeverity")]
         internal static extern int setMsgSeverity(int newsev);
-        internal static extern int returnErrorInt(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, int ival );
-        internal static extern float returnErrorFloat(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, float fval );
-        internal static extern IntPtr returnErrorPtr(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, IntPtr pval );
-        internal static extern int filesAreIdentical(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname1,  [MarshalAs(UnmanagedType.AnsiBStr)] string fname2, out int psame );
-        internal static extern ushort convertOnLittleEnd16( ushort  shortin);
-        internal static extern ushort convertOnBigEnd16( ushort  shortin);
+
+        // Error return functions, invoked by macros
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "returnErrorInt")]
+        internal static extern int returnErrorInt([MarshalAs(UnmanagedType.AnsiBStr)] string msg, [MarshalAs(UnmanagedType.AnsiBStr)] string procname, int ival);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "returnErrorFloat")]
+        internal static extern float returnErrorFloat([MarshalAs(UnmanagedType.AnsiBStr)] string msg, [MarshalAs(UnmanagedType.AnsiBStr)] string procname, float fval);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "returnErrorPtr")]
+        internal static extern IntPtr returnErrorPtr([MarshalAs(UnmanagedType.AnsiBStr)] string msg, [MarshalAs(UnmanagedType.AnsiBStr)] string procname, IntPtr pval);
+
+        // Test files for equivalence
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "filesAreIdentical")]
+        internal static extern int filesAreIdentical([MarshalAs(UnmanagedType.AnsiBStr)] string fname1, [MarshalAs(UnmanagedType.AnsiBStr)] string fname2, out int psame);
+
+        // Byte-swapping data conversion
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertOnLittleEnd16")]
+        internal static extern ushort convertOnLittleEnd16(ushort shortin);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertOnBigEnd16")]
+        internal static extern ushort convertOnBigEnd16(ushort shortin);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertOnLittleEnd32")]
         internal static extern uint convertOnLittleEnd32(uint wordin);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertOnBigEnd32")]
         internal static extern uint convertOnBigEnd32(uint wordin);
-        internal static extern int fileCorruptByDeletion(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, float loc, float size,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int fileCorruptByMutation(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, float loc, float size,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
+
+        // File corruption operation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fileCorruptByDeletion")]
+        internal static extern int fileCorruptByDeletion([MarshalAs(UnmanagedType.AnsiBStr)] string filein, float loc, float size, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fileCorruptByMutation")]
+        internal static extern int fileCorruptByMutation([MarshalAs(UnmanagedType.AnsiBStr)] string filein, float loc, float size, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+
+        // Generate random integer in given range
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "genRandomIntegerInRange")]
         internal static extern int genRandomIntegerInRange(int range, int seed, out int pval);
+
+        // Simple math function
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_roundftoi")]
         internal static extern int lept_roundftoi(float fval);
-        internal static extern int l_hashStringToUint64(  [MarshalAs(UnmanagedType.AnsiBStr)] string str, l_uint64 *phash );
-         internal static extern int l_hashPtToUint64(int x, int y, l_uint64* phash);
-        internal static extern int l_hashFloat64ToUint64(int nbuckets, double val, l_uint64* phash);
-        internal static extern int findNextLargerPrime(int start, l_uint32* pprime);
-        internal static extern int lept_isPrime(l_uint64 n, out int pis_prime, l_uint32* pfactor);
+
+        // 64-bit hash functions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_hashStringToUint64")]
+        internal static extern int l_hashStringToUint64([MarshalAs(UnmanagedType.AnsiBStr)] string str, out ulong phash);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_hashPtToUint64")]
+        internal static extern int l_hashPtToUint64(int x, int y, out ulong phash);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_hashFloat64ToUint64")]
+        internal static extern int l_hashFloat64ToUint64(int nbuckets, double val, out ulong phash);
+
+        // Prime finders
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "findNextLargerPrime")]
+        internal static extern int findNextLargerPrime(int start, out uint pprime);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_isPrime")]
+        internal static extern int lept_isPrime(ulong n, out int pis_prime, out uint pfactor);
+
+        // Gray code conversion
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertBinaryToGrayCode")]
         internal static extern uint convertBinaryToGrayCode(uint val);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertGrayCodeToBinary")]
         internal static extern uint convertGrayCodeToBinary(uint val);
-        internal static extern IntPtr  getLeptonicaVersion();
-        internal static extern void startTimer(IntPtr v) ;
-        internal static extern float stopTimer(IntPtr v) ;
-        internal static extern L_TIMER startTimerNested(IntPtr v) ;
-        internal static extern float stopTimerNested(L_TIMER rusage_start);
-        internal static extern void l_getCurrentTime(l_int32* sec, l_int32* usec);
-        internal static extern L_WALLTIMER* startWallTimer(IntPtr v) ;
-        internal static extern float stopWallTimer(L_WALLTIMER** ptimer);
-        internal static extern IntPtr  l_getFormattedDate();
-        internal static extern IntPtr  stringNew(  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
-        internal static extern int stringCopy( [MarshalAs(UnmanagedType.AnsiBStr)] string dest,  [MarshalAs(UnmanagedType.AnsiBStr)] string src, int n );
-        internal static extern int stringReplace(char** pdest,  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
-        internal static extern int stringLength(  [MarshalAs(UnmanagedType.AnsiBStr)] string src, IntPtr size );
-         internal static extern int stringCat( [MarshalAs(UnmanagedType.AnsiBStr)] string dest, IntPtr size,  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
-        internal static extern IntPtr  stringConcatNew(  [MarshalAs(UnmanagedType.AnsiBStr)] string first, ... );
-        internal static extern IntPtr  stringJoin(  [MarshalAs(UnmanagedType.AnsiBStr)] string src1,  [MarshalAs(UnmanagedType.AnsiBStr)] string src2 );
-        internal static extern int stringJoinIP(char** psrc1,  [MarshalAs(UnmanagedType.AnsiBStr)] string src2 );
-        internal static extern IntPtr  stringReverse(  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
-        internal static extern IntPtr  strtokSafe( [MarshalAs(UnmanagedType.AnsiBStr)] string cstr,  [MarshalAs(UnmanagedType.AnsiBStr)] string seps, char** psaveptr );
-        internal static extern int stringSplitOnToken( [MarshalAs(UnmanagedType.AnsiBStr)] string cstr,  [MarshalAs(UnmanagedType.AnsiBStr)] string seps, char** phead, char** ptail );
-        internal static extern IntPtr  stringRemoveChars(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string remchars );
-        internal static extern int stringFindSubstr(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub, out int ploc );
-        internal static extern IntPtr  stringReplaceSubstr(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub1,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub2, out int pfound, out int ploc );
-         internal static extern IntPtr  stringReplaceEachSubstr(  [MarshalAs(UnmanagedType.AnsiBStr)] string src,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub1,  [MarshalAs(UnmanagedType.AnsiBStr)] string sub2, out int pcount );
-        internal static extern L_DNA* arrayFindEachSequence(IntPtr data, IntPtr datalen, IntPtr sequence, IntPtr seqlen);
+
+        // Leptonica version number
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getLeptonicaVersion")]
+        internal static extern IntPtr getLeptonicaVersion();
+
+        // Timing
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "startTimer")]
+        internal static extern void startTimer(IntPtr v);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stopTimer")]
+        internal static extern float stopTimer(IntPtr v);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "startTimerNested")]
+        internal static extern IntPtr startTimerNested(IntPtr v);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stopTimerNested")]
+        internal static extern float stopTimerNested(IntPtr rusage_start);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getCurrentTime")]
+        internal static extern void l_getCurrentTime(out int sec, out int usec);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "startWallTimer")]
+        internal static extern IntPtr startWallTimer(IntPtr v);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stopWallTimer")]
+        internal static extern float stopWallTimer(ref IntPtr ptimer);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_getFormattedDate")]
+        internal static extern IntPtr l_getFormattedDate();
+        #endregion
+
+        #region utils2.c
+        // Safe string procs
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringNew")]
+        internal static extern IntPtr stringNew([MarshalAs(UnmanagedType.AnsiBStr)] string src);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringCopy")]
+        internal static extern int stringCopy([MarshalAs(UnmanagedType.AnsiBStr)] string dest, [MarshalAs(UnmanagedType.AnsiBStr)] string src, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringReplace")]
+        internal static extern int stringReplace(out IntPtr pdest, [MarshalAs(UnmanagedType.AnsiBStr)] string src);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringLength")]
+        internal static extern int stringLength([MarshalAs(UnmanagedType.AnsiBStr)] string src, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringCat")]
+        internal static extern int stringCat([MarshalAs(UnmanagedType.AnsiBStr)] string dest, IntPtr size, [MarshalAs(UnmanagedType.AnsiBStr)] string src);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringConcatNew")]
+        internal static extern IntPtr stringConcatNew([MarshalAs(UnmanagedType.AnsiBStr)] string first, IntPtr ptr);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringJoin")]
+        internal static extern IntPtr stringJoin([MarshalAs(UnmanagedType.AnsiBStr)] string src1, [MarshalAs(UnmanagedType.AnsiBStr)] string src2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringJoinIP")]
+        internal static extern int stringJoinIP(out IntPtr psrc1, [MarshalAs(UnmanagedType.AnsiBStr)] string src2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringReverse")]
+        internal static extern IntPtr stringReverse([MarshalAs(UnmanagedType.AnsiBStr)] string src);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "strtokSafe")]
+        internal static extern IntPtr strtokSafe([MarshalAs(UnmanagedType.AnsiBStr)] string cstr, [MarshalAs(UnmanagedType.AnsiBStr)] string seps, out IntPtr psaveptr);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringSplitOnToken")]
+        internal static extern int stringSplitOnToken([MarshalAs(UnmanagedType.AnsiBStr)] string cstr, [MarshalAs(UnmanagedType.AnsiBStr)] string seps, out IntPtr phead, out IntPtr ptail);
+
+        // Find and replace string and array procs
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringRemoveChars")]
+        internal static extern IntPtr stringRemoveChars([MarshalAs(UnmanagedType.AnsiBStr)] string src, [MarshalAs(UnmanagedType.AnsiBStr)] string remchars);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringFindSubstr")]
+        internal static extern int stringFindSubstr([MarshalAs(UnmanagedType.AnsiBStr)] string src, [MarshalAs(UnmanagedType.AnsiBStr)] string sub, out int ploc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringReplaceSubstr")]
+        internal static extern IntPtr stringReplaceSubstr([MarshalAs(UnmanagedType.AnsiBStr)] string src, [MarshalAs(UnmanagedType.AnsiBStr)] string sub1, [MarshalAs(UnmanagedType.AnsiBStr)] string sub2, out int pfound, out int ploc);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "stringReplaceEachSubstr")]
+        internal static extern IntPtr stringReplaceEachSubstr([MarshalAs(UnmanagedType.AnsiBStr)] string src, [MarshalAs(UnmanagedType.AnsiBStr)] string sub1, [MarshalAs(UnmanagedType.AnsiBStr)] string sub2, out int pcount);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "arrayFindEachSequence")]
+        internal static extern IntPtr arrayFindEachSequence(IntPtr data, IntPtr datalen, IntPtr sequence, IntPtr seqlen);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "arrayFindSequence")]
         internal static extern int arrayFindSequence(IntPtr data, IntPtr datalen, IntPtr sequence, IntPtr seqlen, out int poffset, out int pfound);
-        internal static extern IntPtr reallocNew(void** pindata, int oldsize, int newsize);
-        internal static extern IntPtr l_binaryRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr *pnbytes );
-         internal static extern IntPtr l_binaryReadStream(IntPtr fp, IntPtr pnbytes);
-        internal static extern IntPtr l_binaryReadSelect(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr start, IntPtr nbytes, IntPtr *pnread );
-         internal static extern IntPtr l_binaryReadSelectStream(IntPtr fp, IntPtr start, IntPtr nbytes, IntPtr pnread);
-        internal static extern int l_binaryWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename,  [MarshalAs(UnmanagedType.AnsiBStr)] string operation, IntPtr data, IntPtr nbytes );
-         internal static extern IntPtr nbytesInFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
+
+        // Safe realloc
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "reallocNew")]
+        internal static extern IntPtr reallocNew(IntPtr pindata, int oldsize, int newsize);
+
+        // Read and write between file and memory
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_binaryRead")]
+        internal static extern IntPtr l_binaryRead([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out IntPtr pnbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_binaryReadStream")]
+        internal static extern IntPtr l_binaryReadStream(IntPtr fp, IntPtr pnbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_binaryReadSelect")]
+        internal static extern IntPtr l_binaryReadSelect([MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr start, IntPtr nbytes, out IntPtr pnread);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_binaryReadSelectStream")]
+        internal static extern IntPtr l_binaryReadSelectStream(IntPtr fp, IntPtr start, IntPtr nbytes, IntPtr pnread);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_binaryWrite")]
+        internal static extern int l_binaryWrite([MarshalAs(UnmanagedType.AnsiBStr)] string filename, [MarshalAs(UnmanagedType.AnsiBStr)] string operation, IntPtr data, IntPtr nbytes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "nbytesInFile")]
+        internal static extern IntPtr nbytesInFile([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fnbytesInFile")]
         internal static extern IntPtr fnbytesInFile(IntPtr fp);
+
+        // Copy in memory
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_binaryCopy")]
         internal static extern IntPtr l_binaryCopy(IntPtr datas, IntPtr size);
-        internal static extern int fileCopy(  [MarshalAs(UnmanagedType.AnsiBStr)] string srcfile,  [MarshalAs(UnmanagedType.AnsiBStr)] string newfile );
-        internal static extern int fileConcatenate(  [MarshalAs(UnmanagedType.AnsiBStr)] string srcfile,  [MarshalAs(UnmanagedType.AnsiBStr)] string destfile );
-        internal static extern int fileAppendString(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename,  [MarshalAs(UnmanagedType.AnsiBStr)] string str );
-        internal static extern IntPtr fopenReadStream(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern IntPtr fopenWriteStream(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename,  [MarshalAs(UnmanagedType.AnsiBStr)] string modestring );
+
+        // File copy operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fileCopy")]
+        internal static extern int fileCopy([MarshalAs(UnmanagedType.AnsiBStr)] string srcfile, [MarshalAs(UnmanagedType.AnsiBStr)] string newfile);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fileConcatenate")]
+        internal static extern int fileConcatenate([MarshalAs(UnmanagedType.AnsiBStr)] string srcfile, [MarshalAs(UnmanagedType.AnsiBStr)] string destfile);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fileAppendString")]
+        internal static extern int fileAppendString([MarshalAs(UnmanagedType.AnsiBStr)] string filename, [MarshalAs(UnmanagedType.AnsiBStr)] string str);
+
+        // Multi-platform functions for opening file streams
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fopenReadStream")]
+        internal static extern IntPtr fopenReadStream([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fopenWriteStream")]
+        internal static extern IntPtr fopenWriteStream([MarshalAs(UnmanagedType.AnsiBStr)] string filename, [MarshalAs(UnmanagedType.AnsiBStr)] string modestring);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fopenReadFromMemory")]
         internal static extern IntPtr fopenReadFromMemory(IntPtr data, IntPtr size);
+
+        // Opening a windows tmpfile for writing
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fopenWriteWinTempfile")]
         internal static extern IntPtr fopenWriteWinTempfile();
-        internal static extern IntPtr lept_fopen(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename,  [MarshalAs(UnmanagedType.AnsiBStr)] string mode );
+
+        // Multi-platform functions that avoid C-runtime boundary crossing  with Windows DLLs
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_fopen")]
+        internal static extern IntPtr lept_fopen([MarshalAs(UnmanagedType.AnsiBStr)] string filename, [MarshalAs(UnmanagedType.AnsiBStr)] string mode);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_fclose")]
         internal static extern int lept_fclose(IntPtr fp);
-        internal static extern IntPtr lept_calloc(size_t nmemb, IntPtr size);
-        internal static extern void lept_free(void* ptr);
-        internal static extern int lept_mkdir(  [MarshalAs(UnmanagedType.AnsiBStr)] string subdir );
-        internal static extern int lept_rmdir(  [MarshalAs(UnmanagedType.AnsiBStr)] string subdir );
-        internal static extern void lept_direxists(  [MarshalAs(UnmanagedType.AnsiBStr)] string dir, out int pexists );
-        internal static extern int lept_rm_match(  [MarshalAs(UnmanagedType.AnsiBStr)] string subdir,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr );
-        internal static extern int lept_rm(  [MarshalAs(UnmanagedType.AnsiBStr)] string subdir,  [MarshalAs(UnmanagedType.AnsiBStr)] string tail );
-        internal static extern int lept_rmfile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filepath );
-        internal static extern int lept_mv(  [MarshalAs(UnmanagedType.AnsiBStr)] string srcfile,  [MarshalAs(UnmanagedType.AnsiBStr)] string newdir,  [MarshalAs(UnmanagedType.AnsiBStr)] string newtail, char** pnewpath );
-        internal static extern int lept_cp(  [MarshalAs(UnmanagedType.AnsiBStr)] string srcfile,  [MarshalAs(UnmanagedType.AnsiBStr)] string newdir,  [MarshalAs(UnmanagedType.AnsiBStr)] string newtail, char** pnewpath );
-        internal static extern int splitPathAtDirectory(  [MarshalAs(UnmanagedType.AnsiBStr)] string pathname, char** pdir, char** ptail );
-        internal static extern int splitPathAtExtension(  [MarshalAs(UnmanagedType.AnsiBStr)] string pathname, char** pbasename, char** pextension );
-        internal static extern IntPtr  pathJoin(  [MarshalAs(UnmanagedType.AnsiBStr)] string dir,  [MarshalAs(UnmanagedType.AnsiBStr)] string fname );
-        internal static extern IntPtr  appendSubdirs(  [MarshalAs(UnmanagedType.AnsiBStr)] string basedir,  [MarshalAs(UnmanagedType.AnsiBStr)] string subdirs );
-        internal static extern int convertSepCharsInPath( [MarshalAs(UnmanagedType.AnsiBStr)] string path, int type);
-        internal static extern IntPtr  genPathname(  [MarshalAs(UnmanagedType.AnsiBStr)] string dir,  [MarshalAs(UnmanagedType.AnsiBStr)] string fname );
-        internal static extern int makeTempDirname( [MarshalAs(UnmanagedType.AnsiBStr)] string result, IntPtr nbytes,  [MarshalAs(UnmanagedType.AnsiBStr)] string subdir );
-        internal static extern int modifyTrailingSlash( [MarshalAs(UnmanagedType.AnsiBStr)] string path, IntPtr nbytes, int flag);
-        internal static extern IntPtr  l_makeTempFilename();
-        internal static extern int extractNumberFromFilename(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, int numpre, int numpost );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_calloc")]
+        internal static extern IntPtr lept_calloc(IntPtr nmemb, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_free")]
+        internal static extern void lept_free(IntPtr ptr);
+
+        // Multi-platform file system operations in temp directories
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_mkdir")]
+        internal static extern int lept_mkdir([MarshalAs(UnmanagedType.AnsiBStr)] string subdir);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_rmdir")]
+        internal static extern int lept_rmdir([MarshalAs(UnmanagedType.AnsiBStr)] string subdir);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_direxists")]
+        internal static extern void lept_direxists([MarshalAs(UnmanagedType.AnsiBStr)] string dir, out int pexists);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_rm_match")]
+        internal static extern int lept_rm_match([MarshalAs(UnmanagedType.AnsiBStr)] string subdir, [MarshalAs(UnmanagedType.AnsiBStr)] string substr);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_rm")]
+        internal static extern int lept_rm([MarshalAs(UnmanagedType.AnsiBStr)] string subdir, [MarshalAs(UnmanagedType.AnsiBStr)] string tail);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_rmfile")]
+        internal static extern int lept_rmfile([MarshalAs(UnmanagedType.AnsiBStr)] string filepath);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_mv")]
+        internal static extern int lept_mv([MarshalAs(UnmanagedType.AnsiBStr)] string srcfile, [MarshalAs(UnmanagedType.AnsiBStr)] string newdir, [MarshalAs(UnmanagedType.AnsiBStr)] string newtail, out IntPtr pnewpath);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "lept_cp")]
+        internal static extern int lept_cp([MarshalAs(UnmanagedType.AnsiBStr)] string srcfile, [MarshalAs(UnmanagedType.AnsiBStr)] string newdir, [MarshalAs(UnmanagedType.AnsiBStr)] string newtail, out IntPtr pnewpath);
+
+        // General file name operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "splitPathAtDirectory")]
+        internal static extern int splitPathAtDirectory([MarshalAs(UnmanagedType.AnsiBStr)] string pathname, out IntPtr pdir, out IntPtr ptail);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "splitPathAtExtension")]
+        internal static extern int splitPathAtExtension([MarshalAs(UnmanagedType.AnsiBStr)] string pathname, out IntPtr pbasename, out IntPtr pextension);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pathJoin")]
+        internal static extern IntPtr pathJoin([MarshalAs(UnmanagedType.AnsiBStr)] string dir, [MarshalAs(UnmanagedType.AnsiBStr)] string fname);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "appendSubdirs")]
+        internal static extern IntPtr appendSubdirs([MarshalAs(UnmanagedType.AnsiBStr)] string basedir, [MarshalAs(UnmanagedType.AnsiBStr)] string subdirs);
+
+        // Special file name operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "convertSepCharsInPath")]
+        internal static extern int convertSepCharsInPath([MarshalAs(UnmanagedType.AnsiBStr)] string path, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "genPathname")]
+        internal static extern IntPtr genPathname([MarshalAs(UnmanagedType.AnsiBStr)] string dir, [MarshalAs(UnmanagedType.AnsiBStr)] string fname);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeTempDirname")]
+        internal static extern int makeTempDirname([MarshalAs(UnmanagedType.AnsiBStr)] string result, IntPtr nbytes, [MarshalAs(UnmanagedType.AnsiBStr)] string subdir);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "modifyTrailingSlash")]
+        internal static extern int modifyTrailingSlash([MarshalAs(UnmanagedType.AnsiBStr)] string path, IntPtr nbytes, int flag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_makeTempFilename")]
+        internal static extern IntPtr l_makeTempFilename();
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "extractNumberFromFilename")]
+        internal static extern int extractNumberFromFilename([MarshalAs(UnmanagedType.AnsiBStr)] string fname, int numpre, int numpost);
+        #endregion
+
+        /* 
         internal static extern PIX* pixSimpleCaptcha(PIX* pixs, int border, int nterms, uint seed, uint color, int cmapflag);
         internal static extern PIX* pixRandomHarmonicWarp(PIX* pixs, float xmag, float ymag, float xfreq, float yfreq, int nx, int ny, uint seed, int grayval);
         internal static extern PIX* pixWarpStereoscopic(PIX* pixs, int zbend, int zshiftt, int zshiftb, int ybendt, int ybendb, int redleft);
