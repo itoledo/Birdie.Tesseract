@@ -302,6 +302,7 @@
     <Compile Include="Implementations\Sarray2.cs" />
     <Compile Include="Implementations\Scale.cs" />
     <Compile Include="Implementations\ScaleLow.cs" />
+    <Compile Include="Implementations\SeedFill.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

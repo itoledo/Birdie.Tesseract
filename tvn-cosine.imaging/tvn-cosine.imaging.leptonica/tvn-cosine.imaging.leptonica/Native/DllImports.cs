@@ -6541,7 +6541,7 @@ namespace Leptonica.Native
 
         // Scale-to-gray 2x
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleToGray2Low")]
-        internal static extern void scaleToGray2Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr sumtab , IntPtr valtab );
+        internal static extern void scaleToGray2Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr sumtab, IntPtr valtab);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeSumTabSG2")]
         internal static extern IntPtr makeSumTabSG2(IntPtr v);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeValTabSG2")]
@@ -6549,7 +6549,7 @@ namespace Leptonica.Native
 
         // Scale-to-gray 3x
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleToGray3Low")]
-        internal static extern void scaleToGray3Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr sumtab , IntPtr valtab );
+        internal static extern void scaleToGray3Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr sumtab, IntPtr valtab);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeSumTabSG3")]
         internal static extern IntPtr makeSumTabSG3(IntPtr v);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeValTabSG3")]
@@ -6557,7 +6557,7 @@ namespace Leptonica.Native
 
         // Scale-to-gray 4x
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleToGray4Low")]
-        internal static extern void scaleToGray4Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr sumtab , IntPtr valtab );
+        internal static extern void scaleToGray4Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr sumtab, IntPtr valtab);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeSumTabSG4")]
         internal static extern IntPtr makeSumTabSG4(IntPtr v);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeValTabSG4")]
@@ -6565,13 +6565,13 @@ namespace Leptonica.Native
 
         // Scale-to-gray 6x
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleToGray6Low")]
-        internal static extern void scaleToGray6Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr tab8, IntPtr valtab );
+        internal static extern void scaleToGray6Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr tab8, IntPtr valtab);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeValTabSG6")]
         internal static extern IntPtr makeValTabSG6(IntPtr v);
 
         // Scale-to-gray 8x
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleToGray8Low")]
-        internal static extern void scaleToGray8Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr tab8, IntPtr valtab );
+        internal static extern void scaleToGray8Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr tab8, IntPtr valtab);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeValTabSG8")]
         internal static extern IntPtr makeValTabSG8(IntPtr v);
 
@@ -6584,27 +6584,71 @@ namespace Leptonica.Native
         internal static extern int scaleMipmapLow(IntPtr datad, int wd, int hd, int wpld, IntPtr datas1, int wpls1, IntPtr datas2, int wpls2, float red);
         #endregion
 
+        #region seedfill.c
+        // Binary seedfill(source: Luc Vincent)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfillBinary")]
+        internal static extern IntPtr pixSeedfillBinary(HandleRef pixd, HandleRef pixs, HandleRef pixm, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfillBinaryRestricted")]
+        internal static extern IntPtr pixSeedfillBinaryRestricted(HandleRef pixd, HandleRef pixs, HandleRef pixm, int connectivity, int xmax, int ymax);
+
+        // Applications of binary seedfill to find and fill holes, remove c.c.touching the border and fill bg from border:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixHolesByFilling")]
+        internal static extern IntPtr pixHolesByFilling(HandleRef pixs, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFillClosedBorders")]
+        internal static extern IntPtr pixFillClosedBorders(HandleRef pixs, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExtractBorderConnComps")]
+        internal static extern IntPtr pixExtractBorderConnComps(HandleRef pixs, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRemoveBorderConnComps")]
+        internal static extern IntPtr pixRemoveBorderConnComps(HandleRef pixs, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFillBgFromBorder")]
+        internal static extern IntPtr pixFillBgFromBorder(HandleRef pixs, int connectivity);
+
+        // Hole-filling of components to bounding rectangle
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFillHolesToBoundingRect")]
+        internal static extern IntPtr pixFillHolesToBoundingRect(HandleRef pixs, int minsize, float maxhfract, float minfgfract);
+
+        // Gray seedfill(source: Luc Vincent:fast-hybrid-grayscale-reconstruction)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfillGray")]
+        internal static extern int pixSeedfillGray(HandleRef pixs, HandleRef pixm, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfillGrayInv")]
+        internal static extern int pixSeedfillGrayInv(HandleRef pixs, HandleRef pixm, int connectivity);
+
+        // Gray seedfill(source: Luc Vincent: sequential-reconstruction algorithm)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfillGraySimple")]
+        internal static extern int pixSeedfillGraySimple(HandleRef pixs, HandleRef pixm, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfillGrayInvSimple")]
+        internal static extern int pixSeedfillGrayInvSimple(HandleRef pixs, HandleRef pixm, int connectivity);
+
+        // Gray seedfill variations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedfillGrayBasin")]
+        internal static extern IntPtr pixSeedfillGrayBasin(HandleRef pixb, HandleRef pixm, int delta, int connectivity);
+         
+        // Distance function(source: Luc Vincent)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDistanceFunction")]
+        internal static extern IntPtr pixDistanceFunction(HandleRef pixs, int connectivity, int outdepth, int boundcond);
+
+        // Seed spread(based on distance function)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSeedspread")]
+        internal static extern IntPtr pixSeedspread(HandleRef pixs, int connectivity);
+
+        // Local extrema:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixLocalExtrema")]
+        internal static extern int pixLocalExtrema(HandleRef pixs, int maxmin, int minmax, out IntPtr ppixmin, out IntPtr ppixmax);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSelectedLocalExtrema")]
+        internal static extern int pixSelectedLocalExtrema(HandleRef pixs, int mindist, out IntPtr ppixmin, out IntPtr ppixmax);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindEqualValues")]
+        internal static extern IntPtr pixFindEqualValues(HandleRef pixs1, HandleRef pixs2);
+
+        // Selection of minima in mask of connected components
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSelectMinInConnComp")]
+        internal static extern int pixSelectMinInConnComp(HandleRef pixs, HandleRef pixm, out IntPtr ppta, out IntPtr pnav);
+
+        // Removal of seeded connected components from a mask
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "RemoveSeededComponents")]
+        internal static extern IntPtr RemoveSeededComponents(HandleRef pixd, HandleRef pixs, HandleRef pixm, int connectivity, int bordersize);
+        #endregion
+
         /*
-        internal static extern PIX* pixSeedfillBinary(PIX* pixd, PIX* pixs, PIX* pixm, int connectivity);
-        internal static extern PIX* pixSeedfillBinaryRestricted(PIX* pixd, PIX* pixs, PIX* pixm, int connectivity, int xmax, int ymax);
-        internal static extern PIX* pixHolesByFilling(PIX* pixs, int connectivity);
-        internal static extern PIX* pixFillClosedBorders(PIX* pixs, int connectivity);
-        internal static extern PIX* pixExtractBorderConnComps(PIX* pixs, int connectivity);
-        internal static extern PIX* pixRemoveBorderConnComps(PIX* pixs, int connectivity);
-        internal static extern PIX* pixFillBgFromBorder(PIX* pixs, int connectivity);
-        internal static extern PIX* pixFillHolesToBoundingRect(PIX* pixs, int minsize, float maxhfract, float minfgfract);
-        internal static extern int pixSeedfillGray(PIX* pixs, PIX* pixm, int connectivity);
-        internal static extern int pixSeedfillGrayInv(PIX* pixs, PIX* pixm, int connectivity);
-        internal static extern int pixSeedfillGraySimple(PIX* pixs, PIX* pixm, int connectivity);
-        internal static extern int pixSeedfillGrayInvSimple(PIX* pixs, PIX* pixm, int connectivity);
-        internal static extern PIX* pixSeedfillGrayBasin(PIX* pixb, PIX* pixm, int delta, int connectivity);
-        internal static extern PIX* pixDistanceFunction(PIX* pixs, int connectivity, int outdepth, int boundcond);
-        internal static extern PIX* pixSeedspread(PIX* pixs, int connectivity);
-        internal static extern int pixLocalExtrema(PIX* pixs, int maxmin, int minmax, PIX** ppixmin, PIX** ppixmax);
-        internal static extern int pixSelectedLocalExtrema(PIX* pixs, int mindist, PIX** ppixmin, PIX** ppixmax);
-        internal static extern PIX* pixFindEqualValues(PIX* pixs1, PIX* pixs2);
-        internal static extern int pixSelectMinInConnComp(PIX* pixs, PIX* pixm, PTA** ppta, NUMA** pnav);
-        internal static extern PIX* pixRemoveSeededComponents(PIX* pixd, PIX* pixs, PIX* pixm, int connectivity, int bordersize);
         internal static extern void seedfillBinaryLow(IntPtr datas , int hs, int wpls, l_uint32* datam, int hm, int wplm, int connectivity);
         internal static extern void seedfillGrayLow(IntPtr datas , int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
         internal static extern void seedfillGrayInvLow(IntPtr datas , int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
