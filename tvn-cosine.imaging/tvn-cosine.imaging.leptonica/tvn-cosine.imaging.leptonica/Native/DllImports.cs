@@ -6366,50 +6366,131 @@ namespace Leptonica.Native
         internal static extern IntPtr sarrayGenerateIntegers(int n);
         #endregion
 
+        #region scale.c
+        // Top-level scaling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScale")]
+        internal static extern IntPtr pixScale(HandleRef pixs, float scalex, float scaley);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleToSizeRel")]
+        internal static extern IntPtr pixScaleToSizeRel(HandleRef pixs, int delw, int delh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleToSize")]
+        internal static extern IntPtr pixScaleToSize(HandleRef pixs, int wd, int hd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGeneral")]
+        internal static extern IntPtr pixScaleGeneral(HandleRef pixs, float scalex, float scaley, float sharpfract, int sharpwidth);
+
+        // Linearly interpreted(usually up-) scaling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleLI")]
+        internal static extern IntPtr pixScaleLI(HandleRef pixs, float scalex, float scaley);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleColorLI")]
+        internal static extern IntPtr pixScaleColorLI(HandleRef pixs, float scalex, float scaley);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleColor2xLI")]
+        internal static extern IntPtr pixScaleColor2xLI(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleColor4xLI")]
+        internal static extern IntPtr pixScaleColor4xLI(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGrayLI")]
+        internal static extern IntPtr pixScaleGrayLI(HandleRef pixs, float scalex, float scaley);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGray2xLI")]
+        internal static extern IntPtr pixScaleGray2xLI(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGray4xLI")]
+        internal static extern IntPtr pixScaleGray4xLI(HandleRef pixs);
+
+        // Scaling by closest pixel sampling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleBySampling")]
+        internal static extern IntPtr pixScaleBySampling(HandleRef pixs, float scalex, float scaley);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleBySamplingToSize")]
+        internal static extern IntPtr pixScaleBySamplingToSize(HandleRef pixs, int wd, int hd);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleByIntSampling")]
+        internal static extern IntPtr pixScaleByIntSampling(HandleRef pixs, int factor);
+
+        // Fast integer factor subsampling RGB to gray and to binary
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleRGBToGrayFast")]
+        internal static extern IntPtr pixScaleRGBToGrayFast(HandleRef pixs, int factor, int color);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleRGBToBinaryFast")]
+        internal static extern IntPtr pixScaleRGBToBinaryFast(HandleRef pixs, int factor, int thresh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGrayToBinaryFast")]
+        internal static extern IntPtr pixScaleGrayToBinaryFast(HandleRef pixs, int factor, int thresh);
+
+        // Downscaling with(antialias) smoothing
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleSmooth")]
+        internal static extern IntPtr pixScaleSmooth(HandleRef pix, float scalex, float scaley);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleRGBToGray2")]
+        internal static extern IntPtr pixScaleRGBToGray2(HandleRef pixs, float rwt, float gwt, float bwt);
+
+        // Downscaling with(antialias) area mapping
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleAreaMap")]
+        internal static extern IntPtr pixScaleAreaMap(HandleRef pix, float scalex, float scaley);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleAreaMap2")]
+        internal static extern IntPtr pixScaleAreaMap2(HandleRef pix);
+
+        // Binary scaling by closest pixel sampling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleBinary")]
+        internal static extern IntPtr pixScaleBinary(HandleRef pixs, float scalex, float scaley);
+
+        // Scale-to-gray(1 bpp --> 8 bpp; arbitrary downscaling)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleToGray")]
+        internal static extern IntPtr pixScaleToGray(HandleRef pixs, float scalefactor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleToGrayFast")]
+        internal static extern IntPtr pixScaleToGrayFast(HandleRef pixs, float scalefactor);
+
+        // Scale-to-gray(1 bpp --> 8 bpp; integer downscaling)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleToGray2")]
+        internal static extern IntPtr pixScaleToGray2(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleToGray3")]
+        internal static extern IntPtr pixScaleToGray3(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleToGray4")]
+        internal static extern IntPtr pixScaleToGray4(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleToGray6")]
+        internal static extern IntPtr pixScaleToGray6(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleToGray8")]
+        internal static extern IntPtr pixScaleToGray8(HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleToGray16")]
+        internal static extern IntPtr pixScaleToGray16(HandleRef pixs);
+
+        // Scale-to-gray by mipmap(1 bpp --> 8 bpp, arbitrary reduction)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleToGrayMipmap")]
+        internal static extern IntPtr pixScaleToGrayMipmap(HandleRef pixs, float scalefactor);
+
+        // Grayscale scaling using mipmap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleMipmap")]
+        internal static extern IntPtr pixScaleMipmap(HandleRef pixs1, HandleRef pixs2, float scale);
+
+        // Replicated(integer) expansion(all depths)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExpandReplicate")]
+        internal static extern IntPtr pixExpandReplicate(HandleRef pixs, int factor);
+
+        // Upscale 2x followed by binarization
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGray2xLIThresh")]
+        internal static extern IntPtr pixScaleGray2xLIThresh(HandleRef pixs, int thresh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGray2xLIDither")]
+        internal static extern IntPtr pixScaleGray2xLIDither(HandleRef pixs);
+
+        // Upscale 4x followed by binarization
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGray4xLIThresh")]
+        internal static extern IntPtr pixScaleGray4xLIThresh(HandleRef pixs, int thresh);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGray4xLIDither")]
+        internal static extern IntPtr pixScaleGray4xLIDither(HandleRef pixs);
+
+        // Grayscale downscaling using min and max
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGrayMinMax")]
+        internal static extern IntPtr pixScaleGrayMinMax(HandleRef pixs, int xfact, int yfact, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGrayMinMax2")]
+        internal static extern IntPtr pixScaleGrayMinMax2(HandleRef pixs, int type);
+
+        // Grayscale downscaling using rank value
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGrayRankCascade")]
+        internal static extern IntPtr pixScaleGrayRankCascade(HandleRef pixs, int level1, int level2, int level3, int level4);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGrayRank2")]
+        internal static extern IntPtr pixScaleGrayRank2(HandleRef pixs, int rank);
+
+        // Helper function for transferring alpha with scaling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleAndTransferAlpha")]
+        internal static extern int pixScaleAndTransferAlpha(HandleRef pixd, HandleRef pixs, float scalex, float scaley);
+
+        // RGB scaling including alpha(blend) component
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleWithAlpha")]
+        internal static extern IntPtr pixScaleWithAlpha(HandleRef pixs, float scalex, float scaley, HandleRef pixg, float fract);
+        #endregion
+
         /*
-        internal static extern PIX* pixScale(PIX* pixs, float scalex, float scaley);
-        internal static extern PIX* pixScaleToSizeRel(PIX* pixs, int delw, int delh);
-        internal static extern PIX* pixScaleToSize(PIX* pixs, int wd, int hd);
-        internal static extern PIX* pixScaleGeneral(PIX* pixs, float scalex, float scaley, float sharpfract, int sharpwidth);
-        internal static extern PIX* pixScaleLI(PIX* pixs, float scalex, float scaley);
-        internal static extern PIX* pixScaleColorLI(PIX* pixs, float scalex, float scaley);
-        internal static extern PIX* pixScaleColor2xLI(PIX* pixs);
-        internal static extern PIX* pixScaleColor4xLI(PIX* pixs);
-        internal static extern PIX* pixScaleGrayLI(PIX* pixs, float scalex, float scaley);
-        internal static extern PIX* pixScaleGray2xLI(PIX* pixs);
-        internal static extern PIX* pixScaleGray4xLI(PIX* pixs);
-        internal static extern PIX* pixScaleBySampling(PIX* pixs, float scalex, float scaley);
-        internal static extern PIX* pixScaleBySamplingToSize(PIX* pixs, int wd, int hd);
-        internal static extern PIX* pixScaleByIntSampling(PIX* pixs, int factor);
-        internal static extern PIX* pixScaleRGBToGrayFast(PIX* pixs, int factor, int color);
-        internal static extern PIX* pixScaleRGBToBinaryFast(PIX* pixs, int factor, int thresh);
-        internal static extern PIX* pixScaleGrayToBinaryFast(PIX* pixs, int factor, int thresh);
-        internal static extern PIX* pixScaleSmooth(PIX* pix, float scalex, float scaley);
-        internal static extern PIX* pixScaleRGBToGray2(PIX* pixs, float rwt, float gwt, float bwt);
-        internal static extern PIX* pixScaleAreaMap(PIX* pix, float scalex, float scaley);
-        internal static extern PIX* pixScaleAreaMap2(PIX* pix);
-        internal static extern PIX* pixScaleBinary(PIX* pixs, float scalex, float scaley);
-        internal static extern PIX* pixScaleToGray(PIX* pixs, float scalefactor);
-        internal static extern PIX* pixScaleToGrayFast(PIX* pixs, float scalefactor);
-        internal static extern PIX* pixScaleToGray2(PIX* pixs);
-        internal static extern PIX* pixScaleToGray3(PIX* pixs);
-        internal static extern PIX* pixScaleToGray4(PIX* pixs);
-        internal static extern PIX* pixScaleToGray6(PIX* pixs);
-        internal static extern PIX* pixScaleToGray8(PIX* pixs);
-        internal static extern PIX* pixScaleToGray16(PIX* pixs);
-        internal static extern PIX* pixScaleToGrayMipmap(PIX* pixs, float scalefactor);
-        internal static extern PIX* pixScaleMipmap(PIX* pixs1, PIX* pixs2, float scale);
-        internal static extern PIX* pixExpandReplicate(PIX* pixs, int factor);
-        internal static extern PIX* pixScaleGray2xLIThresh(PIX* pixs, int thresh);
-        internal static extern PIX* pixScaleGray2xLIDither(PIX* pixs);
-        internal static extern PIX* pixScaleGray4xLIThresh(PIX* pixs, int thresh);
-        internal static extern PIX* pixScaleGray4xLIDither(PIX* pixs);
-        internal static extern PIX* pixScaleGrayMinMax(PIX* pixs, int xfact, int yfact, int type);
-        internal static extern PIX* pixScaleGrayMinMax2(PIX* pixs, int type);
-        internal static extern PIX* pixScaleGrayRankCascade(PIX* pixs, int level1, int level2, int level3, int level4);
-        internal static extern PIX* pixScaleGrayRank2(PIX* pixs, int rank);
-        internal static extern int pixScaleAndTransferAlpha(PIX* pixd, PIX* pixs, float scalex, float scaley);
-        internal static extern PIX* pixScaleWithAlpha(PIX* pixs, float scalex, float scaley, PIX* pixg, float fract);
         internal static extern void scaleColorLILow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int ws, int hs, int wpls);
         internal static extern void scaleGrayLILow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int ws, int hs, int wpls);
         internal static extern void scaleColor2xLILow(l_uint32* datad, int wpld, l_uint32* datas, int ws, int hs, int wpls);
