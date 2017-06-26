@@ -7453,9 +7453,11 @@ namespace Leptonica.Native
         internal static extern int pixDisplayMultiple(int res, float scalefactor, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
         #endregion
 
-        /* 
+        #region zlibmem.c
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "zlibCompress")]
         internal static extern IntPtr zlibCompress(IntPtr datain, IntPtr nin, IntPtr pnout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "zlibUncompress")]
         internal static extern IntPtr zlibUncompress(IntPtr datain, IntPtr nin, IntPtr pnout);
-        */
+        #endregion 
     }
 }

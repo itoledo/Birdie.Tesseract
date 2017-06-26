@@ -328,6 +328,7 @@
     <Compile Include="Implementations\WaterShed.cs" />
     <Compile Include="Implementations\WebpIo.cs" />
     <Compile Include="Implementations\WriteFile.cs" />
+    <Compile Include="Implementations\ZLibMem.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
