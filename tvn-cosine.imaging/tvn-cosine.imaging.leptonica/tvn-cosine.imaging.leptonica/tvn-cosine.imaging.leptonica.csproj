@@ -326,6 +326,7 @@
     <Compile Include="Implementations\Utils2.cs" />
     <Compile Include="Implementations\Warper.cs" />
     <Compile Include="Implementations\WaterShed.cs" />
+    <Compile Include="Implementations\WebpIo.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

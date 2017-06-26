@@ -7379,14 +7379,29 @@ namespace Leptonica.Native
         internal static extern IntPtr wshedRenderColors(HandleRef wshed);
         #endregion
 
-        /* 
-        internal static extern PIX* pixReadStreamWebP(IntPtr fp);
-        internal static extern PIX* pixReadMemWebP(IntPtr filedata, IntPtr filesize);
-        internal static extern int readHeaderWebP(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pw, out int ph, out int pspp );
+        #region webpio.c
+        // Reading WebP
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadStreamWebP")]
+        internal static extern IntPtr pixReadStreamWebP(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadMemWebP")]
+        internal static extern IntPtr pixReadMemWebP(IntPtr filedata, IntPtr filesize);
+
+        // Reading WebP header
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderWebP")]
+        internal static extern int readHeaderWebP([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pw, out int ph, out int pspp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderMemWebP")]
         internal static extern int readHeaderMemWebP(IntPtr data, IntPtr size, out int pw, out int ph, out int pspp);
-        internal static extern int pixWriteWebP(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pixs, int quality, int lossless );
-        internal static extern int pixWriteStreamWebP(IntPtr fp, PIX* pixs, int quality, int lossless);
-        internal static extern int pixWriteMemWebP (out IntPtr pencdata, IntPtr pencsize, PIX* pixs, int quality, int lossless);
+
+        // Writing WebP
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteWebP")]
+        internal static extern int pixWriteWebP([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pixs, int quality, int lossless);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamWebP")]
+        internal static extern int pixWriteStreamWebP(IntPtr fp, HandleRef pixs, int quality, int lossless);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemWebP")]
+        internal static extern int pixWriteMemWebP(out IntPtr pencdata, IntPtr pencsize, HandleRef pixs, int quality, int lossless);
+        #endregion
+
+        /* 
         internal static extern int pixaWriteFiles(  [MarshalAs(UnmanagedType.AnsiBStr)] string rootname, PIXA *pixa, int format );
         internal static extern int pixWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, PIX *pix, int format );
         internal static extern int pixWriteAutoFormat(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pix );
