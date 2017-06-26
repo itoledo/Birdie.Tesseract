@@ -11,7 +11,7 @@ namespace Leptonica.Native
         private const string jpegDllName = "jpeg.dll";
         private const string tiffDllName = "tiff.dll";
         private const string tiffXxDllName = "tiffxx.dll";
-        private const string leptonicaDllName = "leptonica-1.74.1.dll";
+        private const string leptonicaDllName = "leptonica-1.74.4.dll";
 
         private static readonly bool initialised;
 
