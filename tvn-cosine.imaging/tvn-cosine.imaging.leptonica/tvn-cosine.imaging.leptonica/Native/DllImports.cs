@@ -6963,17 +6963,29 @@ namespace Leptonica.Native
         internal static extern int l_getStructStrFromFile([MarshalAs(UnmanagedType.AnsiBStr)] string filename, int field, out IntPtr pstr);
         #endregion
 
+        #region strokes.c
+        // Stroke parameter measurement
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindStrokeLength")]
+        internal static extern int pixFindStrokeLength(HandleRef pixs, IntPtr tab8, out int plength);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindStrokeWidth")]
+        internal static extern int pixFindStrokeWidth(HandleRef pixs, float thresh, IntPtr tab8, out float  pwidth, out IntPtr pnahisto);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindStrokeWidth")]
+        internal static extern IntPtr pixaFindStrokeWidth(HandleRef pixa, float thresh, IntPtr tab8, int debug);
+
+        // Stroke width regulation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaModifyStrokeWidth")]
+        internal static extern IntPtr pixaModifyStrokeWidth(HandleRef pixas, float targetw);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixModifyStrokeWidth")]
+        internal static extern IntPtr pixModifyStrokeWidth(HandleRef pixs, float width, float targetw);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaSetStrokeWidth")]
+        internal static extern IntPtr pixaSetStrokeWidth(HandleRef pixas, int width, int thinfirst, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetStrokeWidth")]
+        internal static extern IntPtr pixSetStrokeWidth(HandleRef pixs, int width, int thinfirst, int connectivity);
+        #endregion
         /*
       
 
 
-        internal static extern int pixFindStrokeLength(PIX* pixs, l_int32* tab8, out int plength);
-        internal static extern int pixFindStrokeWidth(PIX* pixs, float thresh, l_int32* tab8, l_float32* pwidth, NUMA** pnahisto);
-        internal static extern NUMA* pixaFindStrokeWidth(PIXA* pixa, float thresh, l_int32* tab8, int debug);
-         internal static extern IntPtr  pixaModifyStrokeWidth(PIXA* pixas, float targetw);
-        internal static extern PIX* pixModifyStrokeWidth(PIX* pixs, float width, float targetw);
-         internal static extern IntPtr  pixaSetStrokeWidth(PIXA* pixas, int width, int thinfirst, int connectivity);
-        internal static extern PIX* pixSetStrokeWidth(PIX* pixs, int width, int thinfirst, int connectivity);
         internal static extern l_int32* sudokuReadFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
         internal static extern l_int32* sudokuReadString(  [MarshalAs(UnmanagedType.AnsiBStr)] string str );
         internal static extern L_SUDOKU* sudokuCreate(l_int32* array);
