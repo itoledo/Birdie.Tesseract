@@ -303,6 +303,8 @@
     <Compile Include="Implementations\Scale.cs" />
     <Compile Include="Implementations\ScaleLow.cs" />
     <Compile Include="Implementations\SeedFill.cs" />
+    <Compile Include="Implementations\SeedFillow.cs" />
+    <Compile Include="Implementations\Sel1.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

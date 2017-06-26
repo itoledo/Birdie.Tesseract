@@ -6648,56 +6648,141 @@ namespace Leptonica.Native
         internal static extern IntPtr RemoveSeededComponents(HandleRef pixd, HandleRef pixs, HandleRef pixm, int connectivity, int bordersize);
         #endregion
 
+        #region seedfilllow.c
+        // Seedfill: Gray seedfill(source: Luc Vincent:fast-hybrid-grayscale-reconstruction)
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "seedfillBinaryLow")]
+        internal static extern void seedfillBinaryLow(IntPtr datas, int hs, int wpls, IntPtr datam, int hm, int wplm, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "seedfillGrayLow")]
+        internal static extern void seedfillGrayLow(IntPtr datas, int w, int h, int wpls, IntPtr datam, int wplm, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "seedfillGrayInvLow")]
+        internal static extern void seedfillGrayInvLow(IntPtr datas, int w, int h, int wpls, IntPtr datam, int wplm, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "seedfillGrayLowSimple")]
+        internal static extern void seedfillGrayLowSimple(IntPtr datas, int w, int h, int wpls, IntPtr datam, int wplm, int connectivity);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "seedfillGrayInvLowSimple")]
+        internal static extern void seedfillGrayInvLowSimple(IntPtr datas, int w, int h, int wpls, IntPtr datam, int wplm, int connectivity);
+
+        //  Distance function:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "distanceFunctionLow")]
+        internal static extern void distanceFunctionLow(IntPtr datad, int w, int h, int d, int wpld, int connectivity);
+
+        // Seed spread:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "seedspreadLow")]
+        internal static extern void seedspreadLow(IntPtr datad, int w, int h, int wpld, IntPtr datat, int wplt, int connectivity);
+        #endregion
+
+        #region sel1.c
+        // Create/destroy/copy:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaCreate")]
+        internal static extern IntPtr selaCreate(int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaDestroy")]
+        internal static extern void selaDestroy(ref IntPtr  psela);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selCreate")]
+        internal static extern IntPtr selCreate(int height, int width,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selDestroy")]
+        internal static extern void selDestroy(ref IntPtr psel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selCopy")]
+        internal static extern IntPtr selCopy(HandleRef sel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selCreateBrick")]
+        internal static extern IntPtr selCreateBrick(int h, int w, int cy, int cx, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selCreateComb")]
+        internal static extern IntPtr selCreateComb(int factor1, int factor2, int direction);
+
+        // Helper proc:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "create2dIntArray")]
+        internal static extern IntPtr create2dIntArray(int sy, int sx);
+
+        // Extension of sela:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaAddSel")]
+        internal static extern int selaAddSel(HandleRef sela, HandleRef sel, [MarshalAs(UnmanagedType.AnsiBStr)] string selname, int copyflag);
+
+        // Accessors:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaGetCount")]
+        internal static extern int selaGetCount(HandleRef sela);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaGetSel")]
+        internal static extern IntPtr selaGetSel(HandleRef sela, int i);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selGetName")]
+        internal static extern IntPtr selGetName(HandleRef sel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selSetName")]
+        internal static extern int selSetName(HandleRef sel, [MarshalAs(UnmanagedType.AnsiBStr)] string name);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaFindSelByName")]
+        internal static extern int selaFindSelByName(HandleRef sela, [MarshalAs(UnmanagedType.AnsiBStr)] string name, out int pindex, out IntPtr psel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selGetElement")]
+        internal static extern int selGetElement(HandleRef sel, int row, int col, out int ptype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selSetElement")]
+        internal static extern int selSetElement(HandleRef sel, int row, int col, int type);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selGetParameters")]
+        internal static extern int selGetParameters(HandleRef sel, out int psy, out int psx, out int pcy, out int pcx);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selSetOrigin")]
+        internal static extern int selSetOrigin(HandleRef sel, int cy, int cx);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selGetTypeAtOrigin")]
+        internal static extern int selGetTypeAtOrigin(HandleRef sel, out int ptype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaGetBrickName")]
+        internal static extern IntPtr selaGetBrickName(HandleRef sela, int hsize, int vsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaGetCombName")]
+        internal static extern IntPtr selaGetCombName(HandleRef sela, int size, int direction);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getCompositeParameters")]
+        internal static extern int getCompositeParameters(int size, out int psize1, out int psize2, out IntPtr pnameh1, out IntPtr pnameh2, out IntPtr pnamev1, out IntPtr pnamev2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaGetSelnames")]
+        internal static extern IntPtr selaGetSelnames(HandleRef sela);
+
+        // Max translations for erosion and hmt
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selFindMaxTranslations")]
+        internal static extern int selFindMaxTranslations(HandleRef sel, out int pxp, out int pyp, out int pxn, out int  pyn);
+
+        // Rotation by multiples of 90 degrees
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selRotateOrth")]
+        internal static extern IntPtr selRotateOrth(HandleRef sel, int quads);
+
+        // Sela and Sel serialized I/O
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaRead")]
+        internal static extern IntPtr selaRead([MarshalAs(UnmanagedType.AnsiBStr)] string fname);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaReadStream")]
+        internal static extern IntPtr selaReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selRead")]
+        internal static extern IntPtr selRead([MarshalAs(UnmanagedType.AnsiBStr)] string fname);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selReadStream")]
+        internal static extern IntPtr selReadStream(IntPtr fp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaWrite")]
+        internal static extern int selaWrite([MarshalAs(UnmanagedType.AnsiBStr)] string fname, HandleRef sela);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaWriteStream")]
+        internal static extern int selaWriteStream(IntPtr fp, HandleRef sela);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selWrite")]
+        internal static extern int selWrite([MarshalAs(UnmanagedType.AnsiBStr)] string fname, HandleRef sel);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selWriteStream")]
+        internal static extern int selWriteStream(IntPtr fp, HandleRef sel);
+
+        // Building custom hit-miss sels from compiled strings
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selCreateFromString")]
+        internal static extern IntPtr selCreateFromString([MarshalAs(UnmanagedType.AnsiBStr)] string text, int h, int w, [MarshalAs(UnmanagedType.AnsiBStr)] string name);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selPrintToString")]
+        internal static extern IntPtr selPrintToString(HandleRef sel);
+
+        // Building custom hit-miss sels from a simple file format
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaCreateFromFile")]
+        internal static extern IntPtr selaCreateFromFile([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+
+        // Making hit-only sels from Pta and Pix
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selCreateFromPta")]
+        internal static extern IntPtr selCreateFromPta(HandleRef pta, int cy, int cx, [MarshalAs(UnmanagedType.AnsiBStr)] string name);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selCreateFromPix")]
+        internal static extern IntPtr selCreateFromPix(HandleRef pix, int cy, int cx, [MarshalAs(UnmanagedType.AnsiBStr)] string name);
+
+        // Making hit-miss sels from Pix and image files
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selReadFromColorImage")]
+        internal static extern IntPtr selReadFromColorImage([MarshalAs(UnmanagedType.AnsiBStr)] string pathname);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selCreateFromColorPix")]
+        internal static extern IntPtr selCreateFromColorPix(HandleRef pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string selname);
+
+        // Printable display of sel
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selDisplayInPix")]
+        internal static extern IntPtr selDisplayInPix(HandleRef sel, int size, int gthick);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaDisplayInPix")]
+        internal static extern IntPtr selaDisplayInPix(HandleRef sela, int size, int gthick, int spacing, int ncols);
+        #endregion
+
         /*
-        internal static extern void seedfillBinaryLow(IntPtr datas , int hs, int wpls, l_uint32* datam, int hm, int wplm, int connectivity);
-        internal static extern void seedfillGrayLow(IntPtr datas , int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
-        internal static extern void seedfillGrayInvLow(IntPtr datas , int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
-        internal static extern void seedfillGrayLowSimple(IntPtr datas , int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
-        internal static extern void seedfillGrayInvLowSimple(IntPtr datas , int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
-        internal static extern void distanceFunctionLow(IntPtr datad , int w, int h, int d, int wpld, int connectivity);
-        internal static extern void seedspreadLow(IntPtr datad , int w, int h, int wpld, l_uint32* datat, int wplt, int connectivity);
-        internal static extern SELA* selaCreate(int n);
-        internal static extern void selaDestroy(SELA** psela);
-        internal static extern SEL* selCreate(int height, int width,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
-        internal static extern void selDestroy(SEL** psel);
-        internal static extern SEL* selCopy(SEL* sel);
-        internal static extern SEL* selCreateBrick(int h, int w, int cy, int cx, int type);
-        internal static extern SEL* selCreateComb(int factor1, int factor2, int direction);
-        internal static extern l_int32** create2dIntArray(int sy, int sx);
-        internal static extern int selaAddSel(SELA* sela, SEL* sel,  [MarshalAs(UnmanagedType.AnsiBStr)] string selname, int copyflag );
-        internal static extern int selaGetCount(SELA* sela);
-        internal static extern SEL* selaGetSel(SELA* sela, int i);
-        internal static extern IntPtr  selGetName(SEL* sel);
-        internal static extern int selSetName(SEL* sel,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
-        internal static extern int selaFindSelByName(SELA* sela,  [MarshalAs(UnmanagedType.AnsiBStr)] string name, int* pindex, SEL** psel );
-         internal static extern int selGetElement(SEL* sel, int row, int col, l_int32* ptype);
-        internal static extern int selSetElement(SEL* sel, int row, int col, int type);
-        internal static extern int selGetParameters(SEL* sel, l_int32* psy, l_int32* psx, l_int32* pcy, l_int32* pcx);
-        internal static extern int selSetOrigin(SEL* sel, int cy, int cx);
-        internal static extern int selGetTypeAtOrigin(SEL* sel, l_int32* ptype);
-        internal static extern IntPtr  selaGetBrickName(SELA* sela, int hsize, int vsize);
-        internal static extern IntPtr  selaGetCombName(SELA* sela, int size, int direction);
-        internal static extern int getCompositeParameters(int size, l_int32* psize1, l_int32* psize2, char** pnameh1, char** pnameh2, char** pnamev1, char** pnamev2);
-        internal static extern SARRAY* selaGetSelnames(SELA* sela);
-        internal static extern int selFindMaxTranslations(SEL* sel, l_int32* pxp, l_int32* pyp, l_int32* pxn, l_int32* pyn);
-        internal static extern SEL* selRotateOrth(SEL* sel, int quads);
-        internal static extern SELA* selaRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname );
-        internal static extern SELA* selaReadStream(IntPtr fp);
-        internal static extern SEL* selRead(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname );
-        internal static extern SEL* selReadStream(IntPtr fp);
-        internal static extern int selaWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, SELA *sela );
-         internal static extern int selaWriteStream(IntPtr fp, SELA* sela);
-        internal static extern int selWrite(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, SEL *sel );
-         internal static extern int selWriteStream(IntPtr fp, SEL* sel);
-        internal static extern SEL* selCreateFromString(  [MarshalAs(UnmanagedType.AnsiBStr)] string text, int h, int w,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
-        internal static extern IntPtr  selPrintToString(SEL* sel);
-        internal static extern SELA* selaCreateFromFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern SEL* selCreateFromPta(HandleRef pta, int cy, int cx,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
-        internal static extern SEL* selCreateFromPix(PIX* pix, int cy, int cx,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
-        internal static extern SEL* selReadFromColorImage(  [MarshalAs(UnmanagedType.AnsiBStr)] string pathname );
-        internal static extern SEL* selCreateFromColorPix(PIX* pixs, [MarshalAs(UnmanagedType.AnsiBStr)] string  selname);
-        internal static extern PIX* selDisplayInPix(SEL* sel, int size, int gthick);
-        internal static extern PIX* selaDisplayInPix(SELA* sela, int size, int gthick, int spacing, int ncols);
+      
+
         internal static extern SELA* selaAddBasic(SELA* sela);
         internal static extern SELA* selaAddHitMiss(SELA* sela);
         internal static extern SELA* selaAddDwaLinear(SELA* sela);
