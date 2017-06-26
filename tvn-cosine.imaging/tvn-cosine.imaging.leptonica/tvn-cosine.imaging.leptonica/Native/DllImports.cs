@@ -7043,32 +7043,71 @@ namespace Leptonica.Native
         internal static extern IntPtr splitStringToParagraphs([MarshalAs(UnmanagedType.AnsiBStr)] string textstr, int splitflag);
         #endregion
 
-        /* 
-        internal static extern PIX* pixReadTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int n );
-        internal static extern PIX* pixReadStreamTiff(IntPtr fp, int n);
-        internal static extern int pixWriteTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pix, int comptype,  [MarshalAs(UnmanagedType.AnsiBStr)] string modestr );
-        internal static extern int pixWriteTiffCustom(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, PIX *pix, int comptype,  [MarshalAs(UnmanagedType.AnsiBStr)] string modestr, NUMA *natags, SARRAY* savals, SARRAY *satypes, NUMA* nasizes );
-        internal static extern int pixWriteStreamTiff(IntPtr fp, PIX* pix, int comptype);
-        internal static extern int pixWriteStreamTiffWA(IntPtr fp, PIX* pix, int comptype,  [MarshalAs(UnmanagedType.AnsiBStr)] string modestr );
-        internal static extern PIX* pixReadFromMultipageTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, IntPtr *poffset );
-          internal static extern IntPtr  pixaReadMultipageTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern int pixaWriteMultipageTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, PIXA *pixa );
-         internal static extern int writeMultipageTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirin,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int writeMultipageTiffSA(SARRAY* sa,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
-        internal static extern int fprintTiffInfo(IntPtr fpout,  [MarshalAs(UnmanagedType.AnsiBStr)] string tiffile );
+        #region tiffio.c
+        // Reading tiff:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadTiff")]
+        internal static extern IntPtr pixReadTiff([MarshalAs(UnmanagedType.AnsiBStr)] string filename, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadStreamTiff")]
+        internal static extern IntPtr pixReadStreamTiff(IntPtr fp, int n);
+
+        // Writing tiff:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteTiff")]
+        internal static extern int pixWriteTiff([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pix, int comptype, [MarshalAs(UnmanagedType.AnsiBStr)] string modestr);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteTiffCustom")]
+        internal static extern int pixWriteTiffCustom([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pix, int comptype, [MarshalAs(UnmanagedType.AnsiBStr)] string modestr, HandleRef natags, HandleRef savals, HandleRef satypes, HandleRef nasizes);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamTiff")]
+        internal static extern int pixWriteStreamTiff(IntPtr fp, HandleRef pix, int comptype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStreamTiffWA")]
+        internal static extern int pixWriteStreamTiffWA(IntPtr fp, HandleRef pix, int comptype, [MarshalAs(UnmanagedType.AnsiBStr)] string modestr);
+
+        // Reading and writing multipage tiff
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadFromMultipageTiff")]
+        internal static extern IntPtr pixReadFromMultipageTiff([MarshalAs(UnmanagedType.AnsiBStr)] string fname, out IntPtr poffset);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaReadMultipageTiff")]
+        internal static extern IntPtr pixaReadMultipageTiff([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaWriteMultipageTiff")]
+        internal static extern int pixaWriteMultipageTiff([MarshalAs(UnmanagedType.AnsiBStr)] string fname, HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "writeMultipageTiff")]
+        internal static extern int writeMultipageTiff([MarshalAs(UnmanagedType.AnsiBStr)] string dirin, [MarshalAs(UnmanagedType.AnsiBStr)] string substr, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "writeMultipageTiffSA")]
+        internal static extern int writeMultipageTiffSA(HandleRef sa, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+
+        // Information about tiff file
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fprintTiffInfo")]
+        internal static extern int fprintTiffInfo(IntPtr fpout, [MarshalAs(UnmanagedType.AnsiBStr)] string tiffile);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "tiffGetCount")]
         internal static extern int tiffGetCount(IntPtr fp, out int pn);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getTiffResolution")]
         internal static extern int getTiffResolution(IntPtr fp, out int pxres, out int pyres);
-        internal static extern int readHeaderTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int n, out int pwidth, out int pheight, out int pbps, out int pspp, out int pres, out int pcmap, out int pformat );
-         internal static extern int freadHeaderTiff(IntPtr fp, int n, out int pwidth, out int pheight, out int pbps, out int pspp, out int pres, out int pcmap, out int pformat);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderTiff")]
+        internal static extern int readHeaderTiff([MarshalAs(UnmanagedType.AnsiBStr)] string filename, int n, out int pwidth, out int pheight, out int pbps, out int pspp, out int pres, out int pcmap, out int pformat);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "freadHeaderTiff")]
+        internal static extern int freadHeaderTiff(IntPtr fp, int n, out int pwidth, out int pheight, out int pbps, out int pspp, out int pres, out int pcmap, out int pformat);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "readHeaderMemTiff")]
         internal static extern int readHeaderMemTiff(IntPtr cdata, IntPtr size, int n, out int pwidth, out int pheight, out int pbps, out int pspp, out int pres, out int pcmap, out int pformat);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "findTiffCompression")]
         internal static extern int findTiffCompression(IntPtr fp, out int pcomptype);
-        internal static extern int extractG4DataFromFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, byte** pdata, IntPtr pnbytes, out int pw, out int ph, out int pminisblack );
-        internal static extern PIX* pixReadMemTiff(IntPtr cdata, IntPtr size, int n);
-        internal static extern PIX* pixReadMemFromMultipageTiff(IntPtr cdata, IntPtr size, IntPtr poffset);
-         internal static extern IntPtr  pixaReadMemMultipageTiff(IntPtr data, IntPtr size);
-        internal static extern int pixaWriteMemMultipageTiff (out IntPtr pdata, IntPtr psize, HandleRef pixa);
-        internal static extern int pixWriteMemTiff (out IntPtr pdata, IntPtr psize, PIX* pix, int comptype);
-        internal static extern int pixWriteMemTiffCustom (out IntPtr pdata, IntPtr psize, PIX* pix, int comptype, NUMA* natags, SARRAY* savals, SARRAY* satypes, NUMA* nasizes);
+
+        // Extraction of tiff g4 data:
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "extractG4DataFromFile")]
+        internal static extern int extractG4DataFromFile([MarshalAs(UnmanagedType.AnsiBStr)] string filein, out IntPtr pdata, IntPtr pnbytes, out int pw, out int ph, out int pminisblack);
+
+        // Memory I/O: reading memory --> pix and writing pix --> memory [10 static helper functions]
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadMemTiff")]
+        internal static extern IntPtr pixReadMemTiff(IntPtr cdata, IntPtr size, int n);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadMemFromMultipageTiff")]
+        internal static extern IntPtr pixReadMemFromMultipageTiff(IntPtr cdata, IntPtr size, IntPtr poffset);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaReadMemMultipageTiff")]
+        internal static extern IntPtr pixaReadMemMultipageTiff(IntPtr data, IntPtr size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaWriteMemMultipageTiff")]
+        internal static extern int pixaWriteMemMultipageTiff(out IntPtr pdata, IntPtr psize, HandleRef pixa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemTiff")]
+        internal static extern int pixWriteMemTiff(out IntPtr pdata, IntPtr psize, HandleRef pix, int comptype);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMemTiffCustom")]
+        internal static extern int pixWriteMemTiffCustom(out IntPtr pdata, IntPtr psize, HandleRef pix, int comptype, HandleRef natags, HandleRef savals, HandleRef satypes, HandleRef nasizes);
+        #endregion
+
+        /* 
         internal static extern int setMsgSeverity(int newsev);
         internal static extern int returnErrorInt(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, int ival );
         internal static extern float returnErrorFloat(  [MarshalAs(UnmanagedType.AnsiBStr)] string msg,  [MarshalAs(UnmanagedType.AnsiBStr)] string procname, float fval );
