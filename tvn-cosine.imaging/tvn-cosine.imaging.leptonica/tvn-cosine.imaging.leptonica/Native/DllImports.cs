@@ -6490,37 +6490,101 @@ namespace Leptonica.Native
         internal static extern IntPtr pixScaleWithAlpha(HandleRef pixs, float scalex, float scaley, HandleRef pixg, float fract);
         #endregion
 
+        #region scalelow.c
+        // Color(interpolated) scaling: general case
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleColorLILow")]
+        internal static extern void scaleColorLILow(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int ws, int hs, int wpls);
+
+        // Grayscale(interpolated) scaling: general case
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleGrayLILow")]
+        internal static extern void scaleGrayLILow(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int ws, int hs, int wpls);
+
+        // Color(interpolated) scaling: 2x upscaling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleColor2xLILow")]
+        internal static extern void scaleColor2xLILow(IntPtr datad, int wpld, IntPtr datas, int ws, int hs, int wpls);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleColor2xLILineLow")]
+        internal static extern void scaleColor2xLILineLow(IntPtr lined, int wpld, IntPtr lines, int ws, int wpls, int lastlineflag);
+
+        // Grayscale(interpolated) scaling: 2x upscaling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleGray2xLILow")]
+        internal static extern void scaleGray2xLILow(IntPtr datad, int wpld, IntPtr datas, int ws, int hs, int wpls);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleGray2xLILineLow")]
+        internal static extern void scaleGray2xLILineLow(IntPtr lined, int wpld, IntPtr lines, int ws, int wpls, int lastlineflag);
+
+        // Grayscale(interpolated) scaling: 4x upscaling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleGray4xLILow")]
+        internal static extern void scaleGray4xLILow(IntPtr datad, int wpld, IntPtr datas, int ws, int hs, int wpls);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleGray4xLILineLow")]
+        internal static extern void scaleGray4xLILineLow(IntPtr lined, int wpld, IntPtr lines, int ws, int wpls, int lastlineflag);
+
+        // Grayscale and color scaling by closest pixel sampling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleBySamplingLow")]
+        internal static extern int scaleBySamplingLow(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int ws, int hs, int d, int wpls);
+
+        // Color and grayscale downsampling with(antialias) lowpass filter
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleSmoothLow")]
+        internal static extern int scaleSmoothLow(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int ws, int hs, int d, int wpls, int size);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleRGBToGray2Low")]
+        internal static extern void scaleRGBToGray2Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, float rwt, float gwt, float bwt);
+
+        // Color and grayscale downsampling with(antialias) area mapping
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleColorAreaMapLow")]
+        internal static extern void scaleColorAreaMapLow(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int ws, int hs, int wpls);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleGrayAreaMapLow")]
+        internal static extern void scaleGrayAreaMapLow(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int ws, int hs, int wpls);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleAreaMapLow2")]
+        internal static extern void scaleAreaMapLow2(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int d, int wpls);
+
+        // Binary scaling by closest pixel sampling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleBinaryLow")]
+        internal static extern int scaleBinaryLow(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int ws, int hs, int wpls);
+
+        // Scale-to-gray 2x
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleToGray2Low")]
+        internal static extern void scaleToGray2Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr sumtab , IntPtr valtab );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeSumTabSG2")]
+        internal static extern IntPtr makeSumTabSG2(IntPtr v);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeValTabSG2")]
+        internal static extern IntPtr makeValTabSG2(IntPtr v);
+
+        // Scale-to-gray 3x
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleToGray3Low")]
+        internal static extern void scaleToGray3Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr sumtab , IntPtr valtab );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeSumTabSG3")]
+        internal static extern IntPtr makeSumTabSG3(IntPtr v);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeValTabSG3")]
+        internal static extern IntPtr makeValTabSG3(IntPtr v);
+
+        // Scale-to-gray 4x
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleToGray4Low")]
+        internal static extern void scaleToGray4Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr sumtab , IntPtr valtab );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeSumTabSG4")]
+        internal static extern IntPtr makeSumTabSG4(IntPtr v);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeValTabSG4")]
+        internal static extern IntPtr makeValTabSG4(IntPtr v);
+
+        // Scale-to-gray 6x
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleToGray6Low")]
+        internal static extern void scaleToGray6Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr tab8, IntPtr valtab );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeValTabSG6")]
+        internal static extern IntPtr makeValTabSG6(IntPtr v);
+
+        // Scale-to-gray 8x
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleToGray8Low")]
+        internal static extern void scaleToGray8Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr tab8, IntPtr valtab );
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "makeValTabSG8")]
+        internal static extern IntPtr makeValTabSG8(IntPtr v);
+
+        // Scale-to-gray 16x
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleToGray16Low")]
+        internal static extern void scaleToGray16Low(IntPtr datad, int wd, int hd, int wpld, IntPtr datas, int wpls, IntPtr tab8);
+
+        // Grayscale mipmap
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "scaleMipmapLow")]
+        internal static extern int scaleMipmapLow(IntPtr datad, int wd, int hd, int wpld, IntPtr datas1, int wpls1, IntPtr datas2, int wpls2, float red);
+        #endregion
+
         /*
-        internal static extern void scaleColorLILow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int ws, int hs, int wpls);
-        internal static extern void scaleGrayLILow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int ws, int hs, int wpls);
-        internal static extern void scaleColor2xLILow(l_uint32* datad, int wpld, l_uint32* datas, int ws, int hs, int wpls);
-        internal static extern void scaleColor2xLILineLow(l_uint32* lined, int wpld, l_uint32* lines, int ws, int wpls, int lastlineflag);
-        internal static extern void scaleGray2xLILow(l_uint32* datad, int wpld, l_uint32* datas, int ws, int hs, int wpls);
-        internal static extern void scaleGray2xLILineLow(l_uint32* lined, int wpld, l_uint32* lines, int ws, int wpls, int lastlineflag);
-        internal static extern void scaleGray4xLILow(l_uint32* datad, int wpld, l_uint32* datas, int ws, int hs, int wpls);
-        internal static extern void scaleGray4xLILineLow(l_uint32* lined, int wpld, l_uint32* lines, int ws, int wpls, int lastlineflag);
-        internal static extern int scaleBySamplingLow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int ws, int hs, int d, int wpls);
-        internal static extern int scaleSmoothLow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int ws, int hs, int d, int wpls, int size);
-        internal static extern void scaleRGBToGray2Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, float rwt, float gwt, float bwt);
-        internal static extern void scaleColorAreaMapLow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int ws, int hs, int wpls);
-        internal static extern void scaleGrayAreaMapLow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int ws, int hs, int wpls);
-        internal static extern void scaleAreaMapLow2(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int d, int wpls);
-        internal static extern int scaleBinaryLow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int ws, int hs, int wpls);
-        internal static extern void scaleToGray2Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_uint32* sumtab, l_uint8* valtab);
-        internal static extern l_uint32* makeSumTabSG2(void );
-        internal static extern IntPtr makeValTabSG2(void );
-        internal static extern void scaleToGray3Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_uint32* sumtab, l_uint8* valtab);
-        internal static extern l_uint32* makeSumTabSG3(void );
-        internal static extern IntPtr makeValTabSG3(void );
-        internal static extern void scaleToGray4Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_uint32* sumtab, l_uint8* valtab);
-        internal static extern l_uint32* makeSumTabSG4(void );
-        internal static extern IntPtr makeValTabSG4(void );
-        internal static extern void scaleToGray6Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_int32* tab8, l_uint8* valtab);
-        internal static extern IntPtr makeValTabSG6(void );
-        internal static extern void scaleToGray8Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_int32* tab8, l_uint8* valtab);
-        internal static extern IntPtr makeValTabSG8(void );
-        internal static extern void scaleToGray16Low(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas, int wpls, l_int32* tab8);
-        internal static extern int scaleMipmapLow(l_uint32* datad, int wd, int hd, int wpld, l_uint32* datas1, int wpls1, l_uint32* datas2, int wpls2, float red);
         internal static extern PIX* pixSeedfillBinary(PIX* pixd, PIX* pixs, PIX* pixm, int connectivity);
         internal static extern PIX* pixSeedfillBinaryRestricted(PIX* pixd, PIX* pixs, PIX* pixm, int connectivity, int xmax, int ymax);
         internal static extern PIX* pixHolesByFilling(PIX* pixs, int connectivity);
@@ -6541,13 +6605,13 @@ namespace Leptonica.Native
         internal static extern PIX* pixFindEqualValues(PIX* pixs1, PIX* pixs2);
         internal static extern int pixSelectMinInConnComp(PIX* pixs, PIX* pixm, PTA** ppta, NUMA** pnav);
         internal static extern PIX* pixRemoveSeededComponents(PIX* pixd, PIX* pixs, PIX* pixm, int connectivity, int bordersize);
-        internal static extern void seedfillBinaryLow(l_uint32* datas, int hs, int wpls, l_uint32* datam, int hm, int wplm, int connectivity);
-        internal static extern void seedfillGrayLow(l_uint32* datas, int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
-        internal static extern void seedfillGrayInvLow(l_uint32* datas, int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
-        internal static extern void seedfillGrayLowSimple(l_uint32* datas, int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
-        internal static extern void seedfillGrayInvLowSimple(l_uint32* datas, int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
-        internal static extern void distanceFunctionLow(l_uint32* datad, int w, int h, int d, int wpld, int connectivity);
-        internal static extern void seedspreadLow(l_uint32* datad, int w, int h, int wpld, l_uint32* datat, int wplt, int connectivity);
+        internal static extern void seedfillBinaryLow(IntPtr datas , int hs, int wpls, l_uint32* datam, int hm, int wplm, int connectivity);
+        internal static extern void seedfillGrayLow(IntPtr datas , int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
+        internal static extern void seedfillGrayInvLow(IntPtr datas , int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
+        internal static extern void seedfillGrayLowSimple(IntPtr datas , int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
+        internal static extern void seedfillGrayInvLowSimple(IntPtr datas , int w, int h, int wpls, l_uint32* datam, int wplm, int connectivity);
+        internal static extern void distanceFunctionLow(IntPtr datad , int w, int h, int d, int wpld, int connectivity);
+        internal static extern void seedspreadLow(IntPtr datad , int w, int h, int wpld, l_uint32* datat, int wplt, int connectivity);
         internal static extern SELA* selaCreate(int n);
         internal static extern void selaDestroy(SELA** psela);
         internal static extern SEL* selCreate(int height, int width,  [MarshalAs(UnmanagedType.AnsiBStr)] string name );
@@ -6721,12 +6785,12 @@ namespace Leptonica.Native
         internal static extern uint convertBinaryToGrayCode(uint val);
         internal static extern uint convertGrayCodeToBinary(uint val);
         internal static extern IntPtr  getLeptonicaVersion();
-        internal static extern void startTimer(void );
-        internal static extern float stopTimer(void );
-        internal static extern L_TIMER startTimerNested(void );
+        internal static extern void startTimer(IntPtr v) ;
+        internal static extern float stopTimer(IntPtr v) ;
+        internal static extern L_TIMER startTimerNested(IntPtr v) ;
         internal static extern float stopTimerNested(L_TIMER rusage_start);
         internal static extern void l_getCurrentTime(l_int32* sec, l_int32* usec);
-        internal static extern L_WALLTIMER* startWallTimer(void );
+        internal static extern L_WALLTIMER* startWallTimer(IntPtr v) ;
         internal static extern float stopWallTimer(L_WALLTIMER** ptimer);
         internal static extern IntPtr  l_getFormattedDate();
         internal static extern IntPtr  stringNew(  [MarshalAs(UnmanagedType.AnsiBStr)] string src );
