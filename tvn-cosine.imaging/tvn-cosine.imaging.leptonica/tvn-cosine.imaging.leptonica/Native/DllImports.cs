@@ -6780,18 +6780,39 @@ namespace Leptonica.Native
         internal static extern IntPtr selaDisplayInPix(HandleRef sela, int size, int gthick, int spacing, int ncols);
         #endregion
 
+        #region sel2.c
+        // Basic brick structuring elements
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaAddBasic")]
+        internal static extern IntPtr selaAddBasic(HandleRef sela);
+
+        // Simple hit-miss structuring elements
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaAddHitMiss")]
+        internal static extern IntPtr selaAddHitMiss(HandleRef sela);
+
+        // Structuring elements for comparing with DWA operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaAddDwaLinear")]
+        internal static extern IntPtr selaAddDwaLinear(HandleRef sela);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaAddDwaCombs")]
+        internal static extern IntPtr selaAddDwaCombs(HandleRef sela);
+
+        // Structuring elements for the intersection of lines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaAddCrossJunctions")]
+        internal static extern IntPtr selaAddCrossJunctions(HandleRef sela, float hlsize, float mdist, int norient, int debugflag);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "selaAddTJunctions")]
+        internal static extern IntPtr selaAddTJunctions(HandleRef sela, float hlsize, float mdist, int norient, int debugflag);
+
+        // Structuring elements for connectivity-preserving thinning operations
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sela4ccThin")]
+        internal static extern IntPtr sela4ccThin(HandleRef sela);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sela8ccThin")]
+        internal static extern IntPtr sela8ccThin(HandleRef sela);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sela4and8ccThin")]
+        internal static extern IntPtr sela4and8ccThin(HandleRef sela);
+        #endregion
+
         /*
       
 
-        internal static extern SELA* selaAddBasic(SELA* sela);
-        internal static extern SELA* selaAddHitMiss(SELA* sela);
-        internal static extern SELA* selaAddDwaLinear(SELA* sela);
-        internal static extern SELA* selaAddDwaCombs(SELA* sela);
-        internal static extern SELA* selaAddCrossJunctions(SELA* sela, float hlsize, float mdist, int norient, int debugflag);
-        internal static extern SELA* selaAddTJunctions(SELA* sela, float hlsize, float mdist, int norient, int debugflag);
-        internal static extern SELA* sela4ccThin(SELA* sela);
-        internal static extern SELA* sela8ccThin(SELA* sela);
-        internal static extern SELA* sela4and8ccThin(SELA* sela);
         internal static extern SEL* pixGenerateSelWithRuns(PIX* pixs, int nhlines, int nvlines, int distance, int minlength, int toppix, int botpix, int leftpix, int rightpix, PIX** ppixe);
         internal static extern SEL* pixGenerateSelRandom(PIX* pixs, float hitfract, float missfract, int distance, int toppix, int botpix, int leftpix, int rightpix, PIX** ppixe);
         internal static extern SEL* pixGenerateSelBoundary(PIX* pixs, int hitdist, int missdist, int hitskip, int missskip, int topflag, int botflag, int leftflag, int rightflag, PIX** ppixe);
