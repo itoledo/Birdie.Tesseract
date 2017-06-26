@@ -99,6 +99,8 @@
     <Compile Include="Definitions\Recog\L_Rcha.cs" />
     <Compile Include="Definitions\Recog\L_Rdid.cs" />
     <Compile Include="Definitions\Recog\L_Recog.cs" />
+    <Compile Include="Definitions\RegUtils\L_RegParams.cs" />
+    <Compile Include="Definitions\RegUtils\RunningModesForTheTest.cs" />
     <Compile Include="Definitions\Stack\FillSeg.cs" />
     <Compile Include="Definitions\Stack\L_Stack.cs" />
     <Compile Include="Implementations\Blend.cs" />
@@ -285,6 +287,8 @@
     <Compile Include="Implementations\RecogBasic.cs" />
     <Compile Include="Implementations\RecogDid.cs" />
     <Compile Include="Implementations\RecogIdent.cs" />
+    <Compile Include="Implementations\RecogTrain.cs" />
+    <Compile Include="Implementations\RegUtils.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

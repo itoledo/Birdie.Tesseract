@@ -5938,7 +5938,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogCorrelationBestRow")]
         internal static extern int recogCorrelationBestRow(HandleRef recog, HandleRef pixs, out IntPtr pboxa, out IntPtr pnascore, out IntPtr pnaindex, out IntPtr psachar, int debug);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogCorrelationBestChar")]
-        internal static extern int recogCorrelationBestChar(HandleRef recog, HandleRef pixs, out IntPtr pbox,out float  pscore, out int pindex, out IntPtr pcharstr, out IntPtr ppixdb);
+        internal static extern int recogCorrelationBestChar(HandleRef recog, HandleRef pixs, out IntPtr pbox, out float pscore, out int pindex, out IntPtr pcharstr, out IntPtr ppixdb);
 
         // Low-level identification of single characters
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogIdentifyPixa")]
@@ -5969,41 +5969,92 @@ namespace Leptonica.Native
         internal static extern IntPtr showExtractNumbers(HandleRef pixs, HandleRef sa, HandleRef baa, HandleRef naa, out IntPtr ppixdb);
         #endregion
 
+        #region recogtrain.c
+        // Training on labeled data
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogTrainLabeled")]
+        internal static extern int recogTrainLabeled(HandleRef recog, HandleRef pixs, HandleRef box, [MarshalAs(UnmanagedType.AnsiBStr)] string text, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogProcessLabeled")]
+        internal static extern int recogProcessLabeled(HandleRef recog, HandleRef pixs, HandleRef box, [MarshalAs(UnmanagedType.AnsiBStr)] string text, out IntPtr ppix);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogAddSample")]
+        internal static extern int recogAddSample(HandleRef recog, HandleRef pix, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogModifyTemplate")]
+        internal static extern IntPtr recogModifyTemplate(HandleRef recog, HandleRef pixs);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogAverageSamples")]
+        internal static extern int recogAverageSamples(IntPtr precog, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaAccumulateSamples")]
+        internal static extern int pixaAccumulateSamples(HandleRef pixa, HandleRef pta, out IntPtr ppixd, out float px, out float py);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogTrainingFinished")]
+        internal static extern int recogTrainingFinished(IntPtr precog, int modifyflag, int minsize, float minfract);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogFilterPixaBySize")]
+        internal static extern IntPtr recogFilterPixaBySize(HandleRef pixas, int setsize, int maxkeep, float max_ht_ratio, out IntPtr pna);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogSortPixaByClass")]
+        internal static extern IntPtr recogSortPixaByClass(HandleRef pixa, int setsize);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogRemoveOutliers1")]
+        internal static extern int recogRemoveOutliers1(IntPtr precog, float minscore, int mintarget, int minsize, out IntPtr ppixsave, out IntPtr ppixrem);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaRemoveOutliers1")]
+        internal static extern IntPtr pixaRemoveOutliers1(HandleRef pixas, float minscore, int mintarget, int minsize, out IntPtr ppixsave, out IntPtr ppixrem);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogRemoveOutliers2")]
+        internal static extern int recogRemoveOutliers2(IntPtr precog, float minscore, int minsize, out IntPtr ppixsave, out IntPtr ppixrem);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaRemoveOutliers2")]
+        internal static extern IntPtr pixaRemoveOutliers2(HandleRef pixas, float minscore, int minsize, out IntPtr ppixsave, out IntPtr ppixrem);
+
+        // Training on unlabeled data
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogTrainFromBoot")]
+        internal static extern IntPtr recogTrainFromBoot(HandleRef recogboot, HandleRef pixas, float minscore, int threshold, int debug);
+
+        // Padding the digit training set
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogPadDigitTrainingSet")]
+        internal static extern int recogPadDigitTrainingSet(IntPtr precog, int scaleh, int linew);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogIsPaddingNeeded")]
+        internal static extern int recogIsPaddingNeeded(HandleRef recog, out IntPtr psa);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogAddDigitPadTemplates")]
+        internal static extern IntPtr recogAddDigitPadTemplates(HandleRef recog, HandleRef sa);
+
+        // Making a boot digit recognizer
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogMakeBootDigitRecog")]
+        internal static extern IntPtr recogMakeBootDigitRecog(int scaleh, int linew, int maxyshift, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogMakeBootDigitTemplates")]
+        internal static extern IntPtr recogMakeBootDigitTemplates(int debug);
+
+        // Debugging
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogShowContent")]
+        internal static extern int recogShowContent(IntPtr fp, HandleRef recog, int index, int display);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogDebugAverages")]
+        internal static extern int recogDebugAverages(IntPtr precog, int debug);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogShowAverageTemplates")]
+        internal static extern int recogShowAverageTemplates(HandleRef recog);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogShowMatchesInRange")]
+        internal static extern int recogShowMatchesInRange(HandleRef recog, HandleRef pixa, float minscore, float maxscore, int display);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "recogShowMatch")]
+        internal static extern IntPtr recogShowMatch(HandleRef recog, HandleRef pix1, HandleRef pix2, HandleRef box, int index, float score);
+
+        #endregion
+
+        #region regutils.c
+        // Regression test utilities
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "regTestSetup")]
+        internal static extern int regTestSetup(int argc, IntPtr argv, out IntPtr prp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "regTestCleanup")]
+        internal static extern int regTestCleanup(HandleRef rp);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "regTestCompareValues")]
+        internal static extern int regTestCompareValues(HandleRef rp, float val1, float val2, float delta);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "regTestCompareStrings")]
+        internal static extern int regTestCompareStrings(HandleRef rp, IntPtr string1, IntPtr bytes1, IntPtr string2, IntPtr bytes2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "regTestComparePix")]
+        internal static extern int regTestComparePix(HandleRef rp, HandleRef pix1, HandleRef pix2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "regTestCompareSimilarPix")]
+        internal static extern int regTestCompareSimilarPix(HandleRef rp, HandleRef pix1, HandleRef pix2, int mindiff, float maxfract, int printstats);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "regTestCheckFile")]
+        internal static extern int regTestCheckFile(HandleRef rp, [MarshalAs(UnmanagedType.AnsiBStr)] string localname);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "regTestCompareFiles")]
+        internal static extern int regTestCompareFiles(HandleRef rp, int index1, int index2);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "regTestWritePixAndCheck")]
+        internal static extern int regTestWritePixAndCheck(HandleRef rp, HandleRef pix, int format);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "regTestGenLocalFilename")]
+        internal static extern IntPtr regTestGenLocalFilename(HandleRef rp, int index, int format);
+        #endregion
+
         /*
-        internal static extern int recogTrainLabeled(L_RECOG* recog, PIX* pixs, HandleRef box, [MarshalAs(UnmanagedType.AnsiBStr)] string  text, int debug);
-        internal static extern int recogProcessLabeled(L_RECOG* recog, PIX* pixs, HandleRef box, [MarshalAs(UnmanagedType.AnsiBStr)] string  text, PIX** ppix);
-        internal static extern int recogAddSample(L_RECOG* recog, PIX* pix, int debug);
-        internal static extern PIX* recogModifyTemplate(L_RECOG* recog, PIX* pixs);
-        internal static extern int recogAverageSamples(L_RECOG** precog, int debug);
-        internal static extern int pixaAccumulateSamples(PIXA* pixa, PTA* pta, PIX** ppixd, l_float32* px, l_float32* py);
-        internal static extern int recogTrainingFinished(L_RECOG** precog, int modifyflag, int minsize, float minfract);
-        internal static extern HandleRef recogFilterPixaBySize(PIXA* pixas, int setsize, int maxkeep, float max_ht_ratio, NUMA** pna);
-        internal static extern PIXAA* recogSortPixaByClass(PIXA* pixa, int setsize);
-        internal static extern int recogRemoveOutliers1(L_RECOG** precog, float minscore, int mintarget, int minsize, PIX** ppixsave, PIX** ppixrem);
-        internal static extern HandleRef pixaRemoveOutliers1(PIXA* pixas, float minscore, int mintarget, int minsize, PIX** ppixsave, PIX** ppixrem);
-        internal static extern int recogRemoveOutliers2(L_RECOG** precog, float minscore, int minsize, PIX** ppixsave, PIX** ppixrem);
-        internal static extern HandleRef pixaRemoveOutliers2(PIXA* pixas, float minscore, int minsize, PIX** ppixsave, PIX** ppixrem);
-        internal static extern HandleRef recogTrainFromBoot(L_RECOG* recogboot, HandleRef pixas, float minscore, int threshold, int debug);
-        internal static extern int recogPadDigitTrainingSet(L_RECOG** precog, int scaleh, int linew);
-        internal static extern int recogIsPaddingNeeded(L_RECOG* recog, SARRAY** psa);
-        internal static extern HandleRef recogAddDigitPadTemplates(L_RECOG* recog, SARRAY* sa);
-        internal static extern L_RECOG* recogMakeBootDigitRecog(int scaleh, int linew, int maxyshift, int debug);
-        internal static extern HandleRef recogMakeBootDigitTemplates(int debug);
-        internal static extern int recogShowContent(IntPtr fp, L_RECOG* recog, int index, int display);
-        internal static extern int recogDebugAverages(L_RECOG** precog, int debug);
-        internal static extern int recogShowAverageTemplates(L_RECOG* recog);
-        internal static extern int recogShowMatchesInRange(L_RECOG* recog, HandleRef pixa, float minscore, float maxscore, int display);
-        internal static extern PIX* recogShowMatch(L_RECOG* recog, PIX* pix1, PIX* pix2, HandleRef box, int index, float score);
-        internal static extern int regTestSetup(int argc, char** argv, L_REGPARAMS** prp);
-        internal static extern int regTestCleanup(L_REGPARAMS* rp);
-        internal static extern int regTestCompareValues(L_REGPARAMS* rp, float val1, float val2, float delta);
-        internal static extern int regTestCompareStrings(L_REGPARAMS* rp, l_uint8* string1, IntPtr bytes1, l_uint8* string2, IntPtr bytes2);
-        internal static extern int regTestComparePix(L_REGPARAMS* rp, PIX* pix1, PIX* pix2);
-        internal static extern int regTestCompareSimilarPix(L_REGPARAMS* rp, PIX* pix1, PIX* pix2, int mindiff, float maxfract, int printstats);
-        internal static extern int regTestCheckFile(L_REGPARAMS* rp,  [MarshalAs(UnmanagedType.AnsiBStr)] string localname );
-        internal static extern int regTestCompareFiles(L_REGPARAMS* rp, int index1, int index2);
-        internal static extern int regTestWritePixAndCheck(L_REGPARAMS* rp, PIX* pix, int format);
-        internal static extern IntPtr  regTestGenLocalFilename(L_REGPARAMS* rp, int index, int format);
         internal static extern int pixRasterop(PIX* pixd, int dx, int dy, int dw, int dh, int op, PIX* pixs, int sx, int sy);
         internal static extern int pixRasteropVip(PIX* pixd, int bx, int bw, int vshift, int incolor);
         internal static extern int pixRasteropHip(PIX* pixd, int by, int bh, int hshift, int incolor);
@@ -6305,9 +6356,9 @@ namespace Leptonica.Native
         internal static extern int pixFindStrokeLength(PIX* pixs, l_int32* tab8, l_int32* plength);
         internal static extern int pixFindStrokeWidth(PIX* pixs, float thresh, l_int32* tab8, l_float32* pwidth, NUMA** pnahisto);
         internal static extern NUMA* pixaFindStrokeWidth(PIXA* pixa, float thresh, l_int32* tab8, int debug);
-        internal static extern HandleRef pixaModifyStrokeWidth(PIXA* pixas, float targetw);
+         internal static extern IntPtr  pixaModifyStrokeWidth(PIXA* pixas, float targetw);
         internal static extern PIX* pixModifyStrokeWidth(PIX* pixs, float width, float targetw);
-        internal static extern HandleRef pixaSetStrokeWidth(PIXA* pixas, int width, int thinfirst, int connectivity);
+         internal static extern IntPtr  pixaSetStrokeWidth(PIXA* pixas, int width, int thinfirst, int connectivity);
         internal static extern PIX* pixSetStrokeWidth(PIX* pixs, int width, int thinfirst, int connectivity);
         internal static extern l_int32* sudokuReadFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
         internal static extern l_int32* sudokuReadString(  [MarshalAs(UnmanagedType.AnsiBStr)] string str );
@@ -6321,8 +6372,8 @@ namespace Leptonica.Native
         internal static extern PIX* pixAddTextlines(PIX* pixs, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int location );
         internal static extern int pixSetTextblock(PIX* pixs, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int x0, int y0, int wtext, int firstindent, l_int32* poverflow );
          internal static extern int pixSetTextline(PIX* pixs, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int x0, int y0, l_int32* pwidth, int* poverflow );
-        internal static extern HandleRef pixaAddTextNumber(PIXA* pixas, L_BMF* bmf, NUMA* na, uint val, int location);
-        internal static extern HandleRef pixaAddTextlines(PIXA* pixas, L_BMF* bmf, SARRAY* sa, uint val, int location);
+         internal static extern IntPtr  pixaAddTextNumber(PIXA* pixas, L_BMF* bmf, NUMA* na, uint val, int location);
+         internal static extern IntPtr  pixaAddTextlines(PIXA* pixas, L_BMF* bmf, SARRAY* sa, uint val, int location);
         internal static extern int pixaAddPixWithText(PIXA* pixa, PIX* pixs, int reduction, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int location );
         internal static extern SARRAY* bmfGetLineStrings(L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, int maxw, int firstindent, int* ph );
         internal static extern NUMA* bmfGetWordWidths(L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, SARRAY *sa );
@@ -6335,7 +6386,7 @@ namespace Leptonica.Native
         internal static extern int pixWriteStreamTiff(IntPtr fp, PIX* pix, int comptype);
         internal static extern int pixWriteStreamTiffWA(IntPtr fp, PIX* pix, int comptype,  [MarshalAs(UnmanagedType.AnsiBStr)] string modestr );
         internal static extern PIX* pixReadFromMultipageTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, IntPtr *poffset );
-         internal static extern HandleRef pixaReadMultipageTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
+          internal static extern IntPtr  pixaReadMultipageTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
         internal static extern int pixaWriteMultipageTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string fname, PIXA *pixa );
          internal static extern int writeMultipageTiff(  [MarshalAs(UnmanagedType.AnsiBStr)] string dirin,  [MarshalAs(UnmanagedType.AnsiBStr)] string substr,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
         internal static extern int writeMultipageTiffSA(SARRAY* sa,  [MarshalAs(UnmanagedType.AnsiBStr)] string fileout );
@@ -6349,7 +6400,7 @@ namespace Leptonica.Native
         internal static extern int extractG4DataFromFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filein, byte** pdata, IntPtr pnbytes, int* pw, l_int32* ph, int* pminisblack );
         internal static extern PIX* pixReadMemTiff(IntPtr cdata, IntPtr size, int n);
         internal static extern PIX* pixReadMemFromMultipageTiff(IntPtr cdata, IntPtr size, IntPtr poffset);
-        internal static extern HandleRef pixaReadMemMultipageTiff(IntPtr data, IntPtr size);
+         internal static extern IntPtr  pixaReadMemMultipageTiff(IntPtr data, IntPtr size);
         internal static extern int pixaWriteMemMultipageTiff (out IntPtr pdata, IntPtr psize, HandleRef pixa);
         internal static extern int pixWriteMemTiff (out IntPtr pdata, IntPtr psize, PIX* pix, int comptype);
         internal static extern int pixWriteMemTiffCustom (out IntPtr pdata, IntPtr psize, PIX* pix, int comptype, NUMA* natags, SARRAY* savals, SARRAY* satypes, NUMA* nasizes);
