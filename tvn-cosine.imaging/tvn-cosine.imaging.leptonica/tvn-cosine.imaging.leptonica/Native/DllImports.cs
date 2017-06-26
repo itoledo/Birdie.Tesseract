@@ -6810,17 +6810,35 @@ namespace Leptonica.Native
         internal static extern IntPtr sela4and8ccThin(HandleRef sela);
         #endregion
 
+        #region selgen.c
+        // Generate a subsampled structuring element
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateSelWithRuns")]
+        internal static extern IntPtr pixGenerateSelWithRuns(HandleRef pixs, int nhlines, int nvlines, int distance, int minlength, int toppix, int botpix, int leftpix, int rightpix, out IntPtr  ppixe);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateSelRandom")]
+        internal static extern IntPtr pixGenerateSelRandom(HandleRef pixs, float hitfract, float missfract, int distance, int toppix, int botpix, int leftpix, int rightpix, out IntPtr ppixe);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGenerateSelBoundary")]
+        internal static extern IntPtr pixGenerateSelBoundary(HandleRef pixs, int hitdist, int missdist, int hitskip, int missskip, int topflag, int botflag, int leftflag, int rightflag, out IntPtr ppixe);
+
+        // Accumulate data on runs along lines
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRunCentersOnLine")]
+        internal static extern IntPtr pixGetRunCentersOnLine(HandleRef pixs, int x, int y, int minlength);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRunsOnLine")]
+        internal static extern IntPtr pixGetRunsOnLine(HandleRef pixs, int x1, int y1, int x2, int y2);
+
+        // Subsample boundary pixels in relatively ordered way
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSubsampleBoundaryPixels")]
+        internal static extern IntPtr pixSubsampleBoundaryPixels(HandleRef pixs, int skip);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "adjacentOnPixelInRaster")]
+        internal static extern int adjacentOnPixelInRaster(HandleRef pixs, int x, int y, out int  pxa, out int pya);
+
+        // Display generated sel with originating image
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDisplayHitMissSel")]
+        internal static extern IntPtr pixDisplayHitMissSel(HandleRef pixs, HandleRef sel, int scalefactor, uint hitcolor, uint misscolor);
+        #endregion
+
         /*
       
 
-        internal static extern SEL* pixGenerateSelWithRuns(PIX* pixs, int nhlines, int nvlines, int distance, int minlength, int toppix, int botpix, int leftpix, int rightpix, PIX** ppixe);
-        internal static extern SEL* pixGenerateSelRandom(PIX* pixs, float hitfract, float missfract, int distance, int toppix, int botpix, int leftpix, int rightpix, PIX** ppixe);
-        internal static extern SEL* pixGenerateSelBoundary(PIX* pixs, int hitdist, int missdist, int hitskip, int missskip, int topflag, int botflag, int leftflag, int rightflag, PIX** ppixe);
-        internal static extern NUMA* pixGetRunCentersOnLine(PIX* pixs, int x, int y, int minlength);
-        internal static extern NUMA* pixGetRunsOnLine(PIX* pixs, int x1, int y1, int x2, int y2);
-        internal static extern PTA* pixSubsampleBoundaryPixels(PIX* pixs, int skip);
-        internal static extern int adjacentOnPixelInRaster(PIX* pixs, int x, int y, l_int32* pxa, l_int32* pya);
-        internal static extern PIX* pixDisplayHitMissSel(PIX* pixs, SEL* sel, int scalefactor, uint hitcolor, uint misscolor);
         internal static extern PIX* pixHShear(PIX* pixd, PIX* pixs, int yloc, float radang, int incolor);
         internal static extern PIX* pixVShear(PIX* pixd, PIX* pixs, int xloc, float radang, int incolor);
         internal static extern PIX* pixHShearCorner(PIX* pixd, PIX* pixs, float radang, int incolor);
