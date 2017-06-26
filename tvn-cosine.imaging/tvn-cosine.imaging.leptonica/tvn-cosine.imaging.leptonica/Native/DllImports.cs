@@ -6098,12 +6098,27 @@ namespace Leptonica.Native
         internal static extern void rasteropLow(IntPtr datad, int dpixw, int dpixh, int depth, int dwpl, int dx, int dy, int dw, int dh, int op, IntPtr datas, int spixw, int spixh, int swpl, int sx, int sy);
         #endregion
 
+        #region rotate.c
+        // General rotation about image center
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotate")]
+        internal static extern IntPtr pixRotate(HandleRef pixs, float angle, int type, int incolor, int width, int height);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixEmbedForRotation")]
+        internal static extern IntPtr pixEmbedForRotation(HandleRef pixs, float angle, int incolor, int width, int height);
+
+        // General rotation by sampling
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateBySampling")]
+        internal static extern IntPtr pixRotateBySampling(HandleRef pixs, int xcen, int ycen, float angle, int incolor);
+
+        // Nice(slow) rotation of 1 bpp image
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateBinaryNice")]
+        internal static extern IntPtr pixRotateBinaryNice(HandleRef pixs, float angle, int incolor);
+
+        // Rotation including alpha(blend) component
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotateWithAlpha")]
+        internal static extern IntPtr pixRotateWithAlpha(HandleRef pixs, float angle, HandleRef pixg, float fract);
+        #endregion
+
         /*
-        internal static extern PIX* pixRotate(PIX* pixs, float angle, int type, int incolor, int width, int height);
-        internal static extern PIX* pixEmbedForRotation(PIX* pixs, float angle, int incolor, int width, int height);
-        internal static extern PIX* pixRotateBySampling(PIX* pixs, int xcen, int ycen, float angle, int incolor);
-        internal static extern PIX* pixRotateBinaryNice(PIX* pixs, float angle, int incolor);
-        internal static extern PIX* pixRotateWithAlpha(PIX* pixs, float angle, PIX* pixg, float fract);
         internal static extern PIX* pixRotateAM(PIX* pixs, float angle, int incolor);
         internal static extern PIX* pixRotateAMColor(PIX* pixs, float angle, uint colorval);
         internal static extern PIX* pixRotateAMGray(PIX* pixs, float angle, byte grayval);
