@@ -7327,17 +7327,41 @@ namespace Leptonica.Native
         internal static extern int extractNumberFromFilename([MarshalAs(UnmanagedType.AnsiBStr)] string fname, int numpre, int numpost);
         #endregion
 
+        #region warper.c
+        // High-level captcha interface
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSimpleCaptcha")]
+        internal static extern IntPtr pixSimpleCaptcha(HandleRef pixs, int border, int nterms, uint seed, uint color, int cmapflag);
+
+        // Random sinusoidal warping
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRandomHarmonicWarp")]
+        internal static extern IntPtr pixRandomHarmonicWarp(HandleRef pixs, float xmag, float ymag, float xfreq, float yfreq, int nx, int ny, uint seed, int grayval);
+
+        // Stereoscopic warping
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWarpStereoscopic")]
+        internal static extern IntPtr pixWarpStereoscopic(HandleRef pixs, int zbend, int zshiftt, int zshiftb, int ybendt, int ybendb, int redleft);
+
+        // Linear and quadratic horizontal stretching
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixStretchHorizontal")]
+        internal static extern IntPtr pixStretchHorizontal(HandleRef pixs, int dir, int type, int hmax, int operation, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixStretchHorizontalSampled")]
+        internal static extern IntPtr pixStretchHorizontalSampled(HandleRef pixs, int dir, int type, int hmax, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixStretchHorizontalLI")]
+        internal static extern IntPtr pixStretchHorizontalLI(HandleRef pixs, int dir, int type, int hmax, int incolor);
+
+        // Quadratic vertical shear
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixQuadraticVShear")]
+        internal static extern IntPtr pixQuadraticVShear(HandleRef pixs, int dir, int vmaxt, int vmaxb, int operation, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixQuadraticVShearSampled")]
+        internal static extern IntPtr pixQuadraticVShearSampled(HandleRef pixs, int dir, int vmaxt, int vmaxb, int incolor);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixQuadraticVShearLI")]
+        internal static extern IntPtr pixQuadraticVShearLI(HandleRef pixs, int dir, int vmaxt, int vmaxb, int incolor);
+
+        // Stereo from a pair of images
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixStereoFromPair")]
+        internal static extern IntPtr pixStereoFromPair(HandleRef pix1, HandleRef pix2, float rwt, float gwt, float bwt);
+        #endregion
+
         /* 
-        internal static extern PIX* pixSimpleCaptcha(PIX* pixs, int border, int nterms, uint seed, uint color, int cmapflag);
-        internal static extern PIX* pixRandomHarmonicWarp(PIX* pixs, float xmag, float ymag, float xfreq, float yfreq, int nx, int ny, uint seed, int grayval);
-        internal static extern PIX* pixWarpStereoscopic(PIX* pixs, int zbend, int zshiftt, int zshiftb, int ybendt, int ybendb, int redleft);
-        internal static extern PIX* pixStretchHorizontal(PIX* pixs, int dir, int type, int hmax, int operation, int incolor);
-        internal static extern PIX* pixStretchHorizontalSampled(PIX* pixs, int dir, int type, int hmax, int incolor);
-        internal static extern PIX* pixStretchHorizontalLI(PIX* pixs, int dir, int type, int hmax, int incolor);
-        internal static extern PIX* pixQuadraticVShear(PIX* pixs, int dir, int vmaxt, int vmaxb, int operation, int incolor);
-        internal static extern PIX* pixQuadraticVShearSampled(PIX* pixs, int dir, int vmaxt, int vmaxb, int incolor);
-        internal static extern PIX* pixQuadraticVShearLI(PIX* pixs, int dir, int vmaxt, int vmaxb, int incolor);
-        internal static extern PIX* pixStereoFromPair(PIX* pix1, PIX* pix2, float rwt, float gwt, float bwt);
         internal static extern L_WSHED* wshedCreate(PIX* pixs, PIX* pixm, int mindepth, int debugflag);
         internal static extern void wshedDestroy(L_WSHED** pwshed);
         internal static extern int wshedApply(L_WSHED* wshed);

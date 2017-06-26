@@ -323,6 +323,7 @@
     <Compile Include="Implementations\TiffIo.cs" />
     <Compile Include="Implementations\Utils1.cs" />
     <Compile Include="Implementations\Utils2.cs" />
+    <Compile Include="Implementations\Warper.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
