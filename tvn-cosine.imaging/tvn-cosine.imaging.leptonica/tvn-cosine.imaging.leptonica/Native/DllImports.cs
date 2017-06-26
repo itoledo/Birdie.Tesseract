@@ -6865,21 +6865,48 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixVShearLI")]
         internal static extern IntPtr pixVShearLI(HandleRef pixs, int xloc, float radang, int incolor);
         #endregion
+
+        #region skew.c
+        // Top-level deskew interfaces
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDeskewBoth")]
+        internal static extern IntPtr pixDeskewBoth(HandleRef pixs, int redsearch);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDeskew")]
+        internal static extern IntPtr pixDeskew(HandleRef pixs, int redsearch);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkewAndDeskew")]
+        internal static extern IntPtr pixFindSkewAndDeskew(HandleRef pixs, int redsearch, out float pangle, out float pconf);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDeskewGeneral")]
+        internal static extern IntPtr pixDeskewGeneral(HandleRef pixs, int redsweep, float sweeprange, float sweepdelta, int redsearch, int thresh, out float pangle, out float pconf);
+
+        // Top-level angle-finding interface
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkew")]
+        internal static extern int pixFindSkew(HandleRef pixs, out float pangle, out float pconf);
+
+        // Basic angle-finding functions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkewSweep")]
+        internal static extern int pixFindSkewSweep(HandleRef pixs, out float pangle, int reduction, float sweeprange, float sweepdelta);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkewSweepAndSearch")]
+        internal static extern int pixFindSkewSweepAndSearch(HandleRef pixs, out float pangle, out float pconf, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkewSweepAndSearchScore")]
+        internal static extern int pixFindSkewSweepAndSearchScore(HandleRef pixs, out float pangle, out float pconf, out float pendscore, int redsweep, int redsearch, float sweepcenter, float sweeprange, float sweepdelta, float minbsdelta);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkewSweepAndSearchScorePivot")]
+        internal static extern int pixFindSkewSweepAndSearchScorePivot(HandleRef pixs, out float pangle, out float pconf, out float pendscore, int redsweep, int redsearch, float sweepcenter, float sweeprange, float sweepdelta, float minbsdelta, int pivot);
+
+        // Search over arbitrary range of angles in orthogonal directions
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkewOrthogonalRange")]
+        internal static extern int pixFindSkewOrthogonalRange(HandleRef pixs, out float pangle, out float pconf, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, float confprior);
+
+        // Differential square sum function for scoring
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindDifferentialSquareSum")]
+        internal static extern int pixFindDifferentialSquareSum(HandleRef pixs, out float psum);
+
+        // Measures of variance of row sums
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindNormalizedSquareSum")]
+        internal static extern int pixFindNormalizedSquareSum(HandleRef pixs, out float phratio, out float pvratio, out float pfract);
+        #endregion
+
         /*
       
 
-        internal static extern PIX* pixDeskewBoth(PIX* pixs, int redsearch);
-        internal static extern PIX* pixDeskew(PIX* pixs, int redsearch);
-        internal static extern PIX* pixFindSkewAndDeskew(PIX* pixs, int redsearch, l_float32* pangle, l_float32* pconf);
-        internal static extern PIX* pixDeskewGeneral(PIX* pixs, int redsweep, float sweeprange, float sweepdelta, int redsearch, int thresh, l_float32* pangle, l_float32* pconf);
-        internal static extern int pixFindSkew(PIX* pixs, l_float32* pangle, l_float32* pconf);
-        internal static extern int pixFindSkewSweep(PIX* pixs, l_float32* pangle, int reduction, float sweeprange, float sweepdelta);
-        internal static extern int pixFindSkewSweepAndSearch(PIX* pixs, l_float32* pangle, l_float32* pconf, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta);
-        internal static extern int pixFindSkewSweepAndSearchScore(PIX* pixs, l_float32* pangle, l_float32* pconf, l_float32* pendscore, int redsweep, int redsearch, float sweepcenter, float sweeprange, float sweepdelta, float minbsdelta);
-        internal static extern int pixFindSkewSweepAndSearchScorePivot(PIX* pixs, l_float32* pangle, l_float32* pconf, l_float32* pendscore, int redsweep, int redsearch, float sweepcenter, float sweeprange, float sweepdelta, float minbsdelta, int pivot);
-        internal static extern int pixFindSkewOrthogonalRange(PIX* pixs, l_float32* pangle, l_float32* pconf, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, float confprior);
-        internal static extern int pixFindDifferentialSquareSum(PIX* pixs, l_float32* psum);
-        internal static extern int pixFindNormalizedSquareSum(PIX* pixs, l_float32* phratio, l_float32* pvratio, l_float32* pfract);
         internal static extern PIX* pixReadStreamSpix(IntPtr fp);
         internal static extern int readHeaderSpix(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename, int* pwidth, l_int32* pheight, int* pbps, l_int32* pspp, int* piscmap );
         internal static extern int freadHeaderSpix(IntPtr fp, l_int32* pwidth, l_int32* pheight, l_int32* pbps, l_int32* pspp, l_int32* piscmap);

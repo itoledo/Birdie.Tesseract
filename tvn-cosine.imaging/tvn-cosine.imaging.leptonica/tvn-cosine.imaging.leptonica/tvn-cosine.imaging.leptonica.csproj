@@ -308,6 +308,7 @@
     <Compile Include="Implementations\Sel2.cs" />
     <Compile Include="Implementations\SelGen.cs" />
     <Compile Include="Implementations\Shear.cs" />
+    <Compile Include="Implementations\Skew.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />
