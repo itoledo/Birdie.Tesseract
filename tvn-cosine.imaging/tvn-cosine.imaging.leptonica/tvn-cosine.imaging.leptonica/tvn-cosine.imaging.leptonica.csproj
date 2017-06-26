@@ -106,6 +106,8 @@
     <Compile Include="Definitions\StringCode\L_GenAssoc.cs" />
     <Compile Include="Definitions\StringCode\L_StrCode.cs" />
     <Compile Include="Definitions\StringCode\SelectStringInStringcodeForASpecificSerializableDataType.cs" />
+    <Compile Include="Definitions\Sudoku\ForPrintingOutArrayData.cs" />
+    <Compile Include="Definitions\Sudoku\L_Sudoku.cs" />
     <Compile Include="Implementations\Blend.cs" />
     <Compile Include="Implementations\BinReduce.cs" />
     <Compile Include="Implementations\BinExpand.cs" />
@@ -316,6 +318,7 @@
     <Compile Include="Implementations\Stack.cs" />
     <Compile Include="Implementations\StringCode.cs" />
     <Compile Include="Implementations\Strokes.cs" />
+    <Compile Include="Implementations\Sudoku.cs" />
     <Compile Include="Native\Architecture.cs" />
     <Compile Include="Native\DllImports.cs" />
     <Compile Include="Definitions\Array\Numa.cs" />

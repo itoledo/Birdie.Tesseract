@@ -6982,18 +6982,38 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetStrokeWidth")]
         internal static extern IntPtr pixSetStrokeWidth(HandleRef pixs, int width, int thinfirst, int connectivity);
         #endregion
-        /*
-      
 
+        #region sudoku.c
+        // Read input data from file or string
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sudokuReadFile")]
+        internal static extern IntPtr sudokuReadFile([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sudokuReadString")]
+        internal static extern IntPtr sudokuReadString([MarshalAs(UnmanagedType.AnsiBStr)] string str);
 
-        internal static extern l_int32* sudokuReadFile(  [MarshalAs(UnmanagedType.AnsiBStr)] string filename );
-        internal static extern l_int32* sudokuReadString(  [MarshalAs(UnmanagedType.AnsiBStr)] string str );
-        internal static extern L_SUDOKU* sudokuCreate(l_int32* array);
-        internal static extern void sudokuDestroy(L_SUDOKU** psud);
-        internal static extern int sudokuSolve(L_SUDOKU* sud);
-        internal static extern int sudokuTestUniqueness(l_int32* array, out int punique);
-        internal static extern L_SUDOKU* sudokuGenerate(l_int32* array, int seed, int minelems, int maxtries);
-        internal static extern int sudokuOutput(L_SUDOKU* sud, int arraytype);
+        // Create/destroy
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sudokuCreate")]
+        internal static extern IntPtr sudokuCreate(IntPtr array);
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sudokuDestroy")]
+        internal static extern void sudokuDestroy(ref IntPtr psud);
+
+        // Solve the puzzle
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sudokuSolve")]
+        internal static extern int sudokuSolve(HandleRef sud);
+
+        // Test for uniqueness
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sudokuTestUniqueness")]
+        internal static extern int sudokuTestUniqueness(IntPtr array, out int punique);
+
+        // Generation
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sudokuGenerate")]
+        internal static extern IntPtr sudokuGenerate(IntPtr array, int seed, int minelems, int maxtries);
+
+        // Output
+        [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sudokuOutput")]
+        internal static extern int sudokuOutput(HandleRef sud, int arraytype);
+        #endregion
+
+        /* 
         internal static extern PIX* pixAddSingleTextblock(PIX* pixs, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int location, out int poverflow );
         internal static extern PIX* pixAddTextlines(PIX* pixs, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int location );
         internal static extern int pixSetTextblock(PIX* pixs, L_BMF* bmf,  [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int x0, int y0, int wtext, int firstindent, out int poverflow );
