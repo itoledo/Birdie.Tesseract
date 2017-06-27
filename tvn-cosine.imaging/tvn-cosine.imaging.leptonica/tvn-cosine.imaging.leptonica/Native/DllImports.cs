@@ -7364,15 +7364,15 @@ namespace Leptonica.Native
         #region watershed.c
         // Top-level
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedCreate")]
-        internal static extern IntPtr wshedCreate(HandleRef pixs, HandleRef pixm, int mindepth, int debugflag);
+        internal static extern IntPtr wshedCreate(HandleRef pixs, HandleRef pixm, int mindepth, bool debugflag);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedDestroy")]
         internal static extern void wshedDestroy(ref IntPtr pwshed);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedApply")]
-        internal static extern int wshedApply(HandleRef wshed);
+        internal static extern bool wshedApply(HandleRef wshed);
 
         // Output
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedBasins")]
-        internal static extern int wshedBasins(HandleRef wshed, out IntPtr ppixa, out IntPtr pnalevels);
+        internal static extern bool wshedBasins(HandleRef wshed, ref IntPtr ppixa, ref IntPtr pnalevels);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedRenderFill")]
         internal static extern IntPtr wshedRenderFill(HandleRef wshed);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedRenderColors")]
