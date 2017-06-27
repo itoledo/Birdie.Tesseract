@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Tvn.Cosine;
 
 namespace Tesseract.Native
 {
@@ -16,7 +11,7 @@ namespace Tesseract.Native
         private const string jpegDllName = "jpeg.dll";
         private const string tiffDllName = "tiff.dll";
         private const string tiffXxDllName = "tiffxx.dll"; 
-        private const string leptonicaDllName = "leptonica-1.74.1.dll"; 
+        private const string leptonicaDllName = "leptonica-1.74.4.dll"; 
         internal const string tesseractDllName = "tesseract305.dll";
 
         private static bool initialised = false;

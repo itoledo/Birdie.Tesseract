@@ -14,9 +14,8 @@
     <releaseNotes>a .net wrapper for Tesseract Ocr.</releaseNotes>
     <copyright>Copyright © tvn-cosine 2017</copyright>
     <tags>dotNet OCR tesseract</tags>
-    <dependencies>
-		<dependency id="tvn-cosine.core" version="1.0.0.5" />
-		<dependency id="leptonica.net" version="1.0.1.9" /> 
+    <dependencies> 
+		<dependency id="leptonica.net" version="1.74.4.2" /> 
 	</dependencies>
   </metadata>
   <files>
