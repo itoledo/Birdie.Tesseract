@@ -188,7 +188,7 @@ namespace Tesseract
             ClearAdaptiveClassifier();
             if (LocalPix != null)
             {
-                LocalPix.Destroy();
+                LocalPix.Dispose();
             }
 
             LocalPix = value;
