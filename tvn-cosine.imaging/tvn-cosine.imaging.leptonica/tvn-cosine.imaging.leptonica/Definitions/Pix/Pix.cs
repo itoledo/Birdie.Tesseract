@@ -7,7 +7,7 @@ namespace Leptonica
     /// </summary>
     public class Pix : LeptonicaObjectBase, IDisposable, ICloneable
     {
-        internal Pix(IntPtr pointer) : base(pointer) { }
+        public Pix(IntPtr pointer) : base(pointer) { }
 
         public bool Write(string filename, ImageFileFormatTypes format)
         {
