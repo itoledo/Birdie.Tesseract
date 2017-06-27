@@ -9,8 +9,8 @@ namespace TestingApp
 
         static void Main(string[] args)
         {
-            Pix pix;
-             
+            Pix pix = Pix.Read(file);
+
             Console.WriteLine("Done...");
             Console.ReadKey();
         }

@@ -5834,31 +5834,31 @@ namespace Leptonica.Native
 
         // Read header information from file
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadHeader")]
-        internal static extern int pixReadHeader([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pformat, out int pw, out int ph, out int pbps, out int pspp, out int piscmap);
+        internal static extern bool pixReadHeader([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out ImageFileFormatTypes pformat, out int pw, out int ph, out int pbps, out int pspp, out bool piscmap);
 
         // Format finders
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "findFileFormat")]
-        internal static extern int findFileFormat([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out int pformat);
+        internal static extern bool findFileFormat([MarshalAs(UnmanagedType.AnsiBStr)] string filename, out ImageFileFormatTypes pformat);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "findFileFormatStream")]
-        internal static extern int findFileFormatStream(IntPtr fp, out int pformat);
+        internal static extern bool findFileFormatStream(IntPtr fp, out ImageFileFormatTypes pformat);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "findFileFormatBuffer")]
-        internal static extern int findFileFormatBuffer(IntPtr buf, out int pformat);
+        internal static extern bool findFileFormatBuffer(IntPtr buf, out ImageFileFormatTypes pformat);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "fileFormatIsTiff")]
-        internal static extern int fileFormatIsTiff(IntPtr fp);
+        internal static extern bool fileFormatIsTiff(IntPtr fp);
 
         // Read from memory
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadMem")]
         internal static extern IntPtr pixReadMem(IntPtr data, IntPtr size);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixReadHeaderMem")]
-        internal static extern int pixReadHeaderMem(IntPtr data, IntPtr size, out int pformat, out int pw, out int ph, out int pbps, out int pspp, out int piscmap);
+        internal static extern bool pixReadHeaderMem(IntPtr data, IntPtr size, out ImageFileFormatTypes pformat, out int pw, out int ph, out int pbps, out int pspp, out bool piscmap);
 
         // Output image file information
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "writeImageFileInfo")]
-        internal static extern int writeImageFileInfo([MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr fpout, int headeronly);
+        internal static extern bool writeImageFileInfo([MarshalAs(UnmanagedType.AnsiBStr)] string filename, IntPtr fpout, bool headeronly);
 
         // Test function for I/O with different formats
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ioFormatTest")]
-        internal static extern int ioFormatTest([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        internal static extern bool ioFormatTest([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
         #endregion
 
         #region recogbasic.c

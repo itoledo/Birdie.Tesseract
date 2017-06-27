@@ -8,6 +8,11 @@ namespace Leptonica
     public class Pix : LeptonicaObjectBase
     {
         internal Pix(IntPtr pointer) : base(pointer) { }
+         
+        public static Pix Read(string filename)
+        { 
+            return ReadFile.pixRead(filename);
+        }
 
         public static explicit operator Pix(IntPtr pointer)
         {
@@ -28,7 +33,7 @@ namespace Leptonica
                 }
             }
         }
-         
+
         public int Height
         {
             get
@@ -58,7 +63,7 @@ namespace Leptonica
                 }
             }
         }
-         
+
         public int Spp
         {
             get
