@@ -7455,9 +7455,9 @@ namespace Leptonica.Native
 
         #region zlibmem.c
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "zlibCompress")]
-        internal static extern IntPtr zlibCompress(IntPtr datain, IntPtr nin, IntPtr pnout);
+        internal static extern IntPtr zlibCompress(IntPtr datain, IntPtr nin, out IntPtr pnout);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "zlibUncompress")]
-        internal static extern IntPtr zlibUncompress(IntPtr datain, IntPtr nin, IntPtr pnout);
+        internal static extern IntPtr zlibUncompress(IntPtr datain, IntPtr nin, out IntPtr pnout);
         #endregion 
     }
 }
