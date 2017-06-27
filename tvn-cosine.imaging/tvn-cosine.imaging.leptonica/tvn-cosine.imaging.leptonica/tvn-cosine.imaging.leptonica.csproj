@@ -370,18 +370,42 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementations\Pix1.cs" />
-    <Content Include="lib\x64\jpeg.dll" />
-    <Content Include="lib\x64\leptonica-1.74.4.dll" />
-    <Content Include="lib\x64\libpng16.dll" />
-    <Content Include="lib\x64\tiff.dll" />
-    <Content Include="lib\x64\tiffxx.dll" />
-    <Content Include="lib\x64\zlib.dll" />
-    <Content Include="lib\x86\jpeg.dll" />
-    <Content Include="lib\x86\leptonica-1.74.4.dll" />
-    <Content Include="lib\x86\libpng16.dll" />
-    <Content Include="lib\x86\tiff.dll" />
-    <Content Include="lib\x86\tiffxx.dll" />
-    <Content Include="lib\x86\zlib.dll" />
+    <Content Include="lib\x64\jpeg.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x64\leptonica-1.74.4.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x64\libpng16.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x64\tiff.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x64\tiffxx.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x64\zlib.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\jpeg.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\leptonica-1.74.4.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\libpng16.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\tiff.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\tiffxx.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\zlib.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="CreateNuGetPackage.ps1" />

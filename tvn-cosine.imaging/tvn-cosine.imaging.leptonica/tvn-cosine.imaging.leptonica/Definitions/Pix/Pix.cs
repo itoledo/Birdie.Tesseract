@@ -139,7 +139,7 @@ namespace Leptonica
             }
         }
 
-        public int InputFormat
+        public ImageFileFormatTypes InputFormat
         {
             get
             {

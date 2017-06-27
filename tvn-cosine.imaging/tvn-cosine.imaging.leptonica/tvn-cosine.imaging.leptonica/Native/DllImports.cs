@@ -3972,9 +3972,9 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleResolution")]
         internal static extern bool pixScaleResolution(HandleRef pix, float xscale, float yscale);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetInputFormat")]
-        internal static extern int pixGetInputFormat(HandleRef pix);
+        internal static extern ImageFileFormatTypes pixGetInputFormat(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetInputFormat")]
-        internal static extern bool pixSetInputFormat(HandleRef pix, int informat);
+        internal static extern bool pixSetInputFormat(HandleRef pix, ImageFileFormatTypes informat);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopyInputFormat")]
         internal static extern bool pixCopyInputFormat(HandleRef pixd, HandleRef pixs);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetSpecial")]

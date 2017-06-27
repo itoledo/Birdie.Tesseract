@@ -777,7 +777,7 @@ namespace Leptonica
         /// </summary>
         /// <param name="pix"></param>
         /// <returns></returns>
-        public static int pixGetInputFormat(this Pix pix)
+        public static ImageFileFormatTypes pixGetInputFormat(this Pix pix)
         {
             if (null == pix)
             {
@@ -793,7 +793,7 @@ namespace Leptonica
         /// <param name="pix"></param>
         /// <param name="informat"></param>
         /// <returns>false if OK, true on error</returns>
-        public static bool pixSetInputFormat(this Pix pix, int informat)
+        public static bool pixSetInputFormat(this Pix pix, ImageFileFormatTypes informat)
         {
             if (null == pix)
             {
