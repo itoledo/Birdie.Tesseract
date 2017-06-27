@@ -2,22 +2,7 @@
 using System.Runtime.InteropServices;
 
 namespace Leptonica
-{
-    /// <summary>
-    /// Supported file formats:
-    ///  (1) Reading is supported without any external libraries:
-    ///         bmp
-    ///         pnm(including pbm, pgm, etc)
-    /// spix(raw serialized)
-    ///  (2) Reading is supported with installation of external libraries:
-    ///         png
-    ///         jpg(standard jfif version)
-    ///         tiff(including most varieties of compression)
-    ///         gif
-    ///         webp
-    ///         jp2(jpeg 2000)
-    ///  (3) Other file types will get an "unknown format" error.
-    /// </summary>
+{ 
     public static class ReadFile
     {
         // Top-level functions for reading images from file

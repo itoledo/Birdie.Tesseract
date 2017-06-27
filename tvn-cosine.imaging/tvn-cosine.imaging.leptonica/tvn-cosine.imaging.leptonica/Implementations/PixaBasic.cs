@@ -102,8 +102,7 @@ namespace Leptonica
             }
             else
             {
-                return new Pixa(pointer);
-
+                return new Pixa(pointer); 
             }
         }
 

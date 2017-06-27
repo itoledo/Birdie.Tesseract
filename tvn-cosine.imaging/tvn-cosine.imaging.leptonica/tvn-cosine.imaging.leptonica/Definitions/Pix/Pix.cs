@@ -8,10 +8,15 @@ namespace Leptonica
     public class Pix : LeptonicaObjectBase
     {
         internal Pix(IntPtr pointer) : base(pointer) { }
-         
+
         public static Pix Read(string filename)
-        { 
+        {
             return ReadFile.pixRead(filename);
+        }
+
+        public bool Write(string filename, ImageFileFormatTypes format)
+        {
+            return WriteFile.pixWrite(filename, this, format);
         }
 
         public static explicit operator Pix(IntPtr pointer)

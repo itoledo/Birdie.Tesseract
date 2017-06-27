@@ -7404,53 +7404,53 @@ namespace Leptonica.Native
         #region writefile.c
         // High-level procedures for writing images to file:
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaWriteFiles")]
-        internal static extern int pixaWriteFiles([MarshalAs(UnmanagedType.AnsiBStr)] string rootname, HandleRef pixa, int format);
+        internal static extern bool pixaWriteFiles([MarshalAs(UnmanagedType.AnsiBStr)] string rootname, HandleRef pixa, ImageFileFormatTypes format);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWrite")]
-        internal static extern int pixWrite([MarshalAs(UnmanagedType.AnsiBStr)] string fname, HandleRef pix, int format);
+        internal static extern bool pixWrite([MarshalAs(UnmanagedType.AnsiBStr)] string fname, HandleRef pix, ImageFileFormatTypes format);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteAutoFormat")]
-        internal static extern int pixWriteAutoFormat([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pix);
+        internal static extern bool pixWriteAutoFormat([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteStream")]
-        internal static extern int pixWriteStream(IntPtr fp, HandleRef pix, int format);
+        internal static extern bool pixWriteStream(IntPtr fp, HandleRef pix, ImageFileFormatTypes format);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteImpliedFormat")]
-        internal static extern int pixWriteImpliedFormat([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pix, int quality, int progressive);
+        internal static extern bool pixWriteImpliedFormat([MarshalAs(UnmanagedType.AnsiBStr)] string filename, HandleRef pix, int quality, int progressive);
 
         // Selection of output format if default is requested
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixChooseOutputFormat")]
-        internal static extern int pixChooseOutputFormat(HandleRef pix);
+        internal static extern ImageFileFormatTypes pixChooseOutputFormat(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getImpliedFileFormat")]
-        internal static extern int getImpliedFileFormat([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
+        internal static extern ImageFileFormatTypes getImpliedFileFormat([MarshalAs(UnmanagedType.AnsiBStr)] string filename);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetAutoFormat")]
-        internal static extern int pixGetAutoFormat(HandleRef pix, out int pformat);
+        internal static extern bool pixGetAutoFormat(HandleRef pix, out ImageFileFormatTypes pformat);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getFormatExtension")]
-        internal static extern IntPtr getFormatExtension(int format);
+        internal static extern IntPtr getFormatExtension(ImageFileFormatTypes format);
 
         // Write to memory
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixWriteMem")]
-        internal static extern int pixWriteMem(out IntPtr pdata, IntPtr psize, HandleRef pix, int format);
+        internal static extern bool pixWriteMem(out IntPtr pdata, out IntPtr psize, HandleRef pix, ImageFileFormatTypes format);
 
         // Image display for debugging
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_fileDisplay")]
-        internal static extern int l_fileDisplay([MarshalAs(UnmanagedType.AnsiBStr)] string fname, int x, int y, float scale);
+        internal static extern bool l_fileDisplay([MarshalAs(UnmanagedType.AnsiBStr)] string fname, int x, int y, float scale);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDisplay")]
-        internal static extern int pixDisplay(HandleRef pixs, int x, int y);
+        internal static extern bool pixDisplay(HandleRef pixs, int x, int y);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDisplayWithTitle")]
-        internal static extern int pixDisplayWithTitle(HandleRef pixs, int x, int y, [MarshalAs(UnmanagedType.AnsiBStr)] string title, int dispflag);
+        internal static extern bool pixDisplayWithTitle(HandleRef pixs, int x, int y, [MarshalAs(UnmanagedType.AnsiBStr)] string title, bool dispflag);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSaveTiled")]
-        internal static extern int pixSaveTiled(HandleRef pixs, HandleRef pixa, float scalefactor, int newrow, int space, int dp);
+        internal static extern bool pixSaveTiled(HandleRef pixs, HandleRef pixa, float scalefactor, bool newrow, int space, int dp);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSaveTiledOutline")]
-        internal static extern int pixSaveTiledOutline(HandleRef pixs, HandleRef pixa, float scalefactor, int newrow, int space, int linewidth, int dp);
+        internal static extern bool pixSaveTiledOutline(HandleRef pixs, HandleRef pixa, float scalefactor, bool newrow, int space, int linewidth, int dp);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSaveTiledWithText")]
-        internal static extern int pixSaveTiledWithText(HandleRef pixs, HandleRef pixa, int outwidth, int newrow, int space, int linewidth, HandleRef bmf, [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, int location);
+        internal static extern bool pixSaveTiledWithText(HandleRef pixs, HandleRef pixa, int outwidth, bool newrow, int space, int linewidth, HandleRef bmf, [MarshalAs(UnmanagedType.AnsiBStr)] string textstr, uint val, FlagsForAddingTextToAPix location);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_chooseDisplayProg")]
-        internal static extern void l_chooseDisplayProg(int selection);
+        internal static extern void l_chooseDisplayProg(FlagsForSelectingDisplayProgram selection);
 
         // Deprecated pix output for debugging
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDisplayWrite")]
-        internal static extern int pixDisplayWrite(HandleRef pixs, int reduction);
+        internal static extern bool pixDisplayWrite(HandleRef pixs, int reduction);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDisplayWriteFormat")]
-        internal static extern int pixDisplayWriteFormat(HandleRef pixs, int reduction, int format);
+        internal static extern bool pixDisplayWriteFormat(HandleRef pixs, int reduction, ImageFileFormatTypes format);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDisplayMultiple")]
-        internal static extern int pixDisplayMultiple(int res, float scalefactor, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
+        internal static extern bool pixDisplayMultiple(int res, float scalefactor, [MarshalAs(UnmanagedType.AnsiBStr)] string fileout);
         #endregion
 
         #region zlibmem.c
