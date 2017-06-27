@@ -175,6 +175,11 @@ namespace Leptonica
             return Pix1.pixCreate(width, height, depth);
         }
 
+        public static explicit operator Pix(IntPtr pointer)
+        {
+            return new Pix(pointer);
+        }
+
         public void Dispose()
         {
             this.pixDestroy();
@@ -183,11 +188,6 @@ namespace Leptonica
         public object Clone()
         {
             return this.pixCopy(null);
-        }
-
-        public static explicit operator Pix(IntPtr pointer)
-        {
-            return new Pix(pointer);
         }
     }
 }
