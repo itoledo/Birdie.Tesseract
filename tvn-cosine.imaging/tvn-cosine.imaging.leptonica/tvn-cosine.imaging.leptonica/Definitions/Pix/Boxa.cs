@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class Boxa : LeptonicaObjectBase
     {
-        internal Boxa(IntPtr pointer) : base(pointer) { }
+        public Boxa(IntPtr pointer) : base(pointer) { }
     }
 }

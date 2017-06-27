@@ -31,7 +31,7 @@ namespace Tesseract
             {
                 if (localPix != null)
                 {
-                    localPix.Destroy();
+                    localPix.Dispose();
                 }
 
                 localPix = value;
@@ -75,7 +75,7 @@ namespace Tesseract
         {
             if (LocalPix != null)
             {
-                LocalPix.Destroy();
+                LocalPix.Dispose();
             }
             Clear();
             ClearPersistentCache();
@@ -1066,7 +1066,7 @@ namespace Tesseract
             {
                 if (localPix != null)
                 {
-                    localPix.Destroy();
+                    localPix.Dispose();
                 }
                 Clear();
                 ClearAdaptiveClassifier();

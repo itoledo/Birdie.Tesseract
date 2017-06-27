@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="leptonica.net, Version=1.74.4.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\leptonica.net.1.74.4.2\lib\net452\leptonica.net.dll</HintPath>
+    <Reference Include="leptonica.net, Version=1.74.4.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\leptonica.net.1.74.4.3\lib\net452\leptonica.net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

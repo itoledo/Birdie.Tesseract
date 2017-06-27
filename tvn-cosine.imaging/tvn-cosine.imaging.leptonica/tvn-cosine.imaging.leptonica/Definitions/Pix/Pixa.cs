@@ -1,12 +1,12 @@
-﻿using System; 
+﻿using System;
 
 namespace Leptonica
 {
     /// <summary>
     /// Array of pix
     /// </summary>
-   public class Pixa : LeptonicaObjectBase
+    public class Pixa : LeptonicaObjectBase
     {
-        internal Pixa(IntPtr pointer) : base(pointer) { }
+        public Pixa(IntPtr pointer) : base(pointer) { }
     }
 }
