@@ -13,5 +13,17 @@ namespace Leptonica
         {
             return new Pix(pointer);
         }
+
+        public int Width
+        {
+            get
+            {
+                return this.pixGetWidth();
+            }
+            set
+            {
+                this.pixSetWidth(value);
+            }
+        }
     }
 }

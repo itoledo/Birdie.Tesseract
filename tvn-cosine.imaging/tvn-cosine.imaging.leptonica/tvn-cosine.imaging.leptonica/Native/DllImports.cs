@@ -3912,95 +3912,95 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopy")]
         internal static extern IntPtr pixCopy(HandleRef pixd, HandleRef pixs);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixResizeImageData")]
-        internal static extern int pixResizeImageData(HandleRef pixd, HandleRef pixs);
+        internal static extern bool pixResizeImageData(HandleRef pixd, HandleRef pixs);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopyColormap")]
-        internal static extern int pixCopyColormap(HandleRef pixd, HandleRef pixs);
+        internal static extern bool pixCopyColormap(HandleRef pixd, HandleRef pixs);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSizesEqual")]
-        internal static extern int pixSizesEqual(HandleRef pix1, HandleRef pix2);
+        internal static extern bool pixSizesEqual(HandleRef pix1, HandleRef pix2);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixTransferAllData")]
-        internal static extern int pixTransferAllData(HandleRef pixd, ref IntPtr ppixs, int copytext, int copyformat);
+        internal static extern bool pixTransferAllData(HandleRef pixd, ref IntPtr ppixs, bool copytext, bool copyformat);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSwapAndDestroy")]
-        internal static extern int pixSwapAndDestroy(out IntPtr ppixd, ref IntPtr ppixs);
+        internal static extern bool pixSwapAndDestroy(ref IntPtr ppixd, ref IntPtr ppixs);
 
         // Pix accessors
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetWidth")]
         internal static extern int pixGetWidth(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetWidth")]
-        internal static extern int pixSetWidth(HandleRef pix, int width);
+        internal static extern bool pixSetWidth(HandleRef pix, int width);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetHeight")]
         internal static extern int pixGetHeight(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetHeight")]
-        internal static extern int pixSetHeight(HandleRef pix, int height);
+        internal static extern bool pixSetHeight(HandleRef pix, int height);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetDepth")]
         internal static extern int pixGetDepth(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetDepth")]
-        internal static extern int pixSetDepth(HandleRef pix, int depth);
+        internal static extern bool pixSetDepth(HandleRef pix, int depth);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetDimensions")]
-        internal static extern int pixGetDimensions(HandleRef pix, out int pw, out int ph, out int pd);
+        internal static extern bool pixGetDimensions(HandleRef pix, out int pw, out int ph, out int pd);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetDimensions")]
-        internal static extern int pixSetDimensions(HandleRef pix, int w, int h, int d);
+        internal static extern bool pixSetDimensions(HandleRef pix, int w, int h, int d);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopyDimensions")]
-        internal static extern int pixCopyDimensions(HandleRef pixd, HandleRef pixs);
+        internal static extern bool pixCopyDimensions(HandleRef pixd, HandleRef pixs);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetSpp")]
         internal static extern int pixGetSpp(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetSpp")]
-        internal static extern int pixSetSpp(HandleRef pix, int spp);
+        internal static extern bool pixSetSpp(HandleRef pix, int spp);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopySpp")]
-        internal static extern int pixCopySpp(HandleRef pixd, HandleRef pixs);
+        internal static extern bool pixCopySpp(HandleRef pixd, HandleRef pixs);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetWpl")]
         internal static extern int pixGetWpl(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetWpl")]
-        internal static extern int pixSetWpl(HandleRef pix, int wpl);
+        internal static extern bool pixSetWpl(HandleRef pix, int wpl);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetRefcount")]
         internal static extern int pixGetRefcount(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixChangeRefcount")]
-        internal static extern int pixChangeRefcount(HandleRef pix, int delta);
+        internal static extern bool pixChangeRefcount(HandleRef pix, int delta);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetXRes")]
         internal static extern int pixGetXRes(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetXRes")]
-        internal static extern int pixSetXRes(HandleRef pix, int res);
+        internal static extern bool pixSetXRes(HandleRef pix, int res);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetYRes")]
         internal static extern int pixGetYRes(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetYRes")]
-        internal static extern int pixSetYRes(HandleRef pix, int res);
+        internal static extern bool pixSetYRes(HandleRef pix, int res);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetResolution")]
-        internal static extern int pixGetResolution(HandleRef pix, out int pxres, out int pyres);
+        internal static extern bool pixGetResolution(HandleRef pix, out int pxres, out int pyres);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetResolution")]
-        internal static extern int pixSetResolution(HandleRef pix, int xres, int yres);
+        internal static extern bool pixSetResolution(HandleRef pix, int xres, int yres);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopyResolution")]
-        internal static extern int pixCopyResolution(HandleRef pixd, HandleRef pixs);
+        internal static extern bool pixCopyResolution(HandleRef pixd, HandleRef pixs);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleResolution")]
-        internal static extern int pixScaleResolution(HandleRef pix, float xscale, float yscale);
+        internal static extern bool pixScaleResolution(HandleRef pix, float xscale, float yscale);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetInputFormat")]
         internal static extern int pixGetInputFormat(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetInputFormat")]
-        internal static extern int pixSetInputFormat(HandleRef pix, int informat);
+        internal static extern bool pixSetInputFormat(HandleRef pix, int informat);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopyInputFormat")]
-        internal static extern int pixCopyInputFormat(HandleRef pixd, HandleRef pixs);
+        internal static extern bool pixCopyInputFormat(HandleRef pixd, HandleRef pixs);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetSpecial")]
-        internal static extern int pixSetSpecial(HandleRef pix, int special);
+        internal static extern bool pixSetSpecial(HandleRef pix, int special);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetText")]
         internal static extern IntPtr pixGetText(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetText")]
-        internal static extern int pixSetText(HandleRef pix, [MarshalAs(UnmanagedType.AnsiBStr)] string textstring);
+        internal static extern bool pixSetText(HandleRef pix, [MarshalAs(UnmanagedType.AnsiBStr)] string textstring);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAddText")]
-        internal static extern int pixAddText(HandleRef pix, [MarshalAs(UnmanagedType.AnsiBStr)] string textstring);
+        internal static extern bool pixAddText(HandleRef pix, [MarshalAs(UnmanagedType.AnsiBStr)] string textstring);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopyText")]
-        internal static extern int pixCopyText(HandleRef pixd, HandleRef pixs);
+        internal static extern bool pixCopyText(HandleRef pixd, HandleRef pixs);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetColormap")]
         internal static extern IntPtr pixGetColormap(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetColormap")]
-        internal static extern int pixSetColormap(HandleRef pix, HandleRef colormap);
+        internal static extern bool pixSetColormap(HandleRef pix, HandleRef colormap);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDestroyColormap")]
-        internal static extern int pixDestroyColormap(HandleRef pix);
+        internal static extern bool pixDestroyColormap(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetData")]
         internal static extern IntPtr pixGetData(HandleRef pix);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetData")]
-        internal static extern int pixSetData(HandleRef pix, IntPtr data);
+        internal static extern bool pixSetData(HandleRef pix, IntPtr data);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExtractData")]
         internal static extern IntPtr pixExtractData(HandleRef pixs);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFreeData")]
-        internal static extern int pixFreeData(HandleRef pix);
+        internal static extern bool pixFreeData(HandleRef pix);
 
         // Pix line ptrs
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetLinePtrs")]
@@ -4008,7 +4008,7 @@ namespace Leptonica.Native
 
         // Pix debug
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixPrintStreamInfo")]
-        internal static extern int pixPrintStreamInfo(IntPtr fp, HandleRef pix, [MarshalAs(UnmanagedType.AnsiBStr)] string text);
+        internal static extern bool pixPrintStreamInfo(IntPtr fp, HandleRef pix, [MarshalAs(UnmanagedType.AnsiBStr)] string text);
         #endregion
 
         #region pix2.c

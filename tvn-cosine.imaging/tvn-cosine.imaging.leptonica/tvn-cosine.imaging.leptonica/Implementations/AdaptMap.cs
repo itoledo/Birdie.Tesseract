@@ -5,41 +5,13 @@ namespace Leptonica
 {
     public static class AdaptMap
     {
-        #region constants 
-        /// <summary>
-        /// default tile width
-        /// </summary>
-        public const int DEFAULT_TILE_WIDTH = 10;
-        /// <summary>
-        /// default tile height
-        /// </summary>
-        public const int DEFAULT_TILE_HEIGHT = 15;
-        /// <summary>
-        /// default fg threshold
-        /// </summary>
-        public const int DEFAULT_FG_THRESHOLD = 60;
-        /// <summary>
-        /// default minimum count
-        /// </summary>
-        public const int DEFAULT_MIN_COUNT = 40;
-        public const int DEFAULT_BG_VAL = 200;
-        /// <summary>
-        /// default bg value 
-        /// </summary>
-        public const int DEFAULT_X_SMOOTH_SIZE = 2;
-        /// <summary>
-        /// default x smooth size 
-        /// </summary>
-        public const int DEFAULT_Y_SMOOTH_SIZE = 1;
-        #endregion
-
-        // Clean background to white using background normalization 
+        // Clean background to white using background normalization  
         public static Pix pixCleanBackgroundToWhite(this Pix pixs, Pix pixim, Pix pixg, float gamma, int blackval, int whiteval)
         {
             if (null == pixs)
             {
                 throw new ArgumentNullException("pixs cannot be null.");
-            }
+            } 
 
             var pointer = Native.DllImports.pixCleanBackgroundToWhite((HandleRef)pixs, (HandleRef)pixim, (HandleRef)pixg, gamma, blackval, whiteval);
             if (IntPtr.Zero == pointer)
@@ -256,10 +228,10 @@ namespace Leptonica
             }
 
             IntPtr pointer;
-            var success = Native.DllImports.pixGetBackgroundGrayMapMorph((HandleRef)pixs, (HandleRef)pixim, reduction, size, out pointer) ;
+            var success = Native.DllImports.pixGetBackgroundGrayMapMorph((HandleRef)pixs, (HandleRef)pixim, reduction, size, out pointer);
             if (IntPtr.Zero == pointer)
             {
-                ppixm = null; 
+                ppixm = null;
             }
             else
             {
@@ -283,7 +255,7 @@ namespace Leptonica
             {
                 ppixmr = null;
                 ppixmg = null;
-                ppixmb = null; 
+                ppixmb = null;
             }
             else
             {
@@ -460,7 +432,7 @@ namespace Leptonica
             {
                 ppixth = null;
                 ppixb = null;
-                ppixd = null; 
+                ppixd = null;
             }
             else
             {
@@ -522,7 +494,7 @@ namespace Leptonica
              || IntPtr.Zero == ppixmaxPtr)
             {
                 ppixmin = null;
-                ppixmax = null; 
+                ppixmax = null;
             }
             else
             {
