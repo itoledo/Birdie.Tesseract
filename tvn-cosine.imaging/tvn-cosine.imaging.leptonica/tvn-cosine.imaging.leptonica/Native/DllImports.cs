@@ -6879,29 +6879,29 @@ namespace Leptonica.Native
 
         // Top-level angle-finding interface
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkew")]
-        internal static extern int pixFindSkew(HandleRef pixs, out float pangle, out float pconf);
+        internal static extern bool pixFindSkew(HandleRef pixs, out float pangle, out float pconf);
 
         // Basic angle-finding functions
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkewSweep")]
-        internal static extern int pixFindSkewSweep(HandleRef pixs, out float pangle, int reduction, float sweeprange, float sweepdelta);
+        internal static extern bool pixFindSkewSweep(HandleRef pixs, out float pangle, int reduction, float sweeprange, float sweepdelta);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkewSweepAndSearch")]
-        internal static extern int pixFindSkewSweepAndSearch(HandleRef pixs, out float pangle, out float pconf, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta);
+        internal static extern bool pixFindSkewSweepAndSearch(HandleRef pixs, out float pangle, out float pconf, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkewSweepAndSearchScore")]
-        internal static extern int pixFindSkewSweepAndSearchScore(HandleRef pixs, out float pangle, out float pconf, out float pendscore, int redsweep, int redsearch, float sweepcenter, float sweeprange, float sweepdelta, float minbsdelta);
+        internal static extern bool pixFindSkewSweepAndSearchScore(HandleRef pixs, out float pangle, out float pconf, out float pendscore, int redsweep, int redsearch, float sweepcenter, float sweeprange, float sweepdelta, float minbsdelta);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkewSweepAndSearchScorePivot")]
-        internal static extern int pixFindSkewSweepAndSearchScorePivot(HandleRef pixs, out float pangle, out float pconf, out float pendscore, int redsweep, int redsearch, float sweepcenter, float sweeprange, float sweepdelta, float minbsdelta, int pivot);
+        internal static extern bool pixFindSkewSweepAndSearchScorePivot(HandleRef pixs, out float pangle, out float pconf, out float pendscore, int redsweep, int redsearch, float sweepcenter, float sweeprange, float sweepdelta, float minbsdelta, ShearFlags pivot);
 
         // Search over arbitrary range of angles in orthogonal directions
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindSkewOrthogonalRange")]
-        internal static extern int pixFindSkewOrthogonalRange(HandleRef pixs, out float pangle, out float pconf, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, float confprior);
+        internal static extern bool pixFindSkewOrthogonalRange(HandleRef pixs, out float pangle, out float pconf, int redsweep, int redsearch, float sweeprange, float sweepdelta, float minbsdelta, float confprior);
 
         // Differential square sum function for scoring
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindDifferentialSquareSum")]
-        internal static extern int pixFindDifferentialSquareSum(HandleRef pixs, out float psum);
+        internal static extern bool pixFindDifferentialSquareSum(HandleRef pixs, out float psum);
 
         // Measures of variance of row sums
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFindNormalizedSquareSum")]
-        internal static extern int pixFindNormalizedSquareSum(HandleRef pixs, out float phratio, out float pvratio, out float pfract);
+        internal static extern bool pixFindNormalizedSquareSum(HandleRef pixs, out float phratio, out float pvratio, out float pfract);
         #endregion
 
         #region spixio.c

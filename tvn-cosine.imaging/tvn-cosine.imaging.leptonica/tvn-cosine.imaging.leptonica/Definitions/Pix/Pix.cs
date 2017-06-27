@@ -5,23 +5,13 @@ namespace Leptonica
     /// <summary>
     /// Basic Pix
     /// </summary>
-    public class Pix : LeptonicaObjectBase
+    public class Pix : LeptonicaObjectBase, IDisposable, ICloneable
     {
         internal Pix(IntPtr pointer) : base(pointer) { }
-
-        public static Pix Read(string filename)
-        {
-            return ReadFile.pixRead(filename);
-        }
 
         public bool Write(string filename, ImageFileFormatTypes format)
         {
             return WriteFile.pixWrite(filename, this, format);
-        }
-
-        public static explicit operator Pix(IntPtr pointer)
-        {
-            return new Pix(pointer);
         }
 
         public int Width
@@ -172,6 +162,32 @@ namespace Leptonica
                     throw new Exception("An error occurred while trying to set the colormap.");
                 }
             }
+        }
+
+
+        public static Pix Read(string filename)
+        {
+            return ReadFile.pixRead(filename);
+        }
+
+        public static Pix Create(int width, int height, int depth)
+        {
+            return Pix1.pixCreate(width, height, depth);
+        }
+
+        public void Dispose()
+        {
+            this.pixDestroy();
+        }
+
+        public object Clone()
+        {
+            return this.pixCopy(null);
+        }
+
+        public static explicit operator Pix(IntPtr pointer)
+        {
+            return new Pix(pointer);
         }
     }
 }
