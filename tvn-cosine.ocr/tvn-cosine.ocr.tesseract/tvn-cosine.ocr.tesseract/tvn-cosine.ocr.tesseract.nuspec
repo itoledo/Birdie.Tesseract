@@ -15,7 +15,7 @@
     <copyright>Copyright © tvn-cosine 2017</copyright>
     <tags>dotNet OCR tesseract</tags>
     <dependencies> 
-		<dependency id="leptonica.net" version="1.74.4.2" /> 
+		<dependency id="leptonica.net" version="1.74.4.4" /> 
 	</dependencies>
   </metadata>
   <files>
