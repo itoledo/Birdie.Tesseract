@@ -104,29 +104,29 @@ namespace Leptonica.Native
 
         // Arrays of inverted background values for normalization (16 bpp)
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBackgroundNormGrayArray")]
-        internal static extern int pixBackgroundNormGrayArray(HandleRef pixs, HandleRef pixim, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, out IntPtr ppixd);
+        internal static extern bool pixBackgroundNormGrayArray(HandleRef pixs, HandleRef pixim, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, ref IntPtr ppixd);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBackgroundNormRGBArrays")]
-        internal static extern int pixBackgroundNormRGBArrays(HandleRef pixs, HandleRef pixim, HandleRef pixg, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, out IntPtr ppixr, out IntPtr ppixg, out IntPtr ppixb);
+        internal static extern bool pixBackgroundNormRGBArrays(HandleRef pixs, HandleRef pixim, HandleRef pixg, int sx, int sy, int thresh, int mincount, int bgval, int smoothx, int smoothy, ref IntPtr ppixr, ref IntPtr ppixg, ref IntPtr ppixb);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBackgroundNormGrayArrayMorph")]
-        internal static extern int pixBackgroundNormGrayArrayMorph(HandleRef pixs, HandleRef pixim, int reduction, int size, int bgval, out IntPtr ppixd);
+        internal static extern bool pixBackgroundNormGrayArrayMorph(HandleRef pixs, HandleRef pixim, int reduction, int size, int bgval, ref IntPtr ppixd);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBackgroundNormRGBArraysMorph")]
-        internal static extern int pixBackgroundNormRGBArraysMorph(HandleRef pixs, HandleRef pixim, int reduction, int size, int bgval, out IntPtr ppixr, out IntPtr ppixg, out IntPtr ppixb);
+        internal static extern bool pixBackgroundNormRGBArraysMorph(HandleRef pixs, HandleRef pixim, int reduction, int size, int bgval, ref IntPtr ppixr, ref IntPtr ppixg, ref IntPtr ppixb);
 
         // Measurement of local background
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetBackgroundGrayMap")]
-        internal static extern int pixGetBackgroundGrayMap(HandleRef pixs, HandleRef pixim, int sx, int sy, int thresh, int mincount, out IntPtr ppixd);
+        internal static extern bool pixGetBackgroundGrayMap(HandleRef pixs, HandleRef pixim, int sx, int sy, int thresh, int mincount, ref IntPtr ppixd);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetBackgroundRGBMap")]
-        internal static extern int pixGetBackgroundRGBMap(HandleRef pixs, HandleRef pixim, HandleRef pixg, int sx, int sy, int thresh, int mincount, out IntPtr ppixmr, out IntPtr ppixmg, out IntPtr ppixmb);
+        internal static extern bool pixGetBackgroundRGBMap(HandleRef pixs, HandleRef pixim, HandleRef pixg, int sx, int sy, int thresh, int mincount, ref IntPtr ppixmr, ref IntPtr ppixmg, ref IntPtr ppixmb);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetBackgroundGrayMapMorph")]
-        internal static extern int pixGetBackgroundGrayMapMorph(HandleRef pixs, HandleRef pixim, int reduction, int size, out IntPtr ppixm);
+        internal static extern bool pixGetBackgroundGrayMapMorph(HandleRef pixs, HandleRef pixim, int reduction, int size, ref IntPtr ppixm);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetBackgroundRGBMapMorph")]
-        internal static extern int pixGetBackgroundRGBMapMorph(HandleRef pixs, HandleRef pixim, int reduction, int size, out IntPtr ppixmr, out IntPtr ppixmg, out IntPtr ppixmb);
+        internal static extern bool pixGetBackgroundRGBMapMorph(HandleRef pixs, HandleRef pixim, int reduction, int size, ref IntPtr ppixmr, ref IntPtr ppixmg, ref IntPtr ppixmb);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixFillMapHoles")]
-        internal static extern int pixFillMapHoles(HandleRef pix, int nx, int ny, int filltype);
+        internal static extern bool pixFillMapHoles(HandleRef pix, int nx, int ny, GrayscaleFillingFlags filltype);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixExtendByReplication")]
         internal static extern IntPtr pixExtendByReplication(HandleRef pixs, int addw, int addh);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSmoothConnectedRegions")]
-        internal static extern int pixSmoothConnectedRegions(HandleRef pixs, HandleRef pixm, int factor);
+        internal static extern bool pixSmoothConnectedRegions(HandleRef pixs, HandleRef pixm, int factor);
 
         // Generate inverted background map for each component 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixGetInvBackgroundMap")]
@@ -150,7 +150,7 @@ namespace Leptonica.Native
 
         // Adaptive threshold spread normalization
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixThresholdSpreadNorm")]
-        internal static extern int pixThresholdSpreadNorm(HandleRef pixs, int filtertype, int edgethresh, int smoothx, int smoothy, float gamma, int minval, int maxval, int targetthresh, out IntPtr ppixth, out IntPtr ppixb, out IntPtr ppixd);
+        internal static extern bool pixThresholdSpreadNorm(HandleRef pixs, EdgeFilterFlags filtertype, int edgethresh, int smoothx, int smoothy, float gamma, int minval, int maxval, int targetthresh, ref IntPtr ppixth, ref IntPtr ppixb, ref IntPtr ppixd);
 
         // Adaptive background normalization (flexible adaptaption)
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixBackgroundNormFlex")]
@@ -160,7 +160,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixContrastNorm")]
         internal static extern IntPtr pixContrastNorm(HandleRef pixd, HandleRef pixs, int sx, int sy, int mindiff, int smoothx, int smoothy);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixMinMaxTiles")]
-        internal static extern int pixMinMaxTiles(HandleRef pixs, int sx, int sy, int mindiff, int smoothx, int smoothy, out IntPtr ppixmin, out IntPtr ppixmax);
+        internal static extern bool pixMinMaxTiles(HandleRef pixs, int sx, int sy, int mindiff, int smoothx, int smoothy, ref IntPtr ppixmin, ref IntPtr ppixmax);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixSetLowContrast")]
         internal static extern int pixSetLowContrast(HandleRef pixs1, HandleRef pixs2, int mindiff);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixLinearTRCTiled")]
