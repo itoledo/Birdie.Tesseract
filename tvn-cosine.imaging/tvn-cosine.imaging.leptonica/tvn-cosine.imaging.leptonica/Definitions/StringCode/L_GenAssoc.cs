@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_GenAssoc : LeptonicaObjectBase
     {
-        internal L_GenAssoc(IntPtr pointer) : base(pointer) { }
+        public L_GenAssoc(IntPtr pointer) : base(pointer) { }
     }
 }

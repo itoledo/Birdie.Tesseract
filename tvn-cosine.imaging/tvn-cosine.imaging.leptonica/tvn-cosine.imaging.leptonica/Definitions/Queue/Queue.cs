@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Queue : LeptonicaObjectBase
     {
-        internal L_Queue(IntPtr pointer) : base(pointer) { }
+        public L_Queue(IntPtr pointer) : base(pointer) { }
     }
 }

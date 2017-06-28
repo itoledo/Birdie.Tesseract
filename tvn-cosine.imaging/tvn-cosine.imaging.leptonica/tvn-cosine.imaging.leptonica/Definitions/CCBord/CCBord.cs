@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class CCBord : LeptonicaObjectBase
     {
-        internal CCBord(IntPtr pointer) : base(pointer) { }
+        public CCBord(IntPtr pointer) : base(pointer) { }
     }
 }

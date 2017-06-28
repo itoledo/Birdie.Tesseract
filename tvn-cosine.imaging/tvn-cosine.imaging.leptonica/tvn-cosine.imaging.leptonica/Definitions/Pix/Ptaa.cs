@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class Ptaa : LeptonicaObjectBase
     {
-        internal Ptaa(IntPtr pointer) : base(pointer) { }
+        public Ptaa(IntPtr pointer) : base(pointer) { }
     }
 }

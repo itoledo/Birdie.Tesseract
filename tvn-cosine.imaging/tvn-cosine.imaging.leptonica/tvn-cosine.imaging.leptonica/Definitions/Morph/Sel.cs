@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class Sel : LeptonicaObjectBase
     {
-        internal Sel(IntPtr pointer) : base(pointer) { }
+        public Sel(IntPtr pointer) : base(pointer) { }
     } 
 }

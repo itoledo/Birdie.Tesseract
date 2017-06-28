@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Compressed_Data : LeptonicaObjectBase
     {
-        internal L_Compressed_Data(IntPtr pointer) : base(pointer) { }
+        public L_Compressed_Data(IntPtr pointer) : base(pointer) { }
     }
 }

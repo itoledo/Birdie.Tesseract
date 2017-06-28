@@ -17,7 +17,7 @@ namespace Leptonica
         /// Instantiating a base leptonica object
         /// </summary>
         /// <param name="pointer"></param>
-        internal LeptonicaObjectBase(IntPtr pointer)
+        public LeptonicaObjectBase(IntPtr pointer)
         {
             handleRef = new HandleRef(this, pointer);
         }

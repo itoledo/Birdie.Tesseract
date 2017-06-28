@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_AMap : L_Rbtree
     {
-        internal L_AMap(IntPtr pointer) : base(pointer) { }
+        public L_AMap(IntPtr pointer) : base(pointer) { }
     }
 }

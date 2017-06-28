@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_WShed : LeptonicaObjectBase
     {
-        internal L_WShed(IntPtr pointer) : base(pointer) { }
+        public L_WShed(IntPtr pointer) : base(pointer) { }
     }
 }

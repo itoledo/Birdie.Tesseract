@@ -4,6 +4,6 @@ namespace Leptonica
 {
     public class L_Rbtree : LeptonicaObjectBase
     {
-        internal L_Rbtree(IntPtr pointer) : base(pointer) { }
+        public L_Rbtree(IntPtr pointer) : base(pointer) { }
     }
 }

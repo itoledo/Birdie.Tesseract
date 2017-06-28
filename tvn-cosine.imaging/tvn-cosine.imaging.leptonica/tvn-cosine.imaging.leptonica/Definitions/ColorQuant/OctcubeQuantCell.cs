@@ -11,6 +11,6 @@ namespace Leptonica
     /// </summary>
     public class OctcubeQuantCell : LeptonicaObjectBase
     {
-        internal OctcubeQuantCell(IntPtr pointer) : base(pointer) { }
+        public OctcubeQuantCell(IntPtr pointer) : base(pointer) { }
     }
 }

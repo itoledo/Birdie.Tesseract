@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Pdf_Data : LeptonicaObjectBase
     {
-        internal L_Pdf_Data(IntPtr pointer) : base(pointer) { }
+        public L_Pdf_Data(IntPtr pointer) : base(pointer) { }
     } 
 }

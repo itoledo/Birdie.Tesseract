@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class PixTiling : LeptonicaObjectBase
     {
-        internal PixTiling(IntPtr pointer) : base(pointer) { }
+        public PixTiling(IntPtr pointer) : base(pointer) { }
     }
 }

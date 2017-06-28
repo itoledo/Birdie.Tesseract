@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Bilateral : LeptonicaObjectBase
     {
-        internal L_Bilateral(IntPtr pointer) : base(pointer) { }
+        public L_Bilateral(IntPtr pointer) : base(pointer) { }
     }
 }

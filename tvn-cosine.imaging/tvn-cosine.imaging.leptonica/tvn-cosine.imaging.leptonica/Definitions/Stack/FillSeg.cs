@@ -8,6 +8,6 @@ namespace Leptonica
     /// </summary>
     public class FillSeg : LeptonicaObjectBase
     {
-        internal FillSeg(IntPtr pointer) : base(pointer) { }
+        public FillSeg(IntPtr pointer) : base(pointer) { }
     }
 }

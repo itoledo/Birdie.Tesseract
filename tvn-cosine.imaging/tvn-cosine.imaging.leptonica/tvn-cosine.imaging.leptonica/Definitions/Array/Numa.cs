@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class Numa : LeptonicaObjectBase
     {
-        internal Numa(IntPtr pointer) : base(pointer) { }
+        public Numa(IntPtr pointer) : base(pointer) { }
     }
 }

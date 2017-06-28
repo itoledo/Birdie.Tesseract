@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class PixComp : LeptonicaObjectBase
     {
-        internal PixComp(IntPtr pointer) : base(pointer) { }
+        public PixComp(IntPtr pointer) : base(pointer) { }
     }
 }

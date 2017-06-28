@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Stack : LeptonicaObjectBase
     {
-        internal L_Stack(IntPtr pointer) : base(pointer) { }
+        public L_Stack(IntPtr pointer) : base(pointer) { }
     }
 }

@@ -8,6 +8,6 @@ namespace Leptonica
     /// </summary>
     public class L_StrCode : LeptonicaObjectBase
     {
-        internal L_StrCode(IntPtr pointer) : base(pointer) { }
+        public L_StrCode(IntPtr pointer) : base(pointer) { }
     } 
 }

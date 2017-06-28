@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class Sarray : LeptonicaObjectBase
     {
-        internal Sarray(IntPtr pointer) : base(pointer) { }
+        public Sarray(IntPtr pointer) : base(pointer) { }
     }
 }

@@ -10,6 +10,6 @@ namespace Leptonica
     /// </summary>
     public class RGBA_Quad : LeptonicaObjectBase
     {
-        internal RGBA_Quad(IntPtr pointer) : base(pointer) { }
+        public RGBA_Quad(IntPtr pointer) : base(pointer) { }
     }
 }

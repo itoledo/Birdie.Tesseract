@@ -11,6 +11,6 @@ namespace Leptonica
     /// </summary>
     public class Pixacc : LeptonicaObjectBase
     {
-        internal Pixacc(IntPtr pointer) : base(pointer) { }
+        public Pixacc(IntPtr pointer) : base(pointer) { }
     }
 }

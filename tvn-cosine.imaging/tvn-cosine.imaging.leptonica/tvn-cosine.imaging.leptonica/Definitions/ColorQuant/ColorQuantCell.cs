@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class ColorQuantCell : LeptonicaObjectBase
     {
-        internal ColorQuantCell(IntPtr pointer) : base(pointer) { }
+        public ColorQuantCell(IntPtr pointer) : base(pointer) { }
     }
 }

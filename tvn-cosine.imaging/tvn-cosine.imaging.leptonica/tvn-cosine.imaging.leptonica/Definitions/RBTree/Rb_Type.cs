@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class Rb_Type : LeptonicaObjectBase
     {
-        internal Rb_Type(IntPtr pointer) : base(pointer) { }
+        public Rb_Type(IntPtr pointer) : base(pointer) { }
     }
 }

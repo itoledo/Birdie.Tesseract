@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Rch : LeptonicaObjectBase
     {
-        internal L_Rch(IntPtr pointer) : base(pointer) { }
+        public L_Rch(IntPtr pointer) : base(pointer) { }
     }
 }

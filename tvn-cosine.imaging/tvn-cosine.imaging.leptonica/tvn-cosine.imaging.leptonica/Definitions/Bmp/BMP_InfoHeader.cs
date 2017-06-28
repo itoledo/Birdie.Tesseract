@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class BMP_InfoHeader : LeptonicaObjectBase
     {
-        internal BMP_InfoHeader(IntPtr pointer) : base(pointer) { }
+        public BMP_InfoHeader(IntPtr pointer) : base(pointer) { }
     }
 }

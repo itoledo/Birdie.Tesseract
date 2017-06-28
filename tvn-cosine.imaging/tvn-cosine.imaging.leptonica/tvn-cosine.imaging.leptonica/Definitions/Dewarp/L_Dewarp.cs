@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Dewarp : LeptonicaObjectBase
     {
-        internal L_Dewarp(IntPtr pointer) : base(pointer) { }
+        public L_Dewarp(IntPtr pointer) : base(pointer) { }
     }
 }

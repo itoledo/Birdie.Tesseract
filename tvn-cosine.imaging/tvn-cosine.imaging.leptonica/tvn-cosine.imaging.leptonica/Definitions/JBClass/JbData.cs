@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class JbData : LeptonicaObjectBase
     {
-        internal JbData(IntPtr pointer) : base(pointer) { }
+        public JbData(IntPtr pointer) : base(pointer) { }
     } 
 }

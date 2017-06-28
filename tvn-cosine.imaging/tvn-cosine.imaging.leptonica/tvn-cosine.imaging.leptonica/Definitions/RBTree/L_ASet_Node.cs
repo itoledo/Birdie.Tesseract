@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_ASet_Node : L_Rbtree_Node
     {
-        internal L_ASet_Node(IntPtr pointer) : base(pointer) { }
+        public L_ASet_Node(IntPtr pointer) : base(pointer) { }
     }
 }

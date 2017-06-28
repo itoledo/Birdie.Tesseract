@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_RegParams : LeptonicaObjectBase
     {
-        internal L_RegParams(IntPtr pointer) : base(pointer) { }
+        public L_RegParams(IntPtr pointer) : base(pointer) { }
     }
 }

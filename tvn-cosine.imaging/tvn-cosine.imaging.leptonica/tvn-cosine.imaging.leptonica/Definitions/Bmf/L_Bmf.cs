@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Bmf : LeptonicaObjectBase
     {
-        internal L_Bmf(IntPtr pointer) : base(pointer) { }
+        public L_Bmf(IntPtr pointer) : base(pointer) { }
     } 
 }

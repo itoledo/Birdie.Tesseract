@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_WallTimer : LeptonicaObjectBase
     {
-        internal L_WallTimer(IntPtr pointer) : base(pointer) { }
+        public L_WallTimer(IntPtr pointer) : base(pointer) { }
     }
 }

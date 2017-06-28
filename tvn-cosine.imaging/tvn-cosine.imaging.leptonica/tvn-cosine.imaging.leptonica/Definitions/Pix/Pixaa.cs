@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class Pixaa : LeptonicaObjectBase
     {
-        internal Pixaa(IntPtr pointer) : base(pointer) { }
+        public Pixaa(IntPtr pointer) : base(pointer) { }
     }
 }

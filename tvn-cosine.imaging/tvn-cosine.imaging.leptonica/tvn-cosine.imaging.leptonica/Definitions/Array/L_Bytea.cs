@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Bytea : LeptonicaObjectBase
     {
-        internal L_Bytea(IntPtr pointer) : base(pointer) { }
+        public L_Bytea(IntPtr pointer) : base(pointer) { }
     }
 }

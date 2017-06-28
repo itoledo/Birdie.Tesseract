@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Dna : LeptonicaObjectBase
     {
-        internal L_Dna(IntPtr pointer) : base(pointer) { }
+        public L_Dna(IntPtr pointer) : base(pointer) { }
     }
 }

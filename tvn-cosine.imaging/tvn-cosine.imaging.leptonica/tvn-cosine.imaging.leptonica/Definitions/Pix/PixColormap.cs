@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class PixColormap : LeptonicaObjectBase
     {
-        internal PixColormap(IntPtr pointer) : base(pointer) { }
+        public PixColormap(IntPtr pointer) : base(pointer) { }
     }
 }

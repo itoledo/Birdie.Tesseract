@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class GPlot : LeptonicaObjectBase
     {
-        internal GPlot(IntPtr pointer) : base(pointer) { }
+        public GPlot(IntPtr pointer) : base(pointer) { }
     } 
 }

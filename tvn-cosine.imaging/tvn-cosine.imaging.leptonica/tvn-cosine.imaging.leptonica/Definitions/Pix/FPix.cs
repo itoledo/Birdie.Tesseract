@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class FPix : LeptonicaObjectBase
     {
-        internal FPix(IntPtr pointer) : base(pointer) { }
+        public FPix(IntPtr pointer) : base(pointer) { }
     }
 }

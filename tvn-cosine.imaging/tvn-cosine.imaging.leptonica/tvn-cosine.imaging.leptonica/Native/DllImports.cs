@@ -89,7 +89,7 @@ namespace Leptonica.Native
         #endregion
         #endregion
 
-        #region adaptmap.c 
+        #region adaptmap.c - DONE
         // Clean background to white using background normalization
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCleanBackgroundToWhite")]
         internal static extern IntPtr pixCleanBackgroundToWhite(HandleRef pixs, HandleRef pixim, HandleRef pixg, float gamma, int blackval, int whiteval);
@@ -167,18 +167,18 @@ namespace Leptonica.Native
         internal static extern IntPtr pixLinearTRCTiled(HandleRef pixd, HandleRef pixs, int sx, int sy, HandleRef pixmin, HandleRef pixmax);
         #endregion
 
-        #region affine.c 
+        #region affine.c - DONE
         // Affine (3 pt) image transformation using a sampled (to nearest integer) transform on each dest point
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAffineSampledPta")]
-        internal static extern IntPtr pixAffineSampledPta(HandleRef pixs, HandleRef ptad, HandleRef ptas, int incolor);
+        internal static extern IntPtr pixAffineSampledPta(HandleRef pixs, HandleRef ptad, HandleRef ptas, BackgroundFlags incolor);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAffineSampled")]
-        internal static extern IntPtr pixAffineSampled(HandleRef pixs, IntPtr vc, int incolor);
+        internal static extern IntPtr pixAffineSampled(HandleRef pixs, IntPtr vc, BackgroundFlags incolor);
 
         // Affine (3 pt) image transformation using interpolation (or area mapping) for anti-aliasing images that are 2, 4, or 8 bpp gray, or colormapped, or 32 bpp RGB
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAffinePta")]
-        internal static extern IntPtr pixAffinePta(HandleRef pixs, HandleRef ptad, HandleRef ptas, int incolor);
+        internal static extern IntPtr pixAffinePta(HandleRef pixs, HandleRef ptad, HandleRef ptas, BackgroundFlags incolor);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAffine")]
-        internal static extern IntPtr pixAffine(HandleRef pixs, IntPtr vc, int incolor);
+        internal static extern IntPtr pixAffine(HandleRef pixs, IntPtr vc, BackgroundFlags incolor);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAffinePtaColor")]
         internal static extern IntPtr pixAffinePtaColor(HandleRef pixs, HandleRef ptad, HandleRef ptas, uint colorval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAffineColor")]
@@ -194,23 +194,23 @@ namespace Leptonica.Native
 
         // Affine coordinate transformation
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "getAffineXformCoeffs")]
-        internal static extern int getAffineXformCoeffs(HandleRef ptas, HandleRef ptad, out IntPtr pvc);
+        internal static extern bool getAffineXformCoeffs(HandleRef ptas, HandleRef ptad, out IntPtr pvc);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "affineInvertXform")]
-        internal static extern int affineInvertXform(IntPtr vc, out IntPtr pvci);
+        internal static extern bool affineInvertXform(IntPtr vc, out IntPtr pvci);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "affineXformSampledPt")]
-        internal static extern int affineXformSampledPt(IntPtr vc, int x, int y, out int pxp, out int pyp);
+        internal static extern bool affineXformSampledPt(IntPtr vc, int x, int y, out int pxp, out int pyp);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "affineXformPt")]
-        internal static extern int affineXformPt(IntPtr vc, int x, int y, out float pxp, out float pyp);
+        internal static extern bool affineXformPt(IntPtr vc, int x, int y, out float pxp, out float pyp);
 
         // Interpolation helper functions 
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "linearInterpolatePixelColor")]
-        internal static extern int linearInterpolatePixelColor(IntPtr datas, int wpls, int w, int h, float x, float y, uint colorval, out uint pval);
+        internal static extern bool linearInterpolatePixelColor(IntPtr datas, int wpls, int w, int h, float x, float y, uint colorval, out uint pval);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "linearInterpolatePixelGray")]
-        internal static extern int linearInterpolatePixelGray(IntPtr datas, int wpls, int w, int h, float x, float y, int grayval, out int pval);
+        internal static extern bool linearInterpolatePixelGray(IntPtr datas, int wpls, int w, int h, float x, float y, int grayval, out int pval);
 
         // Gauss-jordan linear equation solver
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "gaussjordan")]
-        internal static extern int gaussjordan(IntPtr a, IntPtr b, int n);
+        internal static extern bool gaussjordan(IntPtr a, IntPtr b, int n);
 
         // Affine image transformation using a sequence of  shear/scale/translation operations
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixAffineSequential")]
@@ -4347,7 +4347,7 @@ namespace Leptonica.Native
         internal static extern int pixSplitDistributionFgBg(HandleRef pixs, float scorefract, int factor, out int pthresh, out int pfgval, out int pbgval, out IntPtr ppixdb);
         #endregion
 
-        #region pix5.c
+        #region pix5.c - DONE
         // Measurement of properties
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaFindDimensions")]
         internal static extern bool pixaFindDimensions(HandleRef pixa, ref IntPtr pnaw, ref IntPtr pnah);
@@ -4441,7 +4441,7 @@ namespace Leptonica.Native
         internal static extern IntPtr pixRankColumnTransform(HandleRef pixs);
         #endregion
 
-        #region pixabasic.c
+        #region pixabasic.c - DONE
         // Pixa creation, destruction, copying
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaCreate")]
         internal static extern IntPtr pixaCreate(int n);
@@ -5817,7 +5817,7 @@ namespace Leptonica.Native
         internal static extern IntPtr numaQuantizeCrossingsByWindow(HandleRef nas, float ratio, out float pwidth, out float pfirstloc, out IntPtr pnac, int debugflag);
         #endregion
 
-        #region readfile.c
+        #region readfile.c - DONE
         // Top-level functions for reading images from file
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaReadFiles")]
         internal static extern IntPtr pixaReadFiles([MarshalAs(UnmanagedType.AnsiBStr)] string dirname, [MarshalAs(UnmanagedType.AnsiBStr)] string substr);
@@ -6098,7 +6098,7 @@ namespace Leptonica.Native
         internal static extern void rasteropLow(IntPtr datad, int dpixw, int dpixh, int depth, int dwpl, int dx, int dy, int dw, int dh, int op, IntPtr datas, int spixw, int spixh, int swpl, int sx, int sy);
         #endregion
 
-        #region rotate.c
+        #region rotate.c - DONE
         // General rotation about image center
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixRotate")]
         internal static extern IntPtr pixRotate(HandleRef pixs, float angle, RotateFlags type, BackgroundFlags incolor, int width, int height);
@@ -6866,7 +6866,7 @@ namespace Leptonica.Native
         internal static extern IntPtr pixVShearLI(HandleRef pixs, int xloc, float radang, int incolor);
         #endregion
 
-        #region skew.c
+        #region skew.c - DONE
         // Top-level deskew interfaces
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixDeskewBoth")]
         internal static extern IntPtr pixDeskewBoth(HandleRef pixs, int redsearch);
@@ -7361,7 +7361,7 @@ namespace Leptonica.Native
         internal static extern IntPtr pixStereoFromPair(HandleRef pix1, HandleRef pix2, float rwt, float gwt, float bwt);
         #endregion
 
-        #region watershed.c
+        #region watershed.c - DONE
         // Top-level
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "wshedCreate")]
         internal static extern IntPtr wshedCreate(HandleRef pixs, HandleRef pixm, int mindepth, bool debugflag);
@@ -7401,7 +7401,7 @@ namespace Leptonica.Native
         internal static extern int pixWriteMemWebP(out IntPtr pencdata, IntPtr pencsize, HandleRef pixs, int quality, int lossless);
         #endregion
 
-        #region writefile.c
+        #region writefile.c - DONE
         // High-level procedures for writing images to file:
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixaWriteFiles")]
         internal static extern bool pixaWriteFiles([MarshalAs(UnmanagedType.AnsiBStr)] string rootname, HandleRef pixa, ImageFileFormatTypes format);

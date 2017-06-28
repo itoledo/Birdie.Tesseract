@@ -7,11 +7,11 @@ namespace Leptonica
     /// </summary>
     public class L_ByteBuffer : LeptonicaObjectBase
     {
-        internal L_ByteBuffer(IntPtr pointer) : base(pointer) { }
+        public L_ByteBuffer(IntPtr pointer) : base(pointer) { }
     }
 
     public class L_BBuffer : L_ByteBuffer
     {
-        internal L_BBuffer(IntPtr pointer) : base(pointer) { }
+        public L_BBuffer(IntPtr pointer) : base(pointer) { }
     }
 }

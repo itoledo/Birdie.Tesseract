@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Rdid : LeptonicaObjectBase
     {
-        internal L_Rdid(IntPtr pointer) : base(pointer) { }
+        public L_Rdid(IntPtr pointer) : base(pointer) { }
     }
 }

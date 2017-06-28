@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Recog : LeptonicaObjectBase
     {
-        internal L_Recog(IntPtr pointer) : base(pointer) { }
+        public L_Recog(IntPtr pointer) : base(pointer) { }
     } 
 }

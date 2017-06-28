@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_Heap : LeptonicaObjectBase
     {
-        internal L_Heap(IntPtr pointer) : base(pointer) { }
+        public L_Heap(IntPtr pointer) : base(pointer) { }
     }
 }

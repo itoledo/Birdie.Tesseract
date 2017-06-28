@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class DoubleLinkedList : LeptonicaObjectBase
     {
-        internal DoubleLinkedList(IntPtr pointer) : base(pointer) { }
+        public DoubleLinkedList(IntPtr pointer) : base(pointer) { }
     }
 }

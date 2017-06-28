@@ -7,6 +7,6 @@ namespace Leptonica
     /// </summary>
     public class L_OctcubePop : LeptonicaObjectBase
     {
-        internal L_OctcubePop(IntPtr pointer) : base(pointer) { }
+        public L_OctcubePop(IntPtr pointer) : base(pointer) { }
     }
 }
