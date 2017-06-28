@@ -294,7 +294,7 @@ namespace Leptonica
             }
 
             IntPtr pointer = (IntPtr)ppixd;
-            return Native.DllImports.pixBackgroundNormGrayArray((HandleRef)pixs, (HandleRef)pixim, sx, sy, thresh, mincount, bgval, smoothx, smoothy, ref pointer); 
+            return Native.DllImports.pixBackgroundNormGrayArray((HandleRef)pixs, (HandleRef)pixim, sx, sy, thresh, mincount, bgval, smoothx, smoothy, ref pointer);
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace Leptonica
             IntPtr ppixrPtr = (IntPtr)ppixr;
             IntPtr ppixgPtr = (IntPtr)ppixg;
             IntPtr ppixbPtr = (IntPtr)ppixb;
-            return Native.DllImports.pixBackgroundNormRGBArrays((HandleRef)pixs, (HandleRef)pixim, (HandleRef)pixg, sx, sy, thresh, mincount, bgval, smoothx, smoothy, ref ppixrPtr, ref ppixgPtr, ref ppixbPtr); 
+            return Native.DllImports.pixBackgroundNormRGBArrays((HandleRef)pixs, (HandleRef)pixim, (HandleRef)pixg, sx, sy, thresh, mincount, bgval, smoothx, smoothy, ref ppixrPtr, ref ppixgPtr, ref ppixbPtr);
         }
 
         /// <summary>
@@ -383,7 +383,7 @@ namespace Leptonica
             }
 
             IntPtr pointer = (IntPtr)ppixd;
-            return Native.DllImports.pixBackgroundNormGrayArrayMorph((HandleRef)pixs, (HandleRef)pixim, reduction, size, bgval, ref pointer); 
+            return Native.DllImports.pixBackgroundNormGrayArrayMorph((HandleRef)pixs, (HandleRef)pixim, reduction, size, bgval, ref pointer);
         }
 
         /// <summary>
@@ -428,7 +428,7 @@ namespace Leptonica
             IntPtr ppixrPtr = (IntPtr)ppixr;
             IntPtr ppixgPtr = (IntPtr)ppixg;
             IntPtr ppixbPtr = (IntPtr)ppixb;
-            return Native.DllImports.pixBackgroundNormRGBArraysMorph((HandleRef)pixs, (HandleRef)pixim, reduction, size, bgval, ref ppixrPtr, ref ppixgPtr, ref ppixbPtr); 
+            return Native.DllImports.pixBackgroundNormRGBArraysMorph((HandleRef)pixs, (HandleRef)pixim, reduction, size, bgval, ref ppixrPtr, ref ppixgPtr, ref ppixbPtr);
         }
 
         // Measurement of local background
@@ -467,7 +467,7 @@ namespace Leptonica
             }
 
             IntPtr pointer = (IntPtr)ppixd;
-            return Native.DllImports.pixGetBackgroundGrayMap((HandleRef)pixs, (HandleRef)pixim, sx, sy, thresh, mincount, ref pointer); 
+            return Native.DllImports.pixGetBackgroundGrayMap((HandleRef)pixs, (HandleRef)pixim, sx, sy, thresh, mincount, ref pointer);
         }
 
         /// <summary>
@@ -514,7 +514,7 @@ namespace Leptonica
             IntPtr ppixmrPtr = (IntPtr)ppixmr;
             IntPtr ppixmgPtr = (IntPtr)ppixmg;
             IntPtr ppixmbPtr = (IntPtr)ppixmb;
-            return Native.DllImports.pixGetBackgroundRGBMap((HandleRef)pixs, (HandleRef)pixim, (HandleRef)pixg, sx, sy, thresh, mincount, ref ppixmrPtr, ref ppixmgPtr, ref ppixmbPtr); 
+            return Native.DllImports.pixGetBackgroundRGBMap((HandleRef)pixs, (HandleRef)pixim, (HandleRef)pixg, sx, sy, thresh, mincount, ref ppixmrPtr, ref ppixmgPtr, ref ppixmbPtr);
         }
 
         /// <summary>
@@ -892,7 +892,7 @@ namespace Leptonica
         /// <param name="bval">bval pixel values in pixs that are linearly mapped to mapval</param>
         /// <param name="mapval">use 255 for mapping to white</param>
         /// <returns>pixd 32 bpp rgb or colormapped, or NULL on error</returns>
-        public static Pix pixGlobalNormRGB(this Pix pixd, Pix pixs, int rval, int gval, int bval, int mapval)
+        public static Pix pixGlobalNormRGB(this Pix pixs, Pix pixd, int rval, int gval, int bval, int mapval)
         {
             if (null == pixs)
             {
@@ -942,7 +942,7 @@ namespace Leptonica
         /// <param name="factor">subsampling factor; integer >= 1</param>
         /// <param name="rank">between 0.0 and 1.0; typ. use a value near 1.0</param>
         /// <returns>pixd 32 bpp rgb, or NULL on error</returns>
-        public static Pix pixGlobalNormNoSatRGB(this Pix pixd, Pix pixs, int rval, int gval, int bval, int factor, float rank)
+        public static Pix pixGlobalNormNoSatRGB(this Pix pixs, Pix pixd, int rval, int gval, int bval, int factor, float rank)
         {
             if (null == pixs)
             {
@@ -1115,7 +1115,7 @@ namespace Leptonica
         /// <param name="smoothx">half-width of convolution kernel applied to min and max arrays: use 0 for no smoothing</param>
         /// <param name="smoothy">half-width of convolution kernel applied to min and max arrays: use 0 for no smoothing</param>
         /// <returns>pixd always</returns>
-        public static Pix pixContrastNorm(this Pix pixd, Pix pixs, int sx, int sy, int mindiff, int smoothx, int smoothy)
+        public static Pix pixContrastNorm(this Pix pixs, Pix pixd, int sx, int sy, int mindiff, int smoothx, int smoothy)
         {
             if (null == pixs)
             {
@@ -1229,7 +1229,7 @@ namespace Leptonica
         /// <param name="pixmin">pix of min values in tiles</param>
         /// <param name="pixmax">pix of max values in tiles</param>
         /// <returns>pixd always</returns>
-        public static Pix pixLinearTRCTiled(this Pix pixd, Pix pixs, int sx, int sy, Pix pixmin, Pix pixmax)
+        public static Pix pixLinearTRCTiled(this Pix pixs, Pix pixd, int sx, int sy, Pix pixmin, Pix pixmax)
         {
             if (null == pixs
              || null == pixmin

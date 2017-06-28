@@ -6403,7 +6403,7 @@ namespace Leptonica.Native
 
         // Fast integer factor subsampling RGB to gray and to binary
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleRGBToGrayFast")]
-        internal static extern IntPtr pixScaleRGBToGrayFast(HandleRef pixs, int factor, int color);
+        internal static extern IntPtr pixScaleRGBToGrayFast(HandleRef pixs, int factor, ColorsFor32Bpp color);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleRGBToBinaryFast")]
         internal static extern IntPtr pixScaleRGBToBinaryFast(HandleRef pixs, int factor, int thresh);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGrayToBinaryFast")]
@@ -6471,9 +6471,9 @@ namespace Leptonica.Native
 
         // Grayscale downscaling using min and max
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGrayMinMax")]
-        internal static extern IntPtr pixScaleGrayMinMax(HandleRef pixs, int xfact, int yfact, int type);
+        internal static extern IntPtr pixScaleGrayMinMax(HandleRef pixs, int xfact, int yfact, MinMaxSelectionFlags type);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGrayMinMax2")]
-        internal static extern IntPtr pixScaleGrayMinMax2(HandleRef pixs, int type);
+        internal static extern IntPtr pixScaleGrayMinMax2(HandleRef pixs, MinMaxSelectionFlags type);
 
         // Grayscale downscaling using rank value
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleGrayRankCascade")]
@@ -6483,7 +6483,7 @@ namespace Leptonica.Native
 
         // Helper function for transferring alpha with scaling
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleAndTransferAlpha")]
-        internal static extern int pixScaleAndTransferAlpha(HandleRef pixd, HandleRef pixs, float scalex, float scaley);
+        internal static extern bool pixScaleAndTransferAlpha(HandleRef pixd, HandleRef pixs, float scalex, float scaley);
 
         // RGB scaling including alpha(blend) component
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixScaleWithAlpha")]
