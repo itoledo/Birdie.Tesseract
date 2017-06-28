@@ -11,8 +11,8 @@ namespace Tesseract.Native
         private const string jpegDllName = "jpeg.dll";
         private const string tiffDllName = "tiff.dll";
         private const string tiffXxDllName = "tiffxx.dll"; 
-        private const string leptonicaDllName = "leptonica-1.74.4.dll"; 
-        internal const string tesseractDllName = "tesseract305.dll";
+        private const string leptonicaDllName = "leptonica-1.74.4.dll";
+        private const string tesseractDllName = "tesseract305.dll";
 
         private static bool initialised = false;
 
@@ -33,6 +33,11 @@ namespace Tesseract.Native
                 else
                 {
                     path = string.Format("{0}\\{1}", path, "x86");
+                }
+
+                if (!System.IO.File.Exists(string.Format("{0}\\{1}", path, tesseractDllName)))
+                {
+                    throw new System.IO.FileNotFoundException("tesseract dll not found.");
                 }
 
                 Architecture.LoadLibrary(string.Format("{0}\\{1}", path, zlibDllName));
