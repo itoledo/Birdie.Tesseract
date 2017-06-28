@@ -4116,7 +4116,7 @@ namespace Leptonica.Native
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pixCopyRGBComponent")]
         internal static extern bool pixCopyRGBComponent(HandleRef pixd, HandleRef pixs, ColorsFor32Bpp comp);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "composeRGBPixel")]
-        internal static extern int composeRGBPixel(int rval, int gval, int bval, out uint ppixel);
+        internal static extern bool composeRGBPixel(int rval, int gval, int bval, out uint ppixel);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "composeRGBAPixel")]
         internal static extern int composeRGBAPixel(int rval, int gval, int bval, int aval, out uint ppixel);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "extractRGBValues")]
