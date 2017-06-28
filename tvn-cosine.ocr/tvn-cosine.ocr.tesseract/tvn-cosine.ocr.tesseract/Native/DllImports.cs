@@ -12,7 +12,7 @@ namespace Tesseract.Native
         private const string tiffDllName = "tiff.dll";
         private const string tiffXxDllName = "tiffxx.dll"; 
         private const string leptonicaDllName = "leptonica-1.74.4.dll";
-        private const string tesseractDllName = "tesseract305.dll";
+        private const string tesseractDllName = "tesseract400.dll";
 
         private static bool initialised = false;
 
