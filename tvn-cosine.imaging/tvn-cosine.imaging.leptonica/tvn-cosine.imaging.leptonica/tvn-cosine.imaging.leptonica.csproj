@@ -77,6 +77,7 @@
     <Compile Include="Definitions\JBClass\JbClasser.cs" />
     <Compile Include="Definitions\JBClass\JbData.cs" />
     <Compile Include="Definitions\List\DoubleLinkedList.cs" />
+    <Compile Include="Definitions\Pix\ClearOrSetPixels.cs" />
     <Compile Include="Definitions\Ptra\AccessorFlagsForL_Ptraa.cs" />
     <Compile Include="Definitions\Ptra\FlagsForInsertionIntoL_Ptra.cs" />
     <Compile Include="Definitions\Ptra\FlagsForRemovalFromL_Ptra.cs" />
