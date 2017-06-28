@@ -19,7 +19,7 @@ namespace TestConsole
             var pix = Pix.Read(image);
             //api.SetInputImage(pix);
             //var outText = api.GetUTF8Text();
-            //api.End();
+            //api.End(); 
 
             Console.WriteLine("Done...");
             Console.ReadKey();

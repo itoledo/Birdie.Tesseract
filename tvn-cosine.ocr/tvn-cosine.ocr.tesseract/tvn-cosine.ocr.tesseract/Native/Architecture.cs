@@ -9,9 +9,9 @@ namespace Tesseract.Native
     /// Greater than is &gt;
     /// Ampersand is &amp;
     /// </summary>
-    public static class Architecture
+    internal static class Architecture
     {
-        public static bool is64BitProcess
+        internal static bool is64BitProcess
         {
             get
             {
@@ -19,7 +19,7 @@ namespace Tesseract.Native
             }
         }
 
-        public static bool is64BitOperatingSystem
+        internal static bool is64BitOperatingSystem
         {
             get
             {
@@ -27,7 +27,7 @@ namespace Tesseract.Native
             }
         }
 
-        public static bool InternalCheckIsWow64()
+        internal static bool InternalCheckIsWow64()
         {
             if ((Environment.OSVersion.Version.Major == 5 && Environment.OSVersion.Version.Minor >= 1)
              || Environment.OSVersion.Version.Major >= 6)
@@ -53,12 +53,12 @@ namespace Tesseract.Native
 
         [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool IsWow64Process([In] IntPtr hProcess, [Out] out bool wow64Process);
+        internal static extern bool IsWow64Process([In] IntPtr hProcess, [Out] out bool wow64Process);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern bool SetDllDirectory(string lpPathName);
+        internal static extern bool SetDllDirectory(string lpPathName);
 
         [DllImport("kernel32.dll")]
-        public static extern IntPtr LoadLibrary(string dllToLoad);
+        internal static extern IntPtr LoadLibrary(string dllToLoad);
     }
 }
