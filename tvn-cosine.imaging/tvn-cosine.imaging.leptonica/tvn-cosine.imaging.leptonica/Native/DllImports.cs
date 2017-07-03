@@ -14,7 +14,7 @@ namespace Leptonica.Native
         private const string leptonicaDllName = "leptonica-1.74.4.dll";
 
         private static readonly bool initialised;
-
+         
         static DllImports()
         {
             if (!initialised)
@@ -29,12 +29,24 @@ namespace Leptonica.Native
                     path = string.Format("{0}\\{1}", path, "x86");
                 }
 
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, zlibDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, libPngDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, jpegDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, tiffDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, tiffXxDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, leptonicaDllName));
+                System.IO.File.Copy(string.Format("{0}\\{1}", path, zlibDllName),
+                                    string.Format("{0}\\{1}", AppDomain.CurrentDomain.BaseDirectory, zlibDllName),
+                                    true);
+                System.IO.File.Copy(string.Format("{0}\\{1}", path, libPngDllName),
+                                    string.Format("{0}\\{1}", AppDomain.CurrentDomain.BaseDirectory, libPngDllName),
+                                    true);
+                System.IO.File.Copy(string.Format("{0}\\{1}", path, jpegDllName),
+                                    string.Format("{0}\\{1}", AppDomain.CurrentDomain.BaseDirectory, jpegDllName),
+                                    true);
+                System.IO.File.Copy(string.Format("{0}\\{1}", path, tiffDllName),
+                                    string.Format("{0}\\{1}", AppDomain.CurrentDomain.BaseDirectory, tiffDllName),
+                                    true);
+                System.IO.File.Copy(string.Format("{0}\\{1}", path, tiffXxDllName),
+                                    string.Format("{0}\\{1}", AppDomain.CurrentDomain.BaseDirectory, tiffXxDllName),
+                                    true);
+                System.IO.File.Copy(string.Format("{0}\\{1}", path, leptonicaDllName),
+                                    string.Format("{0}\\{1}", AppDomain.CurrentDomain.BaseDirectory, leptonicaDllName),
+                                    true);
 
                 initialised = true;
             }
