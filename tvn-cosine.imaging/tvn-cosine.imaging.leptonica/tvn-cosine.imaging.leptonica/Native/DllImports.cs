@@ -250,13 +250,13 @@ namespace Leptonica.Native
 
         // Matrix operations
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_productMatVec")]
-        internal static extern int l_productMatVec(IntPtr mat, IntPtr vecs, IntPtr vecd, int size);
+        internal static extern bool l_productMatVec(IntPtr mat, IntPtr vecs, IntPtr vecd, int size);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_productMat2")]
-        internal static extern int l_productMat2(IntPtr mat1, IntPtr mat2, IntPtr matd, int size);
+        internal static extern bool l_productMat2(IntPtr mat1, IntPtr mat2, IntPtr matd, int size);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_productMat3")]
-        internal static extern int l_productMat3(IntPtr mat1, IntPtr mat2, IntPtr mat3, IntPtr matd, int size);
+        internal static extern bool l_productMat3(IntPtr mat1, IntPtr mat2, IntPtr mat3, IntPtr matd, int size);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "l_productMat4")]
-        internal static extern int l_productMat4(IntPtr mat1, IntPtr mat2, IntPtr mat3, IntPtr mat4, IntPtr matd, int size);
+        internal static extern bool l_productMat4(IntPtr mat1, IntPtr mat2, IntPtr mat3, IntPtr mat4, IntPtr matd, int size);
         #endregion
 
         #region arrayaccess.c
