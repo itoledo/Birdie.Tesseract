@@ -45,11 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datastructures\TPlot.cs" />
+    <Compile Include="Agent\IAction.cs" />
+    <Compile Include="Agent\IAgent.cs" />
+    <Compile Include="Agent\IAgentProgram.cs" />
+    <Compile Include="Agent\IEnvironment.cs" />
+    <Compile Include="Agent\IEnvironmentObject.cs" />
+    <Compile Include="Agent\IEnvironmentState.cs" />
+    <Compile Include="Agent\IEnvironmentView.cs" />
+    <Compile Include="Agent\IEnvironmentViewNotifier.cs" />
+    <Compile Include="Agent\IModel.cs" />
+    <Compile Include="Agent\IPercept.cs" />
+    <Compile Include="Agent\IState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="KMeans\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
