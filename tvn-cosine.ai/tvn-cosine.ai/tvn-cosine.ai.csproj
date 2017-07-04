@@ -57,6 +57,12 @@
     <Compile Include="Agent\IPercept.cs" />
     <Compile Include="Agent\IState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\DataStructures\LabeledGraph.cs" />
+    <Compile Include="Util\DataStructures\Pair.cs" />
+    <Compile Include="Util\DataStructures\Table.cs" />
+    <Compile Include="Util\DataStructures\Triplet.cs" />
+    <Compile Include="Util\DataStructures\TwoKeyDictionary.cs" />
+    <Compile Include="Util\DataStructures\XYLocation.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
