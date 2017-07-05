@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.Agent
+﻿namespace tvn.cosine.ai.agent
 {
     public interface IEnvironmentViewNotifier
     {

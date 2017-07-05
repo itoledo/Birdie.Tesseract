@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using tvn.cosine.ai.Search.Framework.Problem;
+using tvn.cosine.ai.search.framework.problem;
 
-namespace tvn.cosine.ai.Search.Framework
+namespace tvn.cosine.ai.search.framework
 {
     /**
      * Instances of this class are responsible for node creation and expansion. They

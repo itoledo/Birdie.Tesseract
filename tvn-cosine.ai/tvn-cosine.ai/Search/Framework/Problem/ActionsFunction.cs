@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace tvn.cosine.ai.Search.Framework.Problem
+namespace tvn.cosine.ai.search.framework.problem
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 67.<br>

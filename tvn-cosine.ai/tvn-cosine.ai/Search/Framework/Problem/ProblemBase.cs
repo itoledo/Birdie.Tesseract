@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace tvn.cosine.ai.Search.Framework.Problem
+namespace tvn.cosine.ai.search.framework.problem
 {
     public abstract class ProblemBase<S, A> : IProblem<S, A>
     {

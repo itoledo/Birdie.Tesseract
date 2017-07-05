@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.Agent
+﻿namespace tvn.cosine.ai.agent
 {
     /// <summary>
     /// Agents interact with environments through sensors and actuators.

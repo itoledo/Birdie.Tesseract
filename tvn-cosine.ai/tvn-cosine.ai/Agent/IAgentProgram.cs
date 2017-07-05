@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.Agent
+﻿namespace tvn.cosine.ai.agent
 {
     /// <summary>
     /// An agent's behavior is described by the 'agent function' that maps any given

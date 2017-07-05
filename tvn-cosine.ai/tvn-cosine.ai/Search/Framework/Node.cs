@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.Search.Framework
+﻿namespace tvn.cosine.ai.search.framework
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.10, page

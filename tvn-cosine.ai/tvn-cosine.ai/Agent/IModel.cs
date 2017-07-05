@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.Agent
+﻿namespace tvn.cosine.ai.agent
 {
     /// <summary>
     /// This knowledge about "how the world works" - whether implemented in simple

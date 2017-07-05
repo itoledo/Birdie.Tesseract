@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace tvn.cosine.ai.Search.Framework.Problem
+namespace tvn.cosine.ai.search.framework.problem
 {
     /**
      * Configurable problem which uses objects to explicitly represent the required

@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.Search.Framework.Problem
+﻿namespace tvn.cosine.ai.search.framework.problem
 {
     /**
      * An interface describing a problem that can be tackled from both directions at

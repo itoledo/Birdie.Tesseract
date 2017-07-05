@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.Agent
+﻿namespace tvn.cosine.ai.agent
 {
     /// <summary>
     /// Allows external applications/logic to view the interaction of Agent(s) with an Environment.

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace tvn.cosine.ai.Agent
+namespace tvn.cosine.ai.agent
 {
     /// <summary>
     /// An abstract description of possible discrete Environments in which Agent(s) can perceive and act.
