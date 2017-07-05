@@ -103,6 +103,11 @@
     <Compile Include="search\nondeterministic\Path.cs" />
     <Compile Include="search\nondeterministic\Plan.cs" />
     <Compile Include="search\nondeterministic\ResultsFunction.cs" />
+    <Compile Include="search\uninformed\BreadthFirstSearch.cs" />
+    <Compile Include="search\uninformed\DepthFirstSearch.cs" />
+    <Compile Include="search\uninformed\DepthLimitedSearch.cs" />
+    <Compile Include="search\uninformed\IterativeDeepeningSearch.cs" />
+    <Compile Include="search\uninformed\UniformCostSearch.cs" />
     <Compile Include="util\datastructure\LabeledGraph.cs" />
     <Compile Include="util\datastructure\Pair.cs" />
     <Compile Include="util\datastructure\Table.cs" />
