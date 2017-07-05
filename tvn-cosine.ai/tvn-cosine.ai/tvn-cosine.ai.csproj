@@ -97,6 +97,12 @@
     <Compile Include="search\local\Individual.cs" />
     <Compile Include="search\local\Scheduler.cs" />
     <Compile Include="search\local\SimulatedAnnealingSearch.cs" />
+    <Compile Include="search\nondeterministic\AndOrSearch.cs" />
+    <Compile Include="search\nondeterministic\IfStateThenPlan.cs" />
+    <Compile Include="search\nondeterministic\NondeterministicProblem.cs" />
+    <Compile Include="search\nondeterministic\Path.cs" />
+    <Compile Include="search\nondeterministic\Plan.cs" />
+    <Compile Include="search\nondeterministic\ResultsFunction.cs" />
     <Compile Include="util\datastructure\LabeledGraph.cs" />
     <Compile Include="util\datastructure\Pair.cs" />
     <Compile Include="util\datastructure\Table.cs" />
