@@ -63,6 +63,11 @@
     <Compile Include="Util\DataStructures\Triplet.cs" />
     <Compile Include="Util\DataStructures\TwoKeyDictionary.cs" />
     <Compile Include="Util\DataStructures\XYLocation.cs" />
+    <Compile Include="Util\Math\Interval.cs" />
+    <Compile Include="Util\Math\LUDecomposition.cs" />
+    <Compile Include="Util\Math\Matrix.cs" />
+    <Compile Include="Util\Math\MixedRadixNumber.cs" />
+    <Compile Include="Util\Math\Vector.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
