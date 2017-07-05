@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace tvn.cosine.ai.Util.Math
+namespace tvn.cosine.ai.util.math
 {
     /// <summary>
     /// For details on Mixed Radix Number Representations: 

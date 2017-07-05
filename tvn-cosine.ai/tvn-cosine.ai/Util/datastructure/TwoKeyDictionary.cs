@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace tvn.cosine.ai.Util.DataStructures
+namespace tvn.cosine.ai.util.datastructure 
 {
     /// <summary>
     /// Provides a hash map which is indexed by two keys.In fact this is just a hash

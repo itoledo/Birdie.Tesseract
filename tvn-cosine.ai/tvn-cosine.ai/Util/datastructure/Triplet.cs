@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace tvn.cosine.ai.Util.DataStructures
+namespace tvn.cosine.ai.util.datastructure 
 {
     public class Triplet<X, Y, Z> : IEquatable<Triplet<X, Y, Z>>
         where X : IEquatable<X>

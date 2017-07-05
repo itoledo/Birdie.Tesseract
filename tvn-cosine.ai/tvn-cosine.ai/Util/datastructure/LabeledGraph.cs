@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace tvn.cosine.ai.Util.DataStructures
+namespace tvn.cosine.ai.util.datastructure 
 {
     /// <summary>
     /// Represents a directed labeled graph.Vertices are represented by their unique

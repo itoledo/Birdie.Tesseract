@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace tvn.cosine.ai.Util.DataStructures
+namespace tvn.cosine.ai.util.datastructure 
 {
     public class Pair<X, Y> : IEquatable<Pair<X, Y>>
         where X : IEquatable<X>

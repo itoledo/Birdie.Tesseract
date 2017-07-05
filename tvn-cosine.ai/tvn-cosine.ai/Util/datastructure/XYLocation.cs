@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace tvn.cosine.ai.Util.DataStructures
+namespace tvn.cosine.ai.util.datastructure 
 {
     /// <summary>
     /// Note: If looking at a rectangle - the coordinate(x= 0, y= 0) will be the top

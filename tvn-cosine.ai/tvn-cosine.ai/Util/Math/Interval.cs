@@ -1,6 +1,6 @@
 ﻿using System; 
 
-namespace tvn.cosine.ai.Util.Math
+namespace tvn.cosine.ai.util.math
 {
     /// <summary>
     /// Basic supports for Intervals. See

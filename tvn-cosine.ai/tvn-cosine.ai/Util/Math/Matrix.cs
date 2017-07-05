@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace tvn.cosine.ai.Util.Math
+namespace tvn.cosine.ai.util.math
 {
     /// <summary>
     /// Matrix Class provides the fundamental operations of numerical linear
