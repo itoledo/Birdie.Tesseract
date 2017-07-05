@@ -60,6 +60,11 @@
     <Compile Include="agent\IPercept.cs" />
     <Compile Include="agent\IState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="search\csp\Assignment.cs" />
+    <Compile Include="search\csp\Constraint.cs" />
+    <Compile Include="search\csp\CSP.cs" />
+    <Compile Include="search\csp\Domain.cs" />
+    <Compile Include="search\csp\Variable.cs" />
     <Compile Include="search\framework\Node.cs" />
     <Compile Include="search\framework\NodeExpander.cs" />
     <Compile Include="search\framework\problem\ActionsFunction.cs" />
