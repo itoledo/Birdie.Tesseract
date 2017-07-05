@@ -54,6 +54,9 @@
     <Compile Include="agent\IEnvironmentView.cs" />
     <Compile Include="agent\IEnvironmentViewNotifier.cs" />
     <Compile Include="agent\IModel.cs" />
+    <Compile Include="agent\impl\AbstractAgent.cs" />
+    <Compile Include="agent\impl\DynamicAction.cs" />
+    <Compile Include="agent\impl\NoOpAction.cs" />
     <Compile Include="agent\IPercept.cs" />
     <Compile Include="agent\IState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +106,8 @@
     <Compile Include="search\nondeterministic\Path.cs" />
     <Compile Include="search\nondeterministic\Plan.cs" />
     <Compile Include="search\nondeterministic\ResultsFunction.cs" />
+    <Compile Include="search\online\LRTAStarAgent.cs" />
+    <Compile Include="search\online\OnlineDFSAgent.cs" />
     <Compile Include="search\uninformed\BreadthFirstSearch.cs" />
     <Compile Include="search\uninformed\DepthFirstSearch.cs" />
     <Compile Include="search\uninformed\DepthLimitedSearch.cs" />

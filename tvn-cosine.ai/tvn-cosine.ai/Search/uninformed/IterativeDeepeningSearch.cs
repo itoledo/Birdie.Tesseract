@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
 
@@ -126,8 +123,7 @@ namespace tvn.cosine.ai.search.uninformed
 
         private void updateMetrics(IDictionary<string, double> dlsMetrics)
         {
-            metrics[METRIC_NODES_EXPANDED] =
-                    metrics[METRIC_NODES_EXPANDED] + dlsMetrics[METRIC_NODES_EXPANDED]);
+            metrics[METRIC_NODES_EXPANDED] = metrics[METRIC_NODES_EXPANDED] + dlsMetrics[METRIC_NODES_EXPANDED];
             metrics.Add(METRIC_PATH_COST, dlsMetrics[METRIC_PATH_COST]);
         }
     }
