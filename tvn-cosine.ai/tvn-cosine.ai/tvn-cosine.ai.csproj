@@ -57,6 +57,17 @@
     <Compile Include="Agent\IPercept.cs" />
     <Compile Include="Agent\IState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Search\Framework\Node.cs" />
+    <Compile Include="Search\Framework\NodeExpander.cs" />
+    <Compile Include="Search\Framework\Problem\ActionsFunction.cs" />
+    <Compile Include="Search\Framework\Problem\GeneralProblem.cs" />
+    <Compile Include="Search\Framework\Problem\IBidirectionalProblem.cs" />
+    <Compile Include="Search\Framework\Problem\GoalTest.cs" />
+    <Compile Include="Search\Framework\Problem\IOnlineSearchProblem.cs" />
+    <Compile Include="Search\Framework\Problem\IProblem.cs" />
+    <Compile Include="Search\Framework\Problem\ProblemBase.cs" />
+    <Compile Include="Search\Framework\Problem\ResultFunction.cs" />
+    <Compile Include="Search\Framework\Problem\StepCostFunction.cs" />
     <Compile Include="Util\DataStructures\LabeledGraph.cs" />
     <Compile Include="Util\DataStructures\Pair.cs" />
     <Compile Include="Util\DataStructures\Table.cs" />
