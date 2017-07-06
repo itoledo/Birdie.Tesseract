@@ -20,6 +20,6 @@ namespace tvn.cosine.ai.search.csp
         List<VAR> getScope();
 
         /** Constrains the values that the variables can take on. */
-        bool  isSatisfiedWith(Assignment<VAR, VAL> assignment);
+        bool isSatisfiedWith(Assignment<VAR, VAL> assignment);
     }
 }

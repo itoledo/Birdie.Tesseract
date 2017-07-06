@@ -2,9 +2,7 @@
 
 namespace tvn.cosine.ai.util.datastructure 
 {
-    public class Pair<X, Y> : IEquatable<Pair<X, Y>>
-        where X : IEquatable<X>
-        where Y : IEquatable<Y>
+    public class Pair<X, Y> : IEquatable<Pair<X, Y>> 
     {
         public X First { get; }
         public Y Second { get; }

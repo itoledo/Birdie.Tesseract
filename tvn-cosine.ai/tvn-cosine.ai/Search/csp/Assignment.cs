@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.search.csp
 {
@@ -12,7 +10,7 @@ namespace tvn.cosine.ai.search.csp
      *
      * @author Ruediger Lunde
      */
-    public class Assignment<VAR, VAL> : ICloneable
+    public class Assignment<VAR, VAL>  
         where VAR : Variable
     {
         /**
@@ -39,9 +37,9 @@ namespace tvn.cosine.ai.search.csp
 
         public VAL remove(VAR var)
         {
-            var obj = variableToValueMap[var];
+            var val = variableToValueMap[var];
             variableToValueMap.Remove(var);
-            return obj;
+            return val;
         }
 
         public bool contains(VAR var)
@@ -82,18 +80,13 @@ namespace tvn.cosine.ai.search.csp
             return isConsistent(csp.getConstraints()) && isComplete(csp.getVariables());
         }
 
-        public object Clone()
+        public Assignment<VAR, VAL> Clone()
         {
             Assignment<VAR, VAL> result;
-            try
-            {
-                result = (Assignment<VAR, VAL>)base.MemberwiseClone();
-                result.variableToValueMap = new Dictionary<VAR, VAL>(variableToValueMap);
-            }
-            catch (NotSupportedException e)
-            {
-                throw new NotSupportedException("Could not clone assignment."); // should never happen!
-            }
+
+            result = (Assignment<VAR, VAL>)MemberwiseClone();
+            result.variableToValueMap = new Dictionary<VAR, VAL>(variableToValueMap);
+
             return result;
         }
 
@@ -111,6 +104,7 @@ namespace tvn.cosine.ai.search.csp
                 comma = true;
             }
             result.Append("}");
+
             return result.ToString();
         }
     }

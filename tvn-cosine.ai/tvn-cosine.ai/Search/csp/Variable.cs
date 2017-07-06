@@ -7,34 +7,27 @@
      */
     public class Variable
     {
-        private readonly string name;
+        public string Name { get; }
 
         public Variable(string name)
         {
-            this.name = name;
+            this.Name = name;
         }
 
-        public string getName()
+        public override string ToString()
         {
-            return name;
+            return this.Name;
         }
 
-        public string toString()
-        {
-            return name;
-        }
-
-        /** Variables with equal names are equal. */
+        /** Variables with equal names are equal. */ 
         public override bool Equals(object obj)
         {
-            return obj is Variable
-                && this.name.Equals(((Variable)obj).name);
+            return obj is Variable && this.Name.Equals(((Variable)obj).Name);
         }
-
+         
         public override int GetHashCode()
         {
-            return name.GetHashCode();
+            return this.Name.GetHashCode();
         }
     }
-
 }

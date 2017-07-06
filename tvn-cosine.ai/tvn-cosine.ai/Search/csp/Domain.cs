@@ -18,11 +18,6 @@ namespace tvn.cosine.ai.search.csp
     {
         private readonly VAL[] values;
 
-        public Domain(List<VAL> values)
-        {
-            this.values = values.ToArray();
-        }
-
         public Domain(IEnumerable<VAL> values)
         {
             this.values = values.ToArray();
@@ -32,8 +27,6 @@ namespace tvn.cosine.ai.search.csp
         {
             return values.Length;
         }
-
-
 
         public VAL get(int index)
         {
@@ -47,7 +40,7 @@ namespace tvn.cosine.ai.search.csp
 
         public bool contains(VAL value)
         {
-            foreach (var v in values)
+            foreach (VAL v in values)
                 if (value.Equals(v))
                     return true;
             return false;
@@ -60,7 +53,8 @@ namespace tvn.cosine.ai.search.csp
 
         public override bool Equals(object obj)
         {
-            if (obj != null && obj is Domain<VAL>)
+            if (obj != null
+             && obj is Domain<VAL>)
             {
                 Domain<VAL> d = (Domain<VAL>)obj;
                 if (d.values.Length != values.Length)
@@ -73,12 +67,11 @@ namespace tvn.cosine.ai.search.csp
             return false;
         }
 
-
         public override int GetHashCode()
         {
-            int hash = 9; // arbitrary seed value
-            int multiplier = 13; // arbitrary multiplier value
-            foreach (var value in values)
+            int hash = 9;           // arbitrary seed value
+            int multiplier = 13;    // arbitrary multiplier value
+            foreach (VAL value in values)
                 hash = hash * multiplier + value.GetHashCode();
             return hash;
         }
@@ -87,7 +80,7 @@ namespace tvn.cosine.ai.search.csp
         {
             StringBuilder result = new StringBuilder("{");
             bool comma = false;
-            foreach (var value in values)
+            foreach (VAL value in values)
             {
                 if (comma)
                     result.Append(", ");
@@ -95,17 +88,18 @@ namespace tvn.cosine.ai.search.csp
                 comma = true;
             }
             result.Append("}");
+
             return result.ToString();
         }
 
         public IEnumerator<VAL> GetEnumerator()
         {
-            return values.ToList().GetEnumerator();
+            return ((IEnumerable<VAL>)this.values).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return values.GetEnumerator();
+            return GetEnumerator();
         }
     }
 }

@@ -22,7 +22,6 @@ namespace tvn.cosine.ai.search.csp
     public class CSP<VAR, VAL>
         where VAR : Variable
     {
-
         private List<VAR> variables;
         private List<Domain<VAL>> domains;
         private List<Constraint<VAR, VAL>> constraints;
