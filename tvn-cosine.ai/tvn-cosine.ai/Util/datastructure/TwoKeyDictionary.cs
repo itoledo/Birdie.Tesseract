@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace tvn.cosine.ai.util.datastructure 
+namespace tvn.cosine.ai.util.datastructure
 {
     /// <summary>
     /// Provides a hash map which is indexed by two keys.In fact this is just a hash
@@ -14,9 +10,7 @@ namespace tvn.cosine.ai.util.datastructure
     /// <typeparam name="K1">First key</typeparam>
     /// <typeparam name="K2">Second key</typeparam>
     /// <typeparam name="V">Result value</typeparam>
-    public class TwoKeyDictionary<K1, K2, V> : Dictionary<Pair<K1, K2>, V>
-        where K1 : IEquatable<K1>
-        where K2 : IEquatable<K2>
+    public class TwoKeyDictionary<K1, K2, V> : Dictionary<Pair<K1, K2>, V> 
     {
         /// <summary>
         /// Associates the specified value with the specified key pair in this map. 

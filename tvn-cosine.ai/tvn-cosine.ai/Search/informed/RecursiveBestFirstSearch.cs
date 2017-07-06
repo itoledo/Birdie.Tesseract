@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq; 
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
 
@@ -94,7 +92,7 @@ namespace tvn.cosine.ai.search.informed
 
             // RBFS(problem, MAKE-NODE(INITIAL-STATE[problem]), infinity)
             Node<S, A> n = nodeExpander.createRootNode(p.getInitialState());
-            SearchResult<S, A> sr = rbfs(p, n, h(n), INFINITY, 0);
+            SearchResult sr = rbfs(p, n, h(n), INFINITY, 0);
             if (sr.hasSolution())
             {
                 Node<S, A> s = sr.getSolutionNode();
@@ -122,14 +120,12 @@ namespace tvn.cosine.ai.search.informed
             metrics[METRIC_MAX_RECURSIVE_DEPTH] = 0;
             metrics[METRIC_PATH_COST] = 0;
         }
-
-
+         
         public void addNodeListener(Action<Node<S, A>> listener)
         {
             nodeExpander.addNodeListener(listener);
         }
-
-
+         
         public bool removeNodeListener(Action<Node<S, A>> listener)
         {
             return nodeExpander.removeNodeListener(listener);
@@ -140,7 +136,7 @@ namespace tvn.cosine.ai.search.informed
         //
         // function RBFS(problem, node, f_limit) returns a solution, or failure and
         // a new f-cost limit
-        private SearchResult<S, A> rbfs(IProblem<S, A> p, Node<S, A> node, double node_f, double fLimit, int recursiveDepth)
+        private SearchResult rbfs(IProblem<S, A> p, Node<S, A> node, double node_f, double fLimit, int recursiveDepth)
         {
             updateMetrics(recursiveDepth);
 
@@ -180,7 +176,7 @@ namespace tvn.cosine.ai.search.informed
                 // if best.f > f_limit then return failure, best.f
                 int altIndex = getNextBestFValueIndex(f, bestIndex);
                 // result, best.f <- RBFS(problem, best, min(f_limit, alternative))
-                SearchResult<S, A> sr = rbfs(p, successors[bestIndex], f[bestIndex], Math.Min(fLimit, f[altIndex]),
+                SearchResult sr = rbfs(p, successors[bestIndex], f[bestIndex], Math.Min(fLimit, f[altIndex]),
                         recursiveDepth + 1);
                 f[bestIndex] = sr.getFCostLimit();
                 // if result != failure then return result
@@ -240,11 +236,11 @@ namespace tvn.cosine.ai.search.informed
             return result;
         }
 
-        private SearchResult<S, A> getResult(Node<S, A> currNode, Node<S, A> solutionNode, double fCostLimit)
+        private SearchResult getResult(Node<S, A> currNode, Node<S, A> solutionNode, double fCostLimit)
         {
             if (avoidLoops && currNode != null)
                 explored.Remove(currNode.getState());
-            return new SearchResult<S, A>(solutionNode, fCostLimit);
+            return new SearchResult(solutionNode, fCostLimit);
         }
 
         /**
@@ -262,9 +258,8 @@ namespace tvn.cosine.ai.search.informed
             }
         }
 
-        private class SearchResult<S, A>
-        {
-
+        private class SearchResult
+        { 
             private Node<S, A> solNode;
             private readonly double fCostLimit;
 

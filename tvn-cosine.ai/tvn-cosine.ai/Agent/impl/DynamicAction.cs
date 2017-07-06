@@ -1,24 +1,18 @@
-﻿using System.Collections.Generic;
-
-namespace tvn.cosine.ai.agent.impl
+﻿namespace tvn.cosine.ai.agent.impl
 {
-    public class DynamicAction : Dictionary<string, string>, IAction
+    /**
+     * @author Ciaran O'Reilly
+     * @author Mike Stampone
+     */
+    public class DynamicAction : ObjectWithDynamicAttributes, Action
     {
         public const string ATTRIBUTE_NAME = "name";
-
-        public virtual bool IsNoOp
-        {
-            get
-            {
-                return false;
-            }
-        }
 
         //
 
         public DynamicAction(string name)
         {
-            this[ATTRIBUTE_NAME] = name;
+            this.setAttribute(ATTRIBUTE_NAME, name);
         }
 
         /**
@@ -26,13 +20,24 @@ namespace tvn.cosine.ai.agent.impl
          * 
          * @return the value of the name attribute.
          */
-        public string getName()
+        public virtual string getName()
         {
-            return this[ATTRIBUTE_NAME];
+            return (string)getAttribute(ATTRIBUTE_NAME);
+        }
+
+        //
+        // START-Action
+        public virtual bool isNoOp()
+        {
+            return false;
         }
 
         // END-Action
         //
 
+        public override string describeType()
+        {
+            return typeof(Action).Name;
+        }
     }
 }

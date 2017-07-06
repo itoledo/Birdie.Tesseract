@@ -65,7 +65,7 @@ namespace tvn.cosine.ai.search.local
         protected double mutationProbability;
 
         protected Random random;
-        private List<ProgressTracker<A>> progressTrackers = new List<ProgressTracker<A>>();
+        private List<ProgressTracker> progressTrackers = new List<ProgressTracker>();
 
         public GeneticAlgorithm(int individualLength, ICollection<A> finiteAlphabet, double mutationProbability)
             : this(individualLength, finiteAlphabet, mutationProbability, new Random())
@@ -83,7 +83,7 @@ namespace tvn.cosine.ai.search.local
         }
 
         /** Progress tracers can be used to display progress information. */
-        public void addProgressTracer(ProgressTracker<A> pTracer)
+        public void addProgressTracer(ProgressTracker pTracer)
         {
             progressTrackers.Add(pTracer);
         }
@@ -357,15 +357,14 @@ namespace tvn.cosine.ai.search.local
             {
                 if (individual.length() != this.individualLength)
                 {
-                    throw new ArgumentException("Individual [" + individual
-                            + "] in population is not the required length of " + this.individualLength);
+                    throw new ArgumentException("Individual [" + individual + "] in population is not the required length of " + this.individualLength);
                 }
             }
         }
 
         private void notifyProgressTrackers(int itCount, ICollection<Individual<A>> generation)
         {
-            foreach (ProgressTracker<A> tracer in progressTrackers)
+            foreach (ProgressTracker tracer in progressTrackers)
                 tracer.trackProgress(getIterations(), generation);
         }
 
@@ -374,7 +373,7 @@ namespace tvn.cosine.ai.search.local
          * 
          * @author Ruediger Lunde
          */
-        public interface ProgressTracker<A>
+        public interface ProgressTracker
         {
             void trackProgress(int itCount, ICollection<Individual<A>> population);
         }

@@ -361,7 +361,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (IndexOutOfRangeException e)
+            catch (IndexOutOfRangeException)
             {
                 throw new IndexOutOfRangeException("Submatrix indices");
             }
@@ -394,7 +394,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (IndexOutOfRangeException e)
+            catch (IndexOutOfRangeException)
             {
                 throw new IndexOutOfRangeException("Submatrix indices");
             }
@@ -429,7 +429,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (IndexOutOfRangeException e)
+            catch (IndexOutOfRangeException)
             {
                 throw new IndexOutOfRangeException("Submatrix indices");
             }
@@ -464,7 +464,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (IndexOutOfRangeException e)
+            catch (IndexOutOfRangeException)
             {
                 throw new IndexOutOfRangeException("Submatrix indices");
             }
@@ -517,7 +517,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (IndexOutOfRangeException e)
+            catch (IndexOutOfRangeException)
             {
                 throw new IndexOutOfRangeException("Submatrix indices");
             }
@@ -548,7 +548,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (IndexOutOfRangeException e)
+            catch (IndexOutOfRangeException)
             {
                 throw new IndexOutOfRangeException("Submatrix indices");
             }
@@ -581,7 +581,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (IndexOutOfRangeException e)
+            catch (IndexOutOfRangeException)
             {
                 throw new IndexOutOfRangeException("Submatrix indices");
             }
@@ -614,7 +614,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (IndexOutOfRangeException e)
+            catch (IndexOutOfRangeException)
             {
                 throw new IndexOutOfRangeException("Submatrix indices");
             }

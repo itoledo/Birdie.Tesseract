@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic; 
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.impl;
 using tvn.cosine.ai.search.framework.problem;
@@ -11,45 +8,44 @@ using tvn.cosine.ai.util.datastructure;
 namespace tvn.cosine.ai.search.online
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.21, page
-     * 150.<br>
-     * <br>
-     * 
-     * <pre>
-     * function ONLINE-DFS-AGENT(s') returns an action
-     *   inputs: s', a percept that identifies the current state
-     *   persistent: result, a table, indexed by state and action, initially empty
-     *               untried, a table that lists, for each state, the actions not yet tried
-     *               unbacktracked, a table that lists, for each state, the backtracks not yet tried
-     *               s, a, the previous state and action, initially null
-     *    
-     *   if GOAL-TEST(s') then return stop
-     *   if s' is a new state (not in untried) then untried[s'] &lt;- ACTIONS(s')
-     *   if s is not null then
-     *       result[s, a] &lt;- s'
-     *       add s to the front of the unbacktracked[s']
-     *   if untried[s'] is empty then
-     *       if unbacktracked[s'] is empty then return stop
-     *       else a &lt;- an action b such that result[s', b] = POP(unbacktracked[s'])
-     *   else a &lt;- POP(untried[s'])
-     *   s &lt;- s'
-     *   return a
-     * </pre>
-     * 
-     * Figure 4.21 An online search agent that uses depth-first exploration. The
-     * agent is applicable only in state spaces in which every action can be
-     * "undone" by some other action.<br>
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ruediger Lunde
-     * 
-     */
+  * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.21, page
+  * 150.<br>
+  * <br>
+  * 
+  * <pre>
+  * function ONLINE-DFS-AGENT(s') returns an action
+  *   inputs: s', a percept that identifies the current state
+  *   persistent: result, a table, indexed by state and action, initially empty
+  *               untried, a table that lists, for each state, the actions not yet tried
+  *               unbacktracked, a table that lists, for each state, the backtracks not yet tried
+  *               s, a, the previous state and action, initially null
+  *    
+  *   if GOAL-TEST(s') then return stop
+  *   if s' is a new state (not in untried) then untried[s'] &lt;- ACTIONS(s')
+  *   if s is not null then
+  *       result[s, a] &lt;- s'
+  *       add s to the front of the unbacktracked[s']
+  *   if untried[s'] is empty then
+  *       if unbacktracked[s'] is empty then return stop
+  *       else a &lt;- an action b such that result[s', b] = POP(unbacktracked[s'])
+  *   else a &lt;- POP(untried[s'])
+  *   s &lt;- s'
+  *   return a
+  * </pre>
+  * 
+  * Figure 4.21 An online search agent that uses depth-first exploration. The
+  * agent is applicable only in state spaces in which every action can be
+  * "undone" by some other action.<br>
+  * 
+  * @author Ciaran O'Reilly
+  * @author Ruediger Lunde
+  * 
+  */
     public class OnlineDFSAgent<S, A> : AbstractAgent
-        where A : IAction, IEquatable<A>
-        where S : IEquatable<S>
+        where A : agent.Action
     {
         private IOnlineSearchProblem<S, A> problem;
-        private Func<IPercept, S> ptsFn;
+        private Func<Percept, S> ptsFn;
         // persistent: result, a table, indexed by state and action, initially empty
         private readonly TwoKeyDictionary<S, A, S> result = new TwoKeyDictionary<S, A, S>();
         // untried, a table that lists, for each state, the actions not yet tried
@@ -71,7 +67,7 @@ namespace tvn.cosine.ai.search.online
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public OnlineDFSAgent(IOnlineSearchProblem<S, A> problem, Func<IPercept, S> ptsFn)
+        public OnlineDFSAgent(IOnlineSearchProblem<S, A> problem, Func<Percept, S> ptsFn)
         {
             setProblem(problem);
             setPerceptToStateFunction(ptsFn);
@@ -100,11 +96,11 @@ namespace tvn.cosine.ai.search.online
         }
 
         /**
-	 * Returns the percept to state function of this agent.
-	 * 
-	 * @return the percept to state function of this agent.
-	 */
-        public Func<IPercept, S> getPerceptToStateFunction()
+         * Returns the percept to state function of this agent.
+         * 
+         * @return the percept to state function of this agent.
+         */
+        public Func<Percept, S> getPerceptToStateFunction()
         {
             return ptsFn;
         }
@@ -116,7 +112,7 @@ namespace tvn.cosine.ai.search.online
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public void setPerceptToStateFunction(Func<IPercept, S> ptsFn)
+        public void setPerceptToStateFunction(Func<Percept, S> ptsFn)
         {
             this.ptsFn = ptsFn;
         }
@@ -124,7 +120,7 @@ namespace tvn.cosine.ai.search.online
         // function ONLINE-DFS-AGENT(s') returns an action
         // inputs: s', a percept that identifies the current state
 
-        public override IAction Execute(IPercept psPrimed)
+        public override agent.Action execute(Percept psPrimed)
         {
             S sPrimed = ptsFn(psPrimed);
             // if GOAL-TEST(s') then return stop
@@ -199,13 +195,13 @@ namespace tvn.cosine.ai.search.online
             {
                 // I'm either at the Goal or can't get to it,
                 // which in either case I'm finished so just die.
-                Alive = false;
+                setAlive(false);
             }
 
             // s <- s'
             s = sPrimed;
             // return a
-            return a != null ? a : NoOpAction.NO_OP as IAction;
+            return a != null ? a : NoOpAction.NO_OP as agent.Action;
         }
 
         //
@@ -214,12 +210,12 @@ namespace tvn.cosine.ai.search.online
 
         private void init()
         {
-            Alive = true;
+            setAlive(true);
             result.Clear();
             untried.Clear();
             unbacktracked.Clear();
             s = default(S);
             a = default(A);
         }
-    }
+    } 
 }

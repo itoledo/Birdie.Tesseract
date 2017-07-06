@@ -12,49 +12,48 @@ using tvn.cosine.ai.util.datastructure;
 namespace tvn.cosine.ai.search.online
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.24, page
-     * 152.<br>
-     * <br>
-     * 
-     * <pre>
-     * function LRTA*-AGENT(s') returns an action
-     *   inputs: s', a percept that identifies the current state
-     *   persistent: result, a table, indexed by state and action, initially empty
-     *               H, a table of cost estimates indexed by state, initially empty
-     *               s, a, the previous state and action, initially null
-     *           
-     *   if GOAL-TEST(s') then return stop
-     *   if s' is a new state (not in H) then H[s'] &lt;- h(s')
-     *   if s is not null
-     *     result[s, a] &lt;- s'
-     *     H[s] &lt;-        min LRTA*-COST(s, b, result[s, b], H)
-     *             b (element of) ACTIONS(s)
-     *   a &lt;- an action b in ACTIONS(s') that minimizes LRTA*-COST(s', b, result[s', b], H)
-     *   s &lt;- s'
-     *   return a
-     *   
-     * function LRTA*-COST(s, a, s', H) returns a cost estimate
-     *   if s' is undefined then return h(s)
-     *   else return c(s, a, s') + H[s']
-     * </pre>
-     * 
-     * Figure 4.24 LRTA*-AGENT selects an action according to the value of
-     * neighboring states, which are updated as the agent moves about the state
-     * space.<br>
-     * <br>
-     * <b>Note:</b> This algorithm fails to exit if the goal does not exist (e.g.
-     * A<->B Goal=X), this could be an issue with the implementation. Comments
-     * welcome.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     */
+   * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.24, page
+   * 152.<br>
+   * <br>
+   * 
+   * <pre>
+   * function LRTA*-AGENT(s') returns an action
+   *   inputs: s', a percept that identifies the current state
+   *   persistent: result, a table, indexed by state and action, initially empty
+   *               H, a table of cost estimates indexed by state, initially empty
+   *               s, a, the previous state and action, initially null
+   *           
+   *   if GOAL-TEST(s') then return stop
+   *   if s' is a new state (not in H) then H[s'] &lt;- h(s')
+   *   if s is not null
+   *     result[s, a] &lt;- s'
+   *     H[s] &lt;-        min LRTA*-COST(s, b, result[s, b], H)
+   *             b (element of) ACTIONS(s)
+   *   a &lt;- an action b in ACTIONS(s') that minimizes LRTA*-COST(s', b, result[s', b], H)
+   *   s &lt;- s'
+   *   return a
+   *   
+   * function LRTA*-COST(s, a, s', H) returns a cost estimate
+   *   if s' is undefined then return h(s)
+   *   else return c(s, a, s') + H[s']
+   * </pre>
+   * 
+   * Figure 4.24 LRTA*-AGENT selects an action according to the value of
+   * neighboring states, which are updated as the agent moves about the state
+   * space.<br>
+   * <br>
+   * <b>Note:</b> This algorithm fails to exit if the goal does not exist (e.g.
+   * A<->B Goal=X), this could be an issue with the implementation. Comments
+   * welcome.
+   * 
+   * @author Ciaran O'Reilly
+   * @author Mike Stampone
+   */
     public class LRTAStarAgent<S, A> : AbstractAgent
-        where A : IAction, IEquatable<A>
-        where S : IEquatable<S>
+        where A : agent.Action
     {
         private IOnlineSearchProblem<S, A> problem;
-        private Func<IPercept, S> perceptToStateFunction;
+        private Func<Percept, S> ptsFn;
         private HeuristicEvaluationFunction<S> h;
         // persistent: result, a table, indexed by state and action, initially empty
         private readonly TwoKeyDictionary<S, A, S> result = new TwoKeyDictionary<S, A, S>();
@@ -78,7 +77,7 @@ namespace tvn.cosine.ai.search.online
          *            the cheapest path from the state at node <em>n</em> to a goal
          *            state.
          */
-        public LRTAStarAgent(IOnlineSearchProblem<S, A> problem, Func<IPercept, S> ptsFn, HeuristicEvaluationFunction<S> h)
+        public LRTAStarAgent(IOnlineSearchProblem<S, A> problem, Func<Percept, S> ptsFn, HeuristicEvaluationFunction<S> h)
         {
             setProblem(problem);
             setPerceptToStateFunction(ptsFn);
@@ -112,9 +111,9 @@ namespace tvn.cosine.ai.search.online
          * 
          * @return the percept to state function of this agent.
          */
-        public Func<IPercept, S> getPerceptToStateFunction()
+        public Func<Percept, S> getPerceptToStateFunction()
         {
-            return perceptToStateFunction;
+            return ptsFn;
         }
 
         /**
@@ -124,9 +123,9 @@ namespace tvn.cosine.ai.search.online
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public void setPerceptToStateFunction(Func<IPercept, S> ptsFn)
+        public void setPerceptToStateFunction(Func<Percept, S> ptsFn)
         {
-            this.perceptToStateFunction = ptsFn;
+            this.ptsFn = ptsFn;
         }
 
         /**
@@ -151,12 +150,10 @@ namespace tvn.cosine.ai.search.online
         }
 
         // function LRTA*-AGENT(s') returns an action
-        // inputs: s', a percept that identifies the current state
-
-        public override IAction Execute(IPercept psPrimed)
+        // inputs: s', a percept that identifies the current state 
+        public override agent.Action execute(Percept psPrimed)
         {
-            double min;
-            S sPrimed = perceptToStateFunction(psPrimed);
+            S sPrimed = ptsFn(psPrimed);
             // if GOAL-TEST(s') then return stop
             if (problem.testGoal(sPrimed))
             {
@@ -164,6 +161,7 @@ namespace tvn.cosine.ai.search.online
             }
             else
             {
+                double min = 0;
                 // if s' is a new state (not in H) then H[s'] <- h(s')
                 if (!H.ContainsKey(sPrimed))
                 {
@@ -211,10 +209,10 @@ namespace tvn.cosine.ai.search.online
             {
                 // I'm either at the Goal or can't get to it,
                 // which in either case I'm finished so just die.
-                Alive = false;
+                setAlive(false);
             }
             // return a
-            return a != null ? a : NoOpAction.NO_OP as IAction;
+            return a != null ? a : NoOpAction.NO_OP as agent.Action;
         }
 
         //
@@ -222,7 +220,7 @@ namespace tvn.cosine.ai.search.online
         //
         private void init()
         {
-            Alive = true;
+            setAlive(true);
             result.Clear();
             H.Clear();
             s = default(S);
@@ -240,6 +238,5 @@ namespace tvn.cosine.ai.search.online
             // else return c(s, a, s') + H[s']
             return problem.getStepCosts(s, action, sDelta) + H[sDelta];
         }
-    }
-
+    } 
 }
