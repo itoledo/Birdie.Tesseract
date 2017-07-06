@@ -1,14 +1,13 @@
- namespace aima.core.learning.framework;
-
-/**
- * @author Ravi Mohan
- * 
- */
-public interface AttributeSpecification {
-
-	bool isValid(string string);
-
-	String getAttributeName();
-
-	Attribute createAttribute(string rawValue);
+﻿namespace tvn.cosine.ai.learning.framework
+{
+    /**
+     * @author Ravi Mohan
+     * 
+     */
+    public interface AttributeSpecification
+    { 
+        bool isValid(string s); 
+        string getAttributeName(); 
+        Attribute createAttribute(string rawValue);
+    }
 }

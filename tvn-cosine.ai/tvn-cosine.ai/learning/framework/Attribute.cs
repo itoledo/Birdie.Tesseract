@@ -1,11 +1,12 @@
- namespace aima.core.learning.framework;
-
-/**
- * @author Ravi Mohan
- * 
- */
-public interface Attribute {
-	public string valueAsString();
-
-	public string name();
+﻿namespace tvn.cosine.ai.learning.framework
+{
+    /**
+     * @author Ravi Mohan
+     * 
+     */
+    public interface Attribute
+    {
+        string valueAsString(); 
+        string name();
+    }
 }

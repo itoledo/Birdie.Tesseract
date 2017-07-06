@@ -1,24 +1,30 @@
- namespace aima.core.learning.framework;
+﻿namespace tvn.cosine.ai.learning.framework
+{
+    /**
+     * @author Ravi Mohan
+     * 
+     */
+    public class StringAttribute : Attribute
+    {
 
-/**
- * @author Ravi Mohan
- * 
- */
-public class StringAttribute : Attribute {
-	private StringAttributeSpecification spec;
+        private StringAttributeSpecification spec;
 
-	private string value;
+        private string value;
 
-	public StringAttribute(string value, StringAttributeSpecification spec) {
-		this.spec = spec;
-		this.value = value;
-	}
+        public StringAttribute(string value, StringAttributeSpecification spec)
+        {
+            this.spec = spec;
+            this.value = value;
+        }
 
-	public string valueAsString() {
-		return value.trim();
-	}
+        public string valueAsString()
+        {
+            return value.Trim();
+        }
 
-	public string name() {
-		return spec.getAttributeName().trim();
-	}
+        public string name()
+        {
+            return spec.getAttributeName().Trim();
+        }
+    }
 }

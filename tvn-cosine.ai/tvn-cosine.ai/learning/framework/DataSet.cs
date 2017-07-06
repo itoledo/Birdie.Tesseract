@@ -1,169 +1,197 @@
- namespace aima.core.learning.framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using tvn.cosine.ai.util;
 
- 
- 
-import java.util.LinkedList;
- 
+namespace tvn.cosine.ai.learning.framework
+{
+    /**
+     * @author Ravi Mohan
+     * 
+     */
+    public class DataSet
+    {
+        protected DataSet()
+        {
 
- 
+        }
 
-/**
- * @author Ravi Mohan
- * 
- */
-public class DataSet {
-	protected DataSet() {
+        public List<Example> examples;
 
-	}
+        public DataSetSpecification specification;
 
-	public List<Example> examples;
+        public DataSet(DataSetSpecification spec)
+        {
+            examples = new List<Example>();
+            this.specification = spec;
+        }
 
-	public DataSetSpecification specification;
+        public void add(Example e)
+        {
+            examples.Add(e);
+        }
 
-	public DataSet(DataSetSpecification spec) {
-		examples = new LinkedList<Example>();
-		this.specification = spec;
-	}
+        public int size()
+        {
+            return examples.Count;
+        }
 
-	public void add(Example e) {
-		examples.Add(e);
-	}
+        public Example getExample(int number)
+        {
+            return examples[number];
+        }
 
-	public int size() {
-		return examples.Count;
-	}
+        public DataSet removeExample(Example e)
+        {
+            DataSet ds = new DataSet(specification);
+            foreach (Example eg in examples)
+            {
+                if (!(e.Equals(eg)))
+                {
+                    ds.add(eg);
+                }
+            }
+            return ds;
+        }
 
-	public Example getExample(int number) {
-		return examples.get(number);
-	}
+        public double getInformationFor()
+        {
+            string attributeName = specification.getTarget();
+            IDictionary<string, int> counts = new Dictionary<string, int>();
+            foreach (Example e in examples)
+            {
+                string val = e.getAttributeValueAsString(attributeName);
+                if (counts.ContainsKey(val))
+                {
+                    counts.Add(val, counts[val] + 1);
+                }
+                else
+                {
+                    counts.Add(val, 1);
+                }
+            }
 
-	public DataSet removeExample(Example e) {
-		DataSet ds = new DataSet(specification);
-		for (Example eg : examples) {
-			if (!(e .Equals(eg))) {
-				ds.Add(eg);
-			}
-		}
-		return ds;
-	}
+            double[] data = counts.Values.Select(item => (double)item).ToArray();
 
-	public double getInformationFor() {
-		String attributeName = specification.getTarget();
-		Dictionary<String, int> counts = new Dictionary<String, int>();
-		for (Example e : examples) {
+            data = Util.normalize(data);
 
-			String val = e.getAttributeValueAsString(attributeName);
-			if (counts.ContainsKey(val)) {
-				counts.Add(val, counts.get(val) + 1);
-			} else {
-				counts.Add(val, 1);
-			}
-		}
+            return Util.information(data);
+        }
 
-		double[] data = new double[counts.Keys.Count];
-		Iterator<int> iter = counts.values().iterator();
-		for (int i = 0; i < data.Length; ++i) {
-			data[i] = iter.next();
-		}
-		data = Util.normalize(data);
+        public IDictionary<string, DataSet> splitByAttribute(string attributeName)
+        {
+            IDictionary<string, DataSet> results = new Dictionary<string, DataSet>();
+            foreach (Example e in examples)
+            {
+                string val = e.getAttributeValueAsString(attributeName);
+                if (results.ContainsKey(val))
+                {
+                    results[val].add(e);
+                }
+                else
+                {
+                    DataSet ds = new DataSet(specification);
+                    ds.add(e);
+                    results.Add(val, ds);
+                }
+            }
+            return results;
+        }
 
-		return Util.information(data);
-	}
+        public double calculateGainFor(String parameterName)
+        {
+            IDictionary<String, DataSet> hash = splitByAttribute(parameterName);
+            double totalSize = examples.Count;
+            double remainder = 0.0;
+            foreach (string parameterValue in hash.Keys)
+            {
+                double reducedDataSetSize = hash[parameterValue].examples.Count;
+                remainder += (reducedDataSetSize / totalSize)
+                        * hash[parameterValue].getInformationFor();
+            }
+            return getInformationFor() - remainder;
+        }
 
-	public Dictionary<String, DataSet> splitByAttribute(string attributeName) {
-		Dictionary<String, DataSet> results = new Dictionary<String, DataSet>();
-		for (Example e : examples) {
-			String val = e.getAttributeValueAsString(attributeName);
-			if (results.ContainsKey(val)) {
-				results.get(val).Add(e);
-			} else {
-				DataSet ds = new DataSet(specification);
-				ds.Add(e);
-				results.Add(val, ds);
-			}
-		}
-		return results;
-	}
+        public override bool Equals(object o)
+        {
+            if (this == o)
+            {
+                return true;
+            }
+            if ((o == null) || (GetType() != o.GetType()))
+            {
+                return false;
+            }
+            DataSet other = (DataSet)o;
+            return examples.Equals(other.examples);
+        }
 
-	public double calculateGainFor(string parameterName) {
-		Dictionary<String, DataSet> hash = splitByAttribute(parameterName);
-		double totalSize = examples.Count;
-		double remainder = 0.0;
-		for (string parameterValue : hash.Keys) {
-			double reducedDataSetSize = hash.get(parameterValue).examples
-					.Count;
-			remainder += (reducedDataSetSize / totalSize)
-					* hash.get(parameterValue).getInformationFor();
-		}
-		return getInformationFor() - remainder;
-	}
+        public override int GetHashCode()
+        {
+            return 0;
+        }
 
-	 
-	public override bool Equals(object o) {
-		if (this == o) {
-			return true;
-		}
-		if ((o == null) || (this .GetType() != o .GetType())) {
-			return false;
-		}
-		DataSet other = (DataSet) o;
-		return examples .Equals(other.examples);
-	}
+        public IEnumerator<Example> iterator()
+        {
+            return examples.GetEnumerator();
+        }
 
-	 
-	public override int GetHashCode() {
-		return 0;
-	}
+        public DataSet copy()
+        {
+            DataSet ds = new DataSet(specification);
+            foreach (Example e in examples)
+            {
+                ds.add(e);
+            }
+            return ds;
+        }
 
-	public Iterator<Example> iterator() {
-		return examples.iterator();
-	}
+        public List<string> getAttributeNames()
+        {
+            return specification.getAttributeNames();
+        }
 
-	public DataSet copy() {
-		DataSet ds = new DataSet(specification);
-		for (Example e : examples) {
-			ds.Add(e);
-		}
-		return ds;
-	}
+        public string getTargetAttributeName()
+        {
+            return specification.getTarget();
+        }
 
-	public List<string> getAttributeNames() {
-		return specification.getAttributeNames();
-	}
+        public DataSet emptyDataSet()
+        {
+            return new DataSet(specification);
+        }
 
-	public string getTargetAttributeName() {
-		return specification.getTarget();
-	}
+        /**
+         * @param specification
+         *            The specification to set. USE SPARINGLY for testing etc ..
+         *            makes no semantic sense
+         */
+        public void setSpecification(DataSetSpecification specification)
+        {
+            this.specification = specification;
+        }
 
-	public DataSet emptyDataSet() {
-		return new DataSet(specification);
-	}
+        public List<string> getPossibleAttributeValues(string attributeName)
+        {
+            return specification.getPossibleAttributeValues(attributeName);
+        }
 
-	/**
-	 * @param specification
-	 *            The specification to set. USE SPARINGLY for testing etc ..
-	 *            makes no semantic sense
-	 */
-	public void setSpecification(DataSetSpecification specification) {
-		this.specification = specification;
-	}
+        public DataSet matchingDataSet(string attributeName, string attributeValue)
+        {
+            DataSet ds = new DataSet(specification);
+            foreach (Example e in examples)
+            {
+                if (e.getAttributeValueAsString(attributeName).Equals(attributeValue))
+                {
+                    ds.add(e);
+                }
+            }
+            return ds;
+        }
 
-	public List<string> getPossibleAttributeValues(string attributeName) {
-		return specification.getPossibleAttributeValues(attributeName);
-	}
-
-	public DataSet matchingDataSet(string attributeName, string attributeValue) {
-		DataSet ds = new DataSet(specification);
-		for (Example e : examples) {
-			if (e.getAttributeValueAsString(attributeName) .Equals(
-					attributeValue)) {
-				ds.Add(e);
-			}
-		}
-		return ds;
-	}
-
-	public List<string> getNonTargetAttributes() {
-		return Util.removeFrom(getAttributeNames(), getTargetAttributeName());
-	}
+        public List<string> getNonTargetAttributes()
+        {
+            return Util.removeFrom(getAttributeNames(), getTargetAttributeName());
+        }
+    } 
 }

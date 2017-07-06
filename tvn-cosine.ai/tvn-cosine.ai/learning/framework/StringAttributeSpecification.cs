@@ -1,44 +1,53 @@
- namespace aima.core.learning.framework;
+﻿using System.Collections.Generic;
+using System.Linq;
 
-import java.util.Arrays;
- 
+namespace tvn.cosine.ai.learning.framework
+{
+    /**
+     * @author Ravi Mohan
+     * 
+     */
+    public class StringAttributeSpecification : AttributeSpecification
+    {
+        string attributeName;
 
-/**
- * @author Ravi Mohan
- * 
- */
-public class StringAttributeSpecification : AttributeSpecification {
-	String attributeName;
+        List<string> attributePossibleValues;
 
-	List<string> attributePossibleValues;
 
-	public StringAttributeSpecification(string attributeName,
-			List<string> attributePossibleValues) {
-		this.attributeName = attributeName;
-		this.attributePossibleValues = attributePossibleValues;
-	}
+        public StringAttributeSpecification(string attributeName,
+                List<string> attributePossibleValues)
+        {
+            this.attributeName = attributeName;
+            this.attributePossibleValues = attributePossibleValues;
+        }
 
-	public StringAttributeSpecification(string attributeName,
-			string[] attributePossibleValues) {
-		this(attributeName, Arrays.asList(attributePossibleValues));
-	}
+        public StringAttributeSpecification(string attributeName, string[] attributePossibleValues)
+            : this(attributeName, attributePossibleValues.ToList())
+        {
 
-	public bool isValid(string value) {
-		return (attributePossibleValues.Contains(value));
-	}
+        }
 
-	/**
-	 * @return Returns the attributeName.
-	 */
-	public string getAttributeName() {
-		return attributeName;
-	}
+        public bool isValid(string value)
+        {
+            return (attributePossibleValues.Contains(value));
+        }
 
-	public List<string> possibleAttributeValues() {
-		return attributePossibleValues;
-	}
+        /**
+         * @return Returns the attributeName.
+         */
+        public string getAttributeName()
+        {
+            return attributeName;
+        }
 
-	public Attribute createAttribute(string rawValue) {
-		return new StringAttribute(rawValue, this);
-	}
+        public List<string> possibleAttributeValues()
+        {
+            return attributePossibleValues;
+        }
+
+        public Attribute createAttribute(string rawValue)
+        {
+            return new StringAttribute(rawValue, this);
+        }
+    } 
 }

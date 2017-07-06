@@ -1,5 +1,7 @@
- namespace aima.core.learning.data;
+﻿namespace tvn.cosine.ai.learning.data
+{
+    public class DataResource
+    {
 
-public class DataResource {
-
+    }
 }
