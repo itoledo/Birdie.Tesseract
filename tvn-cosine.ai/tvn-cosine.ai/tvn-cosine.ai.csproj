@@ -67,6 +67,10 @@
     <Compile Include="search\csp\CspListener.cs" />
     <Compile Include="search\csp\CspSolver.cs" />
     <Compile Include="search\csp\Domain.cs" />
+    <Compile Include="search\csp\examples\DiffNotEqualConstraint.cs" />
+    <Compile Include="search\csp\examples\MapCSP.cs" />
+    <Compile Include="search\csp\examples\NotEqualConstraint.cs" />
+    <Compile Include="search\csp\examples\NQueensCSP.cs" />
     <Compile Include="search\csp\FlexibleBacktrackingSolver.cs" />
     <Compile Include="search\csp\heuristics\DegHeuristic.cs" />
     <Compile Include="search\csp\heuristics\Factory.cs" />
