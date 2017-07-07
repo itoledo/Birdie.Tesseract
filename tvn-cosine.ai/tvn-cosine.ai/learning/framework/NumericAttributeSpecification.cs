@@ -11,7 +11,7 @@ namespace tvn.cosine.ai.learning.framework
         // a simple attribute representing a number represented as a double .
         private string name;
 
-        public NumericAttributeSpecification(String name)
+        public NumericAttributeSpecification(string name)
         {
             this.name = name;
         }

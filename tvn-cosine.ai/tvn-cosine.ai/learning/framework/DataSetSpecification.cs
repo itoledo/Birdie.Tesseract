@@ -84,7 +84,7 @@ namespace tvn.cosine.ai.learning.framework
             this.targetAttribute = target;
         }
 
-        public AttributeSpecification getAttributeSpecFor(String name)
+        public AttributeSpecification getAttributeSpecFor(string name)
         {
             foreach (AttributeSpecification spec in attributeSpecifications)
             {
@@ -96,7 +96,7 @@ namespace tvn.cosine.ai.learning.framework
             throw new Exception("no attribute spec for  " + name);
         }
 
-        public void defineNumericAttribute(String name)
+        public void defineNumericAttribute(string name)
         {
             attributeSpecifications.Add(new NumericAttributeSpecification(name));
         }

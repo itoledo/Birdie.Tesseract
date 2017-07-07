@@ -70,8 +70,8 @@ namespace tvn.cosine.ai.search.framework.qsearch
         {
             if (!explored.Contains(node.getState()))
             {
-                frontier.add(node);
-                updateMetrics(frontier.size());
+                frontier.Add(node);
+                updateMetrics(frontier.Count);
             }
         }
 
@@ -90,7 +90,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
                                // should be called before...
             Node<S, A> result = frontier.remove();
             explored.Add(result.getState());
-            updateMetrics(frontier.size());
+            updateMetrics(frontier.Count);
             return result;
         }
 
@@ -102,7 +102,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
         protected override bool isFrontierEmpty()
         {
             cleanUpFrontier();
-            updateMetrics(frontier.size());
+            updateMetrics(frontier.Count);
             return frontier.isEmpty();
         }
 

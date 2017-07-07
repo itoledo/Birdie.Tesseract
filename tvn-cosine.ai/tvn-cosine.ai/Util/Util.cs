@@ -40,7 +40,7 @@ namespace tvn.cosine.ai.util
         }
 
         /**
-         * Create a Map<K, V> with the passed in keys having their values
+         * Create a IDictionary<K, V> with the passed in keys having their values
          * initialized to the passed in value.
          * 
          * @param keys

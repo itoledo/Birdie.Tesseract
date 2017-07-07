@@ -42,8 +42,8 @@
 
         protected override void addToFrontier(Node<S, A> node)
         {
-            frontier.add(node);
-            updateMetrics(frontier.size());
+            frontier.Add(node);
+            updateMetrics(frontier.Count);
         }
 
         /**
@@ -55,7 +55,7 @@
         protected override Node<S, A> removeFromFrontier()
         {
             Node<S, A> result = frontier.remove();
-            updateMetrics(frontier.size());
+            updateMetrics(frontier.Count);
             return result;
         }
 

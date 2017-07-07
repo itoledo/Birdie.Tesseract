@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.search.csp.examples
 
         public bool isSatisfiedWith(Assignment<VAR, VAL> assignment)
         {
-            Object value1 = assignment.getValue(var1);
+            object value1 = assignment.getValue(var1);
             return value1 == null || !value1.Equals(assignment.getValue(var2));
         }
     }

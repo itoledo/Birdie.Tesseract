@@ -12,7 +12,7 @@ namespace tvn.cosine.ai.agent.impl
     public class SimpleEnvironmentView : EnvironmentView
     {
 
-        public void notify(String msg)
+        public void notify(string msg)
         {
             Console.WriteLine("Message: " + msg);
         }

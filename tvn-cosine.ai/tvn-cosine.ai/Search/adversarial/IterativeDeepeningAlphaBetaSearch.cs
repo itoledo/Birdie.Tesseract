@@ -122,7 +122,7 @@ namespace tvn.cosine.ai.search.adversarial
                         if (hasSafeWinner(newResults.utilValues[0]))
                             break; // exit from iterative deepening loop
                         else if (newResults.size() > 1
-                                && isSignificantlyBetter(newResults.utilValues[0], newResults.utilValues[1]))
+                              && isSignificantlyBetter(newResults.utilValues[0], newResults.utilValues[1]))
                             break; // exit from iterative deepening loop
                     }
                 }

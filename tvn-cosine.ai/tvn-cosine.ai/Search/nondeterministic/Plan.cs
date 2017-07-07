@@ -6,7 +6,7 @@ namespace tvn.cosine.ai.search.nondeterministic
     /**
      * Represents a solution plan for an AND-OR search; according to page 135
      * AIMA3e, the plan must be "a subtree that (1) has a goal node at every leaf,
-     * (2) specifies one Object at each of its OR nodes, and (3) includes every
+     * (2) specifies one object at each of its OR nodes, and (3) includes every
      * outcome branch at each of its AND nodes." As demonstrated on page 136, this
      * subtree is implemented as a linked list where every OR node is an Object--
      * satisfying (2)--and every AND node is an if-state-then-plan-else

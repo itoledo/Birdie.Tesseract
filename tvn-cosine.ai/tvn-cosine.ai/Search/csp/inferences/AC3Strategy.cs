@@ -56,7 +56,7 @@ namespace tvn.cosine.ai.search.csp.inferences
             IQueue<VAR> queue = QueueFactory.createFifoQueueNoDuplicates<VAR>();
 
             foreach (var v in csp.getVariables())
-                queue.add(v);
+                queue.Add(v);
 
             DomainLog<VAR, VAL> log = new DomainLog<VAR, VAL>();
             reduceDomains(queue, csp, log);
@@ -80,7 +80,7 @@ namespace tvn.cosine.ai.search.csp.inferences
             if (domain.size() > 1)
             {
                 IQueue<VAR> queue = QueueFactory.createFifoQueue<VAR>();
-                queue.add(var);
+                queue.Add(var);
                 log.storeDomainFor(var, domain);
                 csp.setDomain(var, new Domain<VAL>(new[] { value }));
                 reduceDomains(queue, csp, log);
@@ -107,7 +107,7 @@ namespace tvn.cosine.ai.search.csp.inferences
                             log.setEmptyDomainFound(true);
                             return;
                         }
-                        queue.add(neighbor);
+                        queue.Add(neighbor);
                     }
                 }
             }

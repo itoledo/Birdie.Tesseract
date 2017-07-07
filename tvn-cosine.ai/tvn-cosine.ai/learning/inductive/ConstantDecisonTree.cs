@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.learning.inductive
         // represents leaf nodes like "Yes" or "No"
         private string value;
 
-        public ConstantDecisonTree(String value)
+        public ConstantDecisonTree(string value)
         {
             this.value = value;
         }

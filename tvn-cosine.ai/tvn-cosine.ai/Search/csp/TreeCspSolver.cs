@@ -58,7 +58,7 @@ namespace tvn.cosine.ai.search.csp
             IDictionary<VAR, Constraint<VAR, VAL>> parentConstraints = new Dictionary<VAR, Constraint<VAR, VAL>>();
             topologicalSort(csp, root, orderedVars, parentConstraints);
             if (csp.getDomain(root).isEmpty())
-                return null; // CSP has no solution! (needed if orderedVars.size() == 1)
+                return null; // CSP has no solution! (needed if orderedVars.Count == 1)
 
             // Establish arc consistency from top to bottom (starting at the bottom).
             csp = csp.copyDomains(); // do not change the original CSP!
@@ -121,7 +121,7 @@ namespace tvn.cosine.ai.search.csp
                     if (neighbor == null)
                         throw new ArgumentException("Constraint " + constraint + " is not binary.");
                     if (parentConstraints.ContainsKey(neighbor))
-                    { // faster than orderedVars.contains(neighbor)!
+                    { // faster than orderedVars.Contains(neighbor)!
                         arcsPointingUpwards++;
                         if (arcsPointingUpwards > 1)
                             throw new ArgumentException("CSP is not tree-structured.");

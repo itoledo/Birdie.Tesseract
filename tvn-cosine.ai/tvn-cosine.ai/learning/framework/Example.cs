@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.learning.framework
             return getAttributeValueAsString(targetAttribute.name());
         }
 
-        public override bool Equals(Object o)
+        public override bool Equals(object o)
         {
             if (this == o)
             {

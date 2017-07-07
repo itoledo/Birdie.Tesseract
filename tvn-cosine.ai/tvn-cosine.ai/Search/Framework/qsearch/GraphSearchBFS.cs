@@ -71,9 +71,9 @@ namespace tvn.cosine.ai.search.framework.qsearch
         {
             if (!explored.Contains(node.getState()) && !frontierStates.Contains(node.getState()))
             {
-                frontier.add(node);
+                frontier.Add(node);
                 frontierStates.Add(node.getState());
-                updateMetrics(frontier.size());
+                updateMetrics(frontier.Count);
             }
         }
 
@@ -89,7 +89,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
             Node<S, A> result = frontier.remove();
             explored.Add(result.getState());
             frontierStates.Remove(result.getState());
-            updateMetrics(frontier.size());
+            updateMetrics(frontier.Count);
             return result;
         }
 

@@ -351,7 +351,7 @@ namespace tvn.cosine.ai.search.local
             {
                 throw new ArgumentException("Must start with at least a population of size 1");
             }
-            // String lengths are assumed to be of fixed size,
+            // string lengths are assumed to be of fixed size,
             // therefore ensure initial populations lengths correspond to this
             foreach (Individual<A> individual in population)
             {

@@ -94,9 +94,9 @@ namespace tvn.cosine.ai.search.framework.qsearch
                 if (frontierNode == null)
                 {
                     // child.STATE is not in frontier and not yet explored
-                    frontier.add(node);
+                    frontier.Add(node);
                     frontierNodeLookup.Add(node.getState(), node);
-                    updateMetrics(frontier.size());
+                    updateMetrics(frontier.Count);
                 }
                 else if (nodeComparator != null && nodeComparator.Compare(node, frontierNode) < 0)
                 {
@@ -104,7 +104,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
                     // replace that frontier node with child
                     if (frontier.Remove(frontierNode))
                         frontierNodeLookup.Remove(frontierNode.getState());
-                    frontier.add(node);
+                    frontier.Add(node);
                     frontierNodeLookup.Add(node.getState(), node);
                 }
             }
@@ -123,7 +123,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
             frontierNodeLookup.Remove(result.getState());
             // add the node to the explored set
             explored.Add(result.getState());
-            updateMetrics(frontier.size());
+            updateMetrics(frontier.Count);
             return result;
         }
 

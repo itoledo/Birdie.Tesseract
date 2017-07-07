@@ -16,10 +16,10 @@ namespace tvn.cosine.ai.learning.inductive
 
         public DLTest()
         {
-            attrValues = new Dictionary<String, String>();
+            attrValues = new Dictionary<string , String>();
         }
 
-        public void add(String nta, String ntaValue)
+        public void add(string nta, string ntaValue)
         {
             attrValues.Add(nta, ntaValue);
 

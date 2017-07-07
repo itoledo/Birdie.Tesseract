@@ -149,8 +149,8 @@ namespace tvn.cosine.ai.search.framework.qsearch
         {
             if (!isExplored(node))
             {
-                frontier.add(node);
-                updateMetrics(frontier.size());
+                frontier.Add(node);
+                updateMetrics(frontier.Count);
             }
         }
 
@@ -166,7 +166,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
             cleanUpFrontier(); // not really necessary because isFrontierEmpty
                                // should be called before...
             Node<S, A> result = frontier.remove();
-            updateMetrics(frontier.size());
+            updateMetrics(frontier.Count);
             // add the node to the explored set of the corresponding problem
             setExplored(result);
             return result;
@@ -179,7 +179,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
         protected override bool isFrontierEmpty()
         {
             cleanUpFrontier();
-            updateMetrics(frontier.size());
+            updateMetrics(frontier.Count);
             return frontier.isEmpty();
         }
 

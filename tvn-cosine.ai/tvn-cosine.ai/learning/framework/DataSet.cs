@@ -98,9 +98,9 @@ namespace tvn.cosine.ai.learning.framework
             return results;
         }
 
-        public double calculateGainFor(String parameterName)
+        public double calculateGainFor(string parameterName)
         {
-            IDictionary<String, DataSet> hash = splitByAttribute(parameterName);
+            IDictionary<string , DataSet> hash = splitByAttribute(parameterName);
             double totalSize = examples.Count;
             double remainder = 0.0;
             foreach (string parameterValue in hash.Keys)
