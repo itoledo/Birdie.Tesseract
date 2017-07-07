@@ -91,6 +91,7 @@
     <Compile Include="learning\inductive\DecisionTree.cs" />
     <Compile Include="learning\inductive\DLTest.cs" />
     <Compile Include="learning\inductive\DLTestFactory.cs" />
+    <Compile Include="probability\CategoricalDistribution.cs" />
     <Compile Include="probability\domain\AbstractContinuousDomain.cs" />
     <Compile Include="probability\domain\AbstractDiscreteDomain.cs" />
     <Compile Include="probability\domain\AbstractFiniteDomain.cs" />
@@ -101,6 +102,13 @@
     <Compile Include="probability\domain\Domain.cs" />
     <Compile Include="probability\domain\FiniteDomain.cs" />
     <Compile Include="probability\domain\FiniteIntegerDomain.cs" />
+    <Compile Include="probability\Factor.cs" />
+    <Compile Include="probability\FiniteProbabilityModel.cs" />
+    <Compile Include="probability\Iterator.cs" />
+    <Compile Include="probability\ProbabilityDensity.cs" />
+    <Compile Include="probability\ProbabilityDistribution.cs" />
+    <Compile Include="probability\ProbabilityMass.cs" />
+    <Compile Include="probability\ProbabilityModel.cs" />
     <Compile Include="probability\proposition\AbstractDerivedProposition.cs" />
     <Compile Include="probability\proposition\AbstractProposition.cs" />
     <Compile Include="probability\proposition\AbstractTermProposition.cs" />
