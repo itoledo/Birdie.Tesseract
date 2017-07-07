@@ -12,7 +12,7 @@ namespace tvn.cosine.ai.probability
      * 
      * @author Ciaran O'Reilly
      */
-    public interface ProbabilityModel<T>
+    public abstract class ProbabilityModel<T>
     {
         /**
          * The default threshold for rounding errors. Example, to test if
@@ -21,7 +21,7 @@ namespace tvn.cosine.ai.probability
          * Math.abs(1 - probabilitySum) <
          * ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD;
          */
-        double DEFAULT_ROUNDING_THRESHOLD { get; }
+        public const double DEFAULT_ROUNDING_THRESHOLD = 1e-8;
 
         /**
          * 
@@ -29,7 +29,7 @@ namespace tvn.cosine.ai.probability
          *         &sum;<sub>&omega; &isin; &Omega;</sub> P(&omega;) = 1 (Equation
          *         13.1 pg. 484 AIMA3e), false otherwise.
          */
-        bool isValid();
+        public abstract bool isValid();
 
         /**
          * For any proposition &phi;, P(&phi;) = &sum;<sub>&omega; &isin;
@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.probability
          *            returned.
          * @return the probability of the proposition &phi;.
          */
-        double prior(IEnumerable<Proposition<T>> phi);
+        public abstract double prior(IEnumerable<Proposition<T>> phi);
 
         /**
          * Unlike unconditional or prior probabilities, most of the time we have
@@ -77,13 +77,13 @@ namespace tvn.cosine.ai.probability
          *            information we already have.
          * @return the probability of the proposition &phi; given evidence.
          */
-        double posterior(Proposition<T> phi, IEnumerable<Proposition<T>> evidence);
+        public abstract double posterior(Proposition<T> phi, IEnumerable<Proposition<T>> evidence);
 
         /**
          * @return a consistent ordered Set (e.g. LinkedHashSet) of the random
          *         variables describing the atomic variable/value pairs this
          *         probability model can take on. Refer to pg. 486 AIMA3e.
          */
-        ISet<RandomVariable> getRepresentation();
+        public abstract ISet<RandomVariable> getRepresentation();
     }
 }

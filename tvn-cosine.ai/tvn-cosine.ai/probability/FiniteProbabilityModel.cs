@@ -16,7 +16,7 @@ namespace tvn.cosine.ai.probability
      * 
      * @author Ciaran O'Reilly
      */
-    public interface FiniteProbabilityModel<T> : ProbabilityModel<T>
+    public abstract class FiniteProbabilityModel<T> : ProbabilityModel<T>
     {
 
         /**
@@ -28,7 +28,7 @@ namespace tvn.cosine.ai.probability
          *         Vector of numbers, where we assume a predefined ordering of the
          *         domain of the relevant random variables.
          */
-        CategoricalDistribution<T> priorDistribution(IEnumerable<Proposition<T>> phi);
+        public abstract CategoricalDistribution<T> priorDistribution(IEnumerable<Proposition<T>> phi);
 
         /**
          * Get a conditional distribution. Example:<br>
@@ -43,7 +43,7 @@ namespace tvn.cosine.ai.probability
          *            information we already have.
          * @return the conditional distribution for <b>P</b>(&phi; | evidence).
          */
-        CategoricalDistribution<T> posteriorDistribution(Proposition<T> phi, IEnumerable<Proposition<T>> evidence);
+        public abstract CategoricalDistribution<T> posteriorDistribution(Proposition<T> phi, IEnumerable<Proposition<T>> evidence);
 
         /**
          * Get a distribution on multiple variables. Example, the product rule:<br>
@@ -56,7 +56,7 @@ namespace tvn.cosine.ai.probability
          *            to be returned.
          * @return the joint distribution for <b>P</b>(X, Y, ...).
          */
-        CategoricalDistribution<T> jointDistribution(IEnumerable<Proposition<T>> propositions);
+        public abstract CategoricalDistribution<T> jointDistribution(IEnumerable<Proposition<T>> propositions);
     }
 
 }

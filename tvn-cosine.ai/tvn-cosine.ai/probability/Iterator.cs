@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace tvn.cosine.ai.probability
 {
@@ -10,8 +11,13 @@ namespace tvn.cosine.ai.probability
      * @see Factor#iterateOver(Iterator)
      * @see Factor#iterateOver(Iterator, AssignmentProposition...)
      */
-    public interface Iterator<T>
+    public class Iterator<T>
     {
+        public Iterator(Action<IDictionary<RandomVariable, T>, double> iterate)
+        {
+            this.iterate = iterate;
+        }
+
         /**
          * Called for each possible assignment for the Random Variables
          * comprising this Factor.
@@ -21,6 +27,6 @@ namespace tvn.cosine.ai.probability
          * @param value
          *            the value associated with &omega;
          */
-        void iterate(IDictionary<RandomVariable, T> possibleAssignment, double value);
+        public Action<IDictionary<RandomVariable, T>, double> iterate { get; }
     }
 }
