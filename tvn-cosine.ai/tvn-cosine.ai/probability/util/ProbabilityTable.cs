@@ -28,7 +28,7 @@ namespace tvn.cosine.ai.probability.util
         private string toString = null;
         private double sum = -1;
 
-        public ProbabilityTable(IEnumerable<RandomVariable> vars)
+        public ProbabilityTable(params RandomVariable[] vars)
             : this(new double[ProbUtil.expectedSizeOfProbabilityTable<T>(vars)], vars)
         { }
 
@@ -82,12 +82,12 @@ namespace tvn.cosine.ai.probability.util
             return randomVarInfo.Keys.Contains(rv);
         }
 
-        public double getValue(IEnumerable<T> assignments)
+        public double getValue(params T[] assignments)
         {
             return values[getIndex(assignments)];
         }
 
-        public double getValue(IEnumerable<AssignmentProposition<T>> assignments)
+        public double getValue(params AssignmentProposition<T>[] assignments)
         {
             var assignmentsLength = assignments.Count();
             if (assignmentsLength != randomVarInfo.Count)
@@ -152,7 +152,7 @@ namespace tvn.cosine.ai.probability.util
             return this;
         }
 
-        public int getIndex(IEnumerable<T> assignments)
+        public int getIndex(params T[] assignments)
         {
             var assignmentsLength = assignments.Count();
             if (assignmentsLength != randomVarInfo.Count)
@@ -170,7 +170,7 @@ namespace tvn.cosine.ai.probability.util
             return (int)queryMRN.getCurrentValueFor(radixValues);
         }
 
-        public CategoricalDistribution<T> marginal(IEnumerable<RandomVariable> vars)
+        public CategoricalDistribution<T> marginal(params RandomVariable[] vars)
         {
             return sumOut(vars) as CategoricalDistribution<T>;
         }
@@ -185,7 +185,7 @@ namespace tvn.cosine.ai.probability.util
             return pointwiseProduct((ProbabilityTable<T>)multiplier);
         }
 
-        public CategoricalDistribution<T> multiplyByPOS(CategoricalDistribution<T> multiplier, IEnumerable<RandomVariable> prodVarOrder)
+        public CategoricalDistribution<T> multiplyByPOS(CategoricalDistribution<T> multiplier, params RandomVariable[] prodVarOrder)
         {
             return pointwiseProductPOS((ProbabilityTable<T>)multiplier, prodVarOrder);
         }
@@ -195,7 +195,7 @@ namespace tvn.cosine.ai.probability.util
             iterateOverTable(new CategoricalDistributionIteratorAdapter(cdi));
         }
 
-        public void iterateOver(Iterator<T> cdi, IEnumerable<AssignmentProposition<T>> fixedValues)
+        public void iterateOver(Iterator<T> cdi, params AssignmentProposition<T>[] fixedValues)
         {
             iterateOverTable(new CategoricalDistributionIteratorAdapter(cdi), fixedValues);
         }
@@ -210,14 +210,14 @@ namespace tvn.cosine.ai.probability.util
             return new HashSet<RandomVariable>(randomVarInfo.Keys);
         }
 
-        public Factor<T> sumOut(IEnumerable<RandomVariable> vars)
+        public Factor<T> sumOut(params RandomVariable[] vars)
         {
             ISet<RandomVariable> soutVars = new HashSet<RandomVariable>(this.randomVarInfo.Keys);
             foreach (RandomVariable rv in vars)
             {
                 soutVars.Remove(rv);
             }
-            ProbabilityTable<T> summedOut = new ProbabilityTable<T>(soutVars);
+            ProbabilityTable<T> summedOut = new ProbabilityTable<T>(soutVars.ToArray());
             if (1 == summedOut.getValues().Length)
             {
                 summedOut.getValues()[0] = getSum();
@@ -249,7 +249,7 @@ namespace tvn.cosine.ai.probability.util
             return pointwiseProduct((ProbabilityTable<T>)multiplier);
         }
 
-        public Factor<T> pointwiseProductPOS(Factor<T> multiplier, IEnumerable<RandomVariable> prodVarOrder)
+        public Factor<T> pointwiseProductPOS(Factor<T> multiplier,params RandomVariable[] prodVarOrder)
         {
             return pointwiseProductPOS((ProbabilityTable<T>)multiplier, prodVarOrder);
         }
@@ -259,7 +259,7 @@ namespace tvn.cosine.ai.probability.util
             iterateOverTable(new FactorIteratorAdapter(fi));
         }
 
-        public void iterateOverFactorAssignmentProposition(Iterator<T> fi, IEnumerable<AssignmentProposition<T>> fixedValues)
+        public void iterateOverFactorAssignmentProposition(Iterator<T> fi, params AssignmentProposition<T>[] fixedValues)
         {
             iterateOverTable(new FactorIteratorAdapter(fi), fixedValues);
         }
@@ -302,7 +302,7 @@ namespace tvn.cosine.ai.probability.util
          *            Fixed values for a subset of the Random Variables comprising
          *            this Probability Table.
          */
-        public void iterateOverTable(Iterator<T> pti, IEnumerable<AssignmentProposition<T>> fixedValues)
+        public void iterateOverTable(Iterator<T> pti, params AssignmentProposition<T>[] fixedValues)
         {
             IDictionary<RandomVariable, T> possibleWorld = new Dictionary<RandomVariable, T>();
             MixedRadixNumber tableMRN = new MixedRadixNumber(0, radices);
@@ -368,7 +368,7 @@ namespace tvn.cosine.ai.probability.util
                 throw new ArgumentException("Divisor must be a subset of the dividend.");
             }
 
-            ProbabilityTable<T> quotient = new ProbabilityTable<T>(randomVarInfo.Keys);
+            ProbabilityTable<T> quotient = new ProbabilityTable<T>(randomVarInfo.Keys.ToArray());
 
             if (1 == divisor.getValues().Length)
             {
@@ -456,7 +456,7 @@ namespace tvn.cosine.ai.probability.util
             return pointwiseProductPOS(multiplier, prodVars.ToArray());
         }
 
-        public ProbabilityTable<T> pointwiseProductPOS(ProbabilityTable<T> multiplier, IEnumerable<RandomVariable> prodVarOrder)
+        public ProbabilityTable<T> pointwiseProductPOS(ProbabilityTable<T> multiplier, params RandomVariable[] prodVarOrder)
         {
             ProbabilityTable<T> product = new ProbabilityTable<T>(prodVarOrder);
             if (product.randomVarInfo.Keys.Union(randomVarInfo.Keys).Union(multiplier.randomVarInfo.Keys).Count() != product.randomVarInfo.Keys.Count)

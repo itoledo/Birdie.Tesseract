@@ -56,7 +56,7 @@ namespace tvn.cosine.ai.probability.bayes
          * @return the value for the possible worlds associated with the assignments
          *         for the random variables comprising the Conditional Distribution.
          */
-        double getValue(IEnumerable<T> eventValues);
+        double getValue(params T[] eventValues);
 
         /**
          * Get the value for the provided set of AssignmentPropositions for the
@@ -69,7 +69,7 @@ namespace tvn.cosine.ai.probability.bayes
          * @return the value for the possible worlds associated with the assignments
          *         for the random variables comprising the Conditional Distribution.
          */
-        double getValue(IEnumerable<AssignmentProposition<T>> eventValues);
+        double getValue(params AssignmentProposition<T>[] eventValues);
 
         /**
          * A conditioning case is just a possible combination of values for the
@@ -86,7 +86,7 @@ namespace tvn.cosine.ai.probability.bayes
          * @see ConditionalProbabilityDistribution#getOn()
          * @see ConditionalProbabilityDistribution#getParents()
          */
-        ProbabilityDistribution<T> getConditioningCase(IEnumerable<T> parentValues);
+        ProbabilityDistribution<T> getConditioningCase(params T[] parentValues);
 
         /**
          * A conditioning case is just a possible combination of values for the
@@ -102,7 +102,7 @@ namespace tvn.cosine.ai.probability.bayes
          * @see ConditionalProbabilityDistribution#getOn()
          * @see ConditionalProbabilityDistribution#getParents()
          */
-        ProbabilityDistribution<T> getConditioningCase(IEnumerable<AssignmentProposition<T>> parentValues);
+        ProbabilityDistribution<T> getConditioningCase(params AssignmentProposition<T>[] parentValues);
 
         /**
          * Retrieve a specific example for the Random Variable this conditional
@@ -119,7 +119,7 @@ namespace tvn.cosine.ai.probability.bayes
          *         distribution is on, based on the probability argument passed in.
          * @see ConditionalProbabilityDistribution#getOn()
          */
-        T getSample(double probabilityChoice, IEnumerable<T> parentValues);
+        T getSample(double probabilityChoice, params T[] parentValues);
 
         /**
          * Retrieve a specific example for the Random Variable this conditional
@@ -135,6 +135,6 @@ namespace tvn.cosine.ai.probability.bayes
          *         distribution is on, based on the probability argument passed in.
          * @see ConditionalProbabilityDistribution#getOn()
          */
-        T getSample(double probabilityChoice, IEnumerable<AssignmentProposition<T>> parentValues);
+        T getSample(double probabilityChoice, params AssignmentProposition<T>[] parentValues);
     } 
 }

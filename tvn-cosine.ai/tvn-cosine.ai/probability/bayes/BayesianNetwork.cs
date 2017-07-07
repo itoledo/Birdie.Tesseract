@@ -40,7 +40,7 @@ namespace tvn.cosine.ai.probability.bayes
          * @return a list of the Random Variables, in topological order, contained
          *         within the network.
          */
-        List<RandomVariable> getVariablesInTopologicalOrder();
+        IList<RandomVariable> getVariablesInTopologicalOrder();
 
         /**
          * 

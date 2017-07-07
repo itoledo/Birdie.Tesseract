@@ -108,6 +108,11 @@
     <Compile Include="probability\bayes\exact\EliminationAsk.cs" />
     <Compile Include="probability\bayes\exact\EnumerationAsk.cs" />
     <Compile Include="probability\bayes\FiniteNode.cs" />
+    <Compile Include="probability\bayes\impl\AbstractNode.cs" />
+    <Compile Include="probability\bayes\impl\BayesNet.cs" />
+    <Compile Include="probability\bayes\impl\CPT.cs" />
+    <Compile Include="probability\bayes\impl\DynamicBayesNet.cs" />
+    <Compile Include="probability\bayes\impl\FullCPTNode.cs" />
     <Compile Include="probability\bayes\model\FiniteBayesModel.cs" />
     <Compile Include="probability\bayes\Node.cs" />
     <Compile Include="probability\CategoricalDistribution.cs" />

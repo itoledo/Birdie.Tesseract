@@ -64,7 +64,7 @@ namespace tvn.cosine.ai.probability
          * @see CategoricalDistribution#getValues()
          * @see ProbabilityDistribution#getFor()
          */
-        int getIndex(IEnumerable<T> values);
+        int getIndex(params T[] values);
 
         /**
          * Get the marginal probability for the provided variables from this
@@ -80,7 +80,7 @@ namespace tvn.cosine.ai.probability
          *         summed out and a new set of values updated with the summed out
          *         values.
          */
-        CategoricalDistribution<T> marginal(IEnumerable<RandomVariable> vars);
+        CategoricalDistribution<T> marginal(params RandomVariable[] vars);
 
         /**
          * Divide the dividend (this) CategoricalDistribution by the divisor to
@@ -170,7 +170,7 @@ namespace tvn.cosine.ai.probability
          * 
          * @see CategoricalDistribution#multiplyBy(CategoricalDistribution)
          */
-        CategoricalDistribution<T> multiplyByPOS(CategoricalDistribution<T> multiplier, IEnumerable<RandomVariable> prodVarOrder);
+        CategoricalDistribution<T> multiplyByPOS(CategoricalDistribution<T> multiplier, params RandomVariable[] prodVarOrder);
 
         /**
          * Iterate over all the possible value assignments for the Random Variables
@@ -193,6 +193,6 @@ namespace tvn.cosine.ai.probability
          *            Fixed values for a subset of the Random Variables comprising
          *            this CategoricalDistribution.
          */
-        void iterateOver(Iterator<T> cdi, IEnumerable<AssignmentProposition<T>> fixedValues);
+        void iterateOver(Iterator<T> cdi, params AssignmentProposition<T>[] fixedValues);
     } 
 }

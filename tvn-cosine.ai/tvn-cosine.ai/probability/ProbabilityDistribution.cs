@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.probability
          * @return the value for the possible worlds associated with the assignments
          *         for the random variables comprising the Distribution.
          */
-        double getValue(IEnumerable<T> eventValues);
+        double getValue(params T[] eventValues);
 
         /**
          * Get the value for the provided set of AssignmentPropositions for the
@@ -58,7 +58,7 @@ namespace tvn.cosine.ai.probability
          * @return the value for the possible worlds associated with the assignments
          *         for the random variables comprising the Distribution.
          */
-        double getValue(IEnumerable<AssignmentProposition<T>> eventValues);
+        double getValue(params AssignmentProposition<T>[] eventValues);
     }
 
 }

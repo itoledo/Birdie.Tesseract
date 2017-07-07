@@ -24,6 +24,6 @@ namespace tvn.cosine.ai.probability.bayes
          * @return a Factor for the Random Variables from the Conditional
          *         Probability Table that are not part of the evidence.
          */
-        Factor<T> getFactorFor(IEnumerable<AssignmentProposition<T>> evidence);
+        Factor<T> getFactorFor(params AssignmentProposition<T>[] evidence);
     }
 }

@@ -50,7 +50,7 @@ namespace tvn.cosine.ai.probability
          * @return a new Factor containing any remaining random variables not summed
          *         out and a new set of values updated with the summed out values.
          */
-        Factor<T> sumOut(IEnumerable<RandomVariable> vars);
+        Factor<T> sumOut(params RandomVariable[] vars);
 
         /**
          * Pointwise multiplication of this Factor by a given multiplier, creating a
@@ -102,7 +102,7 @@ namespace tvn.cosine.ai.probability
          * 
          * @see Factor#pointwiseProduct(Factor)
          */
-        Factor<T> pointwiseProductPOS(Factor<T> multiplier, IEnumerable<RandomVariable> prodVarOrder);
+        Factor<T> pointwiseProductPOS(Factor<T> multiplier, params RandomVariable[] prodVarOrder);
 
         /**
          * Iterate over all the possible value assignments for the Random Variables
@@ -124,6 +124,6 @@ namespace tvn.cosine.ai.probability
          *            Fixed values for a subset of the Random Variables comprising
          *            this Factor.
          */
-        void iterateOver(Iterator<T> fi, IEnumerable<AssignmentProposition<T>> fixedValues);
+        void iterateOver(Iterator<T> fi, params AssignmentProposition<T>[] fixedValues);
     } 
 }
