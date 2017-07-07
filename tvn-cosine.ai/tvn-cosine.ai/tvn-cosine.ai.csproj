@@ -91,6 +91,15 @@
     <Compile Include="learning\inductive\DecisionTree.cs" />
     <Compile Include="learning\inductive\DLTest.cs" />
     <Compile Include="learning\inductive\DLTestFactory.cs" />
+    <Compile Include="probability\bayes\BayesianNetwork.cs" />
+    <Compile Include="probability\bayes\BayesInference.cs" />
+    <Compile Include="probability\bayes\ConditionalProbabilityDistribution.cs" />
+    <Compile Include="probability\bayes\ConditionalProbabilityTable.cs" />
+    <Compile Include="probability\bayes\ContinuousNode.cs" />
+    <Compile Include="probability\bayes\DiscreteNode.cs" />
+    <Compile Include="probability\bayes\DynamicBayesianNetwork.cs" />
+    <Compile Include="probability\bayes\FiniteNode.cs" />
+    <Compile Include="probability\bayes\Node.cs" />
     <Compile Include="probability\CategoricalDistribution.cs" />
     <Compile Include="probability\domain\AbstractContinuousDomain.cs" />
     <Compile Include="probability\domain\AbstractDiscreteDomain.cs" />
