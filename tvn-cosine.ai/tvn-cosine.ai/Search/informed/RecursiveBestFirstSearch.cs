@@ -85,7 +85,7 @@ namespace tvn.cosine.ai.search.informed
         // function RECURSIVE-BEST-FIRST-SEARCH(problem) returns a solution, or
         // failure
 
-        public List<A> findActions(IProblem<S, A> p)
+        public IList<A> findActions(IProblem<S, A> p)
         {
             explored.Clear();
             clearMetrics();

@@ -29,7 +29,7 @@ namespace tvn.cosine.ai.search.framework
         }
 
 
-        public List<A> findActions(IProblem<S, A> p)
+        public IList<A> findActions(IProblem<S, A> p)
         {
             impl.getNodeExpander().UseParentLinks(true);
             frontier.Clear();

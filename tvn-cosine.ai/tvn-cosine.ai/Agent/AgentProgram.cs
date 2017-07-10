@@ -9,7 +9,7 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public interface AgentProgram
+    public interface AgentProgram  
     {
         /**
          * The Agent's program, which maps any given percept sequences to an action.

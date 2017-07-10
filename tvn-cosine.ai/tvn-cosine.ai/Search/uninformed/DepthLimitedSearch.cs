@@ -64,7 +64,7 @@ namespace tvn.cosine.ai.search.uninformed
          * @return if goal found, the list of actions to the goal, empty otherwise.
          */
 
-        public List<A> findActions(IProblem<S, A> p)
+        public IList<A> findActions(IProblem<S, A> p)
         {
             nodeExpander.UseParentLinks(true);
             Node<S, A> node = findNode(p);

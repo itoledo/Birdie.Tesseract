@@ -70,8 +70,8 @@ namespace tvn.cosine.ai.search.local
 
         protected override Individual<double> mutate(Individual<double> child)
         {
-            List<double> rep = child.getRepresentation();
-            List<double> newRep = new List<double>();
+            IList<double> rep = child.getRepresentation();
+            IList<double> newRep = new List<double>();
             foreach (double n in rep)
             {
                 double num = n;

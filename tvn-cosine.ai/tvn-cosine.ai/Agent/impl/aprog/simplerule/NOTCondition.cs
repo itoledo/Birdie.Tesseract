@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
             this.con = con;
         }
 
-        public override bool evaluate(ObjectWithDynamicAttributes p)
+        public override bool evaluate(ObjectWithDynamicAttributes<object, object> p)
         {
             return (!con.evaluate(p));
         }

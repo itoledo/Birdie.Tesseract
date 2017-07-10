@@ -17,7 +17,7 @@ namespace tvn.cosine.ai.search.local
      */
     public class Individual<A>
     {
-        private List<A> representation = new List<A>();
+        private IList<A> representation = new List<A>();
         private int descendants; // for debugging!
 
         /**
@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.search.local
          * @param representation
          *            the individual's representation.
          */
-        public Individual(List<A> representation)
+        public Individual(IList<A> representation)
         {
             this.representation = representation;
         }
@@ -35,7 +35,7 @@ namespace tvn.cosine.ai.search.local
          * 
          * @return the individual's representation.
          */
-        public List<A> getRepresentation()
+        public IList<A> getRepresentation()
         {
             return representation;
         }
@@ -62,6 +62,6 @@ namespace tvn.cosine.ai.search.local
         public int getDescendants()
         {
             return descendants;
-        } 
+        }
     }
 }

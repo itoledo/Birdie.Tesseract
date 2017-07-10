@@ -7,13 +7,10 @@ namespace tvn.cosine.ai.agent.impl
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class DynamicPercept : ObjectWithDynamicAttributes, Percept
-    {
-
+    public class DynamicPercept : ObjectWithDynamicAttributes<object, object>, Percept
+    { 
         public DynamicPercept()
-        {
-
-        }
+        {   }
 
         public override string describeType()
         {

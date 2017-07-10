@@ -28,8 +28,13 @@ namespace tvn.cosine.ai.search.framework
          * 
          * @return a (possibly empty) list of actions or empty
          */
-        List<A> findActions(IProblem<S, A> p);
-         
+        IList<A> findActions(IProblem<S, A> p);
+
+        /**
+         * Returns all the metrics of the search.
+         */
+        IDictionary<string, double> getMetrics();
+
         /**
          * Adds a listener to the list of node listeners. It is informed whenever a
          * node is expanded during search.

@@ -3,13 +3,10 @@
     /**
      * @author Ciaran O'Reilly
      */
-    public class DynamicState : ObjectWithDynamicAttributes, State
+    public class DynamicState : ObjectWithDynamicAttributes<object, object>, State
     {
-
         public DynamicState()
-        {
-
-        }
+        { }
 
         public override string describeType()
         {

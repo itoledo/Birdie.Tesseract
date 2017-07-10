@@ -8,7 +8,7 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public interface Agent : EnvironmentObject
+    public interface Agent  : EnvironmentObject 
     {
         /**
          * Call the Agent's program, which maps any given percept sequences to an

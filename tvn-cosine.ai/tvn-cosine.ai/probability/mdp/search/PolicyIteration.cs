@@ -130,8 +130,7 @@ namespace tvn.cosine.ai.probability.mdp.search
          *            an MDP with states S, actions A(s), transition model P(s'|s,a)
          * @return a policy vector indexed by state, initially random.
          */
-        public static IDictionary<S, A> initialPolicyVector<S, A>(MarkovDecisionProcess<S, A> mdp)
-            where A : Action
+        public static IDictionary<S, A> initialPolicyVector(MarkovDecisionProcess<S, A> mdp) 
         {
             IDictionary<S, A> pi = new Dictionary<S, A>();
             List<A> actions = new List<A>();

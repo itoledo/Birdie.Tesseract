@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
             this.action = action;
         }
 
-        public bool evaluate(ObjectWithDynamicAttributes p)
+        public bool evaluate(ObjectWithDynamicAttributes<object, object> p)
         {
             return (con.evaluate(p));
         }

@@ -7,8 +7,6 @@
      */
     public abstract class AbstractAgent : Agent
     {
-
-
         protected AgentProgram program;
         private bool alive = true;
 

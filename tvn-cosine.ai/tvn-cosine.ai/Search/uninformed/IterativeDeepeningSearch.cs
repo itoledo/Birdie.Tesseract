@@ -49,7 +49,7 @@ namespace tvn.cosine.ai.search.uninformed
         // function ITERATIVE-DEEPENING-SEARCH(problem) returns a solution, or
         // failure
 
-        public List<A> findActions(IProblem<S, A> p)
+        public IList<A> findActions(IProblem<S, A> p)
         {
             nodeExpander.UseParentLinks(true);
             return SearchUtils.toActions(findNode(p));

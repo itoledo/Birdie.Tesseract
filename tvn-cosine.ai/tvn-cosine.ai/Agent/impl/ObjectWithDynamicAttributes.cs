@@ -8,9 +8,9 @@ namespace tvn.cosine.ai.agent.impl
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public abstract class ObjectWithDynamicAttributes
+    public abstract class ObjectWithDynamicAttributes<KEY, VALUE>
     {
-        private IDictionary<object, object> attributes = new Dictionary<object, object>();
+        private IDictionary<KEY, VALUE> attributes = new Dictionary<KEY, VALUE>();
 
         //
         // PUBLIC METHODS
@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.agent.impl
 
             sb.Append("[");
             bool first = true;
-            foreach (object key in attributes.Keys)
+            foreach (KEY key in attributes.Keys)
             {
                 if (first)
                 {
@@ -63,9 +63,9 @@ namespace tvn.cosine.ai.agent.impl
          * 
          * @return an unmodifiable view of the object's key set
          */
-        public virtual ISet<object> getKeySet()
+        public virtual ISet<KEY> getKeySet()
         {
-            return new HashSet<object>(attributes.Keys);
+            return new HashSet<KEY>(attributes.Keys);
         }
 
         /**
@@ -78,7 +78,7 @@ namespace tvn.cosine.ai.agent.impl
          * @param value
          *            the attribute value
          */
-        public virtual void setAttribute(object key, object value)
+        public virtual void setAttribute(KEY key, VALUE value)
         {
             attributes.Add(key, value);
         }
@@ -92,7 +92,7 @@ namespace tvn.cosine.ai.agent.impl
          * 
          * @return the value of the specified attribute name, or null if not found.
          */
-        public virtual object getAttribute(object key)
+        public virtual VALUE getAttribute(KEY key)
         {
             return attributes[key];
         }
@@ -104,15 +104,16 @@ namespace tvn.cosine.ai.agent.impl
          * @param key
          *            the attribute key
          */
-        public virtual void removeAttribute(object key)
+        public virtual void removeAttribute(KEY key)
         {
             attributes.Remove(key);
         }
 
         public override bool Equals(object o)
         {
-            return o != null && GetType() == o.GetType()
-                && attributes.Equals(((ObjectWithDynamicAttributes)o).attributes);
+            return o != null
+                && GetType() == o.GetType()
+                && attributes.Equals(((ObjectWithDynamicAttributes<KEY, VALUE>)o).attributes);
         }
 
         public override int GetHashCode()
@@ -124,5 +125,5 @@ namespace tvn.cosine.ai.agent.impl
         {
             return describeType() + describeAttributes();
         }
-    } 
+    }
 }

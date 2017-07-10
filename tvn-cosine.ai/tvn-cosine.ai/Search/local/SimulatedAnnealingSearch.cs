@@ -88,7 +88,7 @@ namespace tvn.cosine.ai.search.local
         }
 
 
-        public List<A> findActions(IProblem<S, A> p)
+        public IList<A> findActions(IProblem<S, A> p)
         {
             nodeExpander.UseParentLinks(true);
             return SearchUtils.toActions(findNode(p));
@@ -236,5 +236,6 @@ namespace tvn.cosine.ai.search.local
             // SA deals with gradient DESCENT
             return -1 * h(n);
         }
+         
     }
 }

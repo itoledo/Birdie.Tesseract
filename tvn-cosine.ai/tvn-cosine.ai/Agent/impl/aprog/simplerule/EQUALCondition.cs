@@ -27,7 +27,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
             this.value = value;
         }
          
-    public override bool evaluate(ObjectWithDynamicAttributes p)
+    public override bool evaluate(ObjectWithDynamicAttributes<object, object> p)
         {
             return value.Equals(p.getAttribute(key));
         }

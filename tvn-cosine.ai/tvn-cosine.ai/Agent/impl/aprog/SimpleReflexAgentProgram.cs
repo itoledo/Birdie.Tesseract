@@ -56,7 +56,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         {
 
             // state <- INTERPRET-INPUT(percept);
-            ObjectWithDynamicAttributes state = interpretInput(percept);
+            ObjectWithDynamicAttributes<object, object> state = interpretInput(percept);
             // rule <- RULE-MATCH(state, rules);
             Rule rule = ruleMatch(state, rules);
             // action <- rule.ACTION;
@@ -70,12 +70,12 @@ namespace tvn.cosine.ai.agent.impl.aprog
         //
         // PROTECTED METHODS
         //
-        protected ObjectWithDynamicAttributes interpretInput(Percept p)
+        protected ObjectWithDynamicAttributes<object, object> interpretInput(Percept p)
         {
             return (DynamicPercept)p;
         }
 
-        protected Rule ruleMatch(ObjectWithDynamicAttributes state, ISet<Rule> rulesSet)
+        protected Rule ruleMatch(ObjectWithDynamicAttributes<object, object> state, ISet<Rule> rulesSet)
         {
             foreach (Rule r in rulesSet)
             {

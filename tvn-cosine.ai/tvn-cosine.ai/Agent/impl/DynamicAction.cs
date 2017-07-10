@@ -4,7 +4,7 @@
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class DynamicAction : ObjectWithDynamicAttributes, Action
+    public class DynamicAction : ObjectWithDynamicAttributes<object, object>, Action
     {
         public const string ATTRIBUTE_NAME = "name";
 

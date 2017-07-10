@@ -23,7 +23,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
             right = rightCon;
         }
          
-    public override bool evaluate(ObjectWithDynamicAttributes p)
+    public override bool evaluate(ObjectWithDynamicAttributes<object, object> p)
         {
             return (left.evaluate(p) || right.evaluate(p));
         }

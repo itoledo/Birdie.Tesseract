@@ -82,7 +82,7 @@ namespace tvn.cosine.ai.util
          *            randomly.
          * @return a randomly selected element from l.
          */
-        public static T selectRandomlyFromList<T>(List<T> l)
+        public static T selectRandomlyFromList<T>(IList<T> l)
         {
             return l[random.Next(l.Count)];
         }

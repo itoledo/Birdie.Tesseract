@@ -8,7 +8,7 @@
      */
     public abstract class Condition
     {
-        public abstract bool evaluate(ObjectWithDynamicAttributes p);
+        public abstract bool evaluate(ObjectWithDynamicAttributes<object, object> p);
 
         public override bool Equals(object o)
         {
