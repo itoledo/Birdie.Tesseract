@@ -135,6 +135,17 @@
     <Compile Include="probability\hmm\HiddenMarkovModel.cs" />
     <Compile Include="probability\hmm\impl\HMM.cs" />
     <Compile Include="probability\Iterator.cs" />
+    <Compile Include="probability\mdp\ActionsFunction.cs" />
+    <Compile Include="probability\mdp\impl\LookupPolicy.cs" />
+    <Compile Include="probability\mdp\impl\MDP.cs" />
+    <Compile Include="probability\mdp\impl\ModifiedPolicyEvaluation.cs" />
+    <Compile Include="probability\mdp\MarkovDecisionProcess.cs" />
+    <Compile Include="probability\mdp\Policy.cs" />
+    <Compile Include="probability\mdp\PolicyEvaluation.cs" />
+    <Compile Include="probability\mdp\RewardFunction.cs" />
+    <Compile Include="probability\mdp\search\PolicyIteration.cs" />
+    <Compile Include="probability\mdp\search\ValueIteration.cs" />
+    <Compile Include="probability\mdp\TransitionProbabilityFunction.cs" />
     <Compile Include="probability\ProbabilityDensity.cs" />
     <Compile Include="probability\ProbabilityDistribution.cs" />
     <Compile Include="probability\ProbabilityMass.cs" />
