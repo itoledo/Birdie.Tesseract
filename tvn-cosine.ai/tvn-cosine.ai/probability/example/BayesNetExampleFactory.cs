@@ -12,11 +12,10 @@ namespace tvn.cosine.ai.probability.example
     {
         public static BayesianNetwork<string> construct2FairDiceNetwor()
         {
-            FiniteNode<string> dice1 = new FullCPTNode<string>(ExampleRV.DICE_1_RV, new double[] {
-                1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0 });
-            FiniteNode<string> dice2 = new FullCPTNode<string>(ExampleRV.DICE_2_RV, new double[] {
-                1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0,
-                1.0 / 6.0 });
+            FiniteNode<string> dice1 = new FullCPTNode<string>(ExampleRV.DICE_1_RV, 
+                new double[] {  1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0 });
+            FiniteNode<string> dice2 = new FullCPTNode<string>(ExampleRV.DICE_2_RV, 
+                new double[] { 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0,  1.0 / 6.0 });
 
             return new BayesNet<string>(dice1, dice2);
         }

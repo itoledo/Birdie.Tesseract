@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.probability.mdp;
 using tvn.cosine.ai.probability.mdp.impl;

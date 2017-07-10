@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.search.adversarial
         S getInitialState(); 
         P[] getPlayers(); 
         P getPlayer(S state); 
-        List<A> getActions(S state); 
+        IList<A> getActions(S state); 
         S getResult(S state, A action); 
         bool isTerminal(S state); 
         double getUtility(S state, P player);
