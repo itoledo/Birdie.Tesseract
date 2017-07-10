@@ -18,7 +18,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
         protected IList<RandomVariable> variables = new List<RandomVariable>();
         protected IDictionary<RandomVariable, Node<T>> varToNodeMap = new Dictionary<RandomVariable, Node<T>>();
 
-        public BayesNet(IEnumerable<Node<T>> rootNodes)
+        public BayesNet(params Node<T>[] rootNodes)
         {
             if (null == rootNodes)
             {

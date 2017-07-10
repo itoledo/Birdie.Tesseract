@@ -16,11 +16,11 @@ namespace tvn.cosine.ai.probability.domain
         private ISet<T> possibleValues = null;
         private bool ordered = false;
 
-        public ArbitraryTokenDomain(IEnumerable<T> pValues)
+        public ArbitraryTokenDomain(params T[] pValues)
             : this(false, pValues)
         { }
 
-        public ArbitraryTokenDomain(bool ordered, IEnumerable<T> pValues)
+        public ArbitraryTokenDomain(bool ordered, params T[] pValues)
         {
             this.ordered = ordered;
             // Keep consistent order

@@ -6,7 +6,7 @@ namespace tvn.cosine.ai.probability.domain
     {
         private ISet<int> possibleValues = null;
 
-        public FiniteIntegerDomain(IEnumerable<int> pValues)
+        public FiniteIntegerDomain(params int[] pValues)
         {
             // Keep consistent order
             possibleValues = new HashSet<int>();
