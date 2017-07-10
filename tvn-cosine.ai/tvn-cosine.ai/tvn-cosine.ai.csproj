@@ -129,6 +129,8 @@
     <Compile Include="environment\wumpusworld\WumpusCave.cs" />
     <Compile Include="environment\wumpusworld\WumpusFunctionFunctions.cs" />
     <Compile Include="environment\wumpusworld\WumpusKnowledgeBase.cs" />
+    <Compile Include="environment\xyenv\Wall.cs" />
+    <Compile Include="environment\xyenv\XYEnvironment.cs" />
     <Compile Include="learning\data\DataResource.cs" />
     <Compile Include="learning\framework\Attribute.cs" />
     <Compile Include="learning\framework\AttributeSpecification.cs" />
