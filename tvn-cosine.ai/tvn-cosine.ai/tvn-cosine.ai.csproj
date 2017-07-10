@@ -102,6 +102,8 @@
     <Compile Include="environment\nqueens\NQueensFunctions.cs" />
     <Compile Include="environment\nqueens\NQueensGenAlgoUtil.cs" />
     <Compile Include="environment\nqueens\QueenAction.cs" />
+    <Compile Include="environment\tictactoe\TicTacToeGame.cs" />
+    <Compile Include="environment\tictactoe\TicTacToeState.cs" />
     <Compile Include="learning\data\DataResource.cs" />
     <Compile Include="learning\framework\Attribute.cs" />
     <Compile Include="learning\framework\AttributeSpecification.cs" />
