@@ -361,7 +361,18 @@
     <Compile Include="util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="logic\common\" />
+    <Folder Include="logic\fol\domain\" />
+    <Folder Include="logic\fol\inference\otter\defaultimpl\" />
+    <Folder Include="logic\fol\inference\proof\" />
+    <Folder Include="logic\fol\inference\trace\" />
+    <Folder Include="logic\fol\kb\data\" />
+    <Folder Include="logic\fol\parsing\ast\" />
+    <Folder Include="logic\propositional\agent\" />
+    <Folder Include="logic\propositional\inference\" />
     <Folder Include="logic\propositional\kb\data\" />
+    <Folder Include="logic\propositional\parsing\ast\" />
+    <Folder Include="logic\propositional\visitors\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
