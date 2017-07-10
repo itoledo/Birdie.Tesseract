@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.probability
          *            returned.
          * @return the probability of the proposition &phi;.
          */
-        public abstract double prior(IEnumerable<Proposition<T>> phi);
+        public abstract double prior(params Proposition<T>[] phi);
 
         /**
          * Unlike unconditional or prior probabilities, most of the time we have
@@ -77,7 +77,7 @@ namespace tvn.cosine.ai.probability
          *            information we already have.
          * @return the probability of the proposition &phi; given evidence.
          */
-        public abstract double posterior(Proposition<T> phi, IEnumerable<Proposition<T>> evidence);
+        public abstract double posterior(Proposition<T> phi, params Proposition<T>[] evidence);
 
         /**
          * @return a consistent ordered Set (e.g. LinkedHashSet) of the random

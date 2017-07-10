@@ -69,12 +69,12 @@ namespace tvn.cosine.ai.probability.bayes.model
             return Math.Abs(1 - prior(new Proposition<T>[representation.Count])) <= ProbabilityModel<T>.DEFAULT_ROUNDING_THRESHOLD;
         }
 
-        public override double prior(IEnumerable<Proposition<T>> phi)
+        public override double prior(params Proposition<T>[] phi)
         {
             // Calculating the prior, therefore no relevant evidence
             // just query over the scope of proposition phi in order
             // to get a joint distribution for these
-            Proposition<T> conjunct = ProbUtil.constructConjunction<T>(phi.ToArray());
+            Proposition<T> conjunct = ProbUtil.constructConjunction<T>(phi);
             RandomVariable[] X = conjunct.getScope().ToArray();
             CategoricalDistribution<T> d = bayesInference.ask(X, new AssignmentProposition<T>[0], bayesNet);
 
@@ -93,7 +93,7 @@ namespace tvn.cosine.ai.probability.bayes.model
             return probSum[0];
         }
 
-        public override double posterior(Proposition<T> phi, IEnumerable<Proposition<T>> evidence)
+        public override double posterior(Proposition<T> phi, params Proposition<T>[] evidence)
         {
 
             Proposition<T> conjEvidence = ProbUtil.constructConjunction<T>(evidence.ToArray());
@@ -119,12 +119,12 @@ namespace tvn.cosine.ai.probability.bayes.model
 
         //
         // START-FiniteProbabilityModel
-        public override CategoricalDistribution<T> priorDistribution(IEnumerable<Proposition<T>> phi)
+        public override CategoricalDistribution<T> priorDistribution(params Proposition<T>[] phi)
         {
             return jointDistribution(phi);
         }
 
-        public override CategoricalDistribution<T> posteriorDistribution(Proposition<T> phi, IEnumerable<Proposition<T>> evidence)
+        public override CategoricalDistribution<T> posteriorDistribution(Proposition<T> phi, params Proposition<T>[] evidence)
         {
 
             Proposition<T> conjEvidence = ProbUtil.constructConjunction<T>(evidence.ToArray());
@@ -159,7 +159,7 @@ namespace tvn.cosine.ai.probability.bayes.model
             return rVal;
         }
 
-        public override CategoricalDistribution<T> jointDistribution(IEnumerable<Proposition<T>> propositions)
+        public override CategoricalDistribution<T> jointDistribution(params Proposition<T>[] propositions)
         {
             ProbabilityTable<T> d = null;
             Proposition<T> conjProp = ProbUtil.constructConjunction<T>(propositions.ToArray());

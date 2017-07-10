@@ -128,6 +128,7 @@
     <Compile Include="probability\domain\FiniteIntegerDomain.cs" />
     <Compile Include="probability\Factor.cs" />
     <Compile Include="probability\FiniteProbabilityModel.cs" />
+    <Compile Include="probability\full\FullJointDistributionModel.cs" />
     <Compile Include="probability\Iterator.cs" />
     <Compile Include="probability\ProbabilityDensity.cs" />
     <Compile Include="probability\ProbabilityDistribution.cs" />

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using tvn.cosine.ai.probability.bayes;
-
-namespace tvn.cosine.ai.probability.bayes.impl
+﻿namespace tvn.cosine.ai.probability.bayes.impl
 {
     /**
      * Default implementation of the FiniteNode interface that uses a fully
@@ -20,7 +13,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
         private ConditionalProbabilityTable<T> cpt = null;
 
         public FullCPTNode(RandomVariable var, double[] distribution)
-                : this(var, distribution, (Node<T>[])null)
+                : this(var, distribution, null)
         { }
 
         public FullCPTNode(RandomVariable var, double[] values, params Node<T>[] parents)

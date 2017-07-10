@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using tvn.cosine.ai.probability.proposition;
+﻿using tvn.cosine.ai.probability.proposition;
 
 namespace tvn.cosine.ai.probability
 {
@@ -17,8 +12,7 @@ namespace tvn.cosine.ai.probability
      * @author Ciaran O'Reilly
      */
     public abstract class FiniteProbabilityModel<T> : ProbabilityModel<T>
-    {
-
+    { 
         /**
          * <b>P</b>(X,...)<br>
          * 
@@ -28,7 +22,7 @@ namespace tvn.cosine.ai.probability
          *         Vector of numbers, where we assume a predefined ordering of the
          *         domain of the relevant random variables.
          */
-        public abstract CategoricalDistribution<T> priorDistribution(IEnumerable<Proposition<T>> phi);
+        public abstract CategoricalDistribution<T> priorDistribution(params Proposition<T>[] phi);
 
         /**
          * Get a conditional distribution. Example:<br>
@@ -43,7 +37,7 @@ namespace tvn.cosine.ai.probability
          *            information we already have.
          * @return the conditional distribution for <b>P</b>(&phi; | evidence).
          */
-        public abstract CategoricalDistribution<T> posteriorDistribution(Proposition<T> phi, IEnumerable<Proposition<T>> evidence);
+        public abstract CategoricalDistribution<T> posteriorDistribution(Proposition<T> phi, params Proposition<T>[] evidence);
 
         /**
          * Get a distribution on multiple variables. Example, the product rule:<br>
@@ -56,7 +50,6 @@ namespace tvn.cosine.ai.probability
          *            to be returned.
          * @return the joint distribution for <b>P</b>(X, Y, ...).
          */
-        public abstract CategoricalDistribution<T> jointDistribution(IEnumerable<Proposition<T>> propositions);
-    }
-
+        public abstract CategoricalDistribution<T> jointDistribution(params Proposition<T>[] propositions);
+    } 
 }
