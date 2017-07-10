@@ -4,7 +4,7 @@ namespace tvn.cosine.ai.search.framework.problem
 {
     public abstract class ProblemBase<S, A> : IProblem<S, A>
     {
-        public abstract List<A> getActions(S state);
+        public abstract IList<A> getActions(S state);
         public abstract S getInitialState();
         public abstract S getResult(S state, A action);
         public abstract double getStepCosts(S state, A action, S stateDelta);

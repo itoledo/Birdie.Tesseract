@@ -13,5 +13,5 @@ namespace tvn.cosine.ai.search.framework.problem
      *
      * @author Ruediger Lunde
      */
-    public delegate List<A> ActionsFunction<S, A>(S state);
+    public delegate IList<A> ActionsFunction<S, A>(S state);
 }

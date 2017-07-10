@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace tvn.cosine.ai.search.framework.problem
 {
@@ -79,7 +75,7 @@ namespace tvn.cosine.ai.search.framework.problem
             return initialState;
         }
 
-        public override List<A> getActions(S state)
+        public override IList<A> getActions(S state)
         {
             return actionsFn(state);
         }

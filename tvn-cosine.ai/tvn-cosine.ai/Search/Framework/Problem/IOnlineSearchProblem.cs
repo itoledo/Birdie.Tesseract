@@ -32,7 +32,7 @@ namespace tvn.cosine.ai.search.framework.problem
         /**
          * Returns the description of the possible actions available to the agent.
          */
-        List<A> getActions(S state);
+        IList<A> getActions(S state);
 
         /**
          * Determines whether a given state is a goal state.

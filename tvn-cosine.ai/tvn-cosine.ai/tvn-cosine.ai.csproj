@@ -82,6 +82,9 @@
     <Compile Include="environment\connectfour\ConnectFourAIPlayer.cs" />
     <Compile Include="environment\connectfour\ConnectFourGame.cs" />
     <Compile Include="environment\connectfour\ConnectFourState.cs" />
+    <Compile Include="environment\eightpuzzle\BidirectionalEightPuzzleProblem.cs" />
+    <Compile Include="environment\eightpuzzle\EightPuzzleBoard.cs" />
+    <Compile Include="environment\eightpuzzle\EightPuzzleFunctions.cs" />
     <Compile Include="learning\data\DataResource.cs" />
     <Compile Include="learning\framework\Attribute.cs" />
     <Compile Include="learning\framework\AttributeSpecification.cs" />

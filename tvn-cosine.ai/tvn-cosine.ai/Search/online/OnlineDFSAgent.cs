@@ -49,10 +49,10 @@ namespace tvn.cosine.ai.search.online
         // persistent: result, a table, indexed by state and action, initially empty
         private readonly TwoKeyDictionary<S, A, S> result = new TwoKeyDictionary<S, A, S>();
         // untried, a table that lists, for each state, the actions not yet tried
-        private readonly IDictionary<S, List<A>> untried = new Dictionary<S, List<A>>();
+        private readonly IDictionary<S, IList<A>> untried = new Dictionary<S, IList<A>>();
         // unbacktracked, a table that lists,
         // for each state, the backtracks not yet tried
-        private readonly IDictionary<S, List<S>> unbacktracked = new Dictionary<S, List<S>>();
+        private readonly IDictionary<S, IList<S>> unbacktracked = new Dictionary<S, IList<S>>();
         // s, a, the previous state and action, initially null
         private S s = default(S);
         private A a = default(A);
