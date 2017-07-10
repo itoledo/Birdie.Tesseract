@@ -32,7 +32,7 @@ namespace tvn.cosine.ai.probability.util
             : this(new double[ProbUtil.expectedSizeOfProbabilityTable<T>(vars)], vars)
         { }
 
-        public ProbabilityTable(double[] vals, IEnumerable<RandomVariable> vars)
+        public ProbabilityTable(double[] vals, params RandomVariable[] vars)
         {
             if (null == vals)
             {

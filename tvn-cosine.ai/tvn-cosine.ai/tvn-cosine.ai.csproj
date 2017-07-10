@@ -130,7 +130,10 @@
     <Compile Include="probability\FiniteProbabilityModel.cs" />
     <Compile Include="probability\full\FullJointDistributionModel.cs" />
     <Compile Include="probability\hmm\exact\FixedLagSmoothing.cs" />
+    <Compile Include="probability\hmm\exact\HMMForwardBackward.cs" />
+    <Compile Include="probability\hmm\exact\HMMForwardBackwardConstantSpace.cs" />
     <Compile Include="probability\hmm\HiddenMarkovModel.cs" />
+    <Compile Include="probability\hmm\impl\HMM.cs" />
     <Compile Include="probability\Iterator.cs" />
     <Compile Include="probability\ProbabilityDensity.cs" />
     <Compile Include="probability\ProbabilityDistribution.cs" />
