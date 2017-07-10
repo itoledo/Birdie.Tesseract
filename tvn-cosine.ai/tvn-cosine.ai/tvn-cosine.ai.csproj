@@ -116,6 +116,19 @@
     <Compile Include="environment\vacuum\VacuumEnvironmentState.cs" />
     <Compile Include="environment\vacuum\VacuumEnvironmentViewActionTracker.cs" />
     <Compile Include="environment\vacuum\VacuumWorldFunctions.cs" />
+    <Compile Include="environment\wumpusworld\action\Climb.cs" />
+    <Compile Include="environment\wumpusworld\action\Forward.cs" />
+    <Compile Include="environment\wumpusworld\action\Grab.cs" />
+    <Compile Include="environment\wumpusworld\action\Shoot.cs" />
+    <Compile Include="environment\wumpusworld\action\TurnLeft.cs" />
+    <Compile Include="environment\wumpusworld\action\TurnRight.cs" />
+    <Compile Include="environment\wumpusworld\AgentPercept.cs" />
+    <Compile Include="environment\wumpusworld\AgentPosition.cs" />
+    <Compile Include="environment\wumpusworld\HybridWumpusAgent.cs" />
+    <Compile Include="environment\wumpusworld\Room.cs" />
+    <Compile Include="environment\wumpusworld\WumpusCave.cs" />
+    <Compile Include="environment\wumpusworld\WumpusFunctionFunctions.cs" />
+    <Compile Include="environment\wumpusworld\WumpusKnowledgeBase.cs" />
     <Compile Include="learning\data\DataResource.cs" />
     <Compile Include="learning\framework\Attribute.cs" />
     <Compile Include="learning\framework\AttributeSpecification.cs" />
@@ -345,6 +358,8 @@
     <Compile Include="util\math\Vector.cs" />
     <Compile Include="util\Util.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="logic\propositional\kb\data\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
