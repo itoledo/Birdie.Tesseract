@@ -129,6 +129,8 @@
     <Compile Include="probability\Factor.cs" />
     <Compile Include="probability\FiniteProbabilityModel.cs" />
     <Compile Include="probability\full\FullJointDistributionModel.cs" />
+    <Compile Include="probability\hmm\exact\FixedLagSmoothing.cs" />
+    <Compile Include="probability\hmm\HiddenMarkovModel.cs" />
     <Compile Include="probability\Iterator.cs" />
     <Compile Include="probability\ProbabilityDensity.cs" />
     <Compile Include="probability\ProbabilityDistribution.cs" />
@@ -151,6 +153,10 @@
     <Compile Include="probability\proposition\TermProposition.cs" />
     <Compile Include="probability\proposition\UnarySentenceProposition.cs" />
     <Compile Include="probability\RandomVariable.cs" />
+    <Compile Include="probability\temporal\BackwardStepInference.cs" />
+    <Compile Include="probability\temporal\ForwardBackwardInference.cs" />
+    <Compile Include="probability\temporal\ForwardStepInference.cs" />
+    <Compile Include="probability\temporal\generic\ForwardBackward.cs" />
     <Compile Include="probability\util\ProbabilityTable.cs" />
     <Compile Include="probability\util\ProbUtil.cs" />
     <Compile Include="probability\util\RandVar.cs" />
