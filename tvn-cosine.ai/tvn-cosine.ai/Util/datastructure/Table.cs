@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace tvn.cosine.ai.util.datastructure 
+namespace tvn.cosine.ai.util.datastructure
 {
     public class Table<RowHeaderType, ColumnHeaderType, ValueType>
     {
-        private List<RowHeaderType> rowHeaders;
-        private List<ColumnHeaderType> columnHeaders;
+        private IList<RowHeaderType> rowHeaders;
+        private IList<ColumnHeaderType> columnHeaders;
         private IDictionary<RowHeaderType, IDictionary<ColumnHeaderType, ValueType>> rows;
 
         /// <summary>
@@ -17,8 +17,8 @@ namespace tvn.cosine.ai.util.datastructure
         /// </summary>
         /// <param name="rowHeaders">a list of row headers</param>
         /// <param name="columnHeaders">a list of column headers</param>
-        public Table(List<RowHeaderType> rowHeaders,
-                     List<ColumnHeaderType> columnHeaders)
+        public Table(IList<RowHeaderType> rowHeaders,
+                     IList<ColumnHeaderType> columnHeaders)
         {
 
             this.rowHeaders = rowHeaders;
@@ -55,7 +55,7 @@ namespace tvn.cosine.ai.util.datastructure
             IDictionary<ColumnHeaderType, ValueType> rowValues = rows[r];
             return rowValues == null ? default(ValueType) : rowValues[c];
 
-        } 
+        }
 
         class Row<R>
         {
@@ -99,5 +99,5 @@ namespace tvn.cosine.ai.util.datastructure
             }
 
         }
-    } 
+    }
 }

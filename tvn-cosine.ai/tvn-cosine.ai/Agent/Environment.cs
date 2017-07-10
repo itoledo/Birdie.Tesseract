@@ -17,7 +17,7 @@ namespace tvn.cosine.ai.agent
          * 
          * @return The Agents belonging to this Environment.
          */
-        List<Agent> getAgents();
+        IList<Agent> getAgents();
 
         /**
          * Add an agent to the Environment.
@@ -40,7 +40,7 @@ namespace tvn.cosine.ai.agent
          * 
          * @return the EnvironmentObjects that exist in this Environment.
          */
-        List<EnvironmentObject> getEnvironmentObjects();
+        IList<EnvironmentObject> getEnvironmentObjects();
 
         /**
          * Add an EnvironmentObject to the Environment.

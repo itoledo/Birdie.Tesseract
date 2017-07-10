@@ -76,7 +76,7 @@ namespace tvn.cosine.ai.search.nondeterministic
          * 
          * @return the description of what each action does.
          */
-        public List<S> getResults(S state, A action)
+        public IList<S> getResults(S state, A action)
         {
             return this.resultsFn.results(state, action);
         }

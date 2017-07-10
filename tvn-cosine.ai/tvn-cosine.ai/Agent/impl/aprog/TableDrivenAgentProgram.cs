@@ -32,9 +32,9 @@ namespace tvn.cosine.ai.agent.impl.aprog
     public class TableDrivenAgentProgram : AgentProgram
     {
 
-        private List<Percept> percepts = new List<Percept>();
+        private IList<Percept> percepts = new List<Percept>();
 
-        private Table<List<Percept>, string, Action> table;
+        private Table<IList<Percept>, string, Action> table;
 
         private const string ACTION = "action";
 
@@ -48,18 +48,17 @@ namespace tvn.cosine.ai.agent.impl.aprog
          * @param perceptSequenceActions
          *            a table of actions, indexed by percept sequences
          */
-        public TableDrivenAgentProgram(IDictionary<List<Percept>, Action> perceptSequenceActions)
+        public TableDrivenAgentProgram(IDictionary<IList<Percept>, Action> perceptSequenceActions)
         {
 
-            List<List<Percept>> rowHeaders = new List<List<Percept>>(
-                    perceptSequenceActions.Keys);
+            IList<IList<Percept>> rowHeaders = new List<IList<Percept>>(perceptSequenceActions.Keys);
 
-            List<string> colHeaders = new List<string>();
+            IList<string> colHeaders = new List<string>();
             colHeaders.Add(ACTION);
 
-            table = new Table<List<Percept>, string, Action>(rowHeaders, colHeaders);
+            table = new Table<IList<Percept>, string, Action>(rowHeaders, colHeaders);
 
-            foreach (List<Percept> row in rowHeaders)
+            foreach (IList<Percept> row in rowHeaders)
             {
                 table.Set(row, ACTION, perceptSequenceActions[row]);
             }
@@ -97,5 +96,5 @@ namespace tvn.cosine.ai.agent.impl.aprog
 
             return action;
         }
-    } 
+    }
 }

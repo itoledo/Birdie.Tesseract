@@ -148,7 +148,7 @@ namespace tvn.cosine.ai.search.nondeterministic
          * @param path
          * @return a conditional plan or null on failure
          */
-        public Plan andSearch(List<S> states, NondeterministicProblem<S, A> problem, Path path)
+        public Plan andSearch(IList<S> states, NondeterministicProblem<S, A> problem, Path path)
         {
             // do metrics, setup
             this.expandedNodes++;
