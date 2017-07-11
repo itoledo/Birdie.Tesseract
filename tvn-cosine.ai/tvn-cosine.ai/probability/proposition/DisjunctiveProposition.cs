@@ -21,7 +21,7 @@ namespace tvn.cosine.ai.probability.proposition
         private Proposition<T> left = null;
         private Proposition<T> right = null;
         //
-        private String toString = null;
+        private string toString = null;
 
         public DisjunctiveProposition(Proposition<T> left, Proposition<T> right)
         {

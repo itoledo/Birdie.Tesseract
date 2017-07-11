@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -7,39 +8,34 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      * @author Ciaran O'Reilly
      * 
      */
-    public class ProofStepRenaming extends AbstractProofStep
-    {
+    public class ProofStepRenaming : AbstractProofStep
+    { 
+        private IList<ProofStep> predecessors = new List<ProofStep>();
+        private object proof = "";
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
-    private Object proof = "";
+        public ProofStepRenaming(object proof, ProofStep predecessor)
+        {
+            this.proof = proof;
+            this.predecessors.Add(predecessor);
+        }
 
-    public ProofStepRenaming(Object proof, ProofStep predecessor)
-    {
-        this.proof = proof;
-        this.predecessors.add(predecessor);
-    }
+        //
+        // START-ProofStep 
+        public override IList<ProofStep> getPredecessorSteps()
+        {
+            return new ReadOnlyCollection<ProofStep>(predecessors);
+        }
 
-    //
-    // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
-    {
-        return Collections.unmodifiableList(predecessors);
-    }
+        public override string getProof()
+        {
+            return proof.ToString();
+        }
 
-    @Override
-    public String getProof()
-    {
-        return proof.toString();
-    }
-
-    @Override
-    public String getJustification()
-    {
-        return "Renaming of " + predecessors.get(0).getStepNumber();
-    }
-    // END-ProofStep
-    //
-}
-
+        public override string getJustification()
+        {
+            return "Renaming of " + predecessors[0].getStepNumber();
+        }
+        // END-ProofStep
+        //
+    } 
 }

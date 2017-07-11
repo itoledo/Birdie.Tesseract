@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
 
 namespace tvn.cosine.ai.logic.propositional.agent
 {
@@ -43,8 +42,8 @@ namespace tvn.cosine.ai.logic.propositional.agent
         }
 
         // function KB-AGENT(percept) returns an action
-        @Override
-    public Action execute(Percept percept)
+
+        public override Action execute(Percept percept)
         {
             // TELL(KB, MAKE-PERCEPT-SENTENCE(percept, t))
             KB.tell(makePerceptSentence(percept, t));

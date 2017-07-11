@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol
 {
@@ -10,124 +9,116 @@ namespace tvn.cosine.ai.logic.fol
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class VariableCollector implements FOLVisitor
+    public class VariableCollector : FOLVisitor
     {
-
-
-    public VariableCollector()
-    {
-    }
-
-    // Note: The set guarantees the order in which they were
-    // found.
-    public Set<Variable> collectAllVariables(Sentence sentence)
-    {
-        Set<Variable> variables = new LinkedHashSet<Variable>();
-
-        sentence.accept(this, variables);
-
-        return variables;
-    }
-
-    public Set<Variable> collectAllVariables(Term term)
-    {
-        Set<Variable> variables = new LinkedHashSet<Variable>();
-
-        term.accept(this, variables);
-
-        return variables;
-    }
-
-    public Set<Variable> collectAllVariables(Clause clause)
-    {
-        Set<Variable> variables = new LinkedHashSet<Variable>();
-
-        for (Literal l : clause.getLiterals())
+        public VariableCollector()
         {
-            l.getAtomicSentence().accept(this, variables);
         }
 
-        return variables;
-    }
-
-    public Set<Variable> collectAllVariables(Chain chain)
-    {
-        Set<Variable> variables = new LinkedHashSet<Variable>();
-
-        for (Literal l : chain.getLiterals())
+        // Note: The set guarantees the order in which they were
+        // found.
+        public ISet<Variable> collectAllVariables(Sentence sentence)
         {
-            l.getAtomicSentence().accept(this, variables);
+            ISet<Variable> variables = new HashSet<Variable>();
+
+            sentence.accept(this, variables);
+
+            return variables;
         }
 
-        return variables;
-    }
-
-
-    @SuppressWarnings("unchecked")
-
-    public Object visitVariable(Variable var, Object arg)
-    {
-        Set<Variable> variables = (Set<Variable>)arg;
-        variables.add(var);
-        return var;
-    }
-
-
-    @SuppressWarnings("unchecked")
-
-    public Object visitQuantifiedSentence(QuantifiedSentence sentence,
-            Object arg)
-    {
-        // Ensure I collect quantified variables too
-        Set<Variable> variables = (Set<Variable>)arg;
-        variables.addAll(sentence.getVariables());
-
-        sentence.getQuantified().accept(this, arg);
-
-        return sentence;
-    }
-
-    public Object visitPredicate(Predicate predicate, Object arg)
-    {
-        for (Term t : predicate.getTerms())
+        public ISet<Variable> collectAllVariables(Term term)
         {
-            t.accept(this, arg);
+            ISet<Variable> variables = new HashSet<Variable>();
+
+            term.accept(this, variables);
+
+            return variables;
         }
-        return predicate;
-    }
 
-    public Object visitTermEquality(TermEquality equality, Object arg)
-    {
-        equality.getTerm1().accept(this, arg);
-        equality.getTerm2().accept(this, arg);
-        return equality;
-    }
-
-    public Object visitConstant(Constant constant, Object arg)
-    {
-        return constant;
-    }
-
-    public Object visitFunction(Function function, Object arg)
-    {
-        for (Term t : function.getTerms())
+        public ISet<Variable> collectAllVariables(Clause clause)
         {
-            t.accept(this, arg);
+            ISet<Variable> variables = new HashSet<Variable>();
+
+            foreach (Literal l in clause.getLiterals())
+            {
+                l.getAtomicSentence().accept(this, variables);
+            }
+
+            return variables;
         }
-        return function;
-    }
 
-    public Object visitNotSentence(NotSentence sentence, Object arg)
-    {
-        sentence.getNegated().accept(this, arg);
-        return sentence;
-    }
+        public ISet<Variable> collectAllVariables(Chain chain)
+        {
+            ISet<Variable> variables = new HashSet<Variable>();
 
-    public Object visitConnectedSentence(ConnectedSentence sentence, Object arg)
-    {
-        sentence.getFirst().accept(this, arg);
-        sentence.getSecond().accept(this, arg);
-        return sentence;
+            foreach (Literal l in chain.getLiterals())
+            {
+                l.getAtomicSentence().accept(this, variables);
+            }
+
+            return variables;
+        }
+         
+        public object visitVariable(Variable var, object arg)
+        {
+            ISet<Variable> variables = (ISet<Variable>)arg;
+            variables.Add(var);
+            return var;
+        }
+         
+        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
+        {
+            // Ensure I collect quantified variables too
+            ISet<Variable> variables = (ISet<Variable>)arg;
+            foreach (var v in sentence.getVariables())
+                variables.Add(v);
+
+            sentence.getQuantified().accept(this, arg);
+
+            return sentence;
+        }
+
+        public object visitPredicate(Predicate predicate, object arg)
+        {
+            foreach (Term t in predicate.getTerms())
+            {
+                t.accept(this, arg);
+            }
+            return predicate;
+        }
+
+        public object visitTermEquality(TermEquality equality, object arg)
+        {
+            equality.getTerm1().accept(this, arg);
+            equality.getTerm2().accept(this, arg);
+            return equality;
+        }
+
+        public object visitConstant(Constant constant, object arg)
+        {
+            return constant;
+        }
+
+        public object visitFunction(Function function, object arg)
+        {
+            foreach (Term t in function.getTerms())
+            {
+                t.accept(this, arg);
+            }
+            return function;
+        }
+
+        public object visitNotSentence(NotSentence sentence, object arg)
+        {
+            sentence.getNegated().accept(this, arg);
+            return sentence;
+        }
+
+        public object visitConnectedSentence(ConnectedSentence sentence, object arg)
+        {
+            sentence.getFirst().accept(this, arg);
+            sentence.getSecond().accept(this, arg);
+            return sentence;
+        }
     }
-}
 }

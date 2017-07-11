@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using tvn.cosine.ai.logic.fol.inference.proof;
 
 namespace tvn.cosine.ai.logic.fol.kb.data
 {
@@ -20,10 +20,9 @@ namespace tvn.cosine.ai.logic.fol.kb.data
      */
     public class Chain
     {
-        private static List<Literal> _emptyLiteralsList = Collections
-                .unmodifiableList(new ArrayList<Literal>());
+        private static IList<Literal> _emptyLiteralsList = new ReadOnlyCollection<Literal>(new List<Literal>());
         //
-        private List<Literal> literals = new ArrayList<Literal>();
+        private IList<Literal> literals = new List<Literal>();
         private ProofStep proofStep = null;
 
         public Chain()
@@ -31,14 +30,16 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             // i.e. the empty chain
         }
 
-        public Chain(List<Literal> literals)
+        public Chain(IList<Literal> literals)
         {
-            this.literals.addAll(literals);
+            foreach (var v in literals)
+                this.literals.Add(v);
         }
 
-        public Chain(Set<Literal> literals)
+        public Chain(ISet<Literal> literals)
         {
-            this.literals.addAll(literals);
+            foreach (var v in literals)
+                this.literals.Add(v);
         }
 
         public ProofStep getProofStep()
@@ -56,43 +57,42 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             this.proofStep = proofStep;
         }
 
-        public boolean isEmpty()
+        public bool isEmpty()
         {
-            return literals.size() == 0;
+            return literals.Count == 0;
         }
 
         public void addLiteral(Literal literal)
         {
-            literals.add(literal);
+            literals.Add(literal);
         }
 
         public Literal getHead()
         {
-            if (0 == literals.size())
+            if (0 == literals.Count)
             {
                 return null;
             }
-            return literals.get(0);
+            return literals[0];
         }
 
-        public List<Literal> getTail()
+        public IList<Literal> getTail()
         {
-            if (0 == literals.size())
+            if (0 == literals.Count)
             {
                 return _emptyLiteralsList;
             }
-            return Collections
-                    .unmodifiableList(literals.subList(1, literals.size()));
+            return new ReadOnlyCollection<Literal>(literals.Skip(1).ToList());
         }
 
         public int getNumberLiterals()
         {
-            return literals.size();
+            return literals.Count;
         }
 
-        public List<Literal> getLiterals()
+        public IList<Literal> getLiterals()
         {
-            return Collections.unmodifiableList(literals);
+            return new ReadOnlyCollection<Literal>(literals);
         }
 
         /**
@@ -102,43 +102,47 @@ namespace tvn.cosine.ai.logic.fol.kb.data
          * 
          * @return a list of contrapositives for this chain.
          */
-        public List<Chain> getContrapositives()
+        public IList<Chain> getContrapositives()
         {
-            List<Chain> contrapositives = new ArrayList<Chain>();
-            List<Literal> lits = new ArrayList<Literal>();
+            List<Chain> contrapositives = new List<Chain>();
+            List<Literal> lits = new List<Literal>();
 
-            for (int i = 1; i < literals.size(); i++)
+            for (int i = 1; i < literals.Count; i++)
             {
-                lits.clear();
-                lits.add(literals.get(i));
-                lits.addAll(literals.subList(0, i));
-                lits.addAll(literals.subList(i + 1, literals.size()));
+                lits.Clear();
+                lits.Add(literals[i]);
+
+                foreach (var v in literals.Take(i))
+                    lits.Add(v);
+
+                foreach (var v in literals.Skip(i + 1).ToList())
+                    lits.Add(v);
+
                 Chain cont = new Chain(lits);
                 cont.setProofStep(new ProofStepChainContrapositive(cont, this));
-                contrapositives.add(cont);
+                contrapositives.Add(cont);
             }
 
             return contrapositives;
         }
 
-        @Override
-        public String toString()
+        public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.append("<");
+            sb.Append("<");
 
-            for (int i = 0; i < literals.size(); i++)
+            for (int i = 0; i < literals.Count; i++)
             {
                 if (i > 0)
                 {
-                    sb.append(",");
+                    sb.Append(",");
                 }
-                sb.append(literals.get(i).toString());
+                sb.Append(literals[i].ToString());
             }
 
-            sb.append(">");
+            sb.Append(">");
 
-            return sb.toString();
+            return sb.ToString();
         }
     }
 

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.parsing
 {
@@ -10,89 +7,87 @@ namespace tvn.cosine.ai.logic.fol.parsing
      * @author Ravi Mohan
      * 
      */
-    public class AbstractFOLVisitor implements FOLVisitor
+    public class AbstractFOLVisitor : FOLVisitor
     {
 
 
-    public AbstractFOLVisitor()
-    {
-    }
-
-    protected Sentence recreate(Object ast)
-    {
-        return ((Sentence)ast).copy();
-    }
-
-    public Object visitVariable(Variable variable, Object arg)
-    {
-        return variable.copy();
-    }
-
-    public Object visitQuantifiedSentence(QuantifiedSentence sentence,
-            Object arg)
-    {
-        List<Variable> variables = new ArrayList<Variable>();
-        for (Variable var : sentence.getVariables())
+        public AbstractFOLVisitor()
         {
-            variables.add((Variable)var.accept(this, arg));
         }
 
-        return new QuantifiedSentence(sentence.getQuantifier(), variables,
-                (Sentence)sentence.getQuantified().accept(this, arg));
-    }
-
-    public Object visitPredicate(Predicate predicate, Object arg)
-    {
-        List<Term> terms = predicate.getTerms();
-        List<Term> newTerms = new ArrayList<Term>();
-        for (int i = 0; i < terms.size(); i++)
+        protected virtual Sentence recreate(object ast)
         {
-            Term t = terms.get(i);
-            Term subsTerm = (Term)t.accept(this, arg);
-            newTerms.add(subsTerm);
+            return ((Sentence)ast).copy();
         }
-        return new Predicate(predicate.getPredicateName(), newTerms);
 
-    }
-
-    public Object visitTermEquality(TermEquality equality, Object arg)
-    {
-        Term newTerm1 = (Term)equality.getTerm1().accept(this, arg);
-        Term newTerm2 = (Term)equality.getTerm2().accept(this, arg);
-        return new TermEquality(newTerm1, newTerm2);
-    }
-
-    public Object visitConstant(Constant constant, Object arg)
-    {
-        return constant;
-    }
-
-    public Object visitFunction(Function function, Object arg)
-    {
-        List<Term> terms = function.getTerms();
-        List<Term> newTerms = new ArrayList<Term>();
-        for (int i = 0; i < terms.size(); i++)
+        public virtual object visitVariable(Variable variable, object arg)
         {
-            Term t = terms.get(i);
-            Term subsTerm = (Term)t.accept(this, arg);
-            newTerms.add(subsTerm);
+            return variable.copy();
         }
-        return new Function(function.getFunctionName(), newTerms);
-    }
 
-    public Object visitNotSentence(NotSentence sentence, Object arg)
-    {
-        return new NotSentence((Sentence)sentence.getNegated().accept(this,
-                arg));
-    }
+        public virtual object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
+        {
+            List<Variable> variables = new List<Variable>();
+            foreach (Variable var in sentence.getVariables())
+            {
+                variables.Add((Variable)var.accept(this, arg));
+            }
 
-    public Object visitConnectedSentence(ConnectedSentence sentence, Object arg)
-    {
-        Sentence substFirst = (Sentence)sentence.getFirst().accept(this, arg);
-        Sentence substSecond = (Sentence)sentence.getSecond()
-                .accept(this, arg);
-        return new ConnectedSentence(sentence.getConnector(), substFirst,
-                substSecond);
+            return new QuantifiedSentence(sentence.getQuantifier(), variables,
+                    (Sentence)sentence.getQuantified().accept(this, arg));
+        }
+
+        public virtual object visitPredicate(Predicate predicate, object arg)
+        {
+            IList<Term> terms = predicate.getTerms();
+            IList<Term> newTerms = new List<Term>();
+            for (int i = 0; i < terms.Count; i++)
+            {
+                Term t = terms[i];
+                Term subsTerm = (Term)t.accept(this, arg);
+                newTerms.Add(subsTerm);
+            }
+            return new Predicate(predicate.getPredicateName(), newTerms);
+
+        }
+
+        public virtual object visitTermEquality(TermEquality equality, object arg)
+        {
+            Term newTerm1 = (Term)equality.getTerm1().accept(this, arg);
+            Term newTerm2 = (Term)equality.getTerm2().accept(this, arg);
+            return new TermEquality(newTerm1, newTerm2);
+        }
+
+        public virtual object visitConstant(Constant constant, object arg)
+        {
+            return constant;
+        }
+
+        public virtual object visitFunction(Function function, object arg)
+        {
+            IList<Term> terms = function.getTerms();
+            IList<Term> newTerms = new List<Term>();
+            for (int i = 0; i < terms.Count; i++)
+            {
+                Term t = terms[i];
+                Term subsTerm = (Term)t.accept(this, arg);
+                newTerms.Add(subsTerm);
+            }
+            return new Function(function.getFunctionName(), newTerms);
+        }
+
+        public virtual object visitNotSentence(NotSentence sentence, object arg)
+        {
+            return new NotSentence((Sentence)sentence.getNegated().accept(this, arg));
+        }
+
+        public virtual object visitConnectedSentence(ConnectedSentence sentence, object arg)
+        {
+            Sentence substFirst = (Sentence)sentence.getFirst().accept(this, arg);
+            Sentence substSecond = (Sentence)sentence.getSecond()
+                    .accept(this, arg);
+            return new ConnectedSentence(sentence.getConnector(), substFirst,
+                    substSecond);
+        }
     }
-}
 }

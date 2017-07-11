@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * @return true if the model is satisfiable under current assignments, false
          *         otherwise.
          */
-        bool dpll(ISet<Clause> clauses, List<PropositionSymbol> symbols, Model model);
+        bool dpll(ISet<Clause> clauses, IList<PropositionSymbol> symbols, Model model);
 
         /**
          * Determine if KB |= &alpha;, i.e. alpha is entailed by KB.

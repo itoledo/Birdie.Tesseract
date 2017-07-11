@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using tvn.cosine.ai.logic.propositional.inference;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
 
 namespace tvn.cosine.ai.logic.propositional.kb
 {
@@ -13,7 +15,7 @@ namespace tvn.cosine.ai.logic.propositional.kb
     public class KnowledgeBase
     {
         private IList<Sentence> sentences = new List<Sentence>();
-        private ConjunctionOfClauses asCNF = new ConjunctionOfClauses(new HashSet<Clause>());
+        private ConjunctionOfClauses _asCNF = new ConjunctionOfClauses(new HashSet<Clause>());
         private ISet<PropositionSymbol> symbols = new HashSet<PropositionSymbol>();
         private PLParser parser = new PLParser();
 
@@ -41,11 +43,12 @@ namespace tvn.cosine.ai.logic.propositional.kb
          */
         public void tell(Sentence aSentence)
         {
-            if (!(sentences.contains(aSentence)))
+            if (!(sentences.Contains(aSentence)))
             {
-                sentences.add(aSentence);
-                asCNF = asCNF.extend(ConvertToConjunctionOfClauses.convert(aSentence).getClauses());
-                symbols.addAll(SymbolCollector.getSymbolsFrom(aSentence));
+                sentences.Add(aSentence);
+                _asCNF = _asCNF.extend(ConvertToConjunctionOfClauses.convert(aSentence).getClauses());
+                foreach (var v in SymbolCollector.getSymbolsFrom(aSentence))
+                    symbols.Add(v);
             }
         }
 
@@ -56,9 +59,9 @@ namespace tvn.cosine.ai.logic.propositional.kb
          * @param percepts
          *            what the agent perceives
          */
-        public void tellAll(String[] percepts)
+        public void tellAll(string[] percepts)
         {
-            for (int i = 0; i < percepts.length; i++)
+            for (int i = 0; i < percepts.Length; i++)
             {
                 tell(percepts[i]);
             }
@@ -72,7 +75,7 @@ namespace tvn.cosine.ai.logic.propositional.kb
          */
         public int size()
         {
-            return sentences.size();
+            return sentences.Count;
         }
 
         /**
@@ -91,16 +94,16 @@ namespace tvn.cosine.ai.logic.propositional.kb
          * 
          * @return a Conjunctive Normal Form (CNF) representation of the Knowledge Base.
          */
-        public Set<Clause> asCNF()
+        public ISet<Clause> asCNF()
         {
-            return asCNF.getClauses();
+            return _asCNF.getClauses();
         }
 
         /**
          * 
          * @return a unique set of the symbols currently contained in the Knowledge Base.
          */
-        public Set<PropositionSymbol> getSymbols()
+        public ISet<PropositionSymbol> getSymbols()
         {
             return symbols;
         }
@@ -115,7 +118,7 @@ namespace tvn.cosine.ai.logic.propositional.kb
          * @return the answer to the specified question using the TT-Entails
          *         algorithm.
          */
-        public boolean askWithTTEntails(String queryString)
+        public bool askWithTTEntails(string queryString)
         {
             PLParser parser = new PLParser();
 
@@ -124,16 +127,15 @@ namespace tvn.cosine.ai.logic.propositional.kb
             return new TTEntails().ttEntails(this, alpha);
         }
 
-        @Override
-        public String toString()
+        public override string ToString()
         {
-            if (sentences.size() == 0)
+            if (sentences.Count == 0)
             {
                 return "";
             }
             else
             {
-                return asSentence().toString();
+                return asSentence().ToString();
             }
         }
 
@@ -142,7 +144,7 @@ namespace tvn.cosine.ai.logic.propositional.kb
          * 
          * @return the list of sentences in the knowledge base.
          */
-        public List<Sentence> getSentences()
+        public IList<Sentence> getSentences()
         {
             return sentences;
         }

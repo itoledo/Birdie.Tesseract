@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.fol.kb.data;
 
 namespace tvn.cosine.ai.logic.fol.inference.otter
 {
@@ -31,7 +28,7 @@ namespace tvn.cosine.ai.logic.fol.inference.otter
          * 
          * @param clauses
          */
-        void initialSOS(Set<Clause> clauses);
+        void initialSOS(ISet<Clause> clauses);
 
         void addedClauseToSOS(Clause clause);
 

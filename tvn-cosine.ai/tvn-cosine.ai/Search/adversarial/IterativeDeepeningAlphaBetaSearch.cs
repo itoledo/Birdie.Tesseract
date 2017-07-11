@@ -176,7 +176,7 @@ namespace tvn.cosine.ai.search.adversarial
             }
         }
 
-        private  void updateMetrics(int depth)
+        private void updateMetrics(int depth)
         {
             ++metrics[METRICS_NODES_EXPANDED];
             metrics.Add(METRICS_MAX_DEPTH, Math.Max(metrics[METRICS_MAX_DEPTH], depth));

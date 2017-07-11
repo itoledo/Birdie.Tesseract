@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -12,43 +11,36 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      */
     public class ProofStepClauseDemodulation : AbstractProofStep
     {
-
-        private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+        private IList<ProofStep> predecessors = new List<ProofStep>();
         private Clause demodulated = null;
         private Clause origClause = null;
         private TermEquality assertion = null;
 
-        public ProofStepClauseDemodulation(Clause demodulated, Clause origClause,
-                TermEquality assertion)
+        public ProofStepClauseDemodulation(Clause demodulated, Clause origClause, TermEquality assertion)
         {
             this.demodulated = demodulated;
             this.origClause = origClause;
             this.assertion = assertion;
-            this.predecessors.add(origClause.getProofStep());
+            this.predecessors.Add(origClause.getProofStep());
         }
 
         //
-        // START-ProofStep
-        @Override
-    public List<ProofStep> getPredecessorSteps()
+        // START-ProofStep 
+        public override IList<ProofStep> getPredecessorSteps()
         {
-            return Collections.unmodifiableList(predecessors);
+            return new ReadOnlyCollection<ProofStep>(predecessors);
         }
 
-        @Override
-    public String getProof()
+        public override string getProof()
         {
-            return demodulated.toString();
+            return demodulated.ToString();
         }
 
-        @Override
-    public String getJustification()
+        public override string getJustification()
         {
-            return "Demodulation: " + origClause.getProofStep().getStepNumber()
-                    + ", [" + assertion + "]";
+            return "Demodulation: " + origClause.getProofStep().getStepNumber() + ", [" + assertion + "]";
         }
         // END-ProofStep
         //
-    }
-
+    } 
 }

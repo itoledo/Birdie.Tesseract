@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using tvn.cosine.ai.logic.common;
+using tvn.cosine.ai.logic.fol.domain;
 
 namespace tvn.cosine.ai.logic.fol.parsing
 {
@@ -13,24 +13,23 @@ namespace tvn.cosine.ai.logic.fol.parsing
     */
     public class FOLLexer : Lexer
     {
-
         private FOLDomain domain;
-        private Set<String> connectors, quantifiers;
+        private ISet<string> connectors, quantifiers;
 
         public FOLLexer(FOLDomain domain)
         {
             this.domain = domain;
 
-            connectors = new HashSet<String>();
-            connectors.add(Connectors.NOT);
-            connectors.add(Connectors.AND);
-            connectors.add(Connectors.OR);
-            connectors.add(Connectors.IMPLIES);
-            connectors.add(Connectors.BICOND);
+            connectors = new HashSet<string>();
+            connectors.Add(Connectors.NOT);
+            connectors.Add(Connectors.AND);
+            connectors.Add(Connectors.OR);
+            connectors.Add(Connectors.IMPLIES);
+            connectors.Add(Connectors.BICOND);
 
-            quantifiers = new HashSet<String>();
-            quantifiers.add(Quantifiers.FORALL);
-            quantifiers.add(Quantifiers.EXISTS);
+            quantifiers = new HashSet<string>();
+            quantifiers.Add(Quantifiers.FORALL);
+            quantifiers.Add(Quantifiers.EXISTS);
         }
 
         public FOLDomain getFOLDomain()
@@ -38,8 +37,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
             return domain;
         }
 
-        @Override
-    public Token nextToken()
+        public override Token nextToken()
         {
             int startPosition = getCurrentPositionInInput();
             if (lookAhead(1) == '(')
@@ -65,12 +63,12 @@ namespace tvn.cosine.ai.logic.fol.parsing
                 // System.out.println("identifier detected");
                 return identifier();
             }
-            else if (Character.isWhitespace(lookAhead(1)))
+            else if (char.IsWhiteSpace(lookAhead(1)))
             {
                 consume();
                 return nextToken();
             }
-            else if (lookAhead(1) == (char)-1)
+            else if (lookAhead(1) == char.ConvertFromUtf32(-1)[0])
             {
                 return new Token(LogicTokenTypes.EOI, "EOI", startPosition);
             }
@@ -83,32 +81,33 @@ namespace tvn.cosine.ai.logic.fol.parsing
         private Token identifier()
         {
             int startPosition = getCurrentPositionInInput();
-            StringBuffer sbuf = new StringBuffer();
-            while ((Character.isJavaIdentifierPart(lookAhead(1)))
-                    || partOfConnector())
+            StringBuilder sbuf = new StringBuilder();
+            while (char.IsLetter(lookAhead(1))
+                || partOfConnector()
+                || lookAhead(1) == '_')
             {
-                sbuf.append(lookAhead(1));
+                sbuf.Append(lookAhead(1));
                 consume();
             }
-            String readString = new String(sbuf);
+            string readString = sbuf.ToString();
             // System.out.println(readString);
-            if (connectors.contains(readString))
+            if (connectors.Contains(readString))
             {
                 return new Token(LogicTokenTypes.CONNECTIVE, readString, startPosition);
             }
-            else if (quantifiers.contains(readString))
+            else if (quantifiers.Contains(readString))
             {
                 return new Token(LogicTokenTypes.QUANTIFIER, readString, startPosition);
             }
-            else if (domain.getPredicates().contains(readString))
+            else if (domain.getPredicates().Contains(readString))
             {
                 return new Token(LogicTokenTypes.PREDICATE, readString, startPosition);
             }
-            else if (domain.getFunctions().contains(readString))
+            else if (domain.getFunctions().Contains(readString))
             {
                 return new Token(LogicTokenTypes.FUNCTION, readString, startPosition);
             }
-            else if (domain.getConstants().contains(readString))
+            else if (domain.getConstants().Contains(readString))
             {
                 return new Token(LogicTokenTypes.CONSTANT, readString, startPosition);
             }
@@ -116,7 +115,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
             {
                 return new Token(LogicTokenTypes.VARIABLE, readString, startPosition);
             }
-            else if (readString.equals("="))
+            else if (readString.Equals("="))
             {
                 return new Token(LogicTokenTypes.EQUALS, readString, startPosition);
             }
@@ -126,21 +125,21 @@ namespace tvn.cosine.ai.logic.fol.parsing
             }
         }
 
-        private boolean isVariable(String s)
+        private bool isVariable(string s)
         {
-            return (Character.isLowerCase(s.charAt(0)));
+            return (char.IsLower(s[0]));
         }
 
-        private boolean identifierDetected()
+        private bool identifierDetected()
         {
-            return (Character.isJavaIdentifierStart(lookAhead(1)))
+            return char.IsLetter(lookAhead(1))
+                    || lookAhead(1) == '_'
                     || partOfConnector();
         }
 
-        private boolean partOfConnector()
+        private bool partOfConnector()
         {
-            return (lookAhead(1) == '=') || (lookAhead(1) == '<')
-                    || (lookAhead(1) == '>');
+            return (lookAhead(1) == '=') || (lookAhead(1) == '<') || (lookAhead(1) == '>');
         }
     }
 }

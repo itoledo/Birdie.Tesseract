@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.logic.propositional.parsing
+﻿using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.parsing
 {
     /**
      * <b>Propositional Logic Visitor:</b> A <a
@@ -7,7 +9,7 @@
      * propositional logic used in this library. The key difference between the
      * default Visitor pattern and the code here, is that in the former the visit()
      * methods have a void visit(ConcreteNode) signature while the visitors used
-     * here have a Object visit(ConcreteNode, Object arg) signature. This simplifies
+     * here have a object visit(ConcreteNode, object arg) signature. This simplifies
      * testing and allows some recursive code that is hard with the former .
      * 
      * @author Ravi Mohan

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -12,35 +11,31 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      */
     public class ProofStepClauseClausifySentence : AbstractProofStep
     {
-
-        private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+        private IList<ProofStep> predecessors = new List<ProofStep>();
         private Clause clausified = null;
 
-        public ProofStepClauseClausifySentence(Clause clausified,
-                Sentence origSentence)
+        public ProofStepClauseClausifySentence(Clause clausified, Sentence origSentence)
         {
             this.clausified = clausified;
-            this.predecessors.add(new ProofStepPremise(origSentence));
+            this.predecessors.Add(new ProofStepPremise(origSentence));
         }
 
         //
         // START-ProofStep
-        @Override
-    public List<ProofStep> getPredecessorSteps()
+
+        public override IList<ProofStep> getPredecessorSteps()
         {
-            return Collections.unmodifiableList(predecessors);
+            return new ReadOnlyCollection<ProofStep>(predecessors);
         }
 
-        @Override
-    public String getProof()
+        public override string getProof()
         {
-            return clausified.toString();
+            return clausified.ToString();
         }
 
-        @Override
-    public String getJustification()
+        public override string getJustification()
         {
-            return "Clausified " + predecessors.get(0).getStepNumber();
+            return "Clausified " + predecessors[0].getStepNumber();
         }
         // END-ProofStep
         //

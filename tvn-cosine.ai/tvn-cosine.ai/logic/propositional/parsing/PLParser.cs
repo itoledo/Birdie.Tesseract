@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.common;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
 
 namespace tvn.cosine.ai.logic.propositional.parsing
 {
@@ -51,8 +49,6 @@ namespace tvn.cosine.ai.logic.propositional.parsing
      */
     public class PLParser : Parser<Sentence>
     {
-
-
         private PLLexer lexer = new PLLexer();
 
         /**
@@ -62,22 +58,21 @@ namespace tvn.cosine.ai.logic.propositional.parsing
         {
         }
 
-        @Override
-    public Lexer getLexer()
+        public override Lexer getLexer()
         {
             return lexer;
         }
 
         //
         // PROTECTED
-        //
-        @Override
-    protected Sentence parse()
+        // 
+        protected override Sentence parse()
         {
             Sentence result = null;
 
             ParseNode root = parseSentence(0);
-            if (root != null && root.node instanceof Sentence) {
+            if (root != null && root.node is Sentence)
+            {
                 result = (Sentence)root.node;
             }
 
@@ -108,10 +103,13 @@ namespace tvn.cosine.ai.logic.propositional.parsing
 
             // At this point there should just be the root formula
             // for this level.
-            if (levelParseNodes.size() == 1
-                    && levelParseNodes.get(0).node instanceof Sentence) {
-                result = levelParseNodes.get(0);
-            } else {
+            if (levelParseNodes.Count == 1
+                    && levelParseNodes[0].node is Sentence)
+            {
+                result = levelParseNodes[0];
+            }
+            else
+            {
                 // Did not identify a root sentence for this level,
                 // therefore throw an exception indicating the problem.
                 throw new ParserException("Unable to correctly parse sentence: "
@@ -121,248 +119,256 @@ namespace tvn.cosine.ai.logic.propositional.parsing
             return result;
         }
 
-        private List<ParseNode> groupSimplerSentencesByConnective(
-                Connective connectiveToConstruct, List<ParseNode> parseNodes)
+        private List<ParseNode> groupSimplerSentencesByConnective(Connective connectiveToConstruct, List<ParseNode> parseNodes)
         {
-            List<ParseNode> newParseNodes = new ArrayList<ParseNode>();
+            List<ParseNode> newParseNodes = new List<ParseNode>();
             int numSentencesMade = 0;
             // Go right to left in order to make right associative,
             // which is a natural default for propositional logic
-            for (int i = parseNodes.size() - 1; i >= 0; i--)
+            for (int i = parseNodes.Count - 1; i >= 0; i--)
             {
-                ParseNode parseNode = parseNodes.get(i);
-                if (parseNode.node instanceof Connective) {
-                Connective tokenConnective = (Connective)parseNode.node;
-                if (tokenConnective == Connective.NOT)
+                ParseNode parseNode = parseNodes[i];
+                if (parseNode.node is Connective)
                 {
-                    // A unary connective
-                    if (i + 1 < parseNodes.size()
-                            && parseNodes.get(i + 1).node instanceof Sentence) {
-                        if (tokenConnective == connectiveToConstruct)
+                    Connective tokenConnective = (Connective)parseNode.node;
+                    if (tokenConnective == Connective.NOT)
+                    {
+                        // A unary connective
+                        if (i + 1 < parseNodes.Count
+                                && parseNodes[i + 1].node is Sentence)
                         {
-                            ComplexSentence newSentence = new ComplexSentence(
-                                    connectiveToConstruct,
-                                    (Sentence)parseNodes.get(i + 1).node);
-                            parseNodes.set(i, new ParseNode(newSentence,
-                                    parseNode.token));
-                            parseNodes.set(i + 1, null);
-                            numSentencesMade++;
+                            if (tokenConnective == connectiveToConstruct)
+                            {
+                                ComplexSentence newSentence = new ComplexSentence(
+                                        connectiveToConstruct,
+                                        (Sentence)parseNodes[i + 1].node);
+                                parseNodes[i] = new ParseNode(newSentence, parseNode.token);
+                                parseNodes[i + 1] = null;
+                                numSentencesMade++;
+                            }
                         }
-                    } else {
-                        throw new ParserException(
-                                "Unary connective argurment is not a sentence at input position "
-                                        + parseNode.token
-                                                .getStartCharPositionInInput(),
-                                parseNode.token);
+                        else
+                        {
+                            throw new ParserException(
+                                    "Unary connective argurment is not a sentence at input position "
+                                            + parseNode.token
+                                                    .getStartCharPositionInInput(),
+                                    parseNode.token);
+                        }
                     }
-                }
-                else
-                {
-                    // A Binary connective
-                    if ((i - 1 >= 0 && parseNodes.get(i - 1).node instanceof Sentence)
+                    else
+                    {
+                        // A Binary connective
+                        if ((i - 1 >= 0 && parseNodes[i - 1].node is Sentence)
 
-                            && (i + 1 < parseNodes.size() && parseNodes
-                                    .get(i + 1).node instanceof Sentence)) {
-                        // A binary connective
-                        if (tokenConnective == connectiveToConstruct)
+                                && (i + 1 < parseNodes.Count && parseNodes[i + 1].node is Sentence))
                         {
-                            ComplexSentence newSentence = new ComplexSentence(
-                                    connectiveToConstruct,
-                                    (Sentence)parseNodes.get(i - 1).node,
-                                    (Sentence)parseNodes.get(i + 1).node);
-                            parseNodes.set(i - 1, new ParseNode(newSentence,
-                                    parseNode.token));
-                            parseNodes.set(i, null);
-                            parseNodes.set(i + 1, null);
-                            numSentencesMade++;
+                            // A binary connective
+                            if (tokenConnective == connectiveToConstruct)
+                            {
+                                ComplexSentence newSentence = new ComplexSentence(
+                                        connectiveToConstruct,
+                                        (Sentence)parseNodes[i - 1].node,
+                                        (Sentence)parseNodes[i + 1].node);
+                                parseNodes[i - 1] = new ParseNode(newSentence, parseNode.token);
+                                parseNodes[i] = null;
+                                parseNodes[i + 1] = null;
+                                numSentencesMade++;
+                            }
                         }
-                    } else {
-                        throw new ParserException(
-                                "Binary connective argurments are not sentences at input position "
-                                        + parseNode.token
-                                                .getStartCharPositionInInput(),
-                                parseNode.token);
+                        else
+                        {
+                            throw new ParserException(
+                                    "Binary connective argurments are not sentences at input position "
+                                            + parseNode.token
+                                                    .getStartCharPositionInInput(),
+                                    parseNode.token);
+                        }
                     }
                 }
             }
+
+            for (int i = 0; i < parseNodes.Count; i++)
+            {
+                ParseNode parseNode = parseNodes[i];
+                if (parseNode != null)
+                {
+                    newParseNodes.Add(parseNode);
+                }
+            }
+
+            // Ensure no tokens left unaccounted for in this pass.
+            int toSubtract = 0;
+            if (connectiveToConstruct == Connective.NOT)
+            {
+                toSubtract = (numSentencesMade * 2) - numSentencesMade;
+            }
+            else
+            {
+                toSubtract = (numSentencesMade * 3) - numSentencesMade;
+            }
+
+            if (parseNodes.Count - toSubtract != newParseNodes.Count)
+            {
+                throw new ParserException(
+                        "Unable to construct sentence for connective: "
+                                + connectiveToConstruct + " from: " + parseNodes,
+                        getTokens(parseNodes));
+            }
+
+            return newParseNodes;
         }
 
-		for (int i = 0; i<parseNodes.size(); i++) {
-			ParseNode parseNode = parseNodes.get(i);
-			if (parseNode != null) {
-				newParseNodes.add(parseNode);
-			}
-}
-
-// Ensure no tokens left unaccounted for in this pass.
-int toSubtract = 0;
-		if (connectiveToConstruct == Connective.NOT) {
-			toSubtract = (numSentencesMade* 2) - numSentencesMade;
-		} else {
-			toSubtract = (numSentencesMade* 3) - numSentencesMade;
-		}
-
-		if (parseNodes.size() - toSubtract != newParseNodes.size()) {
-			throw new ParserException(
-					"Unable to construct sentence for connective: "
-							+ connectiveToConstruct + " from: " + parseNodes,
-                    getTokens(parseNodes));
-		}
-
-		return newParseNodes;
-	}
-
-	private List<ParseNode> parseLevel(int level)
-{
-    List<ParseNode> tokens = new ArrayList<ParseNode>();
-    while (lookAhead(1).getType() != LogicTokenTypes.EOI
-            && lookAhead(1).getType() != LogicTokenTypes.RPAREN
-            && lookAhead(1).getType() != LogicTokenTypes.RSQRBRACKET)
-    {
-        if (detectConnective())
+        private List<ParseNode> parseLevel(int level)
         {
-            tokens.add(parseConnective());
+            List<ParseNode> tokens = new List<ParseNode>();
+            while (lookAhead(1).getType() != LogicTokenTypes.EOI
+                    && lookAhead(1).getType() != LogicTokenTypes.RPAREN
+                    && lookAhead(1).getType() != LogicTokenTypes.RSQRBRACKET)
+            {
+                if (detectConnective())
+                {
+                    tokens.Add(parseConnective());
+                }
+                else if (detectAtomicSentence())
+                {
+                    tokens.Add(parseAtomicSentence());
+                }
+                else if (detectBracket())
+                {
+                    tokens.Add(parseBracketedSentence(level));
+                }
+            }
+
+            if (level > 0 && lookAhead(1).getType() == LogicTokenTypes.EOI)
+            {
+                throw new ParserException(
+                        "Parser Error: end of input not expected at level " + level,
+                        lookAhead(1));
+            }
+
+            return tokens;
         }
-        else if (detectAtomicSentence())
+
+        private bool detectConnective()
         {
-            tokens.add(parseAtomicSentence());
+            return lookAhead(1).getType() == LogicTokenTypes.CONNECTIVE;
         }
-        else if (detectBracket())
+
+        private ParseNode parseConnective()
         {
-            tokens.add(parseBracketedSentence(level));
+            Token token = lookAhead(1);
+            Connective connective = Connective.get(token.getText());
+            consume();
+            return new ParseNode(connective, token);
+        }
+
+        private bool detectAtomicSentence()
+        {
+            int type = lookAhead(1).getType();
+            return type == LogicTokenTypes.TRUE || type == LogicTokenTypes.FALSE
+                    || type == LogicTokenTypes.SYMBOL;
+        }
+
+        private ParseNode parseAtomicSentence()
+        {
+            Token t = lookAhead(1);
+            if (t.getType() == LogicTokenTypes.TRUE)
+            {
+                return parseTrue();
+            }
+            else if (t.getType() == LogicTokenTypes.FALSE)
+            {
+                return parseFalse();
+            }
+            else if (t.getType() == LogicTokenTypes.SYMBOL)
+            {
+                return parseSymbol();
+            }
+            else
+            {
+                throw new ParserException(
+                        "Error parsing atomic sentence at position "
+                                + t.getStartCharPositionInInput(), t);
+            }
+        }
+
+        private ParseNode parseTrue()
+        {
+            Token token = lookAhead(1);
+            consume();
+            return new ParseNode(new PropositionSymbol(PropositionSymbol.TRUE_SYMBOL),
+                    token);
+        }
+
+        private ParseNode parseFalse()
+        {
+            Token token = lookAhead(1);
+            consume();
+            return new ParseNode(new PropositionSymbol(PropositionSymbol.FALSE_SYMBOL),
+                    token);
+        }
+
+        private ParseNode parseSymbol()
+        {
+            Token token = lookAhead(1);
+            string sym = token.getText();
+            consume();
+            return new ParseNode(new PropositionSymbol(sym), token);
+        }
+
+        private bool detectBracket()
+        {
+            return lookAhead(1).getType() == LogicTokenTypes.LPAREN
+                    || lookAhead(1).getType() == LogicTokenTypes.LSQRBRACKET;
+        }
+
+        private ParseNode parseBracketedSentence(int level)
+        {
+            Token startToken = lookAhead(1);
+
+            string start = "(";
+            string end = ")";
+            if (startToken.getType() == LogicTokenTypes.LSQRBRACKET)
+            {
+                start = "[";
+                end = "]";
+            }
+
+            match(start);
+            ParseNode bracketedSentence = parseSentence(level + 1);
+            match(end);
+
+            return bracketedSentence;
+        }
+
+        private Token[] getTokens(List<ParseNode> parseNodes)
+        {
+            Token[] result = new Token[parseNodes.Count];
+
+            for (int i = 0; i < parseNodes.Count; i++)
+            {
+                result[i] = parseNodes[i].token;
+            }
+
+            return result;
+        }
+
+        class ParseNode
+        {
+            public object node = null;
+            public Token token = null;
+
+            public ParseNode(object node, Token token)
+            {
+                this.node = node;
+                this.token = token;
+            }
+
+            public override string ToString()
+            {
+                return node.ToString() + " at " + token.getStartCharPositionInInput();
+            }
         }
     }
-
-    if (level > 0 && lookAhead(1).getType() == LogicTokenTypes.EOI)
-    {
-        throw new ParserException(
-                "Parser Error: end of input not expected at level " + level,
-                lookAhead(1));
-    }
-
-    return tokens;
-}
-
-private boolean detectConnective()
-{
-    return lookAhead(1).getType() == LogicTokenTypes.CONNECTIVE;
-}
-
-private ParseNode parseConnective()
-{
-    Token token = lookAhead(1);
-    Connective connective = Connective.get(token.getText());
-    consume();
-    return new ParseNode(connective, token);
-}
-
-private boolean detectAtomicSentence()
-{
-    int type = lookAhead(1).getType();
-    return type == LogicTokenTypes.TRUE || type == LogicTokenTypes.FALSE
-            || type == LogicTokenTypes.SYMBOL;
-}
-
-private ParseNode parseAtomicSentence()
-{
-    Token t = lookAhead(1);
-    if (t.getType() == LogicTokenTypes.TRUE)
-    {
-        return parseTrue();
-    }
-    else if (t.getType() == LogicTokenTypes.FALSE)
-    {
-        return parseFalse();
-    }
-    else if (t.getType() == LogicTokenTypes.SYMBOL)
-    {
-        return parseSymbol();
-    }
-    else
-    {
-        throw new ParserException(
-                "Error parsing atomic sentence at position "
-                        + t.getStartCharPositionInInput(), t);
-    }
-}
-
-private ParseNode parseTrue()
-{
-    Token token = lookAhead(1);
-    consume();
-    return new ParseNode(new PropositionSymbol(PropositionSymbol.TRUE_SYMBOL),
-            token);
-}
-
-private ParseNode parseFalse()
-{
-    Token token = lookAhead(1);
-    consume();
-    return new ParseNode(new PropositionSymbol(PropositionSymbol.FALSE_SYMBOL),
-            token);
-}
-
-private ParseNode parseSymbol()
-{
-    Token token = lookAhead(1);
-    String sym = token.getText();
-    consume();
-    return new ParseNode(new PropositionSymbol(sym), token);
-}
-
-private boolean detectBracket()
-{
-    return lookAhead(1).getType() == LogicTokenTypes.LPAREN
-            || lookAhead(1).getType() == LogicTokenTypes.LSQRBRACKET;
-}
-
-private ParseNode parseBracketedSentence(int level)
-{
-    Token startToken = lookAhead(1);
-
-    String start = "(";
-    String end = ")";
-    if (startToken.getType() == LogicTokenTypes.LSQRBRACKET)
-    {
-        start = "[";
-        end = "]";
-    }
-
-    match(start);
-    ParseNode bracketedSentence = parseSentence(level + 1);
-    match(end);
-
-    return bracketedSentence;
-}
-
-private Token[] getTokens(List<ParseNode> parseNodes)
-{
-    Token[] result = new Token[parseNodes.size()];
-
-    for (int i = 0; i < parseNodes.size(); i++)
-    {
-        result[i] = parseNodes.get(i).token;
-    }
-
-    return result;
-}
-
-private class ParseNode
-{
-    public Object node = null;
-    public Token token = null;
-
-    public ParseNode(Object node, Token token)
-    {
-        this.node = node;
-        this.token = token;
-    }
-
-    public String toString()
-    {
-        return node.toString() + " at "
-                + token.getStartCharPositionInInput();
-    }
-}
-}
 }

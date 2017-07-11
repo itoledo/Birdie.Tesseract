@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.logic.common;
+using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.logic.propositional.parsing.ast
 {
@@ -25,7 +27,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * @return the logical connective associated with this sentence if it has
          *         one (i.e. is a ComplexSentence), null otherwise.
          */
-        public Connective getConnective()
+        public virtual Connective getConnective()
         {
             return null;
         }
@@ -35,7 +37,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * @return the number of simpler sentences contained in this sentence. Will
          *         only be > 0 if a Complex Sentence.
          */
-        public int getNumberSimplerSentences()
+        public virtual int getNumberSimplerSentences()
         {
             return 0;
         }
@@ -49,7 +51,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * @return the simplified sentence, at the specified offset, contained by
          *         this sentence (if a complex sentence), null otherwise.
          */
-        public Sentence getSimplerSentence(int offset)
+        public virtual Sentence getSimplerSentence(int offset)
         {
             return null;
         }
@@ -59,7 +61,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * @return true if a complex sentence with a Not connective, false
          *         otherwise.
          */
-        public boolean isNotSentence()
+        public virtual bool isNotSentence()
         {
             return hasConnective(Connective.NOT);
         }
@@ -69,7 +71,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * @return true if a complex sentence with an And connective, false
          *         otherwise.
          */
-        public boolean isAndSentence()
+        public virtual bool isAndSentence()
         {
             return hasConnective(Connective.AND);
         }
@@ -79,7 +81,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * @return true if a complex sentence with an Or connective, false
          *         otherwise.
          */
-        public boolean isOrSentence()
+        public virtual bool isOrSentence()
         {
             return hasConnective(Connective.OR);
         }
@@ -89,7 +91,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * @return true if a complex sentence with an Implication connective, false
          *         otherwise.
          */
-        public boolean isImplicationSentence()
+        public virtual bool isImplicationSentence()
         {
             return hasConnective(Connective.IMPLICATION);
         }
@@ -99,7 +101,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * @return true if a complex sentence with a Biconditional connective, false
          *         otherwise.
          */
-        public boolean isBiconditionalSentence()
+        public virtual bool isBiconditionalSentence()
         {
             return hasConnective(Connective.BICONDITIONAL);
         }
@@ -108,7 +110,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * 
          * @return true if a proposition symbol, false otherwise.
          */
-        public boolean isPropositionSymbol()
+        public virtual bool isPropositionSymbol()
         {
             return getConnective() == null;
         }
@@ -118,7 +120,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * @return true if a complex sentence containing a single simpler sentence,
          *         false otherwise.
          */
-        public boolean isUnarySentence()
+        public virtual bool isUnarySentence()
         {
             return hasConnective(Connective.NOT);
         }
@@ -128,7 +130,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * @return true if a complex sentence containing two simpler sentences,
          *         false otherwise.
          */
-        public boolean isBinarySentence()
+        public virtual bool isBinarySentence()
         {
             return getConnective() != null && !hasConnective(Connective.NOT);
         }
@@ -143,9 +145,9 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          *            an optional argument for use by the visior.
          * @return a result specific to the visitors behavior.
          */
-        public <A, R> R accept(PLVisitor<A, R> plv, A arg)
+        public virtual R accept<A, R>(PLVisitor<A, R> plv, A arg)
         {
-            R result = null;
+            R result = default(R);
             if (isPropositionSymbol())
             {
                 result = plv.visitPropositionSymbol((PropositionSymbol)this, arg);
@@ -175,14 +177,14 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          *            the connective of the parent sentence.
          * @param childSentence
          *            a simpler child sentence.
-         * @return a String representation of the Sentence, bracketed if the parent
+         * @return a string representation of the Sentence, bracketed if the parent
          *         based on its connective has higher precedence.
          */
-        public String bracketSentenceIfNecessary(Connective parentConnective,
-                Sentence childSentence)
+        public virtual string bracketSentenceIfNecessary(Connective parentConnective, Sentence childSentence)
         {
-            String result = null;
-            if (childSentence is ComplexSentence) {
+            string result = null;
+            if (childSentence is ComplexSentence)
+            {
                 ComplexSentence cs = (ComplexSentence)childSentence;
                 if (cs.getConnective().getPrecedence() < parentConnective
                         .getPrecedence())
@@ -218,15 +220,15 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          */
         public static Sentence newDisjunction(IList<Sentence> disjuncts)
         {
-            if (disjuncts.size() == 0)
+            if (disjuncts.Count == 0)
             {
                 return PropositionSymbol.FALSE;
             }
-            else if (disjuncts.size() == 1)
+            else if (disjuncts.Count == 1)
             {
-                return disjuncts.get(0);
+                return disjuncts[0];
             }
-            return new ComplexSentence(Util.first(disjuncts), Connective.OR, newDisjunction(Util.rest(disjuncts)));
+            return new ComplexSentence(disjuncts.First(), Connective.OR, newDisjunction(disjuncts.Skip(1).ToArray()));
         }
 
         /**
@@ -235,9 +237,9 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * 			the conjuncts from which to create the conjunction.
          * @return a conjunction of the given conjuncts.
          */
-        public static Sentence newConjunction(Sentence...conjuncts)
+        public static Sentence newConjunction(params Sentence[] conjuncts)
         {
-            return newConjunction(Arrays.asList(conjuncts));
+            return newConjunction(conjuncts.ToList());
         }
 
         /**
@@ -246,23 +248,23 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * 			the conjuncts from which to create the conjunction.
          * @return a conjunction of the given conjuncts.
          */
-        public static Sentence newConjunction(List<? extends Sentence> conjuncts)
+        public static Sentence newConjunction(IList<Sentence> conjuncts)
         {
-            if (conjuncts.size() == 0)
+            if (conjuncts.Count == 0)
             {
                 return PropositionSymbol.TRUE;
             }
-            else if (conjuncts.size() == 1)
+            else if (conjuncts.Count == 1)
             {
-                return conjuncts.get(0);
+                return conjuncts[0];
             }
-            return new ComplexSentence(Util.first(conjuncts), Connective.AND, newConjunction(Util.rest(conjuncts)));
+            return new ComplexSentence(conjuncts.First(), Connective.AND, newConjunction(conjuncts.Skip(1).ToArray()));
         }
 
         //
         // PROTECTED
         //
-        protected boolean hasConnective(Connective connective)
+        protected virtual bool hasConnective(Connective connective)
         {
             // Note: can use '==' as Connective is an enum.
             return getConnective() == connective;

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.logic.fol
 {
@@ -14,72 +12,64 @@ namespace tvn.cosine.ai.logic.fol
      */
     public class StandardizeApartIndexicalFactory
     {
-        private static Map<Character, Integer> _assignedIndexicals = new HashMap<Character, Integer>();
+        private static IDictionary<char, int> _assignedIndexicals = new Dictionary<char, int>();
 
         // For use in test cases, where predictable behavior is expected.
         public static void flush()
         {
-            synchronized(_assignedIndexicals) {
-                _assignedIndexicals.clear();
-            }
+            _assignedIndexicals.Clear();
         }
 
-        public static StandardizeApartIndexical newStandardizeApartIndexical(
-                Character preferredPrefix)
+        public static StandardizeApartIndexical newStandardizeApartIndexical(char preferredPrefix)
         {
-            char ch = preferredPrefix.charValue();
-            if (!(Character.isLetter(ch) && Character.isLowerCase(ch)))
+            char ch = preferredPrefix;
+            if (!(char.IsLetter(ch) && char.IsLower(ch)))
             {
-                throw new IllegalArgumentException("Preferred prefix :"
-                        + preferredPrefix + " must be a valid a lower case letter.");
+                throw new ArgumentException("Preferred prefix :" + preferredPrefix + " must be a valid a lower case letter.");
             }
 
             StringBuilder sb = new StringBuilder();
-            synchronized(_assignedIndexicals) {
-                Integer currentPrefixCnt = _assignedIndexicals.get(preferredPrefix);
-                if (null == currentPrefixCnt)
-                {
-                    currentPrefixCnt = 0;
-                }
-                else
-                {
-                    currentPrefixCnt += 1;
-                }
-                _assignedIndexicals.put(preferredPrefix, currentPrefixCnt);
-                sb.append(preferredPrefix);
-                for (int i = 0; i < currentPrefixCnt; i++)
-                {
-                    sb.append(preferredPrefix);
-                }
+            if (_assignedIndexicals.ContainsKey(preferredPrefix))
+            {
+                _assignedIndexicals[preferredPrefix] = 0;
+            }
+            else
+            {
+                ++_assignedIndexicals[preferredPrefix];
+            }
+            sb.Append(preferredPrefix);
+            for (int i = 0; i < _assignedIndexicals[preferredPrefix]; i++)
+            {
+                sb.Append(preferredPrefix);
             }
 
-            return new StandardizeApartIndexicalImpl(sb.toString());
+            return new StandardizeApartIndexicalImpl(sb.ToString());
         }
     }
 
-    class StandardizeApartIndexicalImpl implements StandardizeApartIndexical
+    class StandardizeApartIndexicalImpl : StandardizeApartIndexical
     {
 
-    private String prefix = null;
-    private int index = 0;
+        private string prefix = null;
+        private int index = 0;
 
-    public StandardizeApartIndexicalImpl(String prefix)
-    {
-        this.prefix = prefix;
+        public StandardizeApartIndexicalImpl(string prefix)
+        {
+            this.prefix = prefix;
+        }
+
+        //
+        // START-StandardizeApartIndexical
+        public string getPrefix()
+        {
+            return prefix;
+        }
+
+        public int getNextIndex()
+        {
+            return index++;
+        }
+        // END-StandardizeApartIndexical
+        //
     }
-
-    //
-    // START-StandardizeApartIndexical
-    public String getPrefix()
-    {
-        return prefix;
-    }
-
-    public int getNextIndex()
-    {
-        return index++;
-    }
-    // END-StandardizeApartIndexical
-    //
-}
 }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
+using tvn.cosine.ai.search.framework.qsearch;
 
 namespace tvn.cosine.ai.logic.propositional.inference
 {
@@ -63,43 +66,42 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * @throws IllegalArgumentException
          *             if KB contains any non-definite clauses.
          */
-        public boolean plfcEntails(KnowledgeBase kb, PropositionSymbol q)
+        public bool plfcEntails(KnowledgeBase kb, PropositionSymbol q)
         {
             // count <- a table, where count[c] is the number of symbols in c's
             // premise
-            Map<Clause, Integer> count = initializeCount(kb);
+            IDictionary<Clause, int> count = initializeCount(kb);
             // inferred <- a table, where inferred[s] is initially false for all
             // symbols
-            Map<PropositionSymbol, Boolean> inferred = initializeInferred(kb);
+            IDictionary<PropositionSymbol, bool> inferred = initializeInferred(kb);
             // agenda <- a queue of symbols, initially symbols known to be true in
             // KB
-            Queue<PropositionSymbol> agenda = initializeAgenda(count);
+            IQueue<PropositionSymbol> agenda = initializeAgenda(count);
             // Note: an index for p to the clauses where p appears in the premise
-            Map<PropositionSymbol, Set<Clause>> pToClausesWithPInPremise = initializeIndex(
-                    count, inferred);
+            IDictionary<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = initializeIndex(count, inferred);
 
             // while agenda is not empty do
-            while (!agenda.isEmpty())
+            while (!(agenda.Count == 0))
             {
                 // p <- Pop(agenda)
                 PropositionSymbol p = agenda.remove();
                 // if p = q then return true
-                if (p.equals(q))
+                if (p.Equals(q))
                 {
                     return true;
                 }
                 // if inferred[p] = false then
-                if (inferred.get(p).equals(Boolean.FALSE))
+                if (inferred[p].Equals(false))
                 {
                     // inferred[p] <- true
-                    inferred.put(p, true);
+                    inferred.Add(p, true);
                     // for each clause c in KB where p is in c.PREMISE do
-                    for (Clause c : pToClausesWithPInPremise.get(p))
+                    foreach (Clause c in pToClausesWithPInPremise[p])
                     {
                         // decrement count[c]
                         decrement(count, c);
                         // if count[c] = 0 then add c.CONCLUSION to agenda
-                        if (count.get(c) == 0)
+                        if (count[c] == 0)
                         {
                             agenda.add(conclusion(c));
                         }
@@ -118,50 +120,47 @@ namespace tvn.cosine.ai.logic.propositional.inference
         //
         // PROTECTED
         //
-        protected Map<Clause, Integer> initializeCount(KnowledgeBase kb)
+        protected IDictionary<Clause, int> initializeCount(KnowledgeBase kb)
         {
             // count <- a table, where count[c] is the number of symbols in c's
             // premise
-            Map<Clause, Integer> count = new HashMap<Clause, Integer>();
+            IDictionary<Clause, int> count = new Dictionary<Clause, int>();
 
-            Set<Clause> clauses = ConvertToConjunctionOfClauses.convert(
-                    kb.asSentence()).getClauses();
-            for (Clause c : clauses)
+            ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(kb.asSentence()).getClauses();
+            foreach (Clause c in clauses)
             {
                 if (!c.isDefiniteClause())
                 {
-                    throw new IllegalArgumentException(
-                            "Knowledge Base contains non-definite clauses:" + c);
+                    throw new ArgumentException("Knowledge Base contains non-definite clauses:" + c);
                 }
                 // Note: # of negative literals is equivalent to the number of
                 // symbols in c's premise
-                count.put(c, c.getNumberNegativeLiterals());
+                count.Add(c, c.getNumberNegativeLiterals());
             }
 
             return count;
         }
 
-        protected Map<PropositionSymbol, Boolean> initializeInferred(KnowledgeBase kb)
+        protected IDictionary<PropositionSymbol, bool> initializeInferred(KnowledgeBase kb)
         {
             // inferred <- a table, where inferred[s] is initially false for all
             // symbols
-            Map<PropositionSymbol, Boolean> inferred = new HashMap<PropositionSymbol, Boolean>();
-            for (PropositionSymbol p : SymbolCollector.getSymbolsFrom(kb
-                    .asSentence()))
+            IDictionary<PropositionSymbol, bool> inferred = new Dictionary<PropositionSymbol, bool>();
+            foreach (PropositionSymbol p in SymbolCollector.getSymbolsFrom(kb.asSentence()))
             {
-                inferred.put(p, false);
+                inferred.Add(p, false);
             }
             return inferred;
         }
 
         // Note: at the point of calling this routine, count will contain all the
         // clauses in KB.
-        protected Queue<PropositionSymbol> initializeAgenda(Map<Clause, Integer> count)
+        protected IQueue<PropositionSymbol> initializeAgenda(IDictionary<Clause, int> count)
         {
             // agenda <- a queue of symbols, initially symbols known to be true in
             // KB
-            Queue<PropositionSymbol> agenda = new LinkedList<PropositionSymbol>();
-            for (Clause c : count.keySet())
+            IQueue<PropositionSymbol> agenda = new FifoQueue<PropositionSymbol>();
+            foreach (Clause c in count.Keys)
             {
                 // No premise just a conclusion, then we know its true
                 if (c.getNumberNegativeLiterals() == 0)
@@ -174,33 +173,33 @@ namespace tvn.cosine.ai.logic.propositional.inference
 
         // Note: at the point of calling this routine, count will contain all the
         // clauses in KB while inferred will contain all the proposition symbols.
-        protected Map<PropositionSymbol, Set<Clause>> initializeIndex(
-                Map<Clause, Integer> count, Map<PropositionSymbol, Boolean> inferred)
+        protected IDictionary<PropositionSymbol, ISet<Clause>> initializeIndex(
+                IDictionary<Clause, int> count, IDictionary<PropositionSymbol, bool> inferred)
         {
-            Map<PropositionSymbol, Set<Clause>> pToClausesWithPInPremise = new HashMap<PropositionSymbol, Set<Clause>>();
-            for (PropositionSymbol p : inferred.keySet())
+            IDictionary<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = new Dictionary<PropositionSymbol, ISet<Clause>>();
+            foreach (PropositionSymbol p in inferred.Keys)
             {
-                Set<Clause> clausesWithPInPremise = new HashSet<Clause>();
-                for (Clause c : count.keySet())
+                ISet<Clause> clausesWithPInPremise = new HashSet<Clause>();
+                foreach (Clause c in count.Keys)
                 {
                     // Note: The negative symbols comprise the premise
-                    if (c.getNegativeSymbols().contains(p))
+                    if (c.getNegativeSymbols().Contains(p))
                     {
-                        clausesWithPInPremise.add(c);
+                        clausesWithPInPremise.Add(c);
                     }
                 }
-                pToClausesWithPInPremise.put(p, clausesWithPInPremise);
+                pToClausesWithPInPremise.Add(p, clausesWithPInPremise);
             }
             return pToClausesWithPInPremise;
         }
 
-        protected void decrement(Map<Clause, Integer> count, Clause c)
+        protected void decrement(IDictionary<Clause, int> count, Clause c)
         {
-            int currentCount = count.get(c);
+            int currentCount = count[c];
             // Note: a definite clause can just be a fact (i.e. 1 positive literal)
             // However, we only decrement those where the symbol is in the premise
             // so we don't need to worry about going < 0.
-            count.put(c, currentCount - 1);
+            count.Add(c, currentCount - 1);
         }
 
         protected PropositionSymbol conclusion(Clause c)
@@ -208,7 +207,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             // Note: the conclusion is from the single positive
             // literal in the definite clause (which we are
             // restricted to).
-            return c.getPositiveSymbols().iterator().next();
+            return c.getPositiveSymbols().First();
         }
     }
 }

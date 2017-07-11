@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.otter.defaultimpl
 {
@@ -12,19 +14,16 @@ namespace tvn.cosine.ai.logic.fol.inference.otter.defaultimpl
      */
     public class DefaultClauseSimplifier : ClauseSimplifier
     {
-
-
         private Demodulation demodulation = new Demodulation();
-        private List<TermEquality> rewrites = new ArrayList<TermEquality>();
+        private IList<TermEquality> rewrites = new List<TermEquality>();
 
         public DefaultClauseSimplifier()
-        {
+        { }
 
-        }
-
-        public DefaultClauseSimplifier(List<TermEquality> rewrites)
+        public DefaultClauseSimplifier(IList<TermEquality> rewrites)
         {
-            this.rewrites.addAll(rewrites);
+            foreach (var v in rewrites)
+                this.rewrites.Add(v);
         }
 
         //
@@ -35,7 +34,7 @@ namespace tvn.cosine.ai.logic.fol.inference.otter.defaultimpl
 
             // Apply each of the rewrite rules to
             // the clause
-            for (TermEquality te : rewrites)
+            foreach (TermEquality te in rewrites)
             {
                 Clause dc = simplified;
                 // Keep applying the rewrite as many times as it

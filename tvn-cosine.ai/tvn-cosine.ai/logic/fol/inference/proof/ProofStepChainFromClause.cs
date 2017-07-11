@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using tvn.cosine.ai.logic.fol.kb.data;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -12,8 +10,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      */
     public class ProofStepChainFromClause : AbstractProofStep
     {
-
-        private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+        private IList<ProofStep> predecessors = new List<ProofStep>();
         private Chain chain = null;
         private Clause fromClause = null;
 
@@ -21,28 +18,24 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
         {
             this.chain = chain;
             this.fromClause = fromClause;
-            this.predecessors.add(fromClause.getProofStep());
+            this.predecessors.Add(fromClause.getProofStep());
         }
 
         //
-        // START-ProofStep
-        @Override
-    public List<ProofStep> getPredecessorSteps()
+        // START-ProofStep 
+        public override IList<ProofStep> getPredecessorSteps()
         {
-            return Collections.unmodifiableList(predecessors);
+            return new ReadOnlyCollection<ProofStep>(predecessors);
         }
 
-        @Override
-    public String getProof()
+        public override string getProof()
         {
-            return chain.toString();
+            return chain.ToString();
         }
 
-        @Override
-    public String getJustification()
+        public override string getJustification()
         {
-            return "Chain from Clause: "
-                    + fromClause.getProofStep().getStepNumber();
+            return "Chain from Clause: " + fromClause.getProofStep().getStepNumber();
         }
         // END-ProofStep
         //

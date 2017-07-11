@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.fol.inference.proof;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol
 {
@@ -21,23 +20,21 @@ namespace tvn.cosine.ai.logic.fol
             substVisitor = new SubstVisitor();
         }
 
-        public StandardizeApart(VariableCollector variableCollector,
-                SubstVisitor substVisitor)
+        public StandardizeApart(VariableCollector variableCollector, SubstVisitor substVisitor)
         {
             this.variableCollector = variableCollector;
             this.substVisitor = substVisitor;
         }
 
         // Note: see page 327.
-        public StandardizeApartResult standardizeApart(Sentence sentence,
-                StandardizeApartIndexical standardizeApartIndexical)
+        public StandardizeApartResult standardizeApart(Sentence sentence, StandardizeApartIndexical standardizeApartIndexical)
         {
-            Set<Variable> toRename = variableCollector
+            ISet<Variable> toRename = variableCollector
                     .collectAllVariables(sentence);
-            Map<Variable, Term> renameSubstitution = new HashMap<Variable, Term>();
-            Map<Variable, Term> reverseSubstitution = new HashMap<Variable, Term>();
+            IDictionary<Variable, Term> renameSubstitution = new Dictionary<Variable, Term>();
+            IDictionary<Variable, Term> reverseSubstitution = new Dictionary<Variable, Term>();
 
-            for (Variable var : toRename)
+            foreach (Variable var in toRename)
             {
                 Variable v = null;
                 do
@@ -46,27 +43,25 @@ namespace tvn.cosine.ai.logic.fol
                             + standardizeApartIndexical.getNextIndex());
                     // Ensure the new variable name is not already
                     // accidentally used in the sentence
-                } while (toRename.contains(v));
+                } while (toRename.Contains(v));
 
-                renameSubstitution.put(var, v);
-                reverseSubstitution.put(v, var);
+                renameSubstitution.Add(var, v);
+                reverseSubstitution.Add(v, var);
             }
 
             Sentence standardized = substVisitor.subst(renameSubstitution,
                     sentence);
 
-            return new StandardizeApartResult(sentence, standardized,
-                    renameSubstitution, reverseSubstitution);
+            return new StandardizeApartResult(sentence, standardized, renameSubstitution, reverseSubstitution);
         }
 
-        public Clause standardizeApart(Clause clause,
-                StandardizeApartIndexical standardizeApartIndexical)
+        public Clause standardizeApart(Clause clause, StandardizeApartIndexical standardizeApartIndexical)
         {
 
-            Set<Variable> toRename = variableCollector.collectAllVariables(clause);
-            Map<Variable, Term> renameSubstitution = new HashMap<Variable, Term>();
+            ISet<Variable> toRename = variableCollector.collectAllVariables(clause);
+            IDictionary<Variable, Term> renameSubstitution = new Dictionary<Variable, Term>();
 
-            for (Variable var : toRename)
+            foreach (Variable var in toRename)
             {
                 Variable v = null;
                 do
@@ -75,36 +70,34 @@ namespace tvn.cosine.ai.logic.fol
                             + standardizeApartIndexical.getNextIndex());
                     // Ensure the new variable name is not already
                     // accidentally used in the sentence
-                } while (toRename.contains(v));
+                } while (toRename.Contains(v));
 
-                renameSubstitution.put(var, v);
+                renameSubstitution.Add(var, v);
             }
 
-            if (renameSubstitution.size() > 0)
+            if (renameSubstitution.Count > 0)
             {
-                List<Literal> literals = new ArrayList<Literal>();
+                List<Literal> literals = new List<Literal>();
 
-                for (Literal l : clause.getLiterals())
+                foreach (Literal l in clause.getLiterals())
                 {
-                    literals.add(substVisitor.subst(renameSubstitution, l));
+                    literals.Add(substVisitor.subst(renameSubstitution, l));
                 }
                 Clause renamed = new Clause(literals);
-                renamed.setProofStep(new ProofStepRenaming(renamed, clause
-                        .getProofStep()));
+                renamed.setProofStep(new ProofStepRenaming(renamed, clause.getProofStep()));
                 return renamed;
             }
 
             return clause;
         }
 
-        public Chain standardizeApart(Chain chain,
-                StandardizeApartIndexical standardizeApartIndexical)
+        public Chain standardizeApart(Chain chain, StandardizeApartIndexical standardizeApartIndexical)
         {
 
-            Set<Variable> toRename = variableCollector.collectAllVariables(chain);
-            Map<Variable, Term> renameSubstitution = new HashMap<Variable, Term>();
+            ISet<Variable> toRename = variableCollector.collectAllVariables(chain);
+            IDictionary<Variable, Term> renameSubstitution = new Dictionary<Variable, Term>();
 
-            for (Variable var : toRename)
+            foreach (Variable var in toRename)
             {
                 Variable v = null;
                 do
@@ -113,20 +106,20 @@ namespace tvn.cosine.ai.logic.fol
                             + standardizeApartIndexical.getNextIndex());
                     // Ensure the new variable name is not already
                     // accidentally used in the sentence
-                } while (toRename.contains(v));
+                } while (toRename.Contains(v));
 
-                renameSubstitution.put(var, v);
+                renameSubstitution.Add(var, v);
             }
 
-            if (renameSubstitution.size() > 0)
+            if (renameSubstitution.Count > 0)
             {
-                List<Literal> lits = new ArrayList<Literal>();
+                List<Literal> lits = new List<Literal>();
 
-                for (Literal l : chain.getLiterals())
+                foreach (Literal l in chain.getLiterals())
                 {
                     AtomicSentence atom = (AtomicSentence)substVisitor.subst(
                             renameSubstitution, l.getAtomicSentence());
-                    lits.add(l.newInstance(atom));
+                    lits.Add(l.newInstance(atom));
                 }
 
                 Chain renamed = new Chain(lits);
@@ -140,26 +133,24 @@ namespace tvn.cosine.ai.logic.fol
             return chain;
         }
 
-        public Map<Variable, Term> standardizeApart(List<Literal> l1Literals,
-                List<Literal> l2Literals,
-                StandardizeApartIndexical standardizeApartIndexical)
+        public IDictionary<Variable, Term> standardizeApart(IList<Literal> l1Literals, IList<Literal> l2Literals, StandardizeApartIndexical standardizeApartIndexical)
         {
-            Set<Variable> toRename = new HashSet<Variable>();
+            ISet<Variable> toRename = new HashSet<Variable>();
 
-            for (Literal pl : l1Literals)
+            foreach (Literal pl in l1Literals)
             {
-                toRename.addAll(variableCollector.collectAllVariables(pl
-                        .getAtomicSentence()));
+                foreach (var v in variableCollector.collectAllVariables(pl.getAtomicSentence()))
+                    toRename.Add(v);
             }
-            for (Literal nl : l2Literals)
+            foreach (Literal nl in l2Literals)
             {
-                toRename.addAll(variableCollector.collectAllVariables(nl
-                        .getAtomicSentence()));
+                foreach (var v in variableCollector.collectAllVariables(nl.getAtomicSentence()))
+                    toRename.Add(v);
             }
 
-            Map<Variable, Term> renameSubstitution = new HashMap<Variable, Term>();
+            IDictionary<Variable, Term> renameSubstitution = new Dictionary<Variable, Term>();
 
-            for (Variable var : toRename)
+            foreach (Variable var in toRename)
             {
                 Variable v = null;
                 do
@@ -168,27 +159,29 @@ namespace tvn.cosine.ai.logic.fol
                             + standardizeApartIndexical.getNextIndex());
                     // Ensure the new variable name is not already
                     // accidentally used in the sentence
-                } while (toRename.contains(v));
+                } while (toRename.Contains(v));
 
-                renameSubstitution.put(var, v);
+                renameSubstitution.Add(var, v);
             }
 
-            List<Literal> posLits = new ArrayList<Literal>();
-            List<Literal> negLits = new ArrayList<Literal>();
+            List<Literal> posLits = new List<Literal>();
+            List<Literal> negLits = new List<Literal>();
 
-            for (Literal pl : l1Literals)
+            foreach (Literal pl in l1Literals)
             {
-                posLits.add(substVisitor.subst(renameSubstitution, pl));
+                posLits.Add(substVisitor.subst(renameSubstitution, pl));
             }
-            for (Literal nl : l2Literals)
+            foreach (Literal nl in l2Literals)
             {
-                negLits.add(substVisitor.subst(renameSubstitution, nl));
+                negLits.Add(substVisitor.subst(renameSubstitution, nl));
             }
 
-            l1Literals.clear();
-            l1Literals.addAll(posLits);
-            l2Literals.clear();
-            l2Literals.addAll(negLits);
+            l1Literals.Clear();
+            foreach (var v in posLits)
+                l1Literals.Add(v);
+            l2Literals.Clear();
+            foreach (var v in negLits)
+                l2Literals.Add(v);
 
             return renameSubstitution;
         }

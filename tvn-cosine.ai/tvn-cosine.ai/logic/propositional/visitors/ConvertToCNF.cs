@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using tvn.cosine.ai.logic.propositional.parsing.ast;
 
 namespace tvn.cosine.ai.logic.propositional.visitors
 {

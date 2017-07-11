@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
@@ -12,9 +8,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
      */
     public interface Term : FOLNode
     {
-        List<Term> getArgs();
-
-        Term copy();
+        new IList<Term> getArgs(); 
+        new Term copy();
     }
-
 }

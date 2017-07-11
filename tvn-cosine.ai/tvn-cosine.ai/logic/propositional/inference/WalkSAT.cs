@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
 
 namespace tvn.cosine.ai.logic.propositional.inference
 {
@@ -51,7 +53,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * 
          * @return a satisfying model or failure (null).
          */
-        public Model walkSAT(Set<Clause> clauses, double p, int maxFlips)
+        public Model walkSAT(ISet<Clause> clauses, double p, int maxFlips)
         {
             assertLegalProbability(p);
 
@@ -72,7 +74,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
 
                 // with probability p flip the value in model of a randomly selected
                 // symbol from clause
-                if (random.nextDouble() < p)
+                if (random.NextDouble() < p)
                 {
                     model = model.flip(randomlySelectSymbolFromClause(clause));
                 }
@@ -119,25 +121,26 @@ namespace tvn.cosine.ai.logic.propositional.inference
         {
             if (p < 0 || p > 1)
             {
-                throw new IllegalArgumentException("p is not a legal propbability value [0-1]: " + p);
+                throw new ArgumentException("p is not a legal propbability value [0-1]: " + p);
             }
         }
 
-        protected Model randomAssignmentToSymbolsInClauses(Set<Clause> clauses)
+        protected Model randomAssignmentToSymbolsInClauses(ISet<Clause> clauses)
         {
             // Collect the symbols in clauses
-            Set<PropositionSymbol> symbols = new LinkedHashSet<PropositionSymbol>();
-            for (Clause c : clauses)
+            ISet<PropositionSymbol> symbols = new HashSet<PropositionSymbol>();
+            foreach (Clause c in clauses)
             {
-                symbols.addAll(c.getSymbols());
+                foreach (var v in c.getSymbols())
+                    symbols.Add(v);
             }
 
             // Make initial set of assignments
-            Map<PropositionSymbol, Boolean> values = new HashMap<PropositionSymbol, Boolean>();
-            for (PropositionSymbol symbol : symbols)
+            IDictionary<PropositionSymbol, bool?> values = new Dictionary<PropositionSymbol, bool?>();
+            foreach (PropositionSymbol symbol in symbols)
             {
                 // a random assignment of true/false to the symbols in clauses
-                values.put(symbol, random.nextBoolean());
+                values.Add(symbol, random.Next(2) == 1 ? true : false);
             }
 
             Model result = new Model(values);
@@ -145,49 +148,48 @@ namespace tvn.cosine.ai.logic.propositional.inference
             return result;
         }
 
-        protected Clause randomlySelectFalseClause(Set<Clause> clauses, Model model)
+        protected Clause randomlySelectFalseClause(ISet<Clause> clauses, Model model)
         {
             // Collect the clauses that are false in the model
-            List<Clause> falseClauses = new ArrayList<Clause>();
-            for (Clause c : clauses)
+            List<Clause> falseClauses = new List<Clause>();
+            foreach (Clause c in clauses)
             {
-                if (Boolean.FALSE.equals(model.determineValue(c)))
+                if (!Equals(model.determineValue(c)))
                 {
-                    falseClauses.add(c);
+                    falseClauses.Add(c);
                 }
             }
 
             // a randomly selected clause from clauses that is false
-            Clause result = falseClauses.get(random.nextInt(falseClauses.size()));
+            Clause result = falseClauses[random.Next(falseClauses.Count)];
             return result;
         }
 
         protected PropositionSymbol randomlySelectSymbolFromClause(Clause clause)
         {
             // all the symbols in clause
-            Set<PropositionSymbol> symbols = clause.getSymbols();
+            ISet<PropositionSymbol> symbols = clause.getSymbols();
 
             // a randomly selected symbol from clause
-            PropositionSymbol result = (new ArrayList<PropositionSymbol>(symbols))
-                    .get(random.nextInt(symbols.size()));
+            PropositionSymbol result = (new List<PropositionSymbol>(symbols))[random.Next(symbols.Count)];
             return result;
         }
 
         protected Model flipSymbolInClauseMaximizesNumberSatisfiedClauses(
-                Clause clause, Set<Clause> clauses, Model model)
+                Clause clause, ISet<Clause> clauses, Model model)
         {
             Model result = model;
 
             // all the symbols in clause
-            Set<PropositionSymbol> symbols = clause.getSymbols();
+            ISet<PropositionSymbol> symbols = clause.getSymbols();
             int maxClausesSatisfied = -1;
-            for (PropositionSymbol symbol : symbols)
+            foreach (PropositionSymbol symbol in symbols)
             {
                 Model flippedModel = result.flip(symbol);
                 int numberClausesSatisfied = 0;
-                for (Clause c : clauses)
+                foreach (Clause c in clauses)
                 {
-                    if (Boolean.TRUE.equals(flippedModel.determineValue(c)))
+                    if (Equals(flippedModel.determineValue(c)))
                     {
                         numberClausesSatisfied++;
                     }
@@ -197,7 +199,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
                 {
                     result = flippedModel;
                     maxClausesSatisfied = numberClausesSatisfied;
-                    if (numberClausesSatisfied == clauses.size())
+                    if (numberClausesSatisfied == clauses.Count)
                     {
                         // i.e. satisfies all clauses
                         break; // this is our goal.
@@ -207,6 +209,5 @@ namespace tvn.cosine.ai.logic.propositional.inference
 
             return result;
         }
-    }
-
+    } 
 }

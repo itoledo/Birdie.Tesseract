@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -13,31 +10,29 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
     public class ProofStepPremise : AbstractProofStep
     {
         //
-        private static final List<ProofStep> _noPredecessors = new ArrayList<ProofStep>();
+        private static readonly IList<ProofStep> _noPredecessors = new List<ProofStep>();
         //
-        private Object proof = "";
+        private object proof = "";
 
-        public ProofStepPremise(Object proof)
+        public ProofStepPremise(object proof)
         {
             this.proof = proof;
         }
 
         //
-        // START-ProofStep
-        @Override
-    public List<ProofStep> getPredecessorSteps()
+        // START-ProofStep 
+        public override IList<ProofStep> getPredecessorSteps()
         {
-            return Collections.unmodifiableList(_noPredecessors);
+            return new ReadOnlyCollection<ProofStep>(_noPredecessors);
         }
 
-        @Override
-    public String getProof()
+
+        public override string getProof()
         {
-            return proof.toString();
+            return proof.ToString();
         }
 
-        @Override
-    public String getJustification()
+        public override string getJustification()
         {
             return "Premise";
         }

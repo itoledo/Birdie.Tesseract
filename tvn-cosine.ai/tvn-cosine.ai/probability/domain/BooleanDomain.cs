@@ -5,7 +5,7 @@ namespace tvn.cosine.ai.probability.domain
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 486.
      * 
-     * A Boolean random variable has the domain {true,false}.
+     * A bool random variable has the domain {true,false}.
      * 
      * @author Ciaran O'Reilly.
      */

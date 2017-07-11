@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.fol.inference.proof;
 
 namespace tvn.cosine.ai.logic.fol.inference
 {
@@ -13,7 +14,7 @@ namespace tvn.cosine.ai.logic.fol.inference
          * @return true, if the query is not entailed from the premises. This just
          *         means the query is not entailed, the query itself may be true.
          */
-        boolean isPossiblyFalse();
+        bool isPossiblyFalse();
 
         /**
          * 
@@ -22,14 +23,14 @@ namespace tvn.cosine.ai.logic.fol.inference
          *         indicating that there can possibly be more than 1 proof/bindings
          *         for the query, see: isPartialResultDueToTimeout()).
          */
-        boolean isTrue();
+        bool isTrue();
 
         /**
          * 
          * @return true, if the inference procedure ran for a length of time and
          *         found no proof one way or the other before it timed out.
          */
-        boolean isUnknownDueToTimeout();
+        bool isUnknownDueToTimeout();
 
         /**
          * 
@@ -38,14 +39,14 @@ namespace tvn.cosine.ai.logic.fol.inference
          *         returned) and the inference procedure was still looking for other
          *         possible answers before it timed out.
          */
-        boolean isPartialResultDueToTimeout();
+        bool isPartialResultDueToTimeout();
 
         /**
          * 
          * @return a list of 0 or more proofs (multiple proofs can be returned if
          *         the original query contains variables).
          */
-        List<Proof> getProofs();
+        IList<Proof> getProofs();
     }
 
 }

@@ -13,10 +13,10 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 
         void setStepNumber(int step);
 
-        List<ProofStep> getPredecessorSteps();
+        IList<ProofStep> getPredecessorSteps();
 
-        String getProof();
+        string getProof();
 
-        String getJustification();
+        string getJustification();
     }
 }

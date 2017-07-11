@@ -13,7 +13,7 @@ namespace tvn.cosine.ai.environment.nqueens
      * A class whose purpose is to provide static utility methods for solving the
      * n-queens problem with genetic algorithms. This includes fitness function,
      * goal test, random creation of individuals and convenience methods for
-     * translating between between an NQueensBoard representation and the Integer list
+     * translating between between an NQueensBoard representation and the  int  list
      * representation used by the GeneticAlgorithm.
      * 
      * @author Ciaran O'Reilly

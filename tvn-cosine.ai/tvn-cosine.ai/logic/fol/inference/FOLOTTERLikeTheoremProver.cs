@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.logic.fol.inference.otter;
+using tvn.cosine.ai.logic.fol.inference.otter.defaultimpl;
+using tvn.cosine.ai.logic.fol.inference.proof;
+using tvn.cosine.ai.logic.fol.kb;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference
 {
@@ -61,344 +67,286 @@ namespace tvn.cosine.ai.logic.fol.inference
      * @author Ciaran O'Reilly
      * 
      */
-    public class FOLOTTERLikeTheoremProver implements InferenceProcedure
+    public class FOLOTTERLikeTheoremProver : InferenceProcedure
     {
-    //
-    // Ten seconds is default maximum query time permitted
-    private long maxQueryTime = 10 * 1000;
-    private boolean useParamodulation = true;
-    private LightestClauseHeuristic lightestClauseHeuristic = new DefaultLightestClauseHeuristic();
-    private ClauseFilter clauseFilter = new DefaultClauseFilter();
-    private ClauseSimplifier clauseSimplifier = new DefaultClauseSimplifier();
-    //
-    private Paramodulation paramodulation = new Paramodulation();
+        //
+        // Ten seconds is default maximum query time permitted
+        private long maxQueryTime = 10 * 1000;
+        private bool useParamodulation = true;
+        private LightestClauseHeuristic lightestClauseHeuristic = new DefaultLightestClauseHeuristic();
+        private ClauseFilter clauseFilter = new DefaultClauseFilter();
+        private ClauseSimplifier clauseSimplifier = new DefaultClauseSimplifier();
+        //
+        private Paramodulation paramodulation = new Paramodulation();
 
-    public FOLOTTERLikeTheoremProver()
-    {
+        public FOLOTTERLikeTheoremProver()
+        { }
 
-    }
-
-    public FOLOTTERLikeTheoremProver(long maxQueryTime)
-    {
-        setMaxQueryTime(maxQueryTime);
-    }
-
-    public FOLOTTERLikeTheoremProver(boolean useParamodulation)
-    {
-        setUseParamodulation(useParamodulation);
-    }
-
-    public FOLOTTERLikeTheoremProver(long maxQueryTime,
-            boolean useParamodulation)
-    {
-        setMaxQueryTime(maxQueryTime);
-        setUseParamodulation(useParamodulation);
-    }
-
-    public long getMaxQueryTime()
-    {
-        return maxQueryTime;
-    }
-
-    public void setMaxQueryTime(long maxQueryTime)
-    {
-        this.maxQueryTime = maxQueryTime;
-    }
-
-    public boolean isUseParamodulation()
-    {
-        return useParamodulation;
-    }
-
-    public void setUseParamodulation(boolean useParamodulation)
-    {
-        this.useParamodulation = useParamodulation;
-    }
-
-    public LightestClauseHeuristic getLightestClauseHeuristic()
-    {
-        return lightestClauseHeuristic;
-    }
-
-    public void setLightestClauseHeuristic(
-            LightestClauseHeuristic lightestClauseHeuristic)
-    {
-        this.lightestClauseHeuristic = lightestClauseHeuristic;
-    }
-
-    public ClauseFilter getClauseFilter()
-    {
-        return clauseFilter;
-    }
-
-    public void setClauseFilter(ClauseFilter clauseFilter)
-    {
-        this.clauseFilter = clauseFilter;
-    }
-
-    public ClauseSimplifier getClauseSimplifier()
-    {
-        return clauseSimplifier;
-    }
-
-    public void setClauseSimplifier(ClauseSimplifier clauseSimplifier)
-    {
-        this.clauseSimplifier = clauseSimplifier;
-    }
-
-    //
-    // START-InferenceProcedure
-    public InferenceResult ask(FOLKnowledgeBase KB, Sentence alpha)
-    {
-        Set<Clause> sos = new HashSet<Clause>();
-        Set<Clause> usable = new HashSet<Clause>();
-
-        // Usable set will be the set of clauses in the KB,
-        // are assuming this is satisfiable as using the
-        // Set of Support strategy.
-        for (Clause c : KB.getAllClauses())
+        public FOLOTTERLikeTheoremProver(long maxQueryTime)
         {
-            c = KB.standardizeApart(c);
-            c.setStandardizedApartCheckNotRequired();
-            usable.addAll(c.getFactors());
+            setMaxQueryTime(maxQueryTime);
         }
 
-        // Ensure reflexivity axiom is added to usable if using paramodulation.
-        if (isUseParamodulation())
+        public FOLOTTERLikeTheoremProver(bool useParamodulation)
         {
-            // Reflexivity Axiom: x = x
-            TermEquality reflexivityAxiom = new TermEquality(new Variable("x"),
-                    new Variable("x"));
-            Clause reflexivityClause = new Clause();
-            reflexivityClause.addLiteral(new Literal(reflexivityAxiom));
-            reflexivityClause = KB.standardizeApart(reflexivityClause);
-            reflexivityClause.setStandardizedApartCheckNotRequired();
-            usable.add(reflexivityClause);
+            setUseParamodulation(useParamodulation);
         }
 
-        Sentence notAlpha = new NotSentence(alpha);
-        // Want to use an answer literal to pull
-        // query variables where necessary
-        Literal answerLiteral = KB.createAnswerLiteral(notAlpha);
-        Set<Variable> answerLiteralVariables = KB
-                .collectAllVariables(answerLiteral.getAtomicSentence());
-        Clause answerClause = new Clause();
-
-        if (answerLiteralVariables.size() > 0)
+        public FOLOTTERLikeTheoremProver(long maxQueryTime,
+                bool useParamodulation)
         {
-            Sentence notAlphaWithAnswer = new ConnectedSentence(Connectors.OR,
-                    notAlpha, answerLiteral.getAtomicSentence());
-            for (Clause c : KB.convertToClauses(notAlphaWithAnswer))
+            setMaxQueryTime(maxQueryTime);
+            setUseParamodulation(useParamodulation);
+        }
+
+        public long getMaxQueryTime()
+        {
+            return maxQueryTime;
+        }
+
+        public void setMaxQueryTime(long maxQueryTime)
+        {
+            this.maxQueryTime = maxQueryTime;
+        }
+
+        public bool isUseParamodulation()
+        {
+            return useParamodulation;
+        }
+
+        public void setUseParamodulation(bool useParamodulation)
+        {
+            this.useParamodulation = useParamodulation;
+        }
+
+        public LightestClauseHeuristic getLightestClauseHeuristic()
+        {
+            return lightestClauseHeuristic;
+        }
+
+        public void setLightestClauseHeuristic(
+                LightestClauseHeuristic lightestClauseHeuristic)
+        {
+            this.lightestClauseHeuristic = lightestClauseHeuristic;
+        }
+
+        public ClauseFilter getClauseFilter()
+        {
+            return clauseFilter;
+        }
+
+        public void setClauseFilter(ClauseFilter clauseFilter)
+        {
+            this.clauseFilter = clauseFilter;
+        }
+
+        public ClauseSimplifier getClauseSimplifier()
+        {
+            return clauseSimplifier;
+        }
+
+        public void setClauseSimplifier(ClauseSimplifier clauseSimplifier)
+        {
+            this.clauseSimplifier = clauseSimplifier;
+        }
+
+        //
+        // START-InferenceProcedure
+        public InferenceResult ask(FOLKnowledgeBase KB, Sentence alpha)
+        {
+            ISet<Clause> sos = new HashSet<Clause>();
+            ISet<Clause> usable = new HashSet<Clause>();
+
+            // Usable set will be the set of clauses in the KB,
+            // are assuming this is satisfiable as using the
+            // Set of Support strategy.
+            foreach (Clause c in KB.getAllClauses())
             {
-                c = KB.standardizeApart(c);
-                c.setProofStep(new ProofStepGoal(c));
+                /*c =*/
+                KB.standardizeApart(c);
                 c.setStandardizedApartCheckNotRequired();
-                sos.addAll(c.getFactors());
+                foreach (var v in c.getFactors())
+                    usable.Add(v);
             }
 
-            answerClause.addLiteral(answerLiteral);
-        }
-        else
-        {
-            for (Clause c : KB.convertToClauses(notAlpha))
-            {
-                c = KB.standardizeApart(c);
-                c.setProofStep(new ProofStepGoal(c));
-                c.setStandardizedApartCheckNotRequired();
-                sos.addAll(c.getFactors());
-            }
-        }
-
-        // Ensure all subsumed clauses are removed
-        usable.removeAll(SubsumptionElimination.findSubsumedClauses(usable));
-        sos.removeAll(SubsumptionElimination.findSubsumedClauses(sos));
-
-        OTTERAnswerHandler ansHandler = new OTTERAnswerHandler(answerLiteral,
-                answerLiteralVariables, answerClause, maxQueryTime);
-
-        IndexedClauses idxdClauses = new IndexedClauses(
-                getLightestClauseHeuristic(), sos, usable);
-
-        return otter(ansHandler, idxdClauses, sos, usable);
-    }
-
-    // END-InferenceProcedure
-    //
-
-    /**
-	 * <pre>
-	 * procedure OTTER(sos, usable) 
-	 *   inputs: sos, a set of support-clauses defining the problem (a global variable) 
-	 *   usable, background knowledge potentially relevant to the problem
-	 * </pre>
-	 */
-    private InferenceResult otter(OTTERAnswerHandler ansHandler,
-            IndexedClauses idxdClauses, Set<Clause> sos, Set<Clause> usable)
-    {
-
-        getLightestClauseHeuristic().initialSOS(sos);
-
-        // * repeat
-        do
-        {
-            // * clause <- the lightest member of sos
-            Clause clause = getLightestClauseHeuristic().getLightestClause();
-            if (null != clause)
-            {
-                // * move clause from sos to usable
-                sos.remove(clause);
-                getLightestClauseHeuristic().removedClauseFromSOS(clause);
-                usable.add(clause);
-                // * PROCESS(INFER(clause, usable), sos)
-                process(ansHandler, idxdClauses, infer(clause, usable), sos,
-                        usable);
-            }
-
-            // * until sos = [] or a refutation has been found
-        } while (sos.size() != 0 && !ansHandler.isComplete());
-
-        return ansHandler;
-    }
-
-    /**
-	 * <pre>
-	 * function INFER(clause, usable) returns clauses
-	 */
-    private Set<Clause> infer(Clause clause, Set<Clause> usable)
-    {
-        Set<Clause> resultingClauses = new LinkedHashSet<Clause>();
-
-        // * resolve clause with each member of usable
-        for (Clause c : usable)
-        {
-            Set<Clause> resolvents = clause.binaryResolvents(c);
-            for (Clause rc : resolvents)
-            {
-                resultingClauses.add(rc);
-            }
-
-            // if using paramodulation to handle equality
+            // Ensure reflexivity axiom is added to usable if using paramodulation.
             if (isUseParamodulation())
             {
-                Set<Clause> paras = paramodulation.apply(clause, c, true);
-                for (Clause p : paras)
+                // Reflexivity Axiom: x = x
+                TermEquality reflexivityAxiom = new TermEquality(new Variable("x"), new Variable("x"));
+                Clause reflexivityClause = new Clause();
+                reflexivityClause.addLiteral(new Literal(reflexivityAxiom));
+                reflexivityClause = KB.standardizeApart(reflexivityClause);
+                reflexivityClause.setStandardizedApartCheckNotRequired();
+                usable.Add(reflexivityClause);
+            }
+
+            Sentence notAlpha = new NotSentence(alpha);
+            // Want to use an answer literal to pull
+            // query variables where necessary
+            Literal answerLiteral = KB.createAnswerLiteral(notAlpha);
+            ISet<Variable> answerLiteralVariables = KB.collectAllVariables(answerLiteral.getAtomicSentence());
+            Clause answerClause = new Clause();
+
+            if (answerLiteralVariables.Count > 0)
+            {
+                Sentence notAlphaWithAnswer = new ConnectedSentence(Connectors.OR,
+                        notAlpha, answerLiteral.getAtomicSentence());
+                foreach (Clause c in KB.convertToClauses(notAlphaWithAnswer))
                 {
-                    resultingClauses.add(p);
+                    /* c =*/
+                    KB.standardizeApart(c);
+                    c.setProofStep(new ProofStepGoal(c));
+                    c.setStandardizedApartCheckNotRequired();
+                    foreach (var v in c.getFactors())
+                        sos.Add(v);
+                }
+
+                answerClause.addLiteral(answerLiteral);
+            }
+            else
+            {
+                foreach (Clause c in KB.convertToClauses(notAlpha))
+                {
+                    /*c = */
+                    KB.standardizeApart(c);
+                    c.setProofStep(new ProofStepGoal(c));
+                    c.setStandardizedApartCheckNotRequired();
+
+                    foreach (var v in c.getFactors())
+                        sos.Add(v);
                 }
             }
+
+            // Ensure all subsumed clauses are removed
+            foreach (var v in SubsumptionElimination.findSubsumedClauses(usable))
+                usable.Remove(v);
+
+            foreach (var v in SubsumptionElimination.findSubsumedClauses(sos))
+                sos.Remove(v);
+
+            OTTERAnswerHandler ansHandler = new OTTERAnswerHandler(answerLiteral, answerLiteralVariables, answerClause, maxQueryTime);
+
+            IndexedClauses idxdClauses = new IndexedClauses(
+                    getLightestClauseHeuristic(), sos, usable);
+
+            return otter(ansHandler, idxdClauses, sos, usable);
         }
 
-        // * return the resulting clauses after applying filter
-        return getClauseFilter().filter(resultingClauses);
-    }
+        // END-InferenceProcedure
+        //
 
-    // procedure PROCESS(clauses, sos)
-    private void process(OTTERAnswerHandler ansHandler,
-            IndexedClauses idxdClauses, Set<Clause> clauses, Set<Clause> sos,
-            Set<Clause> usable)
-    {
-
-        // * for each clause in clauses do
-        for (Clause clause : clauses)
+        /**
+         * <pre>
+         * procedure OTTER(sos, usable) 
+         *   inputs: sos, a set of support-clauses defining the problem (a global variable) 
+         *   usable, background knowledge potentially relevant to the problem
+         * </pre>
+         */
+        private InferenceResult otter(OTTERAnswerHandler ansHandler, IndexedClauses idxdClauses, ISet<Clause> sos, ISet<Clause> usable)
         {
-            // * clause <- SIMPLIFY(clause)
-            clause = getClauseSimplifier().simplify(clause);
 
-            // * merge identical literals
-            // Note: Not required as handled by Clause Implementation
-            // which keeps literals within a Set, so no duplicates
-            // will exist.
+            getLightestClauseHeuristic().initialSOS(sos);
 
-            // * discard clause if it is a tautology
-            if (clause.isTautology())
+            // * repeat
+            do
             {
-                continue;
-            }
-
-            // * if clause has no literals then a refutation has been found
-            // or if it just contains the answer literal.
-            if (!ansHandler.isAnswer(clause))
-            {
-                // * sos <- [clause | sos]
-                // This check ensure duplicate clauses are not
-                // introduced which will cause the
-                // LightestClauseHeuristic to loop continuously
-                // on the same pair of objects.
-                if (!sos.contains(clause) && !usable.contains(clause))
+                // * clause <- the lightest member of sos
+                Clause clause = getLightestClauseHeuristic().getLightestClause();
+                if (null != clause)
                 {
-                    for (Clause ac : clause.getFactors())
-                    {
-                        if (!sos.contains(ac) && !usable.contains(ac))
-                        {
-                            idxdClauses.addClause(ac, sos, usable);
+                    // * move clause from sos to usable
+                    sos.Remove(clause);
+                    getLightestClauseHeuristic().removedClauseFromSOS(clause);
+                    usable.Add(clause);
+                    // * PROCESS(INFER(clause, usable), sos)
+                    process(ansHandler, idxdClauses, infer(clause, usable), sos,
+                            usable);
+                }
 
-                            // * if clause has one literal then look for unit
-                            // refutation
-                            lookForUnitRefutation(ansHandler, idxdClauses, ac,
-                                    sos, usable);
-                        }
+                // * until sos = [] or a refutation has been found
+            } while (sos.Count != 0 && !ansHandler.isComplete());
+
+            return ansHandler;
+        }
+
+        /**
+         * <pre>
+         * function INFER(clause, usable) returns clauses
+         */
+        private ISet<Clause> infer(Clause clause, ISet<Clause> usable)
+        {
+            ISet<Clause> resultingClauses = new HashSet<Clause>();
+
+            // * resolve clause with each member of usable
+            foreach (Clause c in usable)
+            {
+                ISet<Clause> resolvents = clause.binaryResolvents(c);
+                foreach (Clause rc in resolvents)
+                {
+                    resultingClauses.Add(rc);
+                }
+
+                // if using paramodulation to handle equality
+                if (isUseParamodulation())
+                {
+                    ISet<Clause> paras = paramodulation.apply(clause, c, true);
+                    foreach (Clause p in paras)
+                    {
+                        resultingClauses.Add(p);
                     }
                 }
             }
 
-            if (ansHandler.isComplete())
-            {
-                break;
-            }
-        }
-    }
-
-    private void lookForUnitRefutation(OTTERAnswerHandler ansHandler,
-            IndexedClauses idxdClauses, Clause clause, Set<Clause> sos,
-            Set<Clause> usable)
-    {
-
-        Set<Clause> toCheck = new LinkedHashSet<Clause>();
-
-        if (ansHandler.isCheckForUnitRefutation(clause))
-        {
-            for (Clause s : sos)
-            {
-                if (s.isUnitClause())
-                {
-                    toCheck.add(s);
-                }
-            }
-            for (Clause u : usable)
-            {
-                if (u.isUnitClause())
-                {
-                    toCheck.add(u);
-                }
-            }
+            // * return the resulting clauses after applying filter
+            return getClauseFilter().filter(resultingClauses);
         }
 
-        if (toCheck.size() > 0)
+        // procedure PROCESS(clauses, sos)
+        private void process(OTTERAnswerHandler ansHandler, IndexedClauses idxdClauses, ISet<Clause> clauses, ISet<Clause> sos, ISet<Clause> usable)
         {
-            toCheck = infer(clause, toCheck);
-            for (Clause t : toCheck)
+
+            // * for each clause in clauses do
+            foreach (Clause clause in clauses)
             {
                 // * clause <- SIMPLIFY(clause)
-                t = getClauseSimplifier().simplify(t);
+                /*  clause =*/
+                getClauseSimplifier().simplify(clause);
+
+                // * merge identical literals
+                // Note: Not required as handled by Clause Implementation
+                // which keeps literals within a Set, so no duplicates
+                // will exist.
 
                 // * discard clause if it is a tautology
-                if (t.isTautology())
+                if (clause.isTautology())
                 {
                     continue;
                 }
 
                 // * if clause has no literals then a refutation has been found
                 // or if it just contains the answer literal.
-                if (!ansHandler.isAnswer(t))
+                if (!ansHandler.isAnswer(clause))
                 {
                     // * sos <- [clause | sos]
                     // This check ensure duplicate clauses are not
                     // introduced which will cause the
                     // LightestClauseHeuristic to loop continuously
                     // on the same pair of objects.
-                    if (!sos.contains(t) && !usable.contains(t))
+                    if (!sos.Contains(clause) && !usable.Contains(clause))
                     {
-                        idxdClauses.addClause(t, sos, usable);
+                        foreach (Clause ac in clause.getFactors())
+                        {
+                            if (!sos.Contains(ac) && !usable.Contains(ac))
+                            {
+                                idxdClauses.addClause(ac, sos, usable);
+
+                                // * if clause has one literal then look for unit
+                                // refutation
+                                lookForUnitRefutation(ansHandler, idxdClauses, ac,
+                                        sos, usable);
+                            }
+                        }
                     }
                 }
 
@@ -408,287 +356,340 @@ namespace tvn.cosine.ai.logic.fol.inference
                 }
             }
         }
-    }
 
-    // This is a simple indexing on the clauses to support
-    // more efficient forward and backward subsumption testing.
-    class IndexedClauses
-    {
-        private LightestClauseHeuristic lightestClauseHeuristic = null;
-        // Group the clauses by their # of literals.
-        private Map<Integer, Set<Clause>> clausesGroupedBySize = new HashMap<Integer, Set<Clause>>();
-        // Keep track of the min and max # of literals.
-        private int minNoLiterals = Integer.MAX_VALUE;
-        private int maxNoLiterals = 0;
-
-        public IndexedClauses(LightestClauseHeuristic lightestClauseHeuristic,
-                Set<Clause> sos, Set<Clause> usable)
+        private void lookForUnitRefutation(OTTERAnswerHandler ansHandler, IndexedClauses idxdClauses, Clause clause, ISet<Clause> sos, ISet<Clause> usable)
         {
-            this.lightestClauseHeuristic = lightestClauseHeuristic;
-            for (Clause c : sos)
-            {
-                indexClause(c);
-            }
-            for (Clause c : usable)
-            {
-                indexClause(c);
-            }
-        }
+            ISet<Clause> toCheck = new HashSet<Clause>();
 
-        public void addClause(Clause c, Set<Clause> sos, Set<Clause> usable)
-        {
-            // Perform forward subsumption elimination
-            boolean addToSOS = true;
-            for (int i = minNoLiterals; i < c.getNumberLiterals(); i++)
+            if (ansHandler.isCheckForUnitRefutation(clause))
             {
-                Set<Clause> fs = clausesGroupedBySize.get(i);
-                if (null != fs)
+                foreach (Clause s in sos)
                 {
-                    for (Clause s : fs)
+                    if (s.isUnitClause())
                     {
-                        if (s.subsumes(c))
+                        toCheck.Add(s);
+                    }
+                }
+                foreach (Clause u in usable)
+                {
+                    if (u.isUnitClause())
+                    {
+                        toCheck.Add(u);
+                    }
+                }
+            }
+
+            if (toCheck.Count > 0)
+            {
+                toCheck = infer(clause, toCheck);
+                foreach (Clause t in toCheck)
+                {
+                    // * clause <- SIMPLIFY(clause)
+                    /* t =*/
+                    getClauseSimplifier().simplify(t);
+
+                    // * discard clause if it is a tautology
+                    if (t.isTautology())
+                    {
+                        continue;
+                    }
+
+                    // * if clause has no literals then a refutation has been found
+                    // or if it just contains the answer literal.
+                    if (!ansHandler.isAnswer(t))
+                    {
+                        // * sos <- [clause | sos]
+                        // This check ensure duplicate clauses are not
+                        // introduced which will cause the
+                        // LightestClauseHeuristic to loop continuously
+                        // on the same pair of objects.
+                        if (!sos.Contains(t) && !usable.Contains(t))
                         {
-                            addToSOS = false;
-                            break;
+                            idxdClauses.addClause(t, sos, usable);
                         }
                     }
-                }
-                if (!addToSOS)
-                {
-                    break;
-                }
-            }
 
-            if (addToSOS)
-            {
-                sos.add(c);
-                lightestClauseHeuristic.addedClauseToSOS(c);
-                indexClause(c);
-                // Have added clause, therefore
-                // perform backward subsumption elimination
-                Set<Clause> subsumed = new HashSet<Clause>();
-                for (int i = c.getNumberLiterals() + 1; i <= maxNoLiterals; i++)
-                {
-                    subsumed.clear();
-                    Set<Clause> bs = clausesGroupedBySize.get(i);
-                    if (null != bs)
+                    if (ansHandler.isComplete())
                     {
-                        for (Clause s : bs)
-                        {
-                            if (c.subsumes(s))
-                            {
-                                subsumed.add(s);
-                                if (sos.contains(s))
-                                {
-                                    sos.remove(s);
-                                    lightestClauseHeuristic
-                                            .removedClauseFromSOS(s);
-                                }
-                                usable.remove(s);
-                            }
-                        }
-                        bs.removeAll(subsumed);
-                    }
-                }
-            }
-        }
-
-        //
-        // PRIVATE METHODS
-        //
-        private void indexClause(Clause c)
-        {
-            int size = c.getNumberLiterals();
-            if (size < minNoLiterals)
-            {
-                minNoLiterals = size;
-            }
-            if (size > maxNoLiterals)
-            {
-                maxNoLiterals = size;
-            }
-            Set<Clause> cforsize = clausesGroupedBySize.get(size);
-            if (null == cforsize)
-            {
-                cforsize = new HashSet<Clause>();
-                clausesGroupedBySize.put(size, cforsize);
-            }
-            cforsize.add(c);
-        }
-    }
-
-    class OTTERAnswerHandler implements InferenceResult
-    {
-
-        private Literal answerLiteral = null;
-    private Set<Variable> answerLiteralVariables = null;
-    private Clause answerClause = null;
-    private long finishTime = 0L;
-    private boolean complete = false;
-    private List<Proof> proofs = new ArrayList<Proof>();
-    private boolean timedOut = false;
-
-    public OTTERAnswerHandler(Literal answerLiteral,
-            Set<Variable> answerLiteralVariables, Clause answerClause,
-            long maxQueryTime)
-    {
-        this.answerLiteral = answerLiteral;
-        this.answerLiteralVariables = answerLiteralVariables;
-        this.answerClause = answerClause;
-        //
-        this.finishTime = System.currentTimeMillis() + maxQueryTime;
-    }
-
-    //
-    // START-InferenceResult
-    public boolean isPossiblyFalse()
-    {
-        return !timedOut && proofs.size() == 0;
-    }
-
-    public boolean isTrue()
-    {
-        return proofs.size() > 0;
-    }
-
-    public boolean isUnknownDueToTimeout()
-    {
-        return timedOut && proofs.size() == 0;
-    }
-
-    public boolean isPartialResultDueToTimeout()
-    {
-        return timedOut && proofs.size() > 0;
-    }
-
-    public List<Proof> getProofs()
-    {
-        return proofs;
-    }
-
-    // END-InferenceResult
-    //
-
-    public boolean isComplete()
-    {
-        return complete;
-    }
-
-    public boolean isLookingForAnswerLiteral()
-    {
-        return !answerClause.isEmpty();
-    }
-
-    public boolean isCheckForUnitRefutation(Clause clause)
-    {
-
-        if (isLookingForAnswerLiteral())
-        {
-            if (2 == clause.getNumberLiterals())
-            {
-                for (Literal t : clause.getLiterals())
-                {
-                    if (t.getAtomicSentence()
-                            .getSymbolicName()
-                            .equals(answerLiteral.getAtomicSentence()
-                                    .getSymbolicName()))
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-        else
-        {
-            return clause.isUnitClause();
-        }
-
-        return false;
-    }
-
-    public boolean isAnswer(Clause clause)
-    {
-        boolean isAns = false;
-
-        if (answerClause.isEmpty())
-        {
-            if (clause.isEmpty())
-            {
-                proofs.add(new ProofFinal(clause.getProofStep(),
-                        new HashMap<Variable, Term>()));
-                complete = true;
-                isAns = true;
-            }
-        }
-        else
-        {
-            if (clause.isEmpty())
-            {
-                // This should not happen
-                // as added an answer literal to sos, which
-                // implies the database (i.e. premises) are
-                // unsatisfiable to begin with.
-                throw new IllegalStateException(
-                        "Generated an empty clause while looking for an answer, implies original KB or usable is unsatisfiable");
-            }
-
-            if (clause.isUnitClause()
-                    && clause.isDefiniteClause()
-                    && clause
-                            .getPositiveLiterals()
-                            .get(0)
-                            .getAtomicSentence()
-                            .getSymbolicName()
-                            .equals(answerLiteral.getAtomicSentence()
-                                    .getSymbolicName()))
-            {
-                Map<Variable, Term> answerBindings = new HashMap<Variable, Term>();
-                List<Term> answerTerms = clause.getPositiveLiterals()
-                        .get(0).getAtomicSentence().getArgs();
-                int idx = 0;
-                for (Variable v : answerLiteralVariables)
-                {
-                    answerBindings.put(v, answerTerms.get(idx));
-                    idx++;
-                }
-                boolean addNewAnswer = true;
-                for (Proof p : proofs)
-                {
-                    if (p.getAnswerBindings().equals(answerBindings))
-                    {
-                        addNewAnswer = false;
                         break;
                     }
                 }
-                if (addNewAnswer)
-                {
-                    proofs.add(new ProofFinal(clause.getProofStep(),
-                            answerBindings));
-                }
-                isAns = true;
             }
         }
 
-        if (System.currentTimeMillis() > finishTime)
+        // This is a simple indexing on the clauses to support
+        // more efficient forward and backward subsumption testing.
+        class IndexedClauses
         {
-            complete = true;
-            // Indicate that I have run out of query time
-            timedOut = true;
+            private LightestClauseHeuristic lightestClauseHeuristic = null;
+            // Group the clauses by their # of literals.
+            private IDictionary<int, ISet<Clause>> clausesGroupedBySize = new Dictionary<int, ISet<Clause>>();
+            // Keep track of the min and max # of literals.
+            private int minNoLiterals = int.MaxValue;
+            private int maxNoLiterals = 0;
+
+            public IndexedClauses(LightestClauseHeuristic lightestClauseHeuristic,
+                    ISet<Clause> sos, ISet<Clause> usable)
+            {
+                this.lightestClauseHeuristic = lightestClauseHeuristic;
+                foreach (Clause c in sos)
+                {
+                    indexClause(c);
+                }
+                foreach (Clause c in usable)
+                {
+                    indexClause(c);
+                }
+            }
+
+            public void addClause(Clause c, ISet<Clause> sos, ISet<Clause> usable)
+            {
+                // Perform forward subsumption elimination
+                bool addToSOS = true;
+                for (int i = minNoLiterals; i < c.getNumberLiterals(); i++)
+                {
+                    ISet<Clause> fs = clausesGroupedBySize[i];
+                    if (null != fs)
+                    {
+                        foreach (Clause s in fs)
+                        {
+                            if (s.subsumes(c))
+                            {
+                                addToSOS = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (!addToSOS)
+                    {
+                        break;
+                    }
+                }
+
+                if (addToSOS)
+                {
+                    sos.Add(c);
+                    lightestClauseHeuristic.addedClauseToSOS(c);
+                    indexClause(c);
+                    // Have added clause, therefore
+                    // perform backward subsumption elimination
+                    ISet<Clause> subsumed = new HashSet<Clause>();
+                    for (int i = c.getNumberLiterals() + 1; i <= maxNoLiterals; i++)
+                    {
+                        subsumed.Clear();
+                        ISet<Clause> bs = clausesGroupedBySize[i];
+                        if (null != bs)
+                        {
+                            foreach (Clause s in bs)
+                            {
+                                if (c.subsumes(s))
+                                {
+                                    subsumed.Add(s);
+                                    if (sos.Contains(s))
+                                    {
+                                        sos.Remove(s);
+                                        lightestClauseHeuristic.removedClauseFromSOS(s);
+                                    }
+                                    usable.Remove(s);
+                                }
+                            }
+                            foreach (var v in subsumed)
+                                bs.Remove(v);
+                        }
+                    }
+                }
+            }
+
+            //
+            // PRIVATE METHODS
+            //
+            private void indexClause(Clause c)
+            {
+                int size = c.getNumberLiterals();
+                if (size < minNoLiterals)
+                {
+                    minNoLiterals = size;
+                }
+                if (size > maxNoLiterals)
+                {
+                    maxNoLiterals = size;
+                }
+                ISet<Clause> cforsize = clausesGroupedBySize[size];
+                if (null == cforsize)
+                {
+                    cforsize = new HashSet<Clause>();
+                    clausesGroupedBySize.Add(size, cforsize);
+                }
+                cforsize.Add(c);
+            }
         }
 
-        return isAns;
-    }
+        class OTTERAnswerHandler : InferenceResult
+        {
 
-    @Override
-        public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("isComplete=" + complete);
-        sb.append("\n");
-        sb.append("result=" + proofs);
-        return sb.toString();
+            private Literal answerLiteral = null;
+            private ISet<Variable> answerLiteralVariables = null;
+            private Clause answerClause = null;
+            private DateTime finishTime;
+            private bool complete = false;
+            private List<Proof> proofs = new List<Proof>();
+            private bool timedOut = false;
+
+            public OTTERAnswerHandler(Literal answerLiteral,
+                    ISet<Variable> answerLiteralVariables, Clause answerClause,
+                    long maxQueryTime)
+            {
+                this.answerLiteral = answerLiteral;
+                this.answerLiteralVariables = answerLiteralVariables;
+                this.answerClause = answerClause;
+                //
+                this.finishTime = DateTime.Now.AddMilliseconds(maxQueryTime);
+            }
+
+            //
+            // START-InferenceResult
+            public bool isPossiblyFalse()
+            {
+                return !timedOut && proofs.Count == 0;
+            }
+
+            public bool isTrue()
+            {
+                return proofs.Count > 0;
+            }
+
+            public bool isUnknownDueToTimeout()
+            {
+                return timedOut && proofs.Count == 0;
+            }
+
+            public bool isPartialResultDueToTimeout()
+            {
+                return timedOut && proofs.Count > 0;
+            }
+
+            public IList<Proof> getProofs()
+            {
+                return proofs;
+            }
+
+            // END-InferenceResult
+            //
+
+            public bool isComplete()
+            {
+                return complete;
+            }
+
+            public bool isLookingForAnswerLiteral()
+            {
+                return !answerClause.isEmpty();
+            }
+
+            public bool isCheckForUnitRefutation(Clause clause)
+            {
+
+                if (isLookingForAnswerLiteral())
+                {
+                    if (2 == clause.getNumberLiterals())
+                    {
+                        foreach (Literal t in clause.getLiterals())
+                        {
+                            if (t.getAtomicSentence()
+                                    .getSymbolicName()
+                                    .Equals(answerLiteral.getAtomicSentence()
+                                            .getSymbolicName()))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return clause.isUnitClause();
+                }
+
+                return false;
+            }
+
+            public bool isAnswer(Clause clause)
+            {
+                bool isAns = false;
+
+                if (answerClause.isEmpty())
+                {
+                    if (clause.isEmpty())
+                    {
+                        proofs.Add(new ProofFinal(clause.getProofStep(), new Dictionary<Variable, Term>()));
+                        complete = true;
+                        isAns = true;
+                    }
+                }
+                else
+                {
+                    if (clause.isEmpty())
+                    {
+                        // This should not happen
+                        // as added an answer literal to sos, which
+                        // implies the database (i.e. premises) are
+                        // unsatisfiable to begin with.
+                        throw new Exception("Generated an empty clause while looking for an answer, implies original KB or usable is unsatisfiable");
+                    }
+
+                    if (clause.isUnitClause()
+                            && clause.isDefiniteClause()
+                            && clause
+                                    .getPositiveLiterals()[0]
+                                    .getAtomicSentence()
+                                    .getSymbolicName()
+                                    .Equals(answerLiteral.getAtomicSentence()
+                                            .getSymbolicName()))
+                    {
+                        IDictionary<Variable, Term> answerBindings = new Dictionary<Variable, Term>();
+                        IList<FOLNode> answerTerms = clause.getPositiveLiterals()[0].getAtomicSentence().getArgs();
+                        int idx = 0;
+                        foreach (Variable v in answerLiteralVariables)
+                        {
+                            answerBindings.Add(v, answerTerms[idx] as Term);
+                            idx++;
+                        }
+                        bool addNewAnswer = true;
+                        foreach (Proof p in proofs)
+                        {
+                            if (p.getAnswerBindings().Equals(answerBindings))
+                            {
+                                addNewAnswer = false;
+                                break;
+                            }
+                        }
+                        if (addNewAnswer)
+                        {
+                            proofs.Add(new ProofFinal(clause.getProofStep(), answerBindings));
+                        }
+                        isAns = true;
+                    }
+                }
+
+                if (System.DateTime.Now > finishTime)
+                {
+                    complete = true;
+                    // Indicate that I have run out of query time
+                    timedOut = true;
+                }
+
+                return isAns;
+            }
+
+            public override string ToString()
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("isComplete=" + complete);
+                sb.Append("\n");
+                sb.Append("result=" + proofs);
+                return sb.ToString();
+            }
+        }
     }
-}
-}
 
 }

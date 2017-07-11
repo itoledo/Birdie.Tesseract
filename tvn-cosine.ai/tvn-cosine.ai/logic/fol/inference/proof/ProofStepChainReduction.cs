@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -12,45 +11,38 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      */
     public class ProofStepChainReduction : AbstractProofStep
     {
+        private IList<ProofStep> predecessors = new List<ProofStep>();
+        private Chain reduction = null;
+        private Chain nearParent, farParent = null;
+        private IDictionary<Variable, Term> subst = null;
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
-    private Chain reduction = null;
-    private Chain nearParent, farParent = null;
-    private Map<Variable, Term> subst = null;
+        public ProofStepChainReduction(Chain reduction, Chain nearParent, Chain farParent, IDictionary<Variable, Term> subst)
+        {
+            this.reduction = reduction;
+            this.nearParent = nearParent;
+            this.farParent = farParent;
+            this.subst = subst;
+            this.predecessors.Add(farParent.getProofStep());
+            this.predecessors.Add(nearParent.getProofStep());
+        }
 
-    public ProofStepChainReduction(Chain reduction, Chain nearParent,
-            Chain farParent, Map<Variable, Term> subst)
-    {
-        this.reduction = reduction;
-        this.nearParent = nearParent;
-        this.farParent = farParent;
-        this.subst = subst;
-        this.predecessors.add(farParent.getProofStep());
-        this.predecessors.add(nearParent.getProofStep());
-    }
+        //
+        // START-ProofStep 
+        public override IList<ProofStep> getPredecessorSteps()
+        {
+            return new ReadOnlyCollection<ProofStep>(predecessors);
+        }
 
-    //
-    // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
-    {
-        return Collections.unmodifiableList(predecessors);
-    }
-
-    @Override
-    public String getProof()
-    {
-        return reduction.toString();
-    }
-
-    @Override
-    public String getJustification()
-    {
-        return "Reduction: " + nearParent.getProofStep().getStepNumber() + ","
-                + farParent.getProofStep().getStepNumber() + " " + subst;
-    }
-    // END-ProofStep
-    //
-}
-
+        public override string getProof()
+        {
+            return reduction.ToString();
+        }
+         
+    public override string getJustification()
+        {
+            return "Reduction: " + nearParent.getProofStep().getStepNumber() + "," + farParent.getProofStep().getStepNumber() + " " + subst;
+        }
+        // END-ProofStep
+        //
+    } 
 }

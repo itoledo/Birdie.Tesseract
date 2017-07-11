@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
@@ -13,106 +11,115 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
     public class Function : Term
     {
 
-        private String functionName;
-        private List<Term> terms = new ArrayList<Term>();
-        private String stringRep = null;
+        private string functionName;
+        private List<Term> terms = new List<Term>();
+        private string stringRep = null;
         private int hashCode = 0;
 
-        public Function(String functionName, List<Term> terms)
+        public Function(string functionName, IList<Term> terms)
         {
             this.functionName = functionName;
-            this.terms.addAll(terms);
+            this.terms.AddRange(terms);
         }
 
-        public String getFunctionName()
+        public string getFunctionName()
         {
             return functionName;
         }
 
-        public List<Term> getTerms()
+        public IList<Term> getTerms()
         {
-            return Collections.unmodifiableList(terms);
+            return new ReadOnlyCollection<Term>(terms);
         }
 
         //
         // START-Term
-        public String getSymbolicName()
+        public string getSymbolicName()
         {
             return getFunctionName();
         }
 
-        public boolean isCompound()
+        public bool isCompound()
         {
             return true;
         }
 
-        public List<Term> getArgs()
+        public IList<Term> getArgs()
         {
             return getTerms();
         }
 
-        public Object accept(FOLVisitor v, Object arg)
+
+        IList<FOLNode> FOLNode.getArgs()
+        {
+            return getTerms() as IList<FOLNode>;
+        }
+
+        public object accept(FOLVisitor v, object arg)
         {
             return v.visitFunction(this, arg);
         }
 
-        public Function copy()
+        public Term copy()
         {
-            List<Term> copyTerms = new ArrayList<Term>();
-            for (Term t : terms)
+            List<Term> copyTerms = new List<Term>();
+            foreach (Term t in terms)
             {
-                copyTerms.add(t.copy());
+                copyTerms.Add(t.copy() as Term);
             }
             return new Function(functionName, copyTerms);
+        }
+
+        FOLNode FOLNode.copy()
+        {
+            return copy() as FOLNode;
         }
 
         // END-Term
         //
 
-        @Override
-    public boolean equals(Object o)
+        public override bool Equals(object o)
         {
 
             if (this == o)
             {
                 return true;
             }
-            if (!(o instanceof Function)) {
+            if (!(o is Function))
+            {
                 return false;
             }
 
             Function f = (Function)o;
 
-            return f.getFunctionName().equals(getFunctionName())
-                    && f.getTerms().equals(getTerms());
+            return f.getFunctionName().Equals(getFunctionName())
+                    && f.getTerms().Equals(getTerms());
         }
 
-        @Override
-    public int hashCode()
+        public override int GetHashCode()
         {
             if (0 == hashCode)
             {
                 hashCode = 17;
-                hashCode = 37 * hashCode + functionName.hashCode();
-                for (Term t : terms)
+                hashCode = 37 * hashCode + functionName.GetHashCode();
+                foreach (Term t in terms)
                 {
-                    hashCode = 37 * hashCode + t.hashCode();
+                    hashCode = 37 * hashCode + t.GetHashCode();
                 }
             }
             return hashCode;
         }
 
-        @Override
-    public String toString()
+        public override string ToString()
         {
             if (null == stringRep)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.append(functionName);
-                sb.append("(");
+                sb.Append(functionName);
+                sb.Append("(");
 
-                boolean first = true;
-                for (Term t : terms)
+                bool first = true;
+                foreach (Term t in terms)
                 {
                     if (first)
                     {
@@ -120,14 +127,14 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
                     }
                     else
                     {
-                        sb.append(",");
+                        sb.Append(",");
                     }
-                    sb.append(t.toString());
+                    sb.Append(t.ToString());
                 }
 
-                sb.append(")");
+                sb.Append(")");
 
-                stringRep = sb.toString();
+                stringRep = sb.ToString();
             }
             return stringRep;
         }

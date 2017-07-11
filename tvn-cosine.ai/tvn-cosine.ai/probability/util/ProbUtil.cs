@@ -360,7 +360,7 @@ namespace tvn.cosine.ai.probability.util
             //
             // Note: Create radices in reverse order so that the enumeration
             // through the distributions is of the following
-            // order using a MixedRadixNumber, e.g. for two Booleans:
+            // order using a MixedRadixNumber, e.g. for two bool s:
             // X Y
             // true true
             // true false

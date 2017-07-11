@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using tvn.cosine.ai.logic.fol.kb.data;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -12,39 +10,34 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      */
     public class ProofStepChainDropped : AbstractProofStep
     {
+        private IList<ProofStep> predecessors = new List<ProofStep>();
+        private Chain dropped = null;
+        private Chain droppedOff = null;
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
-    private Chain dropped = null;
-    private Chain droppedOff = null;
+        public ProofStepChainDropped(Chain dropped, Chain droppedOff)
+        {
+            this.dropped = dropped;
+            this.droppedOff = droppedOff;
+            this.predecessors.Add(droppedOff.getProofStep());
+        }
 
-    public ProofStepChainDropped(Chain dropped, Chain droppedOff)
-    {
-        this.dropped = dropped;
-        this.droppedOff = droppedOff;
-        this.predecessors.add(droppedOff.getProofStep());
-    }
+        //
+        // START-ProofStep 
+        public override IList<ProofStep> getPredecessorSteps()
+        {
+            return new ReadOnlyCollection<ProofStep>(predecessors);
+        }
 
-    //
-    // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
-    {
-        return Collections.unmodifiableList(predecessors);
-    }
+        public override string getProof()
+        {
+            return dropped.ToString();
+        }
 
-    @Override
-    public String getProof()
-    {
-        return dropped.toString();
-    }
-
-    @Override
-    public String getJustification()
-    {
-        return "Dropped: " + droppedOff.getProofStep().getStepNumber();
-    }
-    // END-ProofStep
-    //
-}
-
+        public override string getJustification()
+        {
+            return "Dropped: " + droppedOff.getProofStep().getStepNumber();
+        }
+        // END-ProofStep
+        //
+    } 
 }

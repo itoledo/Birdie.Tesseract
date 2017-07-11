@@ -36,7 +36,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
             checkIsDAGAndCollectVariablesInTopologicalOrder();
 
             //TODO : make immutable
-            //variables = Collections.unmodifiableList(variables);
+            //variables = new ReadOnlyCollection<>(variables);
         }
 
         //

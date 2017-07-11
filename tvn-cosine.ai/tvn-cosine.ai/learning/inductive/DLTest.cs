@@ -35,7 +35,7 @@ namespace tvn.cosine.ai.learning.inductive
                 }
             }
             return true;
-            // return e.targetValue().equals(targetValue);
+            // return e.targetValue().Equals(targetValue);
         }
 
         public DataSet matchedExamples(DataSet ds)

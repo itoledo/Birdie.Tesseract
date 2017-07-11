@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
 
 namespace tvn.cosine.ai.logic.propositional.inference
 {
@@ -56,10 +60,10 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * 
          * @return true if KB entails &alpha;, false otherwise.
          */
-        public boolean ttEntails(KnowledgeBase kb, Sentence alpha)
+        public bool ttEntails(KnowledgeBase kb, Sentence alpha)
         {
             // symbols <- a list of proposition symbols in KB and &alpha
-            List<PropositionSymbol> symbols = new ArrayList<PropositionSymbol>(
+            List<PropositionSymbol> symbols = new List<PropositionSymbol>(
                     SymbolCollector.getSymbolsFrom(kb.asSentence(), alpha));
 
             // return TT-CHECK-ALL(KB, &alpha; symbols, {})
@@ -82,11 +86,11 @@ namespace tvn.cosine.ai.logic.propositional.inference
          *            query.
          * @return true if KB entails &alpha;, false otherwise.
          */
-        public boolean ttCheckAll(KnowledgeBase kb, Sentence alpha,
+        public bool ttCheckAll(KnowledgeBase kb, Sentence alpha,
                 List<PropositionSymbol> symbols, Model model)
         {
             // if EMPTY?(symbols) then
-            if (symbols.isEmpty())
+            if (symbols.Count == 0)
             {
                 // if PL-TRUE?(KB, model) then return PL-TRUE?(&alpha;, model)
                 if (model.isTrue(kb.asSentence()))
@@ -102,9 +106,9 @@ namespace tvn.cosine.ai.logic.propositional.inference
 
             // else do
             // P <- FIRST(symbols)
-            PropositionSymbol p = Util.first(symbols);
+            PropositionSymbol p = symbols.First();
             // rest <- REST(symbols)
-            List<PropositionSymbol> rest = Util.rest(symbols);
+            List<PropositionSymbol> rest = symbols.Skip(1).ToList();
             // return (TT-CHECK-ALL(KB, &alpha;, rest, model &cup; { P = true })
             // and
             // TT-CHECK-ALL(KB, &alpha;, rest, model U { P = false }))

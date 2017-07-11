@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using tvn.cosine.ai.logic.fol.kb.data;
 
 namespace tvn.cosine.ai.logic.fol.inference.otter.defaultimpl
 {
@@ -7,13 +9,14 @@ namespace tvn.cosine.ai.logic.fol.inference.otter.defaultimpl
      * 
      */
     public class DefaultLightestClauseHeuristic : LightestClauseHeuristic
-    { 
-        private LightestClauseSorter c = new LightestClauseSorter();
-        private SortedSet<Clause> sos = new TreeSet<Clause>(c);
+    {
+        private LightestClauseSorter c;
+        private SortedSet<Clause> sos;
 
         public DefaultLightestClauseHeuristic()
         {
-
+            c = new LightestClauseSorter();
+            sos = new SortedSet<Clause>(c);
         }
 
         //
@@ -22,55 +25,56 @@ namespace tvn.cosine.ai.logic.fol.inference.otter.defaultimpl
         {
             Clause lightest = null;
 
-            if (sos.size() > 0)
+            if (sos.Count > 0)
             {
-                lightest = sos.first();
+                lightest = sos.First();
             }
 
             return lightest;
         }
 
-        public void initialSOS(Set<Clause> clauses)
+        public void initialSOS(ISet<Clause> clauses)
         {
-            sos.clear();
-            sos.addAll(clauses);
+            sos.Clear();
+            foreach (var v in clauses)
+                sos.Add(v);
         }
 
         public void addedClauseToSOS(Clause clause)
         {
-            sos.add(clause);
+            sos.Add(clause);
         }
 
         public void removedClauseFromSOS(Clause clause)
         {
-            sos.remove(clause);
+            sos.Remove(clause);
         }
 
         // END-LightestClauseHeuristic
         //
     }
 
-    class LightestClauseSorter implements Comparator<Clause> {
-
-    public int compare(Clause c1, Clause c2)
+    class LightestClauseSorter : IComparer<Clause>
     {
-        if (c1 == c2)
+        public int Compare(Clause c1, Clause c2)
         {
-            return 0;
+            if (c1 == c2)
+            {
+                return 0;
+            }
+            int c1Val = c1.getNumberLiterals();
+            int c2Val = c2.getNumberLiterals();
+            return (c1Val < c2Val ? -1
+                    : (c1Val == c2Val ? (compareEqualityIdentities(c1, c2)) : 1));
         }
-        int c1Val = c1.getNumberLiterals();
-        int c2Val = c2.getNumberLiterals();
-        return (c1Val < c2Val ? -1
-                : (c1Val == c2Val ? (compareEqualityIdentities(c1, c2)) : 1));
-    }
 
-    private int compareEqualityIdentities(Clause c1, Clause c2)
-    {
-        int c1Len = c1.getEqualityIdentity().length();
-        int c2Len = c2.getEqualityIdentity().length();
+        private int compareEqualityIdentities(Clause c1, Clause c2)
+        {
+            int c1Len = c1.getEqualityIdentity().Length;
+            int c2Len = c2.getEqualityIdentity().Length;
 
-        return (c1Len < c2Len ? -1 : (c1Len == c2Len ? c1.getEqualityIdentity()
-                .compareTo(c2.getEqualityIdentity()) : 1));
+            return (c1Len < c2Len ? -1 : (c1Len == c2Len ? c1.getEqualityIdentity()
+                    .CompareTo(c2.getEqualityIdentity()) : 1));
+        }
     }
-}
 }

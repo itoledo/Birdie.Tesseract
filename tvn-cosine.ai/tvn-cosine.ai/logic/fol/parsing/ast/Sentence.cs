@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace tvn.cosine.ai.logic.fol.parsing.ast
+﻿namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     /**
      * @author Ravi Mohan
@@ -12,6 +6,6 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
      */
     public interface Sentence : FOLNode
     {
-        Sentence copy();
+        new Sentence copy();
     }
 }

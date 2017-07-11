@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.kb.data
 {
@@ -18,8 +19,8 @@ namespace tvn.cosine.ai.logic.fol.kb.data
     public class Literal
     {
         private AtomicSentence atom = null;
-        private boolean negativeLiteral = false;
-        private String strRep = null;
+        private bool negativeLiteral = false;
+        private string strRep = null;
         private int hashCode = 0;
 
         public Literal(AtomicSentence atom)
@@ -27,23 +28,23 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             this.atom = atom;
         }
 
-        public Literal(AtomicSentence atom, boolean negated)
+        public Literal(AtomicSentence atom, bool negated)
         {
             this.atom = atom;
             this.negativeLiteral = negated;
         }
 
-        public Literal newInstance(AtomicSentence atom)
+        public virtual Literal newInstance(AtomicSentence atom)
         {
             return new Literal(atom, negativeLiteral);
         }
 
-        public boolean isPositiveLiteral()
+        public bool isPositiveLiteral()
         {
             return !negativeLiteral;
         }
 
-        public boolean isNegativeLiteral()
+        public bool isNegativeLiteral()
         {
             return negativeLiteral;
         }
@@ -53,60 +54,57 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             return atom;
         }
 
-        @Override
-        public String toString()
+        public override string ToString()
         {
             if (null == strRep)
             {
                 StringBuilder sb = new StringBuilder();
                 if (isNegativeLiteral())
                 {
-                    sb.append("~");
+                    sb.Append("~");
                 }
-                sb.append(getAtomicSentence().toString());
-                strRep = sb.toString();
+                sb.Append(getAtomicSentence().ToString());
+                strRep = sb.ToString();
             }
 
             return strRep;
         }
 
-        @Override
-        public boolean equals(Object o)
+        public override bool Equals(object o)
         {
 
             if (this == o)
             {
                 return true;
             }
-            if (o.getClass() != getClass())
+            if (o.GetType() != GetType())
             {
                 // This prevents ReducedLiterals
                 // being treated as equivalent to
                 // normal Literals.
                 return false;
             }
-            if (!(o instanceof Literal)) {
+            if (!(o is Literal))
+            {
                 return false;
             }
             Literal l = (Literal)o;
             return l.isPositiveLiteral() == isPositiveLiteral()
-                    && l.getAtomicSentence().getSymbolicName()
-                            .equals(atom.getSymbolicName())
-                    && l.getAtomicSentence().getArgs().equals(atom.getArgs());
+                    && l.getAtomicSentence().getSymbolicName().Equals(atom.getSymbolicName())
+                    && l.getAtomicSentence().getArgs().Equals(atom.getArgs());
         }
 
-        @Override
-        public int hashCode()
+        public override int GetHashCode()
         {
             if (0 == hashCode)
             {
                 hashCode = 17;
-                hashCode = 37 * hashCode + (getClass().getSimpleName().hashCode())
-                        + (isPositiveLiteral() ? "+".hashCode() : "-".hashCode())
-                        + atom.getSymbolicName().hashCode();
-                for (Term t : atom.getArgs())
+                hashCode = 37 * hashCode + (GetType().Name.GetHashCode())
+                        + (isPositiveLiteral() ? "+".GetHashCode() : "-".GetHashCode())
+                        + atom.getSymbolicName().GetHashCode();
+                foreach (Term t in atom.getArgs())
                 {
-                    hashCode = 37 * hashCode + t.hashCode();
+                    hashCode = 37 * hashCode + t.GetHashCode();
                 }
             }
             return hashCode;

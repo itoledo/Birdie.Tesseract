@@ -115,7 +115,7 @@ namespace tvn.cosine.ai.search.framework.agent
                 }
             }
 
-            if (seq.size() > 0)
+            if (seq.Count > 0)
             {
                 // action <- FIRST(seq)
                 // seq <- REST(seq)

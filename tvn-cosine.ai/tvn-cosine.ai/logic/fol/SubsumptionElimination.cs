@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.fol.kb.data;
 
 namespace tvn.cosine.ai.logic.fol
 {
@@ -40,16 +37,16 @@ namespace tvn.cosine.ai.logic.fol
          * @return the clauses that are subsumed by (that is, more specific than) an
          *         existing clause in the specified set of clauses.
          */
-        public static Set<Clause> findSubsumedClauses(Set<Clause> clauses)
+        public static ISet<Clause> findSubsumedClauses(ISet<Clause> clauses)
         {
-            Set<Clause> subsumed = new HashSet<Clause>();
+            ISet<Clause> subsumed = new HashSet<Clause>();
 
             // Group the clauses by their # of literals.
             // Keep track of the min and max # of literals.
-            int min = Integer.MAX_VALUE;
+            int min = int.MaxValue;
             int max = 0;
-            Map<Integer, Set<Clause>> clausesGroupedBySize = new HashMap<Integer, Set<Clause>>();
-            for (Clause c : clauses)
+            IDictionary<int, ISet<Clause>> clausesGroupedBySize = new Dictionary<int, ISet<Clause>>();
+            foreach (Clause c in clauses)
             {
                 int size = c.getNumberLiterals();
                 if (size < min)
@@ -60,41 +57,41 @@ namespace tvn.cosine.ai.logic.fol
                 {
                     max = size;
                 }
-                Set<Clause> cforsize = clausesGroupedBySize.get(size);
+                ISet<Clause> cforsize = clausesGroupedBySize[size];
                 if (null == cforsize)
                 {
                     cforsize = new HashSet<Clause>();
-                    clausesGroupedBySize.put(size, cforsize);
+                    clausesGroupedBySize.Add(size, cforsize);
                 }
-                cforsize.add(c);
+                cforsize.Add(c);
             }
             // Check if each smaller clause
             // subsumes any of the larger clauses.
             for (int i = min; i < max; i++)
             {
-                Set<Clause> scs = clausesGroupedBySize.get(i);
+                ISet<Clause> scs = clausesGroupedBySize[i];
                 // Ensure there are clauses with this # of literals
                 if (null != scs)
                 {
                     for (int j = i + 1; j <= max; j++)
                     {
-                        Set<Clause> lcs = clausesGroupedBySize.get(j);
+                        ISet<Clause> lcs = clausesGroupedBySize[j];
                         // Ensure there are clauses with this # of literals
                         if (null != lcs)
                         {
-                            for (Clause sc : scs)
+                            foreach (Clause sc in scs)
                             {
                                 // Don't bother checking clauses
                                 // that are already subsumed.
-                                if (!subsumed.contains(sc))
+                                if (!subsumed.Contains(sc))
                                 {
-                                    for (Clause lc : lcs)
+                                    foreach (Clause lc in lcs)
                                     {
-                                        if (!subsumed.contains(lc))
+                                        if (!subsumed.Contains(lc))
                                         {
                                             if (sc.subsumes(lc))
                                             {
-                                                subsumed.add(lc);
+                                                subsumed.Add(lc);
                                             }
                                         }
                                     }

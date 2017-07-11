@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
 
 namespace tvn.cosine.ai.logic.propositional.visitors
 {
@@ -15,45 +17,45 @@ namespace tvn.cosine.ai.logic.propositional.visitors
      * @author Ciaran O'Reilly
      * 
      */
-    public class ImplicationElimination extends AbstractPLVisitor<Object> {
-
-    /**
-	 * Eliminate the implications from a sentence.
-	 * 
-	 * @param sentence
-	 *            a propositional logic sentence.
-	 * @return an equivalent Sentence to the input with all implications
-	 *         eliminated.
-	 */
-    public static Sentence eliminate(Sentence sentence)
+    public class ImplicationElimination : AbstractPLVisitor<object>
     {
-        ImplicationElimination eliminator = new ImplicationElimination();
 
-        Sentence result = sentence.accept(eliminator, null);
-
-        return result;
-    }
-
-    @Override
-    public Sentence visitBinarySentence(ComplexSentence s, Object arg)
-    {
-        Sentence result = null;
-        if (s.isImplicationSentence())
+        /**
+         * Eliminate the implications from a sentence.
+         * 
+         * @param sentence
+         *            a propositional logic sentence.
+         * @return an equivalent Sentence to the input with all implications
+         *         eliminated.
+         */
+        public static Sentence eliminate(Sentence sentence)
         {
-            // Eliminate =>, replacing &alpha; => &beta;
-            // with ~&alpha; | &beta;
-            Sentence alpha = s.getSimplerSentence(0).accept(this, arg);
-            Sentence beta = s.getSimplerSentence(1).accept(this, arg);
-            Sentence notAlpha = new ComplexSentence(Connective.NOT, alpha);
+            ImplicationElimination eliminator = new ImplicationElimination();
 
-            result = new ComplexSentence(Connective.OR, notAlpha, beta);
+            Sentence result = sentence.accept(eliminator, null);
+
+            return result;
         }
-        else
+
+        public override Sentence visitBinarySentence(ComplexSentence s, object arg)
         {
-            result = super.visitBinarySentence(s, arg);
+            Sentence result = null;
+            if (s.isImplicationSentence())
+            {
+                // Eliminate =>, replacing &alpha; => &beta;
+                // with ~&alpha; | &beta;
+                Sentence alpha = s.getSimplerSentence(0).accept(this, arg);
+                Sentence beta = s.getSimplerSentence(1).accept(this, arg);
+                Sentence notAlpha = new ComplexSentence(Connective.NOT, alpha);
+
+                result = new ComplexSentence(Connective.OR, notAlpha, beta);
+            }
+            else
+            {
+                result = base.visitBinarySentence(s, arg);
+            }
+            return result;
         }
-        return result;
     }
-}
 
 }

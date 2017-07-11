@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
 
 namespace tvn.cosine.ai.logic.propositional.visitors
 {
     /**
      * Convert a Sentence into an equivalent Negation Normal Form (NNF) Sentence. A
      * Sentence is in NNF if negation is allowed only over atoms, and conjunction,
-     * disjunction, and negation are the only allowed boolean connectives
+     * disjunction, and negation are the only allowed bool connectives
      * 
      * @author Ciaran O'Reilly
      * 
@@ -32,10 +33,8 @@ namespace tvn.cosine.ai.logic.propositional.visitors
             Sentence result = null;
 
             Sentence biconditionalsRemoved = BiconditionalElimination.eliminate(s);
-            Sentence implicationsRemoved = ImplicationElimination
-                    .eliminate(biconditionalsRemoved);
-            Sentence notsMovedIn = MoveNotInwards
-                    .moveNotsInward(implicationsRemoved);
+            Sentence implicationsRemoved = ImplicationElimination.eliminate(biconditionalsRemoved);
+            Sentence notsMovedIn = MoveNotInwards.moveNotsInward(implicationsRemoved);
 
             result = notsMovedIn;
 

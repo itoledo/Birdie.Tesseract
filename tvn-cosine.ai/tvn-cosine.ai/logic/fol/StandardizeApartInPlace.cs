@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol
 {
@@ -17,8 +20,8 @@ namespace tvn.cosine.ai.logic.fol
 
         public static int standardizeApart(Chain c, int saIdx)
         {
-            List<Variable> variables = new ArrayList<Variable>();
-            for (Literal l : c.getLiterals())
+            List<Variable> variables = new List<Variable>();
+            foreach (Literal l in c.getLiterals())
             {
                 collectAllVariables(l.getAtomicSentence(), variables);
             }
@@ -28,8 +31,8 @@ namespace tvn.cosine.ai.logic.fol
 
         public static int standardizeApart(Clause c, int saIdx)
         {
-            List<Variable> variables = new ArrayList<Variable>();
-            for (Literal l : c.getLiterals())
+            List<Variable> variables = new List<Variable>();
+            foreach (Literal l in c.getLiterals())
             {
                 collectAllVariables(l.getAtomicSentence(), variables);
             }
@@ -40,115 +43,101 @@ namespace tvn.cosine.ai.logic.fol
         //
         // PRIVATE METHODS
         //
-        private static int standardizeApart(List<Variable> variables, Object expr,
-                int saIdx)
+        private static int standardizeApart(List<Variable> variables, object expr, int saIdx)
         {
-            Map<String, Integer> indexicals = new HashMap<String, Integer>();
-            for (Variable v : variables)
+            IDictionary<string, int> indexicals = new Dictionary<string, int>();
+            foreach (Variable v in variables)
             {
-                if (!indexicals.containsKey(v.getIndexedValue()))
+                if (!indexicals.ContainsKey(v.getIndexedValue()))
                 {
-                    indexicals.put(v.getIndexedValue(), saIdx++);
+                    indexicals.Add(v.getIndexedValue(), saIdx++);
                 }
             }
-            for (Variable v : variables)
+            foreach (Variable v in variables)
             {
-                Integer i = indexicals.get(v.getIndexedValue());
-                if (null == i)
+                if (!indexicals.ContainsKey(v.getIndexedValue()))
                 {
-                    throw new RuntimeException("ERROR: duplicate var=" + v
-                            + ", expr=" + expr);
+                    throw new Exception("ERROR: duplicate var=" + v + ", expr=" + expr);
                 }
                 else
                 {
-                    v.setIndexical(i);
+                    v.setIndexical(indexicals[v.getIndexedValue()]);
                 }
             }
 
             return saIdx;
         }
 
-        private static void collectAllVariables(Sentence s, List<Variable> vars)
+        private static void collectAllVariables(Sentence s, IList<Variable> vars)
         {
             s.accept(_collectAllVariables, vars);
         }
     }
 
-    class CollectAllVariables implements FOLVisitor
+    class CollectAllVariables : FOLVisitor
     {
+        public CollectAllVariables()
+        { }
 
-    public CollectAllVariables()
-    {
-
-    }
-
-
-    @SuppressWarnings("unchecked")
-
-    public Object visitVariable(Variable var, Object arg)
-    {
-        List<Variable> variables = (List<Variable>)arg;
-        variables.add(var);
-        return var;
-    }
-
-
-    @SuppressWarnings("unchecked")
-
-    public Object visitQuantifiedSentence(QuantifiedSentence sentence,
-            Object arg)
-    {
-        // Ensure I collect quantified variables too
-        List<Variable> variables = (List<Variable>)arg;
-        variables.addAll(sentence.getVariables());
-
-        sentence.getQuantified().accept(this, arg);
-
-        return sentence;
-    }
-
-    public Object visitPredicate(Predicate predicate, Object arg)
-    {
-        for (Term t : predicate.getTerms())
+        public object visitVariable(Variable var, object arg)
         {
-            t.accept(this, arg);
+            List<Variable> variables = (List<Variable>)arg;
+            variables.Add(var);
+            return var;
         }
-        return predicate;
-    }
 
-    public Object visitTermEquality(TermEquality equality, Object arg)
-    {
-        equality.getTerm1().accept(this, arg);
-        equality.getTerm2().accept(this, arg);
-        return equality;
-    }
-
-    public Object visitConstant(Constant constant, Object arg)
-    {
-        return constant;
-    }
-
-    public Object visitFunction(Function function, Object arg)
-    {
-        for (Term t : function.getTerms())
+        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
-            t.accept(this, arg);
+            // Ensure I collect quantified variables too
+            List<Variable> variables = (List<Variable>)arg;
+            variables.AddRange(sentence.getVariables());
+
+            sentence.getQuantified().accept(this, arg);
+
+            return sentence;
         }
-        return function;
-    }
 
-    public Object visitNotSentence(NotSentence sentence, Object arg)
-    {
-        sentence.getNegated().accept(this, arg);
-        return sentence;
-    }
+        public object visitPredicate(Predicate predicate, object arg)
+        {
+            foreach (Term t in predicate.getTerms())
+            {
+                t.accept(this, arg);
+            }
+            return predicate;
+        }
 
-    public Object visitConnectedSentence(ConnectedSentence sentence, Object arg)
-    {
-        sentence.getFirst().accept(this, arg);
-        sentence.getSecond().accept(this, arg);
-        return sentence;
-    }
-}
+        public object visitTermEquality(TermEquality equality, object arg)
+        {
+            equality.getTerm1().accept(this, arg);
+            equality.getTerm2().accept(this, arg);
+            return equality;
+        }
 
+        public object visitConstant(Constant constant, object arg)
+        {
+            return constant;
+        }
+
+        public object visitFunction(Function function, object arg)
+        {
+            foreach (Term t in function.getTerms())
+            {
+                t.accept(this, arg);
+            }
+            return function;
+        }
+
+        public object visitNotSentence(NotSentence sentence, object arg)
+        {
+            sentence.getNegated().accept(this, arg);
+            return sentence;
+        }
+
+        public object visitConnectedSentence(ConnectedSentence sentence, object arg)
+        {
+            sentence.getFirst().accept(this, arg);
+            sentence.getSecond().accept(this, arg);
+            return sentence;
+        }
+    } 
 }

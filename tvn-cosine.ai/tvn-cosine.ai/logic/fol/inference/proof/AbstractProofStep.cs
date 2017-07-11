@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -11,14 +7,11 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      * 
      */
     public abstract class AbstractProofStep : ProofStep
-    {
-
+    { 
         private int step = 0;
 
         public AbstractProofStep()
-        {
-
-        }
+        { }
 
         //
         // START-ProofStep
@@ -32,11 +25,11 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             this.step = step;
         }
 
-        public abstract List<ProofStep> getPredecessorSteps();
+        public abstract IList<ProofStep> getPredecessorSteps();
 
-        public abstract String getProof();
+        public abstract string getProof();
 
-        public abstract String getJustification();
+        public abstract string getJustification();
 
         // END-ProofStep
         //

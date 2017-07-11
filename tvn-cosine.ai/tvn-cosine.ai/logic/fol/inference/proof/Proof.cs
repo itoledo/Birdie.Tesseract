@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -12,7 +13,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
          * 
          * @return A list of proof steps that show how an answer was derived.
          */
-        List<ProofStep> getSteps();
+        IList<ProofStep> getSteps();
 
         /**
          * 
@@ -20,7 +21,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
          *         query. Will be an empty Map if no variables existed in the
          *         original query.
          */
-        Map<Variable, Term> getAnswerBindings();
+        IDictionary<Variable, Term> getAnswerBindings();
 
         /**
          * 
@@ -28,6 +29,6 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
          *            allows for the bindings to be renamed. Note: should not be
          *            used for any other reason.
          */
-        void replaceAnswerBindings(Map<Variable, Term> updatedBindings);
+        void replaceAnswerBindings(IDictionary<Variable, Term> updatedBindings);
     }
 }

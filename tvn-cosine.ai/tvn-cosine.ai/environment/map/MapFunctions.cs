@@ -76,7 +76,7 @@ namespace tvn.cosine.ai.environment.map
             return node => getSLD(node.getState(), goal, map);
         }
 
-        public static double getSLD(String loc1, String loc2, Map map)
+        public static double getSLD(string loc1, string loc2, Map map)
         {
             double result = 0.0;
             Point2D pt1 = map.getPosition(loc1);

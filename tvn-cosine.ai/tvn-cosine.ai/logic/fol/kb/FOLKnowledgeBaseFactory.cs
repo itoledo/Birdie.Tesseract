@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.inference;
 
 namespace tvn.cosine.ai.logic.fol.kb
 {
@@ -15,8 +12,7 @@ namespace tvn.cosine.ai.logic.fol.kb
 
         public static FOLKnowledgeBase createKingsKnowledgeBase(InferenceProcedure infp)
         {
-            FOLKnowledgeBase kb = new FOLKnowledgeBase(DomainFactory.kingsDomain(),
-                    infp);
+            FOLKnowledgeBase kb = new FOLKnowledgeBase(DomainFactory.kingsDomain(), infp);
             kb.tell("((King(x) AND Greedy(x)) => Evil(x))");
             kb.tell("King(John)");
             kb.tell("King(Richard)");
@@ -28,8 +24,7 @@ namespace tvn.cosine.ai.logic.fol.kb
         public static FOLKnowledgeBase createWeaponsKnowledgeBase(
                 InferenceProcedure infp)
         {
-            FOLKnowledgeBase kb = new FOLKnowledgeBase(
-                    DomainFactory.weaponsDomain(), infp);
+            FOLKnowledgeBase kb = new FOLKnowledgeBase( DomainFactory.weaponsDomain(), infp);
             kb.tell("( (((American(x) AND Weapon(y)) AND Sells(x,y,z)) AND Hostile(z)) => Criminal(x))");
             kb.tell(" Owns(Nono, M1)");
             kb.tell(" Missile(M1)");
@@ -45,8 +40,7 @@ namespace tvn.cosine.ai.logic.fol.kb
         public static FOLKnowledgeBase createLovesAnimalKnowledgeBase(
                 InferenceProcedure infp)
         {
-            FOLKnowledgeBase kb = new FOLKnowledgeBase(
-                    DomainFactory.lovesAnimalDomain(), infp);
+            FOLKnowledgeBase kb = new FOLKnowledgeBase(  DomainFactory.lovesAnimalDomain(), infp);
 
             kb.tell("FORALL x (FORALL y (Animal(y) => Loves(x, y)) => EXISTS y Loves(y, x))");
             kb.tell("FORALL x (EXISTS y (Animal(y) AND Kills(x, y)) => FORALL z NOT(Loves(z, x)))");
@@ -102,8 +96,7 @@ namespace tvn.cosine.ai.logic.fol.kb
         // Note: see -
         // http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf
         // slide 12 for where this test example was taken from.
-        public static FOLKnowledgeBase createABCEqualityKnowledgeBase(
-                InferenceProcedure infp, boolean includeEqualityAxioms)
+        public static FOLKnowledgeBase createABCEqualityKnowledgeBase( InferenceProcedure infp, bool includeEqualityAxioms)
         {
             FOLDomain domain = new FOLDomain();
             domain.addConstant("A");
@@ -131,8 +124,7 @@ namespace tvn.cosine.ai.logic.fol.kb
         // Note: see -
         // http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf
         // slide 16,17, and 18 for where this test example was taken from.
-        public static FOLKnowledgeBase createABCDEqualityAndSubstitutionKnowledgeBase(
-                InferenceProcedure infp, boolean includeEqualityAxioms)
+        public static FOLKnowledgeBase createABCDEqualityAndSubstitutionKnowledgeBase( InferenceProcedure infp, bool includeEqualityAxioms)
         {
             FOLDomain domain = new FOLDomain();
             domain.addConstant("A");

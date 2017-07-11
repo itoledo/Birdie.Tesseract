@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
 
 namespace tvn.cosine.ai.logic.propositional.inference
 {
@@ -60,44 +61,45 @@ namespace tvn.cosine.ai.logic.propositional.inference
          *            the query, a sentence in propositional logic.
          * @return true if KB |= &alpha;, false otherwise.
          */
-        public boolean plResolution(KnowledgeBase kb, Sentence alpha)
+        public bool plResolution(KnowledgeBase kb, Sentence alpha)
         {
             // clauses <- the set of clauses in the CNF representation
             // of KB & ~alpha
-            Set<Clause> clauses = setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(
-                    kb, alpha);
+            ISet<Clause> clauses = setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(kb, alpha);
             // new <- {}
-            Set<Clause> newClauses = new LinkedHashSet<Clause>();
+            ISet<Clause> newClauses = new HashSet<Clause>();
             // loop do
             do
             {
                 // for each pair of clauses C_i, C_j in clauses do
-                List<Clause> clausesAsList = new ArrayList<Clause>(clauses);
-                for (int i = 0; i < clausesAsList.size() - 1; i++)
+                List<Clause> clausesAsList = new List<Clause>(clauses);
+                for (int i = 0; i < clausesAsList.Count - 1; i++)
                 {
-                    Clause ci = clausesAsList.get(i);
-                    for (int j = i + 1; j < clausesAsList.size(); j++)
+                    Clause ci = clausesAsList[i];
+                    for (int j = i + 1; j < clausesAsList.Count; j++)
                     {
-                        Clause cj = clausesAsList.get(j);
+                        Clause cj = clausesAsList[j];
                         // resolvents <- PL-RESOLVE(C_i, C_j)
-                        Set<Clause> resolvents = plResolve(ci, cj);
+                        ISet<Clause> resolvents = plResolve(ci, cj);
                         // if resolvents contains the empty clause then return true
-                        if (resolvents.contains(Clause.EMPTY))
+                        if (resolvents.Contains(Clause.EMPTY))
                         {
                             return true;
                         }
                         // new <- new U resolvents
-                        newClauses.addAll(resolvents);
+                        foreach (var v in resolvents)
+                            newClauses.Add(v);
                     }
                 }
                 // if new is subset of clauses then return false
-                if (clauses.containsAll(newClauses))
+                if (clauses.Intersect(newClauses).Count() == clauses.Count)
                 {
                     return false;
                 }
 
                 // clauses <- clauses U new
-                clauses.addAll(newClauses);
+                foreach (var v in newClauses)
+                    clauses.Add(v);
 
             } while (true);
         }
@@ -113,9 +115,9 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * @return the set of all possible clauses obtained by resolving its two
          *         inputs.
          */
-        public Set<Clause> plResolve(Clause ci, Clause cj)
+        public ISet<Clause> plResolve(Clause ci, Clause cj)
         {
-            Set<Clause> resolvents = new LinkedHashSet<Clause>();
+            ISet<Clause> resolvents = new HashSet<Clause>();
 
             // The complementary positive literals from C_i
             resolvePositiveWithNegative(ci, cj, resolvents);
@@ -129,15 +131,16 @@ namespace tvn.cosine.ai.logic.propositional.inference
         // SUPPORTING CODE
         //
 
-        private boolean discardTautologies = true;
+        private bool _discardTautologies = true;
 
         /**
          * Default constructor, which will set the algorithm to discard tautologies
          * by default.
          */
         public PLResolution()
+            : this(true)
         {
-            this(true);
+
         }
 
         /**
@@ -147,7 +150,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          *            true if the algorithm is to discard tautological clauses
          *            during processing, false otherwise.
          */
-        public PLResolution(boolean discardTautologies)
+        public PLResolution(bool discardTautologies)
         {
             setDiscardTautologies(discardTautologies);
         }
@@ -156,9 +159,9 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * @return true if the algorithm will discard tautological clauses during
          *         processing.
          */
-        public boolean isDiscardTautologies()
+        public bool isDiscardTautologies()
         {
-            return discardTautologies;
+            return _discardTautologies;
         }
 
         /**
@@ -167,23 +170,22 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * 
          * @param discardTautologies
          */
-        public void setDiscardTautologies(boolean discardTautologies)
+        public void setDiscardTautologies(bool discardTautologies)
         {
-            this.discardTautologies = discardTautologies;
+            this._discardTautologies = discardTautologies;
         }
 
         //
         // PROTECTED
         //
-        protected Set<Clause> setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(
-                KnowledgeBase kb, Sentence alpha)
+        protected ISet<Clause> setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(KnowledgeBase kb, Sentence alpha)
         {
 
             // KB & ~alpha;
             Sentence isContradiction = new ComplexSentence(Connective.AND,
                     kb.asSentence(), new ComplexSentence(Connective.NOT, alpha));
             // the set of clauses in the CNF representation
-            Set<Clause> clauses = new LinkedHashSet<Clause>(
+            ISet<Clause> clauses = new HashSet<Clause>(
                     ConvertToConjunctionOfClauses.convert(isContradiction)
                             .getClauses());
 
@@ -192,33 +194,32 @@ namespace tvn.cosine.ai.logic.propositional.inference
             return clauses;
         }
 
-        protected void resolvePositiveWithNegative(Clause c1, Clause c2,
-                Set<Clause> resolvents)
+        protected void resolvePositiveWithNegative(Clause c1, Clause c2, ISet<Clause> resolvents)
         {
             // Calculate the complementary positive literals from c1 with
             // the negative literals from c2
-            Set<PropositionSymbol> complementary = SetOps.intersection(
-                    c1.getPositiveSymbols(), c2.getNegativeSymbols());
+            ISet<PropositionSymbol> complementary =
+                  new HashSet<PropositionSymbol>(c1.getPositiveSymbols().Intersect(c2.getNegativeSymbols()));
             // Construct a resolvent clause for each complement found
-            for (PropositionSymbol complement : complementary)
+            foreach (PropositionSymbol complement in complementary)
             {
-                List<Literal> resolventLiterals = new ArrayList<Literal>();
+                List<Literal> resolventLiterals = new List<Literal>();
                 // Retrieve the literals from c1 that are not the complement
-                for (Literal c1l : c1.getLiterals())
+                foreach (Literal c1l in c1.getLiterals())
                 {
                     if (c1l.isNegativeLiteral()
-                            || !c1l.getAtomicSentence().equals(complement))
+                            || !c1l.getAtomicSentence().Equals(complement))
                     {
-                        resolventLiterals.add(c1l);
+                        resolventLiterals.Add(c1l);
                     }
                 }
                 // Retrieve the literals from c2 that are not the complement
-                for (Literal c2l : c2.getLiterals())
+                foreach (Literal c2l in c2.getLiterals())
                 {
                     if (c2l.isPositiveLiteral()
-                            || !c2l.getAtomicSentence().equals(complement))
+                            || !c2l.getAtomicSentence().Equals(complement))
                     {
-                        resolventLiterals.add(c2l);
+                        resolventLiterals.Add(c2l);
                     }
                 }
                 // Construct the resolvent clause
@@ -226,26 +227,26 @@ namespace tvn.cosine.ai.logic.propositional.inference
                 // Discard tautological clauses if this optimization is turned on.
                 if (!(isDiscardTautologies() && resolvent.isTautology()))
                 {
-                    resolvents.add(resolvent);
+                    resolvents.Add(resolvent);
                 }
             }
         }
 
-        // Utility routine for removing the tautological clauses from a set (in
-        // place).
-        protected void discardTautologies(Set<Clause> clauses)
+        // Utility routine for removing the tautological clauses from a set (in place).
+        protected void discardTautologies(ISet<Clause> clauses)
         {
             if (isDiscardTautologies())
             {
-                Set<Clause> toDiscard = new HashSet<Clause>();
-                for (Clause c : clauses)
+                ISet<Clause> toDiscard = new HashSet<Clause>();
+                foreach (Clause c in clauses)
                 {
                     if (c.isTautology())
                     {
-                        toDiscard.add(c);
+                        toDiscard.Add(c);
                     }
                 }
-                clauses.removeAll(toDiscard);
+                foreach (var v in toDiscard)
+                    clauses.Remove(v);
             }
         }
     }

@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference.otter
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.fol.kb.data;
+
+namespace tvn.cosine.ai.logic.fol.inference.otter
 {
     /**
      * @author Ciaran O'Reilly
@@ -6,6 +9,6 @@
      */
     public interface ClauseFilter
     {
-        Set<Clause> filter(Set<Clause> clauses);
+        ISet<Clause> filter(ISet<Clause> clauses);
     }
 }

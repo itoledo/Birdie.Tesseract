@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
-using System.Threading.Tasks;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -12,69 +12,64 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      */
     public class ProofStepBwChGoal : AbstractProofStep
     {
-    //
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
-    //
-    private Clause toProve = null;
-    private Literal currentGoal = null;
-    private Map<Variable, Term> bindings = new LinkedHashMap<Variable, Term>();
+        //
+        private IList<ProofStep> predecessors = new List<ProofStep>();
+        //
+        private Clause toProve = null;
+        private Literal currentGoal = null;
+        private IDictionary<Variable, Term> bindings = new Dictionary<Variable, Term>();
 
-    public ProofStepBwChGoal(Clause toProve, Literal currentGoal,
-            Map<Variable, Term> bindings)
-    {
-        this.toProve = toProve;
-        this.currentGoal = currentGoal;
-        this.bindings.putAll(bindings);
-    }
-
-    public Map<Variable, Term> getBindings()
-    {
-        return bindings;
-    }
-
-    public void setPredecessor(ProofStep predecessor)
-    {
-        predecessors.clear();
-        predecessors.add(predecessor);
-    }
-
-    //
-    // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
-    {
-        return Collections.unmodifiableList(predecessors);
-    }
-
-    @Override
-    public String getProof()
-    {
-        StringBuilder sb = new StringBuilder();
-        List<Literal> nLits = toProve.getNegativeLiterals();
-        for (int i = 0; i < toProve.getNumberNegativeLiterals(); i++)
+        public ProofStepBwChGoal(Clause toProve, Literal currentGoal, IDictionary<Variable, Term> bindings)
         {
-            sb.append(nLits.get(i).getAtomicSentence());
-            if (i != (toProve.getNumberNegativeLiterals() - 1))
+            this.toProve = toProve;
+            this.currentGoal = currentGoal;
+            foreach (var v in bindings)
+                this.bindings.Add(v);
+        }
+
+        public IDictionary<Variable, Term> getBindings()
+        {
+            return bindings;
+        }
+
+        public void setPredecessor(ProofStep predecessor)
+        {
+            predecessors.Clear();
+            predecessors.Add(predecessor);
+        }
+
+        //
+        // START-ProofStep 
+        public override IList<ProofStep> getPredecessorSteps()
+        {
+            return new ReadOnlyCollection<ProofStep>(predecessors);
+        }
+
+        public override string getProof()
+        {
+            StringBuilder sb = new StringBuilder();
+            IList<Literal> nLits = toProve.getNegativeLiterals();
+            for (int i = 0; i < toProve.getNumberNegativeLiterals(); i++)
             {
-                sb.append(" AND ");
+                sb.Append(nLits[i].getAtomicSentence());
+                if (i != (toProve.getNumberNegativeLiterals() - 1))
+                {
+                    sb.Append(" AND ");
+                }
             }
+            if (toProve.getNumberNegativeLiterals() > 0)
+            {
+                sb.Append(" => ");
+            }
+            sb.Append(toProve.getPositiveLiterals()[0]);
+            return sb.ToString();
         }
-        if (toProve.getNumberNegativeLiterals() > 0)
+
+        public override string getJustification()
         {
-            sb.append(" => ");
+            return "Current Goal " + currentGoal.getAtomicSentence().ToString() + ", " + bindings;
         }
-        sb.append(toProve.getPositiveLiterals().get(0));
-        return sb.toString();
-    }
-
-    @Override
-    public String getJustification()
-    {
-        return "Current Goal " + currentGoal.getAtomicSentence().toString()
-                + ", " + bindings;
-    }
-    // END-ProofStep
-    //
-}
-
+        // END-ProofStep
+        //
+    } 
 }

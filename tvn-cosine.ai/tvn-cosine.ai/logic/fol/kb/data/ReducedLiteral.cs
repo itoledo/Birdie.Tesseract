@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.kb.data
 {
@@ -17,38 +14,36 @@ namespace tvn.cosine.ai.logic.fol.kb.data
     public class ReducedLiteral : Literal
     {
 
-        private String strRep = null;
+        private string strRep = null;
 
         public ReducedLiteral(AtomicSentence atom)
+            : base(atom)
+        {  }
+
+        public ReducedLiteral(AtomicSentence atom, bool negated)
+            : base(atom, negated)
         {
-            super(atom);
+
         }
 
-        public ReducedLiteral(AtomicSentence atom, boolean negated)
-        {
-            super(atom, negated);
-        }
-
-        @Override
-    public Literal newInstance(AtomicSentence atom)
+        public override Literal newInstance(AtomicSentence atom)
         {
             return new ReducedLiteral(atom, isNegativeLiteral());
         }
 
-        @Override
-    public String toString()
+        public override string ToString()
         {
             if (null == strRep)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.append("[");
+                sb.Append("[");
                 if (isNegativeLiteral())
                 {
-                    sb.append("~");
+                    sb.Append("~");
                 }
-                sb.append(getAtomicSentence().toString());
-                sb.append("]");
-                strRep = sb.toString();
+                sb.Append(getAtomicSentence().ToString());
+                sb.Append("]");
+                strRep = sb.ToString();
             }
 
             return strRep;

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
@@ -13,31 +12,30 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
     public class QuantifiedSentence : Sentence
     {
 
-        private String quantifier;
-        private List<Variable> variables = new ArrayList<Variable>();
+        private string quantifier;
+        private List<Variable> variables = new List<Variable>();
         private Sentence quantified;
-        private List<FOLNode> args = new ArrayList<FOLNode>();
-        private String stringRep = null;
+        private List<FOLNode> args = new List<FOLNode>();
+        private string stringRep = null;
         private int hashCode = 0;
 
-        public QuantifiedSentence(String quantifier, List<Variable> variables,
-                Sentence quantified)
+        public QuantifiedSentence(string quantifier, IList<Variable> variables, Sentence quantified)
         {
             this.quantifier = quantifier;
-            this.variables.addAll(variables);
+            this.variables.AddRange(variables);
             this.quantified = quantified;
-            this.args.addAll(variables);
-            this.args.add(quantified);
+            this.args.AddRange(variables);
+            this.args.Add(quantified);
         }
 
-        public String getQuantifier()
+        public string getQuantifier()
         {
             return quantifier;
         }
 
-        public List<Variable> getVariables()
+        public IList<Variable> getVariables()
         {
-            return Collections.unmodifiableList(variables);
+            return new ReadOnlyCollection<Variable>(variables);
         }
 
         public Sentence getQuantified()
@@ -47,32 +45,42 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
 
         //
         // START-Sentence
-        public String getSymbolicName()
+        public string getSymbolicName()
         {
             return getQuantifier();
         }
 
-        public boolean isCompound()
+        public bool isCompound()
         {
             return true;
         }
 
-        public List<FOLNode> getArgs()
+        IList<FOLNode> FOLNode.getArgs()
         {
-            return Collections.unmodifiableList(args);
+            return new ReadOnlyCollection<FOLNode>(args);
         }
 
-        public Object accept(FOLVisitor v, Object arg)
+        public IList<Sentence> getArgs()
+        {
+            return new ReadOnlyCollection<Sentence>(args.Select(x => x as Sentence).ToList());
+        }
+
+        public object accept(FOLVisitor v, object arg)
         {
             return v.visitQuantifiedSentence(this, arg);
         }
 
-        public QuantifiedSentence copy()
+        FOLNode FOLNode.copy()
         {
-            List<Variable> copyVars = new ArrayList<Variable>();
-            for (Variable v : variables)
+            return copy() as FOLNode;
+        }
+
+        public Sentence copy()
+        {
+            List<Variable> copyVars = new List<Variable>();
+            foreach (Variable v in variables)
             {
-                copyVars.add(v.copy());
+                copyVars.Add(v.copy() as Variable);
             }
             return new QuantifiedSentence(quantifier, copyVars, quantified.copy());
         }
@@ -80,55 +88,52 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
         // END-Sentence
         //
 
-        @Override
-    public boolean equals(Object o)
+        public override bool Equals(object o)
         {
 
             if (this == o)
             {
                 return true;
             }
-            if ((o == null) || (this.getClass() != o.getClass()))
+            if ((o == null) || (this.GetType() != o.GetType()))
             {
                 return false;
             }
             QuantifiedSentence cs = (QuantifiedSentence)o;
-            return cs.quantifier.equals(quantifier)
-                    && cs.variables.equals(variables)
-                    && cs.quantified.equals(quantified);
+            return cs.quantifier.Equals(quantifier)
+                    && cs.variables.Equals(variables)
+                    && cs.quantified.Equals(quantified);
         }
 
-        @Override
-    public int hashCode()
+        public override int GetHashCode()
         {
             if (0 == hashCode)
             {
                 hashCode = 17;
-                hashCode = 37 * hashCode + quantifier.hashCode();
-                for (Variable v : variables)
+                hashCode = 37 * hashCode + quantifier.GetHashCode();
+                foreach (Variable v in variables)
                 {
-                    hashCode = 37 * hashCode + v.hashCode();
+                    hashCode = 37 * hashCode + v.GetHashCode();
                 }
-                hashCode = hashCode * 37 + quantified.hashCode();
+                hashCode = hashCode * 37 + quantified.GetHashCode();
             }
             return hashCode;
         }
 
-        @Override
-    public String toString()
+        public override string ToString()
         {
             if (null == stringRep)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.append(quantifier);
-                sb.append(" ");
-                for (Variable v : variables)
+                sb.Append(quantifier);
+                sb.Append(" ");
+                foreach (Variable v in variables)
                 {
-                    sb.append(v.toString());
-                    sb.append(" ");
+                    sb.Append(v.ToString());
+                    sb.Append(" ");
                 }
-                sb.append(quantified.toString());
-                stringRep = sb.toString();
+                sb.Append(quantified.ToString());
+                stringRep = sb.ToString();
             }
             return stringRep;
         }

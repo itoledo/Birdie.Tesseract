@@ -100,7 +100,7 @@ namespace tvn.cosine.ai.util
             return default(T);
         }
 
-        public static bool randomBoolean()
+        public static bool randombool ()
         {
             int trueOrFalse = random.Next(2);
             return (!(trueOrFalse == 0));

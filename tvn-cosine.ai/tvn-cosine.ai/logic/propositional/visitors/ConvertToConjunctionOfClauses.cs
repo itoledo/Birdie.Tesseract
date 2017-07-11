@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
 
 namespace tvn.cosine.ai.logic.propositional.visitors
 {
@@ -48,10 +46,10 @@ namespace tvn.cosine.ai.logic.propositional.visitors
 
             Sentence cnfSentence = ConvertToCNF.convert(s);
 
-            List<Clause> clauses = new ArrayList<Clause>();
-            clauses.addAll(ClauseCollector.getClausesFrom(cnfSentence));
+            List<Clause> clauses = new List<Clause>();
+            clauses.AddRange(ClauseCollector.getClausesFrom(cnfSentence));
 
-            result = new ConjunctionOfClauses(clauses);
+            result = new ConjunctionOfClauses(new HashSet<Clause>(clauses));
 
             return result;
         }

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -12,40 +11,35 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      */
     public class ProofStepClauseParamodulation : AbstractProofStep
     {
-
-        private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+        private IList<ProofStep> predecessors = new List<ProofStep>();
         private Clause paramodulated = null;
         private Clause topClause = null;
         private Clause equalityClause = null;
         private TermEquality assertion = null;
 
-        public ProofStepClauseParamodulation(Clause paramodulated,
-                Clause topClause, Clause equalityClause, TermEquality assertion)
+        public ProofStepClauseParamodulation(Clause paramodulated, Clause topClause, Clause equalityClause, TermEquality assertion)
         {
             this.paramodulated = paramodulated;
             this.topClause = topClause;
             this.equalityClause = equalityClause;
             this.assertion = assertion;
-            this.predecessors.add(topClause.getProofStep());
-            this.predecessors.add(equalityClause.getProofStep());
+            this.predecessors.Add(topClause.getProofStep());
+            this.predecessors.Add(equalityClause.getProofStep());
         }
 
         //
-        // START-ProofStep
-        @Override
-    public List<ProofStep> getPredecessorSteps()
+        // START-ProofStep 
+        public override IList<ProofStep> getPredecessorSteps()
         {
-            return Collections.unmodifiableList(predecessors);
+            return new ReadOnlyCollection<ProofStep>(predecessors);
         }
-
-        @Override
-    public String getProof()
+         
+    public override string getProof()
         {
-            return paramodulated.toString();
+            return paramodulated.ToString();
         }
-
-        @Override
-    public String getJustification()
+         
+    public override string getJustification()
         {
             return "Paramodulation: " + topClause.getProofStep().getStepNumber()
                     + ", " + equalityClause.getProofStep().getStepNumber() + ", ["
@@ -54,6 +48,5 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
         }
         // END-ProofStep
         //
-    }
-
+    } 
 }

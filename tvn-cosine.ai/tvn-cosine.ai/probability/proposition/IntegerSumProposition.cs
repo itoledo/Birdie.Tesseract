@@ -6,14 +6,14 @@ using tvn.cosine.ai.probability.domain;
 
 namespace tvn.cosine.ai.probability.proposition
 {
-    public class IntegerSumProposition : AbstractDerivedProposition<int>
+    public class  IntegerSumProposition : AbstractDerivedProposition<int>
     {
         private FiniteIntegerDomain sumsDomain = null;
         private List<RandomVariable> sumVars = new List<RandomVariable>();
         //
         private string toString = null;
 
-        public IntegerSumProposition(string name, FiniteIntegerDomain sumsDomain, IEnumerable<RandomVariable> sums)
+        public  IntegerSumProposition(string name, FiniteIntegerDomain sumsDomain, IEnumerable<RandomVariable> sums)
             : base(name)
         {
             if (null == sumsDomain)

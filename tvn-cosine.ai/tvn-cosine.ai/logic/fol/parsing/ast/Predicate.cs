@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,122 +13,134 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
      */
     public class Predicate : AtomicSentence
     {
+        private string predicateName;
+        private List<Term> terms = new List<Term>();
+        private string stringRep = null;
+        private int hashCode = 0;
 
-    private String predicateName;
-    private List<Term> terms = new ArrayList<Term>();
-    private String stringRep = null;
-    private int hashCode = 0;
-
-    public Predicate(String predicateName, List<Term> terms)
-    {
-        this.predicateName = predicateName;
-        this.terms.addAll(terms);
-    }
-
-    public String getPredicateName()
-    {
-        return predicateName;
-    }
-
-    public List<Term> getTerms()
-    {
-        return Collections.unmodifiableList(terms);
-    }
-
-    //
-    // START-AtomicSentence
-    public String getSymbolicName()
-    {
-        return getPredicateName();
-    }
-
-    public boolean isCompound()
-    {
-        return true;
-    }
-
-    public List<Term> getArgs()
-    {
-        return getTerms();
-    }
-
-    public Object accept(FOLVisitor v, Object arg)
-    {
-        return v.visitPredicate(this, arg);
-    }
-
-    public Predicate copy()
-    {
-        List<Term> copyTerms = new ArrayList<Term>();
-        for (Term t : terms)
+        public Predicate(string predicateName, IList<Term> terms)
         {
-            copyTerms.add(t.copy());
+            this.predicateName = predicateName;
+            this.terms.AddRange(terms);
         }
-        return new Predicate(predicateName, copyTerms);
-    }
 
-    // END-AtomicSentence
-    //
+        public string getPredicateName()
+        {
+            return predicateName;
+        }
 
-    @Override
-    public boolean equals(Object o)
-    {
+        public IList<Term> getTerms()
+        {
+            return new ReadOnlyCollection<Term>(terms);
+        }
 
-        if (this == o)
+        //
+        // START-AtomicSentence
+        public string getSymbolicName()
+        {
+            return getPredicateName();
+        }
+
+        public bool isCompound()
         {
             return true;
         }
-        if (!(o instanceof Predicate)) {
-            return false;
-        }
-        Predicate p = (Predicate)o;
-        return p.getPredicateName().equals(getPredicateName())
-                && p.getTerms().equals(getTerms());
-    }
 
-    @Override
-    public int hashCode()
-    {
-        if (0 == hashCode)
+        public IList<Term> getArgs()
         {
-            hashCode = 17;
-            hashCode = 37 * hashCode + predicateName.hashCode();
-            for (Term t : terms)
-            {
-                hashCode = 37 * hashCode + t.hashCode();
-            }
+            return getTerms();
         }
-        return hashCode;
-    }
 
-    @Override
-    public String toString()
-    {
-        if (null == stringRep)
+        IList<FOLNode> FOLNode.getArgs()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.append(predicateName);
-            sb.append("(");
-
-            boolean first = true;
-            for (Term t : terms)
-            {
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    sb.append(",");
-                }
-                sb.append(t.toString());
-            }
-
-            sb.append(")");
-            stringRep = sb.toString();
+            return getTerms() as IList<FOLNode>;
         }
 
-        return stringRep;
+        public object accept(FOLVisitor v, object arg)
+        {
+            return v.visitPredicate(this, arg);
+        }
+
+
+        Sentence Sentence.copy()
+        {
+            return copy() as Sentence;
+        }
+        FOLNode FOLNode.copy()
+        {
+            return copy() as FOLNode;
+        }
+
+        public Predicate copy()
+        {
+            List<Term> copyTerms = new List<Term>();
+            foreach (Term t in terms)
+            {
+                copyTerms.Add(t.copy());
+            }
+            return new Predicate(predicateName, copyTerms);
+        }
+
+        // END-AtomicSentence
+        //
+
+        public override bool Equals(object o)
+        {
+
+            if (this == o)
+            {
+                return true;
+            }
+            if (!(o is Predicate))
+            {
+                return false;
+            }
+            Predicate p = (Predicate)o;
+            return p.getPredicateName().Equals(getPredicateName())
+                    && p.getTerms().Equals(getTerms());
+        }
+
+        public override int GetHashCode()
+        {
+            if (0 == hashCode)
+            {
+                hashCode = 17;
+                hashCode = 37 * hashCode + predicateName.GetHashCode();
+                foreach (Term t in terms)
+                {
+                    hashCode = 37 * hashCode + t.GetHashCode();
+                }
+            }
+            return hashCode;
+        }
+
+        public override string ToString()
+        {
+            if (null == stringRep)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(predicateName);
+                sb.Append("(");
+
+                bool first = true;
+                foreach (Term t in terms)
+                {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        sb.Append(",");
+                    }
+                    sb.Append(t.ToString());
+                }
+
+                sb.Append(")");
+                stringRep = sb.ToString();
+            }
+
+            return stringRep;
+        }
     }
-}
 }

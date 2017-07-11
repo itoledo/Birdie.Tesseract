@@ -23,7 +23,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
         private Sentence[] simplerSentences;
         // Lazy initialize these values.
         private int cachedHashCode = -1;
-        private String cachedConcreteSyntax = null;
+        private string cachedConcreteSyntax = null;
 
         /**
          * Constructor.
@@ -39,8 +39,8 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
             assertLegalArguments(connective, sentences);
 
             this.connective = connective;
-            simplerSentences = new Sentence[sentences.length];
-            for (int i = 0; i < sentences.length; i++)
+            simplerSentences = new Sentence[sentences.Length];
+            for (int i = 0; i < sentences.Length; i++)
             {
                 simplerSentences[i] = sentences[i];
             }
@@ -61,41 +61,37 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
         {
         }
 
-        @Override
-    public Connective getConnective()
+        public override Connective getConnective()
         {
             return connective;
         }
 
-        @Override
-    public int getNumberSimplerSentences()
+        public override int getNumberSimplerSentences()
         {
-            return simplerSentences.length;
+            return simplerSentences.Length;
         }
 
-        @Override
-    public Sentence getSimplerSentence(int offset)
+        public override Sentence getSimplerSentence(int offset)
         {
             return simplerSentences[offset];
         }
 
-        @Override
-    public boolean equals(Object o)
+        public override bool Equals(object o)
         {
             if (this == o)
             {
                 return true;
             }
-            if ((o == null) || (this.getClass() != o.getClass()))
+            if ((o == null) || (this.GetType() != o.GetType()))
             {
                 return false;
             }
 
-            boolean result = false;
+            bool result = false;
             ComplexSentence other = (ComplexSentence)o;
-            if (other.hashCode() == this.hashCode())
+            if (other.GetHashCode() == this.GetHashCode())
             {
-                if (other.getConnective().equals(this.getConnective())
+                if (other.getConnective().Equals(this.getConnective())
                         && other.getNumberSimplerSentences() == this
                                 .getNumberSimplerSentences())
                 {
@@ -104,7 +100,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
                     result = true;
                     for (int i = 0; i < this.getNumberSimplerSentences(); i++)
                     {
-                        if (!other.getSimplerSentence(i).equals(
+                        if (!other.getSimplerSentence(i).Equals(
                                 this.getSimplerSentence(i)))
                         {
                             result = false;
@@ -117,23 +113,21 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
             return result;
         }
 
-        @Override
-    public int hashCode()
+        public override int GetHashCode()
         {
             if (cachedHashCode == -1)
             {
-                cachedHashCode = 17 * getConnective().hashCode();
-                for (Sentence s : simplerSentences)
+                cachedHashCode = 17 * getConnective().GetHashCode();
+                foreach (Sentence s in simplerSentences)
                 {
-                    cachedHashCode = (cachedHashCode * 37) + s.hashCode();
+                    cachedHashCode = (cachedHashCode * 37) + s.GetHashCode();
                 }
             }
 
             return cachedHashCode;
         }
 
-        @Override
-    public String toString()
+        public override string ToString()
         {
             if (cachedConcreteSyntax == null)
             {
@@ -157,28 +151,28 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
         //
         // PRIVATE
         //
-        private void assertLegalArguments(Connective connective, Sentence...sentences)
+        private void assertLegalArguments(Connective connective, params Sentence[] sentences)
         {
             if (connective == null)
             {
-                throw new IllegalArgumentException("Connective must be specified.");
+                throw new ArgumentException("Connective must be specified.");
             }
             if (sentences == null)
             {
-                throw new IllegalArgumentException("> 0 simpler sentences must be specified.");
+                throw new ArgumentException("> 0 simpler sentences must be specified.");
             }
             if (connective == Connective.NOT)
             {
-                if (sentences.length != 1)
+                if (sentences.Length != 1)
                 {
-                    throw new IllegalArgumentException("A not (~) complex sentence only take 1 simpler sentence not " + sentences.length);
+                    throw new ArgumentException("A not (~) complex sentence only take 1 simpler sentence not " + sentences.Length);
                 }
             }
             else
             {
-                if (sentences.length != 2)
+                if (sentences.Length != 2)
                 {
-                    throw new IllegalArgumentException("Connective is binary (" + connective + ") but only " + sentences.length + " simpler sentences provided");
+                    throw new ArgumentException("Connective is binary (" + connective + ") but only " + sentences.Length + " simpler sentences provided");
                 }
             }
         }

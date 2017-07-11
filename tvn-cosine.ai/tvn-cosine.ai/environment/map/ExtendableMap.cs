@@ -91,7 +91,7 @@ namespace tvn.cosine.ai.environment.map
         }
 
         /** Adds a one-way connection to the map. */
-        public void addUnidirectionalLink(String fromLocation, String toLocation, Double distance)
+        public void addUnidirectionalLink(string fromLocation, string toLocation, Double distance)
         {
             links.Set(fromLocation, toLocation, distance);
         }
@@ -100,7 +100,7 @@ namespace tvn.cosine.ai.environment.map
          * Adds a connection which can be traveled in both direction. Internally,
          * such a connection is represented as two one-way connections.
          */
-        public void addBidirectionalLink(String fromLocation, String toLocation, Double distance)
+        public void addBidirectionalLink(string fromLocation, string toLocation, Double distance)
         {
             links.Set(fromLocation, toLocation, distance);
             links.Set(toLocation, fromLocation, distance);
@@ -131,7 +131,7 @@ namespace tvn.cosine.ai.environment.map
          * Defines the position of a location as with respect to an orthogonal
          * coordinate system.
          */
-        public void setPosition(String loc, double x, double y)
+        public void setPosition(string loc, double x, double y)
         {
             locationPositions.Add(loc, new Point2D(x, y));
         }

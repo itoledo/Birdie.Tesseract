@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq; 
+using tvn.cosine.ai.logic.fol.inference.proof;
+using tvn.cosine.ai.logic.fol.kb;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference
 {
@@ -34,231 +36,219 @@ namespace tvn.cosine.ai.logic.fol.inference
      */
     public class FOLBCAsk : InferenceProcedure
     {
+        public FOLBCAsk()
+        { }
 
+        //
+        // START-InferenceProcedure
+        /**
+         * Returns a set of substitutions
+         * 
+         * @param KB
+         *            a knowledge base
+         * @param query
+         *            goals, a list of conjuncts forming a query
+         * 
+         * @return a set of substitutions
+         */
+        public InferenceResult ask(FOLKnowledgeBase KB, Sentence query)
+        {
+            // Assertions on the type queries this Inference procedure
+            // supports
+            if (!(query is AtomicSentence))
+            {
+                throw new ArgumentException("Only Atomic Queries are supported.");
+            }
 
-    public FOLBCAsk()
-    {
+            List<Literal> goals = new List<Literal>();
+            goals.Add(new Literal((AtomicSentence)query));
 
-    }
+            BCAskAnswerHandler ansHandler = new BCAskAnswerHandler();
 
-    //
-    // START-InferenceProcedure
-    /**
-	 * Returns a set of substitutions
-	 * 
-	 * @param KB
-	 *            a knowledge base
-	 * @param query
-	 *            goals, a list of conjuncts forming a query
-	 * 
-	 * @return a set of substitutions
-	 */
-    public InferenceResult ask(FOLKnowledgeBase KB, Sentence query)
-    {
-        // Assertions on the type queries this Inference procedure
-        // supports
-        if (!(query instanceof AtomicSentence)) {
-            throw new IllegalArgumentException(
-                    "Only Atomic Queries are supported.");
+            IList<IList<ProofStepBwChGoal>> allProofSteps = folbcask(KB, ansHandler, goals, new Dictionary<Variable, Term>());
+
+            ansHandler.setAllProofSteps(allProofSteps);
+
+            return ansHandler;
         }
 
-        List<Literal> goals = new ArrayList<Literal>();
-        goals.add(new Literal((AtomicSentence)query));
+        // END-InferenceProcedure
+        //
 
-        BCAskAnswerHandler ansHandler = new BCAskAnswerHandler();
+        //
+        // PRIVATE METHODS
+        //
 
-        List<List<ProofStepBwChGoal>> allProofSteps = folbcask(KB, ansHandler,
-                goals, new HashMap<Variable, Term>());
-
-        ansHandler.setAllProofSteps(allProofSteps);
-
-        return ansHandler;
-    }
-
-    // END-InferenceProcedure
-    //
-
-    //
-    // PRIVATE METHODS
-    //
-
-    /**
-	 * <code>
-	 * function FOL-BC-ASK(KB, goals, theta) returns a set of substitutions
-	 *   input: KB, a knowledge base
-	 *          goals, a list of conjuncts forming a query (theta already applied)
-	 *          theta, the current substitution, initially the empty substitution {}
-	 * </code>
-	 */
-    private List<List<ProofStepBwChGoal>> folbcask(FOLKnowledgeBase KB,
-            BCAskAnswerHandler ansHandler, List<Literal> goals,
-            Map<Variable, Term> theta)
-    {
-        List<List<ProofStepBwChGoal>> thisLevelProofSteps = new ArrayList<List<ProofStepBwChGoal>>();
-        // local variables: answers, a set of substitutions, initially empty
-
-        // if goals is empty then return {theta}
-        if (goals.isEmpty())
+        /**
+         * <code>
+         * function FOL-BC-ASK(KB, goals, theta) returns a set of substitutions
+         *   input: KB, a knowledge base
+         *          goals, a list of conjuncts forming a query (theta already applied)
+         *          theta, the current substitution, initially the empty substitution {}
+         * </code>
+         */
+        private IList<IList<ProofStepBwChGoal>> folbcask(FOLKnowledgeBase KB,
+                BCAskAnswerHandler ansHandler, IList<Literal> goals,
+                IDictionary<Variable, Term> theta)
         {
-            thisLevelProofSteps.add(new ArrayList<ProofStepBwChGoal>());
+            IList<IList<ProofStepBwChGoal>> thisLevelProofSteps = new List<IList<ProofStepBwChGoal>>();
+            // local variables: answers, a set of substitutions, initially empty
+
+            // if goals is empty then return {theta}
+            if (goals.Count == 0)
+            {
+                thisLevelProofSteps.Add(new List<ProofStepBwChGoal>());
+                return thisLevelProofSteps;
+            }
+
+            // qDelta <- SUBST(theta, FIRST(goals))
+            Literal qDelta = KB.subst(theta, goals[0]);
+
+            // for each sentence r in KB where
+            // STANDARDIZE-APART(r) = (p1 ^ ... ^ pn => q)
+            foreach (Clause r in KB.getAllDefiniteClauses())
+            {
+                /*r =*/ KB.standardizeApart(r);
+                // and thetaDelta <- UNIFY(q, qDelta) succeeds
+                IDictionary<Variable, Term> thetaDelta = KB.unify(r.getPositiveLiterals()[0].getAtomicSentence(), qDelta.getAtomicSentence());
+                if (null != thetaDelta)
+                {
+                    // new_goals <- [p1,...,pn|REST(goals)]
+                    IList<Literal> newGoals = new List<Literal>(r.getNegativeLiterals());
+                    foreach (var v in goals.Skip(1))
+                        newGoals.Add(v);
+                    // answers <- FOL-BC-ASK(KB, new_goals, COMPOSE(thetaDelta,
+                    // theta)) U answers
+                    IDictionary<Variable, Term> composed = compose(KB, thetaDelta, theta);
+                    IList<IList<ProofStepBwChGoal>> lowerLevelProofSteps = folbcask(KB, ansHandler, newGoals, composed);
+
+                    ansHandler.addProofStep(lowerLevelProofSteps, r, qDelta, composed);
+
+                    foreach (var v in lowerLevelProofSteps)
+                        thisLevelProofSteps.Add(v);
+                }
+            }
+
+            // return answers
             return thisLevelProofSteps;
         }
 
-        // qDelta <- SUBST(theta, FIRST(goals))
-        Literal qDelta = KB.subst(theta, goals.get(0));
-
-        // for each sentence r in KB where
-        // STANDARDIZE-APART(r) = (p1 ^ ... ^ pn => q)
-        for (Clause r : KB.getAllDefiniteClauses())
+        // Artificial Intelligence A Modern Approach (2nd Edition): page 288.
+        // COMPOSE(delta, tau) is the substitution whose effect is identical to
+        // the effect of applying each substitution in turn. That is,
+        // SUBST(COMPOSE(theta1, theta2), p) = SUBST(theta2, SUBST(theta1, p))
+        private IDictionary<Variable, Term> compose(FOLKnowledgeBase KB,
+                IDictionary<Variable, Term> theta1, IDictionary<Variable, Term> theta2)
         {
-            r = KB.standardizeApart(r);
-            // and thetaDelta <- UNIFY(q, qDelta) succeeds
-            Map<Variable, Term> thetaDelta = KB.unify(r.getPositiveLiterals()
-                    .get(0).getAtomicSentence(), qDelta.getAtomicSentence());
-            if (null != thetaDelta)
+            IDictionary<Variable, Term> composed = new Dictionary<Variable, Term>();
+
+            // So that it behaves like:
+            // SUBST(theta2, SUBST(theta1, p))
+            // There are two steps involved here.
+            // See: http://logic.stanford.edu/classes/cs157/2008/notes/chap09.pdf
+            // for a detailed discussion:
+
+            // 1. Apply theta2 to the range of theta1.
+            foreach (Variable v in theta1.Keys)
             {
-                // new_goals <- [p1,...,pn|REST(goals)]
-                List<Literal> newGoals = new ArrayList<Literal>(
-                        r.getNegativeLiterals());
-                newGoals.addAll(goals.subList(1, goals.size()));
-                // answers <- FOL-BC-ASK(KB, new_goals, COMPOSE(thetaDelta,
-                // theta)) U answers
-                Map<Variable, Term> composed = compose(KB, thetaDelta, theta);
-                List<List<ProofStepBwChGoal>> lowerLevelProofSteps = folbcask(
-                        KB, ansHandler, newGoals, composed);
-
-                ansHandler.addProofStep(lowerLevelProofSteps, r, qDelta,
-                        composed);
-
-                thisLevelProofSteps.addAll(lowerLevelProofSteps);
+                composed.Add(v, KB.subst(theta2, theta1[v]));
             }
-        }
 
-        // return answers
-        return thisLevelProofSteps;
-    }
-
-    // Artificial Intelligence A Modern Approach (2nd Edition): page 288.
-    // COMPOSE(delta, tau) is the substitution whose effect is identical to
-    // the effect of applying each substitution in turn. That is,
-    // SUBST(COMPOSE(theta1, theta2), p) = SUBST(theta2, SUBST(theta1, p))
-    private Map<Variable, Term> compose(FOLKnowledgeBase KB,
-            Map<Variable, Term> theta1, Map<Variable, Term> theta2)
-    {
-        Map<Variable, Term> composed = new HashMap<Variable, Term>();
-
-        // So that it behaves like:
-        // SUBST(theta2, SUBST(theta1, p))
-        // There are two steps involved here.
-        // See: http://logic.stanford.edu/classes/cs157/2008/notes/chap09.pdf
-        // for a detailed discussion:
-
-        // 1. Apply theta2 to the range of theta1.
-        for (Variable v : theta1.keySet())
-        {
-            composed.put(v, KB.subst(theta2, theta1.get(v)));
-        }
-
-        // 2. Adjoin to delta all pairs from tau with different
-        // domain variables.
-        for (Variable v : theta2.keySet())
-        {
-            if (!theta1.containsKey(v))
+            // 2. Adjoin to delta all pairs from tau with different
+            // domain variables.
+            foreach (Variable v in theta2.Keys)
             {
-                composed.put(v, theta2.get(v));
-            }
-        }
-
-        return cascadeSubstitutions(KB, composed);
-    }
-
-    // See:
-    // http://logic.stanford.edu/classes/cs157/2008/miscellaneous/faq.html#jump165
-    // for need for this.
-    private Map<Variable, Term> cascadeSubstitutions(FOLKnowledgeBase KB,
-            Map<Variable, Term> theta)
-    {
-        for (Variable v : theta.keySet())
-        {
-            Term t = theta.get(v);
-            theta.put(v, KB.subst(theta, t));
-        }
-
-        return theta;
-    }
-
-    class BCAskAnswerHandler implements InferenceResult
-    {
-
-
-        private List<Proof> proofs = new ArrayList<Proof>();
-
-    public BCAskAnswerHandler()
-    {
-
-    }
-
-    //
-    // START-InferenceResult
-    public boolean isPossiblyFalse()
-    {
-        return proofs.size() == 0;
-    }
-
-    public boolean isTrue()
-    {
-        return proofs.size() > 0;
-    }
-
-    public boolean isUnknownDueToTimeout()
-    {
-        return false;
-    }
-
-    public boolean isPartialResultDueToTimeout()
-    {
-        return false;
-    }
-
-    public List<Proof> getProofs()
-    {
-        return proofs;
-    }
-
-    // END-InferenceResult
-    //
-
-    public void setAllProofSteps(List<List<ProofStepBwChGoal>> allProofSteps)
-    {
-        for (List<ProofStepBwChGoal> steps : allProofSteps)
-        {
-            ProofStepBwChGoal lastStep = steps.get(steps.size() - 1);
-            Map<Variable, Term> theta = lastStep.getBindings();
-            proofs.add(new ProofFinal(lastStep, theta));
-        }
-    }
-
-    public void addProofStep(
-            List<List<ProofStepBwChGoal>> currentLevelProofSteps,
-            Clause toProve, Literal currentGoal,
-            Map<Variable, Term> bindings)
-    {
-
-        if (currentLevelProofSteps.size() > 0)
-        {
-            ProofStepBwChGoal predecessor = new ProofStepBwChGoal(toProve,
-                    currentGoal, bindings);
-            for (List<ProofStepBwChGoal> steps : currentLevelProofSteps)
-            {
-                if (steps.size() > 0)
+                if (!theta1.ContainsKey(v))
                 {
-                    steps.get(0).setPredecessor(predecessor);
+                    composed.Add(v, theta2[v]);
                 }
-                steps.add(0, predecessor);
+            }
+
+            return cascadeSubstitutions(KB, composed);
+        }
+
+        // See:
+        // http://logic.stanford.edu/classes/cs157/2008/miscellaneous/faq.html#jump165
+        // for need for this.
+        private IDictionary<Variable, Term> cascadeSubstitutions(FOLKnowledgeBase KB, IDictionary<Variable, Term> theta)
+        {
+            foreach (Variable v in theta.Keys)
+            {
+                Term t = theta[v];
+                theta.Add(v, KB.subst(theta, t));
+            }
+
+            return theta;
+        }
+
+        class BCAskAnswerHandler : InferenceResult
+        {
+            private List<Proof> proofs = new List<Proof>();
+
+            public BCAskAnswerHandler()
+            {
+
+            }
+
+            //
+            // START-InferenceResult
+            public bool isPossiblyFalse()
+            {
+                return proofs.Count == 0;
+            }
+
+            public bool isTrue()
+            {
+                return proofs.Count > 0;
+            }
+
+            public bool isUnknownDueToTimeout()
+            {
+                return false;
+            }
+
+            public bool isPartialResultDueToTimeout()
+            {
+                return false;
+            }
+
+            public IList<Proof> getProofs()
+            {
+                return proofs;
+            }
+
+            // END-InferenceResult
+            //
+
+            public void setAllProofSteps(IList<IList<ProofStepBwChGoal>> allProofSteps)
+            {
+                foreach (IList<ProofStepBwChGoal> steps in allProofSteps)
+                {
+                    ProofStepBwChGoal lastStep = steps[steps.Count - 1];
+                    IDictionary<Variable, Term> theta = lastStep.getBindings();
+                    proofs.Add(new ProofFinal(lastStep, theta));
+                }
+            }
+
+            public void addProofStep(IList<IList<ProofStepBwChGoal>> currentLevelProofSteps,
+                    Clause toProve, Literal currentGoal,
+                    IDictionary<Variable, Term> bindings)
+            {
+
+                if (currentLevelProofSteps.Count > 0)
+                {
+                    ProofStepBwChGoal predecessor = new ProofStepBwChGoal(toProve, currentGoal, bindings);
+                    foreach (IList<ProofStepBwChGoal> steps in currentLevelProofSteps)
+                    {
+                        if (steps.Count > 0)
+                        {
+                            steps[0].setPredecessor(predecessor);
+                        }
+                        steps.Insert(0, predecessor);
+                    }
+                }
             }
         }
     }
-}
-}
 
 }

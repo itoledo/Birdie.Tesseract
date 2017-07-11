@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference.trace
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.fol.kb.data;
+
+namespace tvn.cosine.ai.logic.fol.inference.trace
 {
     /**
      * @author Ciaran O'Reilly
@@ -6,16 +9,15 @@
      */
     public interface FOLTFMResolutionTracer
     {
-        void stepStartWhile(Set<Clause> clauses, int totalNoClauses,
-                int totalNoNewCandidateClauses);
+        void stepStartWhile(ISet<Clause> clauses, int totalNoClauses, int totalNoNewCandidateClauses);
 
         void stepOuterFor(Clause i);
 
         void stepInnerFor(Clause i, Clause j);
 
-        void stepResolved(Clause iFactor, Clause jFactor, Set<Clause> resolvents);
+        void stepResolved(Clause iFactor, Clause jFactor, ISet<Clause> resolvents);
 
-        void stepFinished(Set<Clause> clauses, InferenceResult result);
+        void stepFinished(ISet<Clause> clauses, InferenceResult result);
     }
 
 }

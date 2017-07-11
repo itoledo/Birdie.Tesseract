@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using tvn.cosine.ai.logic.fol.kb.data;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -12,38 +10,32 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      */
     public class ProofStepChainContrapositive : AbstractProofStep
     {
-
-        private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+        private IList<ProofStep> predecessors = new List<ProofStep>();
         private Chain contrapositive = null;
         private Chain contrapositiveOf = null;
 
-        public ProofStepChainContrapositive(Chain contrapositive,
-                Chain contrapositiveOf)
+        public ProofStepChainContrapositive(Chain contrapositive, Chain contrapositiveOf)
         {
             this.contrapositive = contrapositive;
             this.contrapositiveOf = contrapositiveOf;
-            this.predecessors.add(contrapositiveOf.getProofStep());
+            this.predecessors.Add(contrapositiveOf.getProofStep());
         }
 
         //
-        // START-ProofStep
-        @Override
-    public List<ProofStep> getPredecessorSteps()
+        // START-ProofStep 
+        public override IList<ProofStep> getPredecessorSteps()
         {
-            return Collections.unmodifiableList(predecessors);
+            return new ReadOnlyCollection<ProofStep>(predecessors);
         }
 
-        @Override
-    public String getProof()
+        public override string getProof()
         {
-            return contrapositive.toString();
+            return contrapositive.ToString();
         }
 
-        @Override
-    public String getJustification()
+        public override string getJustification()
         {
-            return "Contrapositive: "
-                    + contrapositiveOf.getProofStep().getStepNumber();
+            return "Contrapositive: " + contrapositiveOf.getProofStep().getStepNumber();
         }
         // END-ProofStep
         //

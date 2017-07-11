@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
 
 namespace tvn.cosine.ai.logic.propositional.kb.data
 {
@@ -20,26 +21,24 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
      */
     public class Clause
     {
-        public static final Clause EMPTY = new Clause();
+        public static readonly Clause EMPTY = new Clause();
         //
-        private Set<Literal> literals = new LinkedHashSet<Literal>();
+        private ISet<Literal> literals = new HashSet<Literal>();
         //
-        private Set<PropositionSymbol> cachedPositiveSymbols = new LinkedHashSet<PropositionSymbol>();
-        private Set<PropositionSymbol> cachedNegativeSymbols = new LinkedHashSet<PropositionSymbol>();
-        private Set<PropositionSymbol> cachedSymbols = new LinkedHashSet<PropositionSymbol>();
+        private ISet<PropositionSymbol> cachedPositiveSymbols = new HashSet<PropositionSymbol>();
+        private ISet<PropositionSymbol> cachedNegativeSymbols = new HashSet<PropositionSymbol>();
+        private ISet<PropositionSymbol> cachedSymbols = new HashSet<PropositionSymbol>();
         //
-        private Boolean cachedIsTautologyResult = null;
-        private String cachedStringRep = null;
+        private bool? cachedIsTautologyResult = null;
+        private string cachedStringRep = null;
         private int cachedHashCode = -1;
 
         /**
          * Default constructor - i.e. the empty clause, which is 'False'.
          */
         public Clause()
-        {
-            // i.e. the empty clause
-            this(new ArrayList<Literal>());
-        }
+            : this(new List<Literal>())  // i.e. the empty clause
+        { }
 
         /**
          * Construct a clause from the given literals. Note: literals the are always
@@ -48,10 +47,9 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * @param literals
          *            the literals to be added to the clause.
          */
-        public Clause(Literal...literals)
-        {
-            this(Arrays.asList(literals));
-        }
+        public Clause(params Literal[] literals)
+            : this(literals.ToList())
+        { }
 
         /**
          * Construct a clause from the given literals. Note: literals the are always
@@ -59,9 +57,9 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @param literals
          */
-        public Clause(Collection<Literal> literals)
+        public Clause(ICollection<Literal> literals)
         {
-            for (Literal l : literals)
+            foreach (Literal l in literals)
             {
                 if (l.isAlwaysFalse())
                 {
@@ -69,30 +67,30 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
                     // False | ~True
                     continue;
                 }
-                if (this.literals.add(l))
+                if (this.literals.Add(l))
                 {
                     // Only add to caches if not already added
                     if (l.isPositiveLiteral())
                     {
-                        this.cachedPositiveSymbols.add(l.getAtomicSentence());
+                        this.cachedPositiveSymbols.Add(l.getAtomicSentence());
                     }
                     else
                     {
-                        this.cachedNegativeSymbols.add(l.getAtomicSentence());
+                        this.cachedNegativeSymbols.Add(l.getAtomicSentence());
                     }
                 }
             }
 
-            cachedSymbols.addAll(cachedPositiveSymbols);
-            cachedSymbols.addAll(cachedNegativeSymbols);
+            foreach (var v in cachedPositiveSymbols)
+                cachedSymbols.Add(v);
+            foreach (var v in cachedNegativeSymbols)
+                cachedSymbols.Add(v);
 
             // Make immutable
-            this.literals = Collections.unmodifiableSet(this.literals);
-            cachedSymbols = Collections.unmodifiableSet(cachedSymbols);
-            cachedPositiveSymbols = Collections
-                    .unmodifiableSet(cachedPositiveSymbols);
-            cachedNegativeSymbols = Collections
-                    .unmodifiableSet(cachedNegativeSymbols);
+            this.literals = new HashSet<Literal>(this.literals);
+            cachedSymbols = new HashSet<PropositionSymbol>(cachedSymbols);
+            cachedPositiveSymbols = new HashSet<PropositionSymbol>(cachedPositiveSymbols);
+            cachedNegativeSymbols = new HashSet<PropositionSymbol>(cachedNegativeSymbols);
         }
 
         /**
@@ -102,7 +100,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @return true if an empty clause, false otherwise.
          */
-        public boolean isFalse()
+        public bool isFalse()
         {
             return isEmpty();
         }
@@ -111,9 +109,9 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @return true if the clause is empty (i.e. 'False'), false otherwise.
          */
-        public boolean isEmpty()
+        public bool isEmpty()
         {
-            return literals.size() == 0;
+            return literals.Count == 0;
         }
 
         /**
@@ -121,9 +119,9 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @return true if the clause is unit, false otherwise.
          */
-        public boolean isUnitClause()
+        public bool isUnitClause()
         {
-            return literals.size() == 1;
+            return literals.Count == 1;
         }
 
         /**
@@ -136,9 +134,9 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @return true if a definite clause, false otherwise.
          */
-        public boolean isDefiniteClause()
+        public bool isDefiniteClause()
         {
-            return cachedPositiveSymbols.size() == 1;
+            return cachedPositiveSymbols.Count == 1;
         }
 
         /**
@@ -148,9 +146,9 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @return true if an implication definite clause, false otherwise.
          */
-        public boolean isImplicationDefiniteClause()
+        public bool isImplicationDefiniteClause()
         {
-            return isDefiniteClause() && cachedNegativeSymbols.size() >= 1;
+            return isDefiniteClause() && cachedNegativeSymbols.Count >= 1;
         }
 
         /**
@@ -159,9 +157,9 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @return true if a Horn clause, false otherwise.
          */
-        public boolean isHornClause()
+        public bool isHornClause()
         {
-            return !isEmpty() && cachedPositiveSymbols.size() <= 1;
+            return !isEmpty() && cachedPositiveSymbols.Count <= 1;
         }
 
         /**
@@ -169,9 +167,9 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @return true if a Goal clause, false otherwise.
          */
-        public boolean isGoalClause()
+        public bool isGoalClause()
         {
-            return !isEmpty() && cachedPositiveSymbols.size() == 0;
+            return !isEmpty() && cachedPositiveSymbols.Count == 0;
         }
 
         /**
@@ -186,11 +184,11 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @return true if the clause represents a tautology, false otherwise.
          */
-        public boolean isTautology()
+        public bool isTautology()
         {
             if (cachedIsTautologyResult == null)
             {
-                for (Literal l : literals)
+                foreach (Literal l in literals)
                 {
                     if (l.isAlwaysTrue())
                     {
@@ -202,8 +200,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
                 // If we still don't know
                 if (cachedIsTautologyResult == null)
                 {
-                    if (SetOps.intersection(cachedPositiveSymbols, cachedNegativeSymbols)
-                            .size() > 0)
+                    if (cachedPositiveSymbols.Intersect(cachedNegativeSymbols).Count() > 0)
                     {
                         // We have:
                         // P | ~P
@@ -217,7 +214,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
                 }
             }
 
-            return cachedIsTautologyResult;
+            return cachedIsTautologyResult.Value;
         }
 
         /**
@@ -226,7 +223,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          */
         public int getNumberLiterals()
         {
-            return literals.size();
+            return literals.Count;
         }
 
         /**
@@ -235,7 +232,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          */
         public int getNumberPositiveLiterals()
         {
-            return cachedPositiveSymbols.size();
+            return cachedPositiveSymbols.Count;
         }
 
         /**
@@ -244,14 +241,14 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          */
         public int getNumberNegativeLiterals()
         {
-            return cachedNegativeSymbols.size();
+            return cachedNegativeSymbols.Count;
         }
 
         /**
          * 
          * @return the set of literals making up the clause.
          */
-        public Set<Literal> getLiterals()
+        public ISet<Literal> getLiterals()
         {
             return literals;
         }
@@ -260,7 +257,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @return the set of symbols from the clause's positive and negative literals.
          */
-        public Set<PropositionSymbol> getSymbols()
+        public ISet<PropositionSymbol> getSymbols()
         {
             return cachedSymbols;
         }
@@ -269,7 +266,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @return the set of symbols from the clause's positive literals.
          */
-        public Set<PropositionSymbol> getPositiveSymbols()
+        public ISet<PropositionSymbol> getPositiveSymbols()
         {
             return cachedPositiveSymbols;
         }
@@ -278,20 +275,19 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @return the set of symbols from the clause's negative literals.
          */
-        public Set<PropositionSymbol> getNegativeSymbols()
+        public ISet<PropositionSymbol> getNegativeSymbols()
         {
             return cachedNegativeSymbols;
         }
 
-        @Override
-        public String toString()
+        public override string ToString()
         {
             if (cachedStringRep == null)
             {
                 StringBuilder sb = new StringBuilder();
-                boolean first = true;
-                sb.append("{");
-                for (Literal l : literals)
+                bool first = true;
+                sb.Append("{");
+                foreach (Literal l in literals)
                 {
                     if (first)
                     {
@@ -299,18 +295,17 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
                     }
                     else
                     {
-                        sb.append(", ");
+                        sb.Append(", ");
                     }
-                    sb.append(l);
+                    sb.Append(l);
                 }
-                sb.append("}");
-                cachedStringRep = sb.toString();
+                sb.Append("}");
+                cachedStringRep = sb.ToString();
             }
             return cachedStringRep;
         }
 
-        @Override
-        public boolean equals(Object othObj)
+        public override bool Equals(object othObj)
         {
             if (null == othObj)
             {
@@ -320,20 +315,20 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
             {
                 return true;
             }
-            if (!(othObj instanceof Clause)) {
+            if (!(othObj is Clause))
+            {
                 return false;
             }
             Clause othClause = (Clause)othObj;
 
-            return othClause.literals.equals(this.literals);
+            return othClause.literals.Equals(this.literals);
         }
 
-        @Override
-        public int hashCode()
+        public override int GetHashCode()
         {
             if (cachedHashCode == -1)
             {
-                cachedHashCode = literals.hashCode();
+                cachedHashCode = literals.GetHashCode();
             }
             return cachedHashCode;
         }

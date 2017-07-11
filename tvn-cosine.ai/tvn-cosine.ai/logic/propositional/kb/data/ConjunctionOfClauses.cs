@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.logic.propositional.kb.data
 {
@@ -32,9 +29,10 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          */
         public ConjunctionOfClauses(ISet<Clause> conjunctionOfClauses)
         {
-            this.clauses.addAll(conjunctionOfClauses);
+            foreach (var v in conjunctionOfClauses)
+                this.clauses.Add(v);
             //TODO  Make immutable
-            this.clauses = Collections.unmodifiableSet(this.clauses);
+            // this.clauses = Collections.unmodifiableSet(this.clauses);
         }
 
         /**
@@ -43,14 +41,14 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          */
         public int getNumberOfClauses()
         {
-            return clauses.size();
+            return clauses.Count;
         }
 
         /**
          * 
          * @return the set of clauses contained by this conjunction.
          */
-        public Set<Clause> getClauses()
+        public ISet<Clause> getClauses()
         {
             return clauses;
         }
@@ -65,26 +63,27 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * @return a new conjunction of clauses containing the existing and
          *         additional clauses passed in.
          */
-        public ConjunctionOfClauses extend(Collection<Clause> additionalClauses)
+        public ConjunctionOfClauses extend(ICollection<Clause> additionalClauses)
         {
-            Set<Clause> extendedClauses = new LinkedHashSet<Clause>();
-            extendedClauses.addAll(clauses);
-            extendedClauses.addAll(additionalClauses);
+            ISet<Clause> extendedClauses = new HashSet<Clause>();
+            foreach (var v in clauses)
+                extendedClauses.Add(v);
+            foreach (var v in additionalClauses)
+                extendedClauses.Add(v);
 
             ConjunctionOfClauses result = new ConjunctionOfClauses(extendedClauses);
 
             return result;
         }
 
-        @Override
-        public String toString()
+        public override string ToString()
         {
             if (cachedStringRep == null)
             {
                 StringBuilder sb = new StringBuilder();
-                boolean first = true;
-                sb.append("{");
-                for (Clause c : clauses)
+                bool first = true;
+                sb.Append("{");
+                foreach (Clause c in clauses)
                 {
                     if (first)
                     {
@@ -92,29 +91,27 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
                     }
                     else
                     {
-                        sb.append(", ");
+                        sb.Append(", ");
                     }
-                    sb.append(c);
+                    sb.Append(c);
                 }
-                sb.append("}");
-                cachedStringRep = sb.toString();
+                sb.Append("}");
+                cachedStringRep = sb.ToString();
             }
 
             return cachedStringRep;
         }
-
-        @Override
-        public int hashCode()
+         
+        public override int GetHashCode()
         {
             if (cachedHashCode == -1)
             {
-                cachedHashCode = clauses.hashCode();
+                cachedHashCode = clauses.GetHashCode();
             }
             return cachedHashCode;
         }
-
-        @Override
-        public boolean equals(Object othObj)
+         
+        public override bool Equals(object othObj)
         {
             if (null == othObj)
             {
@@ -124,12 +121,13 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
             {
                 return true;
             }
-            if (!(othObj instanceof ConjunctionOfClauses)) {
+            if (!(othObj is ConjunctionOfClauses))
+            {
                 return false;
             }
             ConjunctionOfClauses othConjunctionOfClauses = (ConjunctionOfClauses)othObj;
 
-            return othConjunctionOfClauses.clauses.equals(this.clauses);
+            return othConjunctionOfClauses.clauses.Equals(this.clauses);
         }
     }
 

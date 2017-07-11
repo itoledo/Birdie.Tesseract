@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol
 {
@@ -55,12 +56,10 @@ namespace tvn.cosine.ai.logic.fol
         private static SubstVisitor _substVisitor = new SubstVisitor();
 
         public Unifier()
-        {
-
-        }
+        { }
 
         /**
-         * Returns a Map<Variable, Term> representing the substitution (i.e. a set
+         * Returns a IDictionary<Variable, Term> representing the substitution (i.e. a set
          * of variable/term pairs) or null which is used to indicate a failure to
          * unify.
          * 
@@ -69,17 +68,17 @@ namespace tvn.cosine.ai.logic.fol
          * @param y
          *            a variable, constant, list, or compound
          * 
-         * @return a Map<Variable, Term> representing the substitution (i.e. a set
+         * @return a IDictionary<Variable, Term> representing the substitution (i.e. a set
          *         of variable/term pairs) or null which is used to indicate a
          *         failure to unify.
          */
-        public Map<Variable, Term> unify(FOLNode x, FOLNode y)
+        public IDictionary<Variable, Term> unify(FOLNode x, FOLNode y)
         {
-            return unify(x, y, new LinkedHashMap<Variable, Term>());
+            return unify(x, y, new Dictionary<Variable, Term>());
         }
 
         /**
-         * Returns a Map<Variable, Term> representing the substitution (i.e. a set
+         * Returns a IDictionary<Variable, Term> representing the substitution (i.e. a set
          * of variable/term pairs) or null which is used to indicate a failure to
          * unify.
          * 
@@ -90,30 +89,33 @@ namespace tvn.cosine.ai.logic.fol
          * @param theta
          *            the substitution built up so far
          * 
-         * @return a Map<Variable, Term> representing the substitution (i.e. a set
+         * @return a IDictionary<Variable, Term> representing the substitution (i.e. a set
          *         of variable/term pairs) or null which is used to indicate a
          *         failure to unify.
          */
-        public Map<Variable, Term> unify(FOLNode x, FOLNode y,
-                Map<Variable, Term> theta)
+        public IDictionary<Variable, Term> unify(FOLNode x, FOLNode y, IDictionary<Variable, Term> theta)
         {
             // if theta = failure then return failure
             if (theta == null)
             {
                 return null;
             }
-            else if (x.equals(y))
+            else if (x.Equals(y))
             {
                 // else if x = y then return theta
                 return theta;
             }
-            else if (x instanceof Variable) {
+            else if (x is Variable)
+            {
                 // else if VARIABLE?(x) then return UNIVY-VAR(x, y, theta)
                 return unifyVar((Variable)x, y, theta);
-            } else if (y instanceof Variable) {
+            }
+            else if (y is Variable)
+            {
                 // else if VARIABLE?(y) then return UNIFY-VAR(y, x, theta)
                 return unifyVar((Variable)y, x, theta);
-            } else if (isCompound(x) && isCompound(y))
+            }
+            else if (isCompound(x) && isCompound(y))
             {
                 // else if COMPOUND?(x) and COMPOUND?(y) then
                 // return UNIFY(x.ARGS, y.ARGS, UNIFY(x.OP, y.OP, theta))
@@ -127,7 +129,7 @@ namespace tvn.cosine.ai.logic.fol
         }
 
         /**
-         * Returns a Map<Variable, Term> representing the substitution (i.e. a set
+         * Returns a IDictionary<Variable, Term> representing the substitution (i.e. a set
          * of variable/term pairs) or null which is used to indicate a failure to
          * unify.
          * 
@@ -138,35 +140,33 @@ namespace tvn.cosine.ai.logic.fol
          * @param theta
          *            the substitution built up so far
          * 
-         * @return a Map<Variable, Term> representing the substitution (i.e. a set
+         * @return a IDictionary<Variable, Term> representing the substitution (i.e. a set
          *         of variable/term pairs) or null which is used to indicate a
          *         failure to unify.
          */
         // else if LIST?(x) and LIST?(y) then
         // return UNIFY(x.REST, y.REST, UNIFY(x.FIRST, y.FIRST, theta))
-        public Map<Variable, Term> unify(List<? extends FOLNode> x,
-                List<? extends FOLNode> y, Map<Variable, Term> theta)
+        public IDictionary<Variable, Term> unify(IList<FOLNode> x, IList<FOLNode> y, IDictionary<Variable, Term> theta)
         {
             if (theta == null)
             {
                 return null;
             }
-            else if (x.size() != y.size())
+            else if (x.Count != y.Count)
             {
                 return null;
             }
-            else if (x.size() == 0 && y.size() == 0)
+            else if (x.Count == 0 && y.Count == 0)
             {
                 return theta;
             }
-            else if (x.size() == 1 && y.size() == 1)
+            else if (x.Count == 1 && y.Count == 1)
             {
-                return unify(x.get(0), y.get(0), theta);
+                return unify(x[0], y[0], theta);
             }
             else
             {
-                return unify(x.subList(1, x.size()), y.subList(1, y.size()),
-                        unify(x.get(0), y.get(0), theta));
+                return unify(x.Skip(1).ToList(), y.Skip(1).ToList(), unify(x[0], y[0], theta));
             }
         }
 
@@ -180,27 +180,27 @@ namespace tvn.cosine.ai.logic.fol
         // behavior, as is the case with Prolog.
         // Note: Implementation is based on unify-bug.pdf document by Peter Norvig:
         // http://norvig.com/unify-bug.pdf
-        protected boolean occurCheck(Map<Variable, Term> theta, Variable var,
-                FOLNode x)
+        protected bool occurCheck(IDictionary<Variable, Term> theta, Variable var, FOLNode x)
         {
             // ((equal var x) t)
-            if (var.equals(x))
+            if (var.Equals(x))
             {
                 return true;
                 // ((bound? x subst)
             }
-            else if (theta.containsKey(x))
+            else if (theta.ContainsKey(x as Variable))
             {
                 // (occurs-in? var (lookup x subst) subst))
-                return occurCheck(theta, var, theta.get(x));
+                return occurCheck(theta, var, theta[x as Variable]);
                 // ((consp x) (or (occurs-in? var (first x) subst) (occurs-in? var
                 // (rest x) subst)))
             }
-            else if (x instanceof Function) {
+            else if (x is Function)
+            {
                 // (or (occurs-in? var (first x) subst) (occurs-in? var (rest x)
                 // subst)))
                 Function fx = (Function)x;
-                for (Term fxt : fx.getArgs())
+                foreach (Term fxt in fx.getArgs())
                 {
                     if (occurCheck(theta, var, fxt))
                     {
@@ -223,81 +223,88 @@ namespace tvn.cosine.ai.logic.fol
          *       theta, the substitution built up so far
          * </code>
          */
-        private Map<Variable, Term> unifyVar(Variable var, FOLNode x,
-                Map<Variable, Term> theta)
+        private IDictionary<Variable, Term> unifyVar(Variable var, FOLNode x, IDictionary<Variable, Term> theta)
         {
 
-            if (!Term.class.isInstance(x)) {
-			return null;
-		} else if (theta.keySet().contains(var)) {
-			// if {var/val} E theta then return UNIFY(val, x, theta)
-			return unify(theta.get(var), x, theta);
-		} else if (theta.keySet().contains(x)) {
-			// else if {x/val} E theta then return UNIFY(var, val, theta)
-			return unify(var, theta.get(x), theta);
-		} else if (occurCheck(theta, var, x)) {
-			// else if OCCUR-CHECK?(var, x) then return failure
-			return null;
-		} else {
-            // else return add {var/x} to theta
-            cascadeSubstitution(theta, var, (Term) x);
-			return theta;
-		}
-	}
+            if (!(x is Term))
+            {
+                return null;
+            }
+            else if (theta.Keys.Contains(var))
+            {
+                // if {var/val} E theta then return UNIFY(val, x, theta)
+                return unify(theta[var], x, theta);
+            }
+            else if (theta.Keys.Contains(x))
+            {
+                // else if {x/val} E theta then return UNIFY(var, val, theta)
+                return unify(var, theta[x as Variable], theta);
+            }
+            else if (occurCheck(theta, var, x))
+            {
+                // else if OCCUR-CHECK?(var, x) then return failure
+                return null;
+            }
+            else
+            {
+                // else return add {var/x} to theta
+                cascadeSubstitution(theta, var, (Term)x);
+                return theta;
+            }
+        }
 
-	private Map<Variable, Term> unifyOps(String x, String y,
-            Map<Variable, Term> theta)
-{
-    if (theta == null)
-    {
-        return null;
-    }
-    else if (x.equals(y))
-    {
-        return theta;
-    }
-    else
-    {
-        return null;
-    }
-}
+        private IDictionary<Variable, Term> unifyOps(string x, string y, IDictionary<Variable, Term> theta)
+        {
+            if (theta == null)
+            {
+                return null;
+            }
+            else if (x.Equals(y))
+            {
+                return theta;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-private List<? extends FOLNode> args(FOLNode x)
-{
-    return x.getArgs();
-}
+        private IList<FOLNode> args(FOLNode x)
+        {
+            return x.getArgs();
+        }
 
-private String op(FOLNode x)
-{
-    return x.getSymbolicName();
-}
+        private string op(FOLNode x)
+        {
+            return x.getSymbolicName();
+        }
 
-private boolean isCompound(FOLNode x)
-{
-    return x.isCompound();
-}
+        private bool isCompound(FOLNode x)
+        {
+            return x.isCompound();
+        }
 
-// See:
-// http://logic.stanford.edu/classes/cs157/2008/miscellaneous/faq.html#jump165
-// for need for this.
-private Map<Variable, Term> cascadeSubstitution(Map<Variable, Term> theta,
-        Variable var, Term x)
-{
-    theta.put(var, x);
-    for (Variable v : theta.keySet())
-    {
-        theta.put(v, _substVisitor.subst(theta, theta.get(v)));
+        // See:
+        // http://logic.stanford.edu/classes/cs157/2008/miscellaneous/faq.html#jump165
+        // for need for this.
+        private IDictionary<Variable, Term> cascadeSubstitution(IDictionary<Variable, Term> theta, Variable var, Term x)
+        {
+            theta.Add(var, x);
+            foreach (Variable v in theta.Keys)
+            {
+                theta.Add(v, _substVisitor.subst(theta, theta[v]));
+            }
+            // Ensure Function Terms are correctly updates by passing over them
+            // again. Fix for testBadCascadeSubstitution_LCL418_1()
+            foreach (Variable v in theta.Keys)
+            {
+                Term t = theta[v];
+                if (t is Function)
+                {
+                    theta.Add(v, _substVisitor.subst(theta, t));
+                }
+            }
+            return theta;
+        }
     }
-    // Ensure Function Terms are correctly updates by passing over them
-    // again. Fix for testBadCascadeSubstitution_LCL418_1()
-    for (Variable v : theta.keySet())
-    {
-        Term t = theta.get(v);
-        if (t instanceof Function) {
-        theta.put(v, _substVisitor.subst(theta, t));
-    }
-}
-		return theta;
-	}
-}
 }

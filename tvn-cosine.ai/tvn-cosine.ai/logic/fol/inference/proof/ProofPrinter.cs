@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -12,43 +9,42 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      */
     public class ProofPrinter
     {
-
         /**
          * Utility method for outputting proofs in a formatted textual
          * representation.
          * 
          * @param proof
-         * @return a String representation of the Proof.
+         * @return a string representation of the Proof.
          */
-        public static String printProof(Proof proof)
+        public static string printProof(Proof proof)
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.append("Proof, Answer Bindings: ");
-            sb.append(proof.getAnswerBindings());
-            sb.append("\n");
+            sb.Append("Proof, Answer Bindings: ");
+            sb.Append(proof.getAnswerBindings());
+            sb.Append("\n");
 
-            List<ProofStep> steps = proof.getSteps();
+            IList<ProofStep> steps = proof.getSteps();
 
-            int maxStepWidth = "Step".length();
-            int maxProofWidth = "Proof".length();
-            int maxJustificationWidth = "Justification".length();
+            int maxStepWidth = "Step".Length;
+            int maxProofWidth = "Proof".Length;
+            int maxJustificationWidth = "Justification".Length;
 
             // Calculate the maximum width for each column in the proof
-            for (ProofStep step : steps)
+            foreach (ProofStep step in steps)
             {
-                String sn = "" + step.getStepNumber();
-                if (sn.length() > maxStepWidth)
+                string sn = "" + step.getStepNumber();
+                if (sn.Length > maxStepWidth)
                 {
-                    maxStepWidth = sn.length();
+                    maxStepWidth = sn.Length;
                 }
-                if (step.getProof().length() > maxProofWidth)
+                if (step.getProof().Length > maxProofWidth)
                 {
-                    maxProofWidth = step.getProof().length();
+                    maxProofWidth = step.getProof().Length;
                 }
-                if (step.getJustification().length() > maxJustificationWidth)
+                if (step.getJustification().Length > maxJustificationWidth)
                 {
-                    maxJustificationWidth = step.getJustification().length();
+                    maxJustificationWidth = step.getJustification().Length;
                 }
             }
 
@@ -57,29 +53,27 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             maxProofWidth += 1;
             maxJustificationWidth += 1;
 
-            String f = "|%-" + maxStepWidth + "s| %-" + maxProofWidth + "s|%-"
-                    + maxJustificationWidth + "s|\n";
+            string f = "|{0}-" + maxStepWidth + "s| {1}-" + maxProofWidth + "s|{2}-" + maxJustificationWidth + "s|\n";
 
             int barWidth = 5 + maxStepWidth + maxProofWidth + maxJustificationWidth;
             StringBuilder bar = new StringBuilder();
             for (int i = 0; i < barWidth; i++)
             {
-                bar.append("-");
+                bar.Append("-");
             }
-            bar.append("\n");
+            bar.Append("\n");
 
-            sb.append(bar);
-            sb.append(String.format(f, "Step", "Proof", "Justification"));
-            sb.append(bar);
-            for (ProofStep step : steps)
+            sb.Append(bar);
+            sb.Append(string.Format(f, "Step", "Proof", "Justification"));
+            sb.Append(bar);
+            foreach (ProofStep step in steps)
             {
-                sb.append(String.format(f, "" + step.getStepNumber(),
+                sb.Append(string.Format(f, "" + step.getStepNumber(),
                         step.getProof(), step.getJustification()));
             }
-            sb.append(bar);
+            sb.Append(bar);
 
-            return sb.toString();
+            return sb.ToString();
         }
-    }
-
+    } 
 }

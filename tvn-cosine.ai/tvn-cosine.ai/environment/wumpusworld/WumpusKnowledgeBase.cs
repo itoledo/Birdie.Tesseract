@@ -651,7 +651,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
 
         public PropositionSymbol newSymbol(string prefix, int timeStep, int x, int y)
         {
-            return newSymbol(newSymbol(prefix, timeStep).toString(), x, y);
+            return newSymbol(newSymbol(prefix, timeStep).ToString(), x, y);
         }
     }
 

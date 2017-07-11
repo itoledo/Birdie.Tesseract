@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * @return the agent's perception of the current location, which is either A
          *         or B.
          */
-        public String getAgentLocation()
+        public string getAgentLocation()
         {
             return (String)getAttribute(ATTRIBUTE_AGENT_LOCATION);
         }

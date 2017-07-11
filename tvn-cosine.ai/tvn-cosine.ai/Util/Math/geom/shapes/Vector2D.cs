@@ -162,7 +162,7 @@ namespace tvn.cosine.ai.util.math.geom.shapes
             return Util.compareDoubles(this.x, op2.x) && Util.compareDoubles(this.y, op2.y);
         }
 
-        public override bool Equals(Object o)
+        public override bool Equals(object o)
         {
             if (o is Vector2D)
                 return this.Equals((Vector2D)o);

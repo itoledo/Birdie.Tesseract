@@ -30,7 +30,7 @@ namespace tvn.cosine.ai.environment.connectfour
          * Modifies the super implementation by making safe winner values even more
          * attractive if depth is small.
          */
-        protected override double eval(ConnectFourState state, String player)
+        protected override double eval(ConnectFourState state, string player)
         {
             double value = base.eval(state, player);
             if (hasSafeWinner(value))

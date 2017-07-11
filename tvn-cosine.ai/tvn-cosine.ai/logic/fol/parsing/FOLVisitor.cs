@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.parsing
 {
@@ -12,20 +8,20 @@ namespace tvn.cosine.ai.logic.fol.parsing
      */
     public interface FOLVisitor
     {
-        public Object visitPredicate(Predicate p, Object arg);
-
-        public Object visitTermEquality(TermEquality equality, Object arg);
-
-        public Object visitVariable(Variable variable, Object arg);
-
-        public Object visitConstant(Constant constant, Object arg);
-
-        public Object visitFunction(Function function, Object arg);
-
-        public Object visitNotSentence(NotSentence sentence, Object arg);
-
-        public Object visitConnectedSentence(ConnectedSentence sentence, Object arg);
-
-        public Object visitQuantifiedSentence(QuantifiedSentence sentence, Object arg);
+        object visitPredicate(Predicate p, object arg);
+        
+        object visitTermEquality(TermEquality equality, object arg);
+        
+        object visitVariable(Variable variable, object arg);
+        
+        object visitConstant(Constant constant, object arg);
+        
+        object visitFunction(Function function, object arg);
+        
+        object visitNotSentence(NotSentence sentence, object arg);
+        
+        object visitConnectedSentence(ConnectedSentence sentence, object arg);
+        
+        object visitQuantifiedSentence(QuantifiedSentence sentence, object arg);
     }
 }

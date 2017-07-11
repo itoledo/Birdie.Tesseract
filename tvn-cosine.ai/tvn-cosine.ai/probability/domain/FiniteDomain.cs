@@ -35,7 +35,7 @@ namespace tvn.cosine.ai.probability.domain
          * 
          * @param offset
          *            an offset into the consistent ordering for this domain.
-         * @return the Object at the specified offset in this domains consistent
+         * @return the object at the specified offset in this domains consistent
          *         ordered set of values. null if the offset does not index the
          *         domain correctly.
          */

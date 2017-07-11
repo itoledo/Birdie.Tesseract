@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.agent;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
 
 namespace tvn.cosine.ai.logic.propositional.inference
 {
@@ -53,16 +53,16 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * @return a list of actions describing a solution for the given problem or
          *         null if no solution is found (i.e failure)
          */
-        public List<Action> satPlan(Describe init, Describe transition, Describe goal, int tMax)
+        public IList<Action> satPlan(Describe init, Describe transition, Describe goal, int tMax)
         {
 
             // for t = 0 to T<sub>max</sub> do
             for (int t = 0; t <= tMax; t++)
             {
                 // cnf &larr;  TRANSLATE-TO-SAT(init, transition, goal, t)
-                Set<Clause> cnf = translateToSAT(init, transition, goal, t);
+                ISet<Clause> cnf = translateToSAT(init, transition, goal, t);
                 // model &larr; SAT-SOLVER(cnf)
-                Model model = satSolver.solve(cnf);
+                kb.data.Model model = satSolver.solve(cnf);
                 // if model is not null then
                 if (model != null)
                 {
@@ -81,7 +81,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * Interface to be implemented to describe different aspects of a given problem.
          *
          */
-        interface Describe
+        public interface Describe
         {
             Sentence assertions(int t);
         }
@@ -90,9 +90,9 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * Interface to be implemented to extract a solution from a satisfiable model.
          *
          */
-        interface SolutionExtractor
+        public interface SolutionExtractor
         {
-            List<Action> extractSolution(Model model);
+            IList<Action> extractSolution(kb.data.Model model);
         }
 
         private SATSolver satSolver = null;
@@ -107,7 +107,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         //
         // PROTECTED
         //
-        protected Set<Clause> translateToSAT(Describe init, Describe transition, Describe goal, int t)
+        protected ISet<Clause> translateToSAT(Describe init, Describe transition, Describe goal, int t)
         {
             Sentence s = ComplexSentence.newConjunction(init.assertions(t), transition.assertions(t), goal.assertions(t));
             return ConvertToConjunctionOfClauses.convert(s).getClauses();

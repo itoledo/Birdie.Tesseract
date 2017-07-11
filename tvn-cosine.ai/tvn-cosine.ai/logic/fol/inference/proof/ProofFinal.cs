@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -12,20 +9,20 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
      */
     public class ProofFinal : Proof
     {
-
-        private Map<Variable, Term> answerBindings = new LinkedHashMap<Variable, Term>();
+        private IDictionary<Variable, Term> answerBindings = new Dictionary<Variable, Term>();
         private ProofStep finalStep = null;
-        private List<ProofStep> proofSteps = null;
+        private IList<ProofStep> proofSteps = null;
 
-        public ProofFinal(ProofStep finalStep, Map<Variable, Term> answerBindings)
+        public ProofFinal(ProofStep finalStep, IDictionary<Variable, Term> answerBindings)
         {
             this.finalStep = finalStep;
-            this.answerBindings.putAll(answerBindings);
+            foreach (var v in answerBindings)
+                this.answerBindings.Add(v);
         }
 
         //
         // START-Proof
-        public List<ProofStep> getSteps()
+        public IList<ProofStep> getSteps()
         {
             // Only calculate if the proof steps are actually requested.
             if (null == proofSteps)
@@ -35,24 +32,24 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             return proofSteps;
         }
 
-        public Map<Variable, Term> getAnswerBindings()
+        public IDictionary<Variable, Term> getAnswerBindings()
         {
             return answerBindings;
         }
 
-        public void replaceAnswerBindings(Map<Variable, Term> updatedBindings)
+        public void replaceAnswerBindings(IDictionary<Variable, Term> updatedBindings)
         {
-            answerBindings.clear();
-            answerBindings.putAll(updatedBindings);
+            answerBindings.Clear();
+            foreach (var v in updatedBindings)
+                answerBindings.Add(v);
         }
 
         // END-Proof
         //
 
-        @Override
-    public String toString()
+        public override string ToString()
         {
-            return answerBindings.toString();
+            return answerBindings.ToString();
         }
 
         //
@@ -60,55 +57,60 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
         //
         private void calcualteProofSteps()
         {
-            proofSteps = new ArrayList<ProofStep>();
+            proofSteps = new List<ProofStep>();
             addToProofSteps(finalStep);
 
             // Move all premises to the front of the
             // list of steps
             int to = 0;
-            for (int i = 0; i < proofSteps.size(); i++)
+            for (int i = 0; i < proofSteps.Count; i++)
             {
-                if (proofSteps.get(i) instanceof ProofStepPremise) {
-                ProofStep m = proofSteps.remove(i);
-                proofSteps.add(to, m);
-                to++;
+                if (proofSteps[i] is ProofStepPremise)
+                {
+                    ProofStep m = proofSteps[i];
+                    proofSteps.RemoveAt(i);
+                    proofSteps.Insert(to, m);
+                    to++;
+                }
+            }
+
+            // Move the Goals after the premises
+            for (int i = 0; i < proofSteps.Count; i++)
+            {
+                if (proofSteps[i] is ProofStepGoal)
+                {
+
+                    ProofStep m = proofSteps[i];
+                    proofSteps.RemoveAt(i);
+                    proofSteps.Insert(to, m);
+                    to++;
+                }
+            }
+
+            // Assign the step #s now that all the proof
+            // steps have been unwound
+            for (int i = 0; i < proofSteps.Count; i++)
+            {
+                proofSteps[i].setStepNumber(i + 1);
             }
         }
 
-		// Move the Goals after the premises
-		for (int i = 0; i<proofSteps.size(); i++) {
-			if (proofSteps.get(i) instanceof ProofStepGoal) {
-
-                ProofStep m = proofSteps.remove(i);
-        proofSteps.add(to, m);
-				to++;
-			}
-}
-
-		// Assign the step #s now that all the proof
-		// steps have been unwound
-		for (int i = 0; i<proofSteps.size(); i++) {
-			proofSteps.get(i).setStepNumber(i + 1);
-		}
-	}
-
-	private void addToProofSteps(ProofStep step)
-{
-    if (!proofSteps.contains(step))
-    {
-        proofSteps.add(0, step);
-    }
-    else
-    {
-        proofSteps.remove(step);
-        proofSteps.add(0, step);
-    }
-    List<ProofStep> predecessors = step.getPredecessorSteps();
-    for (int i = predecessors.size() - 1; i >= 0; i--)
-    {
-        addToProofSteps(predecessors.get(i));
-    }
-}
-}
-
+        private void addToProofSteps(ProofStep step)
+        {
+            if (!proofSteps.Contains(step))
+            {
+                proofSteps.Insert(0, step);
+            }
+            else
+            {
+                proofSteps.Remove(step);
+                proofSteps.Insert(0, step);
+            }
+            IList<ProofStep> predecessors = step.getPredecessorSteps();
+            for (int i = predecessors.Count - 1; i >= 0; i--)
+            {
+                addToProofSteps(predecessors[i]);
+            }
+        }
+    } 
 }

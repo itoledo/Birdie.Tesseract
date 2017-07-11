@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.common;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
@@ -12,13 +9,13 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
      */
     public interface FOLNode : ParseTreeNode
     {
-        String getSymbolicName();
+        string getSymbolicName();
 
-        boolean isCompound();
+        bool isCompound();
 
-        List<? extends FOLNode> getArgs();
+        IList<FOLNode> getArgs();
 
-        Object accept(FOLVisitor v, Object arg);
+        object accept(FOLVisitor v, object arg);
 
         FOLNode copy();
     }

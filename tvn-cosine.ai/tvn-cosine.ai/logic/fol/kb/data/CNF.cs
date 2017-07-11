@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,37 +17,36 @@ namespace tvn.cosine.ai.logic.fol.kb.data
     public class CNF
     {
 
-        private List<Clause> conjunctionOfClauses = new ArrayList<Clause>();
+        private List<Clause> conjunctionOfClauses = new List<Clause>();
 
-        public CNF(List<Clause> conjunctionOfClauses)
+        public CNF(IList<Clause> conjunctionOfClauses)
         {
-            this.conjunctionOfClauses.addAll(conjunctionOfClauses);
+            this.conjunctionOfClauses.AddRange(conjunctionOfClauses);
         }
 
         public int getNumberOfClauses()
         {
-            return conjunctionOfClauses.size();
+            return conjunctionOfClauses.Count;
         }
 
-        public List<Clause> getConjunctionOfClauses()
+        public IList<Clause> getConjunctionOfClauses()
         {
-            return Collections.unmodifiableList(conjunctionOfClauses);
+            return new ReadOnlyCollection<Clause>(conjunctionOfClauses);
         }
 
-        @Override
-        public String toString()
+        public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < conjunctionOfClauses.size(); i++)
+            for (int i = 0; i < conjunctionOfClauses.Count; i++)
             {
                 if (i > 0)
                 {
-                    sb.append(",");
+                    sb.Append(",");
                 }
-                sb.append(conjunctionOfClauses.get(i).toString());
+                sb.Append(conjunctionOfClauses[i].ToString());
             }
 
-            return sb.toString();
+            return sb.ToString();
         }
     }
 

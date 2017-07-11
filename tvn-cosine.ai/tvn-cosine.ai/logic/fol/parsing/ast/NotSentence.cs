@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,14 +15,14 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
     {
 
         private Sentence negated;
-        private List<Sentence> args = new ArrayList<Sentence>();
-        private String stringRep = null;
+        private List<Sentence> args = new List<Sentence>();
+        private string stringRep = null;
         private int hashCode = 0;
 
         public NotSentence(Sentence negated)
         {
             this.negated = negated;
-            args.add(negated);
+            args.Add(negated);
         }
 
         public Sentence getNegated()
@@ -31,27 +32,32 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
 
         //
         // START-Sentence
-        public String getSymbolicName()
+        public string getSymbolicName()
         {
             return Connectors.NOT;
         }
 
-        public boolean isCompound()
+        public bool isCompound()
         {
             return true;
         }
 
-        public List<Sentence> getArgs()
+        public IList<FOLNode> getArgs()
         {
-            return Collections.unmodifiableList(args);
+            return new ReadOnlyCollection<FOLNode>(args.Select(x => x as FOLNode).ToList());
         }
 
-        public Object accept(FOLVisitor v, Object arg)
+        public object accept(FOLVisitor v, object arg)
         {
             return v.visitNotSentence(this, arg);
         }
 
-        public NotSentence copy()
+        FOLNode FOLNode.copy()
+        {
+            return copy() as FOLNode;
+        }
+
+        public Sentence copy()
         {
             return new NotSentence(negated.copy());
         }
@@ -59,43 +65,40 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
         // END-Sentence
         //
 
-        @Override
-    public boolean equals(Object o)
+        public override bool Equals(object o)
         {
 
             if (this == o)
             {
                 return true;
             }
-            if ((o == null) || (this.getClass() != o.getClass()))
+            if ((o == null) || (this.GetType() != o.GetType()))
             {
                 return false;
             }
             NotSentence ns = (NotSentence)o;
-            return (ns.negated.equals(negated));
+            return (ns.negated.Equals(negated));
         }
 
-        @Override
-    public int hashCode()
+        public override int GetHashCode()
         {
             if (0 == hashCode)
             {
                 hashCode = 17;
-                hashCode = 37 * hashCode + negated.hashCode();
+                hashCode = 37 * hashCode + negated.GetHashCode();
             }
             return hashCode;
         }
 
-        @Override
-    public String toString()
+        public override string ToString()
         {
             if (null == stringRep)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.append("NOT(");
-                sb.append(negated.toString());
-                sb.append(")");
-                stringRep = sb.toString();
+                sb.Append("NOT(");
+                sb.Append(negated.ToString());
+                sb.Append(")");
+                stringRep = sb.ToString();
             }
             return stringRep;
         }

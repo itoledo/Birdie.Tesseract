@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol
 {
@@ -14,12 +11,12 @@ namespace tvn.cosine.ai.logic.fol
     {
         private Sentence originalSentence = null;
         private Sentence standardized = null;
-        private Map<Variable, Term> forwardSubstitution = null;
-        private Map<Variable, Term> reverseSubstitution = null;
+        private IDictionary<Variable, Term> forwardSubstitution = null;
+        private IDictionary<Variable, Term> reverseSubstitution = null;
 
         public StandardizeApartResult(Sentence originalSentence,
-                Sentence standardized, Map<Variable, Term> forwardSubstitution,
-                Map<Variable, Term> reverseSubstitution)
+                Sentence standardized, IDictionary<Variable, Term> forwardSubstitution,
+                IDictionary<Variable, Term> reverseSubstitution)
         {
             this.originalSentence = originalSentence;
             this.standardized = standardized;
@@ -37,12 +34,12 @@ namespace tvn.cosine.ai.logic.fol
             return standardized;
         }
 
-        public Map<Variable, Term> getForwardSubstitution()
+        public IDictionary<Variable, Term> getForwardSubstitution()
         {
             return forwardSubstitution;
         }
 
-        public Map<Variable, Term> getReverseSubstitution()
+        public IDictionary<Variable, Term> getReverseSubstitution()
         {
             return reverseSubstitution;
         }

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -13,42 +12,36 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
     public class ProofStepChainCancellation : AbstractProofStep
     {
 
-        private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+        private IList<ProofStep> predecessors = new List<ProofStep>();
         private Chain cancellation = null;
         private Chain cancellationOf = null;
-        private Map<Variable, Term> subst = null;
+        private IDictionary<Variable, Term> subst = null;
 
-        public ProofStepChainCancellation(Chain cancellation, Chain cancellationOf,
-                Map<Variable, Term> subst)
+        public ProofStepChainCancellation(Chain cancellation, Chain cancellationOf, IDictionary<Variable, Term> subst)
         {
             this.cancellation = cancellation;
             this.cancellationOf = cancellationOf;
             this.subst = subst;
-            this.predecessors.add(cancellationOf.getProofStep());
+            this.predecessors.Add(cancellationOf.getProofStep());
         }
 
         //
-        // START-ProofStep
-        @Override
-    public List<ProofStep> getPredecessorSteps()
+        // START-ProofStep 
+        public override IList<ProofStep> getPredecessorSteps()
         {
-            return Collections.unmodifiableList(predecessors);
+            return new ReadOnlyCollection<ProofStep>(predecessors);
         }
 
-        @Override
-    public String getProof()
+        public override string getProof()
         {
-            return cancellation.toString();
+            return cancellation.ToString();
         }
 
-        @Override
-    public String getJustification()
+        public override string getJustification()
         {
-            return "Cancellation: " + cancellationOf.getProofStep().getStepNumber()
-                    + " " + subst;
+            return "Cancellation: " + cancellationOf.getProofStep().getStepNumber() + " " + subst;
         }
         // END-ProofStep
         //
-    }
-
+    } 
 }

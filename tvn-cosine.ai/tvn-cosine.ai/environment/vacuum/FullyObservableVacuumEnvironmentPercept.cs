@@ -29,6 +29,6 @@ namespace tvn.cosine.ai.environment.vacuum
          * @param location
          * @return the location state
          */
-        VacuumEnvironment.LocationState getLocationState(String location);
+        VacuumEnvironment.LocationState getLocationState(string location);
     }
 }
