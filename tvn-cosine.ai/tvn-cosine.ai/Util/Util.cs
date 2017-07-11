@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.util
          *        the sets initial values.
          * @return a Set of the provided values.
          */
-        public static ISet<V> createSet<V>(IEnumerable<V> values)
+        public static ISet<V> createSet<V>(params V[] values)
         {
             return new HashSet<V>(values);
         }
