@@ -148,6 +148,13 @@
     <Compile Include="learning\inductive\DecisionTree.cs" />
     <Compile Include="learning\inductive\DLTest.cs" />
     <Compile Include="learning\inductive\DLTestFactory.cs" />
+    <Compile Include="logic\common\Lexer.cs" />
+    <Compile Include="logic\common\LexerException.cs" />
+    <Compile Include="logic\common\LogicTokenTypes.cs" />
+    <Compile Include="logic\common\Parser.cs" />
+    <Compile Include="logic\common\ParserException.cs" />
+    <Compile Include="logic\common\ParseTreeNode.cs" />
+    <Compile Include="logic\common\Token.cs" />
     <Compile Include="probability\bayes\approx\BayesInferenceApproxAdapter.cs" />
     <Compile Include="probability\bayes\approx\BayesSampleInference.cs" />
     <Compile Include="probability\bayes\approx\GibbsAsk.cs" />
@@ -361,7 +368,6 @@
     <Compile Include="util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="logic\common\" />
     <Folder Include="logic\fol\domain\" />
     <Folder Include="logic\fol\inference\otter\defaultimpl\" />
     <Folder Include="logic\fol\inference\proof\" />
