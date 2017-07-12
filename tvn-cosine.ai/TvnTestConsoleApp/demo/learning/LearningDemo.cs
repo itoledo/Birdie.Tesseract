@@ -24,46 +24,7 @@ namespace TvnTestConsoleApp.demo.learning
 
 
 
-        //    public static void ensembleLearningDemo()
-        //    {
-        //        System.out.println(Util.ntimes("*", 100));
-        //        System.out
-        //.println("\n Ensemble Decision Demo - Weak Learners co operating to give Superior decisions ");
-        //        System.out.println(Util.ntimes("*", 100));
-        //        try
-        //        {
-        //            DataSet ds = DataSetFactory.getRestaurantDataSet();
-        //            List<DecisionTree> stumps = DecisionTree.getStumpsFor(ds, "Yes",
-        //                    "No");
-        //            List<Learner> learners = new ArrayList<Learner>();
-
-        //            System.out
-        //	.println("\nStump Learners vote to decide in this algorithm");
-        //            for (Object stump : stumps)
-        //            {
-        //                DecisionTree sl = (DecisionTree)stump;
-        //                StumpLearner stumpLearner = new StumpLearner(sl, "No");
-        //                learners.add(stumpLearner);
-        //            }
-        //            AdaBoostLearner learner = new AdaBoostLearner(learners, ds);
-        //            learner.train(ds);
-        //            int[] result = learner.test(ds);
-        //            System.out
-        //	.println("\nThis Ensemble Learner  classifies the data set with "
-        //                        + result[0]
-        //                        + " successes"
-        //                        + " and "
-        //                        + result[1]
-        //                        + " failures");
-        //            System.out.println("\n");
-
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            e.printStackTrace();
-
-        //        }
-        //    }
+      
 
         //    public static void perceptronDemo()
         //    {

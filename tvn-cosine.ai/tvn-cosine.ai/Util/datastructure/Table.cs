@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.util.datastructure
         /// <param name="v">the value</param>
         public void Set(RowHeaderType r, ColumnHeaderType c, ValueType v)
         {
-            rows[r].Add(c, v);
+            rows[r][c] = v;
         }
 
         /// <summary>
