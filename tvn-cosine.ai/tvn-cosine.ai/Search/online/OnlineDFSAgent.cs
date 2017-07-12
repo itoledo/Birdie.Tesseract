@@ -124,7 +124,7 @@ namespace tvn.cosine.ai.search.online
         {
             S sPrimed = ptsFn(psPrimed);
             // if GOAL-TEST(s') then return stop
-            if (problem.testGoal(sPrimed))
+            if (problem.TestGoal(sPrimed))
             {
                 a = default(A);
             }
@@ -134,7 +134,7 @@ namespace tvn.cosine.ai.search.online
                 // ACTIONS(s')
                 if (!untried.ContainsKey(sPrimed))
                 {
-                    untried.Add(sPrimed, problem.getActions(sPrimed));
+                    untried.Add(sPrimed, problem.GetActions(sPrimed));
                 }
 
                 // if s is not null then do

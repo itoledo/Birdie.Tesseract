@@ -89,10 +89,10 @@ namespace tvn.cosine.ai.search.framework.qsearch
             IProblem<S, A> orgP = ((IBidirectionalProblem<S, A>)problem).getOriginalProblem();
             IProblem<S, A> revP = ((IBidirectionalProblem<S, A>)problem).getReverseProblem();
             ExtendedNode initStateNode;
-            initStateNode = new ExtendedNode(nodeExpander.createRootNode(orgP.getInitialState()), ORG_P_IDX);
-            goalStateNode = new ExtendedNode(nodeExpander.createRootNode(revP.getInitialState()), REV_P_IDX);
+            initStateNode = new ExtendedNode(nodeExpander.createRootNode(orgP.GetInitialState()), ORG_P_IDX);
+            goalStateNode = new ExtendedNode(nodeExpander.createRootNode(revP.GetInitialState()), REV_P_IDX);
 
-            if (orgP.getInitialState().Equals(revP.getInitialState()))
+            if (orgP.GetInitialState().Equals(revP.GetInitialState()))
                 return getSolution(orgP, initStateNode, goalStateNode);
 
             // initialize the frontier using the initial state of the problem
@@ -214,7 +214,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
                 if (action != null)
                 {
                     S nextState = revNode.getParent().getState();
-                    double stepCosts = orgP.getStepCosts(revNode.getState(), action, nextState);
+                    double stepCosts = orgP.GetStepCosts(revNode.getState(), action, nextState);
                     orgNode = nodeExpander.createNode(nextState, orgNode, action, stepCosts);
                     revNode = revNode.getParent();
                 }
@@ -237,9 +237,9 @@ namespace tvn.cosine.ai.search.framework.qsearch
             S currState = node.getState();
             S nextState = node.getParent().getState();
 
-            foreach (A action in orgP.getActions(currState))
+            foreach (A action in orgP.GetActions(currState))
             {
-                S aResult = orgP.getResult(currState, action);
+                S aResult = orgP.GetResult(currState, action);
                 if (nextState.Equals(aResult))
                     return action;
             }

@@ -155,7 +155,7 @@ namespace tvn.cosine.ai.search.online
         {
             S sPrimed = ptsFn(psPrimed);
             // if GOAL-TEST(s') then return stop
-            if (problem.testGoal(sPrimed))
+            if (problem.TestGoal(sPrimed))
             {
                 a = default(A);
             }
@@ -176,7 +176,7 @@ namespace tvn.cosine.ai.search.online
                     // H[s] <- min LRTA*-COST(s, b, result[s, b], H)
                     // b (element of) ACTIONS(s)
                     min = double.MaxValue;
-                    foreach (A b in problem.getActions(s))
+                    foreach (A b in problem.GetActions(s))
                     {
                         double cost = lrtaCost(s, b, result[s, b]);
                         if (cost < min)
@@ -191,7 +191,7 @@ namespace tvn.cosine.ai.search.online
                 min = double.MaxValue;
                 // Just in case no actions
                 a = default(A);
-                foreach (A b in problem.getActions(sPrimed))
+                foreach (A b in problem.GetActions(sPrimed))
                 {
                     double cost = lrtaCost(sPrimed, b, result[sPrimed, b]);
                     if (cost < min)
@@ -236,7 +236,7 @@ namespace tvn.cosine.ai.search.online
                 return getHeuristicFunction()(s);
             }
             // else return c(s, a, s') + H[s']
-            return problem.getStepCosts(s, action, sDelta) + H[sDelta];
+            return problem.GetStepCosts(s, action, sDelta) + H[sDelta];
         }
     } 
 }

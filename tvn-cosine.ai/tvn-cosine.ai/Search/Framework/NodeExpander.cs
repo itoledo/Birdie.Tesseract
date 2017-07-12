@@ -68,11 +68,11 @@ namespace tvn.cosine.ai.search.framework
         {
             List<Node<S, A>> successors = new List<Node<S, A>>();
 
-            foreach (A action in problem.getActions(node.getState()))
+            foreach (A action in problem.GetActions(node.getState()))
             {
-                S successorState = problem.getResult(node.getState(), action);
+                S successorState = problem.GetResult(node.getState(), action);
 
-                double stepCost = problem.getStepCosts(node.getState(), action, successorState);
+                double stepCost = problem.GetStepCosts(node.getState(), action, successorState);
                 successors.Add(createNode(successorState, node, action, stepCost));
             }
             notifyNodeListeners(node);

@@ -91,7 +91,7 @@ namespace tvn.cosine.ai.search.informed
             clearMetrics();
 
             // RBFS(problem, MAKE-NODE(INITIAL-STATE[problem]), infinity)
-            Node<S, A> n = nodeExpander.createRootNode(p.getInitialState());
+            Node<S, A> n = nodeExpander.createRootNode(p.GetInitialState());
             SearchResult sr = rbfs(p, n, h(n), INFINITY, 0);
             if (sr.hasSolution())
             {
@@ -141,7 +141,7 @@ namespace tvn.cosine.ai.search.informed
             updateMetrics(recursiveDepth);
 
             // if problem.GOAL-TEST(node.STATE) then return SOLUTION(node)
-            if (p.testSolution(node))
+            if (p.TestSolution(node))
                 return getResult(null, node, fLimit);
 
             // successors <- []

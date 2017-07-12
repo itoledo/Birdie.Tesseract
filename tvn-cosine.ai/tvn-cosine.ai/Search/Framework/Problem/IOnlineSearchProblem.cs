@@ -1,48 +1,50 @@
 ﻿using System.Collections.Generic;
 
 namespace tvn.cosine.ai.search.framework.problem
-{
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 147. 
-     *  
-     * An online search problem must be solved by an agent executing actions, rather
-     * than by pure computation. We assume a deterministic and fully observable
-     * environment (Chapter 17 relaxes these assumptions), but we stipulate that the
-     * agent knows only the following:  
-     * <ul>
-     * <li>ACTIONS(s), which returns a list of actions allowed in state s;</li>
-     * <li>The step-cost function c(s, a, s') - note that this cannot be used until
-     * the agent knows that s' is the outcome; and</li>
-     * <li>GOAL-TEST(s).</li>
-     * </ul>
-     *
-     * @param <S> The type used to represent states
-     * @param <A> The type of the actions to be used to navigate through the state space
-     *
-     * @author Ruediger Lunde
-     */
+{ 
+    /// <summary>
+    /// Artificial Intelligence A Modern Approach (3rd Edition): page 147. <para />
+    ///  
+    /// An online search problem must be solved by an agent executing actions, rather
+    /// than by pure computation. We assume a deterministic and fully observable
+    /// environment (Chapter 17 relaxes these assumptions), but we stipulate that the
+    /// agent knows only the following:  <para />
+    ///  
+    /// * ACTIONS(s), which returns a list of actions allowed in state s;<para />
+    /// * The step-cost function c(s, a, s') - note that this cannot be used until the agent knows that s' is the outcome; and <para />
+    /// * GOAL-TEST(s).<para />
+    /// </summary>
+    /// <typeparam name="S">The type used to represent states</typeparam>
+    /// <typeparam name="A">The type of the actions to be used to navigate through the state space</typeparam>
     public interface IOnlineSearchProblem<S, A>
     {
+        /// <summary>
+        /// Returns the initial state of the agent.
+        /// </summary>
+        /// <returns>the initial state of the agent.</returns>
+        S GetInitialState();
 
-        /**
-         * Returns the initial state of the agent.
-         */
-        S getInitialState();
+        /// <summary>
+        /// Returns the description of the possible actions available to the agent.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns>the description of the possible actions available to the agent.</returns>
+        IList<A> GetActions(S state);
 
-        /**
-         * Returns the description of the possible actions available to the agent.
-         */
-        IList<A> getActions(S state);
+        /// <summary>
+        /// Determines whether a given state is a goal state.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns>whether a given state is a goal state.</returns>
+        bool TestGoal(S state);
 
-        /**
-         * Determines whether a given state is a goal state.
-         */
-        bool testGoal(S state);
-
-        /**
-         * Returns the <b>step cost</b> of taking action <code>action</code> in state <code>state</code> to reach state
-         * <code>stateDelta</code> denoted by c(s, a, s').
-         */
-        double getStepCosts(S state, A action, S stateDelta);
+        /// <summary>
+        /// Returns the step cost of taking action action in state state to reach state stateDelta denoted by c(s, a, s').
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="action"></param>
+        /// <param name="stateDelta"></param>
+        /// <returns>the step cost of taking action action in state state to reach state stateDelta denoted by c(s, a, s').</returns>
+        double GetStepCosts(S state, A action, S stateDelta);
     }
 }

@@ -104,7 +104,7 @@ namespace tvn.cosine.ai.search.local
             clearMetrics();
             outcome = SearchOutcome.FAILURE;
             // current <- MAKE-NODE(problem.INITIAL-STATE)
-            Node<S, A> current = nodeExpander.createRootNode(p.getInitialState());
+            Node<S, A> current = nodeExpander.createRootNode(p.GetInitialState());
             Node<S, A> neighbor;
             // loop do
             while (!cancellationToken.IsCancellationRequested)
@@ -118,7 +118,7 @@ namespace tvn.cosine.ai.search.local
                 // if neighbor.VALUE <= current.VALUE then return current.STATE
                 if (neighbor == null || getValue(neighbor) <= getValue(current))
                 {
-                    if (p.testSolution(current))
+                    if (p.TestSolution(current))
                         outcome = SearchOutcome.SOLUTION_FOUND;
                     return current;
                 }

@@ -84,9 +84,9 @@ namespace tvn.cosine.ai.search.framework.qsearch
             this.frontier = frontier;
             clearMetrics();
             // initialize the frontier using the initial state of the problem
-            Node<S, A> root = nodeExpander.createRootNode(problem.getInitialState());
+            Node<S, A> root = nodeExpander.createRootNode(problem.GetInitialState());
             addToFrontier(root);
-            if (earlyGoalTest && problem.testSolution(root))
+            if (earlyGoalTest && problem.TestSolution(root))
                 return getSolution(root);
 
             while (!isFrontierEmpty() && !cancellationToken.IsCancellationRequested)
@@ -95,7 +95,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
                 Node<S, A> nodeToExpand = removeFromFrontier();
                 // only need to check the nodeToExpand if have not already
                 // checked before adding to the frontier
-                if (!earlyGoalTest && problem.testSolution(nodeToExpand))
+                if (!earlyGoalTest && problem.TestSolution(nodeToExpand))
                     // if the node contains a goal state then return the
                     // corresponding solution
                     return getSolution(nodeToExpand);
@@ -105,7 +105,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
                 foreach (Node<S, A> successor in nodeExpander.expand(nodeToExpand, problem))
                 {
                     addToFrontier(successor);
-                    if (earlyGoalTest && problem.testSolution(successor))
+                    if (earlyGoalTest && problem.TestSolution(successor))
                         return getSolution(successor);
                 }
             }

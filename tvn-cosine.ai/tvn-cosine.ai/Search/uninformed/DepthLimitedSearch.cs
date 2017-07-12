@@ -84,7 +84,7 @@ namespace tvn.cosine.ai.search.uninformed
             clearMetrics();
             // return RECURSIVE-DLS(MAKE-NODE(INITIAL-STATE[problem]), problem,
             // limit)
-            Node<S, A> node = recursiveDLS(nodeExpander.createRootNode(p.getInitialState()), p, limit);
+            Node<S, A> node = recursiveDLS(nodeExpander.createRootNode(p.GetInitialState()), p, limit);
             return node != null ? node : null;
         }
 
@@ -101,7 +101,7 @@ namespace tvn.cosine.ai.search.uninformed
         private Node<S, A> recursiveDLS(Node<S, A> node, IProblem<S, A> problem, int limit, CancellationToken cancellationToken)
         {
             // if problem.GOAL-TEST(node.STATE) then return SOLUTION(node)
-            if (problem.testSolution(node))
+            if (problem.TestSolution(node))
             {
                 metrics[METRIC_PATH_COST] = node.getPathCost();
                 return node;

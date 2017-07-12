@@ -113,7 +113,7 @@ namespace tvn.cosine.ai.search.local
             outcome = SearchOutcome.FAILURE;
             lastState = default(S);
             // current <- MAKE-NODE(problem.INITIAL-STATE)
-            Node<S, A> current = nodeExpander.createRootNode(p.getInitialState());
+            Node<S, A> current = nodeExpander.createRootNode(p.GetInitialState());
             // for t = 1 to INFINITY do
             int timeStep = 0;
             while (!cancellationToken.IsCancellationRequested)
@@ -125,7 +125,7 @@ namespace tvn.cosine.ai.search.local
                 // if temperature = 0 then return current
                 if (temperature == 0.0)
                 {
-                    if (p.testSolution(current))
+                    if (p.TestSolution(current))
                         outcome = SearchOutcome.SOLUTION_FOUND;
                     return current;
                 }
