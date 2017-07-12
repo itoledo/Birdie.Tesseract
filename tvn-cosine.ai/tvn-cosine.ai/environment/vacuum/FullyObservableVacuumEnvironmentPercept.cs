@@ -1,34 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using tvn.cosine.ai.agent;
+﻿using tvn.cosine.ai.agent;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-    /**
-     * Implements a fully observable environment percept, in accordance with page
-     * 134, AIMAv3.
-     *
-     * @author Andrew Brown
-     */
+    /// <summary>
+    ///  Implements a fully observable environment percept, in accordance with page 134, AIMAv3.
+    /// </summary>
     public interface FullyObservableVacuumEnvironmentPercept : IPercept
     {
-        /**
-         * Returns the agent location
-         *
-         * @param a
-         * @return the agents location
-         */
+        /// <summary>
+        /// Returns the agent location
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
         string getAgentLocation(IAgent a);
 
-        /**
-         * Returns the location state
-         *
-         * @param location
-         * @return the location state
-         */
+        /// <summary>
+        /// Returns the location state
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
         VacuumEnvironment.LocationState getLocationState(string location);
     }
+     
 }

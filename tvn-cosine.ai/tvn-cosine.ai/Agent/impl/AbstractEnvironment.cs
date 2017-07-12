@@ -131,9 +131,9 @@ namespace tvn.cosine.ai.agent.impl
 
         public virtual double GetPerformanceMeasure(IAgent agent)
         {
-            if (performanceMeasures.ContainsKey(agent))
+            if (!performanceMeasures.ContainsKey(agent))
             {
-                performanceMeasures.Add(agent, 0);
+                performanceMeasures[agent] = 0;
             }
 
             return performanceMeasures[agent];
@@ -159,7 +159,7 @@ namespace tvn.cosine.ai.agent.impl
 
         protected virtual void updatePerformanceMeasure(IAgent forAgent, double addTo)
         {
-            performanceMeasures.Add(forAgent, GetPerformanceMeasure(forAgent) + addTo);
+            performanceMeasures[forAgent] = GetPerformanceMeasure(forAgent) + addTo;
         }
 
         protected virtual void notifyEnvironmentViews(IAgent agent)

@@ -3,54 +3,47 @@ using System.Text;
 
 namespace tvn.cosine.ai.search.nondeterministic
 {
-    /**
-     * Represents a solution plan for an AND-OR search; according to page 135
-     * AIMA3e, the plan must be "a subtree that (1) has a goal node at every leaf,
-     * (2) specifies one object at each of its OR nodes, and (3) includes every
-     * outcome branch at each of its AND nodes." As demonstrated on page 136, this
-     * subtree is implemented as a linked list where every OR node is an Object--
-     * satisfying (2)--and every AND node is an if-state-then-plan-else
-     * chain--satisfying (3).
-     * 
-     * @author Andrew Brown
-     */
+    /// <summary>
+    /// Represents a solution plan for an AND-OR search; according to page 135
+    /// AIMA3e, the plan must be "a subtree that (1) has a goal node at every leaf,
+    /// (2) specifies one object at each of its OR nodes, and (3) includes every
+    /// outcome branch at each of its AND nodes." As demonstrated on page 136, this
+    /// subtree is implemented as a linked list where every OR node is an Object--
+    /// satisfying (2)--and every AND node is an if-state-then-plan-else
+    /// chain--satisfying (3).
+    /// </summary> 
     public class Plan : List<object>
     {
-        /**
-         * Empty constructor
-         */
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public Plan()
+        { }
+
+        /// <summary>
+        /// Construct a plan based on a sequence of steps (IfStateThenPlan or a Plan).
+        /// </summary>
+        /// <param name="steps"></param>
+        public Plan(params object[] steps)
         {
+            AddRange(steps);
         }
 
-        /**
-         * Construct a plan based on a sequence of steps (IfStateThenPlan or a
-         * Plan).
-         */
-        public Plan(IEnumerable<object> steps)
-        {
-            foreach (object step in steps)
-                this.Add(step);
-        }
-
-        /**
-         * Prepend an action to the plan and return itself.
-         * 
-         * @param action
-         *            the action to be prepended to this plan.
-         * @return this plan with action prepended to it.
-         */
+        /// <summary>
+        /// Prepend an action to the plan and return itself.
+        /// </summary>
+        /// <param name="action">the action to be prepended to this plan.</param>
+        /// <returns>this plan with action prepended to it.</returns>
         public Plan prepend(object action)
         {
-            this.Insert(0, action);
+            Insert(0, action);
             return this;
         }
 
-        /**
-         * Returns the string representation of this plan
-         * 
-         * @return a string representation of this plan.
-         */
+        /// <summary>
+        /// Returns the string representation of this plan
+        /// </summary>
+        /// <returns>a string representation of this plan.</returns>
         public override string ToString()
         {
             StringBuilder s = new StringBuilder();
@@ -70,5 +63,4 @@ namespace tvn.cosine.ai.search.nondeterministic
             return s.ToString();
         }
     }
-
 }

@@ -3,35 +3,29 @@ using tvn.cosine.ai.agent.impl;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.8, page 48. 
-     *  
-     * 
-     * <pre>
-     * function REFLEX-VACUUM-AGENT([location, status]) returns an action
-     *   
-     *   if status = Dirty then return Suck
-     *   else if location = A then return Right
-     *   else if location = B then return Left
-     * </pre>
-     * 
-     * Figure 2.8 The agent program for a simple reflex agent in the two-state
-     * vacuum environment. This program implements the action function tabulated in
-     * Figure 2.3.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary> 
+    /// Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.8, page 48.<para />
+    ///   
+    /// Figure 2.8 The agent program for a simple reflex agent in the two-state
+    /// vacuum environment. This program implements the action function tabulated in
+    /// Figure 2.3.
+    /// </summary>
     public class ReflexVacuumAgent : AbstractAgent
     {
         class ReflexVacuumAgentProgram : IAgentProgram
         {
+            /// <summary>
+            /// REFLEX-VACUUM-AGENT([location, status]) returns an action
+            /// </summary>
+            /// <param name="percept"></param>
+            /// <returns>an action</returns>
             public IAction Execute(IPercept percept)
             {
                 LocalVacuumEnvironmentPercept vep = (LocalVacuumEnvironmentPercept)percept;
 
                 // if status = Dirty then return Suck
-                if (VacuumEnvironment.LocationState.Dirty == vep.getLocationState())
+                if (VacuumEnvironment.LocationState.Dirty == vep
+                        .getLocationState())
                 {
                     return VacuumEnvironment.ACTION_SUCK;
                     // else if location = A then return Right

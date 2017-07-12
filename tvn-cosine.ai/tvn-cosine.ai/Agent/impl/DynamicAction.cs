@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.agent.impl
+﻿using System.Text;
+
+namespace tvn.cosine.ai.agent.impl
 { 
     public class DynamicAction : ObjectWithDynamicAttributes<string, object>, IAction
     {
@@ -33,6 +35,16 @@
         public override string DescribeType()
         {
             return typeof(IAction).Name;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("[Action[name=="); 
+            stringBuilder.Append(getName());
+            stringBuilder.Append(']');
+
+            return stringBuilder.ToString();
         }
 
         public static readonly DynamicAction NO_OP = new DynamicAction("NoOp", true);

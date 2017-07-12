@@ -3,44 +3,36 @@ using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.search.nondeterministic
 {
-    /**
-     * Non-deterministic problems may have multiple results for a given state and
-     * action; this class handles these results by mimicking Problem and replacing
-     * ResultFunction (one result) with ResultsFunction (a set of results).
-     * 
-     * @author Andrew Brown
-     * @author Ruediger Lunde
-     */
+    /// <summary>
+    /// Non-deterministic problems may have multiple results for a given state and
+    /// action; this class handles these results by mimicking Problem and replacing
+    /// ResultFunction (one result) with ResultsFunction (a set of results).
+    /// </summary>
+    /// <typeparam name="S"></typeparam>
+    /// <typeparam name="A"></typeparam>
     public class NondeterministicProblem<S, A>
-    {
-
+    { 
         protected S initialState;
-        protected ActionsFunction<S, A> actionsFn;
+        protected ActionsFunction<S, A> actionsFunction;
         protected GoalTest<S> goalTest;
-        protected StepCostFunction<S, A> stepCostFn;
-        protected ResultsFunction<S, A> resultsFn;
-
-        /**
-         * Constructor
-         */
-        public NondeterministicProblem(S initialState,
-                ActionsFunction<S, A> actionsFn, ResultsFunction<S, A> resultsFn,
-                GoalTest<S> goalTest)
+        protected StepCostFunction<S, A> stepCostFunction;
+        protected ResultsFunction<S, A> resultsFunction;
+         
+        public NondeterministicProblem(S initialState, ActionsFunction<S, A> actionsFn, 
+                                       ResultsFunction<S, A> resultsFn, GoalTest<S> goalTest)
             : this(initialState, actionsFn, resultsFn, goalTest, (s, a, sPrimed) => 1.0)
         { }
 
-        /**
-         * Constructor
-         */
-        public NondeterministicProblem(S initialState,
-                ActionsFunction<S, A> actionsFn, ResultsFunction<S, A> resultsFn,
-                GoalTest<S> goalTest, StepCostFunction<S, A> stepCostFn)
+
+        public NondeterministicProblem(S initialState, ActionsFunction<S, A> actionsFn, 
+                                       ResultsFunction<S, A> resultsFn, GoalTest<S> goalTest, 
+                                       StepCostFunction<S, A> stepCostFn)
         {
             this.initialState = initialState;
-            this.actionsFn = actionsFn;
-            this.resultsFn = resultsFn;
+            this.actionsFunction = actionsFn;
+            this.resultsFunction = resultsFn;
             this.goalTest = goalTest;
-            this.stepCostFn = stepCostFn;
+            this.stepCostFunction = stepCostFn;
         }
 
         /**
@@ -68,7 +60,7 @@ namespace tvn.cosine.ai.search.nondeterministic
          */
         public IList<A> getActions(S state)
         {
-            return actionsFn(state);
+            return actionsFunction(state);
         }
 
         /**
@@ -78,7 +70,7 @@ namespace tvn.cosine.ai.search.nondeterministic
          */
         public IList<S> getResults(S state, A action)
         {
-            return this.resultsFn.results(state, action);
+            return resultsFunction(state, action);
         }
 
         /**
@@ -87,7 +79,7 @@ namespace tvn.cosine.ai.search.nondeterministic
          */
         double getStepCosts(S state, A action, S stateDelta)
         {
-            return stepCostFn(state, action, stateDelta);
+            return stepCostFunction(state, action, stateDelta);
         }
     }
 

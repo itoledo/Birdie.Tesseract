@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace tvn.cosine.ai.agent.impl
-{ 
+{
     public abstract class ObjectWithDynamicAttributes<KEY, VALUE>
     {
         private readonly IDictionary<KEY, VALUE> attributes = new Dictionary<KEY, VALUE>();
@@ -47,7 +48,7 @@ namespace tvn.cosine.ai.agent.impl
 
             return stringBuilder.ToString();
         }
-          
+
         /// <summary>
         /// Returns a copy of the object's key set
         /// </summary>
@@ -66,7 +67,7 @@ namespace tvn.cosine.ai.agent.impl
         /// <param name="value">the attribute value</param>
         public virtual void SetAttribute(KEY key, VALUE value)
         {
-            attributes.Add(key, value);
+            attributes[key] = value;
         }
 
         /// <summary>
@@ -76,7 +77,12 @@ namespace tvn.cosine.ai.agent.impl
         /// <returns>the value of the specified attribute name, or null if not found.</returns>
         public virtual VALUE GetAttribute(KEY key)
         {
-            return attributes[key];
+            if (attributes.ContainsKey(key))
+            {
+                return attributes[key];
+            }
+
+            return default(VALUE);
         }
 
         /// <summary>

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.search.nondeterministic
 {
@@ -97,8 +94,7 @@ namespace tvn.cosine.ai.search.nondeterministic
          * @param path
          * @return a conditional plan or null on failure
          */
-        public Plan orSearch(S state, NondeterministicProblem<S, A> problem,
-                Path path)
+        public Plan orSearch(S state, NondeterministicProblem<S, A> problem, Path path)
         {
             // do metrics
             this.expandedNodes++;
@@ -165,14 +161,13 @@ namespace tvn.cosine.ai.search.nondeterministic
                     return null;
                 }
             }
-            // return [if s_1 then plan_1 else ... if s_n-1 then plan_n-1 else
-            // plan_n]
+            // return [if s_1 then plan_1 else ... if s_n-1 then plan_n-1 else plan_n]
             object[] steps = new object[plans.Length];
             if (plans.Length > 0)
             {
                 for (int i = 0; i < plans.Length - 1; i++)
                 {
-                    steps[i] = new IfStateThenPlan<S>(_states[i], plans[i]);
+                    steps[i] = new IfStateThenPlan(_states[i], plans[i]);
                 }
                 steps[steps.Length - 1] = plans[plans.Length - 1];
             }
@@ -180,17 +175,16 @@ namespace tvn.cosine.ai.search.nondeterministic
             return new Plan(steps);
         }
 
-        /**
-         * Returns all the metrics of the node expander.
-         * 
-         * @return all the metrics of the node expander.
-         */
+
+        /// <summary>
+        /// Returns all the metrics of the node expander.
+        /// </summary>
+        /// <returns>the metrics of the node expander.</returns>
         public IDictionary<string, double> getMetrics()
         {
             IDictionary<string, double> result = new Dictionary<string, double>();
             result["expandedNodes"] = expandedNodes;
             return result;
         }
-    }
-
+    } 
 }

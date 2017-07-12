@@ -12,7 +12,7 @@ namespace tvn.cosine.ai.environment.vacuum
     public class SimpleReflexVacuumAgent : AbstractAgent
     {
         public SimpleReflexVacuumAgent()
-            : base(new SimpleReflexAgentProgram(getRuleSet()))
+                : base(new SimpleReflexAgentProgram(getRuleSet()))
         { }
 
         //
@@ -42,5 +42,5 @@ namespace tvn.cosine.ai.environment.vacuum
 
             return rules;
         }
-    } 
+    }
 }

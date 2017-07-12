@@ -5,18 +5,16 @@ using tvn.cosine.ai.search.nondeterministic;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-    /**
-     * Contains useful functions for the vacuum cleaner world.
-     *
-     * @author Ruediger Lunde
-     * @author Andrew Brown
-     */
+    /// <summary>
+    /// Contains useful functions for the vacuum cleaner world.
+    /// </summary>
     public class VacuumWorldFunctions
     {
-
-        /**
-         * Specifies the actions available to the agent at state s
-         */
+        /// <summary>
+        /// Specifies the actions available to the agent at state s
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
         public static IList<IAction> getActions(VacuumEnvironmentState state)
         {
             IList<IAction> actions = new List<IAction>();
@@ -30,39 +28,19 @@ namespace tvn.cosine.ai.environment.vacuum
         public static bool testGoal(VacuumEnvironmentState state)
         {
             return state.getLocationState(VacuumEnvironment.LOCATION_A) == VacuumEnvironment.LocationState.Clean
-                    && state.getLocationState(VacuumEnvironment.LOCATION_B) == VacuumEnvironment.LocationState.Clean;
+                && state.getLocationState(VacuumEnvironment.LOCATION_B) == VacuumEnvironment.LocationState.Clean;
         }
 
         public static ResultsFunction<VacuumEnvironmentState, IAction> createResultsFunction(IAgent agent)
         {
-            return new VacuumWorldResults(agent);
-        }
-
-        /**
-         * Returns possible results
-         */
-        private class VacuumWorldResults : ResultsFunction<VacuumEnvironmentState, IAction>
-        {
-
-            private IAgent agent;
-
-            public VacuumWorldResults(IAgent agent)
-            {
-                this.agent = agent;
-            }
-
-            /**
-             * Returns a list of possible results for a given state and action
-             *
-             * @return a list of possible results for a given state and action.
-             */
-            public IList<VacuumEnvironmentState> results(VacuumEnvironmentState state, IAction action)
+            return (state, action) =>
             {
                 // Ensure order is consistent across platforms.
                 IList<VacuumEnvironmentState> results = new List<VacuumEnvironmentState>();
                 string currentLocation = state.getAgentLocation(agent);
-                string adjacentLocation = (currentLocation.Equals(VacuumEnvironment.LOCATION_A)) ? VacuumEnvironment.LOCATION_B
-                        : VacuumEnvironment.LOCATION_A;
+                string adjacentLocation = (currentLocation.Equals(VacuumEnvironment.LOCATION_A)) ?
+                        VacuumEnvironment.LOCATION_B
+                      : VacuumEnvironment.LOCATION_A;
                 // case: move right
                 if (VacuumEnvironment.ACTION_MOVE_RIGHT == action)
                 {
@@ -71,7 +49,7 @@ namespace tvn.cosine.ai.environment.vacuum
                             state.getLocationState(currentLocation));
                     s.setLocationState(adjacentLocation,
                             state.getLocationState(adjacentLocation));
-                    s.setAgentLocation(this.agent, VacuumEnvironment.LOCATION_B);
+                    s.setAgentLocation(agent, VacuumEnvironment.LOCATION_B);
                     results.Add(s);
                 } // case: move left
                 else if (VacuumEnvironment.ACTION_MOVE_LEFT == action)
@@ -81,14 +59,14 @@ namespace tvn.cosine.ai.environment.vacuum
                             state.getLocationState(currentLocation));
                     s.setLocationState(adjacentLocation,
                             state.getLocationState(adjacentLocation));
-                    s.setAgentLocation(this.agent, VacuumEnvironment.LOCATION_A);
+                    s.setAgentLocation(agent, VacuumEnvironment.LOCATION_A);
                     results.Add(s);
                 } // case: suck
                 else if (VacuumEnvironment.ACTION_SUCK == action)
                 {
                     // case: square is dirty
                     if (VacuumEnvironment.LocationState.Dirty == state
-                            .getLocationState(state.getAgentLocation(this.agent)))
+                            .getLocationState(state.getAgentLocation(agent)))
                     {
                         // always clean current
                         VacuumEnvironmentState s1 = new VacuumEnvironmentState();
@@ -96,7 +74,7 @@ namespace tvn.cosine.ai.environment.vacuum
                                 VacuumEnvironment.LocationState.Clean);
                         s1.setLocationState(adjacentLocation,
                                 state.getLocationState(adjacentLocation));
-                        s1.setAgentLocation(this.agent, currentLocation);
+                        s1.setAgentLocation(agent, currentLocation);
                         results.Add(s1);
                         // sometimes clean adjacent as well
                         VacuumEnvironmentState s2 = new VacuumEnvironmentState();
@@ -104,7 +82,7 @@ namespace tvn.cosine.ai.environment.vacuum
                                 VacuumEnvironment.LocationState.Clean);
                         s2.setLocationState(adjacentLocation,
                                 VacuumEnvironment.LocationState.Clean);
-                        s2.setAgentLocation(this.agent, currentLocation);
+                        s2.setAgentLocation(agent, currentLocation);
                         results.Add(s2);
                     } // case: square is clean
                     else
@@ -115,7 +93,7 @@ namespace tvn.cosine.ai.environment.vacuum
                                 state.getLocationState(currentLocation));
                         s1.setLocationState(adjacentLocation,
                                 state.getLocationState(adjacentLocation));
-                        s1.setAgentLocation(this.agent, currentLocation);
+                        s1.setAgentLocation(agent, currentLocation);
                         results.Add(s1);
                         // sometimes deposit dirt
                         VacuumEnvironmentState s2 = new VacuumEnvironmentState();
@@ -123,12 +101,12 @@ namespace tvn.cosine.ai.environment.vacuum
                                 VacuumEnvironment.LocationState.Dirty);
                         s2.setLocationState(adjacentLocation,
                                 state.getLocationState(adjacentLocation));
-                        s2.setAgentLocation(this.agent, currentLocation);
+                        s2.setAgentLocation(agent, currentLocation);
                         results.Add(s2);
                     }
                 }
                 return results;
-            }
+            };
         }
     }
 }

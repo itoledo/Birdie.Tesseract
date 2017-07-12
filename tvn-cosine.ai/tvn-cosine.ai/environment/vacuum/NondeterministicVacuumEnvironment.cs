@@ -1,52 +1,43 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using tvn.cosine.ai.agent;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-    /**
-     * Create the erratic vacuum world from page 134, AIMA3e. In the erratic vacuum
-     * world, the Suck action works as follows: 1) when applied to a dirty square
-     * the action cleans the square and sometimes cleans up dirt in an adjacent
-     * square too; 2) when applied to a clean square the action sometimes deposits
-     * dirt on the carpet.
-     *
-     * @author Andrew Brown
-     */
+    /// <summary>
+    /// Create the erratic vacuum world from page 134, AIMA3e. In the erratic vacuum
+    /// world, the Suck action works as follows: 1) when applied to a dirty square
+    /// the action cleans the square and sometimes cleans up dirt in an adjacent
+    /// square too; 2) when applied to a clean square the action sometimes deposits
+    /// dirt on the carpet.
+    /// </summary>
     public class NondeterministicVacuumEnvironment : VacuumEnvironment
     {
-
-        /**
-         * Construct a vacuum environment with two locations, in which dirt is
-         * placed at random.
-         */
+        private readonly Random random = new Random();
+        /// <summary>
+        /// Construct a vacuum environment with two locations, in which dirt is placed at random.
+        /// </summary>
         public NondeterministicVacuumEnvironment()
-                : base()
+            : base()
         { }
 
-        /**
-         * Construct a vacuum environment with two locations, in which dirt is
-         * placed as specified.
-         *
-         * @param locAState the initial state of location A, which is either
-         * <em>Clean</em> or <em>Dirty</em>.
-         * @param locBState the initial state of location B, which is either
-         * <em>Clean</em> or <em>Dirty</em>.
-         */
+        /// <summary>
+        /// Construct a vacuum environment with two locations, in which dirt is placed as specified.
+        /// </summary>
+        /// <param name="locAState">the initial state of location A, which is either Clean or Dirty.</param>
+        /// <param name="locBState">the initial state of location A, which is either Clean or Dirty.</param>
         public NondeterministicVacuumEnvironment(LocationState locAState, LocationState locBState)
             : base(locAState, locBState)
         {
 
         }
 
-        /**
-         * Execute the agent action
-         */
+        /// <summary>
+        /// Execute the agent action
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="agentAction"></param>
         public override void executeAction(IAgent a, IAction agentAction)
         {
-            System.Random random = new System.Random();
             if (ACTION_MOVE_RIGHT == agentAction)
             {
                 envState.setAgentLocation(a, LOCATION_B);
@@ -86,6 +77,5 @@ namespace tvn.cosine.ai.environment.vacuum
                 _isDone = true;
             }
         }
-    }
-
+    } 
 }

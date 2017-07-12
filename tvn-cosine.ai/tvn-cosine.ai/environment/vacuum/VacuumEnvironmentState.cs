@@ -1,57 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using tvn.cosine.ai.agent;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-    /**
-     * Represents a state in the Vacuum World
-     * 
-     * @author Ciaran O'Reilly
-     * @author Andrew Brown
-     */
-    public class VacuumEnvironmentState : IEnvironmentState, FullyObservableVacuumEnvironmentPercept
+    /// <summary>
+    /// Represents a state in the Vacuum World
+    /// </summary>
+    public class VacuumEnvironmentState : IEnvironmentState, FullyObservableVacuumEnvironmentPercept, ICloneable
     {
         private IDictionary<string, VacuumEnvironment.LocationState> state;
         private IDictionary<IAgent, string> agentLocations;
 
-        /**
-         * Constructor
-         */
         public VacuumEnvironmentState()
         {
             state = new Dictionary<string, VacuumEnvironment.LocationState>();
             agentLocations = new Dictionary<IAgent, string>();
         }
 
-        /**
-         * Constructor
-         * 
-         * @param locAState
-         * @param locBState
-         */
-        public VacuumEnvironmentState(VacuumEnvironment.LocationState locAState,
-                VacuumEnvironment.LocationState locBState)
+        public VacuumEnvironmentState(VacuumEnvironment.LocationState locAState, VacuumEnvironment.LocationState locBState)
             : this()
         {
-            state.Add(VacuumEnvironment.LOCATION_A, locAState);
-            state.Add(VacuumEnvironment.LOCATION_B, locBState);
-        }
 
+            state[VacuumEnvironment.LOCATION_A] = locAState;
+            state[VacuumEnvironment.LOCATION_B] = locBState;
+        }
 
         public string getAgentLocation(IAgent a)
         {
             return agentLocations[a];
         }
 
-        /**
-         * Sets the agent location
-         * 
-         * @param a
-         * @param location
-         */
+        /// <summary>
+        /// Sets the agent location
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="location"></param>
         public void setAgentLocation(IAgent a, string location)
         {
-            agentLocations.Add(a, location);
+            agentLocations[a] = location;
         }
 
         public VacuumEnvironment.LocationState getLocationState(string location)
@@ -59,15 +47,14 @@ namespace tvn.cosine.ai.environment.vacuum
             return state[location];
         }
 
-        /**
-         * Sets the location state
-         * 
-         * @param location
-         * @param s
-         */
+        /// <summary>
+        /// Sets the location state
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="s"></param>
         public void setLocationState(string location, VacuumEnvironment.LocationState s)
         {
-            state.Add(location, s);
+            state[location] = s;
         }
 
         public override bool Equals(object obj)
@@ -75,41 +62,80 @@ namespace tvn.cosine.ai.environment.vacuum
             if (obj != null && GetType() == obj.GetType())
             {
                 VacuumEnvironmentState s = (VacuumEnvironmentState)obj;
-                return state.Equals(s.state)
-                    && agentLocations.Equals(s.agentLocations);
+                if (state.Count == s.state.Count
+                 && agentLocations.Count == s.agentLocations.Count)
+                {
+                    foreach (var key in state.Keys)
+                    {
+                        if (!(s.state.ContainsKey(key)
+                           && s.state[key] == state[key]))
+                        {
+                            return false;
+                        }
+                    }
+
+                    foreach (var key in agentLocations.Keys)
+                    {
+                        if (!(s.agentLocations.ContainsKey(key)
+                           && s.agentLocations[key] == agentLocations[key]))
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                else return false;
             }
             return false;
         }
 
-        /**
-         * Override hashCode()
-         * 
-         * @return the hash code for this object.
-         */
         public override int GetHashCode()
         {
             return 3 * state.GetHashCode() + 13 * agentLocations.GetHashCode();
         }
 
-        public VacuumEnvironmentState Clone()
+        public object Clone()
         {
-            VacuumEnvironmentState result = null;
-
-            result = (VacuumEnvironmentState)base.MemberwiseClone();
-            result.state = new Dictionary<string, VacuumEnvironment.LocationState>(state);
-            agentLocations = new Dictionary<IAgent, string>(agentLocations);
+            VacuumEnvironmentState result = new VacuumEnvironmentState();
+            foreach (var v in state)
+            {
+                result.state[v.Key] = v.Value;
+            }
+            foreach (var v in agentLocations)
+            {
+                result.agentLocations[v.Key] = v.Value;
+            }
 
             return result;
         }
 
-        /**
-         * Returns a string representation of the environment
-         * 
-         * @return a string representation of the environment
-         */
+
+        /// <summary>
+        /// Returns a string representation of the environment
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            return this.state.ToString();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append('{');
+            bool first = true;
+            foreach (var v in state)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    stringBuilder.Append(", ");
+                }
+                stringBuilder.Append(v.Key);
+                stringBuilder.Append('=');
+                stringBuilder.Append(v.Value);
+            }
+            stringBuilder.Append('}');
+
+            return stringBuilder.ToString();
         }
     }
 }

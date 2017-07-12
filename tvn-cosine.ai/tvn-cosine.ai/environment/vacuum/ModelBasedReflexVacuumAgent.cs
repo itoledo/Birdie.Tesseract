@@ -1,8 +1,4 @@
-﻿
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.impl;
 using tvn.cosine.ai.agent.impl.aprog;
@@ -10,12 +6,6 @@ using tvn.cosine.ai.agent.impl.aprog.simplerule;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-
-
-    /**
-     * @author Ciaran O'Reilly
-     * 
-     */
     public class ModelBasedReflexVacuumAgent : AbstractAgent
     {
         private const string ATTRIBUTE_CURRENT_LOCATION = "currentLocation";
@@ -23,7 +13,7 @@ namespace tvn.cosine.ai.environment.vacuum
         private const string ATTRIBUTE_STATE_LOCATION_A = "stateLocationA";
         private const string ATTRIBUTE_STATE_LOCATION_B = "stateLocationB";
 
-        public class ModelBasedReflexVacuumAgentProgram : ModelBasedReflexAgentProgram
+        class ModelBasedReflexVacuumAgentProgram : ModelBasedReflexAgentProgram
         {
             protected override void Init()
             {
@@ -31,33 +21,23 @@ namespace tvn.cosine.ai.environment.vacuum
                 setRules(getRuleSet());
             }
 
-            protected override DynamicState updateState(DynamicState state, IAction anAction, IPercept percept, IModel model)
+            protected override DynamicState updateState(DynamicState state, IAction action, IPercept percept, IModel model)
             {
-
                 LocalVacuumEnvironmentPercept vep = (LocalVacuumEnvironmentPercept)percept;
 
-                state.SetAttribute(ATTRIBUTE_CURRENT_LOCATION,
-                        vep.getAgentLocation());
-                state.SetAttribute(ATTRIBUTE_CURRENT_STATE,
-                        vep.getLocationState());
+                state.SetAttribute(ATTRIBUTE_CURRENT_LOCATION, vep.getAgentLocation());
+                state.SetAttribute(ATTRIBUTE_CURRENT_STATE, vep.getLocationState());
                 // Keep track of the state of the different locations
                 if (VacuumEnvironment.LOCATION_A.Equals(vep.getAgentLocation()))
                 {
-                    state.SetAttribute(ATTRIBUTE_STATE_LOCATION_A,
-                            vep.getLocationState());
+                    state.SetAttribute(ATTRIBUTE_STATE_LOCATION_A, vep.getLocationState());
                 }
                 else
                 {
-                    state.SetAttribute(ATTRIBUTE_STATE_LOCATION_B,
-                            vep.getLocationState());
+                    state.SetAttribute(ATTRIBUTE_STATE_LOCATION_B, vep.getLocationState());
                 }
                 return state;
             }
-        }
-
-        public ModelBasedReflexVacuumAgent()
-            : base(new ModelBasedReflexVacuumAgentProgram())
-        {
         }
 
         //
@@ -69,18 +49,30 @@ namespace tvn.cosine.ai.environment.vacuum
             // precedence) of rules can be guaranteed.
             ISet<Rule> rules = new HashSet<Rule>();
 
-            rules.Add(new Rule(new ANDCondition(new EQUALCondition(ATTRIBUTE_STATE_LOCATION_A,
-                    VacuumEnvironment.LocationState.Clean), new EQUALCondition(
-                    ATTRIBUTE_STATE_LOCATION_B,
-                    VacuumEnvironment.LocationState.Clean)), DynamicAction.NO_OP));
-            rules.Add(new Rule(new EQUALCondition(ATTRIBUTE_CURRENT_STATE,
-                    VacuumEnvironment.LocationState.Dirty),
-                    VacuumEnvironment.ACTION_SUCK));
-            rules.Add(new Rule(new EQUALCondition(ATTRIBUTE_CURRENT_LOCATION,
-                    VacuumEnvironment.LOCATION_A),
-                    VacuumEnvironment.ACTION_MOVE_RIGHT));
-            rules.Add(new Rule(new EQUALCondition(ATTRIBUTE_CURRENT_LOCATION,
-                    VacuumEnvironment.LOCATION_B),
+            rules.Add(new Rule(
+                new ANDCondition(
+                    new EQUALCondition( 
+                        ATTRIBUTE_STATE_LOCATION_A,  
+                        VacuumEnvironment.LocationState.Clean), 
+                    new EQUALCondition( 
+                        ATTRIBUTE_STATE_LOCATION_B, 
+                        VacuumEnvironment.LocationState.Clean)), 
+                DynamicAction.NO_OP));
+            rules.Add(new Rule(
+                new EQUALCondition(
+                    ATTRIBUTE_CURRENT_STATE, 
+                    VacuumEnvironment.LocationState.Dirty), 
+                VacuumEnvironment.ACTION_SUCK));
+            rules.Add(new Rule(
+                new EQUALCondition(
+                    ATTRIBUTE_CURRENT_LOCATION, 
+                    VacuumEnvironment.LOCATION_A), 
+                VacuumEnvironment.ACTION_MOVE_RIGHT));
+            rules.Add(
+                new Rule(
+                    new EQUALCondition(
+                        ATTRIBUTE_CURRENT_LOCATION, 
+                        VacuumEnvironment.LOCATION_B), 
                     VacuumEnvironment.ACTION_MOVE_LEFT));
 
             return rules;

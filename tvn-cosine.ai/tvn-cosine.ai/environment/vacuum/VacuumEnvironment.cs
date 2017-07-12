@@ -1,26 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.impl;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): pg 58. 
-     *  
-     * Let the world contain just two locations. Each location may or may not
-     * contain dirt, and the agent may be in one location or the other. There are 8
-     * possible world states, as shown in Figure 3.2. The agent has three possible
-     * actions in this version of the vacuum world: <em>Left</em>, <em>Right</em>,
-     * and <em>Suck</em>. Assume for the moment, that sucking is 100% effective. The
-     * goal is to clean up all the dirt.
-     * 
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     */
+    /// <summary> 
+    /// Artificial Intelligence A Modern Approach (3rd Edition): pg 58. <para />
+    /// Let the world contain just two locations. Each location may or may not
+    /// contain dirt, and the agent may be in one location or the other. There are 8
+    /// possible world states, as shown in Figure 3.2. The agent has three possible
+    /// actions in this version of the vacuum world: Left , Right ,
+    /// and Suck . Assume for the moment, that sucking is 100% effective. The
+    /// goal is to clean up all the dirt.
+    /// </summary>
     public class VacuumEnvironment : AbstractEnvironment
     {
         // Allowable Actions within the Vacuum Environment
@@ -29,6 +23,7 @@ namespace tvn.cosine.ai.environment.vacuum
         public static readonly IAction ACTION_SUCK = new DynamicAction("Suck");
         public const string LOCATION_A = "A";
         public const string LOCATION_B = "B";
+        private readonly Random random = new Random();
 
         public enum LocationState
         {
@@ -45,23 +40,17 @@ namespace tvn.cosine.ai.environment.vacuum
          */
         public VacuumEnvironment()
         {
-            System.Random r = new System.Random();
+            Random r = new Random();
             envState = new VacuumEnvironmentState(
                     0 == r.Next(2) ? LocationState.Clean : LocationState.Dirty,
                     0 == r.Next(2) ? LocationState.Clean : LocationState.Dirty);
         }
 
-        /**
-         * Constructs a vacuum environment with two locations, in which dirt is
-         * placed as specified.
-         * 
-         * @param locAState
-         *            the initial state of location A, which is either
-         *            <em>Clean</em> or <em>Dirty</em>.
-         * @param locBState
-         *            the initial state of location B, which is either
-         *            <em>Clean</em> or <em>Dirty</em>.
-         */
+        /// <summary>
+        /// Constructs a vacuum environment with two locations, in which dirt is placed as specified.
+        /// </summary>
+        /// <param name="locAState">the initial state of location A, which is either Clean or Dirty.</param>
+        /// <param name="locBState">the initial state of location B, which is either Clean or Dirty.</param>
         public VacuumEnvironment(LocationState locAState, LocationState locBState)
         {
             envState = new VacuumEnvironmentState(locAState, locBState);
@@ -79,7 +68,6 @@ namespace tvn.cosine.ai.environment.vacuum
 
         public override void executeAction(IAgent a, IAction agentAction)
         {
-
             if (ACTION_MOVE_RIGHT == agentAction)
             {
                 envState.setAgentLocation(a, LOCATION_B);
@@ -110,14 +98,13 @@ namespace tvn.cosine.ai.environment.vacuum
 
         public override IPercept getPerceptSeenBy(IAgent anAgent)
         {
-            if (anAgent is NondeterministicVacuumAgent)
+            if (anAgent is NondeterministicVacuumAgent<VacuumEnvironmentState, IAction>)
             {
                 // Note: implements FullyObservableVacuumEnvironmentPercept
-                return envState.Clone();
+                return (VacuumEnvironmentState)envState.Clone();
             }
             string agentLocation = envState.getAgentLocation(anAgent);
-            return new LocalVacuumEnvironmentPercept(agentLocation,
-                    envState.getLocationState(agentLocation));
+            return new LocalVacuumEnvironmentPercept(agentLocation, envState.getLocationState(agentLocation));
         }
 
         public override bool IsDone()
@@ -127,12 +114,12 @@ namespace tvn.cosine.ai.environment.vacuum
 
         public override void AddAgent(IAgent a)
         {
-            int idx = new System.Random().Next(2);
+            int idx = random.Next(2);
             envState.setAgentLocation(a, idx == 0 ? LOCATION_A : LOCATION_B);
             base.AddAgent(a);
         }
 
-        public void addAgent(IAgent a, string location)
+        public void AddAgent(IAgent a, string location)
         {
             // Ensure the agent state information is tracked before
             // adding to super, as super will notify the registered

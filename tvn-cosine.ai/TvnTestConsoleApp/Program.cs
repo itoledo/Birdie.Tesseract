@@ -9,7 +9,6 @@ namespace TvnTestConsoleApp
         { 
             Console.WriteLine("Complete, press <ENTER> to quit");
             Console.ReadLine();
-        }
-
+        } 
     }
 }

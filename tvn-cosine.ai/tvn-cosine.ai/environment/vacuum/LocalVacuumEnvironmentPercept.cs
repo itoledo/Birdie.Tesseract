@@ -1,71 +1,52 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.impl;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-    /**
-     * Represents a local percept in the vacuum environment (i.e. details the
-     * agent's location and the state of the square the agent is currently at).
-     * 
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     * @author Andrew Brown
-     */
+    /// <summary>
+    /// Represents a local percept in the vacuum environment (i.e. details the agent's location and the state of the square the agent is currently at).
+    /// </summary>
     public class LocalVacuumEnvironmentPercept : DynamicPercept
     {
         public const string ATTRIBUTE_AGENT_LOCATION = "agentLocation";
         public const string ATTRIBUTE_STATE = "state";
 
-        /**
-         * Construct a vacuum environment percept from the agent's perception of the
-         * current location and state.
-         * 
-         * @param agentLocation
-         *            the agent's perception of the current location.
-         * @param state
-         *            the agent's perception of the current state.
-         */
-        public LocalVacuumEnvironmentPercept(string agentLocation,
-                VacuumEnvironment.LocationState state)
+        /// <summary>
+        /// Construct a vacuum environment percept from the agent's perception of the current location and state.
+        /// </summary>
+        /// <param name="agentLocation">the agent's perception of the current location.</param>
+        /// <param name="state">the agent's perception of the current state.</param>
+        public LocalVacuumEnvironmentPercept(string agentLocation, VacuumEnvironment.LocationState state)
         {
             SetAttribute(ATTRIBUTE_AGENT_LOCATION, agentLocation);
             SetAttribute(ATTRIBUTE_STATE, state);
         }
 
-        /**
-         * Return the agent's perception of the current location, which is either A
-         * or B.
-         * 
-         * @return the agent's perception of the current location, which is either A
-         *         or B.
-         */
+        /// <summary>
+        /// Return the agent's perception of the current location, which is either A or B.
+        /// </summary>
+        /// <returns>the agent's perception of the current location, which is either A or B.</returns>
         public string getAgentLocation()
         {
-            return (String)GetAttribute(ATTRIBUTE_AGENT_LOCATION);
+            return (string)GetAttribute(ATTRIBUTE_AGENT_LOCATION);
         }
 
-        /**
-         * Return the agent's perception of the current state, which is either
-         * <em>Clean</em> or <em>Dirty</em>.
-         * 
-         * @return the agent's perception of the current state, which is either
-         *         <em>Clean</em> or <em>Dirty</em>.
-         */
+        /// <summary>
+        /// Return the agent's perception of the current state, which is either Clean or Dirty.
+        /// </summary>
+        /// <returns>the agent's perception of the current state, which is either Clean or Dirty.</returns>
         public VacuumEnvironment.LocationState getLocationState()
         {
             return (VacuumEnvironment.LocationState)GetAttribute(ATTRIBUTE_STATE);
         }
 
-        /**
-         * Determine whether this percept matches an environment state
-         * 
-         * @param state
-         * @param agent
-         * @return true of the percept matches an environment state, false otherwise.
-         */
+        /// <summary>
+        /// Determine whether this percept matches an environment state
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="agent"></param>
+        /// <returns>true of the percept matches an environment state, false otherwise.</returns>
         public bool matches(VacuumEnvironmentState state, IAgent agent)
         {
             if (!this.getAgentLocation().Equals(state.getAgentLocation(agent)))
