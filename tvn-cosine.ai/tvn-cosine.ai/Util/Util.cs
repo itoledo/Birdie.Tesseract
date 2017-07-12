@@ -176,7 +176,7 @@ namespace tvn.cosine.ai.util
             {
                 if (hash.ContainsKey(obj))
                 {
-                    hash.Add(obj, hash[obj] + 1);
+                    hash[obj] = hash[obj] + 1;
                 }
                 else
                 {

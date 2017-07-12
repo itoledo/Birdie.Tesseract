@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.framework
@@ -17,6 +18,10 @@ namespace tvn.cosine.ai.learning.framework
         {
             // assumed file in data directory and ends in .csv
             DataSet ds = new DataSet(spec);
+            if (!System.IO.File.Exists(filename))
+            {
+                throw new FileNotFoundException(filename);
+            }
 
             using (var reader = new StreamReader(filename))
             {
@@ -34,7 +39,7 @@ namespace tvn.cosine.ai.learning.framework
         public static Example exampleFromString(string data, DataSetSpecification dataSetSpec, string separator)
         {
             IDictionary<string, Attribute> attributes = new Dictionary<string, Attribute>();
-            var attributeValues = data.Split(new string[] { separator }, StringSplitOptions.None).ToList();
+            var attributeValues = new Regex(separator).Split(data.Trim()).ToList();
             if (dataSetSpec.isValid(attributeValues))
             {
                 IList<string> names = dataSetSpec.getAttributeNames();
@@ -59,7 +64,7 @@ namespace tvn.cosine.ai.learning.framework
         public static DataSet getRestaurantDataSet()
         {
             DataSetSpecification spec = createRestaurantDataSetSpec();
-            return DataSetFactory.FromFile("restaurant", spec, "\\s+");
+            return DataSetFactory.FromFile("data\\restaurant.csv", spec, "\\s+");
         }
 
         public static DataSetSpecification createRestaurantDataSetSpec()

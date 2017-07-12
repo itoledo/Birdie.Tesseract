@@ -62,7 +62,7 @@ namespace tvn.cosine.ai.learning.framework
                 string val = e.getAttributeValueAsString(attributeName);
                 if (counts.ContainsKey(val))
                 {
-                    counts.Add(val, counts[val] + 1);
+                    counts[val] = counts[val] + 1;
                 }
                 else
                 {
