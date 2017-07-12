@@ -86,7 +86,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * node is replaced or the new node is dropped.
          */
 
-        protected override void addToFrontier(Node<S, A> node)
+        protected override void AddToFrontier(Node<S, A> node)
         {
             if (!explored.Contains(node.getState()))
             {
@@ -117,7 +117,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * @return the node at the head of the frontier.
          */
 
-        protected override Node<S, A> removeFromFrontier()
+        protected override Node<S, A> RemoveFromFrontier()
         {
             Node<S, A> result = frontier.remove();
             frontierNodeLookup.Remove(result.getState());
@@ -131,7 +131,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * Checks whether the frontier contains not yet expanded nodes.
          */
 
-        protected override bool isFrontierEmpty()
+        protected override bool IsFrontierEmpty()
         {
             return frontier.isEmpty();
         }

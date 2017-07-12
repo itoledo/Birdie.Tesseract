@@ -7,7 +7,7 @@
     /// <typeparam name="A">The type of the actions to be used to navigate through the state space</typeparam>
     public interface IBidirectionalProblem<S, A> : IProblem<S, A>
     {
-        IProblem<S, A> getOriginalProblem();
-        IProblem<S, A> getReverseProblem();
+        IProblem<S, A> GetOriginalProblem();
+        IProblem<S, A> GetReverseProblem();
     } 
 }

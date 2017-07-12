@@ -40,7 +40,7 @@
          * Inserts the node at the tail of the frontier.
          */
 
-        protected override void addToFrontier(Node<S, A> node)
+        protected override void AddToFrontier(Node<S, A> node)
         {
             frontier.Add(node);
             updateMetrics(frontier.Count);
@@ -52,7 +52,7 @@
          * @return the node at the head of the frontier.
          */
 
-        protected override Node<S, A> removeFromFrontier()
+        protected override Node<S, A> RemoveFromFrontier()
         {
             Node<S, A> result = frontier.remove();
             updateMetrics(frontier.Count);
@@ -63,7 +63,7 @@
          * Checks whether the frontier contains not yet expanded nodes.
          */
 
-        protected override bool isFrontierEmpty()
+        protected override bool IsFrontierEmpty()
         {
             return frontier.isEmpty();
         }

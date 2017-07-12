@@ -79,13 +79,13 @@ namespace tvn.cosine.ai.environment.map
         //
         // PROTECTED METHODS
         // 
-        protected override void updateState(IPercept p)
+        protected override void UpdateState(IPercept p)
         {
             DynamicPercept dp = (DynamicPercept)p;
             state.SetAttribute(DynAttributeNames.AGENT_LOCATION, dp.GetAttribute(DynAttributeNames.PERCEPT_IN));
         }
 
-        protected override string formulateGoal()
+        protected override string FormulateGoal()
         {
             string goal = null;
             if (currGoalIdx < goals.Count - 1)
@@ -98,12 +98,12 @@ namespace tvn.cosine.ai.environment.map
             return goal != null ? goal : null;
         }
 
-        protected override IProblem<string, MoveToAction> formulateProblem(string goal)
+        protected override IProblem<string, MoveToAction> FormulateProblem(string goal)
         {
             return new BidirectionalMapProblem(map, (string)state.GetAttribute(DynAttributeNames.AGENT_LOCATION), goal);
         }
 
-        protected override IList<MoveToAction> search(IProblem<string, MoveToAction> problem)
+        protected override IList<MoveToAction> Search(IProblem<string, MoveToAction> problem)
         {
             IList<MoveToAction> result = _search.findActions(problem);
             notifyViewOfMetrics();

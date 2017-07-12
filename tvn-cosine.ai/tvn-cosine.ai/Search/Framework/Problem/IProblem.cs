@@ -26,19 +26,24 @@
     /// <typeparam name="A"></typeparam>
     public interface IProblem<S, A> : IOnlineSearchProblem<S, A>
     {
-        /**
-         * Returns the description of what each action does.
-         */
+        /// <summary>
+        /// Returns the description of what each action does.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
         S GetResult(S state, A action);
 
-        /**
-         * Tests whether a node represents an acceptable solution. The default implementation
-         * delegates the check to the goal test. Other implementations could make use of the additional
-         * information given by the node (e.g. the sequence of actions leading to the node). A
-         * solution tester implementation could for example always return false and internally collect
-         * the paths of all nodes whose state passes the goal test. Search implementations should always
-         * access the goal test via this method to support solution acceptance testing.
-         */
+        /// <summary>
+        /// Tests whether a node represents an acceptable solution. The default implementation
+        /// delegates the check to the goal test. Other implementations could make use of the additional
+        /// information given by the node (e.g. the sequence of actions leading to the node). A
+        /// solution tester implementation could for example always return false and internally collect
+        /// the paths of all nodes whose state passes the goal test. Search implementations should always
+        /// access the goal test via this method to support solution acceptance testing.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         bool TestSolution(Node<S, A> node);
     } 
 }

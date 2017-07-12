@@ -66,7 +66,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * was not yet explored.
          */
 
-        protected override void addToFrontier(Node<S, A> node)
+        protected override void AddToFrontier(Node<S, A> node)
         {
             if (!explored.Contains(node.getState()))
             {
@@ -84,7 +84,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * @return the node at the head of the frontier.
          */
 
-        protected override Node<S, A> removeFromFrontier()
+        protected override Node<S, A> RemoveFromFrontier()
         {
             cleanUpFrontier(); // not really necessary because isFrontierEmpty
                                // should be called before...
@@ -99,7 +99,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * and checks whether there are still some nodes left.
          */
 
-        protected override bool isFrontierEmpty()
+        protected override bool IsFrontierEmpty()
         {
             cleanUpFrontier();
             updateMetrics(frontier.Count);

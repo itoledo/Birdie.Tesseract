@@ -23,12 +23,12 @@ namespace tvn.cosine.ai.environment.map
                     MapFunctions.createDistanceStepCostFunction(map));
         }
 
-        public IProblem<string, MoveToAction> getOriginalProblem()
+        public IProblem<string, MoveToAction> GetOriginalProblem()
         {
             return this;
         }
 
-        public IProblem<string, MoveToAction> getReverseProblem()
+        public IProblem<string, MoveToAction> GetReverseProblem()
         {
             return reverseProblem;
         }

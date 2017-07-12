@@ -28,12 +28,12 @@ namespace tvn.cosine.ai.environment.eightpuzzle
                     initialState.Equals);
         }
 
-        public IProblem<EightPuzzleBoard, IAction> getOriginalProblem()
+        public IProblem<EightPuzzleBoard, IAction> GetOriginalProblem()
         {
             return this;
         }
 
-        public IProblem<EightPuzzleBoard, IAction> getReverseProblem()
+        public IProblem<EightPuzzleBoard, IAction> GetReverseProblem()
         {
             return reverseProblem;
         }

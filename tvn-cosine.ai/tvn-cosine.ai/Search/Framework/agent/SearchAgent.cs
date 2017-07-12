@@ -4,15 +4,12 @@ using tvn.cosine.ai.agent.impl;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.search.framework.agent
-{
-    /**
-     *
-     * @param <S> The type used to represent states
-     * @param <A> The type of the actions to be used to navigate through the state space
-     *
-     * @author Ravi Mohan
-     * @author Ruediger Lunde
-     */
+{ 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="S">The type used to represent states</typeparam>
+    /// <typeparam name="A">The type of the actions to be used to navigate through the state space</typeparam>
     public class SearchAgent<S, A> : AbstractAgent
         where A : IAction
     {
@@ -42,17 +39,17 @@ namespace tvn.cosine.ai.search.framework.agent
             return DynamicAction.NO_OP; // no success or at goal
         }
 
-        public bool isDone()
+        public bool IsDone()
         {
             return actionList.Count == 0;
         }
 
-        public IList<A> getActions()
+        public IList<A> GetActions()
         {
             return actionList;
         }
 
-        public IDictionary<string, double> getInstrumentation()
+        public IDictionary<string, double> GetInstrumentation()
         {
             IDictionary<string, double> result = new Dictionary<string, double>();
             foreach (string key in searchMetrics.Keys)

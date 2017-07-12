@@ -61,7 +61,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          */
         public virtual Node<S, A> findNode(IProblem<S, A> problem, IQueue<Node<S, A>> frontier)
         {
-            return findNode(problem, frontier, CancellationToken.None);
+            return FindNode(problem, frontier, CancellationToken.None);
         }
 
         /**
@@ -79,20 +79,20 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * 
          * @return a node referencing a goal state, if the goal was found, otherwise empty;
          */
-        public virtual Node<S, A> findNode(IProblem<S, A> problem, IQueue<Node<S, A>> frontier, CancellationToken cancellationToken)
+        public virtual Node<S, A> FindNode(IProblem<S, A> problem, IQueue<Node<S, A>> frontier, CancellationToken cancellationToken)
         {
             this.frontier = frontier;
             clearMetrics();
             // initialize the frontier using the initial state of the problem
             Node<S, A> root = nodeExpander.createRootNode(problem.GetInitialState());
-            addToFrontier(root);
+            AddToFrontier(root);
             if (earlyGoalTest && problem.TestSolution(root))
                 return getSolution(root);
 
-            while (!isFrontierEmpty() && !cancellationToken.IsCancellationRequested)
+            while (!IsFrontierEmpty() && !cancellationToken.IsCancellationRequested)
             {
                 // choose a leaf node and remove it from the frontier
-                Node<S, A> nodeToExpand = removeFromFrontier();
+                Node<S, A> nodeToExpand = RemoveFromFrontier();
                 // only need to check the nodeToExpand if have not already
                 // checked before adding to the frontier
                 if (!earlyGoalTest && problem.TestSolution(nodeToExpand))
@@ -104,7 +104,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
                 // frontier
                 foreach (Node<S, A> successor in nodeExpander.expand(nodeToExpand, problem))
                 {
-                    addToFrontier(successor);
+                    AddToFrontier(successor);
                     if (earlyGoalTest && problem.TestSolution(successor))
                         return getSolution(successor);
                 }
@@ -116,7 +116,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
         /**
          * Primitive operation which inserts the node at the tail of the frontier.
          */
-        protected abstract void addToFrontier(Node<S, A> node);
+        protected abstract void AddToFrontier(Node<S, A> node);
 
         /**
          * Primitive operation which removes and returns the node at the head of the
@@ -124,13 +124,13 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * 
          * @return the node at the head of the frontier.
          */
-        protected abstract Node<S, A> removeFromFrontier();
+        protected abstract Node<S, A> RemoveFromFrontier();
 
         /**
          * Primitive operation which checks whether the frontier contains not yet
          * expanded nodes.
          */
-        protected abstract bool isFrontierEmpty();
+        protected abstract bool IsFrontierEmpty();
 
         /**
          * Enables optimization for FIFO queue based search, especially breadth
