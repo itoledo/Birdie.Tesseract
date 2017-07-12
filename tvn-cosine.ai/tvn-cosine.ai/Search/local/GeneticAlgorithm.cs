@@ -169,7 +169,7 @@ namespace tvn.cosine.ai.search.local
 
             foreach (Individual<A> individual in population)
             {
-                double fValue = fitnessFn.apply(individual);
+                double fValue = fitnessFn(individual);
                 if (fValue > bestSoFarFValue)
                 {
                     bestIndividual = individual;
@@ -288,7 +288,7 @@ namespace tvn.cosine.ai.search.local
             double[] fValues = new double[population.Count];
             for (int i = 0; i < population.Count; i++)
             {
-                fValues[i] = fitnessFn.apply(population[i]);
+                fValues[i] = fitnessFn(population[i]);
             }
             // Normalize the fitness values
             fValues = Util.normalize(fValues);

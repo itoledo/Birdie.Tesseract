@@ -1,84 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.local;
 using tvn.cosine.ai.util.datastructure;
 
 namespace tvn.cosine.ai.environment.nqueens
 {
-    /**
-     * A class whose purpose is to provide static utility methods for solving the
-     * n-queens problem with genetic algorithms. This includes fitness function,
-     * goal test, random creation of individuals and convenience methods for
-     * translating between between an NQueensBoard representation and the  int  list
-     * representation used by the GeneticAlgorithm.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ruediger Lunde
-     * 
-     */
+    /// <summary> 
+    /// A class whose purpose is to provide static utility methods for solving the
+    /// n-queens problem with genetic algorithms. This includes fitness function,
+    /// goal test, random creation of individuals and convenience methods for
+    /// translating between between an NQueensBoard representation and the  int  list
+    /// representation used by the GeneticAlgorithm.
+    /// </summary>
     public class NQueensGenAlgoUtil
-    {
-
+    { 
         public static FitnessFunction<int> getFitnessFunction()
         {
-            return new NQueensFitnessFunction();
-        }
-
-        public static GoalTest<Individual<int>> getGoalTest()
-        {
-            return NQueensFitnessFunction.NQueensGenAlgoGoalTest;
-        }
-
-
-        public static Individual<int> generateRandomIndividual(int boardSize)
-        {
-            IList<int> individualRepresentation = new List<int>();
-            for (int i = 0; i < boardSize; i++)
-            {
-                individualRepresentation.Add(new Random().Next(boardSize));
-            }
-            return new Individual<int>(individualRepresentation);
-        }
-
-        public static ICollection<int> getFiniteAlphabetForBoardOfSize(int size)
-        {
-            ICollection<int> fab = new List<int>();
-
-            for (int i = 0; i < size; i++)
-            {
-                fab.Add(i);
-            }
-
-            return fab;
-        }
-
-        public class NQueensFitnessFunction : FitnessFunction<int>
-        {
-            public static GoalTest<Individual<int>> NQueensGenAlgoGoalTest
-            {
-                get
-                {
-                    return (state) =>
-                    {
-                        return NQueensFunctions.testGoal(getBoardForIndividual(state));
-                    };
-                }
-            }
-
-            public double apply(Individual<int> individual)
+            return (individual) =>
             {
                 double fitness = 0;
 
                 NQueensBoard board = getBoardForIndividual(individual);
                 int boardSize = board.getSize();
 
-                // Calculate the number of non-attacking pairs of queens (refer to
-                // AIMA
-                // page 117).
+                // Calculate the number of non-attacking pairs of queens (refer to AIMA page 117).
                 IList<XYLocation> qPositions = board.getQueenPositions();
                 for (int fromX = 0; fromX < (boardSize - 1); fromX++)
                 {
@@ -119,9 +65,39 @@ namespace tvn.cosine.ai.environment.nqueens
                 }
 
                 return fitness;
-            }
+            };
         }
 
+        public static GoalTest<Individual<int>> getGoalTest()
+        {
+            return (state) =>
+            {
+                return NQueensFunctions.testGoal(getBoardForIndividual(state));
+            };
+        }
+         
+        public static Individual<int> generateRandomIndividual(int boardSize)
+        {
+            IList<int> individualRepresentation = new List<int>();
+            for (int i = 0; i < boardSize; i++)
+            {
+                individualRepresentation.Add(new Random().Next(boardSize));
+            }
+            return new Individual<int>(individualRepresentation);
+        }
+
+        public static ICollection<int> getFiniteAlphabetForBoardOfSize(int size)
+        {
+            ICollection<int> fab = new List<int>();
+
+            for (int i = 0; i < size; i++)
+            {
+                fab.Add(i);
+            }
+
+            return fab;
+        }
+          
         public static NQueensBoard getBoardForIndividual(Individual<int> individual)
         {
             int boardSize = individual.length();
