@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using tvn.cosine.ai.util;
@@ -9,14 +10,12 @@ namespace tvn.cosine.ai.learning.framework
      * @author Ravi Mohan
      * 
      */
-    public class DataSet
+    public class DataSet : IEnumerable<Example>
     {
         protected DataSet()
-        {
+        { }
 
-        }
-
-        public List<Example> examples;
+        public IList<Example> examples;
 
         public DataSetSpecification specification;
 
@@ -100,7 +99,7 @@ namespace tvn.cosine.ai.learning.framework
 
         public double calculateGainFor(string parameterName)
         {
-            IDictionary<string , DataSet> hash = splitByAttribute(parameterName);
+            IDictionary<string, DataSet> hash = splitByAttribute(parameterName);
             double totalSize = examples.Count;
             double remainder = 0.0;
             foreach (string parameterValue in hash.Keys)
@@ -146,7 +145,7 @@ namespace tvn.cosine.ai.learning.framework
             return ds;
         }
 
-        public List<string> getAttributeNames()
+        public IList<string> getAttributeNames()
         {
             return specification.getAttributeNames();
         }
@@ -171,7 +170,7 @@ namespace tvn.cosine.ai.learning.framework
             this.specification = specification;
         }
 
-        public List<string> getPossibleAttributeValues(string attributeName)
+        public IList<string> getPossibleAttributeValues(string attributeName)
         {
             return specification.getPossibleAttributeValues(attributeName);
         }
@@ -189,9 +188,19 @@ namespace tvn.cosine.ai.learning.framework
             return ds;
         }
 
-        public List<string> getNonTargetAttributes()
+        public IList<string> getNonTargetAttributes()
         {
             return Util.removeFrom(getAttributeNames(), getTargetAttributeName());
         }
-    } 
+
+        public IEnumerator<Example> GetEnumerator()
+        {
+            return examples.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return examples.GetEnumerator();
+        }
+    }
 }

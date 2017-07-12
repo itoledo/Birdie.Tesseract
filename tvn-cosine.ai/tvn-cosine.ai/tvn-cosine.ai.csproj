@@ -148,6 +148,16 @@
     <Compile Include="learning\inductive\DecisionTree.cs" />
     <Compile Include="learning\inductive\DLTest.cs" />
     <Compile Include="learning\inductive\DLTestFactory.cs" />
+    <Compile Include="learning\knowledge\CurrentBestLearning.cs" />
+    <Compile Include="learning\knowledge\FOLDataSetDomain.cs" />
+    <Compile Include="learning\knowledge\FOLExample.cs" />
+    <Compile Include="learning\knowledge\Hypothesis.cs" />
+    <Compile Include="learning\learners\AdaBoostLearner.cs" />
+    <Compile Include="learning\learners\CurrentBestLearner.cs" />
+    <Compile Include="learning\learners\DecisionListLearner.cs" />
+    <Compile Include="learning\learners\DecisionTreeLearner.cs" />
+    <Compile Include="learning\learners\MajorityLearner.cs" />
+    <Compile Include="learning\learners\StumpLearner.cs" />
     <Compile Include="logic\common\Lexer.cs" />
     <Compile Include="logic\common\LexerException.cs" />
     <Compile Include="logic\common\LogicTokenTypes.cs" />

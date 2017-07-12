@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text; 
+using System.Text;
 
 namespace tvn.cosine.ai.util
 {
@@ -110,7 +110,7 @@ namespace tvn.cosine.ai.util
             return default(T);
         }
 
-        public static bool randombool ()
+        public static bool randombool()
         {
             int trueOrFalse = random.Next(2);
             return (!(trueOrFalse == 0));
@@ -169,7 +169,7 @@ namespace tvn.cosine.ai.util
             return min(min(i, j), k);
         }
 
-        public static T mode<T>(List<T> l)
+        public static T mode<T>(IList<T> l)
         {
             IDictionary<T, int> hash = new Dictionary<T, int>();
             foreach (T obj in l)
@@ -215,9 +215,9 @@ namespace tvn.cosine.ai.util
             return total;
         }
 
-        public static List<T> removeFrom<T>(List<T> list, T member)
+        public static IList<T> removeFrom<T>(IList<T> list, T member)
         {
-            List<T> newList = new List<T>(list);
+            IList<T> newList = new List<T>(list);
             newList.Remove(member);
             return newList;
         }

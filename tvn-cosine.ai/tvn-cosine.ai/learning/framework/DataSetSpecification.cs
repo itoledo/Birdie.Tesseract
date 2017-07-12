@@ -9,7 +9,7 @@ namespace tvn.cosine.ai.learning.framework
      */
     public class DataSetSpecification
     {
-        List<AttributeSpecification> attributeSpecifications;
+        IList<AttributeSpecification> attributeSpecifications;
 
         private string targetAttribute;
 
@@ -18,14 +18,14 @@ namespace tvn.cosine.ai.learning.framework
             this.attributeSpecifications = new List<AttributeSpecification>();
         }
 
-        public bool isValid(List<string> uncheckedAttributes)
+        public bool isValid(IList<string> uncheckedAttributes)
         {
             if (attributeSpecifications.Count != uncheckedAttributes.Count)
             {
                 throw new Exception("size mismatch specsize = "
                         + attributeSpecifications.Count + " attrbutes size = "
                         + uncheckedAttributes.Count);
-            } 
+            }
             int min = Math.Min(attributeSpecifications.Count, uncheckedAttributes.Count);
             for (int i = 0; i < min; ++i)
             {
@@ -33,7 +33,7 @@ namespace tvn.cosine.ai.learning.framework
                 {
                     return false;
                 }
-            } 
+            }
 
             return true;
         }
@@ -46,7 +46,7 @@ namespace tvn.cosine.ai.learning.framework
             return targetAttribute;
         }
 
-        public List<string> getPossibleAttributeValues(string attributeName)
+        public IList<string> getPossibleAttributeValues(string attributeName)
         {
             foreach (AttributeSpecification ass in attributeSpecifications)
             {
@@ -59,9 +59,9 @@ namespace tvn.cosine.ai.learning.framework
             throw new Exception("No such attribute" + attributeName);
         }
 
-        public List<string> getAttributeNames()
+        public IList<string> getAttributeNames()
         {
-            List<string> names = new List<string>();
+            IList<string> names = new List<string>();
             foreach (AttributeSpecification ass in attributeSpecifications)
             {
                 names.Add(ass.getAttributeName());
@@ -101,9 +101,9 @@ namespace tvn.cosine.ai.learning.framework
             attributeSpecifications.Add(new NumericAttributeSpecification(name));
         }
 
-        public List<string> getNamesOfStringAttributes()
+        public IList<string> getNamesOfStringAttributes()
         {
-            List<string> names = new List<string>();
+            IList<string> names = new List<string>();
             foreach (AttributeSpecification spec in attributeSpecifications)
             {
                 if (spec is StringAttributeSpecification)

@@ -54,7 +54,7 @@ namespace tvn.cosine.ai.learning.inductive
 
         public static DecisionTree getStumpFor(DataSet ds, string attributeName,
                 string attributeValue, string returnValueIfMatched,
-                List<string> unmatchedValues, string returnValueIfUnmatched)
+                IList<string> unmatchedValues, string returnValueIfUnmatched)
         {
             DecisionTree dt = new DecisionTree(attributeName);
             dt.addLeaf(attributeValue, returnValueIfMatched);
@@ -65,16 +65,16 @@ namespace tvn.cosine.ai.learning.inductive
             return dt;
         }
 
-        public static List<DecisionTree> getStumpsFor(DataSet ds, string returnValueIfMatched, string returnValueIfUnmatched)
+        public static IList<DecisionTree> getStumpsFor(DataSet ds, string returnValueIfMatched, string returnValueIfUnmatched)
         {
-            List<string> attributes = ds.getNonTargetAttributes();
-            List<DecisionTree> trees = new List<DecisionTree>();
+            IList<string> attributes = ds.getNonTargetAttributes();
+            IList<DecisionTree> trees = new List<DecisionTree>();
             foreach (string attribute in attributes)
             {
-                List<string> values = ds.getPossibleAttributeValues(attribute);
+                IList<string> values = ds.getPossibleAttributeValues(attribute);
                 foreach (string value in values)
                 {
-                    List<string> unmatchedValues = Util.removeFrom(ds.getPossibleAttributeValues(attribute), value);
+                    IList<string> unmatchedValues = Util.removeFrom(ds.getPossibleAttributeValues(attribute), value);
 
                     DecisionTree tree = getStumpFor(ds, attribute, value,
                             returnValueIfMatched, unmatchedValues,

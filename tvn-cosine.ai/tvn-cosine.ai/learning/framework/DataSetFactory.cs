@@ -37,7 +37,7 @@ namespace tvn.cosine.ai.learning.framework
             var attributeValues = data.Split(new string[] { separator }, StringSplitOptions.None).ToList();
             if (dataSetSpec.isValid(attributeValues))
             {
-                List<string> names = dataSetSpec.getAttributeNames();
+                IList<string> names = dataSetSpec.getAttributeNames();
                 int min = Math.Min(names.Count, attributeValues.Count);
                 for (int i = 0; i < min; ++i)
                 {

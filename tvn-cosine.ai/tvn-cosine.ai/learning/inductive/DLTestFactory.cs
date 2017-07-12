@@ -9,19 +9,18 @@ namespace tvn.cosine.ai.learning.inductive
      * 
      */
     public class DLTestFactory
-    {
-
-        public List<DLTest> createDLTestsWithAttributeCount(DataSet ds, int i)
+    { 
+        public IList<DLTest> createDLTestsWithAttributeCount(DataSet ds, int i)
         {
             if (i != 1)
             {
                 throw new Exception("For now DLTests with only 1 attribute can be craeted , not" + i);
             }
-            List<string> nonTargetAttributes = ds.getNonTargetAttributes();
-            List<DLTest> tests = new List<DLTest>();
+            IList<string> nonTargetAttributes = ds.getNonTargetAttributes();
+            IList<DLTest> tests = new List<DLTest>();
             foreach (string ntAttribute in nonTargetAttributes)
             {
-                List<string> ntaValues = ds.getPossibleAttributeValues(ntAttribute);
+                IList<string> ntaValues = ds.getPossibleAttributeValues(ntAttribute);
                 foreach (string ntaValue in ntaValues)
                 {
 
