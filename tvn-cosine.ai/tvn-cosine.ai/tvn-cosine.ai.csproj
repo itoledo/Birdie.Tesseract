@@ -348,7 +348,6 @@
     <Compile Include="probability\hmm\impl\HMM.cs" />
     <Compile Include="probability\Iterator.cs" />
     <Compile Include="probability\mdp\ActionsFunction.cs" />
-    <Compile Include="probability\mdp\impl\ActionsFunction.cs" />
     <Compile Include="probability\mdp\impl\LookupPolicy.cs" />
     <Compile Include="probability\mdp\impl\MDP.cs" />
     <Compile Include="probability\mdp\impl\ModifiedPolicyEvaluation.cs" />

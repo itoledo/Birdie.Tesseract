@@ -50,7 +50,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
 
         public ISet<A> actions(S s)
         {
-            return actionsFunction.actions(s);
+            return actionsFunction(s);
         }
 
         public double transitionProbability(S sDelta, S s, A a)

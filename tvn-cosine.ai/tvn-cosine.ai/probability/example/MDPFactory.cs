@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.probability.example
         public static MarkovDecisionProcess<Cell<double>, CellWorldAction> createMDPForFigure17_3(CellWorld<double> cw)
         {
 
-            return new MDP<Cell<double>, CellWorldAction>(cw.getCells(),
+            return new MDP<Cell<double>, CellWorldAction>(cw.GetCells(),
                     cw.getCellAt(1, 1), createActionsFunctionForFigure17_1(cw),
                     createTransitionProbabilityFunctionForFigure17_1(cw),
                     createRewardFunctionForFigure17_1());
@@ -47,15 +47,15 @@ namespace tvn.cosine.ai.probability.example
             terminals.Add(cw.getCellAt(4, 3));
             terminals.Add(cw.getCellAt(4, 2));
 
-            mdp.ActionsFunction<Cell<double>, CellWorldAction> af = new mdp.impl.ActionsFunction<Cell<double>, CellWorldAction>((s) =>
+            mdp.ActionsFunction<Cell<double>, CellWorldAction> af = (s) =>
             {
                 // All actions can be performed in each cell (except terminal states)
                 if (terminals.Contains(s))
                 {
                     return new HashSet<CellWorldAction>();
                 }
-                return CellWorldAction.actions();
-            });
+                return CellWorldAction.Actions();
+            };
             return af;
         }
 
@@ -78,9 +78,9 @@ namespace tvn.cosine.ai.probability.example
                       // There can be three possible outcomes for the planned action
                       IList<Cell<double>> o = new List<Cell<double>>();
 
-                      o.Add(cw.result(c, ab));
-                      o.Add(cw.result(c, ab.getFirstRightAngledAction()));
-                      o.Add(cw.result(c, ab.getSecondRightAngledAction()));
+                      o.Add(cw.Result(c, ab));
+                      o.Add(cw.Result(c, ab.GetFirstRightAngledAction()));
+                      o.Add(cw.Result(c, ab.GetSecondRightAngledAction()));
 
                       return o;
                   };
