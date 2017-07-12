@@ -1,43 +1,40 @@
 ﻿namespace tvn.cosine.ai.agent.impl
-{
-    /**
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     */
-    public class DynamicAction : ObjectWithDynamicAttributes<object, object>, IAction
+{ 
+    public class DynamicAction : ObjectWithDynamicAttributes<string, object>, IAction
     {
-        public const string ATTRIBUTE_NAME = "name";
+        private const string ATTRIBUTE_NAME = "name";
 
-        //
+        private readonly bool isNoOp;
 
         public DynamicAction(string name)
+            : this(name, false)
+        { }
+
+        public DynamicAction(string name, bool isNoOp)
         {
-            this.setAttribute(ATTRIBUTE_NAME, name);
+            SetAttribute(ATTRIBUTE_NAME, name);
+            this.isNoOp = isNoOp;
         }
 
-        /**
-         * Returns the value of the name attribute.
-         * 
-         * @return the value of the name attribute.
-         */
+        /// <summary>
+        /// Returns the value of the name attribute.
+        /// </summary>
+        /// <returns>the value of the name attribute.</returns>
         public virtual string getName()
         {
-            return (string)getAttribute(ATTRIBUTE_NAME);
+            return GetAttribute(ATTRIBUTE_NAME).ToString();
         }
 
-        //
-        // START-Action
         public virtual bool IsNoOp()
         {
-            return false;
+            return isNoOp;
         }
 
-        // END-Action
-        //
-
-        public override string describeType()
+        public override string DescribeType()
         {
             return typeof(IAction).Name;
         }
+
+        public static readonly DynamicAction NO_OP = new DynamicAction("NoOp", true);
     }
 }

@@ -1,58 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using tvn.cosine.ai.util.datastructure;
 
 namespace tvn.cosine.ai.agent.impl.aprog
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.7, page 47. 
-     *  
-     * 
-     * <pre>
-     * function TABLE-DRIVEN-AGENT(percept) returns an action
-     *   persistent: percepts, a sequence, initially empty
-     *               table, a table of actions, indexed by percept sequences, initially fully specified
-     *           
-     *   append percept to end of percepts
-     *   action <- LOOKUP(percepts, table)
-     *   return action
-     * </pre>
-     * 
-     * Figure 2.7 The TABLE-DRIVEN-AGENT program is invoked for each new percept and
-     * returns an action each time. It retains the complete percept sequence in
-     * memory.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     * 
-     */
+    /// <summary>
+    /// Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.7, page 47. <para />
+    ///  
+    /// Figure 2.7 The TABLE-DRIVEN-AGENT program is invoked for each new percept and
+    /// returns an action each time. It retains the complete percept sequence in
+    /// memory. 
+    /// </summary>
     public class TableDrivenAgentProgram : IAgentProgram
     {
-
-        private IList<IPercept> percepts = new List<IPercept>();
-
-        private Table<IList<IPercept>, string, IAction> table;
-
         private const string ACTION = "action";
 
-        // persistent: percepts, a sequence, initially empty
-        // table, a table of actions, indexed by percept sequences, initially fully
-        // specified
-        /**
-         * Constructs a TableDrivenAgentProgram with a table of actions, indexed by
-         * percept sequences.
-         * 
-         * @param perceptSequenceActions
-         *            a table of actions, indexed by percept sequences
-         */
+        /// <summary>
+        /// a sequence, initially empty
+        /// </summary>
+        private readonly IList<IPercept> percepts;
+        /// <summary>
+        /// a table of actions, indexed by percept sequences, initially fully specified
+        /// </summary>
+        private readonly Table<IList<IPercept>, string, IAction> table;
+         
+        /// <summary>
+        /// Constructs a TableDrivenAgentProgram with a table of actions, indexed by percept sequences.
+        /// </summary>
+        /// <param name="perceptSequenceActions">a table of actions, indexed by percept sequences</param>
         public TableDrivenAgentProgram(IDictionary<IList<IPercept>, IAction> perceptSequenceActions)
         {
+            percepts = new List<IPercept>();
 
-            IList<IList<IPercept>> rowHeaders = new List<IList<IPercept>>(perceptSequenceActions.Keys);
-
+            IList<IList<IPercept>> rowHeaders = new List<IList<IPercept>>(perceptSequenceActions.Keys); 
             IList<string> colHeaders = new List<string>();
             colHeaders.Add(ACTION);
 
@@ -63,11 +42,12 @@ namespace tvn.cosine.ai.agent.impl.aprog
                 table.Set(row, ACTION, perceptSequenceActions[row]);
             }
         }
-
-        //
-        // START-AgentProgram
-
-        // function TABLE-DRIVEN-AGENT(percept) returns an action
+         
+        /// <summary>
+        /// TABLE-DRIVEN-AGENT(percept)
+        /// </summary>
+        /// <param name="percept"></param>
+        /// <returns>an action</returns>
         public IAction Execute(IPercept percept)
         {
             // append percept to end of percepts
@@ -77,13 +57,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
             // return action
             return lookupCurrentAction();
         }
-
-        // END-AgentProgram
-        //
-
-        //
-        // PRIVATE METHODS
-        //
+         
         private IAction lookupCurrentAction()
         {
             IAction action = null;
@@ -91,7 +65,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
             action = table.Get(percepts, ACTION);
             if (null == action)
             {
-                action = NoOpAction.NO_OP;
+                action = DynamicAction.NO_OP;
             }
 
             return action;

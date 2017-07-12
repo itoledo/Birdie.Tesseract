@@ -39,7 +39,7 @@ namespace tvn.cosine.ai.search.framework.agent
                 actionList.Remove(v);
                 return v;
             }
-            return NoOpAction.NO_OP; // no success or at goal
+            return DynamicAction.NO_OP; // no success or at goal
         }
 
         public bool isDone()

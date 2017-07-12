@@ -82,7 +82,7 @@ namespace tvn.cosine.ai.environment.map
         protected override void updateState(IPercept p)
         {
             DynamicPercept dp = (DynamicPercept)p;
-            state.setAttribute(DynAttributeNames.AGENT_LOCATION, dp.getAttribute(DynAttributeNames.PERCEPT_IN));
+            state.SetAttribute(DynAttributeNames.AGENT_LOCATION, dp.GetAttribute(DynAttributeNames.PERCEPT_IN));
         }
 
         protected override string formulateGoal()
@@ -92,7 +92,7 @@ namespace tvn.cosine.ai.environment.map
             {
                 goal = goals[++currGoalIdx];
                 if (notifier != null)
-                    notifier.NotifyViews("CurrentLocation=In(" + state.getAttribute(DynAttributeNames.AGENT_LOCATION) + "), Goal=In(" + goal + ")");
+                    notifier.NotifyViews("CurrentLocation=In(" + state.GetAttribute(DynAttributeNames.AGENT_LOCATION) + "), Goal=In(" + goal + ")");
                 modifyHeuristicFunction(goal);
             }
             return goal != null ? goal : null;
@@ -100,7 +100,7 @@ namespace tvn.cosine.ai.environment.map
 
         protected override IProblem<string, MoveToAction> formulateProblem(string goal)
         {
-            return new BidirectionalMapProblem(map, (string)state.getAttribute(DynAttributeNames.AGENT_LOCATION), goal);
+            return new BidirectionalMapProblem(map, (string)state.GetAttribute(DynAttributeNames.AGENT_LOCATION), goal);
         }
 
         protected override IList<MoveToAction> search(IProblem<string, MoveToAction> problem)

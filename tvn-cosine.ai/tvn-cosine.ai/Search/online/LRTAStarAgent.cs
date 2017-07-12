@@ -209,10 +209,10 @@ namespace tvn.cosine.ai.search.online
             {
                 // I'm either at the Goal or can't get to it,
                 // which in either case I'm finished so just die.
-                setAlive(false);
+                SetAlive(false);
             }
             // return a
-            return a != null ? a : NoOpAction.NO_OP as agent.IAction;
+            return a != null ? a : DynamicAction.NO_OP as agent.IAction;
         }
 
         //
@@ -220,7 +220,7 @@ namespace tvn.cosine.ai.search.online
         //
         private void init()
         {
-            setAlive(true);
+            SetAlive(true);
             result.Clear();
             H.Clear();
             s = default(S);

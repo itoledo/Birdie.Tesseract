@@ -43,7 +43,7 @@ namespace tvn.cosine.ai.environment.wumpusworld.action
             {
                 toOrientation = AgentPosition.Orientation.FACING_SOUTH;
             } 
-            setAttribute(ATTRIBUTE_TO_ORIENTATION, toOrientation);
+            SetAttribute(ATTRIBUTE_TO_ORIENTATION, toOrientation);
         }
 
         /**

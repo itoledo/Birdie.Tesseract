@@ -47,7 +47,7 @@ namespace tvn.cosine.ai.environment.wumpusworld.action
             {
                 toPosition = new AgentPosition(x - 1, y, orientation);
             }
-            setAttribute(ATTRIBUTE_TO_POSITION, toPosition);
+            SetAttribute(ATTRIBUTE_TO_POSITION, toPosition);
         }
 
         /**

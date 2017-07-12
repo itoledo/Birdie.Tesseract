@@ -1,35 +1,38 @@
-﻿using System.Diagnostics;
+﻿using System; 
 using System.Text;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /**
-     * Implementation of a NOT condition.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary>
+    /// Implementation of a NOT condition.
+    /// </summary>
     public class NOTCondition : Condition
     {
-        private Condition con;
+        private readonly Condition condition;
 
-        public NOTCondition(Condition con)
+        public NOTCondition(Condition condition)
         {
-            Debug.Assert(null != con);
+            if (null == condition)
+            {
+                throw new ArgumentNullException("condition cannot be null.");
+            }
 
-            this.con = con;
+            this.condition = condition;
         }
 
-        public override bool evaluate(ObjectWithDynamicAttributes<object, object> p)
+        public override bool Evaluate(ObjectWithDynamicAttributes<string, object> p)
         {
-            return (!con.evaluate(p));
+            return (!condition.Evaluate(p));
         }
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
 
-            return sb.Append("![").Append(con).Append("]").ToString();
+            return sb.Append("![")
+                     .Append(condition)
+                     .Append("]")
+                     .ToString();
         }
     }
 }

@@ -1,15 +1,11 @@
 ﻿namespace tvn.cosine.ai.agent.impl
-{
-    /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     */
-    public class DynamicEnvironmentState : ObjectWithDynamicAttributes<object, object>, IEnvironmentState
+{ 
+    public class DynamicEnvironmentState : ObjectWithDynamicAttributes<string, object>, IEnvironmentState
     {
         public DynamicEnvironmentState()
         { }
 
-        public override string describeType()
+        public override string DescribeType()
         {
             return typeof(IEnvironmentState).Name;
         }

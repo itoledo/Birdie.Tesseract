@@ -97,14 +97,14 @@ namespace tvn.cosine.ai.environment.vacuum
             if (state.getLocationState(VacuumEnvironment.LOCATION_A) == VacuumEnvironment.LocationState.Clean
                     && state.getLocationState(VacuumEnvironment.LOCATION_B) == VacuumEnvironment.LocationState.Clean)
             {
-                return NoOpAction.NO_OP;
+                return DynamicAction.NO_OP;
             }
             // check stack size
             if (this.stack.Count < 1)
             {
                 if (this.contingencyPlan.Count < 1)
                 {
-                    return NoOpAction.NO_OP;
+                    return DynamicAction.NO_OP;
                 }
                 else
                 { 
@@ -155,7 +155,7 @@ namespace tvn.cosine.ai.environment.vacuum
         //
         private void init()
         {
-            setAlive(true);
+            SetAlive(true);
             stack.Clear();
             AndOrSearch<object, IAction> andOrSearch = new AndOrSearch<object, IAction>();
             this.contingencyPlan = andOrSearch.search(this.problem);

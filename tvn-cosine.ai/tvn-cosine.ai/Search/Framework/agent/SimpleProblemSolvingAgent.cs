@@ -82,7 +82,7 @@ namespace tvn.cosine.ai.search.framework.agent
         // function SIMPLE-PROBLEM-SOLVING-AGENT(percept) returns an action 
         public override IAction Execute(IPercept p)
         {
-            IAction action = NoOpAction.NO_OP; // return value if at goal or goal not found
+            IAction action = DynamicAction.NO_OP; // return value if at goal or goal not found
 
             // state <- UPDATE-STATE(state, percept)
             updateState(p);
@@ -110,7 +110,7 @@ namespace tvn.cosine.ai.search.framework.agent
                 {
                     // Agent no longer wishes to
                     // achieve any more goals
-                    setAlive(false);
+                    SetAlive(false);
                     notifyViewOfMetrics();
                 }
             }

@@ -59,7 +59,7 @@ namespace tvn.cosine.ai.search.framework.agent
          */
         public override IAction Execute(IPercept p)
         {
-            IAction action = NoOpAction.NO_OP;
+            IAction action = DynamicAction.NO_OP;
             // state <- UPDATE-STATE(state, percept)
             updateState(p);
             // if plan is empty then do
@@ -79,14 +79,14 @@ namespace tvn.cosine.ai.search.framework.agent
                     else if (!tryWithAnotherGoal())
                     {
                         // unable to identify a path
-                        setAlive(false);
+                        SetAlive(false);
                         break;
                     }
                 }
                 else
                 {
                     // no further goal to achieve
-                    setAlive(false);
+                    SetAlive(false);
                     break;
                 }
             }

@@ -1,54 +1,39 @@
 ﻿namespace tvn.cosine.ai.agent.impl
-{
-    /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     */
+{ 
     public abstract class AbstractAgent : IAgent
     {
         protected IAgentProgram program;
         private bool alive = true;
 
         public AbstractAgent()
-        {
-
-        }
-
-        /**
-         * Constructs an Agent with the specified AgentProgram.
-         * 
-         * @param aProgram
-         *            the Agent's program, which maps any given percept sequences to
-         *            an action.
-         */
+        { }
+         
+        /// <summary>
+        /// Constructs an Agent with the specified AgentProgram.
+        /// </summary>
+        /// <param name="aProgram">the Agent's program, which maps any given percept sequences to an action.</param>
         public AbstractAgent(IAgentProgram aProgram)
         {
             program = aProgram;
         }
-
-        //
-        // START-Agent
-        public virtual IAction Execute(IPercept p)
+         
+        public virtual IAction Execute(IPercept percept)
         {
             if (null != program)
             {
-                return program.Execute(p);
+                return program.Execute(percept);
             }
-            return NoOpAction.NO_OP;
+            return DynamicAction.NO_OP;
         }
 
-        public virtual bool isAlive()
+        public virtual bool IsAlive()
         {
             return alive;
         }
 
-        public virtual void setAlive(bool alive)
+        public virtual void SetAlive(bool alive)
         {
             this.alive = alive;
-        }
-
-        // END-Agent
-        //
+        } 
     }
 }

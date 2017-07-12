@@ -3,12 +3,9 @@ using System.Text;
 
 namespace tvn.cosine.ai.agent.impl
 {
-    /**
-     * Simple environment view which uses the standard output stream to inform about
-     * relevant events.
-     * 
-     * @author Ruediger Lunde
-     */
+    /// <summary>
+    /// Simple environment view which uses the standard output stream to inform about relevant events.
+    /// </summary>
     public class SimpleEnvironmentView : IEnvironmentView
     {
 

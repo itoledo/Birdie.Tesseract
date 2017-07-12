@@ -1,81 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using tvn.cosine.ai.agent.impl.aprog.simplerule;
 
 namespace tvn.cosine.ai.agent.impl.aprog
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.10, page
-     * 49. 
-     *  
-     * 
-     * <pre>
-     * function SIMPLE-RELEX-AGENT(percept) returns an action
-     *   persistent: rules, a set of condition-action rules
-     *   
-     *   state  <- INTERPRET-INPUT(percept);
-     *   rule   <- RULE-MATCH(state, rules);
-     *   action <- rule.ACTION;
-     *   return action
-     * </pre>
-     * 
-     * Figure 2.10 A simple reflex agent. It acts according to a rule whose
-     * condition matches the current state, as defined by the percept.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     * 
-     */
+    /// <summary>
+    /// Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.10, page 49. <para />
+    /// 
+    /// Figure 2.10 A simple reflex agent. It acts according to a rule whose
+    /// condition matches the current state, as defined by the percept. 
+    /// </summary>
     public class SimpleReflexAgentProgram : IAgentProgram
     {
-        //
-        // persistent: rules, a set of condition-action rules
+        /// <summary>
+        /// a set of condition-action rules
+        /// </summary>
         private ISet<Rule> rules;
-
-        /**
-         * Constructs a SimpleReflexAgentProgram with a set of condition-action
-         * rules.
-         * 
-         * @param ruleSet
-         *            a set of condition-action rules
-         */
+         
+        /// <summary>
+        /// Constructs a SimpleReflexAgentProgram with a set of condition-action rules.
+        /// </summary>
+        /// <param name="ruleSet">a set of condition-action rules</param>
         public SimpleReflexAgentProgram(ISet<Rule> ruleSet)
         {
             rules = ruleSet;
         }
-
-        //
-        // START-AgentProgram
-
-        // function SIMPLE-RELEX-AGENT(percept) returns an action
-
+         
+        /// <summary>
+        /// SIMPLE-RELEX-AGENT(percept)
+        /// </summary>
+        /// <param name="percept"></param>
+        /// <returns>an action</returns> 
         public IAction Execute(IPercept percept)
-        {
-
+        { 
             // state <- INTERPRET-INPUT(percept);
-            ObjectWithDynamicAttributes<object, object> state = interpretInput(percept);
+            ObjectWithDynamicAttributes<string, object> state = interpretInput(percept);
             // rule <- RULE-MATCH(state, rules);
             Rule rule = ruleMatch(state, rules);
             // action <- rule.ACTION;
             // return action
             return ruleAction(rule);
         }
-
-        // END-AgentProgram
-        //
-
-        //
-        // PROTECTED METHODS
-        //
-        protected ObjectWithDynamicAttributes<object, object> interpretInput(IPercept p)
+         
+        protected ObjectWithDynamicAttributes<string, object> interpretInput(IPercept p)
         {
             return (DynamicPercept)p;
         }
 
-        protected Rule ruleMatch(ObjectWithDynamicAttributes<object, object> state, ISet<Rule> rulesSet)
+        protected Rule ruleMatch(ObjectWithDynamicAttributes<string, object> state, ISet<Rule> rulesSet)
         {
             foreach (Rule r in rulesSet)
             {
@@ -89,7 +60,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
 
         protected IAction ruleAction(Rule r)
         {
-            return null == r ? NoOpAction.NO_OP : r.getAction();
+            return null == r ? DynamicAction.NO_OP : r.getAction();
         }
     } 
 }

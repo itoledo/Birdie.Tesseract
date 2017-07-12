@@ -1,42 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /**
-     * Implementation of an EQUALity condition.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary>
+    /// Implementation of an EQUALity condition.
+    /// </summary>
     public class EQUALCondition : Condition
     {
-        private object key;
+        private string key;
         private object value;
 
-        public EQUALCondition(object key, object value)
+        public EQUALCondition(string key, object value)
         {
-            Debug.Assert(null != key);
-            Debug.Assert(null != value);
+            if (null == key
+             || null == value)
+            {
+                throw new ArgumentNullException("key, value cannot be null.");
+            }
 
             this.key = key;
             this.value = value;
         }
-         
-    public override bool evaluate(ObjectWithDynamicAttributes<object, object> p)
+
+        public override bool Evaluate(ObjectWithDynamicAttributes<string, object> p)
         {
-            return value.Equals(p.getAttribute(key));
+            return value.Equals(p.GetAttribute(key));
         }
-         
-    public override string ToString()
+
+        public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
 
-            return sb.Append(key).Append("==").Append(value).ToString();
+            return sb.Append(key)
+                     .Append("==")
+                     .Append(value)
+                     .ToString();
         }
     }
 }

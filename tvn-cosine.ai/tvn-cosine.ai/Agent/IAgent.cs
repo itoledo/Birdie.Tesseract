@@ -1,7 +1,7 @@
 ﻿namespace tvn.cosine.ai.agent
 {
     /// <summary> 
-    /// Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.1, page 35.  
+    /// Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.1, page 35.  <para />
     /// Figure 2.1 Agents interact with environments through sensors and actuators.
     /// </summary>
     public interface IAgent : IEnvironmentObject
@@ -18,12 +18,12 @@
         /// Life-cycle indicator as to the liveness of an Agent.
         /// </summary>
         /// <returns>true if the Agent is to be considered alive, false otherwise.</returns>
-        bool isAlive();
+        bool IsAlive();
 
         /// <summary>
         /// Set the current liveness of the Agent.
         /// </summary>
         /// <param name="alive">set to true if the Agent is to be considered alive, false otherwise.</param>
-        void setAlive(bool alive);
+        void SetAlive(bool alive);
     }
 }

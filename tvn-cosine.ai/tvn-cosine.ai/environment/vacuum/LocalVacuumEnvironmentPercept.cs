@@ -31,8 +31,8 @@ namespace tvn.cosine.ai.environment.vacuum
         public LocalVacuumEnvironmentPercept(string agentLocation,
                 VacuumEnvironment.LocationState state)
         {
-            setAttribute(ATTRIBUTE_AGENT_LOCATION, agentLocation);
-            setAttribute(ATTRIBUTE_STATE, state);
+            SetAttribute(ATTRIBUTE_AGENT_LOCATION, agentLocation);
+            SetAttribute(ATTRIBUTE_STATE, state);
         }
 
         /**
@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.environment.vacuum
          */
         public string getAgentLocation()
         {
-            return (String)getAttribute(ATTRIBUTE_AGENT_LOCATION);
+            return (String)GetAttribute(ATTRIBUTE_AGENT_LOCATION);
         }
 
         /**
@@ -56,7 +56,7 @@ namespace tvn.cosine.ai.environment.vacuum
          */
         public VacuumEnvironment.LocationState getLocationState()
         {
-            return (VacuumEnvironment.LocationState)getAttribute(ATTRIBUTE_STATE);
+            return (VacuumEnvironment.LocationState)GetAttribute(ATTRIBUTE_STATE);
         }
 
         /**

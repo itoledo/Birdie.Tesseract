@@ -68,7 +68,6 @@
     <Compile Include="agent\impl\DynamicEnvironmentState.cs" />
     <Compile Include="agent\impl\DynamicPercept.cs" />
     <Compile Include="agent\impl\DynamicState.cs" />
-    <Compile Include="agent\impl\NoOpAction.cs" />
     <Compile Include="agent\impl\ObjectWithDynamicAttributes.cs" />
     <Compile Include="agent\impl\SimpleEnvironmentView.cs" />
     <Compile Include="agent\IModel.cs" />

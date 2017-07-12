@@ -1,46 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /**
-     * Implementation of an AND condition.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary>
+    /// Implementation of an AND condition.
+    /// </summary>
     public class ANDCondition : Condition
     {
+        private readonly Condition left;
+        private readonly Condition right;
 
-        private Condition left;
-
-        private Condition right;
-
-        public ANDCondition(Condition leftCon, Condition rightCon)
+        public ANDCondition(Condition leftCondition, Condition rightCondition)
         {
-           Debug.Assert(null != leftCon);
-           Debug.Assert(null != rightCon);
+            if (null == leftCondition
+             || null == rightCondition)
+            {
+                throw new ArgumentNullException("leftCondition, rightCondition cannot be null.");
+            }
 
-            left = leftCon;
-            right = rightCon;
+            left = leftCondition;
+            right = rightCondition;
         }
-         
-    public override bool evaluate(ObjectWithDynamicAttributes<object, object> p)
+
+        public override bool Evaluate(ObjectWithDynamicAttributes<string, object> p)
         {
-            return (left.evaluate(p) && right.evaluate(p));
+            return (left.Evaluate(p)
+                 && right.Evaluate(p));
         }
-         
-    public override string ToString()
+
+        public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
 
-            return sb.Append("[").Append(left).Append(" && ").Append(right)
-                    .Append("]").ToString();
+            return sb.Append("[")
+                     .Append(left)
+                     .Append(" && ")
+                     .Append(right)
+                     .Append("]")
+                     .ToString();
         }
-    }
-
+    } 
 }
