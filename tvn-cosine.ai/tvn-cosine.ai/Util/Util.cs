@@ -7,6 +7,16 @@ namespace tvn.cosine.ai.util
 {
     public class Util
     {
+        public static double ToRadians(double angle)
+        {
+            return Math.PI * angle / 180.0;
+        }
+
+        public static double ToDegrees(double angle)
+        {
+            return angle * (180.0 / Math.PI);
+        }
+
         public const string NO = "No";
         public const string YES = "Yes";
         //
