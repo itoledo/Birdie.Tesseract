@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.search.framework.agent
      * @author Ruediger Lunde
      */
     public class SearchAgent<S, A> : AbstractAgent
-        where A : Action
+        where A : IAction
     {
         private IList<A> actionList;
 
@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.search.framework.agent
             searchMetrics = search.getMetrics();
         }
 
-        public override Action execute(Percept p)
+        public override IAction Execute(IPercept p)
         {
             if (actionList.Count > 0)
             {

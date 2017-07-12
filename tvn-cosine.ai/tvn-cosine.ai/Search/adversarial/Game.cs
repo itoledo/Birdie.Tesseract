@@ -3,10 +3,10 @@
 namespace tvn.cosine.ai.search.adversarial
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 165.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 165. 
+     *  
      * A game can be formally defined as a kind of search problem with the following
-     * elements: <br>
+     * elements:  
      * <ul>
      * <li>S0: The initial state, which specifies how the game is set up at the
      * start.</li>

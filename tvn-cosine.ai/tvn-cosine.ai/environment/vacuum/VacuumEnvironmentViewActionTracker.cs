@@ -3,7 +3,7 @@ using tvn.cosine.ai.agent;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-    public class VacuumEnvironmentViewActionTracker : EnvironmentView
+    public class VacuumEnvironmentViewActionTracker : IEnvironmentView
     { 
         private StringBuilder actions = null;
 
@@ -14,17 +14,17 @@ namespace tvn.cosine.ai.environment.vacuum
 
         //
         // START-EnvironmentView
-        public void notify(string msg)
+        public void Notify(string msg)
         {
             // Do nothing by default.
         }
 
-        public void agentAdded(Agent agent, Environment source)
+        public void AgentAdded(IAgent agent, IEnvironment source)
         {
             // Do nothing by default.
         }
 
-        public void agentActed(Agent agent, Percept percept, Action action, Environment source)
+        public void AgentActed(IAgent agent, IPercept percept, IAction action, IEnvironment source)
         {
             actions.Append(action);
         }

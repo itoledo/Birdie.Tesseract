@@ -4,15 +4,15 @@ using tvn.cosine.ai.agent;
 namespace tvn.cosine.ai.probability.mdp
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 647.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 647. 
+     *  
      * 
      * A sequential decision problem for a fully observable, stochastic environment
      * with a Markovian transition model and additive rewards is called a <b>Markov
      * decision process</b>, or <b>MDP</b>, and consists of a set of states (with an
      * initial state s<sub>0</sub>; a set ACTIONS(s) of actions in each state; a
-     * transition model P(s' | s, a); and a reward function R(s).<br>
-     * <br>
+     * transition model P(s' | s, a); and a reward function R(s). 
+     *  
      * <b>Note:</b> Some definitions of MDPs allow the reward to depend on the
      * action and outcome too, so the reward function is R(s, a, s'). This
      * simplifies the description of some environments but does not change the
@@ -28,7 +28,7 @@ namespace tvn.cosine.ai.probability.mdp
      * 
      */
     public interface MarkovDecisionProcess<S, A >
-        where A : Action
+        where A : IAction
     {
 
         /**

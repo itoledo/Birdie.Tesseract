@@ -3,8 +3,8 @@
 namespace tvn.cosine.ai.environment.wumpusworld.action
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 237.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 237. 
+     *  
      * The agent can move Forward.
      * 
      * @author Federico Baron

@@ -6,7 +6,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 7.7, page
-     * 244.<br>
+     * 244. 
      * 
      * Implementation of a propositional logic parser based on:
      * 
@@ -24,14 +24,14 @@ namespace tvn.cosine.ai.logic.propositional.parsing
      * </pre>
      * 
      * Figure 7.7 A BNF (Backus-Naur Form) grammar of sentences in propositional
-     * logic, along with operator precedences, from highest to lowest.<br>
-     * <br>
+     * logic, along with operator precedences, from highest to lowest. 
+     *  
      * Note (1): While the book states 'We use symbols that start with an upper case
      * letter and may contain other letters or subscripts' in this implementation we
-     * allow any legal java identifier to stand in for a proposition symbol.<br>
-     * <br>
+     * allow any legal java identifier to stand in for a proposition symbol. 
+     *  
      * Note (2): This implementation is right associative (tends to be more
-     * intuitive for this language), for example:<br>
+     * intuitive for this language), for example: 
      * 
      * <pre>
      * A & B & C & D 

@@ -3,14 +3,14 @@
 namespace tvn.cosine.ai.logic.propositional.parsing.ast
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 244. 
+     *  
      * <b>Proposition Symbol:</b> Each such symbol stands for a proposition that can
      * be true or false. There are two proposition symbols with fixed meanings:
      * <i>True</i> the always-true proposition and <i>False</i> the always-false
-     * proposition.<br>
-     * <br>
-     * <b>Note</b>: While the book states:<br>
+     * proposition. 
+     *  
+     * <b>Note</b>: While the book states: 
      * 'We use symbols that start with an upper case letter and may contain other
      * letters or subscripts'. In this implementation we allow any legal java
      * identifier to stand in for a proposition symbol.

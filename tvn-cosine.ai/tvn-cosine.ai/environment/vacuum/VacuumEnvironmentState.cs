@@ -9,10 +9,10 @@ namespace tvn.cosine.ai.environment.vacuum
      * @author Ciaran O'Reilly
      * @author Andrew Brown
      */
-    public class VacuumEnvironmentState : EnvironmentState, FullyObservableVacuumEnvironmentPercept
+    public class VacuumEnvironmentState : IEnvironmentState, FullyObservableVacuumEnvironmentPercept
     {
         private IDictionary<string, VacuumEnvironment.LocationState> state;
-        private IDictionary<Agent, string> agentLocations;
+        private IDictionary<IAgent, string> agentLocations;
 
         /**
          * Constructor
@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.environment.vacuum
         public VacuumEnvironmentState()
         {
             state = new Dictionary<string, VacuumEnvironment.LocationState>();
-            agentLocations = new Dictionary<Agent, string>();
+            agentLocations = new Dictionary<IAgent, string>();
         }
 
         /**
@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.environment.vacuum
         }
 
 
-        public string getAgentLocation(Agent a)
+        public string getAgentLocation(IAgent a)
         {
             return agentLocations[a];
         }
@@ -49,7 +49,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * @param a
          * @param location
          */
-        public void setAgentLocation(Agent a, string location)
+        public void setAgentLocation(IAgent a, string location)
         {
             agentLocations.Add(a, location);
         }
@@ -97,7 +97,7 @@ namespace tvn.cosine.ai.environment.vacuum
 
             result = (VacuumEnvironmentState)base.MemberwiseClone();
             result.state = new Dictionary<string, VacuumEnvironment.LocationState>(state);
-            agentLocations = new Dictionary<Agent, string>(agentLocations);
+            agentLocations = new Dictionary<IAgent, string>(agentLocations);
 
             return result;
         }

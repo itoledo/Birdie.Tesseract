@@ -10,8 +10,8 @@ namespace tvn.cosine.ai.search.local
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.5, page
-     * 126.<br>
-     * <br>
+     * 126. 
+     *  
      * 
      * <pre>
      * function SIMULATED-ANNEALING(problem, schedule) returns a solution state

@@ -9,8 +9,8 @@ using tvn.cosine.ai.util;
 namespace tvn.cosine.ai.search.csp
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.8, Page 221.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.8, Page 221. 
+     *  
      * 
      * <pre>
      * <code>

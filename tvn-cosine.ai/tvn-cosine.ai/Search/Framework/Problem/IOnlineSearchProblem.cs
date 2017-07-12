@@ -3,12 +3,12 @@
 namespace tvn.cosine.ai.search.framework.problem
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 147.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 147. 
+     *  
      * An online search problem must be solved by an agent executing actions, rather
      * than by pure computation. We assume a deterministic and fully observable
      * environment (Chapter 17 relaxes these assumptions), but we stipulate that the
-     * agent knows only the following: <br>
+     * agent knows only the following:  
      * <ul>
      * <li>ACTIONS(s), which returns a list of actions allowed in state s;</li>
      * <li>The step-cost function c(s, a, s') - note that this cannot be used until

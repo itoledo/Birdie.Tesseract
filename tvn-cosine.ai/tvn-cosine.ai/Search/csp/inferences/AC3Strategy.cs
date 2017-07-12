@@ -7,8 +7,8 @@ namespace tvn.cosine.ai.search.csp.inferences
 {
     /**
      * 
-     * Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.3, Page 209.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.3, Page 209. 
+     *  
      * 
      * <pre>
      * <code>

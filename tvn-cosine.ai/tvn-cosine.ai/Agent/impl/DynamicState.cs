@@ -3,14 +3,14 @@
     /**
      * @author Ciaran O'Reilly
      */
-    public class DynamicState : ObjectWithDynamicAttributes<object, object>, State
+    public class DynamicState : ObjectWithDynamicAttributes<object, object>, IState
     {
         public DynamicState()
         { }
 
         public override string describeType()
         {
-            return typeof(State).Name;
+            return typeof(IState).Name;
         }
     }
 }

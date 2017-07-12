@@ -8,8 +8,8 @@ namespace tvn.cosine.ai.search.informed
 {
     /**
  * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.26, page
- * 99.<br>
- * <br>
+ * 99. 
+ *  
  * <p>
  * <pre>
  * function RECURSIVE-BEST-FIRST-SEARCH(problem) returns a solution, or failure
@@ -33,7 +33,7 @@ namespace tvn.cosine.ai.search.informed
  * <p>
  * Figure 3.26 The algorithm for recursive best-first search.
  * <p>
- * <br>
+ *  
  * This version additionally provides an option to avoid loops. States on the
  * current path are stored in a hash set if the loop avoidance option is enabled.
  *

@@ -10,8 +10,8 @@ using tvn.cosine.ai.util.datastructure;
 namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 261.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 261. 
+     *  
      * 
      * <pre>
      * <code>
@@ -52,7 +52,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
     {
 
         /**
-         * DPLL-SATISFIABLE?(s)<br>
+         * DPLL-SATISFIABLE?(s) 
          * Checks the satisfiability of a sentence in propositional logic.
          * 
          * @param s
@@ -71,7 +71,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         }
 
         /**
-         * DPLL(clauses, symbols, model)<br>
+         * DPLL(clauses, symbols, model) 
          * 
          * @param clauses
          *            the set of clauses.
@@ -174,7 +174,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         }
 
         /**
-         * AIMA3e p.g. 260:<br>
+         * AIMA3e p.g. 260: 
          * <quote><i>Pure symbol heuristic:</i> A <b>pure symbol</b> is a symbol
          * that always appears with the same "sign" in all clauses. For example, in
          * the three clauses (A | ~B), (~B | ~C), and (C | A), the symbol A is pure
@@ -259,7 +259,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         }
 
         /**
-         * AIMA3e p.g. 260:<br>
+         * AIMA3e p.g. 260: 
          * <quote><i>Unit clause heuristic:</i> A <b>unit clause</b> was defined
          * earlier as a clause with just one literal. In the context of DPLL, it
          * also means clauses in which all literals but one are already assigned

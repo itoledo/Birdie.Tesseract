@@ -5,12 +5,12 @@ using tvn.cosine.ai.logic.propositional.parsing.ast;
 namespace tvn.cosine.ai.logic.propositional.visitors
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 254.<br>
-     * <br>
-     * Move ~ inwards by repeated application of the following equivalences:<br>
-     * ~(~&alpha;) &equiv; &alpha; (double-negation elimination)<br>
-     * ~(&alpha; & &beta;) &equiv; (~&alpha; | ~&beta;) (De Morgan)<br>
-     * ~(&alpha; | &beta;) &equiv; (~&alpha; & ~&beta;) (De Morgan)<br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 254. 
+     *  
+     * Move ~ inwards by repeated application of the following equivalences: 
+     * ~(~&alpha;) &equiv; &alpha; (double-negation elimination) 
+     * ~(&alpha; & &beta;) &equiv; (~&alpha; | ~&beta;) (De Morgan) 
+     * ~(&alpha; | &beta;) &equiv; (~&alpha; & ~&beta;) (De Morgan) 
      * 
      * @author Ciaran O'Reilly
      * 

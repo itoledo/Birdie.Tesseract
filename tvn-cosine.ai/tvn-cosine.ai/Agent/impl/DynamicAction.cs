@@ -4,7 +4,7 @@
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class DynamicAction : ObjectWithDynamicAttributes<object, object>, Action
+    public class DynamicAction : ObjectWithDynamicAttributes<object, object>, IAction
     {
         public const string ATTRIBUTE_NAME = "name";
 
@@ -27,7 +27,7 @@
 
         //
         // START-Action
-        public virtual bool isNoOp()
+        public virtual bool IsNoOp()
         {
             return false;
         }
@@ -37,7 +37,7 @@
 
         public override string describeType()
         {
-            return typeof(Action).Name;
+            return typeof(IAction).Name;
         }
     }
 }

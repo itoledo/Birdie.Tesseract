@@ -7,8 +7,8 @@ namespace tvn.cosine.ai.search.csp
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.11, Page
-     * 224.<br>
-     * <br>
+     * 224. 
+     *  
      * <p>
      * <pre>
      * <code>

@@ -4,8 +4,8 @@ using tvn.cosine.ai.agent.impl;
 namespace tvn.cosine.ai.environment.vacuum
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.8, page 48.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.8, page 48. 
+     *  
      * 
      * <pre>
      * function REFLEX-VACUUM-AGENT([location, status]) returns an action
@@ -24,9 +24,9 @@ namespace tvn.cosine.ai.environment.vacuum
      */
     public class ReflexVacuumAgent : AbstractAgent
     {
-        class ReflexVacuumAgentProgram : AgentProgram
+        class ReflexVacuumAgentProgram : IAgentProgram
         {
-            public Action execute(Percept percept)
+            public IAction Execute(IPercept percept)
             {
                 LocalVacuumEnvironmentPercept vep = (LocalVacuumEnvironmentPercept)percept;
 

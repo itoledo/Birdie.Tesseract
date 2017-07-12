@@ -4,11 +4,11 @@ using tvn.cosine.ai.search.framework.qsearch;
 namespace tvn.cosine.ai.search.uninformed
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 85.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 85. 
+     *  
      * Depth-first search always expands the deepest node in the current frontier of
-     * the search tree. <br>
-     * <br>
+     * the search tree.  
+     *  
      * <b>Note:</b> Supports TreeSearch, GraphSearch, and BidirectionalSearch. Just
      * provide an instance of the desired QueueSearch implementation to the
      * constructor!

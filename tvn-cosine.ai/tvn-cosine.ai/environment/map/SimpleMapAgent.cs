@@ -24,19 +24,19 @@ namespace tvn.cosine.ai.environment.map
         protected DynamicState state = new DynamicState();
 
         // possibly null...
-        private EnvironmentViewNotifier notifier;
+        private IEnvironmentViewNotifier notifier;
         private SearchForActions<string, MoveToAction> _search;
         private string[] goals = null;
         private int goalTestPos = 0;
 
-        public SimpleMapAgent(Map map, EnvironmentViewNotifier notifier, SearchForActions<string, MoveToAction> search)
+        public SimpleMapAgent(Map map, IEnvironmentViewNotifier notifier, SearchForActions<string, MoveToAction> search)
         {
             this.map = map;
             this.notifier = notifier;
             this._search = search;
         }
 
-        public SimpleMapAgent(Map map, EnvironmentViewNotifier notifier, SearchForActions<string, MoveToAction> search, int maxGoalsToFormulate)
+        public SimpleMapAgent(Map map, IEnvironmentViewNotifier notifier, SearchForActions<string, MoveToAction> search, int maxGoalsToFormulate)
             : base(maxGoalsToFormulate)
         {
 
@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.environment.map
             this._search = search;
         }
 
-        public SimpleMapAgent(Map map, EnvironmentViewNotifier notifier, SearchForActions<string, MoveToAction> search, string[] goals)
+        public SimpleMapAgent(Map map, IEnvironmentViewNotifier notifier, SearchForActions<string, MoveToAction> search, string[] goals)
           : this(map, search, goals)
         {
             this.notifier = notifier;
@@ -63,7 +63,7 @@ namespace tvn.cosine.ai.environment.map
         //
         // PROTECTED METHODS
         // 
-        protected override void updateState(Percept p)
+        protected override void updateState(IPercept p)
         {
             DynamicPercept dp = (DynamicPercept)p;
             state.setAttribute(DynAttributeNames.AGENT_LOCATION, dp.getAttribute(DynAttributeNames.PERCEPT_IN));
@@ -82,7 +82,7 @@ namespace tvn.cosine.ai.environment.map
                 goalTestPos++;
             }
             if (notifier != null)
-                notifier.notifyViews("CurrentLocation=In(" + state.getAttribute(DynAttributeNames.AGENT_LOCATION) + "), Goal=In(" + goal + ")");
+                notifier.NotifyViews("CurrentLocation=In(" + state.getAttribute(DynAttributeNames.AGENT_LOCATION) + "), Goal=In(" + goal + ")");
 
             return goal;
         }
@@ -104,7 +104,7 @@ namespace tvn.cosine.ai.environment.map
                 ISet<string> keys = new HashSet<string>(_search.getMetrics().Keys);
                 foreach (string key in keys)
                 {
-                    notifier.notifyViews("METRIC[" + key + "]=" + _search.getMetrics()[key]);
+                    notifier.NotifyViews("METRIC[" + key + "]=" + _search.getMetrics()[key]);
                 }
             }
         }

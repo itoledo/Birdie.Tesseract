@@ -3,7 +3,7 @@
 namespace tvn.cosine.ai.probability.mdp.impl
 {
     class TransitionProbabilityFunction<S, A> : mdp.TransitionProbabilityFunction<S, A>
-        where A : Action
+        where A : IAction
     {
         private System.Func<S, S, A, double> func;
 

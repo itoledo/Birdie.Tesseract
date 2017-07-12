@@ -6,10 +6,10 @@ using tvn.cosine.ai.search.framework.problem;
 namespace tvn.cosine.ai.search.framework.qsearch
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 90.<br>
-     * <br>
-     * Bidirectional search.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 90. 
+     *  
+     * Bidirectional search. 
+     *  
      * The strategy of this search implementation is inspired by the description of
      * the bidirectional search algorithm i.e. 'Bidirectional search is implemented
      * by replacing the goal test with a check to see whether the frontiers of the

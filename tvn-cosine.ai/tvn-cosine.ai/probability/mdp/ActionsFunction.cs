@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.probability.mdp
      * @author Ravi Mohan
      */
     public interface ActionsFunction<S, A>
-        where A : Action
+        where A : IAction
     {
         /**
          * Get the set of actions for state s.

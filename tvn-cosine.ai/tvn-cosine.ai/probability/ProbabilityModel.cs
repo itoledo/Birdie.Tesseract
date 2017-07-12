@@ -4,8 +4,8 @@ using tvn.cosine.ai.probability.proposition;
 namespace tvn.cosine.ai.probability
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 484.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 484. 
+     *  
      * A fully specified probability model associates a numerical probability
      * P(&omega;) with each possible world. The set of all possible worlds is called
      * the sample space &Omega;.
@@ -16,8 +16,8 @@ namespace tvn.cosine.ai.probability
     {
         /**
          * The default threshold for rounding errors. Example, to test if
-         * probabilities sum to 1:<br>
-         * <br>
+         * probabilities sum to 1: 
+         *  
          * Math.abs(1 - probabilitySum) <
          * ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD;
          */
@@ -52,22 +52,22 @@ namespace tvn.cosine.ai.probability
          * revealed. This is the conditional or posterior probability (or just
          * "posterior" for short). Mathematically speaking, conditional
          * probabilities are defined in terms of unconditional probabilities as
-         * follows, for any propositions a and b, we have:<br>
-         * <br>
-         * P(a | b) = P(a AND b)/P(b)<br>
-         * <br>
+         * follows, for any propositions a and b, we have: 
+         *  
+         * P(a | b) = P(a AND b)/P(b) 
+         *  
          * which holds whenever P(b) > 0. Refer to equation 13.3 page 485 of AIMA3e.
-         * This can be rewritten in a different form called the <b>product rule</b>: <br>
-         * <br>
-         * P(a AND b) = P(a | b)P(b)<br>
-         * <br>
-         * and also as:<br>
-         * <br>
-         * P(a AND b) = P(b | a)P(a)<br>
-         * <br>
+         * This can be rewritten in a different form called the <b>product rule</b>:  
+         *  
+         * P(a AND b) = P(a | b)P(b) 
+         *  
+         * and also as: 
+         *  
+         * P(a AND b) = P(b | a)P(a) 
+         *  
          * whereby, equating the two right-hand sides and dividing by P(a) gives you
-         * Bayes' rule:<br>
-         * <br>
+         * Bayes' rule: 
+         *  
          * P(b | a) = (P(a | b)P(b))/P(a) - i.e. (likelihood * prior)/evidence
          * 
          * @param phi

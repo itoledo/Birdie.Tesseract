@@ -6,13 +6,13 @@ namespace tvn.cosine.ai.probability.proposition
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Formula 13.4, page
-     * 489.<br>
-     * <br>
+     * 489. 
+     *  
      * 
      * We can also derive the well-known formula for the probability of a
-     * disjunction, sometimes called the <b>inclusion-exclusion principle:</b><br>
-     * <br>
-     * P(a OR b) = P(a) + P(b) - P(a AND b).<br>
+     * disjunction, sometimes called the <b>inclusion-exclusion principle:</b> 
+     *  
+     * P(a OR b) = P(a) + P(b) - P(a AND b). 
      * 
      * @author Ciaran O'Reilly
      */

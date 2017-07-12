@@ -2,12 +2,12 @@
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.10, page
-     * 79.<br>
+     * 79. 
      * 
      * Figure 3.10 Nodes are the data structures from which the search tree is
      * constructed. Each has a parent, a state, and various bookkeeping fields.
-     * Arrows point from child to parent.<br>
-     * <br>
+     * Arrows point from child to parent. 
+     *  
      * Search algorithms require a data structure to keep track of the search tree
      * that is being constructed. For each node n of the tree, we have a structure
      * that contains four components:

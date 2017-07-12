@@ -3,8 +3,8 @@
 namespace tvn.cosine.ai.environment.wumpusworld.action
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 237.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 237. 
+     *  
      * The action Shoot can be used to fire an arrow in a straight line in the
      * direction the agent is facing. The arrow continues until it either hits (and
      * hence kills) the wumpus or hits a wall. The agent has only one arrow, so only

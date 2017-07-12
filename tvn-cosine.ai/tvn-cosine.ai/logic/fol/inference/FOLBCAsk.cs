@@ -10,8 +10,8 @@ namespace tvn.cosine.ai.logic.fol.inference
 {
     /**
      * Artificial Intelligence A Modern Approach (2nd Edition): Figure 9.6, page
-     * 288.<br>
-     * <br>
+     * 288. 
+     *  
      * 
      * <pre>
      * function FOL-BC-ASK(KB, goals, theta) returns a set of substitutions

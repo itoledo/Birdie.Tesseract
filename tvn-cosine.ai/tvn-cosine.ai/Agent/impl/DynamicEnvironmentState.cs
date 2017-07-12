@@ -4,14 +4,14 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class DynamicEnvironmentState : ObjectWithDynamicAttributes<object, object>, EnvironmentState
+    public class DynamicEnvironmentState : ObjectWithDynamicAttributes<object, object>, IEnvironmentState
     {
         public DynamicEnvironmentState()
         { }
 
         public override string describeType()
         {
-            return typeof(EnvironmentState).Name;
+            return typeof(IEnvironmentState).Name;
         }
     }
 }

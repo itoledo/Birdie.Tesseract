@@ -14,8 +14,8 @@ using tvn.cosine.ai.util;
 namespace tvn.cosine.ai.probability.bayes.approx
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 598.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 598. 
+     *  
      * 
      * <pre>
      * function PARTICLE-FILTERING(<b>e</b>, N, dbn) returns a set of samples for the next time step

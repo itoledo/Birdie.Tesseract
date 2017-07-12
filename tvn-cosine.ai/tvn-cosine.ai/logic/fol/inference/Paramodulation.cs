@@ -6,10 +6,10 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn.cosine.ai.logic.fol.inference
 {
     /**
-     * Artificial Intelligence A Modern Approach (3r Edition): page 354.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3r Edition): page 354. 
+     *  
      * <b>Paramodulation</b>: For any terms x, y, and z, where z appears somewhere
-     * in literal m<sub>i</sub>, and where UNIFY(x,z) = &theta;,<br>
+     * in literal m<sub>i</sub>, and where UNIFY(x,z) = &theta;, 
      * 
      * <pre>
      *                          l<sub>1</sub> OR ... OR l<sub>k</sub> OR x=y,     m<sub>1</sub> OR ... OR m<sub>n</sub>

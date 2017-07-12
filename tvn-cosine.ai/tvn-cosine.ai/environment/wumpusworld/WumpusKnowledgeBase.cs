@@ -310,7 +310,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
          * @param time
          *            current time
          */
-        public void makeActionSentence(Action a, int t)
+        public void makeActionSentence(IAction a, int t)
         {
             if (a is Climb)
             {

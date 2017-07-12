@@ -5,8 +5,8 @@ namespace tvn.cosine.ai.search.uninformed
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.11, page
-     * 82.<br>
-     * <br>
+     * 82. 
+     *  
      * 
      * <pre>
      * function BREADTH-FIRST-SEARCH(problem) returns a solution, or failure
@@ -25,8 +25,8 @@ namespace tvn.cosine.ai.search.uninformed
      *              frontier &lt;- INSERT(child, frontier)
      * </pre>
      * 
-     * Figure 3.11 Breadth-first search on a graph.<br>
-     * <br>
+     * Figure 3.11 Breadth-first search on a graph. 
+     *  
      * <b>Note:</b> Supports TreeSearch, GraphSearch, and BidirectionalSearch. Just
      * provide an instance of the desired QueueSearch implementation to the
      * constructor!

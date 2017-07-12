@@ -1,12 +1,12 @@
 ﻿namespace tvn.cosine.ai.search.local
 {
     /**
- * Artificial Intelligence A Modern Approach (3rd Edition): page 127.<br>
- * <br>
+ * Artificial Intelligence A Modern Approach (3rd Edition): page 127. 
+ *  
  * Each state is rated by the objective function, or (in Genetic Algorithm
  * terminology) the fitness function. A fitness function should return higher
  * values for better states.
- * <br>
+ *  
  * Here, we assume that all values are greater or equal to zero.
  * 
  * @author Ciaran O'Reilly

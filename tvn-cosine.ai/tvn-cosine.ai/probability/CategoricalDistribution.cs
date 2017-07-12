@@ -5,10 +5,10 @@ using tvn.cosine.ai.probability.proposition;
 namespace tvn.cosine.ai.probability
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 487.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 487. 
+     *  
      * A probability distribution for discrete random variables with a finite set of
-     * values. <br>
+     * values.  
      * <b>Note:</b> This definition corresponds to that given in AIMA3e pg. 487, for
      * a Probability Distribution.
      * 
@@ -69,10 +69,10 @@ namespace tvn.cosine.ai.probability
         /**
          * Get the marginal probability for the provided variables from this
          * Distribution creating a new Distribution of the remaining variables with
-         * their values updated with the summed out random variables.<br>
-         * <br>
-         * see: AIMA3e page 492.<br>
-         * <br>
+         * their values updated with the summed out random variables. 
+         *  
+         * see: AIMA3e page 492. 
+         *  
          * 
          * @param vars
          *            the random variables to marginalize/sum out.
@@ -103,34 +103,34 @@ namespace tvn.cosine.ai.probability
         /**
          * Multiplication of this Distribution by a given multiplier, creating a new
          * Distribution representing the product of the two. <b>Note:</b> Is
-         * equivalent to pointwise product calculation on factors.<br>
-         * <br>
-         * see: AIMA3e Figure 14.10 page 527.<br>
-         * <br>
+         * equivalent to pointwise product calculation on factors. 
+         *  
+         * see: AIMA3e Figure 14.10 page 527. 
+         *  
          * Note: Default Distribution multiplication is not commutative. The reason
          * is because the order of the variables comprising a Distribution dictate
          * the ordering of the values for that distribution. For example (the
-         * General case of Baye's rule, AIMA3e pg. 496), using this API method:<br>
-         * <br>
-         * <b>P</b>(Y | X) = (<b>P</b>(X | Y)<b>P</b>(Y))/<b>P</b>(X)<br>
-         * <br>
+         * General case of Baye's rule, AIMA3e pg. 496), using this API method: 
+         *  
+         * <b>P</b>(Y | X) = (<b>P</b>(X | Y)<b>P</b>(Y))/<b>P</b>(X) 
+         *  
          * is NOT true, due to multiplication of distributions not being
-         * commutative. However:<br>
-         * <br>
-         * <b>P</b>(Y | X) = (<b>P</b>(Y)<b>P</b>(X | Y))/<b>P</b>(X)<br>
-         * <br>
-         * is true, using this API.<br>
-         * <br>
+         * commutative. However: 
+         *  
+         * <b>P</b>(Y | X) = (<b>P</b>(Y)<b>P</b>(X | Y))/<b>P</b>(X) 
+         *  
+         * is true, using this API. 
+         *  
          * The default order of the variable of the Distribution returned is the
          * order of the variables as they are seen, as read from the left to right
-         * term, for e.g.: <br>
-         * <br>
-         * <b>P</b>(Y)<b>P</b>(X | Y)<br>
-         * <br>
-         * would give a Distribution of the following form: <br>
-         * Y, X<br>
-         * <br>
-         * i.e. an ordered union of the variables from the two distributions. <br>
+         * term, for e.g.:  
+         *  
+         * <b>P</b>(Y)<b>P</b>(X | Y) 
+         *  
+         * would give a Distribution of the following form:  
+         * Y, X 
+         *  
+         * i.e. an ordered union of the variables from the two distributions.  
          * To override the default order of the product use multiplyByPOS().
          * 
          * @param multiplier
@@ -147,17 +147,17 @@ namespace tvn.cosine.ai.probability
 
         /**
          * Multiplication - Product Order Specified (POS). <b>Note:</b> Is
-         * equivalent to pointwise product calculation.<br>
-         * <br>
-         * see: AIMA3e Figure 14.10 page 527.<br>
-         * <br>
+         * equivalent to pointwise product calculation. 
+         *  
+         * see: AIMA3e Figure 14.10 page 527. 
+         *  
          * Multiplication of this Distribution by a given multiplier, creating a new
          * Distribution representing the product of the two. The order of the
          * variables comprising the product will match those specified. For example
-         * (the General case of Baye's rule, AIMA3e pg. 496), using this API method:<br>
-         * <br>
-         * <b>P</b>(Y | X) = (<b>P</b>(X | Y)<b>P</b>(Y), [Y, X])/<b>P</b>(X)<br>
-         * <br>
+         * (the General case of Baye's rule, AIMA3e pg. 496), using this API method: 
+         *  
+         * <b>P</b>(Y | X) = (<b>P</b>(X | Y)<b>P</b>(Y), [Y, X])/<b>P</b>(X) 
+         *  
          * is true when the correct product order is specified.
          * 
          * @param multiplier

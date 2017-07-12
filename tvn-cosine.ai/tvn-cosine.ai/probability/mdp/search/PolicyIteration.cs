@@ -6,8 +6,8 @@ using tvn.cosine.ai.util;
 namespace tvn.cosine.ai.probability.mdp.search
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 657.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 657. 
+     *  
      * 
      * <pre>
      * function POLICY-ITERATION(mdp) returns a policy
@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.probability.mdp.search
      * 
      */
     public class PolicyIteration<S, A>
-        where A : Action
+        where A : IAction
     {
 
         private PolicyEvaluation<S, A> policyEvaluation = null;

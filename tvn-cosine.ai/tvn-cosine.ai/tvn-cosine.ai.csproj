@@ -45,14 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="agent\Action.cs" />
-    <Compile Include="agent\Agent.cs" />
-    <Compile Include="agent\AgentProgram.cs" />
-    <Compile Include="agent\Environment.cs" />
-    <Compile Include="agent\EnvironmentObject.cs" />
-    <Compile Include="agent\EnvironmentState.cs" />
-    <Compile Include="agent\EnvironmentView.cs" />
-    <Compile Include="agent\EnvironmentViewNotifier.cs" />
+    <Compile Include="agent\IAction.cs" />
+    <Compile Include="agent\IAgent.cs" />
+    <Compile Include="agent\IAgentProgram.cs" />
+    <Compile Include="agent\IEnvironment.cs" />
+    <Compile Include="agent\IEnvironmentObject.cs" />
+    <Compile Include="agent\IEnvironmentState.cs" />
+    <Compile Include="agent\IEnvironmentView.cs" />
+    <Compile Include="agent\IEnvironmentViewNotifier.cs" />
     <Compile Include="agent\impl\AbstractAgent.cs" />
     <Compile Include="agent\impl\AbstractEnvironment.cs" />
     <Compile Include="agent\impl\aprog\ModelBasedReflexAgentProgram.cs" />
@@ -71,9 +71,9 @@
     <Compile Include="agent\impl\NoOpAction.cs" />
     <Compile Include="agent\impl\ObjectWithDynamicAttributes.cs" />
     <Compile Include="agent\impl\SimpleEnvironmentView.cs" />
-    <Compile Include="agent\Model.cs" />
-    <Compile Include="agent\Percept.cs" />
-    <Compile Include="agent\State.cs" />
+    <Compile Include="agent\IModel.cs" />
+    <Compile Include="agent\IPercept.cs" />
+    <Compile Include="agent\IState.cs" />
     <Compile Include="environment\cellworld\Cell.cs" />
     <Compile Include="environment\cellworld\CellWorld.cs" />
     <Compile Include="environment\cellworld\CellWorldAction.cs" />

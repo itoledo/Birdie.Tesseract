@@ -4,8 +4,8 @@ using tvn.cosine.ai.agent;
 namespace tvn.cosine.ai.probability.mdp
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 656.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 656. 
+     *  
      * Given a policy &pi;<sub>i</sub>, calculate
      * U<sub>i</sub>=U<sup>&pi;<sub>i</sub></sup>, the utility of each state if
      * &pi;<sub>i</sub> were to be executed.
@@ -19,7 +19,7 @@ namespace tvn.cosine.ai.probability.mdp
      * @author Ravi Mohan
      */
     public interface PolicyEvaluation<S, A>
-        where A : Action
+        where A : IAction
     {
         /**
          * <b>Policy evaluation:</b> given a policy &pi;<sub>i</sub>, calculate

@@ -3,8 +3,8 @@
 namespace tvn.cosine.ai.search.nondeterministic
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 136.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 136. 
+     *  
      * Closely related to ResultFunction, but for non-deterministic problems; in
      * these problems, the outcome of an action will be a set of results, not a
      * single result. This class implements the functionality of RESULTS(s, a), page

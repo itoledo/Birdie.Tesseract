@@ -3,8 +3,8 @@
 namespace tvn.cosine.ai.environment.wumpusworld.action
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 237.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 237. 
+     *  
      * The action Climb can be used to climb out of the cave, but only from square
      * [1,1].
      * 

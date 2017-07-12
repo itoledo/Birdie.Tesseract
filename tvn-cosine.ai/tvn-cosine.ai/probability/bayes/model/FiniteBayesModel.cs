@@ -12,8 +12,8 @@ namespace tvn.cosine.ai.probability.bayes.model
 {
     /**
      * Very simple implementation of the FiniteProbabilityModel API using a Bayesian
-     * Network, consisting of FiniteNodes, to represent the underlying model.<br>
-     * <br>
+     * Network, consisting of FiniteNodes, to represent the underlying model. 
+     *  
      * <b>Note:</b> The implementation currently doesn't take advantage of the use
      * of evidence values when calculating posterior values using the provided
      * Bayesian Inference implementation (e.g enumerationAsk). Instead it simply

@@ -6,13 +6,13 @@ using tvn.cosine.ai.logic.propositional.parsing.ast;
 namespace tvn.cosine.ai.logic.propositional.kb.data
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): pages 240, 245.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): pages 240, 245. 
+     *  
      * Models are mathematical abstractions, each of which simply fixes the truth or
      * falsehood of every relevant sentence. In propositional logic, a model simply
      * fixes the <b>truth value</b> - <em>true</em> or <em>false</em> - for
-     * every proposition symbol.<br>
-     * <br>
+     * every proposition symbol. 
+     *  
      * Models as implemented here can represent partial assignments 
      * to the set of proposition symbols in a Knowledge Base (i.e. a partial model).
      * 

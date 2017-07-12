@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace tvn.cosine.ai.logic.propositional.parsing.ast
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 244. 
+     *  
      * <b>Complex Sentence:</b> are constructed from simpler sentences, using
      * parentheses (and square brackets) and logical connectives.
      *

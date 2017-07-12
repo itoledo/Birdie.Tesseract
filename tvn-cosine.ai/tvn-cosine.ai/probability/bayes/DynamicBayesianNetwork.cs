@@ -3,8 +3,8 @@
 namespace tvn.cosine.ai.probability.bayes
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 590.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 590. 
+     *  
      * A <b>dynamic Bayesian network</b>, or <b>DBN</b>, is a Bayesian network that
      * represents a temporal probability model. In general, each slice of a DBN can
      * have any number of state variables <b>X</b><sub>t</sub< and evidence

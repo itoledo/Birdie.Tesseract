@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.environment.map
         protected int currGoalIdx = -1;
 
         // possibly null...
-        protected EnvironmentViewNotifier notifier = null;
+        protected IEnvironmentViewNotifier notifier = null;
         private SearchForActions<string, MoveToAction> _search = null;
         private Func<string, HeuristicEvaluationFunction<Node<string, MoveToAction>>> hFnFactory;
 
@@ -37,7 +37,7 @@ namespace tvn.cosine.ai.environment.map
             goals.Add(goal);
         }
 
-        public MapAgent(Map map, SearchForActions<string, MoveToAction> search, string goal, EnvironmentViewNotifier notifier)
+        public MapAgent(Map map, SearchForActions<string, MoveToAction> search, string goal, IEnvironmentViewNotifier notifier)
             : this(map, search, goal)
         {
             this.notifier = notifier;
@@ -51,7 +51,7 @@ namespace tvn.cosine.ai.environment.map
                 this.goals.Add(v);
         }
 
-        public MapAgent(Map map, SearchForActions<string, MoveToAction> search, IList<string> goals, EnvironmentViewNotifier notifier)
+        public MapAgent(Map map, SearchForActions<string, MoveToAction> search, IList<string> goals, IEnvironmentViewNotifier notifier)
             : this(map, search, goals)
         {
 
@@ -69,7 +69,7 @@ namespace tvn.cosine.ai.environment.map
          *                   the goals he has selected.
          */
         public MapAgent(Map map, SearchForActions<string, MoveToAction> search, List<string> goals,
-                        EnvironmentViewNotifier notifier,
+                        IEnvironmentViewNotifier notifier,
                         Func<string, HeuristicEvaluationFunction<Node<string, MoveToAction>>> hFnFactory)
             : this(map, search, goals, notifier)
         {
@@ -79,7 +79,7 @@ namespace tvn.cosine.ai.environment.map
         //
         // PROTECTED METHODS
         // 
-        protected override void updateState(Percept p)
+        protected override void updateState(IPercept p)
         {
             DynamicPercept dp = (DynamicPercept)p;
             state.setAttribute(DynAttributeNames.AGENT_LOCATION, dp.getAttribute(DynAttributeNames.PERCEPT_IN));
@@ -92,7 +92,7 @@ namespace tvn.cosine.ai.environment.map
             {
                 goal = goals[++currGoalIdx];
                 if (notifier != null)
-                    notifier.notifyViews("CurrentLocation=In(" + state.getAttribute(DynAttributeNames.AGENT_LOCATION) + "), Goal=In(" + goal + ")");
+                    notifier.NotifyViews("CurrentLocation=In(" + state.getAttribute(DynAttributeNames.AGENT_LOCATION) + "), Goal=In(" + goal + ")");
                 modifyHeuristicFunction(goal);
             }
             return goal != null ? goal : null;
@@ -117,7 +117,7 @@ namespace tvn.cosine.ai.environment.map
                 ISet<string> keys = new HashSet<string>(_search.getMetrics().Keys);
                 foreach (string key in keys)
                 {
-                    notifier.notifyViews("METRIC[" + key + "]=" + _search.getMetrics()[key]);
+                    notifier.NotifyViews("METRIC[" + key + "]=" + _search.getMetrics()[key]);
                 }
             }
         }

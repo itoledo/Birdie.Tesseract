@@ -10,8 +10,8 @@ using tvn.cosine.ai.search.framework.qsearch;
 namespace tvn.cosine.ai.search.framework.agent
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.1, page 67.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.1, page 67. 
+     *  
      * 
      * <pre>
      * function SIMPLE-PROBLEM-SOLVING-AGENT(percept) returns an action
@@ -34,7 +34,7 @@ namespace tvn.cosine.ai.search.framework.agent
      * Figure 3.1 A simple problem-solving agent. It first formulates a goal and a
      * problem, searches for a sequence of actions that would solve the problem, and
      * then executes the actions one at a time. When this is complete, it formulates
-     * another goal and starts over.<br>
+     * another goal and starts over. 
      *
      * @param <S> The type used to represent states
      * @param <A> The type of the actions to be used to navigate through the state space
@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.search.framework.agent
      * @author Ruediger Lunde
      */
     public abstract class SimpleProblemSolvingAgent<S, A> : AbstractAgent
-        where A : Action
+        where A : IAction
     {
 
         // seq, an action sequence, initially empty
@@ -80,9 +80,9 @@ namespace tvn.cosine.ai.search.framework.agent
         }
 
         // function SIMPLE-PROBLEM-SOLVING-AGENT(percept) returns an action 
-        public override Action execute(Percept p)
+        public override IAction Execute(IPercept p)
         {
-            Action action = NoOpAction.NO_OP; // return value if at goal or goal not found
+            IAction action = NoOpAction.NO_OP; // return value if at goal or goal not found
 
             // state <- UPDATE-STATE(state, percept)
             updateState(p);
@@ -128,7 +128,7 @@ namespace tvn.cosine.ai.search.framework.agent
         //
         // PROTECTED METHODS
         //
-        protected abstract void updateState(Percept p);
+        protected abstract void updateState(IPercept p);
 
         protected abstract S formulateGoal();
 

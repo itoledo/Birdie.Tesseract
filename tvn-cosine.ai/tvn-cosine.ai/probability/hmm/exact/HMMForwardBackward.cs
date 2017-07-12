@@ -6,8 +6,8 @@ using tvn.cosine.ai.util.math;
 namespace tvn.cosine.ai.probability.hmm.exact
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 576.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 576. 
+     *  
      * 
      * <pre>
      * function FORWARD-BACKWARD(ev, prior) returns a vector of probability distributions
@@ -29,8 +29,8 @@ namespace tvn.cosine.ai.probability.hmm.exact
      * Figure 15.4 The forward-backward algorithm for smoothing: computing posterior
      * probabilities of a sequence of states given a sequence of observations. The
      * FORWARD and BACKWARD operators are defined by Equations (15.5) and (15.9),
-     * respectively.<br>
-     * <br>
+     * respectively. 
+     *  
      * <b>Note:</b> An implementation of the FORWARD-BACKWARD algorithm using a
      * Hidden Markov Model as the underlying model implementation.
      * 
@@ -92,7 +92,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
         //
 
         /**
-         * The forward equation (15.5) in Matrix form becomes (15.12):<br>
+         * The forward equation (15.5) in Matrix form becomes (15.12): 
          * 
          * <pre>
          * <b>f</b><sub>1:t+1</sub> = &alpha;<b>O</b><sub>t+1</sub><b>T</b><sup>T</sup><b>f</b><sub>1:t</sub>
@@ -110,7 +110,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
         }
 
         /**
-         * The backward equation (15.9) in Matrix form becomes (15.13):<br>
+         * The backward equation (15.9) in Matrix form becomes (15.13): 
          * 
          * <pre>
          * <b>b</b><sub>k+1:t</sub> = <b>T</b><b>O</b><sub>k+1</sub><b>b</b><sub>k+2:t</sub>

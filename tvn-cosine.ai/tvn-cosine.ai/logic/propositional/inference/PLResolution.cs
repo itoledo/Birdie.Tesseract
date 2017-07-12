@@ -8,8 +8,8 @@ using tvn.cosine.ai.logic.propositional.visitors;
 namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 255.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 255. 
+     *  
      * 
      * <pre>
      * <code>
@@ -31,11 +31,11 @@ namespace tvn.cosine.ai.logic.propositional.inference
      * 
      * Figure 7.12 A simple resolution algorithm for propositional logic. The
      * function PL-RESOLVE returns the set of all possible clauses obtained by
-     * resolving its two inputs.<br>
-     * <br>
+     * resolving its two inputs. 
+     *  
      * Note: Optional optimization added to implementation whereby tautological
      * clauses can be removed during processing of the algorithm - see pg. 254 of
-     * AIMA3e:<br>
+     * AIMA3e: 
      * <blockquote> Inspection of Figure 7.13 reveals that many resolution steps are
      * pointless. For example, the clause B<sub>1,1</sub> &or; &not;B<sub>1,1</sub>
      * &or; P<sub>1,2</sub> is equivalent to <i>True</i> &or; P<sub>1,2</sub> which
@@ -52,7 +52,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
     public class PLResolution
     {
         /**
-         * PL-RESOLUTION(KB, &alpha;)<br>
+         * PL-RESOLUTION(KB, &alpha;) 
          * A simple resolution algorithm for propositional logic.
          * 
          * @param kb
@@ -105,7 +105,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         }
 
         /**
-         * PL-RESOLVE(C<sub>i</sub>, C<sub>j</sub>)<br>
+         * PL-RESOLVE(C<sub>i</sub>, C<sub>j</sub>) 
          * Calculate the set of all possible clauses by resolving its two inputs.
          * 
          * @param ci

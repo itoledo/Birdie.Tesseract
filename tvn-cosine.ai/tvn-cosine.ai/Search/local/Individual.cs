@@ -3,8 +3,8 @@
 namespace tvn.cosine.ai.search.local
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 127.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 127. 
+     *  
      * A state in a genetic algorithm is represented as an individual from the
      * population.
      * 

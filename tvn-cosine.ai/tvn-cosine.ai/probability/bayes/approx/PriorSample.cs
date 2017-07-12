@@ -5,8 +5,8 @@ using tvn.cosine.ai.probability.util;
 namespace tvn.cosine.ai.probability.bayes.approx
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 531.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 531. 
+     *  
      * 
      * <pre>
      * function PRIOR-SAMPLE(bn) returns an event sampled from the prior specified by bn

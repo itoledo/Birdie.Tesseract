@@ -161,8 +161,8 @@ namespace tvn.cosine.ai.probability.util
          * probability of a variable given its Markov blanket is proportional to the
          * probability of the variable given its parents times the probability of
          * each child given its respective parents (see equation 14.12 pg. 538
-         * AIMA3e):<br>
-         * <br>
+         * AIMA3e): 
+         *  
          * P(x'<sub>i</sub>|mb(Xi)) =
          * &alpha;P(x'<sub>i</sub>|parents(X<sub>i</sub>)) *
          * &prod;<sub>Y<sub>j</sub> &isin; Children(X<sub>i</sub>)</sub>
@@ -189,8 +189,8 @@ namespace tvn.cosine.ai.probability.util
          * X<sub>i</sub>. The probability of a variable given its Markov blanket is
          * proportional to the probability of the variable given its parents times
          * the probability of each child given its respective parents (see equation
-         * 14.12 pg. 538 AIMA3e):<br>
-         * <br>
+         * 14.12 pg. 538 AIMA3e): 
+         *  
          * P(x'<sub>i</sub>|mb(Xi)) =
          * &alpha;P(x'<sub>i</sub>|parents(X<sub>i</sub>)) *
          * &prod;<sub>Y<sub>j</sub> &isin; Children(X<sub>i</sub>)</sub>
@@ -320,7 +320,7 @@ namespace tvn.cosine.ai.probability.util
         /**
          * Calculate the index into a vector representing the enumeration of the
          * value assignments for the variables X and their corresponding assignment
-         * in x. For example the Random Variables:<br>
+         * in x. For example the Random Variables: 
          * Q::{true, false}, R::{'A', 'B','C'}, and T::{true, false}, would be
          * enumerated in a Vector as follows:
          * 
@@ -384,7 +384,7 @@ namespace tvn.cosine.ai.probability.util
         /**
          * Calculate the indexes for X[i] into a vector representing the enumeration
          * of the value assignments for the variables X and their corresponding
-         * assignment in x. For example the Random Variables:<br>
+         * assignment in x. For example the Random Variables: 
          * Q::{true, false}, R::{'A', 'B','C'}, and T::{true, false}, would be
          * enumerated in a Vector as follows:
          * 

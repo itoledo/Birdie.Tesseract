@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace tvn.cosine.ai.search.csp
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Ed.): Section 6.1, Page 202.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Ed.): Section 6.1, Page 202. 
+     *  
      * A constraint satisfaction problem or CSP consists of three components, X, D,
      * and C:
      * <ul>

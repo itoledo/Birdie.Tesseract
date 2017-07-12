@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.search.framework.agent
      * @author Ruediger Lunde
      */
     public abstract class ProblemSolvingAgent<S, A> : AbstractAgent
-        where A : Action
+        where A : IAction
     {
 
         /** Plan, an action sequence, initially empty. */
@@ -57,9 +57,9 @@ namespace tvn.cosine.ai.search.framework.agent
          * 
          * @return an action
          */
-        public override Action execute(Percept p)
+        public override IAction Execute(IPercept p)
         {
-            Action action = NoOpAction.NO_OP;
+            IAction action = NoOpAction.NO_OP;
             // state <- UPDATE-STATE(state, percept)
             updateState(p);
             // if plan is empty then do
@@ -123,7 +123,7 @@ namespace tvn.cosine.ai.search.framework.agent
          * the model of the world proved to be wrong, implementations could update
          * the model and also clear the plan.
          */
-        protected abstract void updateState(Percept p);
+        protected abstract void updateState(IPercept p);
 
         /**
          * Primitive operation, responsible for goal generation. In this version,

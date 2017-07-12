@@ -9,8 +9,8 @@ using tvn.cosine.ai.util;
 namespace tvn.cosine.ai.logic.propositional.parsing.ast
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 244. 
+     *  
      * The base of the knowledge representation language for propositional logic.
      * Note: this class hierarchy defines the abstract syntax representation used
      * for representing propositional logic.
@@ -167,8 +167,8 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
         /**
          * Utility routine that will create a string representation of a given
          * Sentence and place it inside brackets if it is a complex sentence that
-         * has lower precedence than this complex sentence.<br>
-         * <br>
+         * has lower precedence than this complex sentence. 
+         *  
          * Note: this is a form of pretty printing, whereby we only add brackets in
          * the concrete syntax representation as needed to ensure it can be parsed
          * back again into an equivalent abstract syntax representation used here.

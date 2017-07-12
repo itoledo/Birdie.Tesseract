@@ -12,8 +12,8 @@ namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 7.10, page
-     * 248.<br>
-     * <br>
+     * 248. 
+     *  
      * 
      * <pre>
      * function TT-ENTAILS?(KB, &alpha;) returns true or false

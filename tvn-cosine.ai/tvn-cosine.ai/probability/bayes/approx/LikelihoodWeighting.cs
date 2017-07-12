@@ -10,8 +10,8 @@ using tvn.cosine.ai.util.datastructure;
 namespace tvn.cosine.ai.probability.bayes.approx
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 534.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 534. 
+     *  
      * 
      * <pre>
      * function LIKELIHOOD-WEIGHTING(X, e, bn, N) returns an estimate of <b>P</b>(X|e)
@@ -40,10 +40,10 @@ namespace tvn.cosine.ai.probability.bayes.approx
      * networks. In WEIGHTED-SAMPLE, each nonevidence variable is sampled according
      * to the conditional distribution given the values already sampled for the
      * variable's parents, while a weight is accumulated based on the likelihood for
-     * each evidence variable.<br>
-     * <br>
+     * each evidence variable. 
+     *  
      * <b>Note:</b> The implementation has been extended to handle queries with
-     * multiple variables. <br>
+     * multiple variables.  
      * 
      * @author Ciaran O'Reilly
      * @author Ravi Mohan

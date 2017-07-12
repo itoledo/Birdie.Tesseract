@@ -9,8 +9,8 @@ namespace tvn.cosine.ai.logic.fol
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 9.1, page
-     * 328.<br>
-     * <br>
+     * 328. 
+     *  
      * 
      * <pre>
      * function UNIFY(x, y, theta) returns a substitution to make x and y identical

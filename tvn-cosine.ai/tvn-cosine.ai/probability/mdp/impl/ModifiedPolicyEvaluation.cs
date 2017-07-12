@@ -8,16 +8,16 @@ using tvn.cosine.ai.agent;
 namespace tvn.cosine.ai.probability.mdp.impl
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 657.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 657. 
+     *  
      * For small state spaces, policy evaluation using exact solution methods is
      * often the most efficient approach. For large state spaces, O(n<sup>3</sup>)
      * time might be prohibitive. Fortunately, it is not necessary to do exact
      * policy evaluation. Instead, we can perform some number of simplified value
      * iteration steps (simplified because the policy is fixed) to give a reasonably
      * good approximation of utilities. The simplified Bellman update for this
-     * process is:<br>
-     * <br>
+     * process is: 
+     *  
      * 
      * <pre>
      * U<sub>i+1</sub>(s) <- R(s) + &gamma;&Sigma;<sub>s'</sub>P(s'|s,&pi;<sub>i</sub>(s))U<sub>i</sub>(s')
@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
      * 
      */
     public class ModifiedPolicyEvaluation<S, A> : PolicyEvaluation<S, A>
-        where A : Action
+        where A : IAction
     {
         // # iterations to use to produce the next utility estimate
         private int k;

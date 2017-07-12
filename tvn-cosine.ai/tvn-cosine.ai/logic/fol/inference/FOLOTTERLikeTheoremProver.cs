@@ -14,8 +14,8 @@ namespace tvn.cosine.ai.logic.fol.inference
 {
     /**
      * Artificial Intelligence A Modern Approach (2nd Edition): Figure 9.14, page
-     * 307.<br>
-     * <br>
+     * 307. 
+     *  
      * 
      * <pre>
      * procedure OTTER(sos, usable)
@@ -50,19 +50,19 @@ namespace tvn.cosine.ai.logic.fol.inference
      * 
      * Figure 9.14 Sketch of the OTTER theorem prover. Heuristic control is applied
      * in the selection of the "lightest" clause and in the FILTER function that
-     * eliminates uninteresting clauses from consideration.<br>
-     * <br>
+     * eliminates uninteresting clauses from consideration. 
+     *  
      * <b>Note:</b> The original implementation of OTTER has been retired but its
-     * successor, <b>Prover9</b>, can be found at:<br>
-     * <a href="http://www.prover9.org/">http://www.prover9.org/</a><br>
-     * or<br>
+     * successor, <b>Prover9</b>, can be found at: 
+     * <a href="http://www.prover9.org/">http://www.prover9.org/</a> 
+     * or 
      * <a href="http://www.cs.unm.edu/~mccune/mace4/">http://www.cs.unm.edu/~mccune/
-     * mace4/</a><br>
-     * Should you wish to play with a mature implementation of a theorem prover :-)<br>
-     * <br>
+     * mace4/</a> 
+     * Should you wish to play with a mature implementation of a theorem prover :-) 
+     *  
      * For lots of interesting problems to play with, see <b>The TPTP Problem
-     * Library for Automated Theorem Proving</b>:<br>
-     * <a href="http://www.cs.miami.edu/~tptp/">http://www.cs.miami.edu/~tptp/</a><br>
+     * Library for Automated Theorem Proving</b>: 
+     * <a href="http://www.cs.miami.edu/~tptp/">http://www.cs.miami.edu/~tptp/</a> 
      * 
      * @author Ciaran O'Reilly
      * 

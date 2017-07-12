@@ -9,8 +9,8 @@ using tvn.cosine.ai.logic.propositional.parsing.ast;
 namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 263.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 263. 
+     *  
      * 
      * <pre>
      * <code>
@@ -40,7 +40,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
     {
 
         /**
-         * WALKSAT(clauses, p, max_flips)<br>
+         * WALKSAT(clauses, p, max_flips) 
          * 
          * @param clauses
          *            a set of clauses in propositional logic

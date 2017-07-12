@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace tvn.cosine.ai.search.adversarial
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 169.<br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 169. 
      * <p>
      * <pre>
      * <code>

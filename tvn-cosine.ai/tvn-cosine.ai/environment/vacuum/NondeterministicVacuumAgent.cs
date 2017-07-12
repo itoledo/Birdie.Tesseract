@@ -16,12 +16,12 @@ namespace tvn.cosine.ai.environment.vacuum
      */
     public class NondeterministicVacuumAgent : AbstractAgent
     {
-        private NondeterministicProblem<object, Action> problem;
-        private System.Func<Percept, object> ptsFunction;
+        private NondeterministicProblem<object, IAction> problem;
+        private System.Func<IPercept, object> ptsFunction;
         private Plan contingencyPlan;
         private Stack<object> stack = new Stack<object>();
 
-        public NondeterministicVacuumAgent(System.Func<Percept, object> ptsFunction)
+        public NondeterministicVacuumAgent(System.Func<IPercept, object> ptsFunction)
         {
             setPerceptToStateFunction(ptsFunction);
         }
@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * 
          * @return the search problem for this agent.
          */
-        public NondeterministicProblem<object, Action> getProblem()
+        public NondeterministicProblem<object, IAction> getProblem()
         {
             return problem;
         }
@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * @param problem
          *            the search problem for this agent to solve.
          */
-        public void setProblem(NondeterministicProblem<object, Action> problem)
+        public void setProblem(NondeterministicProblem<object, IAction> problem)
         {
             this.problem = problem;
             init();
@@ -53,7 +53,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * 
          * @return the percept to state function of this agent.
          */
-        public System.Func<Percept, object> getPerceptToStateFunction()
+        public System.Func<IPercept, object> getPerceptToStateFunction()
         {
             return ptsFunction;
         }
@@ -65,7 +65,7 @@ namespace tvn.cosine.ai.environment.vacuum
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public void setPerceptToStateFunction(System.Func<Percept, object> ptsFunction)
+        public void setPerceptToStateFunction(System.Func<IPercept, object> ptsFunction)
         {
             this.ptsFunction = ptsFunction;
         }
@@ -90,7 +90,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * @param percept a percept.
          * @return an action from the contingency plan.
          */
-        public override Action execute(Percept percept)
+        public override IAction Execute(IPercept percept)
         {
             // check if goal state
             VacuumEnvironmentState state = (VacuumEnvironmentState)this.getPerceptToStateFunction()(percept);
@@ -115,9 +115,9 @@ namespace tvn.cosine.ai.environment.vacuum
             // pop...
             object currentStep = this.stack.Peek();
             // push...
-            if (currentStep is Action)
+            if (currentStep is IAction)
             {
-                return (Action)this.stack.Pop();
+                return (IAction)this.stack.Pop();
             } // case: next step is a plan
             else if (currentStep is Plan)
             {
@@ -131,18 +131,18 @@ namespace tvn.cosine.ai.environment.vacuum
                 {
                     this.stack.Pop();
                 }
-                return this.execute(percept);
+                return this.Execute(percept);
             } // case: next step is an if-then
             else if (currentStep is IfStateThenPlan<object>)
             {
                 IfStateThenPlan<object> conditional = (IfStateThenPlan<object>)this.stack.Pop();
                 this.stack.Push(conditional.ifStateMatches(percept));
-                return this.execute(percept);
+                return this.Execute(percept);
             } // case: ignore next step if null
             else if (currentStep == null)
             {
                 this.stack.Pop();
-                return this.execute(percept);
+                return this.Execute(percept);
             }
             else
             {
@@ -157,7 +157,7 @@ namespace tvn.cosine.ai.environment.vacuum
         {
             setAlive(true);
             stack.Clear();
-            AndOrSearch<object, Action> andOrSearch = new AndOrSearch<object, Action>();
+            AndOrSearch<object, IAction> andOrSearch = new AndOrSearch<object, IAction>();
             this.contingencyPlan = andOrSearch.search(this.problem);
         }
     }

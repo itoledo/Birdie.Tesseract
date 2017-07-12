@@ -1,7 +1,7 @@
 ﻿namespace tvn.cosine.ai.search.framework.qsearch
 {/**
  * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.7, page 77.
- * <br>
+ *  
  * 
  * <pre>
  * function TREE-SEARCH(problem) returns a solution, or failure
@@ -15,7 +15,7 @@
  * 
  * Figure 3.7 An informal description of the general tree-search algorithm.
  * 
- * <br>
+ *  
  * This implementation is based on the template method
  * {@link #findNode(Problem, Queue)} from superclass {@link QueueSearch} and
  * provides implementations for the needed primitive operations.

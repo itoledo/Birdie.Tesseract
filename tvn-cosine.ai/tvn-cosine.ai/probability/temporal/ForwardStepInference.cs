@@ -4,7 +4,7 @@ using tvn.cosine.ai.probability.proposition;
 namespace tvn.cosine.ai.probability.temporal
 {
     /**
-     * * The FORWARD operator is defined by Equation (15.5).<br>
+     * * The FORWARD operator is defined by Equation (15.5). 
      * 
      * <pre>
      * <b>P</b>(<b>X</b><sub>t+1</sub> | <b>e</b><sub>1:t+1</sub>) 
@@ -19,7 +19,7 @@ namespace tvn.cosine.ai.probability.temporal
     {
 
         /**
-         * The FORWARD operator is defined by Equation (15.5).<br>
+         * The FORWARD operator is defined by Equation (15.5). 
          * 
          * <pre>
          * <b>P</b>(<b>X</b><sub>t+1</sub> | <b>e</b><sub>1:t+1</sub>) 

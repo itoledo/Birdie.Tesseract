@@ -8,8 +8,8 @@ using tvn.cosine.ai.agent.impl;
 namespace tvn.cosine.ai.environment.vacuum
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): pg 58.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): pg 58. 
+     *  
      * Let the world contain just two locations. Each location may or may not
      * contain dirt, and the agent may be in one location or the other. There are 8
      * possible world states, as shown in Figure 3.2. The agent has three possible
@@ -24,9 +24,9 @@ namespace tvn.cosine.ai.environment.vacuum
     public class VacuumEnvironment : AbstractEnvironment
     {
         // Allowable Actions within the Vacuum Environment
-        public static readonly Action ACTION_MOVE_LEFT = new DynamicAction("Left");
-        public static readonly Action ACTION_MOVE_RIGHT = new DynamicAction("Right");
-        public static readonly Action ACTION_SUCK = new DynamicAction("Suck");
+        public static readonly IAction ACTION_MOVE_LEFT = new DynamicAction("Left");
+        public static readonly IAction ACTION_MOVE_RIGHT = new DynamicAction("Right");
+        public static readonly IAction ACTION_SUCK = new DynamicAction("Suck");
         public const string LOCATION_A = "A";
         public const string LOCATION_B = "B";
 
@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.environment.vacuum
             envState = new VacuumEnvironmentState(locAState, locBState);
         }
 
-        public EnvironmentState getCurrentState()
+        public IEnvironmentState getCurrentState()
         {
             return envState;
         }
@@ -77,7 +77,7 @@ namespace tvn.cosine.ai.environment.vacuum
             return new[] { LOCATION_A, LOCATION_B }.ToList();
         }
 
-        public override void executeAction(Agent a, Action agentAction)
+        public override void executeAction(IAgent a, IAction agentAction)
         {
 
             if (ACTION_MOVE_RIGHT == agentAction)
@@ -100,7 +100,7 @@ namespace tvn.cosine.ai.environment.vacuum
                     updatePerformanceMeasure(a, 10);
                 }
             }
-            else if (agentAction.isNoOp())
+            else if (agentAction.IsNoOp())
             {
                 // In the Vacuum Environment we consider things done if
                 // the agent generates a NoOp.
@@ -108,7 +108,7 @@ namespace tvn.cosine.ai.environment.vacuum
             }
         }
 
-        public override Percept getPerceptSeenBy(Agent anAgent)
+        public override IPercept getPerceptSeenBy(IAgent anAgent)
         {
             if (anAgent is NondeterministicVacuumAgent)
             {
@@ -120,25 +120,25 @@ namespace tvn.cosine.ai.environment.vacuum
                     envState.getLocationState(agentLocation));
         }
 
-        public override bool isDone()
+        public override bool IsDone()
         {
-            return base.isDone() || _isDone;
+            return base.IsDone() || _isDone;
         }
 
-        public override void addAgent(Agent a)
+        public override void AddAgent(IAgent a)
         {
             int idx = new System.Random().Next(2);
             envState.setAgentLocation(a, idx == 0 ? LOCATION_A : LOCATION_B);
-            base.addAgent(a);
+            base.AddAgent(a);
         }
 
-        public void addAgent(Agent a, string location)
+        public void addAgent(IAgent a, string location)
         {
             // Ensure the agent state information is tracked before
             // adding to super, as super will notify the registered
             // EnvironmentViews that is was added.
             envState.setAgentLocation(a, location);
-            base.addAgent(a);
+            base.AddAgent(a);
         }
 
         public LocationState getLocationState(string location)
@@ -146,7 +146,7 @@ namespace tvn.cosine.ai.environment.vacuum
             return envState.getLocationState(location);
         }
 
-        public string getAgentLocation(Agent a)
+        public string getAgentLocation(IAgent a)
         {
             return envState.getAgentLocation(a);
         }

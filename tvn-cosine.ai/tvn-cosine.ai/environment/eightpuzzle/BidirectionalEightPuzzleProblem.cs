@@ -11,9 +11,9 @@ namespace tvn.cosine.ai.environment.eightpuzzle
      * @author Ruediger Lunde
      * 
      */
-    public class BidirectionalEightPuzzleProblem : GeneralProblem<EightPuzzleBoard, Action>, IBidirectionalProblem<EightPuzzleBoard, Action>
+    public class BidirectionalEightPuzzleProblem : GeneralProblem<EightPuzzleBoard, IAction>, IBidirectionalProblem<EightPuzzleBoard, IAction>
     {
-        private readonly IProblem<EightPuzzleBoard, Action> reverseProblem;
+        private readonly IProblem<EightPuzzleBoard, IAction> reverseProblem;
 
         private static bool isEqual(EightPuzzleBoard state)
         {
@@ -23,17 +23,17 @@ namespace tvn.cosine.ai.environment.eightpuzzle
         public BidirectionalEightPuzzleProblem(EightPuzzleBoard initialState)
             : base(initialState, EightPuzzleFunctions.getActions, EightPuzzleFunctions.getResult, EightPuzzleFunctions.GOAL_STATE.Equals)
         {
-            reverseProblem = new GeneralProblem<EightPuzzleBoard, Action>(EightPuzzleFunctions.GOAL_STATE,
+            reverseProblem = new GeneralProblem<EightPuzzleBoard, IAction>(EightPuzzleFunctions.GOAL_STATE,
                     EightPuzzleFunctions.getActions, EightPuzzleFunctions.getResult,
                     initialState.Equals);
         }
 
-        public IProblem<EightPuzzleBoard, Action> getOriginalProblem()
+        public IProblem<EightPuzzleBoard, IAction> getOriginalProblem()
         {
             return this;
         }
 
-        public IProblem<EightPuzzleBoard, Action> getReverseProblem()
+        public IProblem<EightPuzzleBoard, IAction> getReverseProblem()
         {
             return reverseProblem;
         }

@@ -14,10 +14,10 @@ namespace tvn.cosine.ai.environment.eightpuzzle
      */
     public class EightPuzzleBoard
     {
-        public static Action LEFT = new DynamicAction("Left");
-        public static Action RIGHT = new DynamicAction("Right");
-        public static Action UP = new DynamicAction("Up");
-        public static Action DOWN = new DynamicAction("Down");
+        public static IAction LEFT = new DynamicAction("Left");
+        public static IAction RIGHT = new DynamicAction("Right");
+        public static IAction UP = new DynamicAction("Up");
+        public static IAction DOWN = new DynamicAction("Down");
 
         private int[] state;
 
@@ -137,7 +137,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             }
         }
 
-        public bool canMoveGap(Action where)
+        public bool canMoveGap(IAction where)
         {
             bool retVal = true;
             int absPos = getPositionOf(0);

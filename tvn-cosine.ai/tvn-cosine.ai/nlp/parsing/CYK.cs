@@ -5,8 +5,8 @@ using tvn.cosine.ai.nlp.parsing.grammers;
 namespace tvn.cosine.ai.nlp.parsing
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 894.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 894. 
+     *  
      * 
      * <pre>
      * function CYK-PARSE(words, grammar) returns P, a table of probabilities
@@ -33,8 +33,8 @@ namespace tvn.cosine.ai.nlp.parsing
      * each subsequence. It returns the whole table, P, in which an entry 
      * P[X, start, len] is the probability of the most probable X of length
      * len starting at position start. If there is no X of that size at that
-     * location, the probability is 0.<br>
-     * <br>
+     * location, the probability is 0. 
+     *  
      * 
      * @author Jonathon Belotti (thundergolfer)
      *

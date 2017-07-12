@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 namespace tvn.cosine.ai.environment.cellworld
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 645.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 645. 
+     *  
      * 
-     * A representation for the environment depicted in figure 17.1.<br>
-     * <br>
+     * A representation for the environment depicted in figure 17.1. 
+     *  
      * <b>Note:<b> the x and y coordinates are always positive integers starting at
-     * 1.<br>
+     * 1. 
      * <b>Note:<b> If looking at a rectangle - the coordinate (x=1, y=1) will be the
-     * bottom left hand corner.<br>
+     * bottom left hand corner. 
      * 
      * 
      * @param <C>

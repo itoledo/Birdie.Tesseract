@@ -4,8 +4,8 @@ using tvn.cosine.ai.probability.proposition;
 namespace tvn.cosine.ai.probability.bayes
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 512.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 512. 
+     *  
      * A Conditional Probability Table, or CPT, can be used for representing
      * conditional probabilities for discrete (finite) random variables. Each row in
      * a CPT contains the conditional probability of each node value for a

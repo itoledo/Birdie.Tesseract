@@ -12,8 +12,8 @@ namespace tvn.cosine.ai.probability.bayes.exact
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 14.11, page
-     * 528.<br>
-     * <br>
+     * 528. 
+     *  
      * 
      * <pre>
      * function ELIMINATION-ASK(X, e, bn) returns a distribution over X
@@ -29,10 +29,10 @@ namespace tvn.cosine.ai.probability.bayes.exact
      * </pre>
      * 
      * Figure 14.11 The variable elimination algorithm for inference in Bayesian
-     * networks. <br>
-     * <br>
+     * networks.  
+     *  
      * <b>Note:</b> The implementation has been extended to handle queries with
-     * multiple variables. <br>
+     * multiple variables.  
      * 
      * @author Ciaran O'Reilly
      */
@@ -105,10 +105,10 @@ namespace tvn.cosine.ai.probability.bayes.exact
          * <b>Note:</b>Override this method for a more efficient implementation as
          * outlined in AIMA3e pgs. 527-28. Calculate the hidden variables from the
          * Bayesian Network. The default implementation does not perform any of
-         * these.<br>
-         * <br>
+         * these. 
+         *  
          * Two calcuations to be performed here in order to optimize iteration over
-         * the Bayesian Network:<br>
+         * the Bayesian Network: 
          * 1. Calculate the hidden variables to be enumerated over. An optimization
          * (AIMA3e pg. 528) is to remove 'every variable that is not an ancestor of
          * a query variable or evidence variable as it is irrelevant to the query'
@@ -154,7 +154,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
         /**
          * <b>Note:</b>Override this method for a more efficient implementation as
          * outlined in AIMA3e pgs. 527-28. The default implementation does not
-         * perform any of these.<br>
+         * perform any of these. 
          * 
          * @param bn
          *            the Bayesian Network over which the query is being made. Note,

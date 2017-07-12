@@ -9,8 +9,8 @@ namespace tvn.cosine.ai.search.online
 {
     /**
   * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.21, page
-  * 150.<br>
-  * <br>
+  * 150. 
+  *  
   * 
   * <pre>
   * function ONLINE-DFS-AGENT(s') returns an action
@@ -35,17 +35,17 @@ namespace tvn.cosine.ai.search.online
   * 
   * Figure 4.21 An online search agent that uses depth-first exploration. The
   * agent is applicable only in state spaces in which every action can be
-  * "undone" by some other action.<br>
+  * "undone" by some other action. 
   * 
   * @author Ciaran O'Reilly
   * @author Ruediger Lunde
   * 
   */
     public class OnlineDFSAgent<S, A> : AbstractAgent
-        where A : agent.Action
+        where A : agent.IAction
     {
         private IOnlineSearchProblem<S, A> problem;
-        private Func<Percept, S> ptsFn;
+        private Func<IPercept, S> ptsFn;
         // persistent: result, a table, indexed by state and action, initially empty
         private readonly TwoKeyDictionary<S, A, S> result = new TwoKeyDictionary<S, A, S>();
         // untried, a table that lists, for each state, the actions not yet tried
@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.search.online
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public OnlineDFSAgent(IOnlineSearchProblem<S, A> problem, Func<Percept, S> ptsFn)
+        public OnlineDFSAgent(IOnlineSearchProblem<S, A> problem, Func<IPercept, S> ptsFn)
         {
             setProblem(problem);
             setPerceptToStateFunction(ptsFn);
@@ -100,7 +100,7 @@ namespace tvn.cosine.ai.search.online
          * 
          * @return the percept to state function of this agent.
          */
-        public Func<Percept, S> getPerceptToStateFunction()
+        public Func<IPercept, S> getPerceptToStateFunction()
         {
             return ptsFn;
         }
@@ -112,7 +112,7 @@ namespace tvn.cosine.ai.search.online
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public void setPerceptToStateFunction(Func<Percept, S> ptsFn)
+        public void setPerceptToStateFunction(Func<IPercept, S> ptsFn)
         {
             this.ptsFn = ptsFn;
         }
@@ -120,7 +120,7 @@ namespace tvn.cosine.ai.search.online
         // function ONLINE-DFS-AGENT(s') returns an action
         // inputs: s', a percept that identifies the current state
 
-        public override agent.Action execute(Percept psPrimed)
+        public override agent.IAction Execute(IPercept psPrimed)
         {
             S sPrimed = ptsFn(psPrimed);
             // if GOAL-TEST(s') then return stop
@@ -201,7 +201,7 @@ namespace tvn.cosine.ai.search.online
             // s <- s'
             s = sPrimed;
             // return a
-            return a != null ? a : NoOpAction.NO_OP as agent.Action;
+            return a != null ? a : NoOpAction.NO_OP as agent.IAction;
         }
 
         //

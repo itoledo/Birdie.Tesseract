@@ -6,8 +6,8 @@ namespace tvn.cosine.ai.search.uninformed
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.14, page
-     * 84.<br>
-     * <br>
+     * 84. 
+     *  
      * 
      * <pre>
      * function UNIFORM-COST-SEARCH(problem) returns a solution, or failure

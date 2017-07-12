@@ -4,20 +4,20 @@ using tvn.cosine.ai.logic.fol.kb.data;
 namespace tvn.cosine.ai.logic.fol
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 356.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 356. 
+     *  
      * The subsumption method eliminates all sentences that are subsumed by (that
      * is, more specific than) an existing sentence in the KB. For example, P(x) is
      * in the KB, then there is no sense in adding P(A) and even less sense in
      * adding P(A) V Q(B). Subsumption helps keep the KB small and thus helps keep
-     * the search space small.<br>
-     * <br>
+     * the search space small. 
+     *  
      * <b>Note:</b> <a
      * href="http://logic.stanford.edu/classes/cs157/2008/lectures/lecture12.pdf"
-     * >From slide 17.</a> <br>
-     * <br>
-     * Relational Subsumption<br>
-     * <br>
+     * >From slide 17.</a>  
+     *  
+     * Relational Subsumption 
+     *  
      * A relational clause &Phi; subsumes &Psi; if and only if there is a
      * substitution &delta; that, when applied to &Phi;, produces a clause &Phi;'
      * that is a subset of &Psi;.

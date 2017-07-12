@@ -8,8 +8,8 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn.cosine.ai.logic.fol.kb.data
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 244. 
+     *  
      * A literal is either an atomic sentence (a positive literal) or a negated
      * atomic sentence (a negative literal).
      * 

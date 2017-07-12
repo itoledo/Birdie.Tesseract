@@ -4,11 +4,11 @@ using tvn.cosine.ai.probability.proposition;
 namespace tvn.cosine.ai.probability
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 487.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 487. 
+     *  
      * A probability distribution is a function that assigns probabilities to events
-     * (sets of possible worlds).<br>
-     * <br>
+     * (sets of possible worlds). 
+     *  
      * <b>Note:</b> This definition is slightly different than that given in AIMA3e
      * pg. 487, which in this API corresponds to a CategoricalDistribution.
      * 

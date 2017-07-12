@@ -5,8 +5,8 @@ using tvn.cosine.ai.util;
 namespace tvn.cosine.ai.probability.mdp.search
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 653.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 653. 
+     *  
      * 
      * <pre>
      * function VALUE-ITERATION(mdp, &epsilon;) returns a utility function
@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.probability.mdp.search
      * </pre>
      * 
      * Figure 17.4 The value iteration algorithm for calculating utilities of
-     * states. The termination condition is from Equation (17.8):<br>
+     * states. The termination condition is from Equation (17.8): 
      * 
      * <pre>
      * if ||U<sub>i+1</sub> - U<sub>i</sub>|| < &epsilon;(1 - &gamma;)/&gamma; then ||U<sub>i+1</sub> - U|| < &epsilon;
@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.probability.mdp.search
      * 
      */
     public class ValueIteration<S, A>
-        where A : Action
+        where A : IAction
     {
         // discount &gamma; to be used.
         private double gamma = 0;
@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.probability.mdp.search
          * The value iteration algorithm for calculating the utility of states.
          * 
          * @param mdp
-         *            an MDP with states S, actions A(s), <br>
+         *            an MDP with states S, actions A(s),  
          *            transition model P(s' | s, a), rewards R(s)
          * @param epsilon
          *            the maximum error allowed in the utility of any state

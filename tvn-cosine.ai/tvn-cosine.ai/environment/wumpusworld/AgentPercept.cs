@@ -3,8 +3,8 @@
 namespace tvn.cosine.ai.environment.wumpusworld
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 237.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 237. 
+     *  
      * The agent has five sensors, each of which gives a single bit of information:
      * <ul>
      * <li>In the square containing the wumpus and in the directly (not diagonally)
@@ -21,7 +21,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
      * @author Alessandro Daniele
      * @author Ciaran O'Reilly
      */
-    public class AgentPercept : Percept
+    public class AgentPercept : IPercept
     {
         private bool stench;
         private bool breeze;

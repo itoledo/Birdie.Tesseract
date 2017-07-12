@@ -12,8 +12,8 @@ namespace tvn.cosine.ai.search.local
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.8, page
-     * 129.<br>
-     * <br>
+     * 129. 
+     *  
      * 
      * <pre>
      * function GENETIC-ALGORITHM(population, FITNESS-FN) returns an individual

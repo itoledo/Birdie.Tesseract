@@ -8,8 +8,8 @@ namespace tvn.cosine.ai.search.uninformed
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.17, page
-     * 88.<br>
-     * <br>
+     * 88. 
+     *  
      * 
      * <pre>
      * function DEPTH-LIMITED-SEARCH(problem, limit) returns a solution, or failure/cutoff

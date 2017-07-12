@@ -3,8 +3,8 @@
 namespace tvn.cosine.ai.probability.mdp
 {
     /**
- * Artificial Intelligence A Modern Approach (3rd Edition): page 647.<br>
- * <br>
+ * Artificial Intelligence A Modern Approach (3rd Edition): page 647. 
+ *  
  * 
  * A solution to a Markov decision process is called a <b>policy</b>. It
  * specifies what the agent should do for any state that the agent might reach.
@@ -23,7 +23,7 @@ namespace tvn.cosine.ai.probability.mdp
  * 
  */
     public interface Policy<S, A>
-        where A : Action
+        where A : IAction
     {
         /**
          * &pi;(s) is the action recommended by the policy &pi; for state s.

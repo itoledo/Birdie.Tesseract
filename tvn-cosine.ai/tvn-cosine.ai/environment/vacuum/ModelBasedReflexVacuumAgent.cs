@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.environment.vacuum
                 setRules(getRuleSet());
             }
 
-            protected override DynamicState updateState(DynamicState state, Action anAction, Percept percept, Model model)
+            protected override DynamicState updateState(DynamicState state, IAction anAction, IPercept percept, IModel model)
             {
 
                 LocalVacuumEnvironmentPercept vep = (LocalVacuumEnvironmentPercept)percept;

@@ -4,13 +4,13 @@ using tvn.cosine.ai.probability.proposition;
 namespace tvn.cosine.ai.probability.temporal
 {
     /**
-     * The BACKWARD operator<br>
+     * The BACKWARD operator 
      * 
      * <pre>
      * <b>b</b><sub>k+1:t</sub> = <b>P</b>(<b>e</b><sub>k+1:t</sub> | <b>X</b><sub>k</sub>)
      * </pre>
      * 
-     * is defined by Equation (15.9).<br>
+     * is defined by Equation (15.9). 
      * 
      * <pre>
      * <b>P</b>(e<sub>k+1:t</sub> | X<sub>k</sub>) 
@@ -27,13 +27,13 @@ namespace tvn.cosine.ai.probability.temporal
     {
 
         /**
-         * The BACKWARD operator<br>
+         * The BACKWARD operator 
          * 
          * <pre>
          * <b>b</b><sub>k+1:t</sub> = <b>P</b>(<b>e</b><sub>k+1:t</sub> | <b>X</b><sub>k</sub>)
          * </pre>
          * 
-         * is defined by Equation (15.9).<br>
+         * is defined by Equation (15.9). 
          * 
          * <pre>
          * <b>P</b>(e<sub>k+1:t</sub> | X<sub>k</sub>) 

@@ -9,9 +9,9 @@ using tvn.cosine.ai.logic.propositional.parsing.ast;
 namespace tvn.cosine.ai.logic.propositional.visitors
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
-     * <br>
-     * Eliminate <=>, replacing &alpha; <=> &beta;<br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 253. 
+     *  
+     * Eliminate <=>, replacing &alpha; <=> &beta; 
      * with (&alpha; => &beta;) & (&beta; => &alpha;)
      * 
      * @author Ciaran O'Reilly

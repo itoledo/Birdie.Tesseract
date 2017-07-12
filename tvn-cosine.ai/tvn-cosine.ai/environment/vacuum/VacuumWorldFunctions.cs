@@ -17,14 +17,14 @@ namespace tvn.cosine.ai.environment.vacuum
         /**
          * Specifies the actions available to the agent at state s
          */
-        public static IList<Action> getActions(VacuumEnvironmentState state)
+        public static IList<IAction> getActions(VacuumEnvironmentState state)
         {
-            IList<Action> actions = new List<Action>();
+            IList<IAction> actions = new List<IAction>();
             actions.Add(VacuumEnvironment.ACTION_SUCK);
             actions.Add(VacuumEnvironment.ACTION_MOVE_LEFT);
             actions.Add(VacuumEnvironment.ACTION_MOVE_RIGHT);
             // Ensure cannot be modified.
-            return new ReadOnlyCollection<Action>(actions);
+            return new ReadOnlyCollection<IAction>(actions);
         }
 
         public static bool testGoal(VacuumEnvironmentState state)
@@ -33,7 +33,7 @@ namespace tvn.cosine.ai.environment.vacuum
                     && state.getLocationState(VacuumEnvironment.LOCATION_B) == VacuumEnvironment.LocationState.Clean;
         }
 
-        public static ResultsFunction<VacuumEnvironmentState, Action> createResultsFunction(Agent agent)
+        public static ResultsFunction<VacuumEnvironmentState, IAction> createResultsFunction(IAgent agent)
         {
             return new VacuumWorldResults(agent);
         }
@@ -41,12 +41,12 @@ namespace tvn.cosine.ai.environment.vacuum
         /**
          * Returns possible results
          */
-        private class VacuumWorldResults : ResultsFunction<VacuumEnvironmentState, Action>
+        private class VacuumWorldResults : ResultsFunction<VacuumEnvironmentState, IAction>
         {
 
-            private Agent agent;
+            private IAgent agent;
 
-            public VacuumWorldResults(Agent agent)
+            public VacuumWorldResults(IAgent agent)
             {
                 this.agent = agent;
             }
@@ -56,7 +56,7 @@ namespace tvn.cosine.ai.environment.vacuum
              *
              * @return a list of possible results for a given state and action.
              */
-            public IList<VacuumEnvironmentState> results(VacuumEnvironmentState state, Action action)
+            public IList<VacuumEnvironmentState> results(VacuumEnvironmentState state, IAction action)
             {
                 // Ensure order is consistent across platforms.
                 IList<VacuumEnvironmentState> results = new List<VacuumEnvironmentState>();

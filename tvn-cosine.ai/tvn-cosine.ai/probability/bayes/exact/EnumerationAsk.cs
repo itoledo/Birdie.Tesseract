@@ -13,8 +13,8 @@ namespace tvn.cosine.ai.probability.bayes.exact
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 14.9, page
-     * 525.<br>
-     * <br>
+     * 525. 
+     *  
      * 
      * <pre>
      * function ENUMERATION-ASK(X, e, bn) returns a distribution over X
@@ -40,10 +40,10 @@ namespace tvn.cosine.ai.probability.bayes.exact
      * </pre>
      * 
      * Figure 14.9 The enumeration algorithm for answering queries on Bayesian
-     * networks. <br>
-     * <br>
+     * networks.  
+     *  
      * <b>Note:</b> The implementation has been extended to handle queries with
-     * multiple variables. <br>
+     * multiple variables.  
      * 
      * @author Ciaran O'Reilly
      */

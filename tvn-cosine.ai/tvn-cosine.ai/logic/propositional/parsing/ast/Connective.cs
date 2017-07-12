@@ -5,8 +5,8 @@ using tvn.cosine.ai.util;
 namespace tvn.cosine.ai.logic.propositional.parsing.ast
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 244. 
+     *  
      * 
      * <pre>
      * <b>Logical Connectives:</b> There are five connectives in common use:

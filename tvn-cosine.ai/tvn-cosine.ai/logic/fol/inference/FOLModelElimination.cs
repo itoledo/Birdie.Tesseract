@@ -12,7 +12,7 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn.cosine.ai.logic.fol.inference
 {
     /**
-     * Based on lecture notes from:<br>
+     * Based on lecture notes from: 
      * <a
      * href="http://logic.stanford.edu/classes/cs157/2008/lectures/lecture13.pdf">
      * http://logic.stanford.edu/classes/cs157/2008/lectures/lecture13.pdf</a>

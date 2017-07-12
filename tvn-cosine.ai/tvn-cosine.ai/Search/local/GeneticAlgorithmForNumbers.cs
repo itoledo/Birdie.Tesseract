@@ -7,7 +7,7 @@ namespace tvn.cosine.ai.search.local
      * interval instead of symbols from a finite alphabet in the representations of
      * individuals. Reproduction uses values somewhere between the values of the
      * parents. Mutation adds some random offset. Progress tracer implementations
-     * can be used to get informed about the running iterations. <br>
+     * can be used to get informed about the running iterations.  
      * A typical use case for this genetic algorithm version is finding maximums in
      * a given mathematical (fitness) function.
      * 

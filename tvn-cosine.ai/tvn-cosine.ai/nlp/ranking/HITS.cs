@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace tvn.cosine.ai.nlp.ranking
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 871.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 871. 
+     *  
      * 
      * <pre>
      * function HITS(query) returns pages (with hub and authority numbers)
@@ -29,8 +29,8 @@ namespace tvn.cosine.ai.nlp.ranking
      * respect to a query. RELEVANT-PAGES fetches the pages that match the query,
      * and EXPAND-PAGES add in every page that links to or is linked from one of the
      * relevant pages. NORMALIZE divides each page's score by the sum of the squares
-     * of all pages' scores (separately for both the authority and hubs scores.<br>
-     * <br>
+     * of all pages' scores (separately for both the authority and hubs scores. 
+     *  
      * 
      * @author Jonathon Belotti (thundergolfer)
      *

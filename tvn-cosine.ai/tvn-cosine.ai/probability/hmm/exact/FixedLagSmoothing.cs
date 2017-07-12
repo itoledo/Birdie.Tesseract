@@ -9,8 +9,8 @@ using tvn.cosine.ai.util.math;
 namespace tvn.cosine.ai.probability.hmm.exact
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 580.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 580. 
+     *  
      * 
      * <pre>
      * function FIXED-LAG-SMOOTHING(e<sub>t</sub>, hmm, d) returns a distribution over <b>X</b><sub>t-d</sub>
@@ -39,17 +39,17 @@ namespace tvn.cosine.ai.probability.hmm.exact
      * implemented as an online algorithm that outputs the new smoothed estimate
      * given the observation for a new time step. Notice that the final output
      * NORMALIZE(<b>f</b> * <b>B1</b>) is just &alpha;<b>f</b>*<b>b</b>, by Equation
-     * (15.14).<br>
-     * <br>
+     * (15.14). 
+     *  
      * <b>Note:</b> There appears to be two minor defects in the algorithm outlined
-     * in the book:<br>
-     * <b>f</b> <- FORWARD(<b>f</b>, e<sub>t</sub>)<br>
-     * should be:<br>
-     * <b>f</b> <- FORWARD(<b>f</b>, e<sub>t-d</sub>)<br>
-     * as we are returning a smoothed step for t-d and not the current time t. <br>
-     * <br>
-     * The update of:<br>
-     * t <- t + 1<br>
+     * in the book: 
+     * <b>f</b> <- FORWARD(<b>f</b>, e<sub>t</sub>) 
+     * should be: 
+     * <b>f</b> <- FORWARD(<b>f</b>, e<sub>t-d</sub>) 
+     * as we are returning a smoothed step for t-d and not the current time t.  
+     *  
+     * The update of: 
+     * t <- t + 1 
      * should occur after the return value is calculated. Otherwise when t == d the
      * value returned is based on HMM.prior in the calculation as opposed to a
      * correctly calculated forward message. Comments welcome.
@@ -148,7 +148,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
         }
 
         /**
-         * The forward equation (15.5) in Matrix form becomes (15.12):<br>
+         * The forward equation (15.5) in Matrix form becomes (15.12): 
          * 
          * <pre>
          * <b>f</b><sub>1:t+1</sub> = &alpha;<b>O</b><sub>t+1</sub><b>T</b><sup>T</sup><b>f</b><sub>1:t</sub>

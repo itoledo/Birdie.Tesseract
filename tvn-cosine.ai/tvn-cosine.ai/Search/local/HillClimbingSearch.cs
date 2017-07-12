@@ -12,8 +12,8 @@ namespace tvn.cosine.ai.search.local
 {
     /**
     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.2, page
-    * 122.<br>
-    * <br>
+    * 122. 
+    *  
     * <p>
     * <pre>
     * function HILL-CLIMBING(problem) returns a state that is a local maximum

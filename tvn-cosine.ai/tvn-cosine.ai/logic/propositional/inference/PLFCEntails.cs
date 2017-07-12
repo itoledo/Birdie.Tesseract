@@ -10,8 +10,8 @@ using tvn.cosine.ai.search.framework.qsearch;
 namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 258.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 258. 
+     *  
      * 
      * <pre>
      * <code>
@@ -55,7 +55,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
     {
 
         /**
-         * PL-FC-ENTAILS?(KB, q)<br>
+         * PL-FC-ENTAILS?(KB, q) 
          * The forward-chaining algorithm for propositional logic.
          * 
          * @param kb

@@ -5,10 +5,10 @@ using tvn.cosine.ai.logic.propositional.parsing.ast;
 namespace tvn.cosine.ai.logic.propositional.visitors
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 253. 
+     *  
      * A sentence expression as a conjunction of clauses is said to be in
-     * <b>conjunctive normal form</b> or <b>CNF</b>.<br>
+     * <b>conjunctive normal form</b> or <b>CNF</b>. 
      * 
      * <pre>
      * CNFSentence -> Clause_1 & ... & Clause_n
@@ -17,11 +17,11 @@ namespace tvn.cosine.ai.logic.propositional.visitors
      *      Symbol -> P : Q : R : ... // (1)
      * </pre>
      * 
-     * Figure 7.14 A grammar for conjunctive normal form.<br>
-     * <br>
+     * Figure 7.14 A grammar for conjunctive normal form. 
+     *  
      * Note (1): While the book states 'We use symbols that start with an upper case
      * letter and may contain other letters or subscripts' in this implementation we
-     * allow any legal java identifier to stand in for a proposition symbol.<br>
+     * allow any legal java identifier to stand in for a proposition symbol. 
      * 
      * @author Ciaran O'Reilly
      * @author Ravi Mohan

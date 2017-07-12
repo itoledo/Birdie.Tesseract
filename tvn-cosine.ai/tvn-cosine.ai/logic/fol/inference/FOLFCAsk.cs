@@ -12,8 +12,8 @@ namespace tvn.cosine.ai.logic.fol.inference
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 9.3, page
-     * 332.<br>
-     * <br>
+     * 332. 
+     *  
      * 
      * <pre>
      * function FOL-FC-ASK(KB, alpha) returns a substitution or false

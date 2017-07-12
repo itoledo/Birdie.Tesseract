@@ -3,8 +3,8 @@
 namespace tvn.cosine.ai.probability
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 484.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 484. 
+     *  
      * A probability model on a discrete, countable set of worlds. The proper
      * treatment of the continuous case brings in certain complications that are
      * less relevant for most purposes in AI.
@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.probability
     public abstract class FiniteProbabilityModel<T> : ProbabilityModel<T>
     { 
         /**
-         * <b>P</b>(X,...)<br>
+         * <b>P</b>(X,...) 
          * 
          * @param phi
          *            the propositions of interest.
@@ -25,8 +25,8 @@ namespace tvn.cosine.ai.probability
         public abstract CategoricalDistribution<T> priorDistribution(params Proposition<T>[] phi);
 
         /**
-         * Get a conditional distribution. Example:<br>
-         * <br>
+         * Get a conditional distribution. Example: 
+         *  
          * <b>P</b>(X | Y) gives the values of P(X = x<sub>i</sub> | Y =
          * y<sub>j</sub>) for each possible i, j pair.
          * 
@@ -40,8 +40,8 @@ namespace tvn.cosine.ai.probability
         public abstract CategoricalDistribution<T> posteriorDistribution(Proposition<T> phi, params Proposition<T>[] evidence);
 
         /**
-         * Get a distribution on multiple variables. Example, the product rule:<br>
-         * <br>
+         * Get a distribution on multiple variables. Example, the product rule: 
+         *  
          * <b>P</b>(X, Y) gives the values of P(X = x<sub>i</sub> | Y =
          * y<sub>j</sub>)P(Y = y<sub>j</sub>) for each possible i, j pair.
          * 

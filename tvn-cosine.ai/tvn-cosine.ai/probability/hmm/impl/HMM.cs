@@ -32,13 +32,13 @@ namespace tvn.cosine.ai.probability.hmm.impl
          *            the single discrete random variable used to describe the
          *            process states 1,...,S.
          * @param transitionModel
-         *            the transition model:<br>
-         *            <b>P</b>(X<sub>t</sub> | X<sub>t-1</sub>)<br>
-         *            is represented by an S * S matrix <b>T</b> where<br>
+         *            the transition model: 
+         *            <b>P</b>(X<sub>t</sub> | X<sub>t-1</sub>) 
+         *            is represented by an S * S matrix <b>T</b> where 
          *            <b>T</b><sub>ij</sub> = P(X<sub>t</sub> = j | X<sub>t-1</sub>
          *            = i).
          * @param sensorModel
-         *            the sensor model in matrix form:<br>
+         *            the sensor model in matrix form: 
          *            P(e<sub>t</sub> | X<sub>t</sub> = i) for each state i. For
          *            mathematical convenience we place each of these values into an
          *            S * S diagonal matrix.

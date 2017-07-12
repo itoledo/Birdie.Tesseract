@@ -8,8 +8,8 @@ using tvn.cosine.ai.util.datastructure;
 namespace tvn.cosine.ai.agent.impl.aprog
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.7, page 47.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.7, page 47. 
+     *  
      * 
      * <pre>
      * function TABLE-DRIVEN-AGENT(percept) returns an action
@@ -29,12 +29,12 @@ namespace tvn.cosine.ai.agent.impl.aprog
      * @author Mike Stampone
      * 
      */
-    public class TableDrivenAgentProgram : AgentProgram
+    public class TableDrivenAgentProgram : IAgentProgram
     {
 
-        private IList<Percept> percepts = new List<Percept>();
+        private IList<IPercept> percepts = new List<IPercept>();
 
-        private Table<IList<Percept>, string, Action> table;
+        private Table<IList<IPercept>, string, IAction> table;
 
         private const string ACTION = "action";
 
@@ -48,17 +48,17 @@ namespace tvn.cosine.ai.agent.impl.aprog
          * @param perceptSequenceActions
          *            a table of actions, indexed by percept sequences
          */
-        public TableDrivenAgentProgram(IDictionary<IList<Percept>, Action> perceptSequenceActions)
+        public TableDrivenAgentProgram(IDictionary<IList<IPercept>, IAction> perceptSequenceActions)
         {
 
-            IList<IList<Percept>> rowHeaders = new List<IList<Percept>>(perceptSequenceActions.Keys);
+            IList<IList<IPercept>> rowHeaders = new List<IList<IPercept>>(perceptSequenceActions.Keys);
 
             IList<string> colHeaders = new List<string>();
             colHeaders.Add(ACTION);
 
-            table = new Table<IList<Percept>, string, Action>(rowHeaders, colHeaders);
+            table = new Table<IList<IPercept>, string, IAction>(rowHeaders, colHeaders);
 
-            foreach (IList<Percept> row in rowHeaders)
+            foreach (IList<IPercept> row in rowHeaders)
             {
                 table.Set(row, ACTION, perceptSequenceActions[row]);
             }
@@ -68,7 +68,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         // START-AgentProgram
 
         // function TABLE-DRIVEN-AGENT(percept) returns an action
-        public Action execute(Percept percept)
+        public IAction Execute(IPercept percept)
         {
             // append percept to end of percepts
             percepts.Add(percept);
@@ -84,9 +84,9 @@ namespace tvn.cosine.ai.agent.impl.aprog
         //
         // PRIVATE METHODS
         //
-        private Action lookupCurrentAction()
+        private IAction lookupCurrentAction()
         {
-            Action action = null;
+            IAction action = null;
 
             action = table.Get(percepts, ACTION);
             if (null == action)

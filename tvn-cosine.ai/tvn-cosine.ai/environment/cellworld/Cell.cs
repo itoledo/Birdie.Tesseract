@@ -1,8 +1,8 @@
 ﻿namespace tvn.cosine.ai.environment.cellworld
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 645.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 645. 
+     *  
      * A representation of a Cell in the environment detailed in Figure 17.1.
      * 
      * @param <C>

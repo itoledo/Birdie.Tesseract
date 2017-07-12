@@ -5,8 +5,8 @@ using tvn.cosine.ai.search.csp.inferences;
 namespace tvn.cosine.ai.search.csp
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.5, Page 215.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.5, Page 215. 
+     *  
      * <p>
      * <pre>
      * <code>

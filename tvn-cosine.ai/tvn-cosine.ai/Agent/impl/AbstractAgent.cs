@@ -5,9 +5,9 @@
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public abstract class AbstractAgent : Agent
+    public abstract class AbstractAgent : IAgent
     {
-        protected AgentProgram program;
+        protected IAgentProgram program;
         private bool alive = true;
 
         public AbstractAgent()
@@ -22,18 +22,18 @@
          *            the Agent's program, which maps any given percept sequences to
          *            an action.
          */
-        public AbstractAgent(AgentProgram aProgram)
+        public AbstractAgent(IAgentProgram aProgram)
         {
             program = aProgram;
         }
 
         //
         // START-Agent
-        public virtual Action execute(Percept p)
+        public virtual IAction Execute(IPercept p)
         {
             if (null != program)
             {
-                return program.execute(p);
+                return program.Execute(p);
             }
             return NoOpAction.NO_OP;
         }

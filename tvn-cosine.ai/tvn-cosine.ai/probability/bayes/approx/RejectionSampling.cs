@@ -5,8 +5,8 @@ using tvn.cosine.ai.probability.util;
 namespace tvn.cosine.ai.probability.bayes.approx
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 533.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 533. 
+     *  
      * 
      * <pre>
      * function REJECTION-SAMPLING(X, e, bn, N) returns an estimate of <b>P</b>(X|e)
@@ -24,10 +24,10 @@ namespace tvn.cosine.ai.probability.bayes.approx
      * </pre>
      * 
      * Figure 14.14 The rejection-sampling algorithm for answering queries given
-     * evidence in a Bayesian Network.<br>
-     * <br>
+     * evidence in a Bayesian Network. 
+     *  
      * <b>Note:</b> The implementation has been extended to handle queries with
-     * multiple variables. <br>
+     * multiple variables.  
      * 
      * @author Ciaran O'Reilly
      * @author Ravi Mohan

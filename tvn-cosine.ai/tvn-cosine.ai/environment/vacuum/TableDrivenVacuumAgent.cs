@@ -6,8 +6,8 @@ using tvn.cosine.ai.agent.impl.aprog;
 namespace tvn.cosine.ai.environment.vacuum
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.3, page 36.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.3, page 36. 
+     *  
      * Figure 2.3 Partial tabulation of a simple agent function for the
      * vacuum-cleaner world shown in Figure 2.2.
      * 
@@ -23,14 +23,14 @@ namespace tvn.cosine.ai.environment.vacuum
         //
         // PRIVATE METHODS
         //
-        private static IDictionary<IList<Percept>, Action> getPerceptSequenceActions()
+        private static IDictionary<IList<IPercept>, IAction> getPerceptSequenceActions()
         {
-            IDictionary<IList<Percept>, Action> perceptSequenceActions = new Dictionary<IList<Percept>, Action>();
+            IDictionary<IList<IPercept>, IAction> perceptSequenceActions = new Dictionary<IList<IPercept>, IAction>();
 
             // NOTE: While this particular table could be setup simply
             // using a few loops, the intent is to show how quickly a table
             // based approach grows and becomes unusable.
-            IList<Percept> ps;
+            IList<IPercept> ps;
             //
             // Level 1: 4 states
             ps = createPerceptSequence(new LocalVacuumEnvironmentPercept(
@@ -691,11 +691,11 @@ namespace tvn.cosine.ai.environment.vacuum
             return perceptSequenceActions;
         }
 
-        private static IList<Percept> createPerceptSequence(params Percept[] percepts)
+        private static IList<IPercept> createPerceptSequence(params IPercept[] percepts)
         {
-            IList<Percept> perceptSequence = new List<Percept>();
+            IList<IPercept> perceptSequence = new List<IPercept>();
 
-            foreach (Percept p in percepts)
+            foreach (IPercept p in percepts)
             {
                 perceptSequence.Add(p);
             }

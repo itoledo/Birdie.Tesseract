@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
     {
 
         /**
-         * DPLL-SATISFIABLE?(s)<br>
+         * DPLL-SATISFIABLE?(s) 
          * Checks the satisfiability of a sentence in propositional logic.
          * 
          * @param s
@@ -30,7 +30,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         bool dpllSatisfiable(Sentence s);
 
         /**
-         * DPLL(clauses, symbols, model)<br>
+         * DPLL(clauses, symbols, model) 
          * 
          * @param clauses
          *            the set of clauses.

@@ -10,8 +10,8 @@ using tvn.cosine.ai.search.framework.qsearch;
 namespace tvn.cosine.ai.search.informed
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 92.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 92. 
+     *  
      * Best-first search is an instance of the general TREE-SEARCH or GRAPH-SEARCH
      * algorithm in which a node is selected for expansion based on an evaluation
      * function, f(n). The evaluation function is construed as a cost estimate, so

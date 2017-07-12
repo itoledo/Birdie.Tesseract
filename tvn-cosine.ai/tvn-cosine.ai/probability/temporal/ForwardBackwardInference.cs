@@ -4,8 +4,8 @@ using tvn.cosine.ai.probability.proposition;
 namespace tvn.cosine.ai.probability.temporal
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 576.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 576. 
+     *  
      * 
      * Generic interface for calling different implementations of the
      * forward-backward algorithm for smoothing: computing posterior probabilities

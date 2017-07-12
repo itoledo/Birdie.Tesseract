@@ -13,8 +13,8 @@ namespace tvn.cosine.ai.search.online
 {
     /**
    * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.24, page
-   * 152.<br>
-   * <br>
+   * 152. 
+   *  
    * 
    * <pre>
    * function LRTA*-AGENT(s') returns an action
@@ -40,8 +40,8 @@ namespace tvn.cosine.ai.search.online
    * 
    * Figure 4.24 LRTA*-AGENT selects an action according to the value of
    * neighboring states, which are updated as the agent moves about the state
-   * space.<br>
-   * <br>
+   * space. 
+   *  
    * <b>Note:</b> This algorithm fails to exit if the goal does not exist (e.g.
    * A<->B Goal=X), this could be an issue with the implementation. Comments
    * welcome.
@@ -50,10 +50,10 @@ namespace tvn.cosine.ai.search.online
    * @author Mike Stampone
    */
     public class LRTAStarAgent<S, A> : AbstractAgent
-        where A : agent.Action
+        where A : agent.IAction
     {
         private IOnlineSearchProblem<S, A> problem;
-        private Func<Percept, S> ptsFn;
+        private Func<IPercept, S> ptsFn;
         private HeuristicEvaluationFunction<S> h;
         // persistent: result, a table, indexed by state and action, initially empty
         private readonly TwoKeyDictionary<S, A, S> result = new TwoKeyDictionary<S, A, S>();
@@ -77,7 +77,7 @@ namespace tvn.cosine.ai.search.online
          *            the cheapest path from the state at node <em>n</em> to a goal
          *            state.
          */
-        public LRTAStarAgent(IOnlineSearchProblem<S, A> problem, Func<Percept, S> ptsFn, HeuristicEvaluationFunction<S> h)
+        public LRTAStarAgent(IOnlineSearchProblem<S, A> problem, Func<IPercept, S> ptsFn, HeuristicEvaluationFunction<S> h)
         {
             setProblem(problem);
             setPerceptToStateFunction(ptsFn);
@@ -111,7 +111,7 @@ namespace tvn.cosine.ai.search.online
          * 
          * @return the percept to state function of this agent.
          */
-        public Func<Percept, S> getPerceptToStateFunction()
+        public Func<IPercept, S> getPerceptToStateFunction()
         {
             return ptsFn;
         }
@@ -123,7 +123,7 @@ namespace tvn.cosine.ai.search.online
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public void setPerceptToStateFunction(Func<Percept, S> ptsFn)
+        public void setPerceptToStateFunction(Func<IPercept, S> ptsFn)
         {
             this.ptsFn = ptsFn;
         }
@@ -151,7 +151,7 @@ namespace tvn.cosine.ai.search.online
 
         // function LRTA*-AGENT(s') returns an action
         // inputs: s', a percept that identifies the current state 
-        public override agent.Action execute(Percept psPrimed)
+        public override agent.IAction Execute(IPercept psPrimed)
         {
             S sPrimed = ptsFn(psPrimed);
             // if GOAL-TEST(s') then return stop
@@ -212,7 +212,7 @@ namespace tvn.cosine.ai.search.online
                 setAlive(false);
             }
             // return a
-            return a != null ? a : NoOpAction.NO_OP as agent.Action;
+            return a != null ? a : NoOpAction.NO_OP as agent.IAction;
         }
 
         //

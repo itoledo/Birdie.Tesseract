@@ -1,8 +1,8 @@
 ﻿namespace tvn.cosine.ai.probability.domain
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 486.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 486. 
+     *  
      * Every random variable has a <b>domain</b> - the set of possible values it can
      * take on. The domain of <i>Total</i> for two dice is the set {2,...,12} and
      * the domain of Die<sub>1</sub> is {1,...,6}. A bool random variable has the

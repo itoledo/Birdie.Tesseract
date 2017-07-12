@@ -7,8 +7,8 @@ using tvn.cosine.ai.logic.propositional.visitors;
 namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 261.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 261. 
+     *  
      * 
      * <pre>
      * <code>
@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
 
         /**
          * function SATPlan(init, transition, goal, T<sub>max</sub>) returns
-         * solution or failure<br>
+         * solution or failure 
          * 
          * @param init
          *            provides a collection of assertions about the initial state.
@@ -53,7 +53,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * @return a list of actions describing a solution for the given problem or
          *         null if no solution is found (i.e failure)
          */
-        public IList<Action> satPlan(Describe init, Describe transition, Describe goal, int tMax)
+        public IList<IAction> satPlan(Describe init, Describe transition, Describe goal, int tMax)
         {
 
             // for t = 0 to T<sub>max</sub> do
@@ -92,7 +92,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          */
         public interface SolutionExtractor
         {
-            IList<Action> extractSolution(kb.data.Model model);
+            IList<IAction> extractSolution(kb.data.Model model);
         }
 
         private SATSolver satSolver = null;

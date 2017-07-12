@@ -1,9 +1,9 @@
 ﻿namespace tvn.cosine.ai.search.framework.problem
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 66.<br>
-     * <br>
-     * A problem can be defined formally by five components: <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 66. 
+     *  
+     * A problem can be defined formally by five components:  
      * <ul>
      * <li>The <b>initial state</b> that the agent starts in.</li>
      * <li>A description of the possible <b>actions</b> available to the agent.

@@ -6,8 +6,8 @@ using tvn.cosine.ai.probability.util;
 namespace tvn.cosine.ai.probability.bayes.approx
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 537.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 537. 
+     *  
      * 
      * <pre>
      * function GIBBS-ASK(X, e, bn, N) returns an estimate of <b>P</b>(X|e)
@@ -25,10 +25,10 @@ namespace tvn.cosine.ai.probability.bayes.approx
      * 
      * Figure 14.16 The Gibbs sampling algorithm for approximate inference in
      * Bayesian networks; this version cycles through the variables, but choosing
-     * variables at random also works.<br>
-     * <br>
+     * variables at random also works. 
+     *  
      * <b>Note:</b> The implementation has been extended to handle queries with
-     * multiple variables. <br>
+     * multiple variables.  
      * 
      * @author Ciaran O'Reilly
      * @author Ravi Mohan

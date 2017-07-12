@@ -9,8 +9,8 @@ using tvn.cosine.ai.probability.util;
 namespace tvn.cosine.ai.probability.temporal.generic
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 576.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 576. 
+     *  
      * 
      * <pre>
      * function FORWARD-BACKWARD(ev, prior) returns a vector of probability distributions
@@ -32,8 +32,8 @@ namespace tvn.cosine.ai.probability.temporal.generic
      * Figure 15.4 The forward-backward algorithm for smoothing: computing posterior
      * probabilities of a sequence of states given a sequence of observations. The
      * FORWARD and BACKWARD operators are defined by Equations (15.5) and (15.9),
-     * respectively.<br>
-     * <br>
+     * respectively. 
+     *  
      * <b>Note:</b> An implementation of the FORWARD-BACKWARD algorithm using the
      * general purpose probability APIs, i.e. the underlying model implementation is
      * abstracted away.

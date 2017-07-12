@@ -19,11 +19,11 @@ namespace tvn.cosine.ai.environment.wumpusworld
     public class WumpusFunctionFunctions
     {
 
-        public static ActionsFunction<AgentPosition, Action> createActionsFunction(WumpusCave cave)
+        public static ActionsFunction<AgentPosition, IAction> createActionsFunction(WumpusCave cave)
         {
             return (state) =>
             {
-                List<Action> actions = new List<Action>();
+                List<IAction> actions = new List<IAction>();
 
                 IList<AgentPosition> linkedPositions = cave.getLocationsLinkedTo(state);
                 actions.AddRange(linkedPositions.Where(linkPos => linkPos.getX() != state.getX() || linkPos.getY() != state.getY())
@@ -35,7 +35,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             };
         }
 
-        public static ResultFunction<AgentPosition, Action> createResultFunction()
+        public static ResultFunction<AgentPosition, IAction> createResultFunction()
         {
             return (state, action) =>
             {

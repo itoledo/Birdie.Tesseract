@@ -8,11 +8,11 @@ using tvn.cosine.ai.agent;
 namespace tvn.cosine.ai.environment.cellworld
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 645.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 645. 
+     *  
      * 
-     * The actions in every state are Up, Down, Left, and Right.<br>
-     * <br>
+     * The actions in every state are Up, Down, Left, and Right. 
+     *  
      * <b>Note:<b> Moving 'North' causes y to increase by 1, 'Down' y to decrease by
      * 1, 'Left' x to decrease by 1, and 'Right' x to increase by 1 within a Cell
      * World.
@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.environment.cellworld
      * @author Ciaran O'Reilly
      * 
      */
-    public class CellWorldAction : Action
+    public class CellWorldAction : IAction
     {
         private static readonly ISet<CellWorldAction> _actions = new HashSet<CellWorldAction>();
         public static readonly CellWorldAction Up = new CellWorldAction();
@@ -49,7 +49,7 @@ namespace tvn.cosine.ai.environment.cellworld
 
         //
         // START-Action 
-        public bool isNoOp()
+        public bool IsNoOp()
         {
             if (None.Equals(this))
             {

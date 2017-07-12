@@ -4,12 +4,12 @@ using tvn.cosine.ai.logic.propositional.parsing.ast;
 namespace tvn.cosine.ai.logic.propositional.visitors
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 249.<br>
-     * <br>
-     * Distributivity of & over |:<br>
-     * (&alpha; & (&beta; | &gamma;))<br>
-     * &equiv;<br>
-     * ((&alpha; & &beta;) | (&alpha; & &gamma;))<br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 249. 
+     *  
+     * Distributivity of & over |: 
+     * (&alpha; & (&beta; | &gamma;)) 
+     * &equiv; 
+     * ((&alpha; & &beta;) | (&alpha; & &gamma;)) 
      * 
      * @author Ciaran O'Reilly
      * 

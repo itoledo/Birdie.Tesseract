@@ -5,8 +5,8 @@ using tvn.cosine.ai.util.math;
 namespace tvn.cosine.ai.probability.hmm.exact
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 579.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 579. 
+     *  
      * 
      * Smoothing for any time slice <em>k</em> requires the simultaneous presence of
      * both the forward and backward messages, <b>f</b><sub>1:k</sub> and
@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
      * so that they are available during the backward pass. Another way to achieve
      * this is with a single pass that propagates both <b>f</b> and <b>b</b> in the
      * same direction. For example, the "forward" message <b>f</b> can be propagated
-     * backward if we manipulate Equation (15.12) to work in the other direction:<br>
+     * backward if we manipulate Equation (15.12) to work in the other direction: 
      * 
      * <pre>
      * <b>f</b><sub>1:t</sub> = &alpha;<sup>'</sup>(<b>T</b><sup>T</sup>)<sup>-1</sup><b>O</b><sup>-1</sup><sub>t+1</sub><b>f</b><sub>1:t+1</sub>

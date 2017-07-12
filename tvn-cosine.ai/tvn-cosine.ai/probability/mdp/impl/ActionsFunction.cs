@@ -4,7 +4,7 @@ using tvn.cosine.ai.agent;
 namespace tvn.cosine.ai.probability.mdp.impl
 {
     public class ActionsFunction<S, A> : mdp.ActionsFunction<S, A>
-        where A : Action
+        where A : IAction
     {
         private System.Func<S, ISet<A>> func;
 

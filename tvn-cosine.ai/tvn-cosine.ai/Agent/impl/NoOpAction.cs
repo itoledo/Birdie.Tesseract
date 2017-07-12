@@ -9,7 +9,7 @@
 
         //
         // START-Action
-        public override bool isNoOp()
+        public override bool IsNoOp()
         {
             return true;
         }

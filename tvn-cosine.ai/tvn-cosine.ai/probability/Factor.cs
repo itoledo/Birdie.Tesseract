@@ -5,8 +5,8 @@ namespace tvn.cosine.ai.probability
 {
 
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 524.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 524. 
+     *  
      * Each factor is a matrix indexed by its argument variables.
      * 
      * @author Ciaran O'Reilly
@@ -40,10 +40,10 @@ namespace tvn.cosine.ai.probability
         /**
          * Sum out the provided variables from this Factor creating a new Factor of
          * the remaining variables with their values updated with the summed out
-         * random variables.<br>
-         * <br>
-         * see: AIMA3e page 527.<br>
-         * <br>
+         * random variables. 
+         *  
+         * see: AIMA3e page 527. 
+         *  
          * 
          * @param vars
          *            the random variables to sum out.
@@ -54,22 +54,22 @@ namespace tvn.cosine.ai.probability
 
         /**
          * Pointwise multiplication of this Factor by a given multiplier, creating a
-         * new Factor representing the product of the two.<br>
-         * <br>
-         * see: AIMA3e Figure 14.10 page 527.<br>
-         * <br>
+         * new Factor representing the product of the two. 
+         *  
+         * see: AIMA3e Figure 14.10 page 527. 
+         *  
          * Note: Default Factor multiplication is not commutative. The reason is
          * because the order of the variables comprising a Factor dictate the
          * ordering of the values for that factor. The default order of the
          * variables of the Factor returned is the order of the variables as they
-         * are seen, as read from the left to right term, for e.g.: <br>
-         * <br>
-         * f<sub>1</sub>(Y)f<sub>2</sub>(X, Y)<br>
-         * <br>
-         * would give a Factor of the following form: <br>
-         * Y, X<br>
-         * <br>
-         * i.e. an ordered union of the variables from the two factors. <br>
+         * are seen, as read from the left to right term, for e.g.:  
+         *  
+         * f<sub>1</sub>(Y)f<sub>2</sub>(X, Y) 
+         *  
+         * would give a Factor of the following form:  
+         * Y, X 
+         *  
+         * i.e. an ordered union of the variables from the two factors.  
          * To override the default order of the product use pointwiseProductPOS().
          * 
          * @param multiplier
@@ -84,10 +84,10 @@ namespace tvn.cosine.ai.probability
         Factor<T> pointwiseProduct(Factor<T> multiplier);
 
         /**
-         * Pointwise Multiplication - Product Order Specified (POS).<br>
-         * <br>
-         * see: AIMA3e Figure 14.10 page 527.<br>
-         * <br>
+         * Pointwise Multiplication - Product Order Specified (POS). 
+         *  
+         * see: AIMA3e Figure 14.10 page 527. 
+         *  
          * Pointwise multiplication of this Factor by a given multiplier, creating a
          * new Factor representing the product of the two. The order of the
          * variables comprising the product will match those specified.

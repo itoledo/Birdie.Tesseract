@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.environment.vacuum
         /**
          * Execute the agent action
          */
-        public override void executeAction(Agent a, Action agentAction)
+        public override void executeAction(IAgent a, IAction agentAction)
         {
             System.Random random = new System.Random();
             if (ACTION_MOVE_RIGHT == agentAction)
@@ -81,7 +81,7 @@ namespace tvn.cosine.ai.environment.vacuum
                     }
                 }
             }
-            else if (agentAction.isNoOp())
+            else if (agentAction.IsNoOp())
             {
                 _isDone = true;
             }

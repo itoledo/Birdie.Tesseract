@@ -9,8 +9,8 @@ using tvn.cosine.ai.util;
 namespace tvn.cosine.ai.robotics
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 982.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 982. 
+     *  
      * 
      * <pre>
      * function MONTE-CARLO-LOCALIZATION(a, z, N, P(X'|X, v, w), P(z|z*), m) returns a set of samples for the next time step

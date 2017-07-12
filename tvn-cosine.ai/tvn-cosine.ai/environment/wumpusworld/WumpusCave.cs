@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace tvn.cosine.ai.environment.wumpusworld
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 236.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 236. 
+     *  
      * The <b>wumpus world</b> is a cave consisting of rooms connected by
      * passageways. The rooms are always organized into a grid. See Figure 7.2 for
      * an example.

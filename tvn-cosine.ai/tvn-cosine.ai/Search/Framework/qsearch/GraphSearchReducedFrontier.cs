@@ -9,7 +9,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.7, page 77.
-     * <br>
+     *  
      * 
      * <pre>
      * function GRAPH-SEARCH(problem) returns a solution, or failure
@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
      * 
      * Figure 3.7 An informal description of the general graph-search algorithm.
      * 
-     * <br>
+     *  
      * This implementation is based on the template method
      * {@link #findNode(Problem, Queue)} of the superclass and provides
      * implementations for the needed primitive operations. It implements a special

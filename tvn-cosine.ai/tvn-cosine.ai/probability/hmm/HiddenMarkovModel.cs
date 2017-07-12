@@ -5,8 +5,8 @@ using tvn.cosine.ai.util.math;
 namespace tvn.cosine.ai.probability.hmm
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 578.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 578. 
+     *  
      * 
      * The hidden Markov model, or HMM. An HMM is a temporal probabilistic model in
      * which the state of the process is described by a single discrete random
@@ -30,9 +30,9 @@ namespace tvn.cosine.ai.probability.hmm
         RandomVariable getStateVariable();
 
         /**
-         * Return the transition model:<br>
-         * <b>P</b>(X<sub>t</sub> | X<sub>t-1</sub>)<br>
-         * is represented by an S * S matrix <b>T</b> where<br>
+         * Return the transition model: 
+         * <b>P</b>(X<sub>t</sub> | X<sub>t-1</sub>) 
+         * is represented by an S * S matrix <b>T</b> where 
          * <b>T</b><sub>ij</sub> = P(X<sub>t</sub> = j | X<sub>t-1</sub> = i).
          * 
          * @return the transition model in Matrix form.
@@ -40,8 +40,8 @@ namespace tvn.cosine.ai.probability.hmm
         Matrix getTransitionModel();
 
         /**
-         * Return the sensor model in matrix form:<br>
-         * P(e<sub>t</sub> | X<sub>t</sub> = i) for each state i.<br>
+         * Return the sensor model in matrix form: 
+         * P(e<sub>t</sub> | X<sub>t</sub> = i) for each state i. 
          * For mathematical convenience we place each of these values into an S * S
          * diagonal matrix.
          * 

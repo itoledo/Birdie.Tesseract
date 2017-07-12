@@ -11,11 +11,11 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn.cosine.ai.logic.fol
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 345.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 345. 
+     *  
      * Every sentence of first-order logic can be converted into an inferentially
-     * equivalent CNF sentence.<br>
-     * <br>
+     * equivalent CNF sentence. 
+     *  
      * <b>Note:</b> Transformation rules extracted from 346 and 347, which are
      * essentially the INSEADO method outlined in: <a
      * href="http://logic.stanford.edu/classes/cs157/2008/lectures/lecture09.pdf"

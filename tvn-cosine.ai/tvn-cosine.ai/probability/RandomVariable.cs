@@ -3,8 +3,8 @@
 namespace tvn.cosine.ai.probability
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 486.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 486. 
+     *  
      * Variables in probability theory are called random variables and their names
      * begin with an uppercase letter. Every random variable has a domain - the set
      * of possible values it can take on.

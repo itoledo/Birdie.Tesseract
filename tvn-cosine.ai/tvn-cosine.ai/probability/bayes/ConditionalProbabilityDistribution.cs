@@ -4,8 +4,8 @@ using tvn.cosine.ai.probability.proposition;
 namespace tvn.cosine.ai.probability.bayes
 {
     /**
-     * A conditional probability distribution on a RandomVariable X<sub>i</sub>:<br>
-     * <br>
+     * A conditional probability distribution on a RandomVariable X<sub>i</sub>: 
+     *  
      * P(X<sub>i</sub> | Parents(X<sub>i</sub>)) that quantifies the effect of the
      * parents on X<sub>i</sub>.
      * 

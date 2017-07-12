@@ -9,24 +9,24 @@ namespace tvn.cosine.ai.agent.impl
      * 
      * @author Ruediger Lunde
      */
-    public class SimpleEnvironmentView : EnvironmentView
+    public class SimpleEnvironmentView : IEnvironmentView
     {
 
-        public void notify(string msg)
+        public void Notify(string msg)
         {
             Console.WriteLine("Message: " + msg);
         }
 
-        public void agentAdded(Agent agent, Environment source)
+        public void AgentAdded(IAgent agent, IEnvironment source)
         {
-            int agentId = source.getAgents().IndexOf(agent) + 1;
+            int agentId = source.GetAgents().IndexOf(agent) + 1;
             Console.WriteLine("Agent " + agentId + " added.");
         }
 
-        public void agentActed(Agent agent, Percept percept, Action action, Environment source)
+        public void AgentActed(IAgent agent, IPercept percept, IAction action, IEnvironment source)
         {
             StringBuilder builder = new StringBuilder();
-            int agentId = source.getAgents().IndexOf(agent) + 1;
+            int agentId = source.GetAgents().IndexOf(agent) + 1;
             builder.Append("Agent ").Append(agentId).Append(" acted.");
             builder.Append("\n   Percept: ").Append(percept.ToString());
             builder.Append("\n   Action: ").Append(action.ToString());

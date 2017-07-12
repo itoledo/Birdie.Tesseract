@@ -8,8 +8,8 @@ using tvn.cosine.ai.logic.propositional.parsing.ast;
 namespace tvn.cosine.ai.logic.propositional.kb.data
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 253. 
+     *  
      * A Clause: A disjunction of literals. Here we view a Clause as a set of
      * literals. This respects the restriction, under resolution, that a resulting
      * clause should contain only 1 copy of a resulting literal. In addition,
@@ -174,7 +174,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
 
         /**
          * Determine if the clause represents a tautology, of which the following
-         * are examples:<br>
+         * are examples: 
          * 
          * <pre>
          * {..., True, ...}

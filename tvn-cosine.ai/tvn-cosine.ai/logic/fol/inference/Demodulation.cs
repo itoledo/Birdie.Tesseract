@@ -10,10 +10,10 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn.cosine.ai.logic.fol.inference
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 354.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 354. 
+     *  
      * Demodulation: For any terms x, y, and z, where z appears somewhere in literal
-     * m<sub>i</sub> and where UNIFY(x,z) = &theta;:<br>
+     * m<sub>i</sub> and where UNIFY(x,z) = &theta;: 
      * 
      * <pre>
      *                 x=y,    m<sub>1</sub> OR ... OR m<sub>n</sub>[z]
@@ -22,13 +22,13 @@ namespace tvn.cosine.ai.logic.fol.inference
      * </pre>
      * 
      * where SUBST is the usual substitution of a binding list, and SUB(x,y,m) means
-     * to replace x with y everywhere that x occurs within m.<br>
-     * <br>
-     * Some additional restrictions/clarifications highlighted in:<br>
+     * to replace x with y everywhere that x occurs within m. 
+     *  
+     * Some additional restrictions/clarifications highlighted in: 
      * <a href="http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf"
-     * >Demodulation Restrictions</a> <br>
-     * 1. Unit Equations Only.<br>
-     * 2. Variables substituted in Equation Only.<br>
+     * >Demodulation Restrictions</a>  
+     * 1. Unit Equations Only. 
+     * 2. Variables substituted in Equation Only. 
      * 
      * @author Ciaran O'Reilly
      * 

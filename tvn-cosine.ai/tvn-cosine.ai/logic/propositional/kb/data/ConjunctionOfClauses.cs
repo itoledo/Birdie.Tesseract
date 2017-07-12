@@ -4,8 +4,8 @@ using System.Text;
 namespace tvn.cosine.ai.logic.propositional.kb.data
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 253. 
+     *  
      * A conjunction of clauses, where each clause is a disjunction of literals.
      * Here we represent a conjunction of clauses as a set of clauses, where each
      * clause is a set of literals. In addition, a conjunction of clauses, as

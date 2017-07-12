@@ -14,8 +14,8 @@ using tvn.cosine.ai.search.informed;
 namespace tvn.cosine.ai.environment.wumpusworld
 {
     ///////**
-    ////// * Artificial Intelligence A Modern Approach (3rd Edition): page 270.<br>
-    ////// * <br>
+    ////// * Artificial Intelligence A Modern Approach (3rd Edition): page 270. 
+    ////// *  
     ////// * 
     ////// * <pre>
     ////// * <code>
@@ -81,7 +81,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
     //////    private IQueue<Action> plan = new FifoQueue<Action>(); // FIFOQueue
 
     //////    /**
-    //////     * function HYBRID-WUMPUS-AGENT(percept) returns an action<br>
+    //////     * function HYBRID-WUMPUS-AGENT(percept) returns an action 
     //////     * 
     //////     * @param percept
     //////     *            a list, [stench, breeze, glitter, bump, scream]

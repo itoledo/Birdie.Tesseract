@@ -8,8 +8,8 @@ namespace tvn.cosine.ai.search.uninformed
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.18, page
-     * 89.<br>
-     * <br>
+     * 89. 
+     *  
      * 
      * <pre>
      * function ITERATIVE-DEEPENING-SEARCH(problem) returns a solution, or failure

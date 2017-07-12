@@ -8,8 +8,8 @@ using tvn.cosine.ai.logic.propositional.parsing.ast;
 namespace tvn.cosine.ai.logic.propositional.kb.data
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
-     * <br>
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 244. 
+     *  
      * A literal is either an atomic sentence (a positive literal) or a negated
      * atomic sentence (a negative literal). In propositional logic the atomic
      * sentences consist of a single proposition symbol. In addition, a literal as

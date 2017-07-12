@@ -9,8 +9,8 @@ namespace tvn.cosine.ai.agent.impl.aprog
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.10, page
-     * 49.<br>
-     * <br>
+     * 49. 
+     *  
      * 
      * <pre>
      * function SIMPLE-RELEX-AGENT(percept) returns an action
@@ -29,7 +29,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
      * @author Mike Stampone
      * 
      */
-    public class SimpleReflexAgentProgram : AgentProgram
+    public class SimpleReflexAgentProgram : IAgentProgram
     {
         //
         // persistent: rules, a set of condition-action rules
@@ -52,7 +52,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
 
         // function SIMPLE-RELEX-AGENT(percept) returns an action
 
-        public Action execute(Percept percept)
+        public IAction Execute(IPercept percept)
         {
 
             // state <- INTERPRET-INPUT(percept);
@@ -70,7 +70,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         //
         // PROTECTED METHODS
         //
-        protected ObjectWithDynamicAttributes<object, object> interpretInput(Percept p)
+        protected ObjectWithDynamicAttributes<object, object> interpretInput(IPercept p)
         {
             return (DynamicPercept)p;
         }
@@ -87,7 +87,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
             return null;
         }
 
-        protected Action ruleAction(Rule r)
+        protected IAction ruleAction(Rule r)
         {
             return null == r ? NoOpAction.NO_OP : r.getAction();
         }
