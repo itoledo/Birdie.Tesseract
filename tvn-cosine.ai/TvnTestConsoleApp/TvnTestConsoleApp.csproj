@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>TvnTestConsoleApp.demo.learning.EnsembleLearningDemo</StartupObject>
+    <StartupObject>TvnTestConsoleApp.demo.learning.PassiveADPAgentDemo</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -47,9 +47,12 @@
   <ItemGroup>
     <Compile Include="demo\agent\NondeterministicVacuumEnvironmentDemo.cs" />
     <Compile Include="demo\agent\TrivialVacuumDemo.cs" />
+    <Compile Include="demo\learning\BackPropogationDemo.cs" />
+    <Compile Include="demo\learning\DecisionListDemo.cs" />
     <Compile Include="demo\learning\DecisionTreeDemo.cs" />
     <Compile Include="demo\learning\EnsembleLearningDemo.cs" />
-    <Compile Include="demo\learning\LearningDemo.cs" />
+    <Compile Include="demo\learning\PassiveADPAgentDemo.cs" />
+    <Compile Include="demo\learning\PerceptronDemo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

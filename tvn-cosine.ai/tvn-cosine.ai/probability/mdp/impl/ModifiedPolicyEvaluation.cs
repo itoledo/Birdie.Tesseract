@@ -76,21 +76,22 @@ namespace tvn.cosine.ai.probability.mdp.impl
                 // &gamma;&Sigma;<sub>s'</sub>P(s'|s,&pi;<sub>i</sub>(s))U<sub>i</sub>(s')
                 foreach (S s in U.Keys)
                 {
-                    A ap_i = pi_i[s];
                     double aSum = 0;
                     // Handle terminal states (i.e. no actions)
-                    if (null != ap_i)
+                    if (pi_i.ContainsKey(s))
                     {
                         foreach (S sDelta in U.Keys)
                         {
-                            aSum += mdp.transitionProbability(sDelta, s, ap_i) * U_i[sDelta];
+                            aSum += mdp.transitionProbability(sDelta, s, pi_i[s]) * U_i[sDelta];
                         }
                     }
-                    U_ip1.Add(s, mdp.reward(s) + gamma * aSum);
+                    U_ip1[s] = mdp.reward(s) + gamma * aSum;
                 }
 
                 foreach (var v in U_ip1)
-                    U_i.Add(v);
+                { 
+                    U_i[v.Key] = v.Value; 
+                }
             }
             return U_ip1;
         }
@@ -98,5 +99,4 @@ namespace tvn.cosine.ai.probability.mdp.impl
         // END-PolicyEvaluation
         //
     }
-
 }

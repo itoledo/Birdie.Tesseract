@@ -24,7 +24,7 @@ namespace tvn.cosine.ai.util.math
          * @param lst
          *            a list of values
          */
-        public Vector(List<double> lst)
+        public Vector(IList<double> lst)
             : base(lst.Count, 1)
         {
             for (int i = 0; i < lst.Count; i++)

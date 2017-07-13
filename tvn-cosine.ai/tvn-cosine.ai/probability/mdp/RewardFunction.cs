@@ -1,23 +1,10 @@
 ﻿namespace tvn.cosine.ai.probability.mdp
 {
-    /**
-     * An interface for MDP reward functions.
-     * 
-     * @param <S>
-     *            the state type.
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
-     */
-    public interface RewardFunction<S>
-    {
-
-        /**
-         * Get the reward associated with being in state s.
-         * 
-         * @param s
-         *            the state whose award is sought.
-         * @return the reward associated with being in state s.
-         */
-        double reward(S s);
-    }
+    /// <summary>
+    /// Get the reward associated with being in state s.
+    /// </summary>
+    /// <typeparam name="S"> the state type.</typeparam>
+    /// <param name="s">the state whose award is sought.</param>
+    /// <returns>the reward associated with being in state s.</returns>
+    public delegate double RewardFunction<S>(S s); 
 }

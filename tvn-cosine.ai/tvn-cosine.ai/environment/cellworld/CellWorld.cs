@@ -98,14 +98,15 @@ namespace tvn.cosine.ai.environment.cellworld
         /// <returns>the cell at the specified x,y location, null if no cell exists at this location.</returns>
         public Cell<C> getCellAt(int x, int y)
         {
-            Cell<C> c = null;
-            IDictionary<int, Cell<C>> xCol = cellLookup[x];
-            if (null != xCol)
+            if (cellLookup.ContainsKey(x))
             {
-                c = xCol[y];
+                if (cellLookup[x].ContainsKey(y))
+                {
+                    return cellLookup[x][y];
+                }
             }
 
-            return c;
+            return null;
         }
     }
 }

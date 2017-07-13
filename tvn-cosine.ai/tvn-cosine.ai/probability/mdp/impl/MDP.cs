@@ -20,14 +20,14 @@ namespace tvn.cosine.ai.probability.mdp.impl
 
         private ISet<S> _states;
         private S initialState;
-        private mdp.ActionsFunction<S, A> actionsFunction = null;
-        private mdp.TransitionProbabilityFunction<S, A> transitionProbabilityFunction = null;
-        private mdp.RewardFunction<S> rewardFunction = null;
+        private ActionsFunction<S, A> actionsFunction = null;
+        private TransitionProbabilityFunction<S, A> transitionProbabilityFunction = null;
+        private RewardFunction<S> rewardFunction = null;
 
         public MDP(ISet<S> states, S initialState,
-                mdp.ActionsFunction<S, A> actionsFunction,
-                mdp.TransitionProbabilityFunction<S, A> transitionProbabilityFunction,
-                mdp.RewardFunction<S> rewardFunction)
+               ActionsFunction<S, A> actionsFunction,
+               TransitionProbabilityFunction<S, A> transitionProbabilityFunction,
+               RewardFunction<S> rewardFunction)
         {
             this._states = states;
             this.initialState = initialState;
@@ -55,12 +55,12 @@ namespace tvn.cosine.ai.probability.mdp.impl
 
         public double transitionProbability(S sDelta, S s, A a)
         {
-            return transitionProbabilityFunction.probability(sDelta, s, a);
+            return transitionProbabilityFunction(sDelta, s, a);
         }
 
         public double reward(S s)
         {
-            return rewardFunction.reward(s);
+            return rewardFunction(s);
         }
 
         // END-MarkovDecisionProcess

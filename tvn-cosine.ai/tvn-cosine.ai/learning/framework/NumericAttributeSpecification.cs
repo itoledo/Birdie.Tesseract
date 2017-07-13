@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace tvn.cosine.ai.learning.framework
 {
@@ -19,7 +20,7 @@ namespace tvn.cosine.ai.learning.framework
         public bool isValid(string s)
         {
             double o;
-            return double.TryParse(s, out o);
+            return double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out o);
         }
 
         public string getAttributeName()
@@ -29,7 +30,7 @@ namespace tvn.cosine.ai.learning.framework
 
         public Attribute createAttribute(string rawValue)
         {
-            return new NumericAttribute(double.Parse(rawValue), this);
+            return new NumericAttribute(double.Parse(rawValue, NumberStyles.Any, CultureInfo.InvariantCulture), this);
         }
     }
 }

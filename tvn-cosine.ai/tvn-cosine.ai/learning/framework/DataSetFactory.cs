@@ -90,7 +90,7 @@ namespace tvn.cosine.ai.learning.framework
         public static DataSet getIrisDataSet()
         {
             DataSetSpecification spec = createIrisDataSetSpec();
-            return DataSetFactory.FromFile("iris", spec, ",");
+            return DataSetFactory.FromFile("data\\iris.csv", spec, ",");
         }
 
         public static DataSetSpecification createIrisDataSetSpec()

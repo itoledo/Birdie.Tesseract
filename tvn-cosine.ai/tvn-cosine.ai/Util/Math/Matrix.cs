@@ -70,7 +70,7 @@ namespace tvn.cosine.ai.util.math
          */
 
         /** Construct a diagonal Matrix from the given List of doubles */
-        public static Matrix createDiagonalMatrix(List<double> values)
+        public static Matrix createDiagonalMatrix(IList<double> values)
         {
             Matrix m = new Matrix(values.Count, values.Count, 0);
             for (int i = 0; i < values.Count; ++i)

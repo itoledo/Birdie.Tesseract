@@ -71,7 +71,7 @@ namespace tvn.cosine.ai.probability.example
          */
         public static mdp.TransitionProbabilityFunction<Cell<double>, CellWorldAction> createTransitionProbabilityFunctionForFigure17_1(CellWorld<double> cw)
         {
-            mdp.TransitionProbabilityFunction<Cell<double>, CellWorldAction> tf = new mdp.impl.TransitionProbabilityFunction<Cell<double>, CellWorldAction>((sDelta, s, a) =>
+            TransitionProbabilityFunction<Cell<double>, CellWorldAction> tf = (sDelta, s, a) =>
             {
                 Func<Cell<double>, CellWorldAction, IList<Cell<double>>> possibleOutcomes = (c, ab) =>
                   {
@@ -105,7 +105,7 @@ namespace tvn.cosine.ai.probability.example
                 }
 
                 return prob;
-            });
+            };
             return tf;
         }
 
@@ -114,13 +114,13 @@ namespace tvn.cosine.ai.probability.example
          * @return the reward function which takes the content of the cell as being
          *         the reward value.
          */
-        public static mdp.RewardFunction<Cell<double>> createRewardFunctionForFigure17_1()
+        public static RewardFunction<Cell<double>> createRewardFunctionForFigure17_1()
         {
-            mdp.RewardFunction<Cell<Double>> rf = new mdp.impl.RewardFunction<Cell<double>>((s) =>
+            RewardFunction<Cell<double>> rf = (s) =>
             {
                 return s.getContent();
-            });
+            };
             return rf;
         }
-    } 
+    }
 }

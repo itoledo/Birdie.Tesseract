@@ -7,6 +7,18 @@ namespace tvn.cosine.ai.util
 {
     public class Util
     {
+        public static bool ValuesEquals<T>(IList<T> list, IList<T> list2)
+        {
+            if (null == list && null == list2) return true;
+            if (null == list || null == list2) return false;
+            if (list.Count != list2.Count) return false;
+            for (int i = 0; i < list.Count; ++i)
+            {
+                if (!list[i].Equals(list2[i])) return false;
+            }
+            return true;
+        }
+
         public static double ToRadians(double angle)
         {
             return Math.PI * angle / 180.0;
@@ -260,7 +272,7 @@ namespace tvn.cosine.ai.util
             return random.Next(j - i + 1) + i;
         }
 
-        public static double calculateMean(List<double> lst)
+        public static double calculateMean(IList<double> lst)
         {
             double sum = 0.0;
             foreach (double d in lst)
@@ -270,7 +282,7 @@ namespace tvn.cosine.ai.util
             return sum / lst.Count;
         }
 
-        public static double calculateStDev(List<double> values, double mean)
+        public static double calculateStDev(IList<double> values, double mean)
         {
 
             int listSize = values.Count;
@@ -290,7 +302,7 @@ namespace tvn.cosine.ai.util
             return Math.Sqrt(variance);
         }
 
-        public static List<double> normalizeFromMeanAndStdev(List<double> values, double mean, double stdev)
+        public static IList<double> normalizeFromMeanAndStdev(IList<double> values, double mean, double stdev)
         {
             return values.Select(d => (d - mean) / stdev).ToList();
         }
