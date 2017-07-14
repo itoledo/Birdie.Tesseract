@@ -25,6 +25,21 @@ namespace tvn.cosine.ai.search.informed
      */
     public class BestFirstSearch<S, A> : QueueBasedSearch<S, A>, Informed<S, A>
     {
+        class DefaultComparer : IComparer<Node<S, A>>
+        {
+            private readonly HeuristicEvaluationFunction<Node<S, A>> evalFn;
+
+            public DefaultComparer(HeuristicEvaluationFunction<Node<S, A>> evalFn)
+            {
+                this.evalFn = evalFn;
+            }
+
+            public int Compare(Node<S, A> x, Node<S, A> y)
+            {
+                return evalFn(x).CompareTo(evalFn(y));
+            }
+        }
+
         /**
          * Constructs a best first search from a specified search problem and
          * evaluation function.
@@ -37,12 +52,12 @@ namespace tvn.cosine.ai.search.informed
          *            node.
          */
         public BestFirstSearch(QueueSearch<S, A> impl, HeuristicEvaluationFunction<Node<S, A>> evalFn)
-            : base(impl, QueueFactory.createPriorityQueue(Comparer<Node<S, A>>.Default))
+            : base(impl, QueueFactory.createPriorityQueue(new DefaultComparer(evalFn)))
         {
             this.h = evalFn;
         }
 
         /** Modifies the evaluation function if it is a {@link HeuristicEvaluationFunction}. */
         public HeuristicEvaluationFunction<Node<S, A>> h { get; set; }
-    } 
+    }
 }

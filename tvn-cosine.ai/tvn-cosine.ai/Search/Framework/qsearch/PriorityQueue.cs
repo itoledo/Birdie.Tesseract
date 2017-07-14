@@ -33,13 +33,18 @@ namespace tvn.cosine.ai.search.framework.qsearch
 
         public void Add(E item)
         {
-            backingList.Add(item, item);
+            add(item);
         }
 
         public bool add(E e)
         {
-            backingList.Add(e, e);
-            return true;
+            if (!backingList.ContainsKey(e))
+            {
+                backingList.Add(e, e);
+                return true;
+            }
+
+            return false;
         }
 
         public void Clear()

@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.impl;
 using tvn.cosine.ai.util.datastructure;
@@ -38,9 +36,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
 
         public EightPuzzleBoard(EightPuzzleBoard copyBoard)
             : this(copyBoard.getState())
-        {
-
-        }
+        { }
 
         public int[] getState()
         {
@@ -154,37 +150,25 @@ namespace tvn.cosine.ai.environment.eightpuzzle
 
         public override bool Equals(object o)
         {
-            if (this == o)
-                return true;
+            if (this == o) return true;
+
             if (o != null && GetType() == o.GetType())
             {
-                EightPuzzleBoard aBoard = (EightPuzzleBoard)o;
-                for (int i = 0; i < 8; i++)
-                {
-                    if (this.getPositionOf(i) != aBoard.getPositionOf(i))
-                        return false;
-                }
-                return true;
+                return GetHashCode().Equals(o.GetHashCode());
             }
             return false;
         }
 
         public override int GetHashCode()
         {
-            int result = 17;
-            for (int i = 0; i < 8; i++)
-            {
-                int position = this.getPositionOf(i);
-                result = 37 * result + position;
-            }
-            return result;
+            return ToString().GetHashCode();
         }
 
         public override string ToString()
         {
             return state[0] + " " + state[1] + " " + state[2] + "\n"
-                    + state[3] + " " + state[4] + " " + state[5] + " " + "\n"
-                    + state[6] + " " + state[7] + " " + state[8];
+                 + state[3] + " " + state[4] + " " + state[5] + " " + "\n"
+                 + state[6] + " " + state[7] + " " + state[8];
         }
 
         //
@@ -244,5 +228,4 @@ namespace tvn.cosine.ai.environment.eightpuzzle
 
         }
     }
-
 }

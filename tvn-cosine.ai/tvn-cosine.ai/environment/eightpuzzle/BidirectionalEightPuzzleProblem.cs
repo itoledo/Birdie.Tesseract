@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using tvn.cosine.ai.agent;
+﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.environment.eightpuzzle
@@ -14,12 +10,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
     public class BidirectionalEightPuzzleProblem : GeneralProblem<EightPuzzleBoard, IAction>, IBidirectionalProblem<EightPuzzleBoard, IAction>
     {
         private readonly IProblem<EightPuzzleBoard, IAction> reverseProblem;
-
-        private static bool isEqual(EightPuzzleBoard state)
-        {
-            return null == state ? false : true;
-        }
-
+         
         public BidirectionalEightPuzzleProblem(EightPuzzleBoard initialState)
             : base(initialState, EightPuzzleFunctions.getActions, EightPuzzleFunctions.getResult, EightPuzzleFunctions.GOAL_STATE.Equals)
         {

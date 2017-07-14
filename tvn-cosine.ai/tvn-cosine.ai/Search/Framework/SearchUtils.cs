@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.search.framework
          *
          * @return the path from the root node to this node.
          */
-        public static List<Node<S, A>> getPathFromRoot<S, A>(Node<S, A> node)
+        public static IList<Node<S, A>> getPathFromRoot<S, A>(Node<S, A> node)
         {
             List<Node<S, A>> path = new List<Node<S, A>>();
             while (!node.isRootNode())
@@ -33,7 +33,7 @@ namespace tvn.cosine.ai.search.framework
          * given node. The list is empty, if the node is the root node of the search
          * tree.
          */
-        public static List<A> getSequenceOfActions<S, A>(Node<S, A> node)
+        public static IList<A> getSequenceOfActions<S, A>(Node<S, A> node)
         {
             List<A> actions = new List<A>();
             while (!node.isRootNode())
@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.search.framework
             return actions;
         }
 
-        public static List<A> toActions<S, A>(Node<S, A> node)
+        public static IList<A> toActions<S, A>(Node<S, A> node)
         {
             return node != null ? getSequenceOfActions(node) : null;
         }

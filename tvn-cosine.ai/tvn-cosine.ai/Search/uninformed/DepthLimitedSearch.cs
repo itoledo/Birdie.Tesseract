@@ -173,6 +173,5 @@ namespace tvn.cosine.ai.search.uninformed
             metrics[METRIC_NODES_EXPANDED] = 0;
             metrics[METRIC_PATH_COST] = 0;
         }
-    }
-
+    } 
 }

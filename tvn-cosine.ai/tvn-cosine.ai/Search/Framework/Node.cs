@@ -130,5 +130,10 @@
         {
             return parent == null;
         }
+
+        public override string ToString()
+        {
+            return state.ToString();
+        }
     }
 }
