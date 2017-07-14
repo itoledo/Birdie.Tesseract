@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>TvnTestConsoleApp.demo.search.EightPuzzleDemo</StartupObject>
+    <StartupObject>TvnTestConsoleApp.demo.search.nqueens.nQueensGeneticAlgorithmSearchDemo</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -83,12 +83,24 @@
     <Compile Include="demo\probability\PolicyIterationDemo.cs" />
     <Compile Include="demo\probability\Util.cs" />
     <Compile Include="demo\probability\ValueIterationDemo.cs" />
-    <Compile Include="demo\search\EightPuzzleDLSDemo.cs" />
-    <Compile Include="demo\search\EightPuzzleDemo.cs" />
-    <Compile Include="demo\search\GenerateRandomEightPuzzleDemo.cs" />
-    <Compile Include="demo\search\MapColoringCspDemo.cs" />
-    <Compile Include="demo\search\NQueensDemo.cs" />
-    <Compile Include="demo\search\TicTacToeDemo.cs" />
+    <Compile Include="demo\search\eightpuzzle\EightPuzzleAStarDemo.cs" />
+    <Compile Include="demo\search\eightpuzzle\EightPuzzleAStarManhattanDemo.cs" />
+    <Compile Include="demo\search\eightpuzzle\EightPuzzleDLSDemo.cs" />
+    <Compile Include="demo\search\eightpuzzle\EightPuzzleGreedyBestFirstDemo.cs" />
+    <Compile Include="demo\search\eightpuzzle\EightPuzzleGreedyBestFirstManhattanDemo.cs" />
+    <Compile Include="demo\search\eightpuzzle\EightPuzzleIDLSDemo.cs" />
+    <Compile Include="demo\search\eightpuzzle\EightPuzzleSimulatedAnnealingDemo.cs" />
+    <Compile Include="demo\search\eightpuzzle\GenerateRandomEightPuzzleDemo.cs" />
+    <Compile Include="demo\search\mapcoloring\MapColoringCspDemo.cs" />
+    <Compile Include="demo\search\nqueens\nQueensGeneticAlgorithmSearchDemo.cs" />
+    <Compile Include="demo\search\nqueens\nQueensHillClimbingSearchDemo.cs" />
+    <Compile Include="demo\search\nqueens\nQueensSimulatedAnnealingSearchDemo.cs" />
+    <Compile Include="demo\search\nqueens\nQueensWithBreadthFirstSearchDemo.cs" />
+    <Compile Include="demo\search\nqueens\nQueensWithDepthFirstSearchDemo.cs" />
+    <Compile Include="demo\search\nqueens\nQueensWithIterativeDeepeningSearchDemo.cs" />
+    <Compile Include="demo\search\nqueens\nQueensWithRecursiveDLSDemo.cs" />
+    <Compile Include="demo\search\tictactoe\StartAlphaBetaDemo.cs" />
+    <Compile Include="demo\search\tictactoe\StartMinimaxDemo.cs" />
     <Compile Include="demo\search\Util.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

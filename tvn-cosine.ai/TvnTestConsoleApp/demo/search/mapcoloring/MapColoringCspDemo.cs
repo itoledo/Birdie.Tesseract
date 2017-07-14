@@ -3,7 +3,7 @@ using tvn.cosine.ai.search.csp;
 using tvn.cosine.ai.search.csp.examples;
 using tvn.cosine.ai.search.csp.listeners;
 
-namespace TvnTestConsoleApp.demo.search
+namespace TvnTestConsoleApp.demo.search.mapcoloring
 {
     /**
      * Demonstrates the performance of different constraint solving strategies.
@@ -18,7 +18,7 @@ namespace TvnTestConsoleApp.demo.search
         {
             CSP<Variable, string> csp = new MapCSP();
             StepCounter<Variable, string> stepCounter = new StepCounter<Variable, string>();
-            CspSolver<Variable, String> solver;
+            CspSolver<Variable, string> solver;
 
             solver = new MinConflictsSolver<Variable, string>(1000);
             solver.addCspListener(stepCounter);

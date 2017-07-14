@@ -1,7 +1,7 @@
 ﻿using System;
 using tvn.cosine.ai.environment.eightpuzzle;
 
-namespace TvnTestConsoleApp.demo.search
+namespace TvnTestConsoleApp.demo.search.eightpuzzle
 {
     class GenerateRandomEightPuzzleDemo
     {
