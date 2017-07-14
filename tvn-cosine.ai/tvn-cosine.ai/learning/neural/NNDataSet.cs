@@ -194,7 +194,7 @@ namespace tvn.cosine.ai.learning.neural
             {
                 IList<double> input = new List<double>();
                 IList<double> target = new List<double>();
-                for (int i = 0; i < dataLine.Count; i++)
+                for (int i = 0; i < dataLine.Count; ++i)
                 {
                     if (targetColumnNumbers.Contains(i))
                     {
@@ -220,7 +220,7 @@ namespace tvn.cosine.ai.learning.neural
 
             IList<IList<double>> normalizedColumns = new List<IList<double>>();
             // clculate means for each coponent of example data
-            for (int i = 0; i < rawDataLength; i++)
+            for (int i = 0; i < rawDataLength; ++i)
             {
                 IList<double> columnValues = new List<double>();
                 foreach (IList<double> rawDatum in rds)
@@ -241,7 +241,7 @@ namespace tvn.cosine.ai.learning.neural
 
             int columnLength = normalizedColumns[0].Count;
             int numberOfColumns = normalizedColumns.Count;
-            for (int i = 0; i < columnLength; i++)
+            for (int i = 0; i < columnLength; ++i)
             {
                 IList<double> lst = new List<double>();
                 for (int j = 0; j < numberOfColumns; j++)
@@ -270,7 +270,7 @@ namespace tvn.cosine.ai.learning.neural
         {
             // assumes all values for inout and target are doubles
             IList<IList<double>> rds = new List<IList<double>>();
-            for (int i = 0; i < ds.size(); i++)
+            for (int i = 0; i < ds.size(); ++i)
             {
                 IList<double> rexample = new List<double>();
                 Example e = ds.getExample(i);

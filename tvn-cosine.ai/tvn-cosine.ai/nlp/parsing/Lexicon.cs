@@ -22,7 +22,7 @@ namespace tvn.cosine.ai.nlp.parsing
             IList<Rule> rules = new List<Rule>();
             if (lexWords.Count > 0)
             {
-                for (int i = 0; i < lexWords.Count; i++)
+                for (int i = 0; i < lexWords.Count; ++i)
                 {
                     rules.Add(new Rule(partOfSpeech.ToUpper(),
                                                lexWords[i].word,
@@ -71,7 +71,7 @@ namespace tvn.cosine.ai.nlp.parsing
             key = vargs[0].ToUpper();
             if (this.ContainsKey(key)) { containsKey = true; }
 
-            for (int i = 1; i < vargs.Length; i++)
+            for (int i = 1; i < vargs.Length; ++i)
             {
                 if (containsKey)
                 {
@@ -81,7 +81,7 @@ namespace tvn.cosine.ai.nlp.parsing
                 {
                     lexWords.Add(new LexWord(vargs[i], float.Parse(vargs[i + 1])));
                 }
-                i++;
+                ++i;
             }
             if (!containsKey)
             {
@@ -102,7 +102,7 @@ namespace tvn.cosine.ai.nlp.parsing
             {
                 if (this.ContainsKey(v.Key))
                 {
-                    for (int i = 0; i < v.Value.Count; i++)
+                    for (int i = 0; i < v.Value.Count; ++i)
                     {
                         this[v.Key].Add(v.Value[i]);
                     }

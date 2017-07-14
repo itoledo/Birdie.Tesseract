@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             IList<Term> terms = predicate.getTerms();
             IList<Term> newTerms = new List<Term>();
-            for (int i = 0; i < terms.Count; i++)
+            for (int i = 0; i < terms.Count; ++i)
             {
                 Term t = terms[i];
                 Term subsTerm = (Term)t.accept(this, arg);
@@ -64,7 +64,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             IList<Term> terms = function.getTerms();
             IList<Term> newTerms = new List<Term>();
-            for (int i = 0; i < terms.Count; i++)
+            for (int i = 0; i < terms.Count; ++i)
             {
                 Term t = terms[i];
                 Term subsTerm = (Term)t.accept(this, arg);

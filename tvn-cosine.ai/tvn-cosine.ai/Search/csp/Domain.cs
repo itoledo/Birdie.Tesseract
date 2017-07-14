@@ -59,7 +59,7 @@ namespace tvn.cosine.ai.search.csp
                 Domain<VAL> d = (Domain<VAL>)obj;
                 if (d.values.Length != values.Length)
                     return false;
-                for (int i = 0; i < values.Length; i++)
+                for (int i = 0; i < values.Length; ++i)
                     if (!values[i].Equals(d.values[i]))
                         return false;
                 return true;

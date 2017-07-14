@@ -88,7 +88,7 @@ namespace tvn.cosine.ai.learning.neural
                     .times(momentum)
                     .plus(biasUpdateMatrixWithoutMomentum.times(1.0 - momentum));
             Vector result = new Vector(biasUpdateMatrixWithMomentum.getRowDimension());
-            for (int i = 0; i < biasUpdateMatrixWithMomentum.getRowDimension(); i++)
+            for (int i = 0; i < biasUpdateMatrixWithMomentum.getRowDimension(); ++i)
             {
                 result.setValue(i, biasUpdateMatrixWithMomentum.get(i, 0));
             }
@@ -102,7 +102,7 @@ namespace tvn.cosine.ai.learning.neural
             Matrix biasUpdateMatrix = layerSensitivity.getSensitivityMatrix().times(alpha).times(-1.0);
 
             Vector result = new Vector(biasUpdateMatrix.getRowDimension());
-            for (int i = 0; i < biasUpdateMatrix.getRowDimension(); i++)
+            for (int i = 0; i < biasUpdateMatrix.getRowDimension(); ++i)
             {
                 result.setValue(i, biasUpdateMatrix.get(i, 0));
             }

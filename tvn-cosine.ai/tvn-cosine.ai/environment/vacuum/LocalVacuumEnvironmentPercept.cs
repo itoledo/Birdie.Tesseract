@@ -47,7 +47,7 @@ namespace tvn.cosine.ai.environment.vacuum
         /// <param name="state"></param>
         /// <param name="agent"></param>
         /// <returns>true of the percept matches an environment state, false otherwise.</returns>
-        public bool matches(VacuumEnvironmentState state, IAgent agent)
+        public bool matches(VacuumEnvironmentState state, Agent agent)
         {
             if (!this.getAgentLocation().Equals(state.getAgentLocation(agent)))
             {

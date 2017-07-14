@@ -12,6 +12,6 @@ namespace tvn.cosine.ai.probability.mdp
     /// <param name="s">the state s being transitions from.</param>
     /// <param name="a">the action used to move from state s to s'.</param>
     /// <returns>the probability of going from state s using action a to s'.</returns>
-    public delegate double TransitionProbabilityFunction<S, A>(S sDelta, S s, A a) where A : IAction;
+    public delegate double TransitionProbabilityFunction<S, A>(S sDelta, S s, A a) where A : Action;
 
 }

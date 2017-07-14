@@ -15,14 +15,14 @@ namespace tvn.cosine.ai.environment.vacuum
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        public static IList<IAction> getActions(VacuumEnvironmentState state)
+        public static IList<Action> getActions(VacuumEnvironmentState state)
         {
-            IList<IAction> actions = new List<IAction>();
+            IList<Action> actions = new List<Action>();
             actions.Add(VacuumEnvironment.ACTION_SUCK);
             actions.Add(VacuumEnvironment.ACTION_MOVE_LEFT);
             actions.Add(VacuumEnvironment.ACTION_MOVE_RIGHT);
             // Ensure cannot be modified.
-            return new ReadOnlyCollection<IAction>(actions);
+            return new ReadOnlyCollection<Action>(actions);
         }
 
         public static bool testGoal(VacuumEnvironmentState state)
@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.environment.vacuum
                 && state.getLocationState(VacuumEnvironment.LOCATION_B) == VacuumEnvironment.LocationState.Clean;
         }
 
-        public static ResultsFunction<VacuumEnvironmentState, IAction> createResultsFunction(IAgent agent)
+        public static ResultsFunction<VacuumEnvironmentState, Action> createResultsFunction(Agent agent)
         {
             return (state, action) =>
             {

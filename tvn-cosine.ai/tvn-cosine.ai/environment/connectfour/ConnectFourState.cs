@@ -147,7 +147,7 @@ namespace tvn.cosine.ai.environment.connectfour
             int playerNum = getPlayerNum(moveRow, moveCol);
             WinPositionInfo[] wInfo = new WinPositionInfo[] {
                 new WinPositionInfo(), new WinPositionInfo() };
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; ++i)
             {
                 int rIncr = rowIncr[i];
                 int cIncr = colIncr[i];
@@ -214,7 +214,7 @@ namespace tvn.cosine.ai.environment.connectfour
 
             int playerNum = getPlayerToMove();
             int result = 0;
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; ++i)
             {
                 int rIncr = rowIncr[i];
                 int cIncr = colIncr[i];
@@ -260,7 +260,7 @@ namespace tvn.cosine.ai.environment.connectfour
         public override int GetHashCode()
         {
             int result = 0;
-            for (int i = 0; i < board.Length; i++)
+            for (int i = 0; i < board.Length; ++i)
                 result = result * 7 + board[i] + 1;
             return result;
         }
@@ -270,7 +270,7 @@ namespace tvn.cosine.ai.environment.connectfour
             if (obj != null && GetType() == obj.GetType())
             {
                 ConnectFourState s = (ConnectFourState)obj;
-                for (int i = 0; i < board.Length; i++)
+                for (int i = 0; i < board.Length; ++i)
                     if (board[i] != s.board[i])
                         return false;
                 return true;

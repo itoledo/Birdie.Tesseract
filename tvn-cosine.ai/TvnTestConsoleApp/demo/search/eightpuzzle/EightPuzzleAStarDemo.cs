@@ -23,10 +23,10 @@ namespace TvnTestConsoleApp.demo.search.eightpuzzle
         private static void eightPuzzleAStarDemo()
         {
 
-            IProblem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(Util.random1);
-            SearchForActions<EightPuzzleBoard, IAction> search = new AStarSearch<EightPuzzleBoard, IAction>
-                    (new GraphSearch<EightPuzzleBoard, IAction>(), EightPuzzleFunctions.createMisplacedTileHeuristicFunction());
-            SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
+            IProblem<EightPuzzleBoard, tvn.cosine.ai.agent.Action> problem = new BidirectionalEightPuzzleProblem(Util.random1);
+            SearchForActions<EightPuzzleBoard, tvn.cosine.ai.agent.Action> search = new AStarSearch<EightPuzzleBoard, tvn.cosine.ai.agent.Action>
+                    (new GraphSearch<EightPuzzleBoard, tvn.cosine.ai.agent.Action>(), EightPuzzleFunctions.createMisplacedTileHeuristicFunction());
+            SearchAgent<EightPuzzleBoard, tvn.cosine.ai.agent.Action> agent = new SearchAgent<EightPuzzleBoard, tvn.cosine.ai.agent.Action>(problem, search);
             Util.printActions(agent.GetActions());
             Util.printInstrumentation(agent.GetInstrumentation());
 

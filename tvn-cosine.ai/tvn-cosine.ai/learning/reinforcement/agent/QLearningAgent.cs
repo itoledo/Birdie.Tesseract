@@ -66,7 +66,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
      * 
      */
     public class QLearningAgent<S, A> : ReinforcementAgent<S, A>
-        where A : IAction
+        where A : ai.agent.Action
     {
         // persistent: Q, a table of action values indexed by state and action,
         // initially zero

@@ -20,10 +20,10 @@ namespace TvnTestConsoleApp.demo.search.eightpuzzle
         }
 
         private static void eightPuzzleIDLSDemo()
-        { 
-            IProblem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(Util.random1);
-            SearchForActions<EightPuzzleBoard, IAction> search = new IterativeDeepeningSearch<EightPuzzleBoard, IAction>();
-            SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
+        {
+            IProblem<EightPuzzleBoard, tvn.cosine.ai.agent.Action> problem = new BidirectionalEightPuzzleProblem(Util.random1);
+            SearchForActions<EightPuzzleBoard, tvn.cosine.ai.agent.Action> search = new IterativeDeepeningSearch<EightPuzzleBoard, tvn.cosine.ai.agent.Action>();
+            SearchAgent<EightPuzzleBoard, tvn.cosine.ai.agent.Action> agent = new SearchAgent<EightPuzzleBoard, tvn.cosine.ai.agent.Action>(problem, search);
             Util.printActions(agent.GetActions());
             Util.printInstrumentation(agent.GetInstrumentation()); 
         }

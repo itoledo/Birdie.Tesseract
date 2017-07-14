@@ -21,7 +21,7 @@ namespace TvnTestConsoleApp.demo.search
             }
         }
 
-        public static void printActions<T>(IList<T> actions) where T : IAction
+        public static void printActions<T>(IList<T> actions) where T : tvn.cosine.ai.agent.Action
         {
             foreach (var a in actions)
             {

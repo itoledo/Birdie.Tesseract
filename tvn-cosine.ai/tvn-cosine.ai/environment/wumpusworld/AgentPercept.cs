@@ -21,7 +21,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
      * @author Alessandro Daniele
      * @author Ciaran O'Reilly
      */
-    public class AgentPercept : IPercept
+    public class AgentPercept : Percept
     {
         private bool stench;
         private bool breeze;

@@ -22,16 +22,16 @@ namespace TvnTestConsoleApp.demo.agent
         {
             System.Console.WriteLine("AND-OR-GRAPH-SEARCH");
 
-            NondeterministicVacuumAgent<VacuumEnvironmentState, IAction> agent
-                = new NondeterministicVacuumAgent<VacuumEnvironmentState, IAction>((p) => (VacuumEnvironmentState)p);
+            NondeterministicVacuumAgent<VacuumEnvironmentState, Action> agent
+                = new NondeterministicVacuumAgent<VacuumEnvironmentState, Action>((p) => (VacuumEnvironmentState)p);
             // create state: both rooms are dirty and the vacuum is in room A
             VacuumEnvironmentState state = new VacuumEnvironmentState();
             state.setLocationState(VacuumEnvironment.LOCATION_A, VacuumEnvironment.LocationState.Dirty);
             state.setLocationState(VacuumEnvironment.LOCATION_B, VacuumEnvironment.LocationState.Dirty);
             state.setAgentLocation(agent, VacuumEnvironment.LOCATION_A);
             // create problem
-            NondeterministicProblem<VacuumEnvironmentState, IAction> problem
-                = new NondeterministicProblem<VacuumEnvironmentState, IAction>(
+            NondeterministicProblem<VacuumEnvironmentState, Action> problem
+                = new NondeterministicProblem<VacuumEnvironmentState, Action>(
                     state,
                     VacuumWorldFunctions.getActions,
                     VacuumWorldFunctions.createResultsFunction(agent),
@@ -47,8 +47,8 @@ namespace TvnTestConsoleApp.demo.agent
             // execute and show plan
             System.Console.WriteLine("Initial Plan: " + agent.getContingencyPlan());
             StringBuilder sb = new StringBuilder();
-            world.AddEnvironmentView(new VacuumEnvironmentViewActionTracker(sb));
-            world.StepUntilDone();
+            world.addEnvironmentView(new VacuumEnvironmentViewActionTracker(sb));
+            world.stepUntilDone();
             System.Console.WriteLine("Remaining Plan: " + agent.getContingencyPlan());
             System.Console.WriteLine("Actions Taken: " + sb);
             System.Console.WriteLine("Final State: " + world.getCurrentState());

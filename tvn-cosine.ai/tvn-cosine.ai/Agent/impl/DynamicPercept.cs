@@ -2,14 +2,14 @@
 
 namespace tvn.cosine.ai.agent.impl
 { 
-    public class DynamicPercept : ObjectWithDynamicAttributes<string, object>, IPercept
+    public class DynamicPercept : ObjectWithDynamicAttributes<string, object>, Percept
     {
         public DynamicPercept()
         { }
 
         public override string DescribeType()
         {
-            return typeof(IPercept).Name;
+            return typeof(Percept).Name;
         }
          
         /// <summary>
@@ -47,7 +47,7 @@ namespace tvn.cosine.ai.agent.impl
                 throw new ArgumentOutOfRangeException("keys and values does not match.");
             }
 
-            for (int i = 0; i < keys.Length; i++)
+            for (int i = 0; i < keys.Length; ++i)
             {
                 SetAttribute(keys[i], values[i]);
             }

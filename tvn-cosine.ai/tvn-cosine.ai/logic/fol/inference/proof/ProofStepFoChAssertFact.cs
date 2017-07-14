@@ -43,7 +43,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
         {
             StringBuilder sb = new StringBuilder();
             IList<Literal> nLits = implication.getNegativeLiterals();
-            for (int i = 0; i < implication.getNumberNegativeLiterals(); i++)
+            for (int i = 0; i < implication.getNumberNegativeLiterals(); ++i)
             {
                 sb.Append(nLits[i].getAtomicSentence());
                 if (i != (implication.getNumberNegativeLiterals() - 1))

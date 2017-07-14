@@ -43,12 +43,12 @@ namespace tvn.cosine.ai.logic.propositional.agent
 
         // function KB-AGENT(percept) returns an action
 
-        public override IAction Execute(IPercept percept)
+        public override Action execute(Percept percept)
         {
             // TELL(KB, MAKE-PERCEPT-SENTENCE(percept, t))
             KB.tell(makePerceptSentence(percept, t));
             // action &lt;- ASK(KB, MAKE-ACTION-QUERY(t))
-            IAction action = ask(KB, makeActionQuery(t));
+            Action action = ask(KB, makeActionQuery(t));
 
             // TELL(KB, MAKE-ACTION-SENTENCE(action, t))
             KB.tell(makeActionSentence(action, t));
@@ -70,7 +70,7 @@ namespace tvn.cosine.ai.logic.propositional.agent
          *         at the given time.
          */
         // MAKE-PERCEPT-SENTENCE(percept, t)
-        public abstract Sentence makePerceptSentence(IPercept percept, int t);
+        public abstract Sentence makePerceptSentence(Percept percept, int t);
 
         /**
          * MAKE-ACTION-QUERY constructs a sentence that asks what action should be
@@ -93,7 +93,7 @@ namespace tvn.cosine.ai.logic.propositional.agent
          * @return a sentence asserting that the chosen action was executed.
          */
         // MAKE-ACTION-SENTENCE(action, t)
-        public abstract Sentence makeActionSentence(IAction action, int t);
+        public abstract Sentence makeActionSentence(Action action, int t);
 
         /**
          * A wrapper around the KB's ask() method which translates the action (in the form of
@@ -107,7 +107,7 @@ namespace tvn.cosine.ai.logic.propositional.agent
          * @return the Action to be performed in response to the given query.
          */
         // ASK(KB, MAKE-ACTION-QUERY(t))
-        public abstract IAction ask(KnowledgeBase KB, Sentence actionQuery);
+        public abstract Action ask(KnowledgeBase KB, Sentence actionQuery);
     }
 
 }

@@ -37,7 +37,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < conjunctionOfClauses.Count; i++)
+            for (int i = 0; i < conjunctionOfClauses.Count; ++i)
             {
                 if (i > 0)
                 {

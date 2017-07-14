@@ -47,7 +47,7 @@ namespace tvn.cosine.ai.environment.nqueens
 
             int numQueens = state.getNumberOfQueensOnBoard();
             int boardSize = state.getSize();
-            for (int i = 0; i < boardSize; i++)
+            for (int i = 0; i < boardSize; ++i)
             {
                 XYLocation newLocation = new XYLocation(numQueens, i);
                 if (!(state.isSquareUnderAttack(newLocation)))
@@ -68,7 +68,7 @@ namespace tvn.cosine.ai.environment.nqueens
         public static IList<QueenAction> getCSFActions(NQueensBoard state)
         {
             IList<QueenAction> actions = new List<QueenAction>();
-            for (int i = 0; i < state.getSize(); i++)
+            for (int i = 0; i < state.getSize(); ++i)
                 for (int j = 0; j < state.getSize(); j++)
                 {
                     XYLocation loc = new XYLocation(i, j);

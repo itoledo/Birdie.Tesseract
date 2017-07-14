@@ -151,7 +151,7 @@ namespace tvn.cosine.ai.search.nondeterministic
             S[] _states = states.ToArray();
             Plan[] plans = new Plan[_states.Length];
             // for each s_i in states do
-            for (int i = 0; i < _states.Length; i++)
+            for (int i = 0; i < _states.Length; ++i)
             {
                 // plan_i <- OR-SEARCH(s_i, problem, path)
                 plans[i] = orSearch(_states[i], problem, path);
@@ -165,7 +165,7 @@ namespace tvn.cosine.ai.search.nondeterministic
             object[] steps = new object[plans.Length];
             if (plans.Length > 0)
             {
-                for (int i = 0; i < plans.Length - 1; i++)
+                for (int i = 0; i < plans.Length - 1; ++i)
                 {
                     steps[i] = new IfStateThenPlan(_states[i], plans[i]);
                 }

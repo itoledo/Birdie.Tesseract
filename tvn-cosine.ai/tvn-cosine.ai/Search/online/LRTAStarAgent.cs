@@ -50,10 +50,10 @@ namespace tvn.cosine.ai.search.online
    * @author Mike Stampone
    */
     public class LRTAStarAgent<S, A> : AbstractAgent
-        where A : agent.IAction
+        where A : agent.Action
     {
         private IOnlineSearchProblem<S, A> problem;
-        private Func<IPercept, S> ptsFn;
+        private Func<Percept, S> ptsFn;
         private HeuristicEvaluationFunction<S> h;
         // persistent: result, a table, indexed by state and action, initially empty
         private readonly TwoKeyDictionary<S, A, S> result = new TwoKeyDictionary<S, A, S>();
@@ -77,7 +77,7 @@ namespace tvn.cosine.ai.search.online
          *            the cheapest path from the state at node <em>n</em> to a goal
          *            state.
          */
-        public LRTAStarAgent(IOnlineSearchProblem<S, A> problem, Func<IPercept, S> ptsFn, HeuristicEvaluationFunction<S> h)
+        public LRTAStarAgent(IOnlineSearchProblem<S, A> problem, Func<Percept, S> ptsFn, HeuristicEvaluationFunction<S> h)
         {
             setProblem(problem);
             setPerceptToStateFunction(ptsFn);
@@ -111,7 +111,7 @@ namespace tvn.cosine.ai.search.online
          * 
          * @return the percept to state function of this agent.
          */
-        public Func<IPercept, S> getPerceptToStateFunction()
+        public Func<Percept, S> getPerceptToStateFunction()
         {
             return ptsFn;
         }
@@ -123,7 +123,7 @@ namespace tvn.cosine.ai.search.online
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public void setPerceptToStateFunction(Func<IPercept, S> ptsFn)
+        public void setPerceptToStateFunction(Func<Percept, S> ptsFn)
         {
             this.ptsFn = ptsFn;
         }
@@ -151,7 +151,7 @@ namespace tvn.cosine.ai.search.online
 
         // function LRTA*-AGENT(s') returns an action
         // inputs: s', a percept that identifies the current state 
-        public override agent.IAction Execute(IPercept psPrimed)
+        public override agent.Action execute(Percept psPrimed)
         {
             S sPrimed = ptsFn(psPrimed);
             // if GOAL-TEST(s') then return stop
@@ -209,10 +209,10 @@ namespace tvn.cosine.ai.search.online
             {
                 // I'm either at the Goal or can't get to it,
                 // which in either case I'm finished so just die.
-                SetAlive(false);
+                setAlive(false);
             }
             // return a
-            return a != null ? a : DynamicAction.NO_OP as agent.IAction;
+            return a != null ? a : DynamicAction.NO_OP as agent.Action;
         }
 
         //
@@ -220,7 +220,7 @@ namespace tvn.cosine.ai.search.online
         //
         private void init()
         {
-            SetAlive(true);
+            setAlive(true);
             result.Clear();
             H.Clear();
             s = default(S);

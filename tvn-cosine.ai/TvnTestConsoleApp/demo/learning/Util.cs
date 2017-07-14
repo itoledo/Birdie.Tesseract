@@ -28,7 +28,7 @@ namespace TvnTestConsoleApp.demo.learning
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
                     new Random());
 
-            cwe.AddAgent(reinforcementAgent);
+            cwe.addAgent(reinforcementAgent);
 
             IDictionary<int, IList<IDictionary<Cell<double>, double>>> runs = new Dictionary<int, IList<IDictionary<Cell<double>, double>>>();
             for (int r = 0; r < numRuns; r++)

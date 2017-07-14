@@ -24,7 +24,7 @@ namespace tvn.cosine.ai.nlp.ranking
             {
                 allMatches.Add(x.ToString());
             }
-            for (int i = 0; i < allMatches.Count; i++)
+            for (int i = 0; i < allMatches.Count; ++i)
             {
                 string match = allMatches[i];
                 string[] tokens = match.Split('\"');
@@ -53,7 +53,7 @@ namespace tvn.cosine.ai.nlp.ranking
             // page's location to the target's inlinks
             foreach (var p in pageTable.Values)
             {
-                for (int i = 0; i < p.getOutlinks().Count; i++)
+                for (int i = 0; i < p.getOutlinks().Count; ++i)
                 {
                     string pForward = p.getOutlinks()[i].ToLower().Replace('\\', '/');
                     string pBackward = p.getOutlinks()[i].ToLower().Replace('/', '\\');

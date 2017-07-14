@@ -11,7 +11,7 @@ namespace tvn.cosine.ai.search.framework.agent
     /// <typeparam name="S">The type used to represent states</typeparam>
     /// <typeparam name="A">The type of the actions to be used to navigate through the state space</typeparam>
     public class SearchAgent<S, A> : AbstractAgent
-        where A : IAction
+        where A : Action
     {
         private IList<A> actionList;
 
@@ -28,7 +28,7 @@ namespace tvn.cosine.ai.search.framework.agent
             searchMetrics = search.getMetrics();
         }
 
-        public override IAction Execute(IPercept p)
+        public override Action execute(Percept p)
         {
             if (actionList.Count > 0)
             {

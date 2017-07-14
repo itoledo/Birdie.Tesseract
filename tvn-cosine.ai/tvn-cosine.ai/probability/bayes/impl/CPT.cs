@@ -33,7 +33,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
                 conditionedOn = new RandomVariable[0];
             }
             RandomVariable[] tableVars = new RandomVariable[conditionedOn.Length + 1];
-            for (int i = 0; i < conditionedOn.Length; i++)
+            for (int i = 0; i < conditionedOn.Length; ++i)
             {
                 tableVars[i] = conditionedOn[i];
                 parents.Add(conditionedOn[i]);
@@ -165,7 +165,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
                       foreach (RandomVariable rv in fof.getFor())
                       {
                           termValues[i] = possibleWorld[rv];
-                          i++;
+                          ++i;
                       }
                       fof.getValues()[fof.getIndex(termValues)] += probability;
                   }

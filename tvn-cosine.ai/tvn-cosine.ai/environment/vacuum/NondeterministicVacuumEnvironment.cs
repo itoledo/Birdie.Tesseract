@@ -36,7 +36,7 @@ namespace tvn.cosine.ai.environment.vacuum
         /// </summary>
         /// <param name="a"></param>
         /// <param name="agentAction"></param>
-        public override void executeAction(IAgent a, IAction agentAction)
+        public override void executeAction(Agent a, agent.Action agentAction)
         {
             if (ACTION_MOVE_RIGHT == agentAction)
             {
@@ -72,7 +72,7 @@ namespace tvn.cosine.ai.environment.vacuum
                     }
                 }
             }
-            else if (agentAction.IsNoOp())
+            else if (agentAction.isNoOp())
             {
                 _isDone = true;
             }

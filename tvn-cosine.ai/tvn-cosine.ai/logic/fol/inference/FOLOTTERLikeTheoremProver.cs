@@ -446,7 +446,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             {
                 // Perform forward subsumption elimination
                 bool addToSOS = true;
-                for (int i = minNoLiterals; i < c.getNumberLiterals(); i++)
+                for (int i = minNoLiterals; i < c.getNumberLiterals(); ++i)
                 {
                     ISet<Clause> fs = clausesGroupedBySize[i];
                     if (null != fs)
@@ -474,7 +474,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     // Have added clause, therefore
                     // perform backward subsumption elimination
                     ISet<Clause> subsumed = new HashSet<Clause>();
-                    for (int i = c.getNumberLiterals() + 1; i <= maxNoLiterals; i++)
+                    for (int i = c.getNumberLiterals() + 1; i <= maxNoLiterals; ++i)
                     {
                         subsumed.Clear();
                         ISet<Clause> bs = clausesGroupedBySize[i];

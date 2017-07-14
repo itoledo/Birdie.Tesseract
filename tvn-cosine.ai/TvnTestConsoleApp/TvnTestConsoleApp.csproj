@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>TvnTestConsoleApp.demo.search.eightpuzzle.EightPuzzleAStarManhattanDemo</StartupObject>
+    <StartupObject>TvnTestConsoleApp.demo.logic.FOL_CNFConversion</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

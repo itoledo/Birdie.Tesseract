@@ -84,7 +84,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
             // fv[0] <- prior
             fv.Add(prior);
             // for i = 1 to t do
-            for (int i = 0; i < ev.Count; i++)
+            for (int i = 0; i < ev.Count; ++i)
             {
                 // fv[i] <- FORWARD(fv[i-1], ev[i])
                 fv.Add(forward(fv[i], ev[i]));
@@ -111,7 +111,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
             foreach (RandomVariable rv in s1.getFor())
             {
                 props[i] = new RandVar<T>(rv.getName(), rv.getDomain());
-                i++;
+                ++i;
             }
             Proposition<T> Xtp1 = ProbUtil.constructConjunction(props);
             AssignmentProposition<T>[] xt = new AssignmentProposition<T>[tToTm1StateVarMap.Count];
@@ -121,7 +121,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
             {
                 xt[i] = new AssignmentProposition<T>(tToTm1StateVarMap[rv], default(T));
                 xtVarAssignMap.Add(rv, xt[i]);
-                i++;
+                ++i;
             }
 
             // Step 1: Calculate the 1 time step prediction
@@ -161,7 +161,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
             {
                 RandomVariable prv = tToTm1StateVarMap[rv];
                 props[i] = new RandVar<T>(prv.getName(), prv.getDomain());
-                i++;
+                ++i;
             }
             Proposition<T> Xk = ProbUtil.constructConjunction(props);
             AssignmentProposition<T>[] ax_kp1 = new AssignmentProposition<T>[tToTm1StateVarMap.Count];
@@ -171,7 +171,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
             {
                 ax_kp1[i] = new AssignmentProposition<T>(rv, default(T));
                 x_kp1VarAssignMap.Add(rv, ax_kp1[i]);
-                i++;
+                ++i;
             }
             Proposition<T> x_kp1 = ProbUtil.constructConjunction(ax_kp1);
             props = new Proposition<T>[e_kp1.Count];
@@ -214,7 +214,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
         {
             ProbabilityTable<T> b = new ProbabilityTable<T>(tToTm1StateVarMap.Keys.ToArray());
 
-            for (int i = 0; i < b.size(); i++)
+            for (int i = 0; i < b.size(); ++i)
             {
                 b.setValue(i, 1.0);
             }

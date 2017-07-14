@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
      * 
      */
     public class PassiveTDAgent<S, A> : ReinforcementAgent<S, A>
-        where A : IAction
+        where A : Action
     {
         // persistent: &pi;, a fixed policy
         private IDictionary<S, A> pi = new Dictionary<S, A>();
@@ -161,7 +161,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         private bool isTerminal(S s)
         {
             bool terminal = false; 
-            if (!pi.ContainsKey(s) || pi[s].IsNoOp())
+            if (!pi.ContainsKey(s) || pi[s].isNoOp())
             {
                 // No actions possible in state is considered terminal.
                 terminal = true;

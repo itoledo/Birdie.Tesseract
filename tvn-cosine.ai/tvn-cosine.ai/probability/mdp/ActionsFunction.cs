@@ -10,5 +10,5 @@ namespace tvn.cosine.ai.probability.mdp
     /// <typeparam name="A"></typeparam>
     /// <param name="state"></param>
     /// <returns></returns>
-    public delegate ISet<A> ActionsFunction<S, A>(S s) where A : IAction; 
+    public delegate ISet<A> ActionsFunction<S, A>(S s) where A : Action; 
 }

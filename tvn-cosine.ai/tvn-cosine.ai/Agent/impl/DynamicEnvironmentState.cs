@@ -1,13 +1,13 @@
 ﻿namespace tvn.cosine.ai.agent.impl
 { 
-    public class DynamicEnvironmentState : ObjectWithDynamicAttributes<string, object>, IEnvironmentState
+    public class DynamicEnvironmentState : ObjectWithDynamicAttributes<string, object>, EnvironmentState
     {
         public DynamicEnvironmentState()
         { }
 
         public override string DescribeType()
         {
-            return typeof(IEnvironmentState).Name;
+            return typeof(EnvironmentState).Name;
         }
     }
 }

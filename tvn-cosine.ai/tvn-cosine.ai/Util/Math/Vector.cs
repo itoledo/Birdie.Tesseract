@@ -27,7 +27,7 @@ namespace tvn.cosine.ai.util.math
         public Vector(IList<double> lst)
             : base(lst.Count, 1)
         {
-            for (int i = 0; i < lst.Count; i++)
+            for (int i = 0; i < lst.Count; ++i)
             {
                 setValue(i, lst[i]);
             }
@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.util.math
         public Vector copyVector()
         {
             Vector result = new Vector(getRowDimension());
-            for (int i = 0; i < getRowDimension(); i++)
+            for (int i = 0; i < getRowDimension(); ++i)
             {
                 result.setValue(i, getValue(i));
             }
@@ -95,7 +95,7 @@ namespace tvn.cosine.ai.util.math
         public Vector minus(Vector v)
         {
             Vector result = new Vector(size());
-            for (int i = 0; i < size(); i++)
+            for (int i = 0; i < size(); ++i)
             {
                 result.setValue(i, getValue(i) - v.getValue(i));
             }
@@ -113,7 +113,7 @@ namespace tvn.cosine.ai.util.math
         public Vector plus(Vector v)
         {
             Vector result = new Vector(size());
-            for (int i = 0; i < size(); i++)
+            for (int i = 0; i < size(); ++i)
             {
                 result.setValue(i, getValue(i) + v.getValue(i));
             }
@@ -135,7 +135,7 @@ namespace tvn.cosine.ai.util.math
                 throw new Exception("can't perform this op on empty vector");
             }
             int res = 0;
-            for (int i = 0; i < size(); i++)
+            for (int i = 0; i < size(); ++i)
             {
                 if (getValue(i) > getValue(res))
                 {

@@ -15,9 +15,9 @@ namespace tvn.cosine.ai.environment.eightpuzzle
     {
         public static readonly EightPuzzleBoard GOAL_STATE = new EightPuzzleBoard(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
 
-        public static IList<IAction> getActions(EightPuzzleBoard state)
+        public static IList<Action> getActions(EightPuzzleBoard state)
         {
-            IList<IAction> actions = new List<IAction>(4);
+            IList<Action> actions = new List<Action>(4);
 
             if (state.canMoveGap(EightPuzzleBoard.UP))
                 actions.Add(EightPuzzleBoard.UP);
@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             return actions;
         }
 
-        public static EightPuzzleBoard getResult(EightPuzzleBoard state, IAction action)
+        public static EightPuzzleBoard getResult(EightPuzzleBoard state, Action action)
         {
             EightPuzzleBoard result = new EightPuzzleBoard(state);
 
@@ -46,12 +46,12 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             return result;
         }
 
-        public static HeuristicEvaluationFunction<Node<EightPuzzleBoard, IAction>> createManhattanHeuristicFunction()
+        public static HeuristicEvaluationFunction<Node<EightPuzzleBoard, Action>> createManhattanHeuristicFunction()
         {
             return ManhattanHeuristicFunction.f;
         }
 
-        public static HeuristicEvaluationFunction<Node<EightPuzzleBoard, IAction>> createMisplacedTileHeuristicFunction()
+        public static HeuristicEvaluationFunction<Node<EightPuzzleBoard, Action>> createMisplacedTileHeuristicFunction()
         {
             return MisplacedTileHeuristicFunction.f;
         }
@@ -63,11 +63,11 @@ namespace tvn.cosine.ai.environment.eightpuzzle
          */
         private class ManhattanHeuristicFunction
         {
-            public static double f(Node<EightPuzzleBoard, IAction> node)
+            public static double f(Node<EightPuzzleBoard, Action> node)
             {
                 EightPuzzleBoard board = node.getState();
                 int retVal = 0;
-                for (int i = 1; i < 9; i++)
+                for (int i = 1; i < 9; ++i)
                 {
                     XYLocation loc = board.getLocationOf(i);
                     retVal += evaluateManhattanDistanceOf(i, loc);
@@ -120,7 +120,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
          */
         private static class MisplacedTileHeuristicFunction
         {
-            public static double f(Node<EightPuzzleBoard, IAction> node)
+            public static double f(Node<EightPuzzleBoard, Action> node)
             {
                 EightPuzzleBoard board = node.getState();
                 return getNumberOfMisplacedTiles(board);

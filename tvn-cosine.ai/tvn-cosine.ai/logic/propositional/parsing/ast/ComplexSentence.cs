@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
 
             this.connective = connective;
             simplerSentences = new Sentence[sentences.Length];
-            for (int i = 0; i < sentences.Length; i++)
+            for (int i = 0; i < sentences.Length; ++i)
             {
                 simplerSentences[i] = sentences[i];
             }
@@ -97,7 +97,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
                     // connective and # of simpler sentences match
                     // assume match and then test each simpler sentence
                     result = true;
-                    for (int i = 0; i < this.getNumberSimplerSentences(); i++)
+                    for (int i = 0; i < this.getNumberSimplerSentences(); ++i)
                     {
                         if (!other.getSimplerSentence(i).Equals(this.getSimplerSentence(i)))
                         {

@@ -12,8 +12,7 @@ namespace tvn.cosine.ai.learning.framework
      * 
      */
     public class DataSetFactory
-    {
-
+    { 
         public static DataSet FromFile(string filename, DataSetSpecification spec, string separator)
         {
             // assumed file in data directory and ends in .csv

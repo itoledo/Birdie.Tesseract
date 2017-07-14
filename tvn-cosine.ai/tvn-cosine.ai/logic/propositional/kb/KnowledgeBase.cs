@@ -61,7 +61,7 @@ namespace tvn.cosine.ai.logic.propositional.kb
          */
         public void tellAll(string[] percepts)
         {
-            for (int i = 0; i < percepts.Length; i++)
+            for (int i = 0; i < percepts.Length; ++i)
             {
                 tell(percepts[i]);
             }

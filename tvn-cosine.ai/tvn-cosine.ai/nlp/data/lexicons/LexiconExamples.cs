@@ -106,7 +106,7 @@ namespace tvn.cosine.ai.nlp.data.lexicons
                           ,"Bud","Veta","Janey","Rosalina","Frederica","Lou","Essie","Marinda","Elene"
                           ,"Juliana","Marilyn","Maxima","Branden","Ethan","Donovan","Erinn","Ramon","Jacquiline"};
 
-            for (int i = 0; i < names.Length; i++)
+            for (int i = 0; i < names.Length; ++i)
             {
                 l.addLexWords("NAME", names[i], "0.02");
             }

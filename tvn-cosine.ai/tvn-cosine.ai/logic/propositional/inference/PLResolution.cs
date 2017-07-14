@@ -73,7 +73,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             {
                 // for each pair of clauses C_i, C_j in clauses do
                 List<Clause> clausesAsList = new List<Clause>(clauses);
-                for (int i = 0; i < clausesAsList.Count - 1; i++)
+                for (int i = 0; i < clausesAsList.Count - 1; ++i)
                 {
                     Clause ci = clausesAsList[i];
                     for (int j = i + 1; j < clausesAsList.Count; j++)

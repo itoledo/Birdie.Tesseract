@@ -78,7 +78,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammers
             {
                 return false;
             }
-            for (int i = 0; i < sentForm.Count; i++)
+            for (int i = 0; i < sentForm.Count; ++i)
             {
                 if (!this.rhs[i].Equals(sentForm[i]))
                 {

@@ -63,7 +63,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             // Move all premises to the front of the
             // list of steps
             int to = 0;
-            for (int i = 0; i < proofSteps.Count; i++)
+            for (int i = 0; i < proofSteps.Count; ++i)
             {
                 if (proofSteps[i] is ProofStepPremise)
                 {
@@ -75,7 +75,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             }
 
             // Move the Goals after the premises
-            for (int i = 0; i < proofSteps.Count; i++)
+            for (int i = 0; i < proofSteps.Count; ++i)
             {
                 if (proofSteps[i] is ProofStepGoal)
                 {
@@ -89,7 +89,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 
             // Assign the step #s now that all the proof
             // steps have been unwound
-            for (int i = 0; i < proofSteps.Count; i++)
+            for (int i = 0; i < proofSteps.Count; ++i)
             {
                 proofSteps[i].setStepNumber(i + 1);
             }

@@ -105,7 +105,7 @@ namespace tvn.cosine.ai.learning.knowledge
             else if (descParts.Count > 1)
             {
                 description = new ConnectedSentence(Connectors.AND, descParts[0], descParts[1]);
-                for (int i = 2; i < descParts.Count; i++)
+                for (int i = 2; i < descParts.Count; ++i)
                 {
                     description = new ConnectedSentence(Connectors.AND, description, descParts[i]);
                 }

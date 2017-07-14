@@ -8,15 +8,15 @@ namespace tvn.cosine.ai.environment.vacuum
     /// <summary>
     /// Represents a state in the Vacuum World
     /// </summary>
-    public class VacuumEnvironmentState : IEnvironmentState, FullyObservableVacuumEnvironmentPercept, ICloneable
+    public class VacuumEnvironmentState : EnvironmentState, FullyObservableVacuumEnvironmentPercept, ICloneable
     {
         private IDictionary<string, VacuumEnvironment.LocationState> state;
-        private IDictionary<IAgent, string> agentLocations;
+        private IDictionary<Agent, string> agentLocations;
 
         public VacuumEnvironmentState()
         {
             state = new Dictionary<string, VacuumEnvironment.LocationState>();
-            agentLocations = new Dictionary<IAgent, string>();
+            agentLocations = new Dictionary<Agent, string>();
         }
 
         public VacuumEnvironmentState(VacuumEnvironment.LocationState locAState, VacuumEnvironment.LocationState locBState)
@@ -27,7 +27,7 @@ namespace tvn.cosine.ai.environment.vacuum
             state[VacuumEnvironment.LOCATION_B] = locBState;
         }
 
-        public string getAgentLocation(IAgent a)
+        public string getAgentLocation(Agent a)
         {
             return agentLocations[a];
         }
@@ -37,7 +37,7 @@ namespace tvn.cosine.ai.environment.vacuum
         /// </summary>
         /// <param name="a"></param>
         /// <param name="location"></param>
-        public void setAgentLocation(IAgent a, string location)
+        public void setAgentLocation(Agent a, string location)
         {
             agentLocations[a] = location;
         }

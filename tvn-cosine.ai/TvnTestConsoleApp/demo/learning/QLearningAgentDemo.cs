@@ -36,7 +36,7 @@ namespace TvnTestConsoleApp.demo.learning
                     CellWorldAction.None, 0.2, 1.0, 5,
                     2.0);
 
-            cwe.AddAgent(qla);
+            cwe.addAgent(qla);
 
             Util.output_utility_learning_rates(qla, 20, 10000, 500, 20); 
         }

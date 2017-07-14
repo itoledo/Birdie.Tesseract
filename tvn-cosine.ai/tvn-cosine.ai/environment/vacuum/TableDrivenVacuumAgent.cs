@@ -16,14 +16,14 @@ namespace tvn.cosine.ai.environment.vacuum
                 : base(new TableDrivenAgentProgram(getPerceptSequenceActions()))
         { }
 
-        private static IDictionary<IList<IPercept>, IAction> getPerceptSequenceActions()
+        private static IDictionary<IList<Percept>, Action> getPerceptSequenceActions()
         {
-            IDictionary<IList<IPercept>, IAction> perceptSequenceActions = new Dictionary<IList<IPercept>, IAction>();
+            IDictionary<IList<Percept>, Action> perceptSequenceActions = new Dictionary<IList<Percept>, Action>();
 
             // NOTE: While this particular table could be setup simply
             // using a few loops, the intent is to show how quickly a table
             // based approach grows and becomes unusable.
-            IList<IPercept> ps;
+            IList<Percept> ps;
             //
             // Level 1: 4 states
             ps = createPerceptSequence(new LocalVacuumEnvironmentPercept(
@@ -745,11 +745,11 @@ namespace tvn.cosine.ai.environment.vacuum
             return perceptSequenceActions;
         }
 
-        private static IList<IPercept> createPerceptSequence(params IPercept[] percepts)
+        private static IList<Percept> createPerceptSequence(params Percept[] percepts)
         {
-            IList<IPercept> perceptSequence = new List<IPercept>();
+            IList<Percept> perceptSequence = new List<Percept>();
 
-            foreach (IPercept p in percepts)
+            foreach (Percept p in percepts)
             {
                 perceptSequence.Add(p);
             }

@@ -231,7 +231,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
         private Factor<T> pointwiseProduct(IList<Factor<T>> factors)
         {
             Factor<T> product = factors[0];
-            for (int i = 1; i < factors.Count; i++)
+            for (int i = 1; i < factors.Count; ++i)
             {
                 product = product.pointwiseProduct(factors[i]);
             }

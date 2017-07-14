@@ -332,7 +332,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             IList<Literal> copyRPosLits = new List<Literal>();
             IList<Literal> copyRNegLits = new List<Literal>();
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 2; ++i)
             {
                 trPosLits.Clear();
                 trNegLits.Clear();
@@ -491,7 +491,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
             IDictionary<Variable, Term> theta = new Dictionary<Variable, Term>();
             IList<Literal> lits = new List<Literal>();
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 2; ++i)
             {
                 lits.Clear();
                 if (i == 0)
@@ -664,7 +664,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                     // clauses like literals.
                     // i.e. n!/(n-r)!
                     // where n=sizeO and r =sizeT
-                    for (int i = 0; i < sizeT; i++)
+                    for (int i = 0; i < sizeT; ++i)
                     {
                         int r = sizeO - i;
                         if (r > 1)
@@ -711,7 +711,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
                     if (sizeO > 1)
                     {
-                        for (int i = 0; i < sizeT; i++)
+                        for (int i = 0; i < sizeT; ++i)
                         {
                             int r = sizeO - i;
                             if (r > 1)
@@ -924,7 +924,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
             int min, max;
             min = max = 0;
-            for (int i = 0; i < literals.Count; i++)
+            for (int i = 0; i < literals.Count; ++i)
             {
                 int incITo = i;
                 int next = i + 1;
@@ -1015,7 +1015,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                     string posStr = pos.ToString();
                     int posStrLen = posStr.Length;
                     int padLen = maxWidth - posStrLen;
-                    for (int i = 0; i < padLen; i++)
+                    for (int i = 0; i < padLen; ++i)
                     {
                         sb.Append('0');
                     }
@@ -1024,7 +1024,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 varOffsets.Add(sb.ToString());
             }
              (varOffsets as List<string>).Sort();
-            for (int i = 0; i < varOffsets.Count; i++)
+            for (int i = 0; i < varOffsets.Count; ++i)
             {
                 identity.Append(varOffsets[i]);
                 if (i < (varOffsets.Count - 1))

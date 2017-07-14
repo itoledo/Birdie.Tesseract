@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.logic.fol
             }
             // Check if each smaller clause
             // subsumes any of the larger clauses.
-            for (int i = min; i < max; i++)
+            for (int i = min; i < max; ++i)
             {
                 ISet<Clause> scs = clausesGroupedBySize[i];
                 // Ensure there are clauses with this # of literals

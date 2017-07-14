@@ -35,6 +35,5 @@ namespace tvn.cosine.ai.logic.common
         {
             return currentPositionInInput;
         }
-    }
-
+    } 
 }

@@ -65,7 +65,7 @@ namespace tvn.cosine.ai.environment.map
             };
         }
 
-        public static Func<IPercept, string> createPerceptToStateFunction()
+        public static Func<Percept, string> createPerceptToStateFunction()
         {
             return p => (string)((DynamicPercept)p).GetAttribute(DynAttributeNames.PERCEPT_IN);
         }

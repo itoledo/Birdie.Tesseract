@@ -9,14 +9,14 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
     public class Rule
     {
         private Condition con;
-        private IAction action;
+        private Action action;
          
         /// <summary>
         /// Constructs a condition-action rule.
         /// </summary>
         /// <param name="condition">a condition</param>
         /// <param name="action">an action</param>
-        public Rule(Condition condition, IAction action)
+        public Rule(Condition condition, Action action)
         {
             if (null == condition
              || null == action)
@@ -37,7 +37,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
         /// Returns the action of this condition-action rule.
         /// </summary>
         /// <returns>the action of this condition-action rule.</returns>
-        public IAction getAction()
+        public Action getAction()
         {
             return action;
         }

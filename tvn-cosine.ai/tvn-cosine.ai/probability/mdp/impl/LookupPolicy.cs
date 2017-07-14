@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
      * @author Ciaran O'Reilly
      */
     public class LookupPolicy<S, A> : Policy<S, A>
-        where A : IAction
+        where A : Action
     {
 
         private IDictionary<S, A> policy = new Dictionary<S, A>();

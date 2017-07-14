@@ -19,7 +19,7 @@ namespace tvn.cosine.ai.search.framework.agent
     /// <typeparam name="S">The type used to represent states</typeparam>
     /// <typeparam name="A">The type of the actions to be used to navigate through the state space</typeparam>
     public abstract class ProblemSolvingAgent<S, A> : AbstractAgent
-        where A : IAction
+        where A : Action
     {
         /// <summary>
         /// Plan, an action sequence, initially empty.
@@ -31,9 +31,9 @@ namespace tvn.cosine.ai.search.framework.agent
         /// </summary>
         /// <param name="p"></param>
         /// <returns>an action</returns>
-        public override IAction Execute(IPercept p)
+        public override Action execute(Percept p)
         {
-            IAction action = DynamicAction.NO_OP;
+            Action action = DynamicAction.NO_OP;
             // state <- UPDATE-STATE(state, percept)
             UpdateState(p);
             // if plan is empty then do
@@ -53,14 +53,14 @@ namespace tvn.cosine.ai.search.framework.agent
                     else if (!TryWithAnotherGoal())
                     {
                         // unable to identify a path
-                        SetAlive(false);
+                        setAlive(false);
                         break;
                     }
                 }
                 else
                 {
                     // no further goal to achieve
-                    SetAlive(false);
+                    setAlive(false);
                     break;
                 }
             }
@@ -96,7 +96,7 @@ namespace tvn.cosine.ai.search.framework.agent
         /// the model and also clear the plan.
         /// </summary>
         /// <param name="p"></param>
-        protected abstract void UpdateState(IPercept p);
+        protected abstract void UpdateState(Percept p);
 
         /// <summary>
         /// Primitive operation, responsible for goal generation. In this version,

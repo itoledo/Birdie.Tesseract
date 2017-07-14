@@ -28,7 +28,7 @@ namespace tvn.cosine.ai.probability.mdp
      * 
      */
     public interface MarkovDecisionProcess<S, A >
-        where A : IAction
+        where A : Action
     {
 
         /**

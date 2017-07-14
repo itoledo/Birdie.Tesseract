@@ -8,7 +8,7 @@
     /// history and thereby reflects at least some of the unobserved aspects of the
     /// current state.
     /// </summary>
-    public interface IState
+    public interface State
     {
 
     }

@@ -10,7 +10,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
     /// of the world using an internal model. It then chooses an action in the same
     /// way as the reflex agent.
     /// </summary>
-    public abstract class ModelBasedReflexAgentProgram : IAgentProgram
+    public abstract class ModelBasedReflexAgentProgram : AgentProgram
     {
         /// <summary>
         /// the agent's current conception of the world state
@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         /// <summary>
         /// a description of how the next state depends on current state and action
         /// </summary>
-        private IModel model = null;
+        private Model model = null;
 
         /// <summary>
         /// a set of condition-action rules
@@ -30,7 +30,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         /// <summary>
         /// the most recent action, initially none
         /// </summary>
-        private IAction action = null;
+        private Action action = null;
 
         public ModelBasedReflexAgentProgram()
         {
@@ -50,7 +50,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         /// Set the program's description of how the next state depends on the state and action.
         /// </summary>
         /// <param name="model">a description of how the next state depends on the current state and action.</param>
-        public void setModel(IModel model)
+        public void setModel(Model model)
         {
             this.model = model;
         }
@@ -69,7 +69,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         /// </summary>
         /// <param name="percept"></param>
         /// <returns>an action</returns>
-        public IAction Execute(IPercept percept)
+        public Action execute(Percept percept)
         {
             // state <- UPDATE-STATE(state, action, percept, model)
             state = updateState(state, action, percept, model);
@@ -87,7 +87,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         /// </summary>
         protected abstract void Init();
 
-        protected abstract DynamicState updateState(DynamicState state, IAction action, IPercept percept, IModel model);
+        protected abstract DynamicState updateState(DynamicState state, Action action, Percept percept, Model model);
 
         protected Rule ruleMatch(DynamicState state, ISet<Rule> rules)
         {
@@ -101,7 +101,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
             return null;
         }
 
-        protected IAction ruleAction(Rule r)
+        protected Action ruleAction(Rule r)
         {
             return null == r ? DynamicAction.NO_OP : r.getAction();
         }

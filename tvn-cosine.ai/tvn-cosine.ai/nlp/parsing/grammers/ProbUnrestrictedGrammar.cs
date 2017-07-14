@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammers
          */
         public virtual bool addRules(IList<Rule> ruleList)
         {
-            for (int i = 0; i < ruleList.Count; i++)
+            for (int i = 0; i < ruleList.Count; ++i)
             {
                 if (!validRule(ruleList[i]))
                 {
@@ -90,7 +90,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammers
         public virtual bool validateRuleProbabilities(IList<Rule> ruleList)
         {
             float probTotal = 0;
-            for (int i = 0; i < vars.Count; i++)
+            for (int i = 0; i < vars.Count; ++i)
             {
                 for (int j = 0; j < ruleList.Count; j++)
                 {
@@ -149,7 +149,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammers
                 terminals = new List<string>();
                 return;
             }
-            for (int i = 0; i < rules.Count; i++)
+            for (int i = 0; i < rules.Count; ++i)
             {
                 Rule r = rules[i];
                 updateVarsAndTerminals(r);  // update the variables and terminals for this rule
@@ -204,7 +204,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammers
          */
         public static bool isVariable(string s)
         {
-            for (int i = 0; i < s.Length; i++)
+            for (int i = 0; i < s.Length; ++i)
             {
                 if (!char.IsUpper(s[i]))
                 {
@@ -221,7 +221,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammers
          */
         public static bool isTerminal(string s)
         {
-            for (int i = 0; i < s.Length; i++)
+            for (int i = 0; i < s.Length; ++i)
             {
 
                 if (!char.IsLower(s[i]))

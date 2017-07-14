@@ -18,9 +18,9 @@ namespace tvn.cosine.ai.environment.vacuum
     public class VacuumEnvironment : AbstractEnvironment
     {
         // Allowable Actions within the Vacuum Environment
-        public static readonly IAction ACTION_MOVE_LEFT = new DynamicAction("Left");
-        public static readonly IAction ACTION_MOVE_RIGHT = new DynamicAction("Right");
-        public static readonly IAction ACTION_SUCK = new DynamicAction("Suck");
+        public static readonly agent.Action ACTION_MOVE_LEFT = new DynamicAction("Left");
+        public static readonly agent.Action ACTION_MOVE_RIGHT = new DynamicAction("Right");
+        public static readonly agent.Action ACTION_SUCK = new DynamicAction("Suck");
         public const string LOCATION_A = "A";
         public const string LOCATION_B = "B";
         private readonly Random random = new Random();
@@ -56,7 +56,7 @@ namespace tvn.cosine.ai.environment.vacuum
             envState = new VacuumEnvironmentState(locAState, locBState);
         }
 
-        public IEnvironmentState getCurrentState()
+        public EnvironmentState getCurrentState()
         {
             return envState;
         }
@@ -66,7 +66,7 @@ namespace tvn.cosine.ai.environment.vacuum
             return new[] { LOCATION_A, LOCATION_B }.ToList();
         }
 
-        public override void executeAction(IAgent a, IAction agentAction)
+        public override void executeAction(Agent a, agent.Action agentAction)
         {
             if (ACTION_MOVE_RIGHT == agentAction)
             {
@@ -88,7 +88,7 @@ namespace tvn.cosine.ai.environment.vacuum
                     updatePerformanceMeasure(a, 10);
                 }
             }
-            else if (agentAction.IsNoOp())
+            else if (agentAction.isNoOp())
             {
                 // In the Vacuum Environment we consider things done if
                 // the agent generates a NoOp.
@@ -96,9 +96,9 @@ namespace tvn.cosine.ai.environment.vacuum
             }
         }
 
-        public override IPercept getPerceptSeenBy(IAgent anAgent)
+        public override Percept getPerceptSeenBy(Agent anAgent)
         {
-            if (anAgent is NondeterministicVacuumAgent<VacuumEnvironmentState, IAction>)
+            if (anAgent is NondeterministicVacuumAgent<VacuumEnvironmentState, agent.Action>)
             {
                 // Note: implements FullyObservableVacuumEnvironmentPercept
                 return (VacuumEnvironmentState)envState.Clone();
@@ -107,25 +107,25 @@ namespace tvn.cosine.ai.environment.vacuum
             return new LocalVacuumEnvironmentPercept(agentLocation, envState.getLocationState(agentLocation));
         }
 
-        public override bool IsDone()
+        public override bool isDone()
         {
-            return base.IsDone() || _isDone;
+            return base.isDone() || _isDone;
         }
 
-        public override void AddAgent(IAgent a)
+        public override void addAgent(Agent a)
         {
             int idx = random.Next(2);
             envState.setAgentLocation(a, idx == 0 ? LOCATION_A : LOCATION_B);
-            base.AddAgent(a);
+            base.addAgent(a);
         }
 
-        public void AddAgent(IAgent a, string location)
+        public void AddAgent(Agent a, string location)
         {
             // Ensure the agent state information is tracked before
             // adding to super, as super will notify the registered
             // EnvironmentViews that is was added.
             envState.setAgentLocation(a, location);
-            base.AddAgent(a);
+            base.addAgent(a);
         }
 
         public LocationState getLocationState(string location)
@@ -133,7 +133,7 @@ namespace tvn.cosine.ai.environment.vacuum
             return envState.getLocationState(location);
         }
 
-        public string getAgentLocation(IAgent a)
+        public string getAgentLocation(Agent a)
         {
             return envState.getAgentLocation(a);
         }

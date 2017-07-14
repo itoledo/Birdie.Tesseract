@@ -19,7 +19,7 @@ namespace tvn.cosine.ai.probability.mdp
      * @author Ravi Mohan
      */
     public interface PolicyEvaluation<S, A>
-        where A : IAction
+        where A : Action
     {
         /**
          * <b>Policy evaluation:</b> given a policy &pi;<sub>i</sub>, calculate

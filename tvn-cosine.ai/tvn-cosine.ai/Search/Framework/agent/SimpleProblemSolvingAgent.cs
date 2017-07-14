@@ -17,7 +17,7 @@ namespace tvn.cosine.ai.search.framework.agent
     /// <typeparam name="S">The type used to represent states</typeparam>
     /// <typeparam name="A">The type of the actions to be used to navigate through the state space</typeparam>
     public abstract class SimpleProblemSolvingAgent<S, A> : AbstractAgent
-        where A : IAction
+        where A : Action
     {
         /// <summary>
         /// an action sequence, initially empty
@@ -51,10 +51,10 @@ namespace tvn.cosine.ai.search.framework.agent
         /// </summary>
         /// <param name="p"></param>
         /// <returns>an action </returns>
-        public override IAction Execute(IPercept p)
+        public override Action execute(Percept p)
         {
             // return value if at goal or goal not found
-            IAction action = DynamicAction.NO_OP; 
+            Action action = DynamicAction.NO_OP; 
 
             // state <- UPDATE-STATE(state, percept)
             UpdateState(p);
@@ -81,7 +81,7 @@ namespace tvn.cosine.ai.search.framework.agent
                 else
                 {
                     // Agent no longer wishes to achieve any more goals
-                    SetAlive(false);
+                    setAlive(false);
                     NotifyViewOfMetrics();
                 }
             }
@@ -96,7 +96,7 @@ namespace tvn.cosine.ai.search.framework.agent
             return action;
         }
          
-        protected abstract void UpdateState(IPercept p); 
+        protected abstract void UpdateState(Percept p); 
         protected abstract S FormulateGoal(); 
         protected abstract IProblem<S, A> FormulateProblem(S goal); 
         protected abstract IList<A> Search(IProblem<S, A> problem); 

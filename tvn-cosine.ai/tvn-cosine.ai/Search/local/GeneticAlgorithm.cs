@@ -257,7 +257,7 @@ namespace tvn.cosine.ai.search.local
             // new_population <- empty set
             List<Individual<A>> newPopulation = new List<Individual<A>>(population.Count);
             // for i = 1 to SIZE(population) do
-            for (int i = 0; i < population.Count; i++)
+            for (int i = 0; i < population.Count; ++i)
             {
                 // x <- RANDOM-SELECTION(population, FITNESS-FN)
                 Individual<A> x = randomSelection(population, fitnessFn);
@@ -286,7 +286,7 @@ namespace tvn.cosine.ai.search.local
 
             // Determine all of the fitness values
             double[] fValues = new double[population.Count];
-            for (int i = 0; i < population.Count; i++)
+            for (int i = 0; i < population.Count; ++i)
             {
                 fValues[i] = fitnessFn(population[i]);
             }
@@ -294,7 +294,7 @@ namespace tvn.cosine.ai.search.local
             fValues = Util.normalize(fValues);
             double prob = random.NextDouble();
             double totalSoFar = 0.0;
-            for (int i = 0; i < fValues.Length; i++)
+            for (int i = 0; i < fValues.Length; ++i)
             {
                 // Are at last element so assign by default
                 // in case there are rounding issues with the normalized values

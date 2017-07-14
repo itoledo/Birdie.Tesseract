@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.probability.mdp.search
      * 
      */
     public class ValueIteration<S, A>
-        where A : IAction
+        where A : Action
     {
         // discount &gamma; to be used.
         private double gamma = 0;

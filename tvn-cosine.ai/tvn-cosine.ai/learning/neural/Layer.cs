@@ -75,14 +75,14 @@ namespace tvn.cosine.ai.learning.neural
             Matrix inducedField = weightMatrix.times(inputVector).plus(biasVector);
 
             Vector inducedFieldVector = new Vector(numberOfNeurons());
-            for (int i = 0; i < numberOfNeurons(); i++)
+            for (int i = 0; i < numberOfNeurons(); ++i)
             {
                 inducedFieldVector.setValue(i, inducedField.get(i, 0));
             }
 
             lastInducedField = inducedFieldVector.copyVector();
             Vector resultVector = new Vector(numberOfNeurons());
-            for (int i = 0; i < numberOfNeurons(); i++)
+            for (int i = 0; i < numberOfNeurons(); ++i)
             {
                 resultVector.setValue(i, activationFunction
                         .activation(inducedFieldVector.getValue(i)));
@@ -171,7 +171,7 @@ namespace tvn.cosine.ai.learning.neural
         {
             Matrix biasMatrix = biasVector.plusEquals(lastBiasUpdateVector);
             Vector result = new Vector(biasMatrix.getRowDimension());
-            for (int i = 0; i < biasMatrix.getRowDimension(); i++)
+            for (int i = 0; i < biasMatrix.getRowDimension(); ++i)
             {
                 result.setValue(i, biasMatrix.get(i, 0));
             }
@@ -213,7 +213,7 @@ namespace tvn.cosine.ai.learning.neural
         //
         private static void initializeMatrix(Matrix aMatrix, double lowerLimit, double upperLimit)
         {
-            for (int i = 0; i < aMatrix.getRowDimension(); i++)
+            for (int i = 0; i < aMatrix.getRowDimension(); ++i)
             {
                 for (int j = 0; j < aMatrix.getColumnDimension(); j++)
                 {
@@ -225,7 +225,7 @@ namespace tvn.cosine.ai.learning.neural
 
         private static void initializeVector(Vector aVector, double lowerLimit, double upperLimit)
         {
-            for (int i = 0; i < aVector.size(); i++)
+            for (int i = 0; i < aVector.size(); ++i)
             {
 
                 double random = Util.generateRandomDoubleBetween(lowerLimit, upperLimit);

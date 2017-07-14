@@ -59,7 +59,7 @@ namespace tvn.cosine.ai.environment.connectfour
          */
         public int getPlayerNum(string player)
         {
-            for (int i = 0; i < players.Length; i++)
+            for (int i = 0; i < players.Length; ++i)
                 if (players[i].Equals(player))
                     return i + 1;
             throw new ArgumentException("Wrong player number.");
@@ -68,7 +68,7 @@ namespace tvn.cosine.ai.environment.connectfour
         public IList<int> getActions(ConnectFourState state)
         {
             IList<int> result = new List<int>();
-            for (int i = 0; i < state.getCols(); i++)
+            for (int i = 0; i < state.getCols(); ++i)
                 if (state.getPlayerNum(0, i) == 0)
                     result.Add(i);
             return result;

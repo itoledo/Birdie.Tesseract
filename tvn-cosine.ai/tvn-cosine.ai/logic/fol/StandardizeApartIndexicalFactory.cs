@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.logic.fol
                 ++_assignedIndexicals[preferredPrefix];
             }
             sb.Append(_assignedIndexicals[preferredPrefix]);
-            for (int i = 0; i < _assignedIndexicals[preferredPrefix]; i++)
+            for (int i = 0; i < _assignedIndexicals[preferredPrefix]; ++i)
             {
                 sb.Append(preferredPrefix);
             }

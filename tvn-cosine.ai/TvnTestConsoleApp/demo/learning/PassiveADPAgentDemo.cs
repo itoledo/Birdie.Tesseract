@@ -49,7 +49,7 @@ namespace TvnTestConsoleApp.demo.learning
                     MDPFactory.createActionsFunctionForFigure17_1(cw),
                     new ModifiedPolicyEvaluation<Cell<double>, CellWorldAction>(10, 1.0));
 
-            cwe.AddAgent(padpa);
+            cwe.addAgent(padpa);
 
             Util.output_utility_learning_rates(padpa, 20, 100, 100, 1);
 

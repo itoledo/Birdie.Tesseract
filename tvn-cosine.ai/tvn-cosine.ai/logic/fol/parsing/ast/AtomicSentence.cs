@@ -8,7 +8,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
      */
     public interface AtomicSentence : Sentence
     {
-        new IList<Term> getArgs();
+        IList<Term> getArgs();
 
         new AtomicSentence copy();
     }

@@ -69,7 +69,7 @@ namespace tvn.cosine.ai.util.math
             m = A.getRowDimension();
             n = A.getColumnDimension();
             piv = new int[m];
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m; ++i)
             {
                 piv[i] = i;
             }
@@ -83,14 +83,14 @@ namespace tvn.cosine.ai.util.math
 
                 // Make a copy of the j-th column to localize references.
 
-                for (int i = 0; i < m; i++)
+                for (int i = 0; i < m; ++i)
                 {
                     LUcolj[i] = LU[i, j];
                 }
 
                 // Apply previous transformations.
 
-                for (int i = 0; i < m; i++)
+                for (int i = 0; i < m; ++i)
                 {
                     // Most of the time is spent in the following dot product.
 
@@ -107,7 +107,7 @@ namespace tvn.cosine.ai.util.math
                 // Find pivot and exchange if necessary.
 
                 int p = j;
-                for (int i = j + 1; i < m; i++)
+                for (int i = j + 1; i < m; ++i)
                 {
                     if (System.Math.Abs(LUcolj[i]) > System.Math.Abs(LUcolj[p]))
                     {
@@ -133,7 +133,7 @@ namespace tvn.cosine.ai.util.math
 
                 if (j < m & LU[j, j] != 0.0)
                 {
-                    for (int i = j + 1; i < m; i++)
+                    for (int i = j + 1; i < m; ++i)
                     {
                         LU[i, j] /= LU[j, j];
                     }
@@ -156,14 +156,14 @@ namespace tvn.cosine.ai.util.math
          * 
          * public LUDecomposition (Matrix A, int linpackflag) { // Initialize. LU =
          * A.getArrayCopy(); m = A.getRowDimension(); n = A.getColumnDimension();
-         * piv = new int[m]; for (int i = 0; i < m; i++) { piv[i] = i; } pivsign =
+         * piv = new int[m]; for (int i = 0; i < m; ++i) { piv[i] = i; } pivsign =
          * 1; // Main loop. for (int k = 0; k < n; k++) { // Find pivot. int p = k;
-         * for (int i = k+1; i < m; i++) { if (Math.abs(LU[i][k]) >
+         * for (int i = k+1; i < m; ++i) { if (Math.abs(LU[i][k]) >
          * Math.abs(LU[p][k])) { p = i; } } // Exchange if necessary. if (p != k) {
          * for (int j = 0; j < n; j++) { double t = LU[p][j]; LU[p][j] = LU[k][j];
          * LU[k][j] = t; } int t = piv[p]; piv[p] = piv[k]; piv[k] = t; pivsign =
          * -pivsign; } // Compute multipliers and eliminate k-th column. if
-         * (LU[k][k] != 0.0) { for (int i = k+1; i < m; i++) { LU[i][k] /= LU[k][k];
+         * (LU[k][k] != 0.0) { for (int i = k+1; i < m; ++i) { LU[i][k] /= LU[k][k];
          * for (int j = k+1; j < n; j++) { LU[i][j] -= LU[i][k]LU[k][j]; } } } } } \
          * ------------------------ End of temporary code. ------------------------
          */
@@ -196,7 +196,7 @@ namespace tvn.cosine.ai.util.math
         {
             Matrix X = new Matrix(m, n);
             double[,] L = X.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -226,7 +226,7 @@ namespace tvn.cosine.ai.util.math
         {
             Matrix X = new Matrix(n, n);
             double[,] U = X.getArray();
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -251,7 +251,7 @@ namespace tvn.cosine.ai.util.math
         public int[] getPivot()
         {
             int[] p = new int[m];
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m; ++i)
             {
                 p[i] = piv[i];
             }
@@ -266,7 +266,7 @@ namespace tvn.cosine.ai.util.math
         public double[] getDoublePivot()
         {
             double[] vals = new double[m];
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m; ++i)
             {
                 vals[i] = piv[i];
             }
@@ -325,7 +325,7 @@ namespace tvn.cosine.ai.util.math
             // Solve L*Y = B(piv,:)
             for (int k = 0; k < n; k++)
             {
-                for (int i = k + 1; i < n; i++)
+                for (int i = k + 1; i < n; ++i)
                 {
                     for (int j = 0; j < nx; j++)
                     {
@@ -340,7 +340,7 @@ namespace tvn.cosine.ai.util.math
                 {
                     X[k, j] /= LU[k, k];
                 }
-                for (int i = 0; i < k; i++)
+                for (int i = 0; i < k; ++i)
                 {
                     for (int j = 0; j < nx; j++)
                     {

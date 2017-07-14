@@ -12,10 +12,10 @@ namespace tvn.cosine.ai.environment.eightpuzzle
      */
     public class EightPuzzleBoard
     {
-        public static IAction LEFT = new DynamicAction("Left");
-        public static IAction RIGHT = new DynamicAction("Right");
-        public static IAction UP = new DynamicAction("Up");
-        public static IAction DOWN = new DynamicAction("Down");
+        public static agent.Action LEFT = new DynamicAction("Left");
+        public static agent.Action RIGHT = new DynamicAction("Right");
+        public static agent.Action UP = new DynamicAction("Up");
+        public static agent.Action DOWN = new DynamicAction("Down");
 
         private int[] state;
 
@@ -112,7 +112,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
         public IList<XYLocation> getPositions()
         {
             IList<XYLocation> retVal = new List<XYLocation>();
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 9; ++i)
             {
                 int absPos = getPositionOf(i);
                 XYLocation loc = new XYLocation(getXCoord(absPos), getYCoord(absPos));
@@ -125,7 +125,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
         public void setBoard(IList<XYLocation> locs)
         {
             int count = 0;
-            for (int i = 0; i < locs.Count; i++)
+            for (int i = 0; i < locs.Count; ++i)
             {
                 XYLocation loc = locs[i];
                 this.setValue(loc.X, loc.Y, count);
@@ -133,7 +133,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             }
         }
 
-        public bool canMoveGap(IAction where)
+        public bool canMoveGap(agent.Action where)
         {
             bool retVal = true;
             int absPos = getPositionOf(0);
@@ -211,7 +211,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
 
         private int getPositionOf(int val)
         {
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 9; ++i)
             {
                 if (state[i] == val)
                 {

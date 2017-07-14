@@ -172,7 +172,7 @@ namespace tvn.cosine.ai.probability.bayes.model
                 foreach (RandomVariable rv in vars)
                 {
                     distVars[i] = rv;
-                    i++;
+                    ++i;
                 }
 
                 ProbabilityTable<T> ud = new ProbabilityTable<T>(distVars);

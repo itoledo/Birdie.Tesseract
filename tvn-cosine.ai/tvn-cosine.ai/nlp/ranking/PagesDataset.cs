@@ -56,7 +56,7 @@ namespace tvn.cosine.ai.nlp.ranking
 
             // Access each .txt file to create a new Page object for that file's
             // article
-            for (int i = 0; i < listOfFiles.Length; i++)
+            for (int i = 0; i < listOfFiles.Length; ++i)
             {
                 FileInfo currFile = new System.IO.FileInfo(listOfFiles[i]);
                 currPage = wikiPageFromFile(listOfFiles[i], currFile);

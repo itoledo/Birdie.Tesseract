@@ -53,7 +53,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * @return a list of actions describing a solution for the given problem or
          *         null if no solution is found (i.e failure)
          */
-        public IList<IAction> satPlan(Describe init, Describe transition, Describe goal, int tMax)
+        public IList<Action> satPlan(Describe init, Describe transition, Describe goal, int tMax)
         {
 
             // for t = 0 to T<sub>max</sub> do
@@ -92,7 +92,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          */
         public interface SolutionExtractor
         {
-            IList<IAction> extractSolution(kb.data.Model model);
+            IList<Action> extractSolution(kb.data.Model model);
         }
 
         private SATSolver satSolver = null;

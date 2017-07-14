@@ -16,18 +16,18 @@ namespace TvnTestConsoleApp.demo.agent
             Console.WriteLine();
 
             // create environment with random state of cleaning.
-            IEnvironment env = new VacuumEnvironment();
-            IEnvironmentView view = new SimpleEnvironmentView();
-            env.AddEnvironmentView(view);
+            tvn.cosine.ai.agent.Environment env = new VacuumEnvironment();
+            EnvironmentView view = new SimpleEnvironmentView();
+            env.addEnvironmentView(view);
 
-            IAgent a = new ModelBasedReflexVacuumAgent();
+            Agent a = new ModelBasedReflexVacuumAgent();
             // a = new ReflexVacuumAgent();
             // a = new SimpleReflexVacuumAgent();
             // a = new TableDrivenVacuumAgent();
 
-            env.AddAgent(a);
-            env.Step(16);
-            env.NotifyViews("Performance=" + env.GetPerformanceMeasure(a));
+            env.addAgent(a);
+            env.step(16);
+            env.notifyViews("Performance=" + env.getPerformanceMeasure(a));
 
             Console.WriteLine("Complete, press <ENTER> to quit");
             Console.ReadLine();

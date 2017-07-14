@@ -57,7 +57,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
          */
         public void executeTrials(int n)
         {
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 executeTrial();
             }
@@ -69,17 +69,17 @@ namespace tvn.cosine.ai.learning.reinforcement.example
         public void executeTrial()
         {
             currentState.reset();
-            foreach (IAgent a in agents)
+            foreach (Agent a in agents)
             {
-                a.SetAlive(true);
+                a.setAlive(true);
                 currentState.setAgentLocation(a, startingCell);
             }
-            StepUntilDone();
+            stepUntilDone();
         }
 
-        public override void executeAction(IAgent agent, IAction action)
+        public override void executeAction(Agent agent, ai.agent.Action action)
         {
-            if (!action.IsNoOp())
+            if (!action.isNoOp())
             {
                 Cell<double> s = currentState.getAgentLocation(agent);
                 double probabilityChoice = r.NextDouble();
@@ -106,7 +106,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
             }
         }
 
-        public override IPercept getPerceptSeenBy(IAgent anAgent)
+        public override Percept getPerceptSeenBy(Agent anAgent)
         {
             return currentState.getPerceptFor(anAgent);
         }

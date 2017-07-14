@@ -19,11 +19,11 @@ namespace TvnTestConsoleApp.demo.search.eightpuzzle
         }
 
         private static void eightPuzzleSimulatedAnnealingDemo()
-        { 
-            IProblem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(Util.random1);
-            SimulatedAnnealingSearch<EightPuzzleBoard, IAction> search = new SimulatedAnnealingSearch<EightPuzzleBoard, IAction>
+        {
+            IProblem<EightPuzzleBoard, tvn.cosine.ai.agent.Action> problem = new BidirectionalEightPuzzleProblem(Util.random1);
+            SimulatedAnnealingSearch<EightPuzzleBoard, tvn.cosine.ai.agent.Action> search = new SimulatedAnnealingSearch<EightPuzzleBoard, tvn.cosine.ai.agent.Action>
                     (EightPuzzleFunctions.createManhattanHeuristicFunction());
-            SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
+            SearchAgent<EightPuzzleBoard, tvn.cosine.ai.agent.Action> agent = new SearchAgent<EightPuzzleBoard, tvn.cosine.ai.agent.Action>(problem, search);
             Util.printActions(agent.GetActions());
             Console.WriteLine("Search Outcome=" + search.getOutcome());
             Console.WriteLine("Final State=\n" + search.getLastSearchState());

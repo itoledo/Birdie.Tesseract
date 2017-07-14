@@ -12,14 +12,14 @@ namespace tvn.cosine.ai.environment.vacuum
     /// </summary>
     public class ReflexVacuumAgent : AbstractAgent
     {
-        class ReflexVacuumAgentProgram : IAgentProgram
+        class ReflexVacuumAgentProgram : AgentProgram
         {
             /// <summary>
             /// REFLEX-VACUUM-AGENT([location, status]) returns an action
             /// </summary>
             /// <param name="percept"></param>
             /// <returns>an action</returns>
-            public IAction Execute(IPercept percept)
+            public Action execute(Percept percept)
             {
                 LocalVacuumEnvironmentPercept vep = (LocalVacuumEnvironmentPercept)percept;
 

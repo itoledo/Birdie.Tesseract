@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.probability.mdp.search
      * 
      */
     public class PolicyIteration<S, A>
-        where A : IAction
+        where A : Action
     {
 
         private PolicyEvaluation<S, A> policyEvaluation = null;

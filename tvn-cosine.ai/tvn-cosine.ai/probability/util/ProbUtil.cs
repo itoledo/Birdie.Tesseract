@@ -130,7 +130,7 @@ namespace tvn.cosine.ai.probability.util
             double total = distribution[0];
             while (probabilityChoice > total)
             {
-                i++;
+                ++i;
                 total += distribution[i];
             }
             return fd.getValueAt(i);
@@ -221,7 +221,7 @@ namespace tvn.cosine.ai.probability.util
                 generatedEvent.Add(entry.Key, entry.Value);
             }
 
-            for (int i = 0; i < fd.size(); i++)
+            for (int i = 0; i < fd.size(); ++i)
             {
                 /** P(x'<sub>i</sub>|mb(Xi)) =
                  * &alpha;P(x'<sub>i</sub>|parents(X<sub>i</sub>)) *
@@ -263,7 +263,7 @@ namespace tvn.cosine.ai.probability.util
             foreach (Node<T> pn in Xi.getParents())
             {
                 parentValues[i] = even[pn.getRandomVariable()];
-                i++;
+                ++i;
             }
             return parentValues;
         }
@@ -370,7 +370,7 @@ namespace tvn.cosine.ai.probability.util
             int[] radixValues = new int[X.Length];
             int[] radices = new int[X.Length];
             int j = X.Length - 1;
-            for (int i = 0; i < X.Length; i++)
+            for (int i = 0; i < X.Length; ++i)
             {
                 FiniteDomain<T> fd = (FiniteDomain<T>)X[i].getDomain();
                 radixValues[j] = fd.getOffset(x[X[i]]);
@@ -428,7 +428,7 @@ namespace tvn.cosine.ai.probability.util
             int[] indexes = new int[csize / vdosize];
 
             int blocksize = csize;
-            for (int i = 0; i < X.Length; i++)
+            for (int i = 0; i < X.Length; ++i)
             {
                 blocksize = blocksize / X[i].getDomain().size();
                 if (i == idx)

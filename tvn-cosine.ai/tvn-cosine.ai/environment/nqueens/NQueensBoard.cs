@@ -35,7 +35,7 @@ namespace tvn.cosine.ai.environment.nqueens
         public NQueensBoard(int size)
         {
             squares = new int[size, size];
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < size; ++i)
             {
                 for (int j = 0; j < size; j++)
                 {
@@ -58,20 +58,20 @@ namespace tvn.cosine.ai.environment.nqueens
 
             if (config == Config.QUEENS_IN_FIRST_ROW)
             {
-                for (int i = 0; i < size; i++)
+                for (int i = 0; i < size; ++i)
                     addQueenAt(new XYLocation(i, 0));
             }
             else if (config == Config.QUEEN_IN_EVERY_COL)
             {
                 Random r = new Random();
-                for (int i = 0; i < size; i++)
+                for (int i = 0; i < size; ++i)
                     addQueenAt(new XYLocation(i, r.Next(size)));
             }
         }
 
         public void clear()
         {
-            for (int i = 0; i < getSize(); i++)
+            for (int i = 0; i < getSize(); ++i)
             {
                 for (int j = 0; j < getSize(); j++)
                 {
@@ -118,7 +118,7 @@ namespace tvn.cosine.ai.environment.nqueens
          */
         public void moveQueenTo(XYLocation l)
         {
-            for (int i = 0; i < getSize(); i++)
+            for (int i = 0; i < getSize(); ++i)
                 squares[l.X, i] = 0;
             squares[l.X, l.Y] = 1;
         }
@@ -145,7 +145,7 @@ namespace tvn.cosine.ai.environment.nqueens
         public int getNumberOfQueensOnBoard()
         {
             int count = 0;
-            for (int i = 0; i < getSize(); i++)
+            for (int i = 0; i < getSize(); ++i)
             {
                 for (int j = 0; j < getSize(); j++)
                 {
@@ -159,7 +159,7 @@ namespace tvn.cosine.ai.environment.nqueens
         public IList<XYLocation> getQueenPositions()
         {
             IList<XYLocation> result = new List<XYLocation>();
-            for (int i = 0; i < getSize(); i++)
+            for (int i = 0; i < getSize(); ++i)
             {
                 for (int j = 0; j < getSize(); j++)
                 {
@@ -214,7 +214,7 @@ namespace tvn.cosine.ai.environment.nqueens
         private int numberOfHorizontalAttacksOn(int x, int y)
         {
             int retVal = 0;
-            for (int i = 0; i < getSize(); i++)
+            for (int i = 0; i < getSize(); ++i)
             {
                 if ((queenExistsAt(i, y)))
                     if (i != x)
@@ -241,13 +241,13 @@ namespace tvn.cosine.ai.environment.nqueens
             int i;
             int j;
             // forward up diagonal
-            for (i = (x + 1), j = (y - 1); (i < getSize() && (j > -1)); i++, j--)
+            for (i = (x + 1), j = (y - 1); (i < getSize() && (j > -1)); ++i, j--)
             {
                 if (queenExistsAt(i, j))
                     retVal++;
             }
             // forward down diagonal
-            for (i = (x + 1), j = (y + 1); ((i < getSize()) && (j < getSize())); i++, j++)
+            for (i = (x + 1), j = (y + 1); ((i < getSize()) && (j < getSize())); ++i, j++)
             {
                 if (queenExistsAt(i, j))
                     retVal++;
@@ -289,7 +289,7 @@ namespace tvn.cosine.ai.environment.nqueens
                 NQueensBoard aBoard = (NQueensBoard)o;
                 if (aBoard.getQueenPositions().Count != getQueenPositions().Count)
                     return false;
-                for (int i = 0; i < getSize(); i++)
+                for (int i = 0; i < getSize(); ++i)
                 {
                     for (int j = 0; j < getSize(); j++)
                     {

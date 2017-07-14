@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
      * 
      */
     public class ModifiedPolicyEvaluation<S, A> : PolicyEvaluation<S, A>
-        where A : IAction
+        where A : Action
     {
         // # iterations to use to produce the next utility estimate
         private int k;
@@ -70,7 +70,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
             IDictionary<S, double> U_i = new Dictionary<S, double>(U);
             IDictionary<S, double> U_ip1 = new Dictionary<S, double>(U);
             // repeat k times to produce the next utility estimate
-            for (int i = 0; i < k; i++)
+            for (int i = 0; i < k; ++i)
             {
                 // U<sub>i+1</sub>(s) <- R(s) +
                 // &gamma;&Sigma;<sub>s'</sub>P(s'|s,&pi;<sub>i</sub>(s))U<sub>i</sub>(s')

@@ -80,7 +80,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
             Iterator<T> di = new Iterator<T>((possibleWorld, probability) =>
            {
                int cnt = 0;
-               for (int i = 0; i < X.Length; i++)
+               for (int i = 0; i < X.Length; ++i)
                {
                    e.setExtendedValue(X[i], possibleWorld[X[i]]);
                }
@@ -158,14 +158,14 @@ namespace tvn.cosine.ai.probability.bayes.exact
                 var = new RandomVariable[maxSize];
                 // query variables go first
                 int idx = 0;
-                for (int i = 0; i < queryVariables.Length; i++)
+                for (int i = 0; i < queryVariables.Length; ++i)
                 {
                     var[idx] = queryVariables[i];
                     varIdxs.Add(var[idx], idx);
                     idx++;
                 }
                 // initial evidence variables go next
-                for (int i = 0; i < e.Length; i++)
+                for (int i = 0; i < e.Length; ++i)
                 {
                     var[idx] = e[i].getTermVariable();
                     varIdxs.Add(var[idx], idx);

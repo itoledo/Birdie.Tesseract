@@ -43,7 +43,7 @@ namespace tvn.cosine.ai.search.local
         public Individual<double> createRandomIndividual()
         {
             List<double> representation = new List<double>(individualLength);
-            for (int i = 0; i < individualLength; i++)
+            for (int i = 0; i < individualLength; ++i)
                 representation.Add(minimum + random.NextDouble() * (maximum - minimum));
             return new Individual<double>(representation);
         }
@@ -57,7 +57,7 @@ namespace tvn.cosine.ai.search.local
         {
             List<double> newRep = new List<double>(x.length());
             double r = random.NextDouble();
-            for (int i = 0; i < x.length(); i++)
+            for (int i = 0; i < x.length(); ++i)
                 newRep.Add(x.getRepresentation()[i] * r + y.getRepresentation()[i] * (1 - r));
             return new Individual<double>(newRep);
         }

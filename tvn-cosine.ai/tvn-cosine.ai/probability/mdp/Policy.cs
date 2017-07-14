@@ -23,7 +23,7 @@ namespace tvn.cosine.ai.probability.mdp
  * 
  */
     public interface Policy<S, A>
-        where A : IAction
+        where A : Action
     {
         /**
          * &pi;(s) is the action recommended by the policy &pi; for state s.

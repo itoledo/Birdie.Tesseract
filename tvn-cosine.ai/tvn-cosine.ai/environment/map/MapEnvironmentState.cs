@@ -8,17 +8,17 @@ namespace tvn.cosine.ai.environment.map
      * @author Ciaran O'Reilly
      * 
      */
-    public class MapEnvironmentState : IEnvironmentState
+    public class MapEnvironmentState : EnvironmentState
     {
 
-        private IDictionary<IAgent, Pair<string, double>> agentLocationAndTravelDistance = new Dictionary<IAgent, Pair<string, double>>();
+        private IDictionary<Agent, Pair<string, double>> agentLocationAndTravelDistance = new Dictionary<Agent, Pair<string, double>>();
 
         public MapEnvironmentState()
         {
 
         }
 
-        public string getAgentLocation(IAgent a)
+        public string getAgentLocation(Agent a)
         {
             Pair<string, double> locAndTDistance = agentLocationAndTravelDistance[a];
             if (null == locAndTDistance)
@@ -28,7 +28,7 @@ namespace tvn.cosine.ai.environment.map
             return locAndTDistance.First;
         }
 
-        public double getAgentTravelDistance(IAgent a)
+        public double getAgentTravelDistance(Agent a)
         {
             Pair<string, double> locAndTDistance = agentLocationAndTravelDistance[a];
             if (null == locAndTDistance)
@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.environment.map
             return locAndTDistance.Second;
         }
 
-        public void setAgentLocationAndTravelDistance(IAgent a, string location, double travelDistance)
+        public void setAgentLocationAndTravelDistance(Agent a, string location, double travelDistance)
         {
             agentLocationAndTravelDistance.Add(a, new Pair<string, double>(location, travelDistance));
         }

@@ -174,7 +174,7 @@ namespace tvn.cosine.ai.environment.tictactoe
             if (anObj != null && anObj.GetType() == GetType())
             {
                 TicTacToeState anotherState = (TicTacToeState)anObj;
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < 9; ++i)
                 {
                     if (!board[i].Equals(anotherState.board[i]))
                         return false;

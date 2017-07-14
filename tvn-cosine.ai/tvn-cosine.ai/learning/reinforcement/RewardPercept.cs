@@ -12,7 +12,7 @@ namespace tvn.cosine.ai.learning.reinforcement
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public interface RewardPercept : IPercept
+    public interface RewardPercept : Percept
     {
         /**
          * 

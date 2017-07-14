@@ -2,11 +2,11 @@
 
 namespace tvn.cosine.ai.agent.impl
 { 
-    public class DynamicAction : ObjectWithDynamicAttributes<string, object>, IAction
+    public class DynamicAction : ObjectWithDynamicAttributes<string, object>, Action
     {
         private const string ATTRIBUTE_NAME = "name";
 
-        private readonly bool isNoOp;
+        private readonly bool _isNoOp;
 
         public DynamicAction(string name)
             : this(name, false)
@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.agent.impl
         public DynamicAction(string name, bool isNoOp)
         {
             SetAttribute(ATTRIBUTE_NAME, name);
-            this.isNoOp = isNoOp;
+            this._isNoOp = isNoOp;
         }
 
         /// <summary>
@@ -27,14 +27,14 @@ namespace tvn.cosine.ai.agent.impl
             return GetAttribute(ATTRIBUTE_NAME).ToString();
         }
 
-        public virtual bool IsNoOp()
+        public virtual bool isNoOp()
         {
-            return isNoOp;
+            return _isNoOp;
         }
 
         public override string DescribeType()
         {
-            return typeof(IAction).Name;
+            return typeof(Action).Name;
         }
 
         public override string ToString()

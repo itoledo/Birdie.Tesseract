@@ -11,7 +11,7 @@ namespace tvn.cosine.ai.environment.cellworld
     /// 1, 'Left' x to decrease by 1, and 'Right' x to increase by 1 within a Cell
     /// World.
     /// </summary>
-    public class CellWorldAction : IAction
+    public class CellWorldAction : Action
     {
         private static readonly ISet<CellWorldAction> _actions;
         public static readonly CellWorldAction Up;
@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.environment.cellworld
             return _actions;
         }
 
-        public bool IsNoOp()
+        public bool isNoOp()
         {
             if (None.Equals(this))
             {

@@ -101,12 +101,12 @@ namespace tvn.cosine.ai.logic.common
          */
         private void initializeLookAheadBuffer()
         {
-            for (int i = 0; i < lookAheadBufferSize; i++)
+            for (int i = 0; i < lookAheadBufferSize; ++i)
             {
                 // Mark th entire buffer as being end of input.
                 lookAheadBuffer[i] = END_OF_INPUT;
             }
-            for (int i = 0; i < lookAheadBufferSize; i++)
+            for (int i = 0; i < lookAheadBufferSize; ++i)
             {
                 // Now fill the buffer (if possible) from the input.
                 lookAheadBuffer[i] = readInput();
@@ -125,7 +125,7 @@ namespace tvn.cosine.ai.logic.common
         private void loadNextCharacterFromInput()
         {
             bool eoiEncountered = false;
-            for (int i = 0; i < lookAheadBufferSize - 1; i++)
+            for (int i = 0; i < lookAheadBufferSize - 1; ++i)
             {
                 lookAheadBuffer[i] = lookAheadBuffer[i + 1];
                 if (isEndOfInput(lookAheadBuffer[i]))
@@ -144,14 +144,7 @@ namespace tvn.cosine.ai.logic.common
         {
             int read = -1;
 
-            try
-            {
-                read = input.Read();
-            }
-            catch (IOException ioe)
-            {
-                throw new LexerException("IOException thrown reading input.", currentPositionInInput, ioe);
-            }
+            read = input.Read();
 
             return read;
         }

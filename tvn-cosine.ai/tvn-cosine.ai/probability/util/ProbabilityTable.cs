@@ -130,7 +130,7 @@ namespace tvn.cosine.ai.probability.util
             if (-1 == sum)
             {
                 sum = 0;
-                for (int i = 0; i < values.Length; i++)
+                for (int i = 0; i < values.Length; ++i)
                 {
                     sum += values[i];
                 }
@@ -143,7 +143,7 @@ namespace tvn.cosine.ai.probability.util
             double s = getSum();
             if (s != 0 && s != 1.0)
             {
-                for (int i = 0; i < values.Length; i++)
+                for (int i = 0; i < values.Length; ++i)
                 {
                     values[i] = values[i] / s;
                 }
@@ -164,7 +164,7 @@ namespace tvn.cosine.ai.probability.util
             foreach (RVInfo rvInfo in randomVarInfo.Values)
             {
                 radixValues[rvInfo.getRadixIdx()] = rvInfo.getIdxForDomain(assignments.ElementAt(i));
-                i++;
+                ++i;
             }
 
             return (int)queryMRN.getCurrentValueFor(radixValues);
@@ -233,7 +233,7 @@ namespace tvn.cosine.ai.probability.util
                     foreach (RandomVariable rv in summedOut.randomVarInfo.Keys)
                     {
                         termValues[i] = possibleWorld[rv];
-                        i++;
+                        ++i;
                     }
                     summedOut.getValues()[summedOut.getIndex(termValues)] += probability;
                 });
@@ -373,7 +373,7 @@ namespace tvn.cosine.ai.probability.util
             if (1 == divisor.getValues().Length)
             {
                 double d = divisor.getValues()[0];
-                for (int i = 0; i < quotient.getValues().Length; i++)
+                for (int i = 0; i < quotient.getValues().Length; ++i)
                 {
                     if (0 == d)
                     {
@@ -490,7 +490,7 @@ namespace tvn.cosine.ai.probability.util
                         foreach (RandomVariable rv in d.randomVarInfo.Keys)
                         {
                             tv[i] = pw[rv];
-                            i++;
+                            ++i;
                         }
 
                         return d.getIndex(tv);
@@ -516,7 +516,7 @@ namespace tvn.cosine.ai.probability.util
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("<");
-                for (int i = 0; i < values.Length; i++)
+                for (int i = 0; i < values.Length; ++i)
                 {
                     if (i > 0)
                     {

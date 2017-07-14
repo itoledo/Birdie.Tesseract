@@ -277,7 +277,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
     //////            int x = p.getX();
     //////            int y = p.getY();
 
-    //////            for (int i = 1; i <= kb.getCaveXDimension(); i++)
+    //////            for (int i = 1; i <= kb.getCaveXDimension(); ++i)
     //////            {
     //////                if (i < x)
     //////                {

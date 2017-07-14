@@ -51,7 +51,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
             IList<Matrix> sv = new List<Matrix>(ev.Count);
 
             // for i = 1 to t do
-            for (int i = 0; i < ev.Count; i++)
+            for (int i = 0; i < ev.Count; ++i)
             {
                 // fv[i] <- FORWARD(fv[i-1], ev[i])
                 f = forward(f, hmm.getEvidence(ev[i]));

@@ -10,34 +10,34 @@ namespace tvn.cosine.ai.agent.impl.aprog
     /// returns an action each time. It retains the complete percept sequence in
     /// memory. 
     /// </summary>
-    public class TableDrivenAgentProgram : IAgentProgram
+    public class TableDrivenAgentProgram : AgentProgram
     {
         private const string ACTION = "action";
 
         /// <summary>
         /// a sequence, initially empty
         /// </summary>
-        private readonly IList<IPercept> percepts;
+        private readonly IList<Percept> percepts;
         /// <summary>
         /// a table of actions, indexed by percept sequences, initially fully specified
         /// </summary>
-        private readonly Table<IList<IPercept>, string, IAction> table;
+        private readonly Table<IList<Percept>, string, Action> table;
          
         /// <summary>
         /// Constructs a TableDrivenAgentProgram with a table of actions, indexed by percept sequences.
         /// </summary>
         /// <param name="perceptSequenceActions">a table of actions, indexed by percept sequences</param>
-        public TableDrivenAgentProgram(IDictionary<IList<IPercept>, IAction> perceptSequenceActions)
+        public TableDrivenAgentProgram(IDictionary<IList<Percept>, Action> perceptSequenceActions)
         {
-            percepts = new List<IPercept>();
+            percepts = new List<Percept>();
 
-            IList<IList<IPercept>> rowHeaders = new List<IList<IPercept>>(perceptSequenceActions.Keys); 
+            IList<IList<Percept>> rowHeaders = new List<IList<Percept>>(perceptSequenceActions.Keys); 
             IList<string> colHeaders = new List<string>();
             colHeaders.Add(ACTION);
 
-            table = new Table<IList<IPercept>, string, IAction>(rowHeaders, colHeaders);
+            table = new Table<IList<Percept>, string, Action>(rowHeaders, colHeaders);
 
-            foreach (IList<IPercept> row in rowHeaders)
+            foreach (IList<Percept> row in rowHeaders)
             {
                 table.Set(row, ACTION, perceptSequenceActions[row]);
             }
@@ -48,7 +48,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         /// </summary>
         /// <param name="percept"></param>
         /// <returns>an action</returns>
-        public IAction Execute(IPercept percept)
+        public Action execute(Percept percept)
         {
             // append percept to end of percepts
             percepts.Add(percept);
@@ -58,9 +58,9 @@ namespace tvn.cosine.ai.agent.impl.aprog
             return lookupCurrentAction();
         }
          
-        private IAction lookupCurrentAction()
+        private Action lookupCurrentAction()
         {
-            IAction action = null;
+            Action action = null;
 
             action = table.Get(percepts, ACTION);
             if (null == action)

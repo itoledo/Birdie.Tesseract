@@ -60,7 +60,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
             // fv[0] <- prior
             fv.Add(hmm.convert(prior));
             // for i = 1 to t do
-            for (int i = 0; i < ev.Count; i++)
+            for (int i = 0; i < ev.Count; ++i)
             {
                 // fv[i] <- FORWARD(fv[i-1], ev[i])
                 fv.Add(forward(fv[i], hmm.getEvidence(ev[i])));

@@ -107,7 +107,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             List<Chain> contrapositives = new List<Chain>();
             List<Literal> lits = new List<Literal>();
 
-            for (int i = 1; i < literals.Count; i++)
+            for (int i = 1; i < literals.Count; ++i)
             {
                 lits.Clear();
                 lits.Add(literals[i]);
@@ -131,7 +131,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             StringBuilder sb = new StringBuilder();
             sb.Append("<");
 
-            for (int i = 0; i < literals.Count; i++)
+            for (int i = 0; i < literals.Count; ++i)
             {
                 if (i > 0)
                 {

@@ -47,7 +47,7 @@ namespace tvn.cosine.ai.nlp.parsing
             int N = length(words);
             int M = grammar.vars.Count;
             float[,,] P = new float[M, N, N]; // initialised to 0.0
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < N; ++i)
             {
                 //for each rule of form( X -> words<sub>i</sub>[p]) do
                 //   P[X,i,1] <- p
@@ -110,7 +110,7 @@ namespace tvn.cosine.ai.nlp.parsing
             int N = words.Count;
             int M = g.vars.Count; // num non-terminals in grammar
 
-            for (int i = 0; i < M; i++)
+            for (int i = 0; i < M; ++i)
             {
                 Console.WriteLine("Table For : " + g.vars[i] + "(" + i + ")");
                 for (int j = 0; j < N; j++)

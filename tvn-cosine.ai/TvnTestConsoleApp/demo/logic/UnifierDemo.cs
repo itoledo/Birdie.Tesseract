@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.parsing;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
@@ -11,7 +12,7 @@ namespace TvnTestConsoleApp.demo.logic
     {
         public static void Main(params string[] args)
         {
-            unifierDemo(); 
+            unifierDemo();
 
             Console.WriteLine("Complete, press <ENTER> to quit");
             Console.ReadLine();
@@ -30,21 +31,7 @@ namespace TvnTestConsoleApp.demo.logic
             Console.WriteLine("Unifier Demo");
             Console.WriteLine("------------");
             IDictionary<Variable, Term> subst = unifier.unify(query, johnKnowsJane, theta);
-            Console.Write("Unify '" + query + "' with '" + johnKnowsJane + "' to get the substitution {{");
-
-            bool first = true;
-            foreach (var row in subst)
-            {
-                if (first)
-                    first = false;
-                else
-                    Console.Write(", ");
-
-                Console.Write(row.Key);
-                Console.Write("=");
-                Console.Write(row.Value);
-            }
-            Console.WriteLine("}}.\n"); 
+            Console.WriteLine("Unify '{0}' with '{1}' to get the substitution {2}.\n", query, johnKnowsJane,  subst.CustomDictionaryWriterToString()); 
         }
     }
 }

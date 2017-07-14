@@ -3,23 +3,23 @@ using System.Linq;
 
 namespace tvn.cosine.ai.agent.impl
 {
-    public abstract class AbstractEnvironment : IEnvironment
+    public abstract class AbstractEnvironment : Environment
     {
-        protected readonly ISet<IEnvironmentObject> envObjects;
-        protected readonly ISet<IAgent> agents;
-        protected readonly ISet<IEnvironmentView> views;
-        protected readonly IDictionary<IAgent, double> performanceMeasures;
+        protected readonly ISet<EnvironmentObject> envObjects;
+        protected readonly ISet<Agent> agents;
+        protected readonly ISet<EnvironmentView> views;
+        protected readonly IDictionary<Agent, double> performanceMeasures;
 
         public AbstractEnvironment()
         {
-            envObjects = new HashSet<IEnvironmentObject>();
-            agents = new HashSet<IAgent>();
-            views = new HashSet<IEnvironmentView>();
-            performanceMeasures = new Dictionary<IAgent, double>();
+            envObjects = new HashSet<EnvironmentObject>();
+            agents = new HashSet<Agent>();
+            views = new HashSet<EnvironmentView>();
+            performanceMeasures = new Dictionary<Agent, double>();
         }
 
-        public abstract void executeAction(IAgent agent, IAction action);
-        public abstract IPercept getPerceptSeenBy(IAgent anAgent);
+        public abstract void executeAction(Agent agent, Action action);
+        public abstract Percept getPerceptSeenBy(Agent anAgent);
 
         /// <summary>
         /// Method for implementing dynamic environments in which not all changes are
@@ -33,36 +33,36 @@ namespace tvn.cosine.ai.agent.impl
         /// Return as a List but also ensures the caller cannot modify
         /// </summary>
         /// <returns></returns>
-        public virtual IList<IAgent> GetAgents()
+        public virtual IList<Agent> getAgents()
         {
             return agents.ToList().AsReadOnly();
         }
 
-        public virtual void AddAgent(IAgent agent)
+        public virtual void addAgent(Agent agent)
         {
-            AddEnvironmentObject(agent);
+            addEnvironmentObject(agent);
         }
 
-        public virtual void RemoveAgent(IAgent agent)
+        public virtual void removeAgent(Agent agent)
         {
-            RemoveEnvironmentObject(agent);
+            removeEnvironmentObject(agent);
         }
 
         /// <summary>
         /// Return as a List but also ensures the caller cannot modify
         /// </summary>
         /// <returns></returns>
-        public virtual IList<IEnvironmentObject> GetEnvironmentObjects()
+        public virtual IList<EnvironmentObject> getEnvironmentObjects()
         {
             return envObjects.ToList().AsReadOnly();
         }
 
-        public virtual void AddEnvironmentObject(IEnvironmentObject environmentObject)
+        public virtual void addEnvironmentObject(EnvironmentObject environmentObject)
         {
             envObjects.Add(environmentObject);
-            if (environmentObject is IAgent)
+            if (environmentObject is Agent)
             {
-                IAgent a = (IAgent)environmentObject;
+                Agent a = (Agent)environmentObject;
                 if (!agents.Contains(a))
                 {
                     agents.Add(a);
@@ -71,12 +71,12 @@ namespace tvn.cosine.ai.agent.impl
             }
         }
 
-        public virtual void RemoveEnvironmentObject(IEnvironmentObject environmentObject)
+        public virtual void removeEnvironmentObject(EnvironmentObject environmentObject)
         {
             envObjects.Remove(environmentObject);
-            if (environmentObject is IAgent)
+            if (environmentObject is Agent)
             {
-                agents.Remove(environmentObject as IAgent);
+                agents.Remove(environmentObject as Agent);
             }
         }
 
@@ -86,14 +86,14 @@ namespace tvn.cosine.ai.agent.impl
         /// #getPerceptSeenBy(Agent), #executeAction(Agent, Action),
         /// and #createExogenousChange().
         /// </summary>
-        public virtual void Step()
+        public virtual void step()
         {
-            foreach (IAgent agent in agents)
+            foreach (Agent agent in agents)
             {
-                if (agent.IsAlive())
+                if (agent.isAlive())
                 {
-                    IPercept percept = getPerceptSeenBy(agent);
-                    IAction anAction = agent.Execute(percept);
+                    Percept percept = getPerceptSeenBy(agent);
+                    Action anAction = agent.execute(percept);
                     executeAction(agent, anAction);
                     notifyEnvironmentViews(agent, percept, anAction);
                 }
@@ -101,27 +101,27 @@ namespace tvn.cosine.ai.agent.impl
             createExogenousChange();
         }
 
-        public virtual void Step(int n)
+        public virtual void step(int n)
         {
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
-                Step();
+                step();
             }
         }
 
-        public virtual void StepUntilDone()
+        public virtual void stepUntilDone()
         {
-            while (!IsDone())
+            while (!isDone())
             {
-                Step();
+                step();
             }
         }
 
-        public virtual bool IsDone()
+        public virtual bool isDone()
         {
-            foreach (IAgent agent in agents)
+            foreach (Agent agent in agents)
             {
-                if (agent.IsAlive())
+                if (agent.isAlive())
                 {
                     return false;
                 }
@@ -129,7 +129,7 @@ namespace tvn.cosine.ai.agent.impl
             return true;
         }
 
-        public virtual double GetPerformanceMeasure(IAgent agent)
+        public virtual double getPerformanceMeasure(Agent agent)
         {
             if (!performanceMeasures.ContainsKey(agent))
             {
@@ -139,42 +139,42 @@ namespace tvn.cosine.ai.agent.impl
             return performanceMeasures[agent];
         }
 
-        public virtual void AddEnvironmentView(IEnvironmentView environmentView)
+        public virtual void addEnvironmentView(EnvironmentView environmentView)
         {
             views.Add(environmentView);
         }
 
-        public virtual void RemoveEnvironmentView(IEnvironmentView environmentView)
+        public virtual void removeEnvironmentView(EnvironmentView environmentView)
         {
             views.Remove(environmentView);
         }
 
-        public virtual void NotifyViews(string msg)
+        public virtual void notifyViews(string msg)
         {
-            foreach (IEnvironmentView ev in views)
+            foreach (EnvironmentView ev in views)
             {
-                ev.Notify(msg);
+                ev.notify(msg);
             }
         }
 
-        protected virtual void updatePerformanceMeasure(IAgent forAgent, double addTo)
+        protected virtual void updatePerformanceMeasure(Agent forAgent, double addTo)
         {
-            performanceMeasures[forAgent] = GetPerformanceMeasure(forAgent) + addTo;
+            performanceMeasures[forAgent] = getPerformanceMeasure(forAgent) + addTo;
         }
 
-        protected virtual void notifyEnvironmentViews(IAgent agent)
+        protected virtual void notifyEnvironmentViews(Agent agent)
         {
-            foreach (IEnvironmentView view in views)
+            foreach (EnvironmentView view in views)
             {
-                view.AgentAdded(agent, this);
+                view.agentAdded(agent, this);
             }
         }
 
-        protected virtual void notifyEnvironmentViews(IAgent agent, IPercept percept, IAction action)
+        protected virtual void notifyEnvironmentViews(Agent agent, Percept percept, Action action)
         {
-            foreach (IEnvironmentView view in views)
+            foreach (EnvironmentView view in views)
             {
-                view.AgentActed(agent, percept, action, this);
+                view.agentActed(agent, percept, action, this);
             }
         }
     }

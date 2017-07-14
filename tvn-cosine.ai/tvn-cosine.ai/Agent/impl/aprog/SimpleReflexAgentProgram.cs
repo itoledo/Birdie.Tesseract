@@ -9,7 +9,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
     /// Figure 2.10 A simple reflex agent. It acts according to a rule whose
     /// condition matches the current state, as defined by the percept. 
     /// </summary>
-    public class SimpleReflexAgentProgram : IAgentProgram
+    public class SimpleReflexAgentProgram : AgentProgram
     {
         /// <summary>
         /// a set of condition-action rules
@@ -30,7 +30,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         /// </summary>
         /// <param name="percept"></param>
         /// <returns>an action</returns> 
-        public IAction Execute(IPercept percept)
+        public Action execute(Percept percept)
         { 
             // state <- INTERPRET-INPUT(percept);
             ObjectWithDynamicAttributes<string, object> state = interpretInput(percept);
@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
             return ruleAction(rule);
         }
          
-        protected ObjectWithDynamicAttributes<string, object> interpretInput(IPercept p)
+        protected ObjectWithDynamicAttributes<string, object> interpretInput(Percept p)
         {
             return (DynamicPercept)p;
         }
@@ -58,7 +58,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
             return null;
         }
 
-        protected IAction ruleAction(Rule r)
+        protected Action ruleAction(Rule r)
         {
             return null == r ? DynamicAction.NO_OP : r.getAction();
         }

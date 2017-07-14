@@ -139,7 +139,7 @@ namespace tvn.cosine.ai.nlp.ranking
             List<Page> expandedPages = new List<Page>();
             ISet<string> inAndOutLinks = new HashSet<string>();
             // Go through all pages an build a list of String links
-            for (int i = 0; i < pages.Count; i++)
+            for (int i = 0; i < pages.Count; ++i)
             {
                 Page currP = pages[i];
                 if (!expandedPages.Contains(currP))
@@ -226,7 +226,7 @@ namespace tvn.cosine.ai.nlp.ranking
         {
             IList<string> inLinks = page.getInlinks();
             double hubScore = 0;
-            for (int i = 0; i < inLinks.Count; i++)
+            for (int i = 0; i < inLinks.Count; ++i)
             {
                 Page inLink = pTable[inLinks[i]];
                 if (inLink != null)
@@ -254,7 +254,7 @@ namespace tvn.cosine.ai.nlp.ranking
         {
             IList<string> outLinks = page.getOutlinks();
             double authScore = 0;
-            for (int i = 0; i < outLinks.Count; i++)
+            for (int i = 0; i < outLinks.Count; ++i)
             {
                 Page outLink = pTable[outLinks[i]];
                 if (outLink != null)
@@ -283,7 +283,7 @@ namespace tvn.cosine.ai.nlp.ranking
             // get current values from pages
             double[] currHubVals = new double[pages.Count];
             double[] currAuthVals = new double[pages.Count];
-            for (int i = 0; i < pages.Count; i++)
+            for (int i = 0; i < pages.Count; ++i)
             {
                 Page currPage = pages[i];
                 currHubVals[i] = currPage.hub;
@@ -341,7 +341,7 @@ namespace tvn.cosine.ai.nlp.ranking
         public Page getMaxHub(IList<Page> result)
         {
             Page maxHub = result[0];
-            for (int i = 1; i < result.Count; i++)
+            for (int i = 1; i < result.Count; ++i)
             {
                 Page currPage = result[i];
                 if (currPage.hub > maxHub.hub)
@@ -361,7 +361,7 @@ namespace tvn.cosine.ai.nlp.ranking
         public Page getMaxAuthority(IList<Page> result)
         {
             Page maxAuthority = result[0];
-            for (int i = 1; i < result.Count; i++)
+            for (int i = 1; i < result.Count; ++i)
             {
                 Page currPage = result[i];
                 if (currPage.authority > maxAuthority.authority)
@@ -435,7 +435,7 @@ namespace tvn.cosine.ai.nlp.ranking
             // Print Pages out ranked by highest authority
             sortAuthority(result);
             Console.WriteLine("AUTHORITY RANKINGS : ");
-            for (int i = 0; i < result.Count; i++)
+            for (int i = 0; i < result.Count; ++i)
             {
                 Page currP = result[i];
                 Console.WriteLine(currP.getLocation() + ": " + "%.5f" + '\n', currP.authority);
@@ -444,7 +444,7 @@ namespace tvn.cosine.ai.nlp.ranking
             // Print Pages out ranked by highest hub
             sortHub(result);
             Console.WriteLine("HUB RANKINGS : ");
-            for (int i = 0; i < result.Count; i++)
+            for (int i = 0; i < result.Count; ++i)
             {
                 Page currP = result[i];
                 Console.WriteLine(currP.getLocation() + ": " + "%.5f" + '\n', currP.hub);

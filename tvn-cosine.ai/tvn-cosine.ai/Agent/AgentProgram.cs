@@ -6,13 +6,13 @@
     /// percept sequence to an action. Internally, the agent function for an
     /// artificial agent will be implemented by an agent program. 
     /// </summary>
-    public interface IAgentProgram
+    public interface AgentProgram
     {
         /// <summary>
         /// The Agent's program, which maps any given percept sequences to an action.
         /// </summary>
         /// <param name="percept">The current percept of a sequence perceived by the Agent.</param>
         /// <returns>the Action to be taken in response to the currently perceived percept.</returns>
-        IAction Execute(IPercept percept);
+        Action execute(Percept percept);
     } 
 }

@@ -46,7 +46,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
      * 
      */
     public class PassiveADPAgent<S, A> : ReinforcementAgent<S, A>
-        where A : IAction
+        where A : Action
     {
         // persistent: &pi;, a fixed policy
         private IDictionary<S, A> pi = new Dictionary<S, A>();

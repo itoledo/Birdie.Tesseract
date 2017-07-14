@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
      * @author Ravi Mohan
      */
     public class MDP<S, A> : MarkovDecisionProcess<S, A>
-        where A : IAction
+        where A : Action
     {
 
         private ISet<S> _states;

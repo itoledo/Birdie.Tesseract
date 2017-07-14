@@ -79,7 +79,7 @@ namespace tvn.cosine.ai.environment.nqueens
         public static Individual<int> generateRandomIndividual(int boardSize)
         {
             IList<int> individualRepresentation = new List<int>();
-            for (int i = 0; i < boardSize; i++)
+            for (int i = 0; i < boardSize; ++i)
             {
                 individualRepresentation.Add(new Random().Next(boardSize));
             }
@@ -90,7 +90,7 @@ namespace tvn.cosine.ai.environment.nqueens
         {
             ICollection<int> fab = new List<int>();
 
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < size; ++i)
             {
                 fab.Add(i);
             }
@@ -102,7 +102,7 @@ namespace tvn.cosine.ai.environment.nqueens
         {
             int boardSize = individual.length();
             NQueensBoard board = new NQueensBoard(boardSize);
-            for (int i = 0; i < boardSize; i++)
+            for (int i = 0; i < boardSize; ++i)
             {
                 int pos = individual.getRepresentation()[i];
                 board.addQueenAt(new XYLocation(i, pos));

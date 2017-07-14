@@ -6,7 +6,7 @@ namespace tvn.cosine.ai.environment.xyenv
      * @author Ravi Mohan
      * 
      */
-    public class Wall : IEnvironmentObject
+    public class Wall : EnvironmentObject
     {
 
     }

@@ -193,7 +193,7 @@ namespace tvn.cosine.ai.search.informed
             int lidx = 0;
             Double lowestSoFar = INFINITY;
 
-            for (int i = 0; i < f.Length; i++)
+            for (int i = 0; i < f.Length; ++i)
             {
                 if (f[i] < lowestSoFar)
                 {
@@ -213,7 +213,7 @@ namespace tvn.cosine.ai.search.informed
             int lidx = bestIndex;
             Double lowestSoFar = INFINITY;
 
-            for (int i = 0; i < f.Length; i++)
+            for (int i = 0; i < f.Length; ++i)
             {
                 if (i != bestIndex && f[i] < lowestSoFar)
                 {

@@ -48,7 +48,7 @@ namespace TvnTestConsoleApp.demo.learning
 
             PassiveTDAgent<Cell<Double>, CellWorldAction> ptda = new PassiveTDAgent<Cell<double>, CellWorldAction>(fixedPolicy, 0.2, 1.0);
 
-            cwe.AddAgent(ptda);
+            cwe.addAgent(ptda);
 
             Util.output_utility_learning_rates(ptda, 20, 500, 100, 1);
 

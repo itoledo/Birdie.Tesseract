@@ -34,7 +34,7 @@ namespace tvn.cosine.ai.util.math.geom.shapes
             int length = isClosed ? vertexes.Length : vertexes.Length - 1;
             this.edges = new Vector2D[length];
             Point2D previousPoint = vertexes[0];
-            for (int i = 1; i < vertexes.Length; i++)
+            for (int i = 1; i < vertexes.Length; ++i)
             {
                 Point2D targetPoint = vertexes[i];
                 edges[i - 1] = previousPoint.vec(targetPoint);
@@ -49,7 +49,7 @@ namespace tvn.cosine.ai.util.math.geom.shapes
                     minY = vertexes[0].getY(),
                     maxX = vertexes[0].getX(),
                     maxY = vertexes[0].getY();
-            for (int i = 1; i < vertexes.Length; i++)
+            for (int i = 1; i < vertexes.Length; ++i)
             {
                 minX = minX > vertexes[i].getX() ? vertexes[i].getX() : minX;
                 minY = minY > vertexes[i].getY() ? vertexes[i].getY() : minY;
@@ -116,7 +116,7 @@ namespace tvn.cosine.ai.util.math.geom.shapes
             if (!_isClosed) return false;
             int intersections = 0;
             Ray2D pointRay = new Ray2D(point, Vector2D.X_VECTOR);
-            for (int i = 0; i < edges.Length; i++)
+            for (int i = 0; i < edges.Length; ++i)
             {
                 if (vertexes[i].Equals(point))
                 {
@@ -135,7 +135,7 @@ namespace tvn.cosine.ai.util.math.geom.shapes
         {
             int intersections = 0;
             Ray2D pointRay = new Ray2D(point, Vector2D.X_VECTOR);
-            for (int i = 0; i < edges.Length; i++)
+            for (int i = 0; i < edges.Length; ++i)
             {
                 Line2D line = new Line2D(vertexes[i], edges[i]);
                 if (line.isInsideBorder(point)) return true;
@@ -151,7 +151,7 @@ namespace tvn.cosine.ai.util.math.geom.shapes
         public double rayCast(Ray2D ray)
         {
             double result = double.PositiveInfinity;
-            for (int i = 0; i < edges.Length; i++)
+            for (int i = 0; i < edges.Length; ++i)
             {
                 if (!ray.getDirection().isParallel(edges[i]))
                 {
@@ -192,7 +192,7 @@ namespace tvn.cosine.ai.util.math.geom.shapes
         public IGeometric2D transform(TransformMatrix2D matrix)
         {
             Point2D[] vertexesNew = new Point2D[vertexes.Length];
-            for (int i = 0; i < vertexes.Length; i++)
+            for (int i = 0; i < vertexes.Length; ++i)
             {
                 vertexesNew[i] = matrix.multiply(vertexes[i]);
             }

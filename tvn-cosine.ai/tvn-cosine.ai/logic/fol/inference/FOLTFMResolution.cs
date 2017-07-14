@@ -139,7 +139,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 Clause[] clausesA = clauses.ToArray();
 
                 // Basically, using the simple T)wo F)inger M)ethod here.
-                for (int i = 0; i < clausesA.Length; i++)
+                for (int i = 0; i < clausesA.Length; ++i)
                 {
                     Clause cI = clausesA[i];
                     if (null != tracer)

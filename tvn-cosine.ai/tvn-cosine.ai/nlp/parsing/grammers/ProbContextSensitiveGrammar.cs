@@ -25,7 +25,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammers
          */
         public override bool addRules(IList<Rule> ruleList)
         {
-            for (int i = 0; i < ruleList.Count; i++)
+            for (int i = 0; i < ruleList.Count; ++i)
             {
                 if (!base.validRule(ruleList[i]))
                 {

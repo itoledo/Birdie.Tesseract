@@ -62,7 +62,7 @@ namespace tvn.cosine.ai.learning.neural
         private Matrix createDerivativeMatrix(Vector lastInducedField)
         {
             IList<double> lst = new List<double>();
-            for (int i = 0; i < lastInducedField.size(); i++)
+            for (int i = 0; i < lastInducedField.size(); ++i)
             {
                 lst.Add(layer.getActivationFunction().deriv(lastInducedField.getValue(i)));
             }
