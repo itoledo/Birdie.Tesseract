@@ -13,22 +13,22 @@ namespace tvn.cosine.ai.probability.example
     public class GenericTemporalModelFactory
     {
 
-        public static FiniteProbabilityModel<string> getUmbrellaWorldTransitionModel()
+        public static FiniteProbabilityModel<bool> getUmbrellaWorldTransitionModel()
         {
             return getUmbrellaWorldModel();
         }
 
-        public static FiniteProbabilityModel<string> getUmbrellaWorldSensorModel()
+        public static FiniteProbabilityModel<bool> getUmbrellaWorldSensorModel()
         {
             return getUmbrellaWorldModel();
         }
 
-        public static FiniteProbabilityModel<string> getUmbrellaWorldModel()
+        public static FiniteProbabilityModel<bool> getUmbrellaWorldModel()
         {
             // Prior belief state
-            FiniteNode<string> rain_tm1 = new FullCPTNode<string>(ExampleRV.RAIN_tm1_RV, new double[] { 0.5, 0.5 });
+            FiniteNode<bool> rain_tm1 = new FullCPTNode<bool>(ExampleRV.RAIN_tm1_RV, new double[] { 0.5, 0.5 });
             // Transition Model
-            FiniteNode<string> rain_t = new FullCPTNode<string>(ExampleRV.RAIN_t_RV, new double[] {
+            FiniteNode<bool> rain_t = new FullCPTNode<bool>(ExampleRV.RAIN_t_RV, new double[] {
 				// R_t-1 = true, R_t = true
 				0.7,
 				// R_t-1 = true, R_t = false
@@ -39,7 +39,7 @@ namespace tvn.cosine.ai.probability.example
 				0.7 }, rain_tm1);
             // Sensor Model 
 
-            FiniteNode<string> umbrealla_t = new FullCPTNode<string>(ExampleRV.UMBREALLA_t_RV,
+            FiniteNode<bool> umbrealla_t = new FullCPTNode<bool>(ExampleRV.UMBREALLA_t_RV,
                     new double[] {
 						// R_t = true, U_t = true
 						0.9,
@@ -50,7 +50,7 @@ namespace tvn.cosine.ai.probability.example
 						// R_t = false, U_t = false
 						0.8 }, rain_t);
 
-            return new FiniteBayesModel<string>(new BayesNet<string>(rain_tm1));
+            return new FiniteBayesModel<bool>(new BayesNet<bool>(rain_tm1));
         }
 
         public static IDictionary<RandomVariable, RandomVariable> getUmbrellaWorld_Xt_to_Xtm1_Map()

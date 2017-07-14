@@ -16,16 +16,16 @@ namespace tvn.cosine.ai.probability.example
          * 
          * @return a Dynamic Bayesian Network of the Umbrella World Network.
          */
-        public static DynamicBayesianNetwork<string> getUmbrellaWorldNetwork()
+        public static DynamicBayesianNetwork<bool> getUmbrellaWorldNetwork()
         {
-            FiniteNode<string> prior_rain_tm1 = new FullCPTNode<string>(ExampleRV.RAIN_tm1_RV, new double[] { 0.5, 0.5 });
+            FiniteNode<bool> prior_rain_tm1 = new FullCPTNode<bool>(ExampleRV.RAIN_tm1_RV, new double[] { 0.5, 0.5 });
 
-            BayesNet<string> priorNetwork = new BayesNet<string>(prior_rain_tm1);
+            BayesNet<bool> priorNetwork = new BayesNet<bool>(prior_rain_tm1);
 
             // Prior belief state
-            FiniteNode<string> rain_tm1 = new FullCPTNode<string>(ExampleRV.RAIN_tm1_RV, new double[] { 0.5, 0.5 });
+            FiniteNode<bool> rain_tm1 = new FullCPTNode<bool>(ExampleRV.RAIN_tm1_RV, new double[] { 0.5, 0.5 });
             // Transition Model
-            FiniteNode<string> rain_t = new FullCPTNode<string>(ExampleRV.RAIN_t_RV, new double[] {
+            FiniteNode<bool> rain_t = new FullCPTNode<bool>(ExampleRV.RAIN_t_RV, new double[] {
 				// R_t-1 = true, R_t = true
 				0.7,
 				// R_t-1 = true, R_t = false
@@ -36,7 +36,7 @@ namespace tvn.cosine.ai.probability.example
 				0.7 }, rain_tm1);
             // Sensor Model 
 
-            FiniteNode<string> umbrealla_t = new FullCPTNode<string>(ExampleRV.UMBREALLA_t_RV,
+            FiniteNode<bool> umbrealla_t = new FullCPTNode<bool>(ExampleRV.UMBREALLA_t_RV,
                     new double[] {
 						// R_t = true, U_t = true
 						0.9,
@@ -52,7 +52,7 @@ namespace tvn.cosine.ai.probability.example
             ISet<RandomVariable> E_1 = new HashSet<RandomVariable>();
             E_1.Add(ExampleRV.UMBREALLA_t_RV);
 
-            return new DynamicBayesNet<string>(priorNetwork, X_0_to_X_1, E_1, rain_tm1);
+            return new DynamicBayesNet<bool>(priorNetwork, X_0_to_X_1, E_1, rain_tm1);
         }
     }
 }

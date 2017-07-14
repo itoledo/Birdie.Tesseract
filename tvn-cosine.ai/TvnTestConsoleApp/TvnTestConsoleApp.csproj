@@ -71,6 +71,18 @@
     <Compile Include="demo\logic\UnifierDemo.cs" />
     <Compile Include="demo\logic\Util.cs" />
     <Compile Include="demo\logic\WalkSatDemo.cs" />
+    <Compile Include="demo\probability\BayesEliminationAskDemo.cs" />
+    <Compile Include="demo\probability\BayesEnumerationAskDemo.cs" />
+    <Compile Include="demo\probability\BayesGibbsAskDemo.cs" />
+    <Compile Include="demo\probability\BayesLikelihoodWeightingDemo.cs" />
+    <Compile Include="demo\probability\BayesRejectionSamplingDemo.cs" />
+    <Compile Include="demo\probability\FixedLagSmoothingDemo.cs" />
+    <Compile Include="demo\probability\ForwardBackWardDemo.cs" />
+    <Compile Include="demo\probability\FullJointDistributionModelDemo.cs" />
+    <Compile Include="demo\probability\ParticleFilterinfDemo.cs" />
+    <Compile Include="demo\probability\PolicyIterationDemo.cs" />
+    <Compile Include="demo\probability\Util.cs" />
+    <Compile Include="demo\probability\ValueIterationDemo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

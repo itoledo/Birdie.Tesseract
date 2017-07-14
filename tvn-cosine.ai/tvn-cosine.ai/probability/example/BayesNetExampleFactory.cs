@@ -10,21 +10,21 @@ namespace tvn.cosine.ai.probability.example
      */
     public class BayesNetExampleFactory
     {
-        public static BayesianNetwork<string> construct2FairDiceNetwor()
+        public static BayesianNetwork<bool> construct2FairDiceNetwor()
         {
-            FiniteNode<string> dice1 = new FullCPTNode<string>(ExampleRV.DICE_1_RV, 
+            FiniteNode<bool> dice1 = new FullCPTNode<bool>(ExampleRV.DICE_1_RV, 
                 new double[] {  1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0 });
-            FiniteNode<string> dice2 = new FullCPTNode<string>(ExampleRV.DICE_2_RV, 
+            FiniteNode<bool> dice2 = new FullCPTNode<bool>(ExampleRV.DICE_2_RV, 
                 new double[] { 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0,  1.0 / 6.0 });
 
-            return new BayesNet<string>(dice1, dice2);
+            return new BayesNet<bool>(dice1, dice2);
         }
 
-        public static BayesianNetwork<string> constructToothacheCavityCatchNetwork()
+        public static BayesianNetwork<bool> constructToothacheCavityCatchNetwork()
         {
-            FiniteNode<string> cavity = new FullCPTNode<string>(ExampleRV.CAVITY_RV, new double[] { 0.2, 0.8 });
+            FiniteNode<bool> cavity = new FullCPTNode<bool>(ExampleRV.CAVITY_RV, new double[] { 0.2, 0.8 });
 
-            FiniteNode<string> toothache = new FullCPTNode<string>(ExampleRV.TOOTHACHE_RV,
+            FiniteNode<bool> toothache = new FullCPTNode<bool>(ExampleRV.TOOTHACHE_RV,
                     new double[] {
 						// C=true, T=true
 						0.6,
@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.probability.example
                     }, cavity);
 
 
-            FiniteNode<string> catchN = new FullCPTNode<string>(ExampleRV.CATCH_RV, new double[] {
+            FiniteNode<bool> catchN = new FullCPTNode<bool>(ExampleRV.CATCH_RV, new double[] {
 				// C=true, Catch=true
 				0.9,
 				// C=true, Catch=false
@@ -48,15 +48,15 @@ namespace tvn.cosine.ai.probability.example
 				// C=false, Catch=false
 				0.8 }, cavity);
 
-            return new BayesNet<string>(cavity);
+            return new BayesNet<bool>(cavity);
         }
 
-        public static BayesianNetwork<string> constructToothacheCavityCatchWeatherNetwork()
+        public static BayesianNetwork<bool> constructToothacheCavityCatchWeatherNetwork()
         {
-            FiniteNode<string> cavity = new FullCPTNode<string>(ExampleRV.CAVITY_RV, new double[] {
+            FiniteNode<bool> cavity = new FullCPTNode<bool>(ExampleRV.CAVITY_RV, new double[] {
                 0.2, 0.8 });
 
-            FiniteNode<string> toothache = new FullCPTNode<string>(ExampleRV.TOOTHACHE_RV,
+            FiniteNode<bool> toothache = new FullCPTNode<bool>(ExampleRV.TOOTHACHE_RV,
                     new double[] {
 						// C=true, T=true
 						0.6,
@@ -69,7 +69,7 @@ namespace tvn.cosine.ai.probability.example
 
                     }, cavity);
 
-            FiniteNode<string> catchN = new FullCPTNode<string>(ExampleRV.CATCH_RV, new double[] {
+            FiniteNode<bool> catchN = new FullCPTNode<bool>(ExampleRV.CATCH_RV, new double[] {
 				// C=true, Catch=true
 				0.9,
 				// C=true, Catch=false
@@ -78,7 +78,7 @@ namespace tvn.cosine.ai.probability.example
 				0.2,
 				// C=false, Catch=false
 				0.8 }, cavity);
-            FiniteNode<string> weather = new FullCPTNode<string>(ExampleRV.WEATHER_RV,
+            FiniteNode<bool> weather = new FullCPTNode<bool>(ExampleRV.WEATHER_RV,
                     new double[] {
 						// sunny
 						0.6,
@@ -89,15 +89,15 @@ namespace tvn.cosine.ai.probability.example
 						// snow
 						0.01 });
 
-            return new BayesNet<string>(cavity, weather);
+            return new BayesNet<bool>(cavity, weather);
         }
 
-        public static BayesianNetwork<string> constructMeningitisStiffNeckNetwork()
+        public static BayesianNetwork<bool> constructMeningitisStiffNeckNetwork()
         {
-            FiniteNode<string> meningitis = new FullCPTNode<string>(ExampleRV.MENINGITIS_RV,
+            FiniteNode<bool> meningitis = new FullCPTNode<bool>(ExampleRV.MENINGITIS_RV,
                     new double[] { 1.0 / 50000.0, 1.0 - (1.0 / 50000.0) });
 
-            FiniteNode<string> stiffneck = new FullCPTNode<string>(ExampleRV.STIFF_NECK_RV,
+            FiniteNode<bool> stiffneck = new FullCPTNode<bool>(ExampleRV.STIFF_NECK_RV,
                     new double[] {
 						// M=true, S=true
 						0.7,
@@ -109,16 +109,16 @@ namespace tvn.cosine.ai.probability.example
 						0.9900138002760055
 
                     }, meningitis);
-            return new BayesNet<string>(meningitis);
+            return new BayesNet<bool>(meningitis);
         }
 
-        public static BayesianNetwork<string> constructBurglaryAlarmNetwork()
+        public static BayesianNetwork<bool> constructBurglaryAlarmNetwork()
         {
-            FiniteNode<string> burglary = new FullCPTNode<string>(ExampleRV.BURGLARY_RV,
+            FiniteNode<bool> burglary = new FullCPTNode<bool>(ExampleRV.BURGLARY_RV,
                     new double[] { 0.001, 0.999 });
-            FiniteNode<string> earthquake = new FullCPTNode<string>(ExampleRV.EARTHQUAKE_RV,
+            FiniteNode<bool> earthquake = new FullCPTNode<bool>(ExampleRV.EARTHQUAKE_RV,
                     new double[] { 0.002, 0.998 });
-            FiniteNode<string> alarm = new FullCPTNode<string>(ExampleRV.ALARM_RV, new double[] {
+            FiniteNode<bool> alarm = new FullCPTNode<bool>(ExampleRV.ALARM_RV, new double[] {
 				// B=true, E=true, A=true
 				0.95,
 				// B=true, E=true, A=false
@@ -136,7 +136,7 @@ namespace tvn.cosine.ai.probability.example
 				// B=false, E=false, A=false
 				0.999 }, burglary, earthquake);
 
-            FiniteNode<string> johnCalls = new FullCPTNode<string>(ExampleRV.JOHN_CALLS_RV,
+            FiniteNode<bool> johnCalls = new FullCPTNode<bool>(ExampleRV.JOHN_CALLS_RV,
                     new double[] {
 						// A=true, J=true
 						0.90,
@@ -147,7 +147,7 @@ namespace tvn.cosine.ai.probability.example
 						// A=false, J=false
 						0.95 }, alarm);
 
-            FiniteNode<string> maryCalls = new FullCPTNode<string>(ExampleRV.MARY_CALLS_RV,
+            FiniteNode<bool> maryCalls = new FullCPTNode<bool>(ExampleRV.MARY_CALLS_RV,
                     new double[] {
 						// A=true, M=true
 						0.70,
@@ -158,14 +158,14 @@ namespace tvn.cosine.ai.probability.example
 						// A=false, M=false
 						0.99 }, alarm);
 
-            return new BayesNet<string>(burglary, earthquake);
+            return new BayesNet<bool>(burglary, earthquake);
         }
 
-        public static BayesianNetwork<string> constructCloudySprinklerRainWetGrassNetwork()
+        public static BayesianNetwork<bool> constructCloudySprinklerRainWetGrassNetwork()
         {
-            FiniteNode<string> cloudy = new FullCPTNode<string>(ExampleRV.CLOUDY_RV, new double[] {
+            FiniteNode<bool> cloudy = new FullCPTNode<bool>(ExampleRV.CLOUDY_RV, new double[] {
                 0.5, 0.5 });
-            FiniteNode<string> sprinkler = new FullCPTNode<string>(ExampleRV.SPRINKLER_RV,
+            FiniteNode<bool> sprinkler = new FullCPTNode<bool>(ExampleRV.SPRINKLER_RV,
                     new double[] {
 						// Cloudy=true, Sprinkler=true
 						0.1,
@@ -175,7 +175,7 @@ namespace tvn.cosine.ai.probability.example
 						0.5,
 						// Cloudy=false, Sprinkler=false
 						0.5 }, cloudy);
-            FiniteNode<string> rain = new FullCPTNode<string>(ExampleRV.RAIN_RV, new double[] {
+            FiniteNode<bool> rain = new FullCPTNode<bool>(ExampleRV.RAIN_RV, new double[] {
 				// Cloudy=true, Rain=true
 				0.8,
 				// Cloudy=true, Rain=false
@@ -185,7 +185,7 @@ namespace tvn.cosine.ai.probability.example
 				// Cloudy=false, Rain=false
 				0.8 }, cloudy);
 
-            FiniteNode<string> wetGrass = new FullCPTNode<string>(ExampleRV.WET_GRASS_RV,
+            FiniteNode<bool> wetGrass = new FullCPTNode<bool>(ExampleRV.WET_GRASS_RV,
                     new double[] {
 						// Sprinkler=true, Rain=true, WetGrass=true
 						.99,
@@ -204,7 +204,7 @@ namespace tvn.cosine.ai.probability.example
 						// Sprinkler=false, Rain=false, WetGrass=false
 						1.0 }, sprinkler, rain);
 
-            return new BayesNet<string>(cloudy);
+            return new BayesNet<bool>(cloudy);
         }
     }
 }

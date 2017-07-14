@@ -7,7 +7,7 @@ namespace tvn.cosine.ai.probability.example
      * @author Ciaran O'Reilly
      *
      */
-    public class FullJointDistributionToothacheCavityCatchModel : FullJointDistributionModel<string>
+    public class FullJointDistributionToothacheCavityCatchModel : FullJointDistributionModel<bool>
     { 
         public FullJointDistributionToothacheCavityCatchModel()
                 : base(new double[] {
@@ -26,8 +26,7 @@ namespace tvn.cosine.ai.probability.example
 				// Toothache = false, Cavity = false, Catch = true
 				0.144,
 				// Toothache = false, Cavity = false, Catch = false
-				0.576 }, ExampleRV.TOOTHACHE_RV, ExampleRV.CAVITY_RV,
-                    ExampleRV.CATCH_RV)
+				0.576 }, ExampleRV.TOOTHACHE_RV, ExampleRV.CAVITY_RV, ExampleRV.CATCH_RV)
         { } 
     } 
 }

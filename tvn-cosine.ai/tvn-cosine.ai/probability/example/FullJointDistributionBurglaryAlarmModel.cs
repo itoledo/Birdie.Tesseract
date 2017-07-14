@@ -7,8 +7,8 @@ namespace tvn.cosine.ai.probability.example
      * @author Ciaran O'Reilly
      *
      */
-    public class FullJointDistributionBurglaryAlarmModel : FullJointDistributionModel<string>
-    { 
+    public class FullJointDistributionBurglaryAlarmModel : FullJointDistributionModel<bool>
+    {
         public FullJointDistributionBurglaryAlarmModel()
             : base(new double[] {
 				// B = t, E = t, A = t, J = t, M = t

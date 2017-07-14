@@ -555,6 +555,7 @@
     <Compile Include="util\math\Matrix.cs" />
     <Compile Include="util\math\MixedRadixNumber.cs" />
     <Compile Include="util\math\Vector.cs" />
+    <Compile Include="util\MockRandomizer.cs" />
     <Compile Include="util\Util.cs" />
   </ItemGroup>
   <ItemGroup />
