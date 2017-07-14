@@ -91,16 +91,21 @@ namespace tvn.cosine.ai.environment.map
             if (currGoalIdx < goals.Count - 1)
             {
                 goal = goals[++currGoalIdx];
-                if (notifier != null)
-                    notifier.notifyViews("CurrentLocation=In(" + state.GetAttribute(DynAttributeNames.AGENT_LOCATION) + "), Goal=In(" + goal + ")");
+
                 modifyHeuristicFunction(goal);
+
+                if (notifier != null)
+                    notifier.notifyViews("CurrentLocation=In(" 
+                        + state.GetAttribute(DynAttributeNames.AGENT_LOCATION) 
+                        + "), Goal=In(" + goal + ")"); 
             }
             return goal != null ? goal : null;
         }
 
         protected override IProblem<string, MoveToAction> FormulateProblem(string goal)
         {
-            return new BidirectionalMapProblem(map, (string)state.GetAttribute(DynAttributeNames.AGENT_LOCATION), goal);
+            return new BidirectionalMapProblem(map, 
+                (string)state.GetAttribute(DynAttributeNames.AGENT_LOCATION), goal);
         }
 
         protected override IList<MoveToAction> Search(IProblem<string, MoveToAction> problem)
@@ -129,5 +134,5 @@ namespace tvn.cosine.ai.environment.map
                 ((Informed<string, MoveToAction>)_search).h = hFnFactory(goal);
             }
         }
-    } 
+    }
 }
