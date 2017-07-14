@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.inference.trace;
 using tvn.cosine.ai.logic.fol.kb;
@@ -12,24 +11,24 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn.cosine.ai.logic.fol.inference
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 347. 
-     *  
-     * The algorithmic approach is identical to the propositional case, described in
-     * Figure 7.12. 
-     *  
-     * However, this implementation will use the T)wo F)inger M)ethod for looking
-     * for resolvents between clauses, which is very inefficient. 
-     *  
-     * see: 
-     * <a
-     * href="http://logic.stanford.edu/classes/cs157/2008/lectures/lecture04.pdf">
-     * http://logic.stanford.edu/classes/cs157/2008/lectures/lecture04.pdf</a>,
-     * slide 21 for the propositional case. In addition, an Answer literal will be
-     * used so that queries with Variables may be answered (see pg. 350 of AIMA3e).
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+  * Artificial Intelligence A Modern Approach (3rd Edition): page 347.<br>
+  * <br>
+  * The algorithmic approach is identical to the propositional case, described in
+  * Figure 7.12.<br>
+  * <br>
+  * However, this implementation will use the T)wo F)inger M)ethod for looking
+  * for resolvents between clauses, which is very inefficient.<br>
+  * <br>
+  * see:<br>
+  * <a
+  * href="http://logic.stanford.edu/classes/cs157/2008/lectures/lecture04.pdf">
+  * http://logic.stanford.edu/classes/cs157/2008/lectures/lecture04.pdf</a>,
+  * slide 21 for the propositional case. In addition, an Answer literal will be
+  * used so that queries with Variables may be answered (see pg. 350 of AIMA3e).
+  * 
+  * @author Ciaran O'Reilly
+  * 
+  */
     public class FOLTFMResolution : InferenceProcedure
     {
         private long maxQueryTime = 10 * 1000;
@@ -75,13 +74,12 @@ namespace tvn.cosine.ai.logic.fol.inference
         // START-InferenceProcedure
         public InferenceResult ask(FOLKnowledgeBase KB, Sentence alpha)
         {
-
             // clauses <- the set of clauses in CNF representation of KB ^ ~alpha
             ISet<Clause> clauses = new HashSet<Clause>();
-            foreach (Clause c in KB.getAllClauses())
+            foreach (Clause cIter in KB.getAllClauses())
             {
-                /* c =*/
-                KB.standardizeApart(c);
+                Clause c = cIter;
+                c = KB.standardizeApart(c);
                 c.setStandardizedApartCheckNotRequired();
                 foreach (var v in c.getFactors())
                     clauses.Add(v);
@@ -95,12 +93,11 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             if (answerLiteralVariables.Count > 0)
             {
-                Sentence notAlphaWithAnswer = new ConnectedSentence(Connectors.OR,
-                        notAlpha, answerLiteral.getAtomicSentence());
-                foreach (Clause c in KB.convertToClauses(notAlphaWithAnswer))
+                Sentence notAlphaWithAnswer = new ConnectedSentence(Connectors.OR, notAlpha, answerLiteral.getAtomicSentence());
+                foreach (Clause cIter in KB.convertToClauses(notAlphaWithAnswer))
                 {
-                    /* c =*/
-                    KB.standardizeApart(c);
+                    Clause c = cIter;
+                    c = KB.standardizeApart(c);
                     c.setProofStep(new ProofStepGoal(c));
                     c.setStandardizedApartCheckNotRequired();
                     foreach (var v in c.getFactors())
@@ -111,20 +108,18 @@ namespace tvn.cosine.ai.logic.fol.inference
             }
             else
             {
-                foreach (Clause c in KB.convertToClauses(notAlpha))
+                foreach (Clause cIter in KB.convertToClauses(notAlpha))
                 {
-                    /*c =*/
-                    KB.standardizeApart(c);
+                    Clause c = cIter;
+                    c = KB.standardizeApart(c);
                     c.setProofStep(new ProofStepGoal(c));
                     c.setStandardizedApartCheckNotRequired();
-
                     foreach (var v in c.getFactors())
                         clauses.Add(v);
                 }
             }
 
-            TFMAnswerHandler ansHandler = new TFMAnswerHandler(answerLiteral,
-                    answerLiteralVariables, answerClause, maxQueryTime);
+            TFMAnswerHandler ansHandler = new TFMAnswerHandler(answerLiteral, answerLiteralVariables, answerClause, maxQueryTime);
 
             // new <- {}
             ISet<Clause> newClauses = new HashSet<Clause>();
@@ -135,8 +130,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             {
                 if (null != tracer)
                 {
-                    tracer.stepStartWhile(clauses, clauses.Count,
-                            newClauses.Count);
+                    tracer.stepStartWhile(clauses, clauses.Count, newClauses.Count);
                 }
 
                 newClauses.Clear();
@@ -240,11 +234,12 @@ namespace tvn.cosine.ai.logic.fol.inference
             private Clause answerClause = null;
             private DateTime finishTime;
             private bool complete = false;
-            private List<Proof> proofs = new List<Proof>();
+            private IList<Proof> proofs = new List<Proof>();
             private bool timedOut = false;
 
             public TFMAnswerHandler(Literal answerLiteral,
-                    ISet<Variable> answerLiteralVariables, Clause answerClause, long maxQueryTime)
+                    ISet<Variable> answerLiteralVariables, Clause answerClause,
+                    long maxQueryTime)
             {
                 this.answerLiteral = answerLiteral;
                 this.answerLiteralVariables = answerLiteralVariables;
@@ -310,8 +305,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                             // as added an answer literal, which
                             // implies the database (i.e. premises) are
                             // unsatisfiable to begin with.
-                            throw new Exception(
-                                    "Generated an empty clause while looking for an answer, implies original KB is unsatisfiable");
+                            throw new Exception("Generated an empty clause while looking for an answer, implies original KB is unsatisfiable");
                         }
 
                         if (aClause.isUnitClause()
@@ -320,15 +314,14 @@ namespace tvn.cosine.ai.logic.fol.inference
                                         .getPositiveLiterals()[0]
                                         .getAtomicSentence()
                                         .getSymbolicName()
-                                        .Equals(answerLiteral.getAtomicSentence()
-                                                .getSymbolicName()))
+                                        .Equals(answerLiteral.getAtomicSentence().getSymbolicName()))
                         {
                             IDictionary<Variable, Term> answerBindings = new Dictionary<Variable, Term>();
-                            IList<FOLNode> answerTerms = aClause.getPositiveLiterals()[0].getAtomicSentence().getArgs();
+                            IList<Term> answerTerms = aClause.getPositiveLiterals()[0].getAtomicSentence().getArgs();
                             int idx = 0;
                             foreach (Variable v in answerLiteralVariables)
                             {
-                                answerBindings.Add(v, answerTerms[idx] as Term);
+                                answerBindings[v] = answerTerms[idx];
                                 idx++;
                             }
                             bool addNewAnswer = true;
@@ -342,8 +335,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                             }
                             if (addNewAnswer)
                             {
-                                proofs.Add(new ProofFinal(aClause.getProofStep(),
-                                        answerBindings));
+                                proofs.Add(new ProofFinal(aClause.getProofStep(), answerBindings));
                             }
                         }
                     }
@@ -366,5 +358,5 @@ namespace tvn.cosine.ai.logic.fol.inference
                 return sb.ToString();
             }
         }
-    }  
+    }
 }

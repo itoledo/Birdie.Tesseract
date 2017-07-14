@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     /**
-     * @author Ciaran O'Reilly
-     * 
-     */
+ * @author Ciaran O'Reilly
+ * 
+ */
     public class ProofStepRenaming : AbstractProofStep
-    { 
+    {
         private IList<ProofStep> predecessors = new List<ProofStep>();
         private object proof = "";
 
@@ -37,5 +36,5 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
         }
         // END-ProofStep
         //
-    } 
+    }
 }

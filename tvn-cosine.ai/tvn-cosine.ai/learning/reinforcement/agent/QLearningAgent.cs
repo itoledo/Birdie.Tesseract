@@ -146,10 +146,10 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
                 Nsa.incrementFor(sa);
                 // Q[s,a] <- Q[s,a] + &alpha;(N<sub>sa</sub>[s,a])(r +
                 // &gamma;max<sub>a'</sub>Q[s',a'] - Q[s,a])
-                double Q_sa = Q[sa];
-                if (!Q.ContainsKey(sa))
+                double Q_sa = 0;
+                if (Q.ContainsKey(sa))
                 {
-                    Q[sa] = 0.0;
+                    Q_sa = Q[sa];
                 }
                 Q[sa] = Q_sa + alpha(Nsa, s, a) * (r + gamma * maxAPrime(sPrime) - Q_sa);
             }
@@ -188,12 +188,10 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             // U(s) = max<sub>a</sub>Q(s,a).
             IDictionary<S, double> U = new Dictionary<S, double>();
             foreach (Pair<S, A> sa in Q.Keys)
-            {
-                double q = Q[sa];
-                double u = U[sa.First];
-                if (!U.ContainsKey(sa.First) || U[sa.First] < q)
+            { 
+                if (!U.ContainsKey(sa.First) || U[sa.First] < Q[sa])
                 {
-                    U[sa.First] = q;
+                    U[sa.First] = Q[sa];
                 }
             }
 
@@ -243,14 +241,14 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          *            the number of times this situation has been encountered.
          * @return the exploration value.
          */
-        protected double f(double u, int n)
+        protected double f(double? u, int n)
         {
             // A Simple definition of f(u, n):
-            if (n < Ne)
+            if (null == u || n < Ne)
             {
                 return Rplus;
             }
-            return u;
+            return u.Value;
         }
 
         //
@@ -279,8 +277,8 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             {
                 foreach (A aPrime in actionsFunction(sPrime))
                 {
-                    var key = new Pair<S, A>(sPrime, aPrime);
-                    if (!Q.ContainsKey(key) && 0 > max)
+                    Pair<S, A> key = new Pair<S, A>(sPrime, aPrime);
+                    if (Q.ContainsKey(key) && Q[key] > max)
                     {
                         max = Q[key];
                     }
@@ -302,7 +300,10 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             foreach (A aPrime in actionsFunction(sPrime))
             {
                 Pair<S, A> sPrimeAPrime = new Pair<S, A>(sPrime, aPrime);
-                double explorationValue = f(Q[sPrimeAPrime], Nsa.getCount(sPrimeAPrime));
+                double? qsprime = null;
+                if (Q.ContainsKey(sPrimeAPrime))
+                    qsprime = Q[sPrimeAPrime];
+                double explorationValue = f(qsprime, Nsa.getCount(sPrimeAPrime));
                 if (explorationValue > max)
                 {
                     max = explorationValue;
@@ -311,5 +312,5 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             }
             return a;
         }
-    } 
+    }
 }

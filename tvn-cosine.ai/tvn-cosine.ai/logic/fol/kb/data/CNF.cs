@@ -15,13 +15,13 @@ namespace tvn.cosine.ai.logic.fol.kb.data
      * 
      */
     public class CNF
-    {
-
-        private List<Clause> conjunctionOfClauses = new List<Clause>();
+    { 
+        private IList<Clause> conjunctionOfClauses = new List<Clause>();
 
         public CNF(IList<Clause> conjunctionOfClauses)
         {
-            this.conjunctionOfClauses.AddRange(conjunctionOfClauses);
+            foreach (var v in conjunctionOfClauses)
+            this.conjunctionOfClauses.Add(v);
         }
 
         public int getNumberOfClauses()

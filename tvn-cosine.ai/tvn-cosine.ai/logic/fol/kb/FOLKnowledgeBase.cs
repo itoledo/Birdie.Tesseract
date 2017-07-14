@@ -130,8 +130,7 @@ namespace tvn.cosine.ai.logic.fol.kb
             // Need to map the result variables (as they are standardized apart)
             // to the original queries variables so that the caller can easily
             // understand and use the returned set of substitutions
-            InferenceResult infResult = getInferenceProcedure().ask(this,
-                    saResult.getStandardized());
+            InferenceResult infResult = getInferenceProcedure().ask(this, saResult.getStandardized());
             foreach (Proof p in infResult.getProofs())
             {
                 IDictionary<Variable, Term> im = p.getAnswerBindings();
@@ -451,6 +450,9 @@ namespace tvn.cosine.ai.logic.fol.kb
 
         private IList<Literal> fetchMatchingFacts(Literal l)
         {
+            if (!indexFacts.ContainsKey(getFactKey(l)))
+                return null;
+            else 
             return indexFacts[getFactKey(l)];
         }
 

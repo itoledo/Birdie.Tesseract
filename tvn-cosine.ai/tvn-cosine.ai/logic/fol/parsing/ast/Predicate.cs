@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     */
+    * @author Ravi Mohan
+    * @author Ciaran O'Reilly
+    */
     public class Predicate : AtomicSentence
     {
+
         private string predicateName;
-        private List<Term> terms = new List<Term>();
+        private IList<Term> terms = new List<Term>();
         private string stringRep = null;
         private int hashCode = 0;
 
         public Predicate(string predicateName, IList<Term> terms)
         {
             this.predicateName = predicateName;
-            this.terms.AddRange(terms);
+            foreach (var v in terms)
+                this.terms.Add(v);
         }
 
         public string getPredicateName()
@@ -51,29 +51,34 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return getTerms();
         }
 
-        IList<FOLNode> FOLNode.getArgs()
-        {
-            return getTerms() as IList<FOLNode>;
-        }
-
         public object accept(FOLVisitor v, object arg)
         {
             return v.visitPredicate(this, arg);
         }
 
+        AtomicSentence AtomicSentence.copy()
+        {
+            return copy();
+        }
 
         Sentence Sentence.copy()
         {
-            return copy() as Sentence;
+            return copy();
         }
+
+        public IList<T> getArgs<T>() where T : FOLNode
+        {
+            return new ReadOnlyCollection<T>(terms.Select(x => (T)x).ToList());
+        }
+
         FOLNode FOLNode.copy()
         {
-            return copy() as FOLNode;
+            return copy();
         }
 
         public Predicate copy()
         {
-            List<Term> copyTerms = new List<Term>();
+            IList<Term> copyTerms = new List<Term>();
             foreach (Term t in terms)
             {
                 copyTerms.Add(t.copy());
@@ -142,5 +147,6 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
 
             return stringRep;
         }
+
     }
 }

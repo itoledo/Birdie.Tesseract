@@ -7,18 +7,16 @@ using System.Threading.Tasks;
 namespace tvn.cosine.ai.logic.propositional.parsing.ast
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 244. 
-     *  
-     * <b>Complex Sentence:</b> are constructed from simpler sentences, using
-     * parentheses (and square brackets) and logical connectives.
-     *
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan 
-     */
+   * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
+   * <br>
+   * <b>Complex Sentence:</b> are constructed from simpler sentences, using
+   * parentheses (and square brackets) and logical connectives.
+   *
+   * @author Ciaran O'Reilly
+   * @author Ravi Mohan 
+   */
     public class ComplexSentence : Sentence
     {
-
-
         private Connective connective;
         private Sentence[] simplerSentences;
         // Lazy initialize these values.
@@ -57,8 +55,9 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          *  		the right hand sentence.
          */
         public ComplexSentence(Sentence sentenceL, Connective binaryConnective, Sentence sentenceR)
-                : this(binaryConnective, sentenceL, sentenceR)
+            : this(binaryConnective, sentenceL, sentenceR)
         {
+
         }
 
         public override Connective getConnective()
@@ -100,8 +99,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
                     result = true;
                     for (int i = 0; i < this.getNumberSimplerSentences(); i++)
                     {
-                        if (!other.getSimplerSentence(i).Equals(
-                                this.getSimplerSentence(i)))
+                        if (!other.getSimplerSentence(i).Equals(this.getSimplerSentence(i)))
                         {
                             result = false;
                             break;
@@ -126,8 +124,8 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
 
             return cachedHashCode;
         }
-
-        public override string ToString()
+         
+    public override string ToString()
         {
             if (cachedConcreteSyntax == null)
             {

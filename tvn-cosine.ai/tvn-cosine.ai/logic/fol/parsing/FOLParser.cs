@@ -7,20 +7,21 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn.cosine.ai.logic.fol.parsing
 {
     /**
-     * @author Ravi Mohan
-     * 
-     */
+   * @author Ravi Mohan
+   * 
+   */
     public class FOLParser
     {
         private FOLLexer lexer;
-        protected Token[] lookAheadBuffer;
+
+        protected Token[] _lookAheadBuffer;
 
         protected int _lookAhead = 1;
 
         public FOLParser(FOLLexer lexer)
         {
             this.lexer = lexer;
-            lookAheadBuffer = new Token[_lookAhead];
+            _lookAheadBuffer = new Token[_lookAhead];
         }
 
         public FOLParser(FOLDomain domain)
@@ -40,7 +41,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
 
         public void setUpToParse(string s)
         {
-            lookAheadBuffer = new Token[1];
+            _lookAheadBuffer = new Token[1];
             lexer.setInput(s);
             fillLookAheadBuffer();
 
@@ -89,7 +90,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             Token t = lookAhead(1);
             string functionName = t.getText();
-            List<Term> terms = processTerms();
+            IList<Term> terms = processTerms();
             return new Function(functionName, terms);
         }
 
@@ -97,14 +98,14 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             Token t = lookAhead(1);
             string predicateName = t.getText();
-            List<Term> terms = processTerms();
+            IList<Term> terms = processTerms();
             return new Predicate(predicateName, terms);
         }
 
-        private List<Term> processTerms()
+        private IList<Term> processTerms()
         {
             consume();
-            List<Term> terms = new List<Term>();
+            IList<Term> terms = new List<Term>();
             match("(");
             Term term = parseTerm();
             terms.Add(term);
@@ -139,7 +140,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         //
         protected Token lookAhead(int i)
         {
-            return lookAheadBuffer[i - 1];
+            return _lookAheadBuffer[i - 1];
         }
 
         protected void consume()
@@ -156,8 +157,8 @@ namespace tvn.cosine.ai.logic.fol.parsing
             for (int i = 0; i < _lookAhead - 1; i++)
             {
 
-                lookAheadBuffer[i] = lookAheadBuffer[i + 1];
-                if (isEndOfInput(lookAheadBuffer[i]))
+                _lookAheadBuffer[i] = _lookAheadBuffer[i + 1];
+                if (isEndOfInput(_lookAheadBuffer[i]))
                 {
                     eoiEncountered = true;
                     break;
@@ -165,7 +166,8 @@ namespace tvn.cosine.ai.logic.fol.parsing
             }
             if (!eoiEncountered)
             {
-                lookAheadBuffer[_lookAhead - 1] = lexer.nextToken();
+                _lookAheadBuffer[_lookAhead - 1] = lexer.nextToken();
+
             }
 
         }
@@ -179,7 +181,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             for (int i = 0; i < _lookAhead; i++)
             {
-                lookAheadBuffer[i] = lexer.nextToken();
+                _lookAheadBuffer[i] = lexer.nextToken();
             }
         }
 
@@ -191,7 +193,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
             }
             else
             {
-                throw new Exception("Syntax error detected at match. Expected "
+                throw new Exception( "Syntax error detected at match. Expected "
                                 + terminalSymbol + " but got "
                                 + lookAhead(1).getText());
             }
@@ -234,7 +236,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             string quantifier = lookAhead(1).getText();
             consume();
-            List<Variable> variables = new List<Variable>();
+            IList<Variable> variables = new List<Variable>();
             Variable var = (Variable)parseVariable();
             variables.Add(var);
             while (lookAhead(1).getType() == LogicTokenTypes.COMMA)
@@ -253,7 +255,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
             Sentence sen = parseSentence();
             while (binaryConnector(lookAhead(1)))
             {
-                string connector = lookAhead(1).getText();
+                String connector = lookAhead(1).getText();
                 consume();
                 Sentence other = parseSentence();
                 sen = new ConnectedSentence(connector, sen, other);

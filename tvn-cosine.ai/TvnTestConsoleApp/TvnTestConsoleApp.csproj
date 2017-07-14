@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>TvnTestConsoleApp.demo.learning.PassiveADPAgentDemo</StartupObject>
+    <StartupObject>TvnTestConsoleApp.demo.logic.FOL_Demodulation</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -52,7 +52,25 @@
     <Compile Include="demo\learning\DecisionTreeDemo.cs" />
     <Compile Include="demo\learning\EnsembleLearningDemo.cs" />
     <Compile Include="demo\learning\PassiveADPAgentDemo.cs" />
+    <Compile Include="demo\learning\PassiveTDAgentDemo.cs" />
     <Compile Include="demo\learning\PerceptronDemo.cs" />
+    <Compile Include="demo\learning\QLearningAgentDemo.cs" />
+    <Compile Include="demo\learning\Util.cs" />
+    <Compile Include="demo\logic\DpllDemo.cs" />
+    <Compile Include="demo\logic\FOL_bcAskDemo.cs" />
+    <Compile Include="demo\logic\FOL_CNFConversion.cs" />
+    <Compile Include="demo\logic\FOL_Demodulation.cs" />
+    <Compile Include="demo\logic\FOL_fcAskDemo.cs" />
+    <Compile Include="demo\logic\FOL_ModelEliminationDemo.cs" />
+    <Compile Include="demo\logic\OL_OTTERDemo.cs" />
+    <Compile Include="demo\logic\FOL_Paramodulation.cs" />
+    <Compile Include="demo\logic\FOL_TFMResolutionDemo.cs" />
+    <Compile Include="demo\logic\PlFcEntailsDemo.cs" />
+    <Compile Include="demo\logic\PlResolutionDemo.cs" />
+    <Compile Include="demo\logic\TTEntailsDemo.cs" />
+    <Compile Include="demo\logic\UnifierDemo.cs" />
+    <Compile Include="demo\logic\Util.cs" />
+    <Compile Include="demo\logic\WalkSatDemo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

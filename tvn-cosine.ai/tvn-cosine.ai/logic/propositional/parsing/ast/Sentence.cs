@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.logic.propositional.parsing.ast
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 244. 
-     *  
-     * The base of the knowledge representation language for propositional logic.
-     * Note: this class hierarchy defines the abstract syntax representation used
-     * for representing propositional logic.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
-     * 
-     */
+  * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
+  * <br>
+  * The base of the knowledge representation language for propositional logic.
+  * Note: this class hierarchy defines the abstract syntax representation used
+  * for representing propositional logic.
+  * 
+  * @author Ciaran O'Reilly
+  * @author Ravi Mohan
+  * 
+  */
     public abstract class Sentence : ParseTreeNode
     {
-
         /**
          * 
          * @return the logical connective associated with this sentence if it has
@@ -167,8 +164,8 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
         /**
          * Utility routine that will create a string representation of a given
          * Sentence and place it inside brackets if it is a complex sentence that
-         * has lower precedence than this complex sentence. 
-         *  
+         * has lower precedence than this complex sentence.<br>
+         * <br>
          * Note: this is a form of pretty printing, whereby we only add brackets in
          * the concrete syntax representation as needed to ensure it can be parsed
          * back again into an equivalent abstract syntax representation used here.
@@ -218,7 +215,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * 			the disjuncts from which to create the disjunction.
          * @return a disjunction of the given disjuncts.
          */
-        public static Sentence newDisjunction(IList<Sentence> disjuncts)
+        public static Sentence newDisjunction<T>(List<T> disjuncts) where T : Sentence
         {
             if (disjuncts.Count == 0)
             {
@@ -228,7 +225,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
             {
                 return disjuncts[0];
             }
-            return new ComplexSentence(disjuncts.First(), Connective.OR, newDisjunction(disjuncts.Skip(1).ToArray()));
+            return new ComplexSentence(Util.first(disjuncts), Connective.OR, newDisjunction(Util.rest(disjuncts).ToList()));
         }
 
         /**
@@ -248,7 +245,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * 			the conjuncts from which to create the conjunction.
          * @return a conjunction of the given conjuncts.
          */
-        public static Sentence newConjunction(IList<Sentence> conjuncts)
+        public static Sentence newConjunction<T>(IList<T> conjuncts) where T : Sentence
         {
             if (conjuncts.Count == 0)
             {
@@ -258,7 +255,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
             {
                 return conjuncts[0];
             }
-            return new ComplexSentence(conjuncts.First(), Connective.AND, newConjunction(conjuncts.Skip(1).ToArray()));
+            return new ComplexSentence(Util.first(conjuncts), Connective.AND, newConjunction(Util.rest(conjuncts)));
         }
 
         //

@@ -16,8 +16,7 @@ namespace tvn.cosine.ai.logic.common
 
         public LexerException(string message, int currentPositionInInput)
                 : base(message)
-        {
-
+        { 
             this.currentPositionInInput = currentPositionInInput;
         }
 

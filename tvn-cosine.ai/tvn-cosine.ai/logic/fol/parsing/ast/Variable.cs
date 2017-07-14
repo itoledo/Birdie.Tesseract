@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     */
+  * @author Ravi Mohan
+  * @author Ciaran O'Reilly
+  */
     public class Variable : Term
     {
 
@@ -48,29 +49,31 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return null;
         }
 
+        public object accept(FOLVisitor v, object arg)
+        {
+            return v.visitVariable(this, arg);
+        }
+         
+        Term Term.copy()
+        {
+            return copy();
+        }
 
-        IList<FOLNode> FOLNode.getArgs()
+        public IList<T> getArgs<T>() where T : FOLNode
         {
             // Is not Compound, therefore should
             // return null for its arguments
             return null;
         }
 
-        public object accept(FOLVisitor v, object arg)
-        {
-            return v.visitVariable(this, arg);
-        }
-
-        public Term copy()
-        {
-            return new Variable(value, indexical);
-        }
-
         FOLNode FOLNode.copy()
         {
-            // Is not Compound, therefore should
-            // return null for its arguments
-            return copy() as FOLNode;
+            return copy();
+        }
+
+        public Variable copy()
+        {
+            return new Variable(value, indexical);
         }
 
         // END-Term
@@ -106,7 +109,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
 
             Variable v = (Variable)o;
             return v.getValue().Equals(getValue())
-                    && v.getIndexical() == getIndexical();
+                && v.getIndexical() == getIndexical();
         }
 
         public override int GetHashCode()
@@ -124,6 +127,6 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
         public override string ToString()
         {
             return value;
-        }
+        } 
     }
 }

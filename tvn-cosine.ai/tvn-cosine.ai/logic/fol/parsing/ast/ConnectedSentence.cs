@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     */
+   * @author Ravi Mohan
+   * @author Ciaran O'Reilly
+   */
     public class ConnectedSentence : Sentence
     {
-
         private string connector;
         private Sentence first, second;
-        private List<Sentence> args = new List<Sentence>();
+        private IList<Sentence> args = new List<Sentence>();
         private string stringRep = null;
         private int hashCode = 0;
 
@@ -61,22 +59,27 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return new ReadOnlyCollection<Sentence>(args);
         }
 
-        IList<FOLNode> FOLNode.getArgs()
-        {
-            return null;
-        }
-
         public object accept(FOLVisitor v, object arg)
         {
             return v.visitConnectedSentence(this, arg);
         }
 
-        public Sentence copy()
+        public IList<T> getArgs<T>() where T : FOLNode
         {
-            return new ConnectedSentence(connector, first.copy(), second.copy());
+            return new ReadOnlyCollection<T>(args.Select(x => (T)x).ToList());
         }
 
         FOLNode FOLNode.copy()
+        {
+            return copy();
+        }
+
+        Sentence Sentence.copy()
+        {
+            return copy();
+        }
+
+        public ConnectedSentence copy()
         {
             return new ConnectedSentence(connector, first.copy(), second.copy());
         }
@@ -129,5 +132,6 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             }
             return stringRep;
         }
+
     }
 }

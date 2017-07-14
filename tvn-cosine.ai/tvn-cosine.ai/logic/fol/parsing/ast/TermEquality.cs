@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     */
+   * @author Ravi Mohan
+   * @author Ciaran O'Reilly
+   */
     public class TermEquality : AtomicSentence
     {
-
         private Term term1, term2;
-        private List<Term> terms = new List<Term>();
+        private IList<Term> terms = new List<Term>();
         private string stringRep = null;
         private int hashCode = 0;
 
@@ -59,25 +58,34 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return new ReadOnlyCollection<Term>(terms);
         }
 
-
-        IList<FOLNode> FOLNode.getArgs()
-        {
-            return new ReadOnlyCollection<FOLNode>(terms.Select(x => x as FOLNode).ToList());
-        }
-
         public object accept(FOLVisitor v, object arg)
         {
             return v.visitTermEquality(this, arg);
         }
 
-        public Sentence copy()
+        AtomicSentence AtomicSentence.copy()
         {
-            return new TermEquality(term1.copy(), term2.copy());
+            return copy();
+        }
+
+        Sentence Sentence.copy()
+        {
+            return copy();
+        }
+
+        public IList<T> getArgs<T>() where T : FOLNode
+        {
+            return new ReadOnlyCollection<T>(terms.Select(x => (T)x).ToList());
         }
 
         FOLNode FOLNode.copy()
         {
-            return copy() as FOLNode;
+            return copy();
+        }
+
+        public TermEquality copy()
+        {
+            return new TermEquality(term1.copy(), term2.copy());
         }
 
         // END-AtomicSentence
@@ -121,6 +129,6 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
                 stringRep = sb.ToString();
             }
             return stringRep;
-        }
+        } 
     }
 }

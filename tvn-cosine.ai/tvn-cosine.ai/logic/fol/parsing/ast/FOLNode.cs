@@ -13,11 +13,10 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
 
         bool isCompound();
 
-        IList<FOLNode> getArgs();
+        IList<T> getArgs<T>() where T : FOLNode;
 
         object accept(FOLVisitor v, object arg);
 
         FOLNode copy();
-    }
-
+    } 
 }

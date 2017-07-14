@@ -6,11 +6,13 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn.cosine.ai.logic.fol
 {
     /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     */
+   * @author Ravi Mohan
+   * @author Ciaran O'Reilly
+   */
     public class VariableCollector : FOLVisitor
     {
+
+
         public VariableCollector()
         {
         }
@@ -58,14 +60,14 @@ namespace tvn.cosine.ai.logic.fol
 
             return variables;
         }
-         
+
         public object visitVariable(Variable var, object arg)
         {
             ISet<Variable> variables = (ISet<Variable>)arg;
             variables.Add(var);
             return var;
         }
-         
+
         public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
             // Ensure I collect quantified variables too

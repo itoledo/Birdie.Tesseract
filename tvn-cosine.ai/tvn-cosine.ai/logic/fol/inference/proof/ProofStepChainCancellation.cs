@@ -39,7 +39,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 
         public override string getJustification()
         {
-            return "Cancellation: " + cancellationOf.getProofStep().getStepNumber() + " " + subst;
+            return "Cancellation: " + cancellationOf.getProofStep().getStepNumber() + " " + subst.CustomDictionaryWriterToString();
         }
         // END-ProofStep
         //

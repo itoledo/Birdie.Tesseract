@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -21,8 +23,9 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             StringBuilder sb = new StringBuilder();
 
             sb.Append("Proof, Answer Bindings: ");
-            sb.Append(proof.getAnswerBindings());
+            sb.Append(proof.getAnswerBindings().CustomDictionaryWriterToString());
             sb.Append("\n");
+
 
             IList<ProofStep> steps = proof.getSteps();
 
@@ -53,7 +56,8 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             maxProofWidth += 1;
             maxJustificationWidth += 1;
 
-            string f = "|{0}-" + maxStepWidth + "s| {1}-" + maxProofWidth + "s|{2}-" + maxJustificationWidth + "s|\n";
+
+            string f = "|{0," + maxStepWidth + "}| {1," + maxProofWidth + "}|{2," + maxJustificationWidth + "}|\n";
 
             int barWidth = 5 + maxStepWidth + maxProofWidth + maxJustificationWidth;
             StringBuilder bar = new StringBuilder();
@@ -68,12 +72,11 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             sb.Append(bar);
             foreach (ProofStep step in steps)
             {
-                sb.Append(string.Format(f, "" + step.getStepNumber(),
-                        step.getProof(), step.getJustification()));
+                sb.Append(string.Format(f, "" + step.getStepNumber(), step.getProof(), step.getJustification()));
             }
             sb.Append(bar);
 
             return sb.ToString();
         }
-    } 
+    }
 }

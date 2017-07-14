@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing;
 using tvn.cosine.ai.logic.fol.parsing.ast;
@@ -10,9 +7,9 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn.cosine.ai.logic.fol
 {
     /**
-     * @author Ciaran O'Reilly
-     * 
-     */
+  * @author Ciaran O'Reilly
+  * 
+  */
     public class StandardizeApartInPlace
     {
         //
@@ -20,7 +17,7 @@ namespace tvn.cosine.ai.logic.fol
 
         public static int standardizeApart(Chain c, int saIdx)
         {
-            List<Variable> variables = new List<Variable>();
+            IList<Variable> variables = new List<Variable>();
             foreach (Literal l in c.getLiterals())
             {
                 collectAllVariables(l.getAtomicSentence(), variables);
@@ -31,7 +28,7 @@ namespace tvn.cosine.ai.logic.fol
 
         public static int standardizeApart(Clause c, int saIdx)
         {
-            List<Variable> variables = new List<Variable>();
+            IList<Variable> variables = new List<Variable>();
             foreach (Literal l in c.getLiterals())
             {
                 collectAllVariables(l.getAtomicSentence(), variables);
@@ -43,14 +40,14 @@ namespace tvn.cosine.ai.logic.fol
         //
         // PRIVATE METHODS
         //
-        private static int standardizeApart(List<Variable> variables, object expr, int saIdx)
+        private static int standardizeApart(IList<Variable> variables, object expr, int saIdx)
         {
             IDictionary<string, int> indexicals = new Dictionary<string, int>();
             foreach (Variable v in variables)
             {
                 if (!indexicals.ContainsKey(v.getIndexedValue()))
                 {
-                    indexicals.Add(v.getIndexedValue(), saIdx++);
+                    indexicals[v.getIndexedValue()] = saIdx++;
                 }
             }
             foreach (Variable v in variables)
@@ -77,11 +74,13 @@ namespace tvn.cosine.ai.logic.fol
     class CollectAllVariables : FOLVisitor
     {
         public CollectAllVariables()
-        { }
+        {
+
+        }
 
         public object visitVariable(Variable var, object arg)
         {
-            List<Variable> variables = (List<Variable>)arg;
+            IList<Variable> variables = (List<Variable>)arg;
             variables.Add(var);
             return var;
         }
@@ -89,8 +88,9 @@ namespace tvn.cosine.ai.logic.fol
         public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
             // Ensure I collect quantified variables too
-            List<Variable> variables = (List<Variable>)arg;
-            variables.AddRange(sentence.getVariables());
+            IList<Variable> variables = (IList<Variable>)arg;
+            foreach (var v in sentence.getVariables())
+                variables.Add(v);
 
             sentence.getQuantified().accept(this, arg);
 

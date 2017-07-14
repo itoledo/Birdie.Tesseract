@@ -1,25 +1,26 @@
 ﻿using System;
+using tvn.cosine.ai.logic.common;
 
 namespace tvn.cosine.ai.logic.propositional.parsing.ast
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 244. 
-     *  
-     * <b>Proposition Symbol:</b> Each such symbol stands for a proposition that can
-     * be true or false. There are two proposition symbols with fixed meanings:
-     * <i>True</i> the always-true proposition and <i>False</i> the always-false
-     * proposition. 
-     *  
-     * <b>Note</b>: While the book states: 
-     * 'We use symbols that start with an upper case letter and may contain other
-     * letters or subscripts'. In this implementation we allow any legal java
-     * identifier to stand in for a proposition symbol.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
-     * 
-     * @see SourceVersion#isIdentifier(CharSequence)
-     */
+    * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
+    * <br>
+    * <b>Proposition Symbol:</b> Each such symbol stands for a proposition that can
+    * be true or false. There are two proposition symbols with fixed meanings:
+    * <i>True</i> the always-true proposition and <i>False</i> the always-false
+    * proposition.<br>
+    * <br>
+    * <b>Note</b>: While the book states:<br>
+    * 'We use symbols that start with an upper case letter and may contain other
+    * letters or subscripts'. In this implementation we allow any legal java
+    * identifier to stand in for a proposition symbol.
+    * 
+    * @author Ciaran O'Reilly
+    * @author Ravi Mohan
+    * 
+    * @see SourceVersion#isIdentifier(CharSequence)
+    */
     public class PropositionSymbol : AtomicSentence
     {
         //
@@ -40,11 +41,11 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
         {
             // Ensure differing cases for the 'True' and 'False'
             // propositional constants are represented in a canonical form.
-            if (TRUE_SYMBOL.ToLower().Equals(symbol))
+            if (TRUE_SYMBOL.ToLower().Equals(symbol.ToLower()))
             {
                 this.symbol = TRUE_SYMBOL;
             }
-            else if (FALSE_SYMBOL.ToLower().Equals(symbol))
+            else if (FALSE_SYMBOL.ToLower().Equals(symbol.ToLower()))
             {
                 this.symbol = FALSE_SYMBOL;
             }
@@ -75,7 +76,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          */
         public static bool isAlwaysTrueSymbol(string symbol)
         {
-            return TRUE_SYMBOL.ToLower().Equals(symbol);
+            return TRUE_SYMBOL.ToLower().Equals(symbol.ToLower());
         }
 
         /**
@@ -95,7 +96,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          */
         public static bool isAlwaysFalseSymbol(string symbol)
         {
-            return FALSE_SYMBOL.ToLower().Equals(symbol);
+            return FALSE_SYMBOL.ToLower().Equals(symbol.ToLower());
         }
 
         /**
@@ -103,11 +104,12 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * 
          * @param symbol
          *            a symbol to be tested.
-         * @return true if the given symbol is a legal proposition symbol, false otherwise.
+         * @return true if the given symbol is a legal proposition symbol, false
+         *         otherwise.
          */
         public static bool isPropositionSymbol(string symbol)
         {
-            return !char.IsLetter(symbol[0]);
+            return SourceVersion.isIdentifier(symbol);
         }
 
         /**
@@ -121,7 +123,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          */
         public static bool isPropositionSymbolIdentifierStart(char ch)
         {
-            return char.IsLetter(ch);
+            return Character.isJavaIdentifierStart(ch);
         }
 
         /**
@@ -134,7 +136,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          */
         public static bool isPropositionSymbolIdentifierPart(char ch)
         {
-            return char.IsLetter(ch);
+            return Character.isJavaIdentifierPart(ch);
         }
 
         /**

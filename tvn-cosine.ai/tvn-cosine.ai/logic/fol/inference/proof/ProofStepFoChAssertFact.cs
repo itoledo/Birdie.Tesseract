@@ -58,9 +58,9 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 
         public override string getJustification()
         {
-            return "Assert fact " + fact.ToString() + ", " + bindings;
+            return "Assert fact " + fact.ToString() + ", " + bindings.CustomDictionaryWriterToString();
         }
         // END-ProofStep
         //
-    } 
+    }
 }

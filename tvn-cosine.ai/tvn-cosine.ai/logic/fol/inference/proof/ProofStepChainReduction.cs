@@ -40,7 +40,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
          
     public override string getJustification()
         {
-            return "Reduction: " + nearParent.getProofStep().getStepNumber() + "," + farParent.getProofStep().getStepNumber() + " " + subst;
+            return "Reduction: " + nearParent.getProofStep().getStepNumber() + "," + farParent.getProofStep().getStepNumber() + " " + subst.CustomDictionaryWriterToString();
         }
         // END-ProofStep
         //

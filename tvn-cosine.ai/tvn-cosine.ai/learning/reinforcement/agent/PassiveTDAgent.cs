@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.util;
 
@@ -164,9 +160,8 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         //
         private bool isTerminal(S s)
         {
-            bool terminal = false;
-            IAction a = pi[s];
-            if (null == a || a.IsNoOp())
+            bool terminal = false; 
+            if (!pi.ContainsKey(s) || pi[s].IsNoOp())
             {
                 // No actions possible in state is considered terminal.
                 terminal = true;

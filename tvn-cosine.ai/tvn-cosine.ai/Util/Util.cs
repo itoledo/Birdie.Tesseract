@@ -43,7 +43,7 @@ namespace tvn.cosine.ai.util
 	 *            the list the first element is to be extracted from.
 	 * @return the first element of the passed in list.
 	 */
-        public static T first<T>(List<T> l)
+        public static T first<T>(IList<T> l)
         {
             return l.First();
         }
@@ -56,7 +56,7 @@ namespace tvn.cosine.ai.util
          * @return a list of all of the elements in the passed in list except for
          *         the first element.
          */
-        public static List<T> rest<T>(List<T> l)
+        public static IList<T> rest<T>(IList<T> l)
         {
             return l.Skip(1).ToList();
         }

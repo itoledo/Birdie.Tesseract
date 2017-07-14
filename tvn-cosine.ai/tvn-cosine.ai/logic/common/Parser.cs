@@ -8,19 +8,18 @@ using System.Threading.Tasks;
 namespace tvn.cosine.ai.logic.common
 {
     /**
-     * An abstract base class for constructing parsers for knowledge representation
-     * languages. It provides a mechanism for converting a sequence of tokens
-     * (derived from an appropriate lexer) into a syntactically correct abstract
-     * syntax tree of the representation language.
-     * 
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     * 
-     * @param <S> the root type of the abstract syntax tree being parsed.
-     */
+    * An abstract base class for constructing parsers for knowledge representation
+    * languages. It provides a mechanism for converting a sequence of tokens
+    * (derived from an appropriate lexer) into a syntactically correct abstract
+    * syntax tree of the representation language.
+    * 
+    * @author Ravi Mohan
+    * @author Ciaran O'Reilly
+    * 
+    * @param <S> the root type of the abstract syntax tree being parsed.
+    */
     public abstract class Parser<S>
-    {
-
+    { 
         protected int lookAheadBufferSize = 1;
         //
         private Token[] lookAheadBuffer = null;
@@ -55,12 +54,19 @@ namespace tvn.cosine.ai.logic.common
          */
         public S parse(TextReader inputReader)
         {
-            S result;
+            S result = default(S);
 
-            getLexer().setInput(inputReader);
-            initializeLookAheadBuffer();
+            try
+            {
+                getLexer().setInput(inputReader);
+                initializeLookAheadBuffer();
 
-            result = parse();
+                result = parse();
+            }
+            catch (LexerException le)
+            {
+                throw new ParserException("Lexer Exception thrown during parsing at position " + le.getCurrentPositionInInputExceptionThrown(), le);
+            }
 
             return result;
         }

@@ -8,7 +8,9 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
      */
     public interface Term : FOLNode
     {
-        new IList<Term> getArgs(); 
+        IList<Term> getArgs();
+
         new Term copy();
     }
+
 }

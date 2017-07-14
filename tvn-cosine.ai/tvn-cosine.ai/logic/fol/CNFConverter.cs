@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing;
 using tvn.cosine.ai.logic.fol.parsing.ast;
@@ -11,19 +7,19 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn.cosine.ai.logic.fol
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 345. 
-     *  
-     * Every sentence of first-order logic can be converted into an inferentially
-     * equivalent CNF sentence. 
-     *  
-     * <b>Note:</b> Transformation rules extracted from 346 and 347, which are
-     * essentially the INSEADO method outlined in: <a
-     * href="http://logic.stanford.edu/classes/cs157/2008/lectures/lecture09.pdf"
-     * >INSEADO Rules</a>
-     * 
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     */
+ * Artificial Intelligence A Modern Approach (3rd Edition): page 345.<br>
+ * <br>
+ * Every sentence of first-order logic can be converted into an inferentially
+ * equivalent CNF sentence.<br>
+ * <br>
+ * <b>Note:</b> Transformation rules extracted from 346 and 347, which are
+ * essentially the INSEADO method outlined in: <a
+ * href="http://logic.stanford.edu/classes/cs157/2008/lectures/lecture09.pdf"
+ * >INSEADO Rules</a>
+ * 
+ * @author Ciaran O'Reilly
+ * @author Mike Stampone
+ */
     public class CNFConverter
     {
 
@@ -77,13 +73,12 @@ namespace tvn.cosine.ai.logic.fol
                     new DistributeOrOverAnd(), null);
 
             // O)perators Out
-            return new CNFConstructor().construct(orDistributedOverAnd);
+            return (new CNFConstructor()).construct(orDistributedOverAnd);
         }
     }
 
     class ImplicationsOut : FOLVisitor
     {
-
         public ImplicationsOut()
         {
 
@@ -130,10 +125,8 @@ namespace tvn.cosine.ai.logic.fol
             // replace (alpha <=> beta) with (~alpha V beta) ^ (alpha V ~beta).
             if (Connectors.isBICOND(sentence.getConnector()))
             {
-                Sentence first = new ConnectedSentence(Connectors.OR,
-                        new NotSentence(alpha), beta);
-                Sentence second = new ConnectedSentence(Connectors.OR, alpha,
-                        new NotSentence(beta));
+                Sentence first = new ConnectedSentence(Connectors.OR, new NotSentence(alpha), beta);
+                Sentence second = new ConnectedSentence(Connectors.OR, alpha, new NotSentence(beta));
 
                 return new ConnectedSentence(Connectors.AND, first, second);
             }
@@ -142,8 +135,7 @@ namespace tvn.cosine.ai.logic.fol
             // replacing (alpha => beta) with (~alpha V beta)
             if (Connectors.isIMPLIES(sentence.getConnector()))
             {
-                return new ConnectedSentence(Connectors.OR, new NotSentence(alpha),
-                        beta);
+                return new ConnectedSentence(Connectors.OR, new NotSentence(alpha), beta);
             }
 
             return new ConnectedSentence(sentence.getConnector(), alpha, beta);
@@ -161,7 +153,6 @@ namespace tvn.cosine.ai.logic.fol
 
     class NegationsIn : FOLVisitor
     {
-
         public NegationsIn()
         {
 
@@ -277,23 +268,23 @@ namespace tvn.cosine.ai.logic.fol
 
     class StandardizeQuantiferVariables : FOLVisitor
     {
-        class WuantifiedIndexical : StandardizeApartIndexical
+        class QuantifiedIndexical : StandardizeApartIndexical
         {
             private int index = 0;
-
-            public int getNextIndex()
-            {
-                return index++;
-            }
 
             public string getPrefix()
             {
                 return "q";
             }
+
+            public int getNextIndex()
+            {
+                return index++;
+            }
         }
 
         // Just use a localized indexical here.
-        private StandardizeApartIndexical quantifiedIndexical = new WuantifiedIndexical();
+        private StandardizeApartIndexical quantifiedIndexical = new QuantifiedIndexical();
 
         private SubstVisitor substVisitor = null;
 
@@ -340,9 +331,6 @@ namespace tvn.cosine.ai.logic.fol
                     (Sentence)sentence.getSecond().accept(this, arg));
         }
 
-
-
-
         public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
             ISet<Variable> seenSoFar = (ISet<Variable>)arg;
@@ -350,7 +338,7 @@ namespace tvn.cosine.ai.logic.fol
             // Keep track of what I have to subst locally and
             // what my renamed variables will be.
             IDictionary<Variable, Term> localSubst = new Dictionary<Variable, Term>();
-            List<Variable> replVariables = new List<Variable>();
+            IList<Variable> replVariables = new List<Variable>();
             foreach (Variable v in sentence.getVariables())
             {
                 // If local variable has be renamed already
@@ -359,7 +347,7 @@ namespace tvn.cosine.ai.logic.fol
                 {
                     Variable sV = new Variable(quantifiedIndexical.getPrefix()
                             + quantifiedIndexical.getNextIndex());
-                    localSubst.Add(v, sV);
+                    localSubst[v] = sV;
                     // Replacement variables should contain new name for variable
                     replVariables.Add(sV);
                 }
@@ -374,8 +362,7 @@ namespace tvn.cosine.ai.logic.fol
             Sentence subst = substVisitor.subst(localSubst,
                     sentence.getQuantified());
 
-            // Ensure all my existing and replaced variable
-            // names are tracked
+            // Ensure all my existing and replaced variable names are tracked
             foreach (var v in replVariables)
                 seenSoFar.Add(v);
 
@@ -435,7 +422,6 @@ namespace tvn.cosine.ai.logic.fol
                     (Sentence)sentence.getSecond().accept(this, arg));
         }
 
-
         public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
             Sentence quantified = sentence.getQuantified();
@@ -454,16 +440,16 @@ namespace tvn.cosine.ai.logic.fol
                     if (universalScope.Count > 0)
                     {
                         // Replace with a Skolem Function
-                        string skolemFunctionName = parser.getFOLDomain().addSkolemFunction();
-                        skolemSubst.Add(eVar, new Function(skolemFunctionName,
-                                new List<Term>(universalScope)));
+                        string skolemFunctionName = parser.getFOLDomain()
+                                .addSkolemFunction();
+                        skolemSubst[eVar] = new Function(skolemFunctionName, new List<Term>(universalScope));
                     }
                     else
                     {
                         // Replace with a Skolem Constant
                         string skolemConstantName = parser.getFOLDomain()
                                 .addSkolemConstant();
-                        skolemSubst.Add(eVar, new Constant(skolemConstantName));
+                        skolemSubst[eVar] = new Constant(skolemConstantName);
                     }
                 }
 
@@ -497,8 +483,6 @@ namespace tvn.cosine.ai.logic.fol
 
     class DistributeOrOverAnd : FOLVisitor
     {
-
-
         public DistributeOrOverAnd()
         {
 
@@ -531,7 +515,8 @@ namespace tvn.cosine.ai.logic.fol
 
         public object visitNotSentence(NotSentence sentence, object arg)
         {
-            return new NotSentence((Sentence)sentence.getNegated().accept(this, arg));
+            return new NotSentence((Sentence)sentence.getNegated().accept(this,
+                    arg));
         }
 
         public object visitConnectedSentence(ConnectedSentence sentence, object arg)
@@ -544,8 +529,7 @@ namespace tvn.cosine.ai.logic.fol
 
             // (alpha V (beta ^ gamma)) equivalent to
             // ((alpha V beta) ^ (alpha V gamma))
-            if (Connectors.isOR(sentence.getConnector())
-                    && beta is ConnectedSentence)
+            if (Connectors.isOR(sentence.getConnector()) && beta is ConnectedSentence)
             {
                 ConnectedSentence betaAndGamma = (ConnectedSentence)beta;
                 if (Connectors.isAND(betaAndGamma.getConnector()))
@@ -553,17 +537,15 @@ namespace tvn.cosine.ai.logic.fol
                     beta = betaAndGamma.getFirst();
                     Sentence gamma = betaAndGamma.getSecond();
                     return new ConnectedSentence(Connectors.AND,
-                            (Sentence)(new ConnectedSentence(Connectors.OR, alpha,
-                                    beta)).accept(this, arg),
-                            (Sentence)(new ConnectedSentence(Connectors.OR, alpha,
-                                    gamma)).accept(this, arg));
+                            (Sentence)(new ConnectedSentence(Connectors.OR, alpha, beta)).accept(this, arg),
+                            (Sentence)(new ConnectedSentence(Connectors.OR, alpha, gamma)).accept(this, arg));
                 }
             }
 
             // ((alpha ^ gamma) V beta) equivalent to
             // ((alpha V beta) ^ (gamma V beta))
             if (Connectors.isOR(sentence.getConnector())
-                    && alpha is ConnectedSentence)
+              && alpha is ConnectedSentence)
             {
                 ConnectedSentence alphaAndGamma = (ConnectedSentence)alpha;
                 if (Connectors.isAND(alphaAndGamma.getConnector()))
@@ -571,27 +553,25 @@ namespace tvn.cosine.ai.logic.fol
                     alpha = alphaAndGamma.getFirst();
                     Sentence gamma = alphaAndGamma.getSecond();
                     return new ConnectedSentence(Connectors.AND,
-                            (Sentence)(new ConnectedSentence(Connectors.OR, alpha,
-                                    beta)).accept(this, arg),
-                            (Sentence)(new ConnectedSentence(Connectors.OR, gamma,
-                                    beta)).accept(this, arg));
+                            (Sentence)(new ConnectedSentence(Connectors.OR, alpha, beta)).accept(this, arg),
+                            (Sentence)(new ConnectedSentence(Connectors.OR, gamma, beta)).accept(this, arg));
                 }
             }
 
             return new ConnectedSentence(sentence.getConnector(), alpha, beta);
         }
 
-        public object visitQuantifiedSentence(QuantifiedSentence sentence,  object arg)
+        public object visitQuantifiedSentence(QuantifiedSentence sentence,
+                object arg)
         {
             // This should not be called as should have already
             // removed all of the quantifiers.
-            throw new Exception(  "All quantified sentences should have already been removed.");
+            throw new Exception("All quantified sentences should have already been removed.");
         }
     }
 
     class CNFConstructor : FOLVisitor
     {
-
         public CNFConstructor()
         {
 
@@ -679,16 +659,16 @@ namespace tvn.cosine.ai.logic.fol
             return sentence;
         }
 
-        public object visitQuantifiedSentence(QuantifiedSentence sentence,  object arg)
+        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
             // This should not be called as should have already
             // removed all of the quantifiers.
-            throw new Exception( "All quantified sentences should have already been removed.");
+            throw new Exception("All quantified sentences should have already been removed.");
         }
 
         class ArgData
         {
-            public List<Clause> clauses = new List<Clause>();
+            public IList<Clause> clauses = new List<Clause>();
             public bool negated = false;
 
             public ArgData()

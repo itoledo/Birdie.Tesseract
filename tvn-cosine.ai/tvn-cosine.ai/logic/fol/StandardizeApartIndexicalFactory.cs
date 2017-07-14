@@ -5,11 +5,11 @@ using System.Text;
 namespace tvn.cosine.ai.logic.fol
 {
     /**
-     * This class ensures unique standardize apart indexicals are created.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+  * This class ensures unique standardize apart indexicals are created.
+  * 
+  * @author Ciaran O'Reilly
+  * 
+  */
     public class StandardizeApartIndexicalFactory
     {
         private static IDictionary<char, int> _assignedIndexicals = new Dictionary<char, int>();
@@ -29,7 +29,7 @@ namespace tvn.cosine.ai.logic.fol
             }
 
             StringBuilder sb = new StringBuilder();
-            if (_assignedIndexicals.ContainsKey(preferredPrefix))
+            if (!_assignedIndexicals.ContainsKey(preferredPrefix))
             {
                 _assignedIndexicals[preferredPrefix] = 0;
             }
@@ -37,7 +37,7 @@ namespace tvn.cosine.ai.logic.fol
             {
                 ++_assignedIndexicals[preferredPrefix];
             }
-            sb.Append(preferredPrefix);
+            sb.Append(_assignedIndexicals[preferredPrefix]);
             for (int i = 0; i < _assignedIndexicals[preferredPrefix]; i++)
             {
                 sb.Append(preferredPrefix);
@@ -49,11 +49,10 @@ namespace tvn.cosine.ai.logic.fol
 
     class StandardizeApartIndexicalImpl : StandardizeApartIndexical
     {
-
         private string prefix = null;
         private int index = 0;
 
-        public StandardizeApartIndexicalImpl(string prefix)
+        public StandardizeApartIndexicalImpl(String prefix)
         {
             this.prefix = prefix;
         }

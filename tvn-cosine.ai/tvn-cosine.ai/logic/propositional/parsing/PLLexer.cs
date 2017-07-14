@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
 
 namespace tvn.cosine.ai.logic.propositional.parsing
 {
     /**
-     * A concrete implementation of a lexical analyzer for the propositional language.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
-     * @author Mike Stampone
-     */
+   * A concrete implementation of a lexical analyzer for the propositional language.
+   * 
+   * @author Ciaran O'Reilly
+   * @author Ravi Mohan
+   * @author Mike Stampone
+   */
     public class PLLexer : Lexer
     {
 
@@ -66,20 +63,20 @@ namespace tvn.cosine.ai.logic.propositional.parsing
                 consume();
                 return new Token(LogicTokenTypes.RSQRBRACKET, "]", startPosition);
             }
-            else if (char.IsWhiteSpace(lookAhead(1)))
+            else if (null != lookAhead(1) && char.IsWhiteSpace(lookAhead(1).Value))
             {
                 consume();
                 return nextToken();
             }
-            else if (connectiveDetected(lookAhead(1)))
+            else if (null != lookAhead(1) && connectiveDetected(lookAhead(1).Value))
             {
                 return connective();
             }
-            else if (symbolDetected(lookAhead(1)))
+            else if (null != lookAhead(1) && symbolDetected(lookAhead(1).Value))
             {
                 return symbol();
             }
-            else if (lookAhead(1) == char.ConvertFromUtf32(-1)[0])
+            else if (null == lookAhead(1))
             {
                 return new Token(LogicTokenTypes.EOI, "EOI", startPosition);
             }
@@ -106,7 +103,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing
             // Ensure pull out just one connective at a time, the isConnective(...)
             // test ensures we handle chained expressions like the following:
             // ~~P
-            while (Connective.isConnectiveIdentifierPart(lookAhead(1)) && !isConnective(sbuf.ToString()))
+            while (null != lookAhead(1) && Connective.isConnectiveIdentifierPart(lookAhead(1).Value) && !isConnective(sbuf.ToString()))
             {
                 sbuf.Append(lookAhead(1));
                 consume();
@@ -125,12 +122,12 @@ namespace tvn.cosine.ai.logic.propositional.parsing
         {
             int startPosition = getCurrentPositionInInput();
             StringBuilder sbuf = new StringBuilder();
-            while (PropositionSymbol.isPropositionSymbolIdentifierPart(lookAhead(1)))
+            while (null != lookAhead(1) && PropositionSymbol.isPropositionSymbolIdentifierPart(lookAhead(1).Value))
             {
                 sbuf.Append(lookAhead(1));
                 consume();
             }
-            string symbol = sbuf.ToString();
+            String symbol = sbuf.ToString();
             if (PropositionSymbol.isAlwaysTrueSymbol(symbol))
             {
                 return new Token(LogicTokenTypes.TRUE, PropositionSymbol.TRUE_SYMBOL, startPosition);

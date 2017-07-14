@@ -10,9 +10,9 @@ namespace TvnTestConsoleApp.demo.learning
     {
         public static void Main(params string[] args)
         {
-            Console.WriteLine(Util.ntimes("*", 100));
+            Console.WriteLine(tvn.cosine.ai.util.Util.ntimes("*", 100));
             Console.WriteLine("DecisionList Demo - Inducing a DecisionList from the Restaurant DataSet\n ");
-            Console.WriteLine(Util.ntimes("*", 100));
+            Console.WriteLine(tvn.cosine.ai.util.Util.ntimes("*", 100));
             Console.WriteLine();
 
             decisionListDemo();

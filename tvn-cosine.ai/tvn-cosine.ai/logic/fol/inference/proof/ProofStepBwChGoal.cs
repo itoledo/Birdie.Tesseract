@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 
         public override string getJustification()
         {
-            return "Current Goal " + currentGoal.getAtomicSentence().ToString() + ", " + bindings;
+            return "Current Goal " + currentGoal.getAtomicSentence().ToString() + ", " + bindings.CustomDictionaryWriterToString();
         }
         // END-ProofStep
         //

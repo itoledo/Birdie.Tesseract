@@ -49,8 +49,8 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
         public override string getJustification()
         {
             return "Factor of " + factorOf.getProofStep().getStepNumber() + "  ["
-                    + lx + ", " + ly + "], subst=" + subst + ", renaming="
-                    + renameSubst;
+                    + lx + ", " + ly + "], subst=" + subst.CustomDictionaryWriterToString() + ", renaming="
+                    + renameSubst.CustomDictionaryWriterToString();
         }
         // END-ProofStep
         //

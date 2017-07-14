@@ -1,25 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     */
+   * @author Ravi Mohan
+   * @author Ciaran O'Reilly
+   */
     public class Function : Term
     {
 
         private string functionName;
-        private List<Term> terms = new List<Term>();
+        private IList<Term> terms = new List<Term>();
         private string stringRep = null;
         private int hashCode = 0;
 
         public Function(string functionName, IList<Term> terms)
         {
             this.functionName = functionName;
-            this.terms.AddRange(terms);
+            foreach (var v in terms)
+                this.terms.Add(v);
         }
 
         public string getFunctionName()
@@ -49,30 +52,34 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return getTerms();
         }
 
-
-        IList<FOLNode> FOLNode.getArgs()
-        {
-            return getTerms() as IList<FOLNode>;
-        }
-
         public object accept(FOLVisitor v, object arg)
         {
             return v.visitFunction(this, arg);
         }
 
-        public Term copy()
+        public IList<T> getArgs<T>() where T : FOLNode
         {
-            List<Term> copyTerms = new List<Term>();
-            foreach (Term t in terms)
-            {
-                copyTerms.Add(t.copy() as Term);
-            }
-            return new Function(functionName, copyTerms);
+            return new ReadOnlyCollection<T>(terms.Select(x => (T)x).ToList());
         }
 
         FOLNode FOLNode.copy()
         {
-            return copy() as FOLNode;
+            return copy();
+        }
+
+        Term Term.copy()
+        {
+            return copy();
+        }
+
+        public Function copy()
+        {
+            IList<Term> copyTerms = new List<Term>();
+            foreach (Term t in terms)
+            {
+                copyTerms.Add(t.copy());
+            }
+            return new Function(functionName, copyTerms);
         }
 
         // END-Term
@@ -80,7 +87,6 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
 
         public override bool Equals(object o)
         {
-
             if (this == o)
             {
                 return true;
@@ -138,5 +144,6 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             }
             return stringRep;
         }
+
     }
 }

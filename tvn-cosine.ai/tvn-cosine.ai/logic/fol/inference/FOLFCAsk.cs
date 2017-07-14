@@ -98,15 +98,17 @@ namespace tvn.cosine.ai.logic.fol.inference
                 newSentences.Clear();
                 // for each rule in KB do
                 // (p1 ^ ... ^ pn => q) <-STANDARDIZE-VARIABLES(rule)
-                foreach (Clause impl in KB.getAllDefiniteClauseImplications())
+                IList<Clause> kbdci = KB.getAllDefiniteClauseImplications();
+                for (int i = 0; i < kbdci.Count; ++i)
                 {
-                    /*impl = */
-                    KB.standardizeApart(impl);
+                    Clause impl = kbdci[i];
+                    impl = KB.standardizeApart(impl);
                     // for each theta such that SUBST(theta, p1 ^ ... ^ pn) =
                     // SUBST(theta, p'1 ^ ... ^ p'n)
                     // --- for some p'1,...,p'n in KB
-                    foreach (IDictionary<Variable, Term> theta in KB.fetch(invert(impl.getNegativeLiterals())))
+                    foreach (IDictionary<Variable, Term> thetaIter in KB.fetch(invert(impl.getNegativeLiterals())))
                     {
+                        IDictionary<Variable, Term> theta = thetaIter;
                         // q' <- SUBST(theta, q)
                         Literal qDelta = KB.subst(theta, impl.getPositiveLiterals()[0]);
                         // if q' does not unify with some sentence already in KB or
@@ -117,8 +119,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                             newSentences.Add(qDelta);
                             ansHandler.addProofStep(impl, qDelta, theta);
                             // theta <- UNIFY(q', alpha)
-                            /* theta =*/
-                            KB.unify(qDelta.getAtomicSentence(), alpha.getAtomicSentence());
+                            theta = KB.unify(qDelta.getAtomicSentence(), alpha.getAtomicSentence());
                             // if theta is not fail then return theta
                             if (null != theta)
                             {

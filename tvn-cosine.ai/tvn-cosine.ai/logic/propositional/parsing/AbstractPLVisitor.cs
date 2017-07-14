@@ -26,16 +26,14 @@ namespace tvn.cosine.ai.logic.propositional.parsing
         {
             // a new Complex Sentence with the same connective but possibly
             // with its simpler sentence replaced by the visitor.
-            return new ComplexSentence(s.getConnective(), s.getSimplerSentence(0)
-                    .accept(this, arg));
+            return new ComplexSentence(s.getConnective(), s.getSimplerSentence(0).accept(this, arg));
         }
 
         public virtual Sentence visitBinarySentence(ComplexSentence s, A arg)
         {
             // a new Complex Sentence with the same connective but possibly
             // with its simpler sentences replaced by the visitor.
-            return new ComplexSentence(s.getConnective(), s.getSimplerSentence(0)
-                    .accept(this, arg), s.getSimplerSentence(1).accept(this, arg));
+            return new ComplexSentence(s.getConnective(), s.getSimplerSentence(0).accept(this, arg), s.getSimplerSentence(1).accept(this, arg));
         }
     }
 }

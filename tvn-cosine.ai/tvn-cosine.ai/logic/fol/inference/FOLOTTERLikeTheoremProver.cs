@@ -160,10 +160,10 @@ namespace tvn.cosine.ai.logic.fol.inference
             // Usable set will be the set of clauses in the KB,
             // are assuming this is satisfiable as using the
             // Set of Support strategy.
-            foreach (Clause c in KB.getAllClauses())
+            foreach (Clause cIter in KB.getAllClauses())
             {
-                /*c =*/
-                KB.standardizeApart(c);
+                Clause c = cIter;
+                c = KB.standardizeApart(c);
                 c.setStandardizedApartCheckNotRequired();
                 foreach (var v in c.getFactors())
                     usable.Add(v);
@@ -192,10 +192,10 @@ namespace tvn.cosine.ai.logic.fol.inference
             {
                 Sentence notAlphaWithAnswer = new ConnectedSentence(Connectors.OR,
                         notAlpha, answerLiteral.getAtomicSentence());
-                foreach (Clause c in KB.convertToClauses(notAlphaWithAnswer))
+                foreach (Clause cIter in KB.convertToClauses(notAlphaWithAnswer))
                 {
-                    /* c =*/
-                    KB.standardizeApart(c);
+                    Clause c = cIter;
+                    c = KB.standardizeApart(c);
                     c.setProofStep(new ProofStepGoal(c));
                     c.setStandardizedApartCheckNotRequired();
                     foreach (var v in c.getFactors())
@@ -307,11 +307,11 @@ namespace tvn.cosine.ai.logic.fol.inference
         {
 
             // * for each clause in clauses do
-            foreach (Clause clause in clauses)
+            foreach (Clause clauseIter in clauses)
             {
+                Clause clause = clauseIter;
                 // * clause <- SIMPLIFY(clause)
-                /*  clause =*/
-                getClauseSimplifier().simplify(clause);
+                clause = getClauseSimplifier().simplify(clause);
 
                 // * merge identical literals
                 // Note: Not required as handled by Clause Implementation
@@ -382,11 +382,11 @@ namespace tvn.cosine.ai.logic.fol.inference
             if (toCheck.Count > 0)
             {
                 toCheck = infer(clause, toCheck);
-                foreach (Clause t in toCheck)
+                foreach (Clause tIter in toCheck)
                 {
+                    Clause t = tIter;
                     // * clause <- SIMPLIFY(clause)
-                    /* t =*/
-                    getClauseSimplifier().simplify(t);
+                    t = getClauseSimplifier().simplify(t);
 
                     // * discard clause if it is a tautology
                     if (t.isTautology())
@@ -647,7 +647,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                                             .getSymbolicName()))
                     {
                         IDictionary<Variable, Term> answerBindings = new Dictionary<Variable, Term>();
-                        IList<FOLNode> answerTerms = clause.getPositiveLiterals()[0].getAtomicSentence().getArgs();
+                        IList<FOLNode> answerTerms = clause.getPositiveLiterals()[0].getAtomicSentence().getArgs<FOLNode>();
                         int idx = 0;
                         foreach (Variable v in answerLiteralVariables)
                         {

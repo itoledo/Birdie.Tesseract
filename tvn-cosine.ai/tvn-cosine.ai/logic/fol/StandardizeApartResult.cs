@@ -44,5 +44,4 @@ namespace tvn.cosine.ai.logic.fol
             return reverseSubstitution;
         }
     }
-
 }

@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     */
+  * @author Ravi Mohan
+  * @author Ciaran O'Reilly
+  */
     public class NotSentence : Sentence
     {
 
         private Sentence negated;
-        private List<Sentence> args = new List<Sentence>();
+        private IList<Sentence> args = new List<Sentence>();
         private string stringRep = null;
         private int hashCode = 0;
 
@@ -42,9 +40,9 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return true;
         }
 
-        public IList<FOLNode> getArgs()
+        public IList<Sentence> getArgs()
         {
-            return new ReadOnlyCollection<FOLNode>(args.Select(x => x as FOLNode).ToList());
+            return new ReadOnlyCollection<Sentence>(args);
         }
 
         public object accept(FOLVisitor v, object arg)
@@ -52,12 +50,22 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return v.visitNotSentence(this, arg);
         }
 
-        FOLNode FOLNode.copy()
+        public IList<T> getArgs<T>() where T : FOLNode
         {
-            return copy() as FOLNode;
+            return new ReadOnlyCollection<T>(args.Select(x => (T)x).ToList());
         }
 
-        public Sentence copy()
+        FOLNode FOLNode.copy()
+        {
+            return copy();
+        }
+
+        Sentence Sentence.copy()
+        {
+            return copy();
+        }
+
+        public NotSentence copy()
         {
             return new NotSentence(negated.copy());
         }
@@ -102,6 +110,6 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             }
             return stringRep;
         }
-    }
 
+    }
 }

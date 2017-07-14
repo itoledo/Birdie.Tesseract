@@ -9,9 +9,10 @@ namespace TvnTestConsoleApp.demo.learning
     {
         public static void Main(params string[] args)
         {
-            Console.WriteLine(Util.ntimes("*", 100));
+            Console.WriteLine(tvn.cosine.ai.util.Util.ntimes("*", 100));
             Console.WriteLine("\nDecisionTree Demo - Inducing a DecisionList from the Restaurant DataSet\n ");
             Console.WriteLine();
+            Console.WriteLine(tvn.cosine.ai.util.Util.ntimes("*", 100));
 
             decisionTreeDemo();
 
@@ -20,9 +21,7 @@ namespace TvnTestConsoleApp.demo.learning
         }
 
         public static void decisionTreeDemo()
-        {
-            Console.WriteLine(Util.ntimes("*", 100));
-
+        { 
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             DecisionTreeLearner learner = new DecisionTreeLearner();
             learner.train(ds);

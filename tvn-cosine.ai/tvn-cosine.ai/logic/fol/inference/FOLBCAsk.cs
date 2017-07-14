@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq; 
+using System.Linq;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.kb;
 using tvn.cosine.ai.logic.fol.kb.data;
@@ -106,9 +106,12 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             // for each sentence r in KB where
             // STANDARDIZE-APART(r) = (p1 ^ ... ^ pn => q)
-            foreach (Clause r in KB.getAllDefiniteClauses())
+
+            IList<Clause> kbdci = KB.getAllDefiniteClauses();
+            for (int i = 0; i < kbdci.Count; ++i)
             {
-                /*r =*/ KB.standardizeApart(r);
+                Clause r = kbdci[i];
+                r = KB.standardizeApart(r);
                 // and thetaDelta <- UNIFY(q, qDelta) succeeds
                 IDictionary<Variable, Term> thetaDelta = KB.unify(r.getPositiveLiterals()[0].getAtomicSentence(), qDelta.getAtomicSentence());
                 if (null != thetaDelta)
@@ -172,10 +175,9 @@ namespace tvn.cosine.ai.logic.fol.inference
         // for need for this.
         private IDictionary<Variable, Term> cascadeSubstitutions(FOLKnowledgeBase KB, IDictionary<Variable, Term> theta)
         {
-            foreach (Variable v in theta.Keys)
-            {
-                Term t = theta[v];
-                theta.Add(v, KB.subst(theta, t));
+            foreach (Variable v in theta.Keys.ToList())
+            { 
+                theta[v] = KB.subst(theta, theta[v]);
             }
 
             return theta;

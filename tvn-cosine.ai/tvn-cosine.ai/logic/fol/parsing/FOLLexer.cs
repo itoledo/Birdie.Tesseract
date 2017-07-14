@@ -7,10 +7,10 @@ using tvn.cosine.ai.logic.fol.domain;
 namespace tvn.cosine.ai.logic.fol.parsing
 {
     /**
-    * @author Ciaran O'Reilly
-    * @author Ravi Mohan
-    * 
-    */
+     * @author Ciaran O'Reilly
+     * @author Ravi Mohan
+     * 
+     */
     public class FOLLexer : Lexer
     {
         private FOLDomain domain;
@@ -63,12 +63,12 @@ namespace tvn.cosine.ai.logic.fol.parsing
                 // System.out.println("identifier detected");
                 return identifier();
             }
-            else if (char.IsWhiteSpace(lookAhead(1)))
+            else if (null != lookAhead(1) && char.IsWhiteSpace(lookAhead(1).Value))
             {
                 consume();
                 return nextToken();
             }
-            else if (lookAhead(1) == char.ConvertFromUtf32(-1)[0])
+            else if (lookAhead(1) == null)
             {
                 return new Token(LogicTokenTypes.EOI, "EOI", startPosition);
             }
@@ -82,9 +82,8 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             int startPosition = getCurrentPositionInInput();
             StringBuilder sbuf = new StringBuilder();
-            while (char.IsLetter(lookAhead(1))
-                || partOfConnector()
-                || lookAhead(1) == '_')
+            while (null != lookAhead(1) && (Character.isJavaIdentifierPart(lookAhead(1).Value))
+                    || partOfConnector())
             {
                 sbuf.Append(lookAhead(1));
                 consume();
@@ -132,14 +131,14 @@ namespace tvn.cosine.ai.logic.fol.parsing
 
         private bool identifierDetected()
         {
-            return char.IsLetter(lookAhead(1))
-                    || lookAhead(1) == '_'
+            return (null != lookAhead(1) && Character.isJavaIdentifierStart(lookAhead(1).Value))
                     || partOfConnector();
         }
 
         private bool partOfConnector()
         {
-            return (lookAhead(1) == '=') || (lookAhead(1) == '<') || (lookAhead(1) == '>');
+            return (lookAhead(1) == '=') || (lookAhead(1) == '<')
+                    || (lookAhead(1) == '>');
         }
     }
 }

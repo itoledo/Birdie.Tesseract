@@ -185,12 +185,14 @@
     <Compile Include="learning\reinforcement\example\CellWorldPercept.cs" />
     <Compile Include="learning\reinforcement\PerceptStateReward.cs" />
     <Compile Include="learning\reinforcement\RewardPercept.cs" />
+    <Compile Include="logic\common\Character.cs" />
     <Compile Include="logic\common\Lexer.cs" />
     <Compile Include="logic\common\LexerException.cs" />
     <Compile Include="logic\common\LogicTokenTypes.cs" />
     <Compile Include="logic\common\Parser.cs" />
     <Compile Include="logic\common\ParserException.cs" />
     <Compile Include="logic\common\ParseTreeNode.cs" />
+    <Compile Include="logic\common\SourceVersion.cs" />
     <Compile Include="logic\common\Token.cs" />
     <Compile Include="logic\fol\CNFConverter.cs" />
     <Compile Include="logic\fol\Connectors.cs" />
@@ -219,6 +221,7 @@
     <Compile Include="logic\fol\inference\otter\LightestClauseHeuristic.cs" />
     <Compile Include="logic\fol\inference\Paramodulation.cs" />
     <Compile Include="logic\fol\inference\proof\AbstractProofStep.cs" />
+    <Compile Include="logic\fol\inference\proof\ExtensionMethods.cs" />
     <Compile Include="logic\fol\inference\proof\Proof.cs" />
     <Compile Include="logic\fol\inference\proof\ProofFinal.cs" />
     <Compile Include="logic\fol\inference\proof\ProofPrinter.cs" />

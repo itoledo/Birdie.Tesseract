@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -6,25 +7,26 @@ using System.Text;
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     /**
-    * @author Ravi Mohan
-    * @author Ciaran O'Reilly
-    */
+   * @author Ravi Mohan
+   * @author Ciaran O'Reilly
+   */
     public class QuantifiedSentence : Sentence
     {
-
         private string quantifier;
-        private List<Variable> variables = new List<Variable>();
+        private IList<Variable> variables = new List<Variable>();
         private Sentence quantified;
-        private List<FOLNode> args = new List<FOLNode>();
+        private IList<FOLNode> args = new List<FOLNode>();
         private string stringRep = null;
         private int hashCode = 0;
 
         public QuantifiedSentence(string quantifier, IList<Variable> variables, Sentence quantified)
         {
             this.quantifier = quantifier;
-            this.variables.AddRange(variables);
+            foreach (var v in variables)
+                this.variables.Add(v);
             this.quantified = quantified;
-            this.args.AddRange(variables);
+            foreach (var v in variables)
+                this.args.Add(v);
             this.args.Add(quantified);
         }
 
@@ -55,14 +57,9 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return true;
         }
 
-        IList<FOLNode> FOLNode.getArgs()
+        public IList<FOLNode> getArgs()
         {
             return new ReadOnlyCollection<FOLNode>(args);
-        }
-
-        public IList<Sentence> getArgs()
-        {
-            return new ReadOnlyCollection<Sentence>(args.Select(x => x as Sentence).ToList());
         }
 
         public object accept(FOLVisitor v, object arg)
@@ -70,17 +67,27 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return v.visitQuantifiedSentence(this, arg);
         }
 
-        FOLNode FOLNode.copy()
+        Sentence Sentence.copy()
         {
-            return copy() as FOLNode;
+            return copy();
         }
 
-        public Sentence copy()
+        public IList<T> getArgs<T>() where T : FOLNode
         {
-            List<Variable> copyVars = new List<Variable>();
+            return new ReadOnlyCollection<T>(args.Select(x => (T)x).ToList());
+        }
+
+        FOLNode FOLNode.copy()
+        {
+            return copy();
+        }
+
+        public QuantifiedSentence copy()
+        {
+            IList<Variable> copyVars = new List<Variable>();
             foreach (Variable v in variables)
             {
-                copyVars.Add(v.copy() as Variable);
+                copyVars.Add(v.copy());
             }
             return new QuantifiedSentence(quantifier, copyVars, quantified.copy());
         }
@@ -137,5 +144,6 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             }
             return stringRep;
         }
+
     }
 }

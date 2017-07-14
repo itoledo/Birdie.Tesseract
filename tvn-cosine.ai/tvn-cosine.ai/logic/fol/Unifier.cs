@@ -8,58 +8,60 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn.cosine.ai.logic.fol
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 9.1, page
-     * 328. 
-     *  
-     * 
-     * <pre>
-     * function UNIFY(x, y, theta) returns a substitution to make x and y identical
-     *   inputs: x, a variable, constant, list, or compound
-     *           y, a variable, constant, list, or compound
-     *           theta, the substitution built up so far (optional, defaults to empty)
-     *           
-     *   if theta = failure then return failure
-     *   else if x = y the return theta
-     *   else if VARIABLE?(x) then return UNIVY-VAR(x, y, theta)
-     *   else if VARIABLE?(y) then return UNIFY-VAR(y, x, theta)
-     *   else if COMPOUND?(x) and COMPOUND?(y) then
-     *       return UNIFY(x.ARGS, y.ARGS, UNIFY(x.OP, y.OP, theta))
-     *   else if LIST?(x) and LIST?(y) then
-     *       return UNIFY(x.REST, y.REST, UNIFY(x.FIRST, y.FIRST, theta))
-     *   else return failure
-     *   
-     * ---------------------------------------------------------------------------------------------------
-     * 
-     * function UNIFY-VAR(var, x, theta) returns a substitution
-     *            
-     *   if {var/val} E theta then return UNIFY(val, x, theta)
-     *   else if {x/val} E theta then return UNIFY(var, val, theta)
-     *   else if OCCUR-CHECK?(var, x) then return failure
-     *   else return add {var/x} to theta
-     * </pre>
-     * 
-     * Figure 9.1 The unification algorithm. The algorithm works by comparing the
-     * structures of the inputs, elements by element. The substitution theta that is
-     * the argument to UNIFY is built up along the way and is used to make sure that
-     * later comparisons are consistent with bindings that were established earlier.
-     * In a compound expression, such as F(A, B), the OP field picks out the
-     * function symbol F and the ARGS field picks out the argument list (A, B).
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
-     * @author Mike Stampone
-     * 
-     */
+  * Artificial Intelligence A Modern Approach (3rd Edition): Figure 9.1, page
+  * 328.<br>
+  * <br>
+  * 
+  * <pre>
+  * function UNIFY(x, y, theta) returns a substitution to make x and y identical
+  *   inputs: x, a variable, constant, list, or compound
+  *           y, a variable, constant, list, or compound
+  *           theta, the substitution built up so far (optional, defaults to empty)
+  *           
+  *   if theta = failure then return failure
+  *   else if x = y the return theta
+  *   else if VARIABLE?(x) then return UNIVY-VAR(x, y, theta)
+  *   else if VARIABLE?(y) then return UNIFY-VAR(y, x, theta)
+  *   else if COMPOUND?(x) and COMPOUND?(y) then
+  *       return UNIFY(x.ARGS, y.ARGS, UNIFY(x.OP, y.OP, theta))
+  *   else if LIST?(x) and LIST?(y) then
+  *       return UNIFY(x.REST, y.REST, UNIFY(x.FIRST, y.FIRST, theta))
+  *   else return failure
+  *   
+  * ---------------------------------------------------------------------------------------------------
+  * 
+  * function UNIFY-VAR(var, x, theta) returns a substitution
+  *            
+  *   if {var/val} E theta then return UNIFY(val, x, theta)
+  *   else if {x/val} E theta then return UNIFY(var, val, theta)
+  *   else if OCCUR-CHECK?(var, x) then return failure
+  *   else return add {var/x} to theta
+  * </pre>
+  * 
+  * Figure 9.1 The unification algorithm. The algorithm works by comparing the
+  * structures of the inputs, elements by element. The substitution theta that is
+  * the argument to UNIFY is built up along the way and is used to make sure that
+  * later comparisons are consistent with bindings that were established earlier.
+  * In a compound expression, such as F(A, B), the OP field picks out the
+  * function symbol F and the ARGS field picks out the argument list (A, B).
+  * 
+  * @author Ciaran O'Reilly
+  * @author Ravi Mohan
+  * @author Mike Stampone
+  * 
+  */
     public class Unifier
     {
         //
         private static SubstVisitor _substVisitor = new SubstVisitor();
 
         public Unifier()
-        { }
+        {
+
+        }
 
         /**
-         * Returns a IDictionary<Variable, Term> representing the substitution (i.e. a set
+         * Returns a Map<Variable, Term> representing the substitution (i.e. a set
          * of variable/term pairs) or null which is used to indicate a failure to
          * unify.
          * 
@@ -68,7 +70,7 @@ namespace tvn.cosine.ai.logic.fol
          * @param y
          *            a variable, constant, list, or compound
          * 
-         * @return a IDictionary<Variable, Term> representing the substitution (i.e. a set
+         * @return a Map<Variable, Term> representing the substitution (i.e. a set
          *         of variable/term pairs) or null which is used to indicate a
          *         failure to unify.
          */
@@ -78,7 +80,7 @@ namespace tvn.cosine.ai.logic.fol
         }
 
         /**
-         * Returns a IDictionary<Variable, Term> representing the substitution (i.e. a set
+         * Returns a Map<Variable, Term> representing the substitution (i.e. a set
          * of variable/term pairs) or null which is used to indicate a failure to
          * unify.
          * 
@@ -89,7 +91,7 @@ namespace tvn.cosine.ai.logic.fol
          * @param theta
          *            the substitution built up so far
          * 
-         * @return a IDictionary<Variable, Term> representing the substitution (i.e. a set
+         * @return a Map<Variable, Term> representing the substitution (i.e. a set
          *         of variable/term pairs) or null which is used to indicate a
          *         failure to unify.
          */
@@ -119,7 +121,7 @@ namespace tvn.cosine.ai.logic.fol
             {
                 // else if COMPOUND?(x) and COMPOUND?(y) then
                 // return UNIFY(x.ARGS, y.ARGS, UNIFY(x.OP, y.OP, theta))
-                return unify(args(x), args(y), unifyOps(op(x), op(y), theta));
+                return unify(args<FOLNode>(x), args<FOLNode>(y), unifyOps(op(x), op(y), theta));
             }
             else
             {
@@ -129,7 +131,7 @@ namespace tvn.cosine.ai.logic.fol
         }
 
         /**
-         * Returns a IDictionary<Variable, Term> representing the substitution (i.e. a set
+         * Returns a Map<Variable, Term> representing the substitution (i.e. a set
          * of variable/term pairs) or null which is used to indicate a failure to
          * unify.
          * 
@@ -140,13 +142,13 @@ namespace tvn.cosine.ai.logic.fol
          * @param theta
          *            the substitution built up so far
          * 
-         * @return a IDictionary<Variable, Term> representing the substitution (i.e. a set
+         * @return a Map<Variable, Term> representing the substitution (i.e. a set
          *         of variable/term pairs) or null which is used to indicate a
          *         failure to unify.
          */
         // else if LIST?(x) and LIST?(y) then
         // return UNIFY(x.REST, y.REST, UNIFY(x.FIRST, y.FIRST, theta))
-        public IDictionary<Variable, Term> unify(IList<FOLNode> x, IList<FOLNode> y, IDictionary<Variable, Term> theta)
+        public IDictionary<Variable, Term> unify<T>(IList<T> x, IList<T> y, IDictionary<Variable, Term> theta) where T : FOLNode
         {
             if (theta == null)
             {
@@ -188,7 +190,7 @@ namespace tvn.cosine.ai.logic.fol
                 return true;
                 // ((bound? x subst)
             }
-            else if (theta.ContainsKey(x as Variable))
+            else if (x is Variable && theta.ContainsKey(x as Variable))
             {
                 // (occurs-in? var (lookup x subst) subst))
                 return occurCheck(theta, var, theta[x as Variable]);
@@ -269,9 +271,9 @@ namespace tvn.cosine.ai.logic.fol
             }
         }
 
-        private IList<FOLNode> args(FOLNode x)
+        private IList<T> args<T>(FOLNode x) where T : FOLNode
         {
-            return x.getArgs();
+            return x.getArgs<T>();
         }
 
         private string op(FOLNode x)
@@ -289,19 +291,19 @@ namespace tvn.cosine.ai.logic.fol
         // for need for this.
         private IDictionary<Variable, Term> cascadeSubstitution(IDictionary<Variable, Term> theta, Variable var, Term x)
         {
-            theta.Add(var, x);
-            foreach (Variable v in theta.Keys)
+            theta[var] = x;
+            foreach (Variable v in theta.Keys.ToList())
             {
-                theta.Add(v, _substVisitor.subst(theta, theta[v]));
+                theta[v] = _substVisitor.subst(theta, theta[v]);
             }
             // Ensure Function Terms are correctly updates by passing over them
             // again. Fix for testBadCascadeSubstitution_LCL418_1()
-            foreach (Variable v in theta.Keys)
+            foreach (Variable v in theta.Keys.ToList())
             {
                 Term t = theta[v];
                 if (t is Function)
                 {
-                    theta.Add(v, _substVisitor.subst(theta, t));
+                    theta[v] = _substVisitor.subst(theta, t);
                 }
             }
             return theta;

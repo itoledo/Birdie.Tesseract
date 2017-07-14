@@ -3,12 +3,11 @@
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     */
+  * @author Ravi Mohan
+  * @author Ciaran O'Reilly
+  */
     public class Constant : Term
     {
-
         private string value;
         private int hashCode = 0;
 
@@ -34,15 +33,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return false;
         }
 
-        public IList<FOLNode> getArgs()
-        {
-            // Is not Compound, therefore should
-            // return null for its arguments
-            return null;
-        }
-
-
-        IList<Term> Term.getArgs()
+        public IList<Term> getArgs()
         {
             // Is not Compound, therefore should
             // return null for its arguments
@@ -54,10 +45,23 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return v.visitConstant(this, arg);
         }
 
-        public FOLNode copy()
+        public IList<T> getArgs<T>() where T : FOLNode
+        {
+            // Is not Compound, therefore should
+            // return null for its arguments
+            return null;
+        }
+
+        FOLNode FOLNode.copy()
+        {
+            return copy();
+        }
+
+        public Constant copy()
         {
             return new Constant(value);
         }
+
         Term Term.copy()
         {
             return new Constant(value);
@@ -96,5 +100,6 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
         {
             return value;
         }
+
     }
 }

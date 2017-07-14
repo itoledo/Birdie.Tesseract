@@ -5,48 +5,48 @@ using tvn.cosine.ai.logic.propositional.parsing.ast;
 namespace tvn.cosine.ai.logic.propositional.parsing
 {
     /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 7.7, page
-     * 244. 
-     * 
-     * Implementation of a propositional logic parser based on:
-     * 
-     * <pre>
-     * Sentence        -> AtomicSentence : ComplexStence
-     * AtomicSentence  -> True : False : P : Q : R : ... // (1)
-     * ComplexSentence -> (Sentence) | [Sentence]
-     *                 :  ~Sentence
-     *                 :  Sentence & Sentence
-     *                 :  Sentence | Sentence
-     *                 :  Sentence => Sentence
-     *                 :  Sentence <=> Sentence
-     * 
-     * OPERATOR PRECEDENCE: ~, &, |, =>, <=> // (2)
-     * </pre>
-     * 
-     * Figure 7.7 A BNF (Backus-Naur Form) grammar of sentences in propositional
-     * logic, along with operator precedences, from highest to lowest. 
-     *  
-     * Note (1): While the book states 'We use symbols that start with an upper case
-     * letter and may contain other letters or subscripts' in this implementation we
-     * allow any legal java identifier to stand in for a proposition symbol. 
-     *  
-     * Note (2): This implementation is right associative (tends to be more
-     * intuitive for this language), for example: 
-     * 
-     * <pre>
-     * A & B & C & D 
-     * 
-     * will be parsed as:
-     * 
-     * (A & (B & (C & D)))
-     * 
-     * </pre>
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
-     * 
-     * @see SourceVersion#isIdentifier(CharSequence)
-     */
+   * Artificial Intelligence A Modern Approach (3rd Edition): Figure 7.7, page
+   * 244.<br>
+   * 
+   * Implementation of a propositional logic parser based on:
+   * 
+   * <pre>
+   * Sentence        -> AtomicSentence : ComplexStence
+   * AtomicSentence  -> True : False : P : Q : R : ... // (1)
+   * ComplexSentence -> (Sentence) | [Sentence]
+   *                 :  ~Sentence
+   *                 :  Sentence & Sentence
+   *                 :  Sentence | Sentence
+   *                 :  Sentence => Sentence
+   *                 :  Sentence <=> Sentence
+   * 
+   * OPERATOR PRECEDENCE: ~, &, |, =>, <=> // (2)
+   * </pre>
+   * 
+   * Figure 7.7 A BNF (Backus-Naur Form) grammar of sentences in propositional
+   * logic, along with operator precedences, from highest to lowest.<br>
+   * <br>
+   * Note (1): While the book states 'We use symbols that start with an upper case
+   * letter and may contain other letters or subscripts' in this implementation we
+   * allow any legal java identifier to stand in for a proposition symbol.<br>
+   * <br>
+   * Note (2): This implementation is right associative (tends to be more
+   * intuitive for this language), for example:<br>
+   * 
+   * <pre>
+   * A & B & C & D 
+   * 
+   * will be parsed as:
+   * 
+   * (A & (B & (C & D)))
+   * 
+   * </pre>
+   * 
+   * @author Ciaran O'Reilly
+   * @author Ravi Mohan
+   * 
+   * @see SourceVersion#isIdentifier(CharSequence)
+   */
     public class PLParser : Parser<Sentence>
     {
         private PLLexer lexer = new PLLexer();
@@ -84,22 +84,17 @@ namespace tvn.cosine.ai.logic.propositional.parsing
         //
         private ParseNode parseSentence(int level)
         {
-            List<ParseNode> levelParseNodes = parseLevel(level);
+            IList<ParseNode> levelParseNodes = parseLevel(level);
 
             ParseNode result = null;
 
             // Now group up the tokens based on precedence order from highest to
             // lowest.
-            levelParseNodes = groupSimplerSentencesByConnective(Connective.NOT,
-                    levelParseNodes);
-            levelParseNodes = groupSimplerSentencesByConnective(Connective.AND,
-                    levelParseNodes);
-            levelParseNodes = groupSimplerSentencesByConnective(Connective.OR,
-                    levelParseNodes);
-            levelParseNodes = groupSimplerSentencesByConnective(
-                    Connective.IMPLICATION, levelParseNodes);
-            levelParseNodes = groupSimplerSentencesByConnective(
-                    Connective.BICONDITIONAL, levelParseNodes);
+            levelParseNodes = groupSimplerSentencesByConnective(Connective.NOT, levelParseNodes);
+            levelParseNodes = groupSimplerSentencesByConnective(Connective.AND, levelParseNodes);
+            levelParseNodes = groupSimplerSentencesByConnective(Connective.OR, levelParseNodes);
+            levelParseNodes = groupSimplerSentencesByConnective(Connective.IMPLICATION, levelParseNodes);
+            levelParseNodes = groupSimplerSentencesByConnective(Connective.BICONDITIONAL, levelParseNodes);
 
             // At this point there should just be the root formula
             // for this level.
@@ -112,16 +107,15 @@ namespace tvn.cosine.ai.logic.propositional.parsing
             {
                 // Did not identify a root sentence for this level,
                 // therefore throw an exception indicating the problem.
-                throw new ParserException("Unable to correctly parse sentence: "
-                        + levelParseNodes, getTokens(levelParseNodes));
+                throw new ParserException("Unable to correctly parse sentence: " + levelParseNodes, getTokens(levelParseNodes));
             }
 
             return result;
         }
 
-        private List<ParseNode> groupSimplerSentencesByConnective(Connective connectiveToConstruct, List<ParseNode> parseNodes)
+        private IList<ParseNode> groupSimplerSentencesByConnective(Connective connectiveToConstruct, IList<ParseNode> parseNodes)
         {
-            List<ParseNode> newParseNodes = new List<ParseNode>();
+            IList<ParseNode> newParseNodes = new List<ParseNode>();
             int numSentencesMade = 0;
             // Go right to left in order to make right associative,
             // which is a natural default for propositional logic
@@ -149,10 +143,8 @@ namespace tvn.cosine.ai.logic.propositional.parsing
                         }
                         else
                         {
-                            throw new ParserException(
-                                    "Unary connective argurment is not a sentence at input position "
-                                            + parseNode.token
-                                                    .getStartCharPositionInInput(),
+                            throw new ParserException("Unary connective argurment is not a sentence at input position "
+                                            + parseNode.token.getStartCharPositionInInput(),
                                     parseNode.token);
                         }
                     }
@@ -161,7 +153,8 @@ namespace tvn.cosine.ai.logic.propositional.parsing
                         // A Binary connective
                         if ((i - 1 >= 0 && parseNodes[i - 1].node is Sentence)
 
-                                && (i + 1 < parseNodes.Count && parseNodes[i + 1].node is Sentence))
+                                && (i + 1 < parseNodes.Count && parseNodes
+                                        [i + 1].node is Sentence))
                         {
                             // A binary connective
                             if (tokenConnective == connectiveToConstruct)
@@ -178,10 +171,8 @@ namespace tvn.cosine.ai.logic.propositional.parsing
                         }
                         else
                         {
-                            throw new ParserException(
-                                    "Binary connective argurments are not sentences at input position "
-                                            + parseNode.token
-                                                    .getStartCharPositionInInput(),
+                            throw new ParserException( "Binary connective argurments are not sentences at input position "
+                                            + parseNode.token  .getStartCharPositionInInput(),
                                     parseNode.token);
                         }
                     }
@@ -219,9 +210,9 @@ namespace tvn.cosine.ai.logic.propositional.parsing
             return newParseNodes;
         }
 
-        private List<ParseNode> parseLevel(int level)
+        private IList<ParseNode> parseLevel(int level)
         {
-            List<ParseNode> tokens = new List<ParseNode>();
+            IList<ParseNode> tokens = new List<ParseNode>();
             while (lookAhead(1).getType() != LogicTokenTypes.EOI
                     && lookAhead(1).getType() != LogicTokenTypes.RPAREN
                     && lookAhead(1).getType() != LogicTokenTypes.RSQRBRACKET)
@@ -342,7 +333,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing
             return bracketedSentence;
         }
 
-        private Token[] getTokens(List<ParseNode> parseNodes)
+        private Token[] getTokens(IList<ParseNode> parseNodes)
         {
             Token[] result = new Token[parseNodes.Count];
 
@@ -354,7 +345,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing
             return result;
         }
 
-        class ParseNode
+        private class ParseNode
         {
             public object node = null;
             public Token token = null;
@@ -365,9 +356,9 @@ namespace tvn.cosine.ai.logic.propositional.parsing
                 this.token = token;
             }
 
-            public override string ToString()
+            public string toString()
             {
-                return node.ToString() + " at " + token.getStartCharPositionInInput();
+                return node.ToString() + " at "  + token.getStartCharPositionInInput();
             }
         }
     }

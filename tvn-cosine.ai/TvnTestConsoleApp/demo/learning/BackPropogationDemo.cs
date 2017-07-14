@@ -1,7 +1,6 @@
 ﻿using System;
 using tvn.cosine.ai.learning.framework;
-using tvn.cosine.ai.learning.neural;
-using tvn.cosine.ai.util;
+using tvn.cosine.ai.learning.neural; 
 
 namespace TvnTestConsoleApp.demo.learning
 {
@@ -9,9 +8,9 @@ namespace TvnTestConsoleApp.demo.learning
     {
         public static void Main(params string[] args)
         {
-            Console.WriteLine(Util.ntimes("*", 100));
+            Console.WriteLine(tvn.cosine.ai.util.Util.ntimes("*", 100));
             Console.WriteLine("\n BackpropagationDemo  - Running BackProp on Iris data Set with 10 epochs of learning ");
-            Console.WriteLine(Util.ntimes("*", 100));
+            Console.WriteLine(tvn.cosine.ai.util.Util.ntimes("*", 100));
 
             backPropogationDemo();
 

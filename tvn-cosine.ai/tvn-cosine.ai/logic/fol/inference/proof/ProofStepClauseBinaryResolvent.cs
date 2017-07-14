@@ -19,7 +19,8 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
         private IDictionary<Variable, Term> subst = new Dictionary<Variable, Term>();
         private IDictionary<Variable, Term> renameSubst = new Dictionary<Variable, Term>();
 
-        public ProofStepClauseBinaryResolvent(Clause resolvent, Literal pl, Literal nl, Clause parent1, Clause parent2,
+        public ProofStepClauseBinaryResolvent(Clause resolvent, Literal pl,
+                Literal nl, Clause parent1, Clause parent2,
                 IDictionary<Variable, Term> subst, IDictionary<Variable, Term> renameSubst)
         {
             this.resolvent = resolvent;
@@ -28,10 +29,14 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             this.parent1 = parent1;
             this.parent2 = parent2;
             foreach (var v in subst)
-                this.subst.Add(v);
+            {
+                this.subst[v.Key] = v.Value;
+            }
 
             foreach (var v in renameSubst)
-                this.renameSubst.Add(v);
+            {
+                this.renameSubst[v.Key] = v.Value;
+            }
             this.predecessors.Add(parent1.getProofStep());
             this.predecessors.Add(parent2.getProofStep());
         }
@@ -60,10 +65,11 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             }
 
             return "Resolution: " + lowStep + ", " + highStep + "  [" + posLiteral
-                    + ", " + negLiteral + "], subst=" + subst + ", renaming="
-                    + renameSubst;
+                    + ", " + negLiteral + "], subst=" + subst.CustomDictionaryWriterToString() + ", renaming="
+                    + renameSubst.CustomDictionaryWriterToString();
         }
         // END-ProofStep
         //
-    } 
+    }
+
 }

@@ -67,9 +67,12 @@ namespace tvn.cosine.ai.logic.common
         /*
          * Returns the character at the specified position in the lookahead buffer.
          */
-        protected char lookAhead(int position)
+        protected char? lookAhead(int position)
         {
-            return (char)lookAheadBuffer[position - 1];
+            if (-1 == lookAheadBuffer[position - 1])
+                return null;
+            else
+                return (char)lookAheadBuffer[position - 1];
         }
 
         /**
@@ -141,7 +144,14 @@ namespace tvn.cosine.ai.logic.common
         {
             int read = -1;
 
-            read = input.Read();
+            try
+            {
+                read = input.Read();
+            }
+            catch (IOException ioe)
+            {
+                throw new LexerException("IOException thrown reading input.", currentPositionInInput, ioe);
+            }
 
             return read;
         }

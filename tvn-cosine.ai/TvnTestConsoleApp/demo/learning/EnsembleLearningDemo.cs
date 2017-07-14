@@ -11,7 +11,7 @@ namespace TvnTestConsoleApp.demo.learning
     {
         public static void Main(params string[] args)
         {
-            Console.WriteLine(Util.ntimes("*", 100));
+            Console.WriteLine(tvn.cosine.ai.util.Util.ntimes("*", 100));
             Console.WriteLine("\n\n Ensemble Decision Demo - Weak Learners co operating to give Superior decisions");
             Console.WriteLine();
 
@@ -23,7 +23,7 @@ namespace TvnTestConsoleApp.demo.learning
 
         public static void ensembleLearningDemo()
         {
-            Console.WriteLine(Util.ntimes("*", 100));
+            Console.WriteLine(tvn.cosine.ai.util.Util.ntimes("*", 100));
 
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             IList<DecisionTree> stumps = DecisionTree.getStumpsFor(ds, "Yes", "No");

@@ -406,7 +406,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                                       .getAtomicSentence().getSymbolicName()))
                     {
                         IDictionary<Variable, Term> answerBindings = new Dictionary<Variable, Term>();
-                        IList<FOLNode> answerTerms = nearParent.getHead().getAtomicSentence().getArgs();
+                        IList<FOLNode> answerTerms = nearParent.getHead().getAtomicSentence().getArgs<FOLNode>();
                         int idx = 0;
                         foreach (Variable v in answerLiteralVariables)
                         {
