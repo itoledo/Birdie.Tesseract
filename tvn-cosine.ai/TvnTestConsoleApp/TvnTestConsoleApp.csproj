@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>TvnTestConsoleApp.demo.logic.FOL_Demodulation</StartupObject>
+    <StartupObject>TvnTestConsoleApp.demo.search.EightPuzzleDemo</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -84,6 +84,11 @@
     <Compile Include="demo\probability\Util.cs" />
     <Compile Include="demo\probability\ValueIterationDemo.cs" />
     <Compile Include="demo\search\EightPuzzleDLSDemo.cs" />
+    <Compile Include="demo\search\EightPuzzleDemo.cs" />
+    <Compile Include="demo\search\GenerateRandomEightPuzzleDemo.cs" />
+    <Compile Include="demo\search\MapColoringCspDemo.cs" />
+    <Compile Include="demo\search\NQueensDemo.cs" />
+    <Compile Include="demo\search\TicTacToeDemo.cs" />
     <Compile Include="demo\search\Util.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

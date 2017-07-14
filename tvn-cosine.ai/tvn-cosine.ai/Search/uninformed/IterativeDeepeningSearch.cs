@@ -124,7 +124,7 @@ namespace tvn.cosine.ai.search.uninformed
         private void updateMetrics(IDictionary<string, double> dlsMetrics)
         {
             metrics[METRIC_NODES_EXPANDED] = metrics[METRIC_NODES_EXPANDED] + dlsMetrics[METRIC_NODES_EXPANDED];
-            metrics.Add(METRIC_PATH_COST, dlsMetrics[METRIC_PATH_COST]);
+            metrics[METRIC_PATH_COST] = dlsMetrics[METRIC_PATH_COST];
         }
     }
 }

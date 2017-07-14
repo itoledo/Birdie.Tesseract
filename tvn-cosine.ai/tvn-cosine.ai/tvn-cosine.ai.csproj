@@ -443,6 +443,7 @@
     <Compile Include="robotics\impl\map\MclCartesianPlot2D.cs" />
     <Compile Include="robotics\MonteCarloLocalization.cs" />
     <Compile Include="search\adversarial\AdversarialSearch.cs" />
+    <Compile Include="search\adversarial\AlphaBetaSearch.cs" />
     <Compile Include="search\adversarial\Game.cs" />
     <Compile Include="search\adversarial\IterativeDeepeningAlphaBetaSearch.cs" />
     <Compile Include="search\adversarial\MinimaxSearch.cs" />
