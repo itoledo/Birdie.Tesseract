@@ -83,6 +83,8 @@
     <Compile Include="demo\probability\PolicyIterationDemo.cs" />
     <Compile Include="demo\probability\Util.cs" />
     <Compile Include="demo\probability\ValueIterationDemo.cs" />
+    <Compile Include="demo\search\EightPuzzleDLSDemo.cs" />
+    <Compile Include="demo\search\Util.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
