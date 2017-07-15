@@ -1,4 +1,5 @@
 ﻿using System;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.probability.bayes.approx;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
@@ -56,7 +57,7 @@ namespace TvnTestConsoleApp.demo.probability
 				0.0001, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2 });
 
             int N = 10;
-            ParticleFiltering<bool> pf = new ParticleFiltering<bool>(N, DynamicBayesNetExampleFactory.getUmbrellaWorldNetwork(), new Random());
+            ParticleFiltering<bool> pf = new ParticleFiltering<bool>(N, DynamicBayesNetExampleFactory.getUmbrellaWorldNetwork(), new DefaultRandom());
 
             AssignmentProposition<bool>[] e = new AssignmentProposition<bool>[] { new AssignmentProposition<bool>(ExampleRV.UMBREALLA_t_RV, false) };
 

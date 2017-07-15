@@ -1,5 +1,6 @@
 ﻿using System;
 using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
@@ -12,7 +13,7 @@ namespace tvn.cosine.ai.environment.vacuum
     /// </summary>
     public class NondeterministicVacuumEnvironment : VacuumEnvironment
     {
-        private readonly Random random = new Random();
+        private readonly IRandom random = new DefaultRandom();
         /// <summary>
         /// Construct a vacuum environment with two locations, in which dirt is placed at random.
         /// </summary>

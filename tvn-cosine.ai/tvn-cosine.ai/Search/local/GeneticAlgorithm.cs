@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.util;
 
@@ -64,15 +65,15 @@ namespace tvn.cosine.ai.search.local
         protected List<A> finiteAlphabet;
         protected double mutationProbability;
 
-        protected Random random;
+        protected IRandom random;
         private List<ProgressTracker> progressTrackers = new List<ProgressTracker>();
 
         public GeneticAlgorithm(int individualLength, ICollection<A> finiteAlphabet, double mutationProbability)
-            : this(individualLength, finiteAlphabet, mutationProbability, new Random())
+            : this(individualLength, finiteAlphabet, mutationProbability, new DefaultRandom())
         { }
 
         public GeneticAlgorithm(int individualLength, ICollection<A> finiteAlphabet, double mutationProbability,
-                Random random)
+                IRandom random)
         {
             this.individualLength = individualLength;
             this.finiteAlphabet = new List<A>(finiteAlphabet);

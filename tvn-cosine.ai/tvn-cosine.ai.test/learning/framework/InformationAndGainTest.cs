@@ -34,9 +34,9 @@ namespace tvn_cosine.ai.test.learning.framework
             // this should be the generic distribution
             IDictionary<string, DataSet> hash = ds.splitByAttribute("patrons");
             Assert.AreEqual(3, hash.Keys.Count);
-            Assert.AreEqual(6, hash["Full"].Count);
-            Assert.AreEqual(2, hash["None"].Count);
-            Assert.AreEqual(4, hash["Some"].Count);
+            Assert.AreEqual(6, hash["Full"].size());
+            Assert.AreEqual(2, hash["None"].size());
+            Assert.AreEqual(4, hash["Some"].size());
         }
 
         [TestMethod]

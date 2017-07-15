@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.common;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
@@ -23,7 +24,7 @@ namespace tvn.cosine.ai.environment.vacuum
         public static readonly agent.Action ACTION_SUCK = new DynamicAction("Suck");
         public const string LOCATION_A = "A";
         public const string LOCATION_B = "B";
-        private readonly Random random = new Random();
+        private readonly IRandom random = new DefaultRandom();
 
         public enum LocationState
         {
@@ -40,10 +41,10 @@ namespace tvn.cosine.ai.environment.vacuum
          */
         public VacuumEnvironment()
         {
-            Random r = new Random();
+            IRandom r = new DefaultRandom();
             envState = new VacuumEnvironmentState(
-                    0 == r.Next(2) ? LocationState.Clean : LocationState.Dirty,
-                    0 == r.Next(2) ? LocationState.Clean : LocationState.Dirty);
+                  r.NextBoolean() ? LocationState.Clean : LocationState.Dirty,
+                  r.NextBoolean() ? LocationState.Clean : LocationState.Dirty);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.learning.reinforcement.agent;
 using tvn.cosine.ai.learning.reinforcement.example;
@@ -29,7 +30,7 @@ namespace TvnTestConsoleApp.demo.learning
                     cw.getCellAt(1, 1),
                     cw.GetCells(),
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
-                    new Random());
+                    new DefaultRandom());
 
             QLearningAgent<Cell<double>, CellWorldAction> qla = new QLearningAgent<Cell<double>, CellWorldAction>(
                     MDPFactory.createActionsFunctionForFigure17_1(cw),

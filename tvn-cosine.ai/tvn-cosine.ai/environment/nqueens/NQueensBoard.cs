@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.util.datastructure;
 
 namespace tvn.cosine.ai.environment.nqueens
@@ -63,7 +64,7 @@ namespace tvn.cosine.ai.environment.nqueens
             }
             else if (config == Config.QUEEN_IN_EVERY_COL)
             {
-                Random r = new Random();
+                IRandom r = new DefaultRandom();
                 for (int i = 0; i < size; ++i)
                     addQueenAt(new XYLocation(i, r.Next(size)));
             }

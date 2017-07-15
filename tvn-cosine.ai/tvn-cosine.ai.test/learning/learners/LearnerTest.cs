@@ -30,7 +30,7 @@ namespace tvn_cosine.ai.test.learning.learners
             DecisionTreeLearner learner = new DecisionTreeLearner();
 
             DataSet ds2 = ds.emptyDataSet();
-            Assert.AreEqual(0, ds2.Count);
+            Assert.AreEqual(0, ds2.size());
 
             learner.train(ds2);
             Assert.AreEqual("Unable To Classify",

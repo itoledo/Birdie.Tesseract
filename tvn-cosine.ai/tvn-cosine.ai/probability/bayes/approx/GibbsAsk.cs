@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
 
@@ -35,13 +36,13 @@ namespace tvn.cosine.ai.probability.bayes.approx
      */
     public class GibbsAsk<T> : BayesSampleInference<T>
     {
-        private Random randomizer = null;
+        private IRandom randomizer = null;
 
         public GibbsAsk()
-            : this(new Random())
+            : this(new DefaultRandom())
         { }
 
-        public GibbsAsk(Random r)
+        public GibbsAsk(IRandom r)
         {
             this.randomizer = r;
         }

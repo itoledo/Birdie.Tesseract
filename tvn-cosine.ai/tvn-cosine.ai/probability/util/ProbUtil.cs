@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.probability.bayes;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
@@ -150,7 +151,7 @@ namespace tvn.cosine.ai.probability.util
          * @return a random sample from <b>P</b>(X<sub>i</sub> |
          *         parents(X<sub>i</sub>))
          */
-        public static T randomSample<T>(Node<T> Xi, IDictionary<RandomVariable, T> even, Random r)
+        public static T randomSample<T>(Node<T> Xi, IDictionary<RandomVariable, T> even, IRandom r)
         {
             return Xi.getCPD().getSample(r.NextDouble(), getEventValuesForParents(Xi, even));
         }
@@ -178,7 +179,7 @@ namespace tvn.cosine.ai.probability.util
          *            sample.
          * @return a random sample from <b>P</b>(X<sub>i</sub> | mb(X<sub>i</sub>))
          */
-        public static T mbRandomSample<T>(Node<T> Xi, IDictionary<RandomVariable, T> even, Random r)
+        public static T mbRandomSample<T>(Node<T> Xi, IDictionary<RandomVariable, T> even, IRandom r)
         {
             return sample<T>(r.NextDouble(), Xi.getRandomVariable(), mbDistribution(Xi, even));
         }

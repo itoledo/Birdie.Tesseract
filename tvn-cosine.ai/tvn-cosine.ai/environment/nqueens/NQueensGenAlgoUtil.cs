@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.local;
 using tvn.cosine.ai.util.datastructure;
@@ -81,7 +82,7 @@ namespace tvn.cosine.ai.environment.nqueens
             IList<int> individualRepresentation = new List<int>();
             for (int i = 0; i < boardSize; ++i)
             {
-                individualRepresentation.Add(new Random().Next(boardSize));
+                individualRepresentation.Add(new DefaultRandom().Next(boardSize));
             }
             return new Individual<int>(individualRepresentation);
         }

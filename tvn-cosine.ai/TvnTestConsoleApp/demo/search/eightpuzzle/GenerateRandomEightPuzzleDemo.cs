@@ -1,4 +1,5 @@
 ﻿using System;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.environment.eightpuzzle;
 
 namespace TvnTestConsoleApp.demo.search.eightpuzzle
@@ -7,7 +8,7 @@ namespace TvnTestConsoleApp.demo.search.eightpuzzle
     {
         public static void Main(params string[] args)
         {
-            Random r = new Random();
+            IRandom r = new DefaultRandom();
             EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
             for (int i = 0; i < 50; i++)
             {
@@ -30,6 +31,6 @@ namespace TvnTestConsoleApp.demo.search.eightpuzzle
                 }
             }
             Console.WriteLine(board);
-        } 
+        }
     }
 }

@@ -74,6 +74,8 @@
     <Compile Include="agent\Percept.cs" />
     <Compile Include="agent\State.cs" />
     <Compile Include="agent\PerceptToStateFunction.cs" />
+    <Compile Include="common\DefaultRandom.cs" />
+    <Compile Include="common\IRandom.cs" />
     <Compile Include="environment\cellworld\Cell.cs" />
     <Compile Include="environment\cellworld\CellWorld.cs" />
     <Compile Include="environment\cellworld\CellWorldAction.cs" />

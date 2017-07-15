@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
 using tvn.cosine.ai.util.datastructure;
@@ -50,13 +51,13 @@ namespace tvn.cosine.ai.probability.bayes.approx
      */
     public class LikelihoodWeighting<T> : BayesSampleInference<T>
     {
-        private Random randomizer = null;
+        private IRandom randomizer = null;
 
         public LikelihoodWeighting()
-            : this(new Random())
+            : this(new DefaultRandom())
         { }
 
-        public LikelihoodWeighting(Random r)
+        public LikelihoodWeighting(IRandom r)
         {
             this.randomizer = r;
         }

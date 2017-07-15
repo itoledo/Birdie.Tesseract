@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
 
@@ -94,7 +95,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         //
         // SUPPORTING CODE
         //
-        private Random random = new Random();
+        private IRandom random = new DefaultRandom();
 
         /**
          * Default Constructor.
@@ -109,7 +110,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * @param random
          *            the random generator to be used by the algorithm.
          */
-        public WalkSAT(Random random)
+        public WalkSAT(IRandom random)
         {
             this.random = random;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.learning.reinforcement.agent;
 using tvn.cosine.ai.learning.reinforcement.example;
@@ -26,7 +27,7 @@ namespace TvnTestConsoleApp.demo.learning
                     cw.getCellAt(1, 1),
                     cw.GetCells(),
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
-                    new Random());
+                    new DefaultRandom());
 
             cwe.addAgent(reinforcementAgent);
 

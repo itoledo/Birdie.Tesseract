@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.probability.util;
 
 namespace tvn.cosine.ai.probability.bayes.approx
@@ -27,13 +28,13 @@ namespace tvn.cosine.ai.probability.bayes.approx
      */
     public class PriorSample<T>
     {
-        private Random randomizer = null;
+        private IRandom randomizer = null;
 
         public PriorSample()
-            : this(new Random())
+            : this(new DefaultRandom())
         {  }
 
-        public PriorSample(Random r)
+        public PriorSample(IRandom r)
         {
             this.randomizer = r;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.learning.reinforcement.agent;
 using tvn.cosine.ai.learning.reinforcement.example;
@@ -31,7 +32,7 @@ namespace TvnTestConsoleApp.demo.learning
             CellWorldEnvironment cwe = new CellWorldEnvironment(
                     cw.getCellAt(1, 1),
                     cw.GetCells(),
-                    MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw), new Random());
+                    MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw), new DefaultRandom());
 
             IDictionary<Cell<double>, CellWorldAction> fixedPolicy = new Dictionary<Cell<double>, CellWorldAction>();
             fixedPolicy.Add(cw.getCellAt(1, 1), CellWorldAction.Up);

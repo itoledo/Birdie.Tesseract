@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.probability;
 using tvn.cosine.ai.probability.bayes.exact;
 using tvn.cosine.ai.probability.bayes.model;
@@ -63,7 +64,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
         private DynamicBayesianNetwork<T> dbn = null;
         private AssignmentProposition<T>[][] S;
         //
-        private Random randomizer = null;
+        private IRandom randomizer = null;
         private PriorSample<T> priorSampler = null;
         private AssignmentProposition<T>[][] S_tp1;
         private FiniteProbabilityModel<T> sensorModel = null;
@@ -81,7 +82,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
          *            <b>X</b><sub>1</sub>)
          */
         public ParticleFiltering(int N, DynamicBayesianNetwork<T> dbn)
-            : this(N, dbn, new Random())
+            : this(N, dbn, new DefaultRandom())
         {
 
         }
@@ -99,7 +100,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
          * @param randomizer
          *            a Randomizer to be used for sampling purposes.
          */
-        public ParticleFiltering(int N, DynamicBayesianNetwork<T> dbn, Random randomizer)
+        public ParticleFiltering(int N, DynamicBayesianNetwork<T> dbn, IRandom randomizer)
         {
             this.randomizer = randomizer;
             this.priorSampler = new PriorSample<T>(this.randomizer);
