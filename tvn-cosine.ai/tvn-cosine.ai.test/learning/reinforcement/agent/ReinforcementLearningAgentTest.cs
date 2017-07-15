@@ -145,7 +145,7 @@ namespace tvn_cosine.ai.test.learning.reinforcement.agent
                     {
                         throw new Exception("U(1,1,) is not present: r=" + r
                             + ", t=" + t + ", runs.size=" + runs.Count
-                            + ", runs(r).size()=" + runs[r].Count + ", u=" + u);
+                            + ", runs(r).Count=" + runs[r].Count + ", u=" + u);
                     }
                     double val1_1 = u[cw.getCellAt(1, 1)];
                     xSsquared += Math.Pow(0.705 - val1_1, 2);

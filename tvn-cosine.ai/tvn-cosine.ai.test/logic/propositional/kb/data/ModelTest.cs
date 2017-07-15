@@ -1,0 +1,123 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System; 
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn_cosine.ai.test.logic.propositional.kb.data
+{
+    [TestClass]
+    public class ModelTest
+    {
+        private Model m;
+
+        private PLParser parser;
+
+        Sentence trueSentence, falseSentence, andSentence, orSentence,
+                impliedSentence, biConditionalSentence;
+
+        [TestInitialize]
+        public void setUp()
+        {
+            parser = new PLParser();
+            trueSentence = (Sentence)parser.parse("true");
+            falseSentence = (Sentence)parser.parse("false");
+            andSentence = (Sentence)parser.parse("(P  &  Q)");
+            orSentence = (Sentence)parser.parse("(P  |  Q)");
+            impliedSentence = (Sentence)parser.parse("(P  =>  Q)");
+            biConditionalSentence = (Sentence)parser.parse("(P  <=>  Q)");
+            m = new Model();
+        }
+
+        [TestMethod]
+        public void testEmptyModel()
+        {
+            Assert.AreEqual(null, m.getValue(new PropositionSymbol("P")));
+            Assert.AreEqual(true, m.isUnknown(new PropositionSymbol("P")));
+        }
+
+        [TestMethod]
+        public void testExtendModel()
+        {
+            String p = "P";
+            m = m.union(new PropositionSymbol(p), true);
+            Assert.AreEqual(true, m.getValue(new PropositionSymbol("P")));
+        }
+
+        [TestMethod]
+        public void testTrueFalseEvaluation()
+        {
+            Assert.AreEqual(true, m.isTrue(trueSentence));
+            Assert.AreEqual(false, m.isFalse(trueSentence));
+            Assert.AreEqual(false, m.isTrue(falseSentence));
+            Assert.AreEqual(true, m.isFalse(falseSentence));
+        }
+
+        [TestMethod]
+        public void testSentenceStatusWhenPTrueAndQTrue()
+        {
+            String p = "P";
+            String q = "Q";
+            m = m.union(new PropositionSymbol(p), true);
+            m = m.union(new PropositionSymbol(q), true);
+            Assert.AreEqual(true, m.isTrue(andSentence));
+            Assert.AreEqual(true, m.isTrue(orSentence));
+            Assert.AreEqual(true, m.isTrue(impliedSentence));
+            Assert.AreEqual(true, m.isTrue(biConditionalSentence));
+        }
+
+        [TestMethod]
+        public void testSentenceStatusWhenPFalseAndQFalse()
+        {
+            String p = "P";
+            String q = "Q";
+            m = m.union(new PropositionSymbol(p), false);
+            m = m.union(new PropositionSymbol(q), false);
+            Assert.AreEqual(true, m.isFalse(andSentence));
+            Assert.AreEqual(true, m.isFalse(orSentence));
+            Assert.AreEqual(true, m.isTrue(impliedSentence));
+            Assert.AreEqual(true, m.isTrue(biConditionalSentence));
+        }
+
+        [TestMethod]
+        public void testSentenceStatusWhenPTrueAndQFalse()
+        {
+            String p = "P";
+            String q = "Q";
+            m = m.union(new PropositionSymbol(p), true);
+            m = m.union(new PropositionSymbol(q), false);
+            Assert.AreEqual(true, m.isFalse(andSentence));
+            Assert.AreEqual(true, m.isTrue(orSentence));
+            Assert.AreEqual(true, m.isFalse(impliedSentence));
+            Assert.AreEqual(true, m.isFalse(biConditionalSentence));
+        }
+
+        [TestMethod]
+        public void testSentenceStatusWhenPFalseAndQTrue()
+        {
+            String p = "P";
+            String q = "Q";
+            m = m.union(new PropositionSymbol(p), false);
+            m = m.union(new PropositionSymbol(q), true);
+            Assert.AreEqual(true, m.isFalse(andSentence));
+            Assert.AreEqual(true, m.isTrue(orSentence));
+            Assert.AreEqual(true, m.isTrue(impliedSentence));
+            Assert.AreEqual(true, m.isFalse(biConditionalSentence));
+        }
+
+        [TestMethod]
+        public void testComplexSentence()
+        {
+            String p = "P";
+            String q = "Q";
+            m = m.union(new PropositionSymbol(p), true);
+            m = m.union(new PropositionSymbol(q), false);
+            Sentence sent = (Sentence)parser.parse("((P | Q) &  (P => Q))");
+            Assert.IsFalse(m.isTrue(sent));
+            Assert.IsTrue(m.isFalse(sent));
+            Sentence sent2 = (Sentence)parser.parse("((P | Q) & (Q))");
+            Assert.IsFalse(m.isTrue(sent2));
+            Assert.IsTrue(m.isFalse(sent2));
+        }
+    }
+}

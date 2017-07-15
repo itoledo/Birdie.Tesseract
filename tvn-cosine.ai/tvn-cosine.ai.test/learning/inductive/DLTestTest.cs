@@ -59,10 +59,10 @@ namespace tvn_cosine.ai.test.learning.inductive
             test.add("type", "Burger");
 
             DataSet matched = test.matchedExamples(ds);
-            Assert.AreEqual(4, matched.size());
+            Assert.AreEqual(4, matched.Count);
 
             DataSet unmatched = test.unmatchedExamples(ds);
-            Assert.AreEqual(8, unmatched.size());
+            Assert.AreEqual(8, unmatched.Count);
         }
     }
 }

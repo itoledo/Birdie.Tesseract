@@ -57,7 +57,7 @@ namespace tvn_cosine.ai.test.learning.framework
         public void testLoadsDatasetFile()
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
-            Assert.AreEqual(12, ds.size());
+            Assert.AreEqual(12, ds.Count);
 
             Example first = ds.getExample(0);
             Assert.AreEqual(YES, first.getAttributeValueAsString("alternate"));
@@ -88,8 +88,8 @@ namespace tvn_cosine.ai.test.learning.framework
         {
             DataSet ds1 = DataSetFactory.getRestaurantDataSet();
             DataSet ds2 = ds1.removeExample(ds1.getExample(0));
-            Assert.AreEqual(12, ds1.size());
-            Assert.AreEqual(11, ds2.size());
+            Assert.AreEqual(12, ds1.Count);
+            Assert.AreEqual(11, ds2.Count);
         }
 
         [TestMethod]
