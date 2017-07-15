@@ -10,7 +10,7 @@ namespace tvn.cosine.ai.learning.inductive
      */
     public class DLTestFactory
     { 
-        public IList<DLTest> createDLTestsWithAttributeCount(DataSet ds, int i)
+        public virtual IList<DLTest> createDLTestsWithAttributeCount(DataSet ds, int i)
         {
             if (i != 1)
             {
