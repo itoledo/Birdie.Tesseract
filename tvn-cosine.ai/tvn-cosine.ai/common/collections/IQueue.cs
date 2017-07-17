@@ -17,5 +17,6 @@
         void Clear();
         bool Contains(T item);
         bool Remove(T item);
+        void Sort();
     }
 }

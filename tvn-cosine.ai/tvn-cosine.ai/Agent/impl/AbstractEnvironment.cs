@@ -24,35 +24,35 @@ namespace tvn.cosine.ai.agent.impl
          * directly caused by agent action execution. The default implementation
          * does nothing.
          */
-        public void createExogenousChange()
+        public virtual void createExogenousChange()
         {
         }
 
         //
         // START-Environment
-        public IQueue<Agent> getAgents()
+        public virtual IQueue<Agent> getAgents()
         {
             // Return as a List but also ensures the caller cannot modify
             return Factory.CreateReadOnlyQueue<Agent>(agents);
         }
 
-        public void addAgent(Agent a)
+        public virtual void addAgent(Agent a)
         {
             addEnvironmentObject(a);
         }
 
-        public void removeAgent(Agent a)
+        public virtual void removeAgent(Agent a)
         {
             removeEnvironmentObject(a);
         }
 
-        public IQueue<EnvironmentObject> getEnvironmentObjects()
+        public virtual IQueue<EnvironmentObject> getEnvironmentObjects()
         {
             // Return as a List but also ensures the caller cannot modify
             return Factory.CreateReadOnlyQueue<EnvironmentObject>(envObjects);
         }
 
-        public void addEnvironmentObject(EnvironmentObject eo)
+        public virtual void addEnvironmentObject(EnvironmentObject eo)
         {
             envObjects.Add(eo);
             if (eo is Agent)
@@ -66,7 +66,7 @@ namespace tvn.cosine.ai.agent.impl
             }
         }
 
-        public void removeEnvironmentObject(EnvironmentObject eo)
+        public virtual void removeEnvironmentObject(EnvironmentObject eo)
         {
             envObjects.Remove(eo);
             agents.Remove(eo as Agent);
@@ -78,7 +78,7 @@ namespace tvn.cosine.ai.agent.impl
          * #getPerceptSeenBy(Agent), #executeAction(Agent, Action),
          * and #createExogenousChange().
          */
-        public void step()
+        public virtual void step()
         {
             foreach (Agent agent in agents)
             {
@@ -93,7 +93,7 @@ namespace tvn.cosine.ai.agent.impl
             createExogenousChange();
         }
 
-        public void step(int n)
+        public virtual void step(int n)
         {
             for (int i = 0; i < n; i++)
             {
@@ -101,7 +101,7 @@ namespace tvn.cosine.ai.agent.impl
             }
         }
 
-        public void stepUntilDone()
+        public virtual void stepUntilDone()
         {
             while (!isDone())
             {
@@ -109,7 +109,7 @@ namespace tvn.cosine.ai.agent.impl
             }
         }
 
-        public bool isDone()
+        public virtual bool isDone()
         {
             foreach (Agent agent in agents)
             {
@@ -121,7 +121,7 @@ namespace tvn.cosine.ai.agent.impl
             return true;
         }
 
-        public double getPerformanceMeasure(Agent forAgent)
+        public virtual double getPerformanceMeasure(Agent forAgent)
         {
             if (performanceMeasures.ContainsKey(forAgent))
             {
@@ -131,17 +131,17 @@ namespace tvn.cosine.ai.agent.impl
             return performanceMeasures.Get(forAgent);
         }
 
-        public void addEnvironmentView(EnvironmentView ev)
+        public virtual void addEnvironmentView(EnvironmentView ev)
         {
             views.Add(ev);
         }
 
-        public void removeEnvironmentView(EnvironmentView ev)
+        public virtual void removeEnvironmentView(EnvironmentView ev)
         {
             views.Remove(ev);
         }
 
-        public void notifyViews(string message)
+        public virtual void notifyViews(string message)
         {
             foreach (EnvironmentView ev in views)
             {
@@ -149,12 +149,12 @@ namespace tvn.cosine.ai.agent.impl
             }
         }
 
-        protected void updatePerformanceMeasure(Agent forAgent, double addTo)
+        protected virtual void updatePerformanceMeasure(Agent forAgent, double addTo)
         {
             performanceMeasures.Put(forAgent, getPerformanceMeasure(forAgent) + addTo);
         }
 
-        protected void notifyEnvironmentViews(Agent agent)
+        protected virtual void notifyEnvironmentViews(Agent agent)
         {
             foreach (EnvironmentView view in views)
             {
@@ -162,7 +162,7 @@ namespace tvn.cosine.ai.agent.impl
             }
         }
 
-        protected void notifyEnvironmentViews(Agent agent, Percept percept, Action action)
+        protected virtual void notifyEnvironmentViews(Agent agent, Percept percept, Action action)
         {
             foreach (EnvironmentView view in views)
             {

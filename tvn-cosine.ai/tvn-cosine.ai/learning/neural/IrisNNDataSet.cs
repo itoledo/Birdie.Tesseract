@@ -16,7 +16,7 @@ namespace tvn.cosine.ai.learning.neural
             // super class.
             // Type != class Aargh! I want more
             // powerful type systems
-            targetColumnNumbers = new ArrayList<Integer>();
+            targetColumnNumbers = Factory.CreateQueue<Integer>();
             int size = nds.get(0).size();
             targetColumnNumbers.add(size - 1); // last column
             targetColumnNumbers.add(size - 2); // last but one column

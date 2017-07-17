@@ -7,6 +7,11 @@
             return new Map<KEY, VALUE>();
         }
 
+        public static IMap<KEY, VALUE> CreateMap<KEY, VALUE>(IMap<KEY, VALUE> map)
+        {
+            return new Map<KEY, VALUE>(map);
+        }
+
         public static IQueue<T> CreateQueue<T>()
         {
             return new Queue<T>();

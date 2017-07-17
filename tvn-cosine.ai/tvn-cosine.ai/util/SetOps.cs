@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.util
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public class ISetOps
+    public class SetOps
     {
 
         /**
@@ -50,8 +50,14 @@ namespace tvn.cosine.ai.util
             {
                 return s1;
             }
-            ISet<T> intersection = Factory.CreateSet<T>(s1);
-            intersection.retainAll(s2);
+            ISet<T> intersection = Factory.CreateSet<T>();
+            foreach (T item in s1)
+            {
+                if (s2.Contains(item))
+                {
+                    intersection.Add(item);
+                }
+            }
             return intersection;
         }
 
@@ -71,9 +77,11 @@ namespace tvn.cosine.ai.util
                 return Factory.CreateSet<T>();
             }
             ISet<T> difference = Factory.CreateSet<T>(s1);
-            difference.removeAll(s2);
+            foreach (T item in s2)
+            {
+                difference.Remove(item);
+            }
             return difference;
         }
-    }
-
+    } 
 }

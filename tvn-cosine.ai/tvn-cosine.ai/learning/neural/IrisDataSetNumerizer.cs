@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.learning.framework;
 
 namespace tvn.cosine.ai.learning.neural
 {
@@ -7,7 +9,7 @@ namespace tvn.cosine.ai.learning.neural
     {
         public Pair<IQueue<double>, IQueue<double>> numerize(Example e)
         {
-           IQueue<double> input = Factory.CreateQueue<double>();
+            IQueue<double> input = Factory.CreateQueue<double>();
             IQueue<double> desiredOutput = Factory.CreateQueue<double>();
 
             double sepal_length = e.getAttributeValueAsDouble("sepal_length");
@@ -15,38 +17,36 @@ namespace tvn.cosine.ai.learning.neural
             double petal_length = e.getAttributeValueAsDouble("petal_length");
             double petal_width = e.getAttributeValueAsDouble("petal_width");
 
-            input.add(sepal_length);
-            input.add(sepal_width);
-            input.add(petal_length);
-            input.add(petal_width);
+            input.Add(sepal_length);
+            input.Add(sepal_width);
+            input.Add(petal_length);
+            input.Add(petal_width);
 
-            String plant_category_string = e
-                    .getAttributeValueAsString("plant_category");
+            string plant_category_string = e.getAttributeValueAsString("plant_category");
 
             desiredOutput = convertCategoryToListOfDoubles(plant_category_string);
 
-            Pair<List<double>, List<double>> io = new Pair<List<double>, List<double>>(
-                    input, desiredOutput);
+            Pair<IQueue<double>, IQueue<double>> io = new Pair<IQueue<double>, IQueue<double>>(input, desiredOutput);
 
             return io;
         }
 
-        public String denumerize(List<double> outputValue)
+        public string denumerize(IQueue<double> outputValue)
         {
-            List<double> rounded = new ArrayList<double>();
-            for (Double d : outputValue)
+            IQueue<double> rounded = Factory.CreateQueue<double>();
+            foreach (double d in outputValue)
             {
-                rounded.add(round(d));
+                rounded.Add(round(d));
             }
-            if (rounded.equals(Arrays.asList(0.0, 0.0, 1.0)))
+            if (rounded.Equals(Factory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 })))
             {
                 return "setosa";
             }
-            else if (rounded.equals(Arrays.asList(0.0, 1.0, 0.0)))
+            else if (rounded.Equals(Factory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 })))
             {
                 return "versicolor";
             }
-            else if (rounded.equals(Arrays.asList(1.0, 0.0, 0.0)))
+            else if (rounded.Equals(Factory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 })))
             {
                 return "virginica";
             }
@@ -59,7 +59,7 @@ namespace tvn.cosine.ai.learning.neural
         //
         // PRIVATE METHODS
         //
-        private double round(Double d)
+        private double round(double d)
         {
             if (d < 0)
             {
@@ -71,24 +71,23 @@ namespace tvn.cosine.ai.learning.neural
             }
             else
             {
-                return Math.round(d);
+                return System.Math.Round(d);
             }
         }
 
-        private List<double> convertCategoryToListOfDoubles(
-                String plant_category_string)
+        private IQueue<double> convertCategoryToListOfDoubles(string plant_category_string)
         {
-            if (plant_category_string.equals("setosa"))
+            if (plant_category_string.Equals("setosa"))
             {
-                return Arrays.asList(0.0, 0.0, 1.0);
+                return Factory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 });
             }
-            else if (plant_category_string.equals("versicolor"))
+            else if (plant_category_string.Equals("versicolor"))
             {
-                return Arrays.asList(0.0, 1.0, 0.0);
+                return Factory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 });
             }
-            else if (plant_category_string.equals("virginica"))
+            else if (plant_category_string.Equals("virginica"))
             {
-                return Arrays.asList(1.0, 0.0, 0.0);
+                return Factory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 });
             }
             else
             {

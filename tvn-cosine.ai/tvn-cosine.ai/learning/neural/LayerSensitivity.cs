@@ -59,7 +59,7 @@
 
         private Matrix createDerivativeMatrix(Vector lastInducedField)
         {
-            List<Double> lst = new ArrayList<Double>();
+            List<Double> lst = Factory.CreateQueue<Double>();
             for (int i = 0; i < lastInducedField.size(); i++)
             {
                 lst.add(new Double(layer.getActivationFunction().deriv(

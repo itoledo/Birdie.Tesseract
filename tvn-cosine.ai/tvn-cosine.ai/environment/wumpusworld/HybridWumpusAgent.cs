@@ -1,0 +1,309 @@
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.environment.wumpusworld
+{
+    /**
+    * Artificial Intelligence A Modern Approach (3rd Edition): page 270.<br>
+    * <br>
+    * 
+    * <pre>
+    * <code>
+    * function HYBRID-WUMPUS-AGENT(percept) returns an action
+    *   inputs: percept, a list, [stench, breeze, glitter, bump, scream]
+    *   persistent: KB, a knowledge base, initially the temporal "wumpus physics"
+    *               t, a counter, initially 0, indicating time
+    *               plan, an action sequence, initially empty
+    * 
+    *   TELL(KB, MAKE-PERCEPT-SENTENCE(percept, t))
+    *   TELL the KB the temporal "physics" sentences for time t
+    *   safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
+    *   if ASK(KB, Glitter<sup>t</sup>) = true then
+    *      plan <- [Grab] + PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
+    *   if plan is empty then
+    *      unvisited <- {[x, y] : ASK(KB, L<sup>t'</sup><sub>x,y</sub>) = false for all t' &le; t}
+    *      plan <- PLAN-ROUTE(current, unvisited &cap; safe, safe)
+    *   if plan is empty and ASK(KB, HaveArrow<sup>t</sup>) = true then
+    *      possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}
+    *      plan <- PLAN-SHOT(current, possible_wumpus, safe)
+    *   if plan is empty then //no choice but to take a risk
+    *      not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}
+    *      plan <- PLAN-ROUTE(current, unvisited &cap; not_unsafe, safe)
+    *   if plan is empty then
+    *      plan <- PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
+    *   action <- POP(plan)
+    *   TELL(KB, MAKE-ACTION-SENTENCE(action, t))
+    *   t <- t+1
+    *   return action
+    * 
+    * --------------------------------------------------------------------------------
+    * 
+    * function PLAN-ROUTE(current, goals, allowed) returns an action sequence
+    *   inputs: current, the agent's current position
+    *           goals, a set of squares; try to plan a route to one of them
+    *           allowed, a set of squares that can form part of the route 
+    *    
+    *   problem <- ROUTE-PROBLEM(current, goals, allowed)
+    *   return A*-GRAPH-SEARCH(problem)
+    * </code>
+    * </pre>
+    * 
+    * Figure 7.20 A hybrid agent program for the wumpus world. It uses a
+    * propositional knowledge base to infer the state of the world, and a
+    * combination of problem-solving search and domain-specific code to decide what
+    * actions to take
+    * 
+    * @author Federico Baron
+    * @author Alessandro Daniele
+    * @author Ciaran O'Reilly
+    * @author Ruediger Lunde
+    */
+    public class HybridWumpusAgent : AbstractAgent
+    {
+
+        // persistent: KB, a knowledge base, initially the atemporal
+        // "wumpus physics"
+        private WumpusKnowledgeBase kb = null;
+        protected AgentPosition start;
+        /** The agent's current position. */
+        protected AgentPosition currentPosition;
+        // t, a counter, initially 0, indicating time
+        protected int t = 0;
+        // plan, an action sequence, initially empty
+        protected IQueue<WumpusAction> plan = Factory.CreateFifoQueue<WumpusAction>(); // FIFOQueue
+        private EnvironmentViewNotifier notifier;
+
+        public HybridWumpusAgent() // i.e. default is a 4x4 world as depicted in figure 7.2 
+            : this(4, 4, new AgentPosition(1, 1, AgentPosition.Orientation.FACING_NORTH))
+        { }
+
+        public HybridWumpusAgent(int caveXDim, int caveYDim, AgentPosition start)
+            : this(caveXDim, caveYDim, start, new DPLLSatisfiable(), null)
+        { }
+
+        public HybridWumpusAgent(int caveXDim, int caveYDim, AgentPosition start, DPLL satSolver,
+                                 EnvironmentViewNotifier notifier)
+            : this(caveXDim, caveYDim, start,
+                new WumpusKnowledgeBase(caveXDim, caveYDim, start, satSolver), notifier)
+        { }
+
+        public HybridWumpusAgent(int caveXDim, int caveYDim, AgentPosition start,
+            WumpusKnowledgeBase kb,
+                                 EnvironmentViewNotifier notifier)
+        {
+            this.kb = kb;
+            this.start = start;
+            this.currentPosition = start;
+            this.notifier = notifier;
+        }
+
+        public WumpusKnowledgeBase getKB()
+        {
+            return kb;
+        }
+
+        /**
+         * function HYBRID-WUMPUS-AGENT(percept) returns an action<br>
+         * 
+         * @param percept
+         *            a list, [stench, breeze, glitter, bump, scream]
+         * 
+         * @return an action the agent should take.
+         */
+        public override Action execute(Percept percept)
+        {
+            // TELL(KB, MAKE-PERCEPT-SENTENCE(percept, t))
+            kb.makePerceptSentence((WumpusPercept)percept, t);
+            // TELL the KB the temporal "physics" sentences for time t
+            kb.tellTemporalPhysicsSentences(t);
+
+            ISet<Room> safe;
+            ISet<Room> unvisited;
+
+            // Optimization: Do not ask anything during plan execution (different from pseudo-code)
+            if (plan.IsEmpty())
+            {
+                notifyViews("Reasoning (t=" + t + ", Percept=" + percept + ") ...");
+                currentPosition = kb.askCurrentPosition(t);
+                notifyViews("Ask position -> " + currentPosition);
+                // safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
+                safe = kb.askSafeRooms(t);
+                notifyViews("Ask safe -> " + safe);
+            }
+
+            // if ASK(KB, Glitter<sup>t</sup>) = true then (can only be true when plan is empty!)
+            if (plan.IsEmpty() && kb.askGlitter(t))
+            {
+                // plan <- [Grab] + PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
+                ISet<Room> goals = Factory.CreateSet<Room>();
+                goals.Add(start.getRoom());
+                plan.Add(WumpusAction.GRAB);
+                plan.AddAll(planRouteToRooms(goals, safe));
+                plan.Add(WumpusAction.CLIMB);
+            }
+
+            // if plan is empty then
+            if (plan.IsEmpty())
+            {
+                // unvisited <- {[x, y] : ASK(KB, L<sup>t'</sup><sub>x,y</sub>) = false for all t' &le; t}
+                unvisited = kb.askUnvisitedRooms(t);
+                notifyViews("Ask unvisited -> " + unvisited);
+                // plan <- PLAN-ROUTE(current, unvisited &cap; safe, safe)
+                plan.AddAll(planRouteToRooms(SetOps.intersection(unvisited, safe), safe));
+            }
+
+            // if plan is empty and ASK(KB, HaveArrow<sup>t</sup>) = true then
+            if (plan.isEmpty() && kb.askHaveArrow(t))
+            {
+                // possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}
+                ISet<Room> possibleWumpus = kb.askPossibleWumpusRooms(t);
+                notifyViews("Ask possible Wumpus positions -> " + possibleWumpus);
+                // plan <- PLAN-SHOT(current, possible_wumpus, safe)
+                plan.AddAll(planShot(possibleWumpus, safe));
+            }
+
+            // if plan is empty then //no choice but to take a risk
+            if (plan.IsEmpty())
+            {
+                // not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}
+                ISet<Room> notUnsafe = kb.askNotUnsafeRooms(t);
+                notifyViews("Ask not unsafe -> " + notUnsafe);
+                // plan <- PLAN-ROUTE(current, unvisited &cap; not_unsafe, safe)
+                // Correction: Last argument must be not_unsafe!
+                plan.addAll(planRouteToRooms(unvisited, notUnsafe));
+            }
+
+            // if plan is empty then
+            if (plan.IsEmpty())
+            {
+                notifyViews("Going home.");
+                // plan PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
+                ISet<Room> goal = Factory.CreateSet<Room>();
+                goal.Add(start.getRoom());
+                plan.AddAll(planRouteToRooms(goal, safe));
+                plan.Add(WumpusAction.CLIMB);
+            }
+            // action <- POP(plan)
+            WumpusAction action = plan.remove();
+            // TELL(KB, MAKE-ACTION-SENTENCE(action, t))
+            kb.makeActionSentence(action, t);
+            // t <- t+1
+            t = t + 1;
+            // return action
+            return action;
+        }
+
+        /**
+         * Returns a sequence of actions using A* Search.
+         *
+         * @param goals
+         *            a set of squares; try to plan a route to one of them
+         * @param allowed
+         *            a set of squares that can form part of the route
+         * 
+         * @return the best sequence of actions that the agent have to do to reach a
+         *         goal from the current position.
+         */
+        public IQueue<WumpusAction> planRouteToRooms(ISet<Room> goals, ISet<Room> allowed)
+        {
+            ISet<AgentPosition> goalPositions = Factory.CreateSet<AgentPosition>();
+            foreach (Room goalRoom in goals)
+            {
+                int x = goalRoom.getX();
+                int y = goalRoom.getY();
+                foreach (AgentPosition.Orientation orientation in AgentPosition.Orientation.values())
+                    goalPositions.Add(new AgentPosition(x, y, orientation));
+            }
+            return planRoute(goalPositions, allowed);
+        }
+
+        /**
+         * Returns a sequence of actions using A* Search.
+         *
+         * @param goals
+         *            a set of agent positions; try to plan a route to one of them
+         * @param allowed
+         *            a set of squares that can form part of the route
+         *
+         * @return the best sequence of actions that the agent have to do to reach a
+         *         goal from the current position.
+         */
+        public IQueue<WumpusAction> planRoute(Set<AgentPosition> goals, ISet<Room> allowed)
+        {
+
+            WumpusCave cave = new WumpusCave(kb.getCaveXDimension(), kb.getCaveYDimension()).setAllowed(allowed);
+            Problem<AgentPosition, WumpusAction> problem
+                = new GeneralProblem<AgentPosition, WumpusAction>(currentPosition,
+                    WumpusFunctions.createActionsFunction(cave),
+                    WumpusFunctions.createResultFunction(cave),
+                    goals.contains);
+            SearchForActions<AgentPosition, WumpusAction> search =
+                    new AStarSearch<>(new GraphSearch<>(),
+                    new ManhattanHeuristicFunction(goals));
+            Optional<List<WumpusAction>> actions = search.findActions(problem);
+
+            return actions.isPresent() ? actions.get() : Collections.emptyList();
+        }
+
+        /**
+         * @param possibleWumpus
+         *            a set of squares where we don't know that there isn't the
+         *            wumpus.
+         * @param allowed
+         *            a set of squares that can form part of the route
+         * 
+         * @return the sequence of actions to reach the nearest square that is in
+         *         line with a possible wumpus position. The last action is a shot.
+         */
+        public IQueue<WumpusAction> planShot(Set<Room> possibleWumpus, ISet<Room> allowed)
+        {
+
+            ISet<AgentPosition> shootingPositions = Factory.CreateSet<AgentPosition>();
+
+            foreach (Room p in possibleWumpus)
+            {
+                int x = p.getX();
+                int y = p.getY();
+
+                for (int i = 1; i <= kb.getCaveXDimension(); i++)
+                {
+                    if (i < x)
+                        shootingPositions.Add(new AgentPosition(i, y, AgentPosition.Orientation.FACING_EAST));
+                    if (i > x)
+                        shootingPositions.Add(new AgentPosition(i, y, AgentPosition.Orientation.FACING_WEST));
+                }
+                for (int i = 1; i <= kb.getCaveYDimension(); i++)
+                {
+                    if (i < y)
+                        shootingPositions.Add(new AgentPosition(x, i, AgentPosition.Orientation.FACING_NORTH));
+                    if (i > y)
+                        shootingPositions.Add(new AgentPosition(x, i, AgentPosition.Orientation.FACING_SOUTH));
+                }
+            }
+
+            // Can't have a shooting position from any of the rooms the wumpus could
+            // reside
+            foreach (Room p in possibleWumpus)
+                foreach (AgentPosition.Orientation orientation in AgentPosition.Orientation.values())
+                    shootingPositions.Remove(new AgentPosition(p.getX(), p.getY(), orientation));
+
+            IQueue<WumpusAction> actions = Factory.CreateQueue<WumpusAction>();
+            actions.AddAll(planRoute(shootingPositions, allowed));
+            actions.Add(WumpusAction.SHOOT);
+            return actions;
+        }
+
+        public Metrics getMetrics()
+        {
+            return kb.getMetrics();
+        }
+
+        protected void notifyViews(string message)
+        {
+            if (notifier != null)
+                notifier.notifyViews(message);
+        }
+    }
+}
