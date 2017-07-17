@@ -1,55 +1,71 @@
-﻿using System; 
+﻿using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.agent.impl
-{ 
-    public class DynamicPercept : ObjectWithDynamicAttributes<string, object>, Percept
+{
+    /**
+     * @author Ravi Mohan
+     * @author Ciaran O'Reilly
+     * @author Mike Stampone
+     */
+    public class DynamicPercept : ObjectWithDynamicAttributes, Percept
     {
         public DynamicPercept()
         { }
 
-        public override string DescribeType()
+        public override string describeType()
         {
-            return typeof(Percept).Name;
+            return "Percept";
         }
-         
-        /// <summary>
-        /// Constructs a DynamicPercept with one attribute
-        /// </summary>
-        /// <param name="key1">the attribute key</param>
-        /// <param name="value1">the attribute value</param>
-        public DynamicPercept(string key1, object value1)
+
+        /**
+         * Constructs a DynamicPercept with one attribute
+         * 
+         * @param key1
+         *            the attribute key
+         * @param value1
+         *            the attribute value
+         */
+        public DynamicPercept(object key1, object value1)
         {
-            SetAttribute(key1, value1);
+            setAttribute(key1, value1);
         }
-         
-        /// <summary>
-        /// Constructs a DynamicPercept with two attributes
-        /// </summary>
-        /// <param name="key1">the first attribute key</param>
-        /// <param name="value1">the first attribute value</param>
-        /// <param name="key2">the second attribute key</param>
-        /// <param name="value2">the second attribute value</param>
-        public DynamicPercept(string key1, object value1, string key2, object value2)
+
+        /**
+         * Constructs a DynamicPercept with two attributes
+         * 
+         * @param key1
+         *            the first attribute key
+         * @param value1
+         *            the first attribute value
+         * @param key2
+         *            the second attribute key
+         * @param value2
+         *            the second attribute value
+         */
+        public DynamicPercept(object key1, object value1, object key2, object value2)
         {
-            SetAttribute(key1, value1);
-            SetAttribute(key2, value2);
+            setAttribute(key1, value1);
+            setAttribute(key2, value2);
         }
-         
-        /// <summary>
-        /// Constructs a DynamicPercept with an array of attributes
-        /// </summary>
-        /// <param name="keys">the array of attribute keys</param>
-        /// <param name="values">the array of attribute values</param>
-        public DynamicPercept(string[] keys, object[] values)
+
+        /**
+         * Constructs a DynamicPercept with an array of attributes
+         * 
+         * @param keys
+         *            the array of attribute keys
+         * @param values
+         *            the array of attribute values
+         */
+        public DynamicPercept(object[] keys, object[] values)
         {
-            if (!(keys.Length == values.Length))
+            if (keys.Length != values.Length)
             {
-                throw new ArgumentOutOfRangeException("keys and values does not match.");
+                throw new ArgumentOutOfRangeException("keys.Length != values.Length", null);
             }
 
-            for (int i = 0; i < keys.Length; ++i)
+            for (int i = 0; i < keys.Length; i++)
             {
-                SetAttribute(keys[i], values[i]);
+                setAttribute(keys[i], values[i]);
             }
         }
     }

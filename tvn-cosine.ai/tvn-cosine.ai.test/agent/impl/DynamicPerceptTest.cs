@@ -5,17 +5,17 @@ namespace tvn_cosine.ai.test.agent.impl
 {
     [TestClass]
     public class DynamicPerceptTest
-    {
+    { 
         [TestMethod]
-        public void TestToString()
+        public void testToString()
         {
             DynamicPercept p = new DynamicPercept("key1", "value1");
 
-            Assert.AreEqual("Percept[key1=value1]", p.ToString());
+            Assert.AreEqual("Percept[key1==value1]", p.ToString());
 
             p = new DynamicPercept("key1", "value1", "key2", "value2");
 
-            Assert.AreEqual("Percept[key1=value1, key2=value2]", p.ToString());
+            Assert.AreEqual("Percept[key1==value1, key2==value2]", p.ToString());
         }
 
         [TestMethod]

@@ -7,7 +7,5 @@
     /// the world. An Agent that uses such a model is called a model-based agent.
     /// </summary>
     public interface Model
-    {
-
-    }
+    { }
 }

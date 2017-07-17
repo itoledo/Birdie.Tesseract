@@ -1,32 +1,34 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
+using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /// <summary>
-    /// Implementation of an AND condition.
-    /// </summary>
+    /**
+     * Implementation of an AND condition.
+     * 
+     * @author Ciaran O'Reilly
+     * 
+     */
     public class ANDCondition : Condition
     {
-        private readonly Condition left;
-        private readonly Condition right;
+        private Condition left; 
+        private Condition right;
 
-        public ANDCondition(Condition leftCondition, Condition rightCondition)
+        public ANDCondition(Condition leftCon, Condition rightCon)
         {
-            if (null == leftCondition
-             || null == rightCondition)
+            if (null == leftCon ||
+                null == rightCon)
             {
-                throw new ArgumentNullException("leftCondition, rightCondition cannot be null.");
+                throw new ArgumentNullException("leftCon, rightCon cannot be null");
             }
 
-            left = leftCondition;
-            right = rightCondition;
+            left = leftCon;
+            right = rightCon;
         }
 
-        public override bool Evaluate(ObjectWithDynamicAttributes<string, object> p)
+        public override bool evaluate(ObjectWithDynamicAttributes p)
         {
-            return (left.Evaluate(p)
-                 && right.Evaluate(p));
+            return (left.evaluate(p) && right.evaluate(p));
         }
 
         public override string ToString()
@@ -37,8 +39,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
                      .Append(left)
                      .Append(" && ")
                      .Append(right)
-                     .Append("]")
-                     .ToString();
+                     .Append("]").ToString();
         }
-    } 
+    }
 }

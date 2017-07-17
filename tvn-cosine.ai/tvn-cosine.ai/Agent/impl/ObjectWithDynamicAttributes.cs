@@ -1,32 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
+using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.agent.impl
 {
-    public abstract class ObjectWithDynamicAttributes<KEY, VALUE>
+    /**
+     * @author Ravi Mohan
+     * @author Ciaran O'Reilly
+     * @author Mike Stampone
+     */
+    public abstract class ObjectWithDynamicAttributes : IEquatable, IHashable, IToString
     {
-        private readonly IDictionary<KEY, VALUE> attributes = new Dictionary<KEY, VALUE>();
+        private IMap<object, object> attributes = Factory.CreateMap<object, object>();
 
-        /// <summary>
-        /// By default, returns the simple name of the underlying class as given in the source code.
-        /// </summary>
-        /// <returns>the simple name of the underlying class</returns>
-        public virtual string DescribeType()
+        /**
+         * By default, returns the simple name of the underlying class as given in the source code.
+         * 
+         * @return the simple name of the underlying class
+         */
+        public virtual string describeType()
         {
             return GetType().Name;
         }
 
-        /// <summary>
-        /// Returns a string representation of the object's current attributes
-        /// </summary>
-        /// <returns>a string representation of the object's current attributes</returns>
-        public virtual string DescribeAttributes()
+        /**
+         * Returns a string representation of the object's current attributes
+         * 
+         * @return a string representation of the object's current attributes
+         */
+        public virtual string describeAttributes()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("[");
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("[");
             bool first = true;
-            foreach (KEY key in attributes.Keys)
+            foreach (object key in attributes.GetKeys())
             {
                 if (first)
                 {
@@ -34,97 +42,84 @@ namespace tvn.cosine.ai.agent.impl
                 }
                 else
                 {
-                    stringBuilder.Append(", ");
+                    sb.Append(", ");
                 }
 
-                stringBuilder.Append("\"");
-                stringBuilder.Append(key);
-                stringBuilder.Append("\": ");
-                stringBuilder.Append("\"");
-                stringBuilder.Append(attributes[key]);
-                stringBuilder.Append("\": ");
+                sb.Append(key);
+                sb.Append("==");
+                sb.Append(attributes.Get(key));
             }
-            stringBuilder.Append("]");
+            sb.Append("]");
 
-            return stringBuilder.ToString();
+            return sb.ToString();
         }
 
-        /// <summary>
-        /// Returns a copy of the object's key set
-        /// </summary>
-        /// <returns>a copy of the object's key set</returns>
-        public virtual ISet<KEY> GetKeySet()
+        /**
+         * Returns an unmodifiable view of the object's key set
+         * 
+         * @return an unmodifiable view of the object's key set
+         */
+        public virtual ISet<object> getKeySet()
         {
-            return new HashSet<KEY>(attributes.Keys);
+            return Factory.CreateReadOnlySet<object>(attributes.GetKeys());
         }
 
-        /// <summary>
-        /// Associates the specified value with the specified attribute key. If the
-        /// ObjectWithDynamicAttributes previously contained a mapping for the
-        /// attribute key, the old value is replaced.
-        /// </summary>
-        /// <param name="key">the attribute key</param>
-        /// <param name="value">the attribute value</param>
-        public virtual void SetAttribute(KEY key, VALUE value)
+        /**
+         * Associates the specified value with the specified attribute key. If the
+         * ObjectWithDynamicAttributes previously contained a mapping for the
+         * attribute key, the old value is replaced.
+         * 
+         * @param key
+         *            the attribute key
+         * @param value
+         *            the attribute value
+         */
+        public virtual void setAttribute(object key, object value)
         {
-            attributes[key] = value;
+            attributes.Put(key, value);
         }
 
-        /// <summary>
-        /// Returns the value of the specified attribute key, or null if the attribute was not found.
-        /// </summary>
-        /// <param name="key">the attribute key</param>
-        /// <returns>the value of the specified attribute name, or null if not found.</returns>
-        public virtual VALUE GetAttribute(KEY key)
+        /**
+         * Returns the value of the specified attribute key, or null if the
+         * attribute was not found.
+         * 
+         * @param key
+         *            the attribute key
+         * 
+         * @return the value of the specified attribute name, or null if not found.
+         */
+        public virtual object getAttribute(object key)
         {
-            if (attributes.ContainsKey(key))
-            {
-                return attributes[key];
-            }
-
-            return default(VALUE);
+            return attributes.Get(key);
         }
 
-        /// <summary>
-        /// Removes the attribute with the specified key from this ObjectWithDynamicAttributes.
-        /// </summary>
-        /// <param name="key">the attribute key</param>
-        public virtual void RemoveAttribute(KEY key)
+        /**
+         * Removes the attribute with the specified key from this
+         * ObjectWithDynamicAttributes.
+         * 
+         * @param key
+         *            the attribute key
+         */
+        public virtual void removeAttribute(object key)
         {
             attributes.Remove(key);
         }
 
         public override bool Equals(object o)
         {
-            if (o != null
-             && GetType() == o.GetType())
-            {
-                ObjectWithDynamicAttributes<KEY, VALUE> objAttributes = o as ObjectWithDynamicAttributes<KEY, VALUE>;
-                if (objAttributes.attributes.Count != attributes.Count) return false;
-
-                foreach (var attribute in objAttributes.attributes)
-                {
-                    if (!(attributes.ContainsKey(attribute.Key)
-                       && !attributes[attribute.Key].Equals(attribute.Value)))
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-            return false;
+            return o != null
+                && GetType() == o.GetType()
+                && attributes.Equals(((ObjectWithDynamicAttributes)o).attributes);
         }
 
         public override int GetHashCode()
         {
             return attributes.GetHashCode();
         }
-
+         
         public override string ToString()
         {
-            return string.Format("{{\"Name\": \"{0}\", \"Attributes\": \"{1}\"}}", DescribeType(), DescribeAttributes());
+            return describeType() + describeAttributes();
         }
-    }
+    } 
 }

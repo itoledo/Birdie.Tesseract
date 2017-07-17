@@ -6,32 +6,36 @@
         private bool alive = true;
 
         public AbstractAgent()
-        { }
-         
-        /// <summary>
-        /// Constructs an Agent with the specified AgentProgram.
-        /// </summary>
-        /// <param name="aProgram">the Agent's program, which maps any given percept sequences to an action.</param>
+        {
+
+        }
+
+        /**
+         * Constructs an Agent with the specified AgentProgram.
+         * 
+         * @param aProgram
+         *            the Agent's program, which maps any given percept sequences to an action.
+         */
         public AbstractAgent(AgentProgram aProgram)
         {
             program = aProgram;
         }
          
-        public virtual Action execute(Percept percept)
+        public Action execute(Percept p)
         {
             if (null != program)
             {
-                return program.execute(percept);
+                return program.execute(p);
             }
-            return DynamicAction.NO_OP;
+            return NoOpAction.NO_OP;
         }
 
-        public virtual bool isAlive()
+        public bool isAlive()
         {
             return alive;
         }
 
-        public virtual void setAlive(bool alive)
+        public void setAlive(bool alive)
         {
             this.alive = alive;
         } 

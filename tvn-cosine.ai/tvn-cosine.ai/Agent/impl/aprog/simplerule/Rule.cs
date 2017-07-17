@@ -1,42 +1,51 @@
-﻿using System; 
-using System.Text;
+﻿using System.Text;
+using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /// <summary>
-    /// A simple implementation of a "condition-action rule".
-    /// </summary>
-    public class Rule
+    /**
+     * A simple implementation of a "condition-action rule".
+     * 
+     * @author Ciaran O'Reilly
+     * @author Mike Stampone
+     */
+    public class Rule : IEquatable, IHashable, IToString
     {
         private Condition con;
+
         private Action action;
-         
-        /// <summary>
-        /// Constructs a condition-action rule.
-        /// </summary>
-        /// <param name="condition">a condition</param>
-        /// <param name="action">an action</param>
-        public Rule(Condition condition, Action action)
+
+        /**
+         * Constructs a condition-action rule.
+         * 
+         * @param con
+         *            a condition
+         * @param action
+         *            an action
+         */
+        public Rule(Condition con, Action action)
         {
-            if (null == condition
-             || null == action)
+            if (null == con ||
+                null == action)
             {
-                throw new ArgumentNullException("condition, action cannot be null.");
+                throw new ArgumentNullException("con, action cannot be null");
             }
 
-            this.con = condition;
+            this.con = con;
             this.action = action;
         }
 
-        public bool evaluate(ObjectWithDynamicAttributes<string, object> p)
+        public bool evaluate(ObjectWithDynamicAttributes p)
         {
-            return (con.Evaluate(p));
+            return (con.evaluate(p));
         }
-         
-        /// <summary>
-        /// Returns the action of this condition-action rule.
-        /// </summary>
-        /// <returns>the action of this condition-action rule.</returns>
+
+        /**
+         * Returns the action of this condition-action rule.
+         * 
+         * @return the action of this condition-action rule.
+         */
         public Action getAction()
         {
             return action;
@@ -44,19 +53,18 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 
         public override bool Equals(object o)
         {
-            if (o == null 
-             || !(o is Rule))
+            if (o == null || !(o is Rule))
             {
-                return base.Equals(o);
+                return false;
             }
-            return ToString().Equals(((Rule)o).ToString());
+            return (ToString().Equals(((Rule)o).ToString()));
         }
-         
+
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
         }
-         
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -65,8 +73,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
                      .Append(con)
                      .Append(" then ")
                      .Append(action)
-                     .Append(".")
-                     .ToString();
+                     .Append(".").ToString();
         }
     } 
 }

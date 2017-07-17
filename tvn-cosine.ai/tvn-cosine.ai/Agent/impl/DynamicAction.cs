@@ -1,52 +1,36 @@
-﻿using System.Text;
-
-namespace tvn.cosine.ai.agent.impl
-{ 
-    public class DynamicAction : ObjectWithDynamicAttributes<string, object>, Action
+﻿namespace tvn.cosine.ai.agent.impl
+{
+    /**
+     * @author Ciaran O'Reilly
+     * @author Mike Stampone
+     */
+    public class DynamicAction : ObjectWithDynamicAttributes, Action
     {
-        private const string ATTRIBUTE_NAME = "name";
-
-        private readonly bool _isNoOp;
-
+        public const string ATTRIBUTE_NAME = "name";
+         
         public DynamicAction(string name)
-            : this(name, false)
-        { }
-
-        public DynamicAction(string name, bool isNoOp)
         {
-            SetAttribute(ATTRIBUTE_NAME, name);
-            this._isNoOp = isNoOp;
+            this.setAttribute(ATTRIBUTE_NAME, name);
         }
 
-        /// <summary>
-        /// Returns the value of the name attribute.
-        /// </summary>
-        /// <returns>the value of the name attribute.</returns>
+        /**
+         * Returns the value of the name attribute.
+         * 
+         * @return the value of the name attribute.
+         */
         public virtual string getName()
         {
-            return GetAttribute(ATTRIBUTE_NAME).ToString();
+            return (string)getAttribute(ATTRIBUTE_NAME);
         }
-
+         
         public virtual bool isNoOp()
         {
-            return _isNoOp;
+            return false;
         }
-
-        public override string DescribeType()
+         
+        public override string describeType()
         {
-            return typeof(Action).Name;
+            return "Action";
         }
-
-        public override string ToString()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("[Action[name=="); 
-            stringBuilder.Append(getName());
-            stringBuilder.Append(']');
-
-            return stringBuilder.ToString();
-        }
-
-        public static readonly DynamicAction NO_OP = new DynamicAction("NoOp", true);
     }
 }

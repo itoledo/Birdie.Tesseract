@@ -1,11 +1,17 @@
-﻿namespace tvn.cosine.ai.agent.impl.aprog.simplerule
+﻿using tvn.cosine.ai.common;
+
+namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /// <summary>
-    /// Base abstract class for describing conditions.
-    /// </summary>
-    public abstract class Condition
+    /**
+     * Base abstract class for describing conditions.
+     * 
+     * @author Ciaran O'Reilly
+     * 
+     */
+    public abstract class Condition : IEquatable, IHashable, IToString
     {
-        public abstract bool Evaluate(ObjectWithDynamicAttributes<string, object> p);
+        public abstract bool evaluate(ObjectWithDynamicAttributes p);
+        public new abstract string ToString();
 
         public override bool Equals(object o)
         {
@@ -18,5 +24,5 @@
         {
             return ToString().GetHashCode();
         }
-    } 
+    }
 }

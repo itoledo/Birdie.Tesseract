@@ -1,28 +1,31 @@
-﻿using System; 
-using System.Text;
+﻿using System.Text; 
+using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /// <summary>
-    /// Implementation of a NOT condition.
-    /// </summary>
+    /**
+     * Implementation of a NOT condition.
+     * 
+     * @author Ciaran O'Reilly
+     * 
+     */
     public class NOTCondition : Condition
     {
-        private readonly Condition condition;
+        private Condition con;
 
-        public NOTCondition(Condition condition)
+        public NOTCondition(Condition con)
         {
-            if (null == condition)
+            if (null == con)
             {
-                throw new ArgumentNullException("condition cannot be null.");
+                throw new ArgumentNullException("con cannot be null");
             }
 
-            this.condition = condition;
+            this.con = con;
         }
 
-        public override bool Evaluate(ObjectWithDynamicAttributes<string, object> p)
+        public override bool evaluate(ObjectWithDynamicAttributes p)
         {
-            return (!condition.Evaluate(p));
+            return (!con.evaluate(p));
         }
 
         public override string ToString()
@@ -30,7 +33,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
             StringBuilder sb = new StringBuilder();
 
             return sb.Append("![")
-                     .Append(condition)
+                     .Append(con)
                      .Append("]")
                      .ToString();
         }

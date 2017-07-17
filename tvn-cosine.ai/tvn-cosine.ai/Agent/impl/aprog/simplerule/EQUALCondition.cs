@@ -1,34 +1,37 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
+using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /// <summary>
-    /// Implementation of an EQUALity condition.
-    /// </summary>
+    /**
+     * Implementation of an EQUALity condition.
+     * 
+     * @author Ciaran O'Reilly
+     * 
+     */
     public class EQUALCondition : Condition
     {
-        private string key;
+        private object key;
         private object value;
 
-        public EQUALCondition(string key, object value)
+        public EQUALCondition(object key, object value)
         {
-            if (null == key
-             || null == value)
+            if (null == key ||
+                null == value)
             {
-                throw new ArgumentNullException("key, value cannot be null.");
+                throw new ArgumentNullException("key, value cannot be null");
             }
 
             this.key = key;
             this.value = value;
         }
 
-        public override bool Evaluate(ObjectWithDynamicAttributes<string, object> p)
+        public override bool evaluate(ObjectWithDynamicAttributes p)
         {
-            return value.Equals(p.GetAttribute(key));
+            return value.Equals(p.getAttribute(key));
         }
-
-        public override string ToString()
+         
+    public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
 
@@ -37,5 +40,5 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
                      .Append(value)
                      .ToString();
         }
-    }
+    } 
 }

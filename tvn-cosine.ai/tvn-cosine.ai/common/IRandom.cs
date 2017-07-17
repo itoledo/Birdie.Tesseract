@@ -7,9 +7,9 @@
     public interface IRandom
     {
         /// <summary>
-        /// Returns a random boolean.
+        /// Returns a random bool .
         /// </summary>
-        /// <returns>A random boolean.</returns>
+        /// <returns>A random bool .</returns>
         bool NextBoolean();
 
         /// <summary>

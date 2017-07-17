@@ -1,74 +1,91 @@
-﻿using System.Collections.Generic;
-using tvn.cosine.ai.agent.impl.aprog.simplerule;
+﻿using tvn.cosine.ai.agent.impl.aprog.simplerule;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.agent.impl.aprog
 {
-    /// <summary> 
-    /// Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.12, page 51. <para />
-    ///    
-    /// Figure 2.12 A model-based reflex agent. It keeps track of the current state
-    /// of the world using an internal model. It then chooses an action in the same
-    /// way as the reflex agent.
-    /// </summary>
+    /**
+     * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.12, page
+     * 51.<br>
+     * <br>
+     * 
+     * <pre>
+     * function MODEL-BASED-REFLEX-AGENT(percept) returns an action
+     *   persistent: state, the agent's current conception of the world state
+     *               model, a description of how the next state depends on current state and action
+     *               rules, a set of condition-action rules
+     *               action, the most recent action, initially none
+     *               
+     *   state  <- UPDATE-STATE(state, action, percept, model)
+     *   rule   <- RULE-MATCH(state, rules)
+     *   action <- rule.ACTION
+     *   return action
+     * </pre>
+     * 
+     * Figure 2.12 A model-based reflex agent. It keeps track of the current state
+     * of the world using an internal model. It then chooses an action in the same
+     * way as the reflex agent.
+     * 
+     * @author Ciaran O'Reilly
+     * @author Mike Stampone
+     * 
+     */
     public abstract class ModelBasedReflexAgentProgram : AgentProgram
     {
-        /// <summary>
-        /// the agent's current conception of the world state
-        /// </summary>
+        //
+        // persistent: state, the agent's current conception of the world state
         private DynamicState state = null;
 
-        /// <summary>
-        /// a description of how the next state depends on current state and action
-        /// </summary>
+        // model, a description of how the next state depends on current state and
+        // action
         private Model model = null;
 
-        /// <summary>
-        /// a set of condition-action rules
-        /// </summary>
+        // rules, a set of condition-action rules
         private ISet<Rule> rules = null;
 
-        /// <summary>
-        /// the most recent action, initially none
-        /// </summary>
+        // action, the most recent action, initially none
         private Action action = null;
 
         public ModelBasedReflexAgentProgram()
         {
-            Init();
+            init();
         }
-         
-        /// <summary>
-        /// Set the agent's current conception of the world state.
-        /// </summary>
-        /// <param name="state">the agent's current conception of the world state.</param>
+
+        /**
+         * Set the agent's current conception of the world state.
+         * 
+         * @param state
+         *            the agent's current conception of the world state.
+         */
         public void setState(DynamicState state)
         {
             this.state = state;
         }
 
-        /// <summary>
-        /// Set the program's description of how the next state depends on the state and action.
-        /// </summary>
-        /// <param name="model">a description of how the next state depends on the current state and action.</param>
+        /**
+         * Set the program's description of how the next state depends on the state
+         * and action.
+         * 
+         * @param model
+         *            a description of how the next state depends on the current
+         *            state and action.
+         */
         public void setModel(Model model)
         {
             this.model = model;
         }
-         
-        /// <summary>
-        /// Set the program's condition-action rules
-        /// </summary>
-        /// <param name="ruleSet">a set of condition-action rules</param>
+
+        /**
+         * Set the program's condition-action rules
+         * 
+         * @param ruleSet
+         *            a set of condition-action rules
+         */
         public void setRules(ISet<Rule> ruleSet)
         {
             rules = ruleSet;
         }
          
-        /// <summary>
-        /// MODEL-BASED-REFLEX-AGENT(percept)
-        /// </summary>
-        /// <param name="percept"></param>
-        /// <returns>an action</returns>
+        // function MODEL-BASED-REFLEX-AGENT(percept) returns an action
         public Action execute(Percept percept)
         {
             // state <- UPDATE-STATE(state, action, percept, model)
@@ -80,12 +97,12 @@ namespace tvn.cosine.ai.agent.impl.aprog
             // return action
             return action;
         }
-
-        /// <summary> 
-        /// Realizations of this class should implement the init() method so that it
-        /// calls the setState(), setModel(), and setRules() method.
-        /// </summary>
-        protected abstract void Init();
+         
+        /**
+         * Realizations of this class should implement the init() method so that it
+         * calls the setState(), setModel(), and setRules() method.
+         */
+        protected abstract void init();
 
         protected abstract DynamicState updateState(DynamicState state, Action action, Percept percept, Model model);
 
@@ -103,7 +120,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
 
         protected Action ruleAction(Rule r)
         {
-            return null == r ? DynamicAction.NO_OP : r.getAction();
+            return null == r ? NoOpAction.NO_OP : r.getAction();
         }
     } 
 }

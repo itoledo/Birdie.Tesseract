@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.agent
 {
@@ -11,7 +11,7 @@ namespace tvn.cosine.ai.agent
         /// Returns the Agents belonging to this Environment.
         /// </summary>
         /// <returns>The Agents belonging to this Environment.</returns>
-        IList<Agent> getAgents();
+        IQueue<Agent> getAgents();
 
         /// <summary>
         /// Add an agent to the Environment.
@@ -29,7 +29,7 @@ namespace tvn.cosine.ai.agent
         /// Returns the EnvironmentObjects that exist in this Environment.
         /// </summary>
         /// <returns>the EnvironmentObjects that exist in this Environment.</returns>
-        IList<EnvironmentObject> getEnvironmentObjects();
+        IQueue<EnvironmentObject> getEnvironmentObjects();
 
         /// <summary>
         /// Add an EnvironmentObject to the Environment.

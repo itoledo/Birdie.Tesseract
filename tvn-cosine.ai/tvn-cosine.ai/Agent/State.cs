@@ -9,7 +9,5 @@
     /// current state.
     /// </summary>
     public interface State
-    {
-
-    }
+    { }
 }
