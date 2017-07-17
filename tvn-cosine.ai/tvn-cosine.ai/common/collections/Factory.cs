@@ -17,6 +17,11 @@
             return new Set<T>();
         }
 
+        public static ISet<T> CreateSet<T>(IQueue<T> collection)
+        {
+            return new Set<T>(collection);
+        }
+
         public static IQueue<T> CreateLifoQueue<T>()
         {
             return new LifoQueue<T>();
@@ -28,6 +33,11 @@
         }
 
         public static IQueue<T> CreateQueue<T>(IQueue<T> collection)
+        {
+            return new Queue<T>(collection);
+        }
+
+        public static IQueue<T> CreateQueue<T>(T[] collection)
         {
             return new Queue<T>(collection);
         }

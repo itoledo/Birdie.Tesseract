@@ -17,6 +17,15 @@ namespace tvn.cosine.ai.common.collections
             AddAll(items);
         }
 
+        public Queue(T[] items)
+            : this()
+        {
+            foreach (var item in items)
+            {
+                Add(item);
+            }
+        }
+
         public bool Add(T item)
         {
             backingList.Add(item);

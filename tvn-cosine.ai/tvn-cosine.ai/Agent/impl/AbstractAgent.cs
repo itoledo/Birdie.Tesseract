@@ -6,9 +6,7 @@
         private bool alive = true;
 
         public AbstractAgent()
-        {
-
-        }
+        { }
 
         /**
          * Constructs an Agent with the specified AgentProgram.
@@ -21,7 +19,7 @@
             program = aProgram;
         }
          
-        public Action execute(Percept p)
+        public virtual Action execute(Percept p)
         {
             if (null != program)
             {
@@ -30,12 +28,12 @@
             return NoOpAction.NO_OP;
         }
 
-        public bool isAlive()
+        public virtual bool isAlive()
         {
             return alive;
         }
 
-        public void setAlive(bool alive)
+        public virtual void setAlive(bool alive)
         {
             this.alive = alive;
         } 

@@ -1,11 +1,10 @@
 ﻿namespace tvn.cosine.ai.common
 { 
-    public interface IEquatable<T>
+    public interface IEquatable<T>  
     {
         bool Equals(T other);
     }
 
-    public interface IEquatable : IEquatable<object>
-    {
-    }
+    public interface IEquatable : IEquatable<object>, IHashable
+    { }
 }

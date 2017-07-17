@@ -5,7 +5,7 @@ namespace tvn.cosine.ai.common.collections
 {
     public class Set<T> : ISet<T>
     {
-        private readonly System.Collections.Generic.ISet<T> backingSet;
+        protected readonly System.Collections.Generic.ISet<T> backingSet;
          
         public Set()
         {
