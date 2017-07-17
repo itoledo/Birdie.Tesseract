@@ -11,7 +11,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
      */
     public class ANDCondition : Condition
     {
-        private Condition left; 
+        private Condition left;
         private Condition right;
 
         public ANDCondition(Condition leftCon, Condition rightCon)
@@ -35,11 +35,13 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
         {
             StringBuilder sb = new StringBuilder();
 
-            return sb.Append("[")
-                     .Append(left)
-                     .Append(" && ")
-                     .Append(right)
-                     .Append("]").ToString();
+            sb.Append("[")
+              .Append(left.ToString())
+              .Append(" && ")
+              .Append(right.ToString())
+              .Append("]");
+
+            return sb.ToString();
         }
     }
 }

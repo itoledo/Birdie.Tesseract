@@ -19,14 +19,21 @@ namespace tvn_cosine.ai.test.agent.impl.aprog
         public void setUp()
         {
             IMap<IQueue<Percept>, Action> perceptSequenceActions = Factory.CreateMap<IQueue<Percept>, Action>();
-            perceptSequenceActions.Put(createPerceptSequence(new DynamicPercept("key1", "value1")), ACTION_1);
             perceptSequenceActions.Put(
-                    createPerceptSequence(new DynamicPercept("key1", "value1"),
-                            new DynamicPercept("key1", "value2")), ACTION_2);
+                createPerceptSequence(
+                    new DynamicPercept("key1", "value1")), 
+                ACTION_1);
             perceptSequenceActions.Put(
-                    createPerceptSequence(new DynamicPercept("key1", "value1"),
-                            new DynamicPercept("key1", "value2"),
-                            new DynamicPercept("key1", "value3")), ACTION_3);
+                createPerceptSequence(
+                    new DynamicPercept("key1", "value1"),
+                    new DynamicPercept("key1", "value2")), 
+                ACTION_2);
+            perceptSequenceActions.Put(
+                createPerceptSequence(
+                    new DynamicPercept("key1", "value1"),
+                    new DynamicPercept("key1", "value2"),
+                    new DynamicPercept("key1", "value3")), 
+                ACTION_3);
 
             agent = new MockAgent(new TableDrivenAgentProgram(perceptSequenceActions));
         }
@@ -35,7 +42,7 @@ namespace tvn_cosine.ai.test.agent.impl.aprog
         public void testExistingSequences()
         {
             Assert.AreEqual(ACTION_1,
-                    agent.execute(new DynamicPercept("key1", "value1")));
+                            agent.execute(new DynamicPercept("key1", "value1")));
             Assert.AreEqual(ACTION_2,
                     agent.execute(new DynamicPercept("key1", "value2")));
             Assert.AreEqual(ACTION_3,
@@ -53,7 +60,7 @@ namespace tvn_cosine.ai.test.agent.impl.aprog
 
         private static IQueue<Percept> createPerceptSequence(params Percept[] percepts)
         {
-            IQueue<Percept> perceptSequence = Factory.CreateFifoQueue<Percept>();
+            IQueue<Percept> perceptSequence = Factory.CreateQueue<Percept>();
 
             foreach (Percept p in percepts)
             {

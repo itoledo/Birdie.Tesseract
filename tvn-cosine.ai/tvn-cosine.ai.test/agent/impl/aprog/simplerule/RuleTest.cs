@@ -23,7 +23,7 @@ namespace tvn_cosine.ai.test.agent.impl.aprog.simplerule
             Assert.AreEqual(ACTION_INITIATE_BRAKING, r.getAction());
 
             Assert.AreEqual(
-                    "if car-in-front-is-braking==true then Action[name==initiate-braking].",
+                    "if car-in-front-is-braking==True then Action[name==initiate-braking].",
                     r.ToString());
 
             Assert.AreEqual(true, r.evaluate(new DynamicPercept(
@@ -46,7 +46,7 @@ namespace tvn_cosine.ai.test.agent.impl.aprog.simplerule
             Assert.AreEqual(ACTION_INITIATE_BRAKING, r.getAction());
 
             Assert.AreEqual(
-                    "if ![car-in-front-is-braking==true] then Action[name==initiate-braking].",
+                    "if ![car-in-front-is-braking==True] then Action[name==initiate-braking].",
                     r.ToString());
 
             Assert.AreEqual(false, r.evaluate(new DynamicPercept(
@@ -70,7 +70,7 @@ namespace tvn_cosine.ai.test.agent.impl.aprog.simplerule
             Assert.AreEqual(ACTION_EMERGENCY_BRAKING, r.getAction());
 
             Assert.AreEqual(
-                    "if [car-in-front-is-braking==true && car-in-front-tires-smoking==true] then Action[name==emergency-braking].",
+                    "if [car-in-front-is-braking==True && car-in-front-tires-smoking==True] then Action[name==emergency-braking].",
                     r.ToString());
 
             Assert.AreEqual(false, r.evaluate(new DynamicPercept(
@@ -103,7 +103,7 @@ namespace tvn_cosine.ai.test.agent.impl.aprog.simplerule
             Assert.AreEqual(ACTION_EMERGENCY_BRAKING, r.getAction());
 
             Assert.AreEqual(
-                    "if [car-in-front-is-braking==true || car-in-front-tires-smoking==true] then Action[name==emergency-braking].",
+                    "if [car-in-front-is-braking==True || car-in-front-tires-smoking==True] then Action[name==emergency-braking].",
                     r.ToString());
 
             Assert.AreEqual(true, r.evaluate(new DynamicPercept(

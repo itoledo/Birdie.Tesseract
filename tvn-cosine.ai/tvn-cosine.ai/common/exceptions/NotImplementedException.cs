@@ -2,6 +2,10 @@
 {
     public class NotImplementedException : Exception
     {
+        public NotImplementedException()
+            : this("")
+        { }
+
         public NotImplementedException(string message)
             : base(message)
         { }

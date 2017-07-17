@@ -1,42 +1,65 @@
-﻿using tvn.cosine.ai.common.exceptions;
-
-namespace tvn.cosine.ai.common.collections
+﻿namespace tvn.cosine.ai.common.collections
 {
     public static class Factory
     {
         public static IMap<KEY, VALUE> CreateMap<KEY, VALUE>()
         {
-            throw new NotImplementedException("tvn.cosine.ai.common.collections.Factory.CreateMap<KEY, VALUE>()");
+            return new Map<KEY, VALUE>();
+        }
+
+        public static IQueue<T> CreateQueue<T>()
+        {
+            return new Queue<T>();
         }
 
         public static ISet<T> CreateSet<T>()
         {
-            throw new NotImplementedException("tvn.cosine.ai.common.collections.Factory.CreateSet<T>()");
+            return new Set<T>();
         }
 
-        public static ISet<T> CreateFifoQueue<T>()
+        public static IQueue<T> CreateLifoQueue<T>()
         {
-            throw new NotImplementedException("tvn.cosine.ai.common.collections.Factory.CreateFifoQueue<T>()");
+            return new LifoQueue<T>();
         }
 
-        public static ISet<T> CreateFifoQueue<T>(IQueue<T> collection)
+        public static IQueue<T> CreateFifoQueue<T>()
         {
-            throw new NotImplementedException("tvn.cosine.ai.common.collections.Factory.CreateFifoQueue<T>(IQueue<T> collection)");
+            return new FifoQueue<T>();
         }
 
-        public static ISet<T> CreateLifoQueue<T>()
+        public static IQueue<T> CreateQueue<T>(IQueue<T> collection)
         {
-            throw new NotImplementedException("tvn.cosine.ai.common.collections.Factory.CreateFifoQueue<T>()");
+            return new Queue<T>(collection);
+        }
+
+        public static IQueue<T> CreateFifoQueue<T>(IQueue<T> collection)
+        {
+            return new FifoQueue<T>(collection);
+        }
+
+        public static IQueue<T> CreateLifoQueue<T>(IQueue<T> collection)
+        {
+            return new LifoQueue<T>(collection);
+        }
+
+        public static IMap<KEY, VALUE> CreateReadOnlyMap<KEY, VALUE>(IMap<KEY, VALUE> collection)
+        {
+            return new ReadOnlyMap<KEY, VALUE>(collection);
+        }
+
+        public static ISet<T> CreateReadOnlySet<T>(ISet<T> collection)
+        {
+            return new ReadOnlySet<T>(collection);
         }
 
         public static ISet<T> CreateReadOnlySet<T>(IQueue<T> collection)
         {
-            throw new NotImplementedException("tvn.cosine.ai.common.collections.Factory.CreateSet<T>(IQueue<T> collection)");
+            return new ReadOnlySet<T>(collection);
         }
 
         public static IQueue<T> CreateReadOnlyQueue<T>(IQueue<T> collection)
         {
-            throw new NotImplementedException("tvn.cosine.ai.common.collections.Factory.CreateReadOnlyQueue<T>(IQueue<T> collection)");
+            return new ReadOnlyQueue<T>(collection);
         }
     }
 }

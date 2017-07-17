@@ -2,6 +2,10 @@
 {
     public class ArgumentOutOfRangeException : Exception
     {
+        public ArgumentOutOfRangeException()
+            : this("")
+        { }
+
         public ArgumentOutOfRangeException(string message)
             : base(message)
         { }

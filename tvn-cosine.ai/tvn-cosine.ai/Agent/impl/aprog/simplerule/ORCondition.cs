@@ -35,12 +35,13 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
         {
             StringBuilder sb = new StringBuilder();
 
-            return sb.Append("[")
-                     .Append(left)
-                     .Append(" || ")
-                     .Append(right)
-                     .Append("]")
-                     .ToString();
+            sb.Append("[")
+              .Append(left)
+              .Append(" || ")
+              .Append(right)
+              .Append("]");
+
+            return sb.ToString();
         }
-    } 
+    }
 }

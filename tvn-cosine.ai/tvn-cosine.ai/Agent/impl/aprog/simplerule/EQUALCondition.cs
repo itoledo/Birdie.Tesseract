@@ -30,15 +30,16 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
         {
             return value.Equals(p.getAttribute(key));
         }
-         
-    public override string ToString()
+
+        public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
 
-            return sb.Append(key)
-                     .Append("==")
-                     .Append(value)
-                     .ToString();
+            sb.Append(key)
+              .Append("==")
+              .Append(value);
+
+            return sb.ToString();
         }
-    } 
+    }
 }

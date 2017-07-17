@@ -27,7 +27,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
      */
     public class TableDrivenAgentProgram : AgentProgram
     {
-        private IQueue<Percept> percepts = Factory.CreateFifoQueue<Percept>();
+        private IQueue<Percept> percepts = Factory.CreateQueue<Percept>();
 
         private Table<IQueue<Percept>, string, Action> table;
 
@@ -46,7 +46,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         public TableDrivenAgentProgram(IMap<IQueue<Percept>, Action> perceptSequenceActions)
         { 
             IQueue<IQueue<Percept>> rowHeaders 
-                = Factory.CreateFifoQueue<IQueue<Percept>>(perceptSequenceActions.GetKeys());
+                = Factory.CreateQueue<IQueue<Percept>>(perceptSequenceActions.GetKeys());
 
             IQueue<string> colHeaders = Factory.CreateFifoQueue<string>();
             colHeaders.Add(ACTION);

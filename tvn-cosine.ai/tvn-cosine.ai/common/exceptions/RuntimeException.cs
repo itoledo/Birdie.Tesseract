@@ -2,6 +2,10 @@
 {
     public class RuntimeException : Exception
     {
+        public RuntimeException()
+            : this("")
+        { }
+
         public RuntimeException(string message)
             : base(message)
         { }

@@ -2,11 +2,7 @@
 using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.common.datastructures
-{
-    /**
-     * @author Ravi Mohan
-     * @author Mike Stampone
-     */
+{ 
     public class Table<RowHeaderType, ColumnHeaderType, ValueType> : IToString
     {
         private IQueue<RowHeaderType> rowHeaders;
@@ -50,7 +46,7 @@ namespace tvn.cosine.ai.common.datastructures
          *             if the row, column, or value is <code>null</code>.
          */
         public void set(RowHeaderType r, ColumnHeaderType c, ValueType v)
-        {
+        { 
             rows.Get(r).Put(c, v);
         }
 

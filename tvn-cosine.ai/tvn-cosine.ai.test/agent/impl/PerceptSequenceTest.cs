@@ -14,7 +14,8 @@ namespace tvn_cosine.ai.test.agent.impl
             IQueue<Percept> ps = Factory.CreateFifoQueue<Percept>();
             ps.Add(new DynamicPercept("key1", "value1"));
 
-            Assert.AreEqual("[Percept[key1==value1]]", ps.ToString());
+            Assert.AreEqual("[Percept[key1==value1]]", 
+                            ps.ToString());
 
             ps.Add(new DynamicPercept("key1", "value1", "key2", "value2"));
 
@@ -26,8 +27,8 @@ namespace tvn_cosine.ai.test.agent.impl
         [TestMethod]
         public void testEquals()
         {
-            IQueue<Percept> ps1 = Factory.CreateFifoQueue<Percept>();
-            IQueue<Percept> ps2 = Factory.CreateFifoQueue<Percept>();
+            IQueue<Percept> ps1 = Factory.CreateQueue<Percept>();
+            IQueue<Percept> ps2 = Factory.CreateQueue<Percept>();
 
             Assert.AreEqual(ps1.Size(), ps2.Size());
 

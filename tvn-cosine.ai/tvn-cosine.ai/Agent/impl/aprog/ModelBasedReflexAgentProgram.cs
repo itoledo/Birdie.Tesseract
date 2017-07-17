@@ -30,13 +30,11 @@ namespace tvn.cosine.ai.agent.impl.aprog
      * 
      */
     public abstract class ModelBasedReflexAgentProgram : AgentProgram
-    {
-        //
+    { 
         // persistent: state, the agent's current conception of the world state
         private DynamicState state = null;
 
-        // model, a description of how the next state depends on current state and
-        // action
+        // model, a description of how the next state depends on current state and action
         private Model model = null;
 
         // rules, a set of condition-action rules
@@ -99,7 +97,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         }
          
         /**
-         * Realizations of this class should implement the init() method so that it
+         * Realizations of this class should implement the init() method so that it 
          * calls the setState(), setModel(), and setRules() method.
          */
         protected abstract void init();

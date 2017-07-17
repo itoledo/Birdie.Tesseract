@@ -114,12 +114,12 @@ namespace tvn.cosine.ai.agent.impl
 
         public override int GetHashCode()
         {
-            return attributes.GetHashCode();
+            return ToString().GetHashCode();
         }
-         
+
         public override string ToString()
         {
             return describeType() + describeAttributes();
         }
-    } 
+    }
 }

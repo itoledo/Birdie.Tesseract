@@ -10,8 +10,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
      */
     public abstract class Condition : IEquatable, IHashable, IToString
     {
-        public abstract bool evaluate(ObjectWithDynamicAttributes p);
-        public new abstract string ToString();
+        public abstract bool evaluate(ObjectWithDynamicAttributes p); 
 
         public override bool Equals(object o)
         {
@@ -23,6 +22,11 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }

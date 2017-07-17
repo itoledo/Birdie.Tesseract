@@ -2,6 +2,10 @@
 {
     public class NotSupportedException : Exception
     {
+        public NotSupportedException()
+            : this("")
+        { }
+
         public NotSupportedException(string message)
             : base(message)
         { }

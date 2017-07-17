@@ -1,4 +1,4 @@
-﻿using System.Text; 
+﻿using System.Text;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
@@ -32,10 +32,11 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
         {
             StringBuilder sb = new StringBuilder();
 
-            return sb.Append("![")
-                     .Append(con)
-                     .Append("]")
-                     .ToString();
+            sb.Append("![")
+              .Append(con)
+              .Append("]");
+
+            return sb.ToString();
         }
     }
 }

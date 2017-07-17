@@ -26,14 +26,12 @@ namespace tvn.cosine.ai.agent.impl.aprog
      * 
      */
     public class SimpleReflexAgentProgram : AgentProgram
-    {
-        //
+    { 
         // persistent: rules, a set of condition-action rules
         private ISet<Rule> rules;
 
         /**
-         * Constructs a SimpleReflexAgentProgram with a set of condition-action
-         * rules.
+         * Constructs a SimpleReflexAgentProgram with a set of condition-action rules.
          * 
          * @param ruleSet
          *            a set of condition-action rules
@@ -55,13 +53,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
             // return action
             return ruleAction(rule);
         }
-
-        // END-AgentProgram
-        //
-
-        //
-        // PROTECTED METHODS
-        //
+         
         protected ObjectWithDynamicAttributes interpretInput(Percept p)
         {
             return (DynamicPercept)p;

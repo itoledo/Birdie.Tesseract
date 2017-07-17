@@ -13,7 +13,6 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
     public class Rule : IEquatable, IHashable, IToString
     {
         private Condition con;
-
         private Action action;
 
         /**
@@ -69,11 +68,13 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
         {
             StringBuilder sb = new StringBuilder();
 
-            return sb.Append("if ")
-                     .Append(con)
-                     .Append(" then ")
-                     .Append(action)
-                     .Append(".").ToString();
+            sb.Append("if ")
+              .Append(con)
+              .Append(" then ")
+              .Append(action)
+              .Append(".");
+
+            return sb.ToString();
         }
-    } 
+    }
 }

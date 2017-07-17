@@ -2,6 +2,10 @@
 {
     public class ArgumentNullException : Exception
     {
+        public ArgumentNullException()
+            : this("")
+        { }
+
         public ArgumentNullException(string message)
             : base(message)
         { }

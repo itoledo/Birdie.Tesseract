@@ -1,6 +1,6 @@
 ﻿namespace tvn.cosine.ai.common.collections
 {
-    public interface IQueue<T> : IEnumerable<T>
+    public interface IQueue<T> : IEnumerable<T>, IToString
     {
         T Get(int index);
         int IndexOf(T item);

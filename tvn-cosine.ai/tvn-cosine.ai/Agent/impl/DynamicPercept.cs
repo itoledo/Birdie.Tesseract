@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.agent.impl
 {
@@ -7,7 +8,7 @@ namespace tvn.cosine.ai.agent.impl
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class DynamicPercept : ObjectWithDynamicAttributes, Percept
+    public class DynamicPercept : ObjectWithDynamicAttributes, Percept, IHashable, IEquatable
     {
         public DynamicPercept()
         { }
@@ -67,6 +68,17 @@ namespace tvn.cosine.ai.agent.impl
             {
                 setAttribute(keys[i], values[i]);
             }
+        }
+
+        public override bool Equals(object o)
+        {
+            if (null == (o as DynamicPercept)) return false;
+            return ToString().Equals(o.ToString());
+        }
+
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode();
         }
     }
 }
