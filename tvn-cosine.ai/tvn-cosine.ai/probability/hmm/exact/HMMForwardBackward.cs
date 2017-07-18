@@ -32,7 +32,7 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public class HMMForwardBackward implements ForwardBackwardInference
+    public class HMMForwardBackward : ForwardBackwardInference
     {
 
 
@@ -45,48 +45,48 @@
 
     //
     // START-ForwardBackwardInference
-    @Override
-    public List<CategoricalDistribution> forwardBackward(
-            List<List<AssignmentProposition>> ev, CategoricalDistribution prior)
+     
+    public IQueue<CategoricalDistribution> forwardBackward(
+            IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
     {
         // local variables: fv, a vector of forward messages for steps 0,...,t
-        List<Matrix> fv = new ArrayList<Matrix>(ev.size() + 1);
+        IQueue<Matrix> fv = Factory.CreateQueue<Matrix>(ev.size() + 1);
         // b, a representation of the backward message, initially all 1s
         Matrix b = hmm.createUnitMessage();
         // sv, a vector of smoothed estimates for steps 1,...,t
-        List<Matrix> sv = new ArrayList<Matrix>(ev.size());
+        IQueue<Matrix> sv = Factory.CreateQueue<Matrix>(ev.size());
 
         // fv[0] <- prior
-        fv.add(hmm.convert(prior));
+        fv.Add(hmm.convert(prior));
         // for i = 1 to t do
         for (int i = 0; i < ev.size(); i++)
         {
             // fv[i] <- FORWARD(fv[i-1], ev[i])
-            fv.add(forward(fv.get(i), hmm.getEvidence(ev.get(i))));
+            fv.Add(forward(fv.Get(i), hmm.getEvidence(ev.Get(i))));
         }
         // for i = t downto 1 do
         for (int i = ev.size() - 1; i >= 0; i--)
         {
             // sv[i] <- NORMALIZE(fv[i] * b)
-            sv.add(0, hmm.normalize(fv.get(i + 1).arrayTimes(b)));
+            sv.Add(0, hmm.normalize(fv.Get(i + 1).arrayTimes(b)));
             // b <- BACKWARD(b, ev[i])
-            b = backward(b, hmm.getEvidence(ev.get(i)));
+            b = backward(b, hmm.getEvidence(ev.Get(i)));
         }
 
         // return sv
         return hmm.convert(sv);
     }
 
-    @Override
+     
     public CategoricalDistribution forward(CategoricalDistribution f1_t,
-            List<AssignmentProposition> e_tp1)
+            IQueue<AssignmentProposition> e_tp1)
     {
         return hmm.convert(forward(hmm.convert(f1_t), hmm.getEvidence(e_tp1)));
     }
 
-    @Override
+     
     public CategoricalDistribution backward(CategoricalDistribution b_kp2t,
-            List<AssignmentProposition> e_kp1)
+            IQueue<AssignmentProposition> e_kp1)
     {
         return hmm
                 .convert(backward(hmm.convert(b_kp2t), hmm.getEvidence(e_kp1)));

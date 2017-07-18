@@ -26,7 +26,7 @@
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class FOLBCAsk implements InferenceProcedure
+    public class FOLBCAsk : InferenceProcedure
     {
 
 
@@ -51,18 +51,18 @@
     {
         // Assertions on the type queries this Inference procedure
         // supports
-        if (!(query instanceof AtomicSentence)) {
+        if (!(query is AtomicSentence)) {
             throw new IllegalArgumentException(
                     "Only Atomic Queries are supported.");
         }
 
-        List<Literal> goals = new ArrayList<Literal>();
-        goals.add(new Literal((AtomicSentence)query));
+        IQueue<Literal> goals = Factory.CreateQueue<Literal>();
+        goals.Add(new Literal((AtomicSentence)query));
 
         BCAskAnswerHandler ansHandler = new BCAskAnswerHandler();
 
-        List<List<ProofStepBwChGoal>> allProofSteps = folbcask(KB, ansHandler,
-                goals, new HashMap<Variable, Term>());
+        IQueue<IQueue<ProofStepBwChGoal>> allProofSteps = folbcask(KB, ansHandler,
+                goals, Factory.CreateMap<Variable, Term>());
 
         ansHandler.setAllProofSteps(allProofSteps);
 
@@ -84,22 +84,22 @@
 	 *          theta, the current substitution, initially the empty substitution {}
 	 * </code>
 	 */
-    private List<List<ProofStepBwChGoal>> folbcask(FOLKnowledgeBase KB,
-            BCAskAnswerHandler ansHandler, List<Literal> goals,
+    private IQueue<IQueue<ProofStepBwChGoal>> folbcask(FOLKnowledgeBase KB,
+            BCAskAnswerHandler ansHandler, IQueue<Literal> goals,
             Map<Variable, Term> theta)
     {
-        List<List<ProofStepBwChGoal>> thisLevelProofSteps = new ArrayList<List<ProofStepBwChGoal>>();
+        IQueue<IQueue<ProofStepBwChGoal>> thisLevelProofSteps = Factory.CreateQueue<IQueue<ProofStepBwChGoal>>();
         // local variables: answers, a set of substitutions, initially empty
 
         // if goals is empty then return {theta}
         if (goals.isEmpty())
         {
-            thisLevelProofSteps.add(new ArrayList<ProofStepBwChGoal>());
+            thisLevelProofSteps.Add(Factory.CreateQueue<ProofStepBwChGoal>());
             return thisLevelProofSteps;
         }
 
         // qDelta <- SUBST(theta, FIRST(goals))
-        Literal qDelta = KB.subst(theta, goals.get(0));
+        Literal qDelta = KB.subst(theta, goals.Get(0));
 
         // for each sentence r in KB where
         // STANDARDIZE-APART(r) = (p1 ^ ... ^ pn => q)
@@ -108,17 +108,17 @@
             r = KB.standardizeApart(r);
             // and thetaDelta <- UNIFY(q, qDelta) succeeds
             Map<Variable, Term> thetaDelta = KB.unify(r.getPositiveLiterals()
-                    .get(0).getAtomicSentence(), qDelta.getAtomicSentence());
+                    .Get(0).getAtomicSentence(), qDelta.getAtomicSentence());
             if (null != thetaDelta)
             {
                 // new_goals <- [p1,...,pn|REST(goals)]
-                List<Literal> newGoals = new ArrayList<Literal>(
+                IQueue<Literal> newGoals = Factory.CreateQueue<Literal>(
                         r.getNegativeLiterals());
                 newGoals.addAll(goals.subList(1, goals.size()));
                 // answers <- FOL-BC-ASK(KB, new_goals, COMPOSE(thetaDelta,
                 // theta)) U answers
                 Map<Variable, Term> composed = compose(KB, thetaDelta, theta);
-                List<List<ProofStepBwChGoal>> lowerLevelProofSteps = folbcask(
+                IQueue<IQueue<ProofStepBwChGoal>> lowerLevelProofSteps = folbcask(
                         KB, ansHandler, newGoals, composed);
 
                 ansHandler.addProofStep(lowerLevelProofSteps, r, qDelta,
@@ -139,7 +139,7 @@
     private Map<Variable, Term> compose(FOLKnowledgeBase KB,
             Map<Variable, Term> theta1, Map<Variable, Term> theta2)
     {
-        Map<Variable, Term> composed = new HashMap<Variable, Term>();
+        Map<Variable, Term> composed = Factory.CreateMap<Variable, Term>();
 
         // So that it behaves like:
         // SUBST(theta2, SUBST(theta1, p))
@@ -148,18 +148,18 @@
         // for a detailed discussion:
 
         // 1. Apply theta2 to the range of theta1.
-        for (Variable v : theta1.keySet())
+        for (Variable v : theta1.GetKeys())
         {
-            composed.put(v, KB.subst(theta2, theta1.get(v)));
+            composed.Put(v, KB.subst(theta2, theta1.Get(v)));
         }
 
         // 2. Adjoin to delta all pairs from tau with different
         // domain variables.
-        for (Variable v : theta2.keySet())
+        for (Variable v : theta2.GetKeys())
         {
             if (!theta1.containsKey(v))
             {
-                composed.put(v, theta2.get(v));
+                composed.Put(v, theta2.Get(v));
             }
         }
 
@@ -172,20 +172,20 @@
     private Map<Variable, Term> cascadeSubstitutions(FOLKnowledgeBase KB,
             Map<Variable, Term> theta)
     {
-        for (Variable v : theta.keySet())
+        for (Variable v : theta.GetKeys())
         {
-            Term t = theta.get(v);
-            theta.put(v, KB.subst(theta, t));
+            Term t = theta.Get(v);
+            theta.Put(v, KB.subst(theta, t));
         }
 
         return theta;
     }
 
-    class BCAskAnswerHandler implements InferenceResult
+    class BCAskAnswerHandler : InferenceResult
     {
 
 
-        private List<Proof> proofs = new ArrayList<Proof>();
+        private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
 
     public BCAskAnswerHandler()
     {
@@ -194,27 +194,27 @@
 
     //
     // START-InferenceResult
-    public boolean isPossiblyFalse()
+    public bool isPossiblyFalse()
     {
         return proofs.size() == 0;
     }
 
-    public boolean isTrue()
+    public bool isTrue()
     {
         return proofs.size() > 0;
     }
 
-    public boolean isUnknownDueToTimeout()
+    public bool isUnknownDueToTimeout()
     {
         return false;
     }
 
-    public boolean isPartialResultDueToTimeout()
+    public bool isPartialResultDueToTimeout()
     {
         return false;
     }
 
-    public List<Proof> getProofs()
+    public IQueue<Proof> getProofs()
     {
         return proofs;
     }
@@ -222,18 +222,18 @@
     // END-InferenceResult
     //
 
-    public void setAllProofSteps(List<List<ProofStepBwChGoal>> allProofSteps)
+    public void setAllProofSteps(IQueue<IQueue<ProofStepBwChGoal>> allProofSteps)
     {
-        for (List<ProofStepBwChGoal> steps : allProofSteps)
+        for (IQueue<ProofStepBwChGoal> steps : allProofSteps)
         {
-            ProofStepBwChGoal lastStep = steps.get(steps.size() - 1);
+            ProofStepBwChGoal lastStep = steps.Get(steps.size() - 1);
             Map<Variable, Term> theta = lastStep.getBindings();
-            proofs.add(new ProofFinal(lastStep, theta));
+            proofs.Add(new ProofFinal(lastStep, theta));
         }
     }
 
     public void addProofStep(
-            List<List<ProofStepBwChGoal>> currentLevelProofSteps,
+            IQueue<IQueue<ProofStepBwChGoal>> currentLevelProofSteps,
             Clause toProve, Literal currentGoal,
             Map<Variable, Term> bindings)
     {
@@ -242,13 +242,13 @@
         {
             ProofStepBwChGoal predecessor = new ProofStepBwChGoal(toProve,
                     currentGoal, bindings);
-            for (List<ProofStepBwChGoal> steps : currentLevelProofSteps)
+            for (IQueue<ProofStepBwChGoal> steps : currentLevelProofSteps)
             {
                 if (steps.size() > 0)
                 {
-                    steps.get(0).setPredecessor(predecessor);
+                    steps.Get(0).setPredecessor(predecessor);
                 }
-                steps.add(0, predecessor);
+                steps.Add(0, predecessor);
             }
         }
     }

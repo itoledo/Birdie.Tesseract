@@ -50,10 +50,10 @@
          * 
          * @return true if KB entails &alpha;, false otherwise.
          */
-        public boolean ttEntails(KnowledgeBase kb, Sentence alpha)
+        public bool ttEntails(KnowledgeBase kb, Sentence alpha)
         {
             // symbols <- a list of proposition symbols in KB and &alpha
-            List<PropositionSymbol> symbols = new ArrayList<PropositionSymbol>(
+            IQueue<PropositionSymbol> symbols = Factory.CreateQueue<PropositionSymbol>(
                     SymbolCollector.getSymbolsFrom(kb.asSentence(), alpha));
 
             // return TT-CHECK-ALL(KB, &alpha; symbols, {})
@@ -76,8 +76,8 @@
          *            query.
          * @return true if KB entails &alpha;, false otherwise.
          */
-        public boolean ttCheckAll(KnowledgeBase kb, Sentence alpha,
-                List<PropositionSymbol> symbols, Model model)
+        public bool ttCheckAll(KnowledgeBase kb, Sentence alpha,
+                IQueue<PropositionSymbol> symbols, Model model)
         {
             // if EMPTY?(symbols) then
             if (symbols.isEmpty())
@@ -98,7 +98,7 @@
             // P <- FIRST(symbols)
             PropositionSymbol p = Util.first(symbols);
             // rest <- REST(symbols)
-            List<PropositionSymbol> rest = Util.rest(symbols);
+            IQueue<PropositionSymbol> rest = Util.rest(symbols);
             // return (TT-CHECK-ALL(KB, &alpha;, rest, model &cup; { P = true })
             // and
             // TT-CHECK-ALL(KB, &alpha;, rest, model U { P = false }))

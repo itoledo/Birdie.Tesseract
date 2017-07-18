@@ -94,7 +94,7 @@
         // http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf
         // slide 12 for where this test example was taken from.
         public static FOLKnowledgeBase createABCEqualityKnowledgeBase(
-                InferenceProcedure infp, boolean includeEqualityAxioms)
+                InferenceProcedure infp, bool includeEqualityAxioms)
         {
             FOLDomain domain = new FOLDomain();
             domain.addConstant("A");
@@ -123,7 +123,7 @@
         // http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf
         // slide 16,17, and 18 for where this test example was taken from.
         public static FOLKnowledgeBase createABCDEqualityAndSubstitutionKnowledgeBase(
-                InferenceProcedure infp, boolean includeEqualityAxioms)
+                InferenceProcedure infp, bool includeEqualityAxioms)
         {
             FOLDomain domain = new FOLDomain();
             domain.addConstant("A");

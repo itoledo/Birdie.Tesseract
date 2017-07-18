@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.probability.bayes.impl
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+
+namespace tvn.cosine.ai.probability.bayes.impl
 {
     /**
      * Default implementation of the BayesianNetwork interface.
@@ -6,111 +9,107 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public class BayesNet implements BayesianNetwork
+    public class BayesNet : BayesianNetwork
     {
+        protected ISet<Node> rootNodes = Factory.CreateSet<Node>();
+        protected IQueue<RandomVariable> variables = Factory.CreateQueue<RandomVariable>();
+        protected IMap<RandomVariable, Node> varToNodeMap = Factory.CreateMap<RandomVariable, Node>();
 
-    protected Set<Node> rootNodes = new LinkedHashSet<Node>();
-    protected List<RandomVariable> variables = new ArrayList<RandomVariable>();
-    protected Map<RandomVariable, Node> varToNodeMap = new HashMap<RandomVariable, Node>();
-
-    public BayesNet(Node...rootNodes)
-    {
-        if (null == rootNodes)
+        public BayesNet(params Node[] rootNodes)
         {
-            throw new IllegalArgumentException(
-                    "Root Nodes need to be specified.");
-        }
-        for (Node n : rootNodes)
-        {
-            this.rootNodes.add(n);
-        }
-        if (this.rootNodes.size() != rootNodes.length)
-        {
-            throw new IllegalArgumentException(
-                    "Duplicate Root Nodes Passed in.");
-        }
-        // Ensure is a DAG
-        checkIsDAGAndCollectVariablesInTopologicalOrder();
-        variables = Collections.unmodifiableList(variables);
-    }
-
-    //
-    // START-BayesianNetwork
-    @Override
-    public List<RandomVariable> getVariablesInTopologicalOrder()
-    {
-        return variables;
-    }
-
-    @Override
-    public Node getNode(RandomVariable rv)
-    {
-        return varToNodeMap.get(rv);
-    }
-
-    // END-BayesianNetwork
-    //
-
-    //
-    // PRIVATE METHODS
-    //
-    private void checkIsDAGAndCollectVariablesInTopologicalOrder()
-    {
-
-        // Topological sort based on logic described at:
-        // http://en.wikipedia.org/wiki/Topoligical_sorting
-        Set<Node> seenAlready = new HashSet<Node>();
-        Map<Node, List<Node>> incomingEdges = new HashMap<Node, List<Node>>();
-        Set<Node> s = new LinkedHashSet<Node>();
-        for (Node n : this.rootNodes)
-        {
-            walkNode(n, seenAlready, incomingEdges, s);
-        }
-        while (!s.isEmpty())
-        {
-            Node n = s.iterator().next();
-            s.remove(n);
-            variables.add(n.getRandomVariable());
-            varToNodeMap.put(n.getRandomVariable(), n);
-            for (Node m : n.getChildren())
+            if (null == rootNodes)
             {
-                List<Node> edges = incomingEdges.get(m);
-                edges.remove(n);
-                if (edges.isEmpty())
+                throw new IllegalArgumentException("Root Nodes need to be specified.");
+            }
+            foreach (Node n in rootNodes)
+            {
+                this.rootNodes.Add(n);
+            }
+            if (this.rootNodes.Size() != rootNodes.Length)
+            {
+                throw new IllegalArgumentException("Duplicate Root Nodes Passed in.");
+            }
+            // Ensure is a DAG
+            checkIsDAGAndCollectVariablesInTopologicalOrder();
+            variables = Factory.CreateReadOnlyQueue<RandomVariable>(variables);
+        }
+
+        //
+        // START-BayesianNetwork
+
+        public IQueue<RandomVariable> getVariablesInTopologicalOrder()
+        {
+            return variables;
+        }
+
+
+        public Node getNode(RandomVariable rv)
+        {
+            return varToNodeMap.Get(rv);
+        }
+
+        // END-BayesianNetwork
+        //
+
+        //
+        // PRIVATE METHODS
+        //
+        private void checkIsDAGAndCollectVariablesInTopologicalOrder()
+        {
+
+            // Topological sort based on logic described at:
+            // http://en.wikipedia.org/wiki/Topoligical_sorting
+            ISet<Node> seenAlready = Factory.CreateSet<Node>();
+            IMap<Node, IQueue<Node>> incomingEdges = Factory.CreateMap<Node, IQueue<Node>>();
+            ISet<Node> s = Factory.CreateSet<Node>();
+            foreach (Node n in this.rootNodes)
+            {
+                walkNode(n, seenAlready, incomingEdges, s);
+            }
+            while (!s.IsEmpty())
+            {
+                Node n = s.Get(1);
+                s.Remove(n);
+                variables.Add(n.getRandomVariable());
+                varToNodeMap.Put(n.getRandomVariable(), n);
+                foreach (Node m in n.getChildren())
                 {
-                    s.add(m);
+                    IQueue<Node> edges = incomingEdges.Get(m);
+                    edges.Remove(n);
+                    if (edges.IsEmpty())
+                    {
+                        s.Add(m);
+                    }
+                }
+            }
+
+            foreach (IQueue<Node> edges in incomingEdges.GetValues())
+            {
+                if (!edges.IsEmpty())
+                {
+                    throw new IllegalArgumentException("Network contains at least one cycle in it, must be a DAG.");
                 }
             }
         }
 
-        for (List<Node> edges : incomingEdges.values())
+        private void walkNode(Node n, ISet<Node> seenAlready,
+                IMap<Node, IQueue<Node>> incomingEdges, ISet<Node> rootNodes)
         {
-            if (!edges.isEmpty())
+            if (!seenAlready.Contains(n))
             {
-                throw new IllegalArgumentException(
-                        "Network contains at least one cycle in it, must be a DAG.");
+                seenAlready.Add(n);
+                // Check if has no incoming edges
+                if (n.isRoot())
+                {
+                    rootNodes.Add(n);
+                }
+                incomingEdges.Put(n, Factory.CreateQueue<Node>(n.getParents()));
+                foreach (Node c in n.getChildren())
+                {
+                    walkNode(c, seenAlready, incomingEdges, rootNodes);
+                }
             }
         }
     }
-
-    private void walkNode(Node n, Set<Node> seenAlready,
-            Map<Node, List<Node>> incomingEdges, Set<Node> rootNodes)
-    {
-        if (!seenAlready.contains(n))
-        {
-            seenAlready.add(n);
-            // Check if has no incoming edges
-            if (n.isRoot())
-            {
-                rootNodes.add(n);
-            }
-            incomingEdges.put(n, new ArrayList<Node>(n.getParents()));
-            for (Node c : n.getChildren())
-            {
-                walkNode(c, seenAlready, incomingEdges, rootNodes);
-            }
-        }
-    }
-}
 
 }

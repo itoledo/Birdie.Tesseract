@@ -10,9 +10,9 @@
     public class CNF
     {
 
-        private List<Clause> conjunctionOfClauses = new ArrayList<Clause>();
+        private IQueue<Clause> conjunctionOfClauses = Factory.CreateQueue<Clause>();
 
-        public CNF(List<Clause> conjunctionOfClauses)
+        public CNF(IQueue<Clause> conjunctionOfClauses)
         {
             this.conjunctionOfClauses.addAll(conjunctionOfClauses);
         }
@@ -22,25 +22,25 @@
             return conjunctionOfClauses.size();
         }
 
-        public List<Clause> getConjunctionOfClauses()
+        public IQueue<Clause> getConjunctionOfClauses()
         {
-            return Collections.unmodifiableList(conjunctionOfClauses);
+            return Factory.CreateReadOnlyQueue<>(conjunctionOfClauses);
         }
 
-        @Override
-        public String toString()
+         
+        public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < conjunctionOfClauses.size(); i++)
             {
                 if (i > 0)
                 {
-                    sb.append(",");
+                    sb.Append(",");
                 }
-                sb.append(conjunctionOfClauses.get(i).toString());
+                sb.Append(conjunctionOfClauses.Get(i).ToString());
             }
 
-            return sb.toString();
+            return sb.ToString();
         }
     }
 }

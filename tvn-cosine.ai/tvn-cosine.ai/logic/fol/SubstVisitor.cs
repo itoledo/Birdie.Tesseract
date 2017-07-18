@@ -18,22 +18,22 @@
          *         substitution theta to aSentence.
          * 
          */
-        public Sentence subst(Map<Variable, Term> theta, Sentence sentence)
+        public Sentence subst(IMap<Variable, Term> theta, Sentence sentence)
         {
             return (Sentence)sentence.accept(this, theta);
         }
 
-        public Term subst(Map<Variable, Term> theta, Term aTerm)
+        public Term subst(IMap<Variable, Term> theta, Term aTerm)
         {
             return (Term)aTerm.accept(this, theta);
         }
 
-        public Function subst(Map<Variable, Term> theta, Function function)
+        public Function subst(IMap<Variable, Term> theta, Function function)
         {
             return (Function)function.accept(this, theta);
         }
 
-        public Literal subst(Map<Variable, Term> theta, Literal literal)
+        public Literal subst(IMap<Variable, Term> theta, Literal literal)
         {
             return literal.newInstance((AtomicSentence)literal
                     .getAtomicSentence().accept(this, theta));
@@ -42,13 +42,13 @@
 
     @SuppressWarnings("unchecked")
 
-    @Override
-    public Object visitVariable(Variable variable, Object arg)
+     
+    public object visitVariable(Variable variable, object arg)
         {
-            Map<Variable, Term> substitution = (Map<Variable, Term>)arg;
+            Map<Variable, Term> substitution = (IMap<Variable, Term>)arg;
             if (substitution.containsKey(variable))
             {
-                return substitution.get(variable).copy();
+                return substitution.Get(variable).copy();
             }
             return variable.copy();
         }
@@ -56,31 +56,31 @@
 
     @SuppressWarnings("unchecked")
 
-    @Override
-    public Object visitQuantifiedSentence(QuantifiedSentence sentence,
-            Object arg)
+     
+    public object visitQuantifiedSentence(QuantifiedSentence sentence,
+            object arg)
         {
 
-            Map<Variable, Term> substitution = (Map<Variable, Term>)arg;
+            Map<Variable, Term> substitution = (IMap<Variable, Term>)arg;
 
             Sentence quantified = sentence.getQuantified();
             Sentence quantifiedAfterSubs = (Sentence)quantified.accept(this, arg);
 
-            List<Variable> variables = new ArrayList<Variable>();
+            IQueue<Variable> variables = Factory.CreateQueue<Variable>();
             for (Variable v : sentence.getVariables())
             {
-                Term st = substitution.get(v);
+                Term st = substitution.Get(v);
                 if (null != st)
                 {
-                    if (st instanceof Variable) {
+                    if (st is Variable) {
                 // Only if it is a variable to I replace it, otherwise
                 // I drop it.
-                variables.add((Variable)st.copy());
+                variables.Add((Variable)st.copy());
             }
         } else {
 				// No substitution for the quantified variable, so
 				// keep it.
-				variables.add(v.copy());
+				variables.Add(v.copy());
 			}
 }
 

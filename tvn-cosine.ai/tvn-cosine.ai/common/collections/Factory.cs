@@ -12,6 +12,16 @@
             return new Map<KEY, VALUE>(map);
         }
 
+        public static IMap<KEY,VALUE> CreateTreeMap<KEY,VALUE>(IMap<KEY,VALUE> map)
+        {
+            return new Map<KEY, VALUE>(map);
+        }
+
+        public static IQueue<T> CreatePriorityQueue<T>(IComparer<T> comparer)
+        {
+            return new PriorityQueue<T>(comparer);
+        }
+
         public static IQueue<T> CreateQueue<T>()
         {
             return new Queue<T>();
@@ -25,6 +35,11 @@
         public static ISet<T> CreateSet<T>(IQueue<T> collection)
         {
             return new Set<T>(collection);
+        }
+
+        public static IQueue<T> CreateFifoQueueNoDuplicates<T>()
+        {
+            return new FifoQueueNoDuplicates<T>();
         }
 
         public static IQueue<T> CreateLifoQueue<T>()

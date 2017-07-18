@@ -11,7 +11,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class DistributeOrOverAnd extends AbstractPLVisitor<Object> {
+    public class DistributeOrOverAnd : AbstractPLVisitor<Object> {
 
     /**
 	 * Distribute or (|) over and (&).
@@ -33,8 +33,8 @@
         return result;
     }
 
-    @Override
-    public Sentence visitBinarySentence(ComplexSentence s, Object arg)
+     
+    public Sentence visitBinarySentence(ComplexSentence s, object arg)
     {
         Sentence result = null;
 

@@ -1,7 +1,7 @@
 ﻿namespace tvn.cosine.ai.util.math.geom.shapes
 {
     /**
-     * This class implements a circle in a two-dimensional Cartesian plot.<br/>
+     * This class : a circle in a two-dimensional Cartesian plot.<br/>
      * The circle is represented by a {@link Point2D} center and a {@code double} radius.
      * 
      * @author Arno von Borries
@@ -9,7 +9,7 @@
      * @author Andreas Walscheid
      *
      */
-    public class Circle2D implements IGeometric2D
+    public class Circle2D : IGeometric2D
     {
 
 
@@ -53,7 +53,7 @@
         return radius;
     }
 
-    @Override
+     
     public Point2D randomPoint()
     {
         final double x = Util.generateRandomDoubleBetween(-radius, radius);
@@ -62,38 +62,38 @@
         return new Point2D(center.getX() + x, center.getY() + y);
     }
 
-    @Override
-    public boolean isInside(Point2D point)
+     
+    public bool isInside(Point2D point)
     {
         return center.vec(point).length() < radius;
     }
 
-    @Override
-    public boolean isInsideBorder(Point2D point)
+     
+    public bool isInsideBorder(Point2D point)
     {
         return center.vec(point).length() <= radius;
     }
 
-    @Override
+     
     public double rayCast(Ray2D ray)
     {
         final double divisor = ray.getDirection().getX() * ray.getDirection().getX() + ray.getDirection().getY() * ray.getDirection().getY();
-        if (Util.compareDoubles(divisor, 0.0d)) return Double.POSITIVE_INFINITY;
+        if (Util.compareDoubles(divisor, 0.0d)) return double.POSITIVE_INFINITY;
         final double squareRoot = Math.sqrt(ray.getDirection().getY() * (ray.getDirection().getY() * (radius * radius + ray.getStart().getX() * (2 * center.getX() - ray.getStart().getX()) - center.getX() * center.getX()) + 2 * ray.getDirection().getX() * (ray.getStart().getX() * (ray.getStart().getY() - center.getY()) + center.getX() * (center.getY() - ray.getStart().getY()))) + ray.getDirection().getX() * ray.getDirection().getX() * (radius * radius + ray.getStart().getY() * (2 * center.getY() - ray.getStart().getY()) - center.getY() * center.getY()));
-        if (Util.compareDoubles(squareRoot, Double.NaN)) return Double.POSITIVE_INFINITY;
+        if (Util.compareDoubles(squareRoot, double.NaN)) return double.POSITIVE_INFINITY;
         final double factors = ray.getDirection().getX() * (center.getX() - ray.getStart().getX()) + ray.getDirection().getY() * (center.getY() - ray.getStart().getY());
-        final double result = (factors - Math.abs(squareRoot)) / divisor;
+        final double result = (factors - System.Math.Abs(squareRoot)) / divisor;
         if (result >= 0) return ray.getDirection().length() * result;
-        return Double.POSITIVE_INFINITY;
+        return double.POSITIVE_INFINITY;
     }
 
-    @Override
+     
     public Rect2D getBounds()
     {
         return new Rect2D(center.getX() - radius, center.getY() - radius, center.getX() + radius, center.getY() + radius);
     }
 
-    @Override
+     
     public IGeometric2D transform(TransformMatrix2D matrix)
     {
         final Point2D centerNew = matrix.multiply(center);

@@ -5,7 +5,7 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public interface BinarySentenceProposition extends SentenceProposition
+    public interface BinarySentenceProposition : SentenceProposition
     {
 
     }

@@ -16,7 +16,7 @@ namespace tvn.cosine.ai.environment.vacuum
      * </pre>
      * 
      * Figure 2.8 The agent program for a simple reflex agent in the two-state
-     * vacuum environment. This program implements the action function tabulated in
+     * vacuum environment. This program : the action function tabulated in
      * Figure 2.3.
      * 
      * @author Ciaran O'Reilly

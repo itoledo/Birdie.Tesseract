@@ -9,7 +9,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class FOLModelElimination implements InferenceProcedure
+    public class FOLModelElimination : InferenceProcedure
     {
 
     // Ten seconds is default maximum query time permitted
@@ -60,10 +60,10 @@
         //
         // Get the background knowledge - are assuming this is satisfiable
         // as using Set of Support strategy.
-        Set<Clause> bgClauses = new LinkedHashSet<Clause>(kb.getAllClauses());
+        ISet<Clause> bgClauses = Factory.CreateSet<Clause>(kb.getAllClauses());
         bgClauses.removeAll(SubsumptionElimination
                 .findSubsumedClauses(bgClauses));
-        List<Chain> background = createChainsFromClauses(bgClauses);
+        IQueue<Chain> background = createChainsFromClauses(bgClauses);
 
         // Collect the information necessary for constructing
         // an answer (supports use of answer literals).
@@ -73,7 +73,7 @@
                 ansHandler.getSetOfSupport(), background);
 
         // Iterative deepening to be used
-        for (int maxDepth = 1; maxDepth < Integer.MAX_VALUE; maxDepth++)
+        for (int maxDepth = 1; maxDepth < int.MaxValue; maxDepth++)
         {
             // Track the depth actually reached
             ansHandler.resetMaxDepthReached();
@@ -109,15 +109,15 @@
     //
     // PRIVATE METHODS
     //
-    private List<Chain> createChainsFromClauses(Set<Clause> clauses)
+    private IQueue<Chain> createChainsFromClauses(Set<Clause> clauses)
     {
-        List<Chain> chains = new ArrayList<Chain>();
+        IQueue<Chain> chains = Factory.CreateQueue<Chain>();
 
         for (Clause c : clauses)
         {
             Chain chn = new Chain(c.getLiterals());
             chn.setProofStep(new ProofStepChainFromClause(chn, c));
-            chains.add(chn);
+            chains.Add(chn);
             chains.addAll(chn.getContrapositives());
         }
 
@@ -164,8 +164,8 @@
             }
 
             // Handle Canceling and Dropping
-            boolean cancelled = false;
-            boolean dropped = false;
+            bool cancelled = false;
+            bool dropped = false;
             do
             {
                 cancelled = false;
@@ -211,10 +211,10 @@
     private Chain tryCancellation(Chain c)
     {
         Literal head = c.getHead();
-        if (null != head && !(head instanceof ReducedLiteral)) {
+        if (null != head && !(head is ReducedLiteral)) {
             for (Literal l : c.getTail())
             {
-                if (l instanceof ReducedLiteral) {
+                if (l is ReducedLiteral) {
                 // if they can be resolved
                 if (head.isNegativeLiteral() != l.isNegativeLiteral())
                 {
@@ -226,12 +226,12 @@
                         // I have a cancellation
                         // Need to apply subst to all of the
                         // literals in the cancellation
-                        List<Literal> cancLits = new ArrayList<Literal>();
+                        IQueue<Literal> cancLits = Factory.CreateQueue<Literal>();
                         for (Literal lfc : c.getTail())
                         {
                             AtomicSentence a = (AtomicSentence)substVisitor
                                     .subst(subst, lfc.getAtomicSentence());
-                            cancLits.add(lfc.newInstance(a));
+                            cancLits.Add(lfc.newInstance(a));
                         }
                         Chain cancellation = new Chain(cancLits);
                         cancellation
@@ -250,7 +250,7 @@
 private Chain tryDropping(Chain c)
 {
     Literal head = c.getHead();
-    if (null != head && (head instanceof ReducedLiteral)) {
+    if (null != head && (head is ReducedLiteral)) {
         Chain dropped = new Chain(c.getTail());
         dropped.setProofStep(new ProofStepChainDropped(dropped, c));
         return dropped;
@@ -259,17 +259,17 @@ private Chain tryDropping(Chain c)
     return c;
 }
 
-class AnswerHandler implements InferenceResult
+class AnswerHandler : InferenceResult
 {
 
         private Chain answerChain = new Chain();
-private Set<Variable> answerLiteralVariables;
-private List<Chain> sos = null;
-private boolean complete = false;
+private ISet<Variable> answerLiteralVariables;
+private IQueue<Chain> sos = null;
+private bool complete = false;
 private long finishTime = 0L;
 private int maxDepthReached = 0;
-private List<Proof> proofs = new ArrayList<Proof>();
-private boolean timedOut = false;
+private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
+private bool timedOut = false;
 
 public AnswerHandler(FOLKnowledgeBase kb, Sentence query,
         long maxQueryTime)
@@ -311,27 +311,27 @@ public AnswerHandler(FOLKnowledgeBase kb, Sentence query,
 
 //
 // START-InferenceResult
-public boolean isPossiblyFalse()
+public bool isPossiblyFalse()
 {
     return !timedOut && proofs.size() == 0;
 }
 
-public boolean isTrue()
+public bool isTrue()
 {
     return proofs.size() > 0;
 }
 
-public boolean isUnknownDueToTimeout()
+public bool isUnknownDueToTimeout()
 {
     return timedOut && proofs.size() == 0;
 }
 
-public boolean isPartialResultDueToTimeout()
+public bool isPartialResultDueToTimeout()
 {
     return timedOut && proofs.size() > 0;
 }
 
-public List<Proof> getProofs()
+public IQueue<Proof> getProofs()
 {
     return proofs;
 }
@@ -339,12 +339,12 @@ public List<Proof> getProofs()
 // END-InferenceResult
 //
 
-public List<Chain> getSetOfSupport()
+public IQueue<Chain> getSetOfSupport()
 {
     return sos;
 }
 
-public boolean isComplete()
+public bool isComplete()
 {
     return complete;
 }
@@ -367,15 +367,15 @@ public void updateMaxDepthReached(int depth)
     }
 }
 
-public boolean isAnswer(Chain nearParent)
+public bool isAnswer(Chain nearParent)
 {
-    boolean isAns = false;
+    bool isAns = false;
     if (answerChain.isEmpty())
     {
         if (nearParent.isEmpty())
         {
-            proofs.add(new ProofFinal(nearParent.getProofStep(),
-                    new HashMap<Variable, Term>()));
+            proofs.Add(new ProofFinal(nearParent.getProofStep(),
+                    Factory.CreateMap<Variable, Term>()));
             complete = true;
             isAns = true;
         }
@@ -396,22 +396,22 @@ public boolean isAnswer(Chain nearParent)
                         .getHead()
                         .getAtomicSentence()
                         .getSymbolicName()
-                        .equals(answerChain.getHead()
+                        .Equals(answerChain.getHead()
                                 .getAtomicSentence().getSymbolicName()))
         {
-            Map<Variable, Term> answerBindings = new HashMap<Variable, Term>();
-            List<Term> answerTerms = nearParent.getHead()
+            Map<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
+            IQueue<Term> answerTerms = nearParent.getHead()
                     .getAtomicSentence().getArgs();
             int idx = 0;
             for (Variable v : answerLiteralVariables)
             {
-                answerBindings.put(v, answerTerms.get(idx));
+                answerBindings.Put(v, answerTerms.Get(idx));
                 idx++;
             }
-            boolean addNewAnswer = true;
+            bool addNewAnswer = true;
             for (Proof p : proofs)
             {
-                if (p.getAnswerBindings().equals(answerBindings))
+                if (p.getAnswerBindings().Equals(answerBindings))
                 {
                     addNewAnswer = false;
                     break;
@@ -419,7 +419,7 @@ public boolean isAnswer(Chain nearParent)
             }
             if (addNewAnswer)
             {
-                proofs.add(new ProofFinal(nearParent.getProofStep(),
+                proofs.Add(new ProofFinal(nearParent.getProofStep(),
                         answerBindings));
             }
             isAns = true;
@@ -436,14 +436,14 @@ public boolean isAnswer(Chain nearParent)
     return isAns;
 }
 
-@Override
-        public String toString()
+ 
+        public override string ToString()
 {
     StringBuilder sb = new StringBuilder();
-    sb.append("isComplete=" + complete);
-    sb.append("\n");
-    sb.append("result=" + proofs);
-    return sb.toString();
+    sb.Append("isComplete=" + complete);
+    sb.Append("\n");
+    sb.Append("result=" + proofs);
+    return sb.ToString();
 }
 	}
 }
@@ -455,10 +455,10 @@ class IndexedFarParents
     private Unifier unifier = new Unifier();
     private SubstVisitor substVisitor = new SubstVisitor();
     //
-    private Map<String, List<Chain>> posHeads = new LinkedHashMap<String, List<Chain>>();
-    private Map<String, List<Chain>> negHeads = new LinkedHashMap<String, List<Chain>>();
+    private Map<string, IQueue<Chain>> posHeads = Factory.CreateMap<string, IQueue<Chain>>();
+    private Map<string, IQueue<Chain>> negHeads = Factory.CreateMap<string, IQueue<Chain>>();
 
-    public IndexedFarParents(List<Chain> sos, List<Chain> background)
+    public IndexedFarParents(IQueue<Chain> sos, IQueue<Chain> background)
     {
         constructInternalDataStructures(sos, background);
     }
@@ -467,7 +467,7 @@ class IndexedFarParents
     {
         Literal head = farParent.getHead();
 
-        Map<String, List<Chain>> heads = null;
+        Map<string, IQueue<Chain>> heads = null;
         if (head.isPositiveLiteral())
         {
             heads = posHeads;
@@ -476,9 +476,9 @@ class IndexedFarParents
         {
             heads = negHeads;
         }
-        String headKey = head.getAtomicSentence().getSymbolicName();
+        string headKey = head.getAtomicSentence().getSymbolicName();
 
-        List<Chain> farParents = heads.get(headKey);
+        IQueue<Chain> farParents = heads.Get(headKey);
         if (null != farParents)
         {
             return farParents.size();
@@ -489,7 +489,7 @@ class IndexedFarParents
     public void resetNumberFarParentsTo(Chain farParent, int toSize)
     {
         Literal head = farParent.getHead();
-        Map<String, List<Chain>> heads = null;
+        Map<string, IQueue<Chain>> heads = null;
         if (head.isPositiveLiteral())
         {
             heads = posHeads;
@@ -498,11 +498,11 @@ class IndexedFarParents
         {
             heads = negHeads;
         }
-        String key = head.getAtomicSentence().getSymbolicName();
-        List<Chain> farParents = heads.get(key);
+        string key = head.getAtomicSentence().getSymbolicName();
+        IQueue<Chain> farParents = heads.Get(key);
         while (farParents.size() > toSize)
         {
-            farParents.remove(farParents.size() - 1);
+            farParents.Remove(farParents.size() - 1);
         }
     }
 
@@ -510,7 +510,7 @@ class IndexedFarParents
     {
         Literal nearestHead = nearParent.getHead();
 
-        Map<String, List<Chain>> candidateHeads = null;
+        Map<string, IQueue<Chain>> candidateHeads = null;
         if (nearestHead.isPositiveLiteral())
         {
             candidateHeads = negHeads;
@@ -520,9 +520,9 @@ class IndexedFarParents
             candidateHeads = posHeads;
         }
 
-        String nearestKey = nearestHead.getAtomicSentence().getSymbolicName();
+        string nearestKey = nearestHead.getAtomicSentence().getSymbolicName();
 
-        List<Chain> farParents = candidateHeads.get(nearestKey);
+        IQueue<Chain> farParents = candidateHeads.Get(nearestKey);
         if (null != farParents)
         {
             return farParents.size();
@@ -536,7 +536,7 @@ class IndexedFarParents
 
         Literal nearLiteral = nearParent.getHead();
 
-        Map<String, List<Chain>> candidateHeads = null;
+        Map<string, IQueue<Chain>> candidateHeads = null;
         if (nearLiteral.isPositiveLiteral())
         {
             candidateHeads = negHeads;
@@ -547,11 +547,11 @@ class IndexedFarParents
         }
 
         AtomicSentence nearAtom = nearLiteral.getAtomicSentence();
-        String nearestKey = nearAtom.getSymbolicName();
-        List<Chain> farParents = candidateHeads.get(nearestKey);
+        string nearestKey = nearAtom.getSymbolicName();
+        IQueue<Chain> farParents = candidateHeads.Get(nearestKey);
         if (null != farParents)
         {
-            Chain farParent = farParents.get(farParentIndex);
+            Chain farParent = farParents.Get(farParentIndex);
             standardizeApart(farParent);
             Literal farLiteral = farParent.getHead();
             AtomicSentence farAtom = farLiteral.getAtomicSentence();
@@ -568,21 +568,21 @@ class IndexedFarParents
 
                 // Need to apply subst to all of the
                 // literals in the reduction
-                List<Literal> reduction = new ArrayList<Literal>();
+                IQueue<Literal> reduction = Factory.CreateQueue<Literal>();
                 for (Literal l : topChain.getTail())
                 {
                     AtomicSentence atom = (AtomicSentence)substVisitor.subst(
                             subst, l.getAtomicSentence());
-                    reduction.add(l.newInstance(atom));
+                    reduction.Add(l.newInstance(atom));
                 }
-                reduction.add(new ReducedLiteral((AtomicSentence)substVisitor
+                reduction.Add(new ReducedLiteral((AtomicSentence)substVisitor
                         .subst(subst, botLit.getAtomicSentence()), botLit
                         .isNegativeLiteral()));
                 for (Literal l : botChain.getTail())
                 {
                     AtomicSentence atom = (AtomicSentence)substVisitor.subst(
                             subst, l.getAtomicSentence());
-                    reduction.add(l.newInstance(atom));
+                    reduction.Add(l.newInstance(atom));
                 }
 
                 nnpc = new Chain(reduction);
@@ -600,7 +600,7 @@ class IndexedFarParents
         Literal head = c.getHead();
         if (null != head)
         {
-            Map<String, List<Chain>> toAddTo = null;
+            Map<string, IQueue<Chain>> toAddTo = null;
             if (head.isPositiveLiteral())
             {
                 toAddTo = posHeads;
@@ -610,16 +610,16 @@ class IndexedFarParents
                 toAddTo = negHeads;
             }
 
-            String key = head.getAtomicSentence().getSymbolicName();
-            List<Chain> farParents = toAddTo.get(key);
+            string key = head.getAtomicSentence().getSymbolicName();
+            IQueue<Chain> farParents = toAddTo.Get(key);
             if (null == farParents)
             {
-                farParents = new ArrayList<Chain>();
-                toAddTo.put(key, farParents);
+                farParents = Factory.CreateQueue<Chain>();
+                toAddTo.Put(key, farParents);
             }
 
             added = c;
-            farParents.add(added);
+            farParents.Add(added);
         }
         return added;
     }
@@ -629,41 +629,41 @@ class IndexedFarParents
         saIdx = StandardizeApartInPlace.standardizeApart(c, saIdx);
     }
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("#");
-        sb.append(posHeads.size());
-        for (String key : posHeads.keySet())
+        sb.Append("#");
+        sb.Append(posHeads.size());
+        for (string key : posHeads.GetKeys())
         {
-            sb.append(",");
-            sb.append(posHeads.get(key).size());
+            sb.Append(",");
+            sb.Append(posHeads.Get(key).size());
         }
-        sb.append(" posHeads=");
-        sb.append(posHeads.toString());
-        sb.append("\n");
-        sb.append("#");
-        sb.append(negHeads.size());
-        for (String key : negHeads.keySet())
+        sb.Append(" posHeads=");
+        sb.Append(posHeads.ToString());
+        sb.Append("\n");
+        sb.Append("#");
+        sb.Append(negHeads.size());
+        for (string key : negHeads.GetKeys())
         {
-            sb.append(",");
-            sb.append(negHeads.get(key).size());
+            sb.Append(",");
+            sb.Append(negHeads.Get(key).size());
         }
-        sb.append(" negHeads=");
-        sb.append(negHeads.toString());
+        sb.Append(" negHeads=");
+        sb.Append(negHeads.ToString());
 
-        return sb.toString();
+        return sb.ToString();
     }
 
     //
     // PRIVATE METHODS
     //
-    private void constructInternalDataStructures(List<Chain> sos,
-            List<Chain> background)
+    private void constructInternalDataStructures(IQueue<Chain> sos,
+            IQueue<Chain> background)
     {
-        List<Chain> toIndex = new ArrayList<Chain>();
+        IQueue<Chain> toIndex = Factory.CreateQueue<Chain>();
         toIndex.addAll(sos);
         toIndex.addAll(background);
 

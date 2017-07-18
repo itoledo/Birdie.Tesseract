@@ -15,7 +15,7 @@
      * @author Jonathon
      *
      */
-    public class ProbCNFGrammar extends ProbContextFreeGrammar
+    public class ProbCNFGrammar : ProbContextFreeGrammar
     {
 
     // TODO: Implement conversion from ContextFree to ChomskyNormalForm
@@ -24,7 +24,7 @@
     public ProbCNFGrammar()
     {
         type = 4;
-        rules = new ArrayList<Rule>();
+        rules = Factory.CreateQueue<Rule>();
     }
 
     public ProbCNFGrammar(ProbCNFGrammar grammar)
@@ -38,7 +38,7 @@
 	 * both the restrictions of the Context-free grammar, and all rules 
 	 * or in Chomsky-Normal-Form
 	 */
-    public boolean addRules(List<Rule> ruleList)
+    public bool addRules(IQueue<Rule> ruleList)
     {
         for (Rule aRuleList : ruleList)
         {
@@ -57,11 +57,11 @@
 	 * both the restrictions of the Context-free grammar, and the rule is
 	 * in Chomsky Normal Form.
 	 */
-    public boolean addRule(Rule r)
+    public bool addRule(Rule r)
     {
         if (!validRule(r))
             return false;
-        rules.add(r);
+        rules.Add(r);
         updateVarsAndTerminals(r);
         return true;
     }
@@ -79,7 +79,7 @@
 	 * @param r,  a rule
 	 * @return true, if rule is in CNF. false, otherwise
 	 */
-    public boolean validRule(Rule r)
+    public bool validRule(Rule r)
     {
         if (!super.validRule(r))
             return false;
@@ -87,10 +87,10 @@
         if (r.rhs == null || r.rhs.size() == 0)
             return true;
         // 2. rhs is a terminal (a)
-        else if (r.rhs.size() == 1 && isTerminal(r.rhs.get(0)))
+        else if (r.rhs.size() == 1 && isTerminal(r.rhs.Get(0)))
             return true;
         // 1. rhs is 2 variables (BC)
-        else if (r.rhs.size() == 2 && isVariable(r.rhs.get(0)) && isVariable(r.rhs.get(1)))
+        else if (r.rhs.size() == 2 && isVariable(r.rhs.Get(0)) && isVariable(r.rhs.Get(1)))
             return true;
         // rule is not in one of the 3 CNF forms
         return false;

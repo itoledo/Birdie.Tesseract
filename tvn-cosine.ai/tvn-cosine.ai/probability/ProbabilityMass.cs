@@ -10,7 +10,7 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public interface ProbabilityMass extends ProbabilityDistribution
+    public interface ProbabilityMass : ProbabilityDistribution
     {
 
     }

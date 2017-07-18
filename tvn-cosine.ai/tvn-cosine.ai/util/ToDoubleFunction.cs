@@ -2,6 +2,6 @@
 {
     public interface ToDoubleFunction<T>
     {
-        double applyAsDouble(T item);
+        double applyAsDouble(T value);
     }
 }

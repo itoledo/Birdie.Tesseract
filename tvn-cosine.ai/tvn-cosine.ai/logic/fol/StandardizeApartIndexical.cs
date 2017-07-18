@@ -2,7 +2,7 @@
 {
     public interface StandardizeApartIndexical
     {
-        String getPrefix();
+        string getPrefix();
 
         int getNextIndex();
     }

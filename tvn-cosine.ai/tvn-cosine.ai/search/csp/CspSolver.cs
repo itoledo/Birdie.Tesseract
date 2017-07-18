@@ -12,10 +12,10 @@
      * @author Ruediger Lunde
      * @author Mike Stampone
      */
-    public abstract class CspSolver<VAR extends Variable, VAL>
+    public abstract class CspSolver<VAR : Variable, VAL>
     {
 
-        private List<CspListener<VAR, VAL>> listeners = new ArrayList<>();
+        private IQueue<CspListener<VAR, VAL>> listeners = Factory.CreateQueue<>();
 
         /**
          * Computes a solution to the given CSP, which specifies values for all
@@ -34,7 +34,7 @@
          */
         public void addCspListener(CspListener<VAR, VAL> listener)
         {
-            listeners.add(listener);
+            listeners.Add(listener);
         }
 
         /**
@@ -44,7 +44,7 @@
          */
         public void removeCspListener(CspListener<VAR, VAL> listener)
         {
-            listeners.remove(listener);
+            listeners.Remove(listener);
         }
 
 

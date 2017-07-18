@@ -6,7 +6,7 @@
          * 
          * @return A list of proof steps that show how an answer was derived.
          */
-        List<ProofStep> getSteps();
+        IQueue<ProofStep> getSteps();
 
         /**
          * 
@@ -22,6 +22,6 @@
          *            allows for the bindings to be renamed. Note: should not be
          *            used for any other reason.
          */
-        void replaceAnswerBindings(Map<Variable, Term> updatedBindings);
+        void replaceAnswerBindings(IMap<Variable, Term> updatedBindings);
     }
 }

@@ -22,7 +22,7 @@
      * <br>
      * This implementation is based on the template method
      * {@link #findNode(Problem, Queue)} of the superclass and provides
-     * implementations for the needed primitive operations. It implements a special
+     * implementations for the needed primitive operations. It : a special
      * version of graph search which keeps the frontier short by focusing on the
      * best node for each state only. It should only be used in combination with
      * priority queue frontiers. If a node is added to the frontier, this
@@ -37,11 +37,11 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class GraphSearchReducedFrontier<S, A> extends QueueSearch<S, A> {
+    public class GraphSearchReducedFrontier<S, A> : QueueSearch<S, A> {
 
 
-    private Set<S> explored = new HashSet<>();
-    private Map<S, Node<S, A>> frontierNodeLookup = new HashMap<>();
+    private ISet<S> explored = Factory.CreateSet<>();
+    private Map<S, Node<S, A>> frontierNodeLookup = Factory.CreateMap<>();
     private Comparator<? super Node<S, A>> nodeComparator = null;
 
     public GraphSearchReducedFrontier()
@@ -51,21 +51,21 @@
 
     public GraphSearchReducedFrontier(NodeExpander<S, A> nodeExpander)
     {
-        super(nodeExpander);
+        base(nodeExpander);
     }
 
     /**
 	 * Sets the comparator if a priority queue is used, resets explored list and
 	 * state map and calls the inherited version of search.
 	 */
-    @Override
-    public Optional<Node<S, A>> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
+     
+    public Node<S,A> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
     {
         // initialize the explored set to be empty
-        if (frontier instanceof PriorityQueue<?>)
+        if (frontier is PriorityQueue<?>)
 			nodeComparator = ((PriorityQueue<Node<S, A>>)frontier).comparator();
-        explored.clear();
-        frontierNodeLookup.clear();
+        explored.Clear();
+        frontierNodeLookup.Clear();
         return super.findNode(problem, frontier);
     }
 
@@ -81,27 +81,27 @@
 	 * better (with respect to priority). Depending of the result, the existing
 	 * node is replaced or the new node is dropped.
 	 */
-    @Override
+     
     protected void addToFrontier(Node<S, A> node)
     {
         if (!explored.contains(node.getState()))
         {
-            Node<S, A> frontierNode = frontierNodeLookup.get(node.getState());
+            Node<S, A> frontierNode = frontierNodeLookup.Get(node.getState());
             if (frontierNode == null)
             {
                 // child.STATE is not in frontier and not yet explored
-                frontier.add(node);
-                frontierNodeLookup.put(node.getState(), node);
+                frontier.Add(node);
+                frontierNodeLookup.Put(node.getState(), node);
                 updateMetrics(frontier.size());
             }
             else if (nodeComparator != null && nodeComparator.compare(node, frontierNode) < 0)
             {
                 // child.STATE is in frontier with higher cost
                 // replace that frontier node with child
-                if (frontier.remove(frontierNode))
-                    frontierNodeLookup.remove(frontierNode.getState());
-                frontier.add(node);
-                frontierNodeLookup.put(node.getState(), node);
+                if (frontier.Remove(frontierNode))
+                    frontierNodeLookup.Remove(frontierNode.getState());
+                frontier.Add(node);
+                frontierNodeLookup.Put(node.getState(), node);
             }
         }
     }
@@ -112,13 +112,13 @@
 	 * 
 	 * @return the node at the head of the frontier.
 	 */
-    @Override
+     
     protected Node<S, A> removeFromFrontier()
     {
-        Node<S, A> result = frontier.remove();
-        frontierNodeLookup.remove(result.getState());
+        Node<S, A> result = frontier.Remove();
+        frontierNodeLookup.Remove(result.getState());
         // add the node to the explored set
-        explored.add(result.getState());
+        explored.Add(result.getState());
         updateMetrics(frontier.size());
         return result;
     }
@@ -126,8 +126,8 @@
     /**
 	 * Checks whether the frontier contains not yet expanded nodes.
 	 */
-    @Override
-    protected boolean isFrontierEmpty()
+     
+    protected bool isFrontierEmpty()
     {
         return frontier.isEmpty();
     }

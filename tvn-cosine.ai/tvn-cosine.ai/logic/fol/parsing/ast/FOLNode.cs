@@ -1,14 +1,17 @@
-﻿namespace tvn.cosine.ai.logic.fol.parsing.ast
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.common;
+
+namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
-    public interface FOLNode extends ParseTreeNode
+    public interface FOLNode : ParseTreeNode
     {
-        String getSymbolicName();
+        string getSymbolicName();
 
-        boolean isCompound();
+        bool isCompound();
 
-        List<? extends FOLNode> getArgs();
+        IQueue<T> getArgs<T>() where T : FOLNode;
 
-        Object accept(FOLVisitor v, Object arg);
+        object accept(FOLVisitor v, object arg);
 
         FOLNode copy();
     }

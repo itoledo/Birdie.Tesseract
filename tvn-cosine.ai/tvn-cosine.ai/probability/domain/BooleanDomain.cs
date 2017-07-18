@@ -7,18 +7,18 @@
      * 
      * @author Ciaran O'Reilly.
      */
-    public class BooleanDomain extends AbstractFiniteDomain
+    public class BooleanDomain : AbstractFiniteDomain
     {
 
 
-    private static Set<Boolean> _possibleValues = null;
+    private static ISet<Boolean> _possibleValues = null;
     static {
 		// Keep consistent order
-		_possibleValues = new LinkedHashSet<Boolean>();
-		_possibleValues.add(Boolean.TRUE);
-		_possibleValues.add(Boolean.FALSE);
+		_possibleValues = Factory.CreateSet<Boolean>();
+		_possibleValues.Add(Boolean.TRUE);
+		_possibleValues.Add(Boolean.FALSE);
 		// Ensure cannot be modified
-		_possibleValues = Collections.unmodifiableSet(_possibleValues);
+		_possibleValues = Factory.CreateReadOnlySet<>(_possibleValues);
 	}
 
 public BooleanDomain()
@@ -28,14 +28,14 @@ public BooleanDomain()
 
 //
 // START-Domain
-@Override
+ 
     public int size()
 {
     return 2;
 }
 
-@Override
-    public boolean isOrdered()
+ 
+    public bool isOrdered()
 {
     return false;
 }
@@ -45,8 +45,8 @@ public BooleanDomain()
 
 //
 // START-DiscreteDomain
-@Override
-    public Set<Boolean> getPossibleValues()
+ 
+    public ISet<Boolean> getPossibleValues()
 {
     return _possibleValues;
 }
@@ -54,16 +54,16 @@ public BooleanDomain()
 // END-DiscreteDomain
 //
 
-@Override
-    public boolean equals(Object o)
+ 
+    public override bool Equals(object o)
 {
-    return o instanceof BooleanDomain;
+    return o is BooleanDomain;
 }
 
-@Override
-    public int hashCode()
+ 
+    public override int GetHashCode()
 {
-    return _possibleValues.hashCode();
+    return _possibleValues.GetHashCode();
 }
 }
 

@@ -7,7 +7,7 @@
 
     public FullJointDistributionBurglaryAlarmModel()
     {
-        super(new double[] {
+        base(new double[] {
 				// B = t, E = t, A = t, J = t, M = t
 				0.000001197,
 				// B = t, E = t, A = t, J = t, M = f

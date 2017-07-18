@@ -1,7 +1,7 @@
 ﻿namespace tvn.cosine.ai.util.math.geom.shapes
 {
     /**
-     * This class implements a ray in a two-dimensional Cartesian plot.<br/>
+     * This class : a ray in a two-dimensional Cartesian plot.<br/>
      * A ray is represented by a {@link Point2D} and a directional {@link Vector2D}.
      * 
      * @author Arno von Borries
@@ -62,7 +62,7 @@
         public Ray2D transform(TransformMatrix2D matrix)
         {
             Point2D startNew = matrix.multiply(start);
-            Vector2D directionNew = startNew.vec(matrix.multiply(start.add(direction)));
+            Vector2D directionNew = startNew.vec(matrix.multiply(start.Add(direction)));
             return new Ray2D(startNew, directionNew);
         }
     }

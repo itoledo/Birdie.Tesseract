@@ -3,39 +3,39 @@
     public class Constant : Term
     {
 
-    private String value;
+    private string value;
     private int hashCode = 0;
 
-    public Constant(String s)
+    public Constant(string s)
     {
         value = s;
     }
 
-    public String getValue()
+    public string getValue()
     {
         return value;
     }
 
     //
     // START-Term
-    public String getSymbolicName()
+    public string getSymbolicName()
     {
         return getValue();
     }
 
-    public boolean isCompound()
+    public bool isCompound()
     {
         return false;
     }
 
-    public List<Term> getArgs()
+    public IQueue<Term> getArgs()
     {
         // Is not Compound, therefore should
         // return null for its arguments
         return null;
     }
 
-    public Object accept(FOLVisitor v, Object arg)
+    public object accept(FOLVisitor v, object arg)
     {
         return v.visitConstant(this, arg);
     }
@@ -48,35 +48,35 @@
     // END-Term
     //
 
-    @Override
-    public boolean equals(Object o)
+     
+    public override bool Equals(object o)
     {
 
         if (this == o)
         {
             return true;
         }
-        if (!(o instanceof Constant)) {
+        if (!(o is Constant)) {
             return false;
         }
         Constant c = (Constant)o;
-        return c.getValue().equals(getValue());
+        return c.getValue().Equals(getValue());
 
     }
 
-    @Override
-    public int hashCode()
+     
+    public override int GetHashCode()
     {
         if (0 == hashCode)
         {
             hashCode = 17;
-            hashCode = 37 * hashCode + value.hashCode();
+            hashCode = 37 * hashCode + value.GetHashCode();
         }
         return hashCode;
     }
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         return value;
     }

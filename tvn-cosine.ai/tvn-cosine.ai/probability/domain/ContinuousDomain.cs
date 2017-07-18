@@ -6,7 +6,7 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public interface ContinuousDomain extends Domain
+    public interface ContinuousDomain : Domain
     {
 
     }

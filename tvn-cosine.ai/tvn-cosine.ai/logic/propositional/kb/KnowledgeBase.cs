@@ -2,9 +2,9 @@
 {
     public class KnowledgeBase
     {
-        private List<Sentence> sentences = new ArrayList<>();
+        private IQueue<Sentence> sentences = Factory.CreateQueue<>();
         private ConjunctionOfClauses asCNF = new ConjunctionOfClauses(Collections.emptySet());
-        private Set<PropositionSymbol> symbols = new LinkedHashSet<>();
+        private ISet<PropositionSymbol> symbols = Factory.CreateSet<>();
         private PLParser parser = new PLParser();
 
 
@@ -14,7 +14,7 @@
          * @param aSentence
          *            a fact to be added to the knowledge base.
          */
-        public void tell(String aSentence)
+        public void tell(string aSentence)
         {
             tell((Sentence)parser.parse(aSentence));
 
@@ -30,7 +30,7 @@
         {
             if (!(sentences.contains(aSentence)))
             {
-                sentences.add(aSentence);
+                sentences.Add(aSentence);
                 asCNF = asCNF.extend(ConvertToConjunctionOfClauses.convert(aSentence).getClauses());
                 symbols.addAll(SymbolCollector.getSymbolsFrom(aSentence));
             }
@@ -45,7 +45,7 @@
          */
         public void tellAll(String[] percepts)
         {
-            for (String percept : percepts)
+            for (string percept : percepts)
             {
                 tell(percept);
             }
@@ -78,7 +78,7 @@
          * 
          * @return a Conjunctive Normal Form (CNF) representation of the Knowledge Base.
          */
-        public Set<Clause> asCNF()
+        public ISet<Clause> asCNF()
         {
             return asCNF.getClauses();
         }
@@ -87,7 +87,7 @@
          * 
          * @return a unique set of the symbols currently contained in the Knowledge Base.
          */
-        public Set<PropositionSymbol> getSymbols()
+        public ISet<PropositionSymbol> getSymbols()
         {
             return symbols;
         }
@@ -102,7 +102,7 @@
          * @return the answer to the specified question using the TT-Entails
          *         algorithm.
          */
-        public boolean askWithTTEntails(String queryString)
+        public bool askWithTTEntails(string queryString)
         {
             PLParser parser = new PLParser();
 
@@ -111,10 +111,10 @@
             return new TTEntails().ttEntails(this, alpha);
         }
 
-        @Override
-        public String toString()
+         
+        public override string ToString()
         {
-            return sentences.isEmpty() ? "" : asSentence().toString();
+            return sentences.isEmpty() ? "" : asSentence().ToString();
         }
 
         /**
@@ -122,7 +122,7 @@
          * 
          * @return the list of sentences in the knowledge base.
          */
-        public List<Sentence> getSentences()
+        public IQueue<Sentence> getSentences()
         {
             return sentences;
         }

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference.proof
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public interface ProofStep
     {
@@ -6,10 +8,10 @@
 
         void setStepNumber(int step);
 
-        List<ProofStep> getPredecessorSteps();
+        IQueue<ProofStep> getPredecessorSteps();
 
-        String getProof();
+        string getProof();
 
-        String getJustification();
+        string getJustification();
     }
 }

@@ -10,7 +10,7 @@
      * @author Ruediger Lunde
      * @author Mike Stampone
      */
-    public class MapCSP extends CSP<Variable, String> {
+    public class MapCSP : CSP<Variable, string> {
 
     public static final Variable NSW = new Variable("NSW");
     public static final Variable NT = new Variable("NT");
@@ -20,9 +20,9 @@
     public static final Variable V = new Variable("V");
     public static final Variable WA = new Variable("WA");
 
-    public static final String RED = "RED";
-	public static final String GREEN = "GREEN";
-	public static final String BLUE = "BLUE";
+    public static final string RED = "RED";
+	public static final string GREEN = "GREEN";
+	public static final string BLUE = "BLUE";
 
 	/**
 	 * Constructs a map CSP for the principal states and territories of
@@ -30,9 +30,9 @@
 	 */
 	public MapCSP()
     {
-        super(Arrays.asList(NSW, WA, NT, Q, SA, V, T));
+        base(Arrays.asList(NSW, WA, NT, Q, SA, V, T));
 
-        Domain<String> colors = new Domain<>(RED, GREEN, BLUE);
+        Domain<string> colors = new Domain<>(RED, GREEN, BLUE);
         for (Variable var : getVariables())
             setDomain(var, colors);
 

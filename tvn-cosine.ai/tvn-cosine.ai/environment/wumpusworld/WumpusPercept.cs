@@ -83,24 +83,24 @@
             return scream;
         }
 
-        @Override
-    public String toString()
+         
+    public override string ToString()
         {
             StringBuilder result = new StringBuilder("{");
             if (stench)
-                result.append("Stench, ");
+                result.Append("Stench, ");
             if (breeze)
-                result.append("Breeze, ");
+                result.Append("Breeze, ");
             if (glitter)
-                result.append("Glitter, ");
+                result.Append("Glitter, ");
             if (bump)
-                result.append("Bump, ");
+                result.Append("Bump, ");
             if (scream)
-                result.append("Scream, ");
+                result.Append("Scream, ");
             if (result.length() > 1)
                 result.delete(result.length() - 2, result.length());
-            result.append("}");
-            return result.toString();
+            result.Append("}");
+            return result.ToString();
         }
     }
 }

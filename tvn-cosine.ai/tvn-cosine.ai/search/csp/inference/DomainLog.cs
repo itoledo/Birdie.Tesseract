@@ -10,22 +10,22 @@
      * @author Ruediger Lunde
      * 
      */
-    public class DomainLog<VAR extends Variable, VAL> implements InferenceLog<VAR, VAL> {
+    public class DomainLog<VAR : Variable, VAL> : InferenceLog<VAR, VAL> {
 
-    private List<Pair<VAR, Domain<VAL>>> savedDomains;
+    private IQueue<Pair<VAR, Domain<VAL>>> savedDomains;
     private HashSet<VAR> affectedVariables;
-    private boolean emptyDomainObserved;
+    private bool emptyDomainObserved;
 
     public DomainLog()
     {
-        savedDomains = new ArrayList<>();
-        affectedVariables = new HashSet<>();
+        savedDomains = Factory.CreateQueue<>();
+        affectedVariables = Factory.CreateSet<>();
     }
 
     public void clear()
     {
-        savedDomains.clear();
-        affectedVariables.clear();
+        savedDomains.Clear();
+        affectedVariables.Clear();
     }
 
     /**
@@ -36,12 +36,12 @@
     {
         if (!affectedVariables.contains(var))
         {
-            savedDomains.add(new Pair<>(var, domain));
-            affectedVariables.add(var);
+            savedDomains.Add(new Pair<>(var, domain));
+            affectedVariables.Add(var);
         }
     }
 
-    public void setEmptyDomainFound(boolean b)
+    public void setEmptyDomainFound(bool b)
     {
         emptyDomainObserved = b;
     }
@@ -58,38 +58,38 @@
         return this;
     }
 
-    @Override
-    public boolean isEmpty()
+     
+    public bool isEmpty()
     {
         return savedDomains.isEmpty();
     }
 
-    @Override
+     
     public void undo(CSP<VAR, VAL> csp)
     {
         for (Pair<VAR, Domain<VAL>> pair : getSavedDomains())
             csp.setDomain(pair.getFirst(), pair.getSecond());
     }
 
-    @Override
-    public boolean inconsistencyFound()
+     
+    public bool inconsistencyFound()
     {
         return emptyDomainObserved;
     }
 
-    private List<Pair<VAR, Domain<VAL>>> getSavedDomains()
+    private IQueue<Pair<VAR, Domain<VAL>>> getSavedDomains()
     {
         return savedDomains;
     }
 
-    public String toString()
+    public override string ToString()
     {
         StringBuilder result = new StringBuilder();
         for (Pair<VAR, Domain<VAL>> pair : savedDomains)
-            result.append(pair.getFirst()).append("=").append(pair.getSecond()).append(" ");
+            result.Append(pair.getFirst()).Append("=").Append(pair.getSecond()).Append(" ");
         if (emptyDomainObserved)
-            result.append("!");
-        return result.toString();
+            result.Append("!");
+        return result.ToString();
     }
 }
 

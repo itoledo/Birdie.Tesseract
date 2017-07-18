@@ -18,15 +18,15 @@
      * 
      * @see SourceVersion#isIdentifier(CharSequence)
      */
-    public class PropositionSymbol extends AtomicSentence
+    public class PropositionSymbol : AtomicSentence
     {
     //
-    public static final String TRUE_SYMBOL  = "True";
-	public static final String FALSE_SYMBOL = "False";
+    public static final string TRUE_SYMBOL  = "True";
+	public static final string FALSE_SYMBOL = "False";
 	public static final PropositionSymbol TRUE  = new PropositionSymbol(TRUE_SYMBOL);
     public static final PropositionSymbol FALSE = new PropositionSymbol(FALSE_SYMBOL);
     //
-    private String symbol;
+    private string symbol;
 
     /**
 	 * Constructor.
@@ -34,7 +34,7 @@
 	 * @param symbol
 	 *            the symbol uniquely identifying the proposition.
 	 */
-    public PropositionSymbol(String symbol)
+    public PropositionSymbol(string symbol)
     {
         // Ensure differing cases for the 'True' and 'False'
         // propositional constants are represented in a canonical form.
@@ -61,9 +61,9 @@
 	 * @return true if this is the always 'True' proposition symbol, false
 	 *         otherwise.
 	 */
-    public boolean isAlwaysTrue()
+    public bool isAlwaysTrue()
     {
-        return TRUE_SYMBOL.equals(symbol);
+        return TRUE_SYMBOL.Equals(symbol);
     }
 
     /**
@@ -71,7 +71,7 @@
 	 * @return true if the symbol passed in is the always 'True' proposition
 	 *         symbol, false otherwise.
 	 */
-    public static boolean isAlwaysTrueSymbol(String symbol)
+    public static bool isAlwaysTrueSymbol(string symbol)
     {
         return TRUE_SYMBOL.equalsIgnoreCase(symbol);
     }
@@ -81,9 +81,9 @@
 	 * @return true if this is the always 'False' proposition symbol, false
 	 *         other.
 	 */
-    public boolean isAlwaysFalse()
+    public bool isAlwaysFalse()
     {
-        return FALSE_SYMBOL.equals(symbol);
+        return FALSE_SYMBOL.Equals(symbol);
     }
 
     /**
@@ -91,7 +91,7 @@
 	 * @return true if the symbol passed in is the always 'False' proposition
 	 *         symbol, false other.
 	 */
-    public static boolean isAlwaysFalseSymbol(String symbol)
+    public static bool isAlwaysFalseSymbol(string symbol)
     {
         return FALSE_SYMBOL.equalsIgnoreCase(symbol);
     }
@@ -104,7 +104,7 @@
 	 * @return true if the given symbol is a legal proposition symbol, false
 	 *         otherwise.
 	 */
-    public static boolean isPropositionSymbol(String symbol)
+    public static bool isPropositionSymbol(string symbol)
     {
         return SourceVersion.isIdentifier(symbol);
     }
@@ -118,7 +118,7 @@
 	 * @return true if the given character can be at the beginning of a
 	 *         proposition symbol representation, false otherwise.
 	 */
-    public static boolean isPropositionSymbolIdentifierStart(char ch)
+    public static bool isPropositionSymbolIdentifierStart(char ch)
     {
         return Character.isJavaIdentifierStart(ch);
     }
@@ -131,7 +131,7 @@
 	 * @return true if the given character is part of a proposition symbols
 	 *         representation, false otherwise.
 	 */
-    public static boolean isPropositionSymbolIdentifierPart(char ch)
+    public static bool isPropositionSymbolIdentifierPart(char ch)
     {
         return Character.isJavaIdentifierPart(ch);
     }
@@ -140,36 +140,36 @@
 	 * 
 	 * @return the symbol uniquely identifying the proposition.
 	 */
-    public String getSymbol()
+    public string getSymbol()
     {
         return symbol;
     }
 
-    @Override
-    public boolean equals(Object o)
+     
+    public override bool Equals(object o)
     {
 
         if (this == o)
         {
             return true;
         }
-        if ((o == null) || (this.getClass() != o.getClass()))
+        if ((o == null) || (this.GetType() != o.GetType()))
         {
             return false;
         }
         PropositionSymbol sym = (PropositionSymbol)o;
-        return symbol.equals(sym.symbol);
+        return symbol.Equals(sym.symbol);
 
     }
 
-    @Override
-    public int hashCode()
+     
+    public override int GetHashCode()
     {
-        return symbol.hashCode();
+        return symbol.GetHashCode();
     }
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         return getSymbol();
     }

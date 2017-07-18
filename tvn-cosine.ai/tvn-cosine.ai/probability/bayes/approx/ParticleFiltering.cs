@@ -50,7 +50,7 @@
         private DynamicBayesianNetwork dbn = null;
         private AssignmentProposition[][] S = new AssignmentProposition[0][0];
         //
-        private Randomizer randomizer = null;
+        private IRandom randomizer = null;
         private PriorSample priorSampler = null;
         private AssignmentProposition[][] S_tp1 = new AssignmentProposition[0][0];
         private FiniteProbabilityModel sensorModel = null;
@@ -83,10 +83,10 @@
          *            sensor model <b>P</b>(<b>E</b><sub>1</sub> |
          *            <b>X</b><sub>1</sub>)
          * @param randomizer
-         *            a Randomizer to be used for sampling purposes.
+         *            a IRandom to be used for sampling purposes.
          */
         public ParticleFiltering(int N, DynamicBayesianNetwork dbn,
-                Randomizer randomizer)
+                IRandom randomizer)
         {
             this.randomizer = randomizer;
             this.priorSampler = new PriorSample(this.randomizer);
@@ -148,19 +148,19 @@
             // from <b>P</b>(<b>X</b><sub>0</sub>)
             S = new AssignmentProposition[N][this.dbn.getX_0().size()];
             S_tp1 = new AssignmentProposition[N][this.dbn.getX_0().size()];
-            Integer[] indexes = new Integer[N];
+            int[] indexes = new int[N];
             for (int i = 0; i < N; i++)
             {
                 indexes[i] = i;
-                Map<RandomVariable, Object> sample = priorSampler
+                Map<RandomVariable, object> sample = priorSampler
                         .priorSample(this.dbn.getPriorNetwork());
                 int idx = 0;
-                for (Map.Entry<RandomVariable, Object> sa : sample.entrySet())
+                for (Map.Entry<RandomVariable, object> sa : sample.entrySet())
                 {
                     S[i][idx] = new AssignmentProposition(this.dbn.getX_0_to_X_1()
-                            .get(sa.getKey()), sa.getValue());
+                            .Get(sa.getKey()), sa.getValue());
                     S_tp1[i][idx] = new AssignmentProposition(this.dbn
-                            .getX_0_to_X_1().get(sa.getKey()), sa.getValue());
+                            .getX_0_to_X_1().Get(sa.getKey()), sa.getValue());
                     idx++;
                 }
             }
@@ -177,11 +177,11 @@
         private void sampleFromTransitionModel(int i)
         {
             // x <- an event initialized with S[i]
-            Map<RandomVariable, Object> x = new LinkedHashMap<RandomVariable, Object>();
-            for (int n = 0; n < S[i].length; n++)
+            Map<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
+            for (int n = 0; n < S[i].Length; n++)
             {
                 AssignmentProposition x1 = S[i][n];
-                x.put(this.dbn.getX_1_to_X_0().get(x1.getTermVariable()),
+                x.Put(this.dbn.getX_1_to_X_0().Get(x1.getTermVariable()),
                         x1.getValue());
             }
 
@@ -192,15 +192,15 @@
                 // x1[i] <- a random sample from
                 // <b>P</b>(X<sub>1<sub>i</sub></sub> |
                 // parents(X<sub>1<sub>i</sub></sub>))
-                x.put(X1_i, ProbUtil.randomSample(dbn.getNode(X1_i), x, randomizer));
+                x.Put(X1_i, ProbUtil.randomSample(dbn.getNode(X1_i), x, randomizer));
             }
 
             // S[i] <- sample from <b>P</b>(<b>X</b><sub>1</sub> |
             // <b>X</b><sub>0</sub> = S[i])
-            for (int n = 0; n < S_tp1[i].length; n++)
+            for (int n = 0; n < S_tp1[i].Length; n++)
             {
                 AssignmentProposition x1 = S_tp1[i][n];
-                x1.setValue(x.get(x1.getTermVariable()));
+                x1.setValue(x.Get(x1.getTermVariable()));
             }
         }
 
@@ -231,9 +231,9 @@
 
             for (int i = 0; i < N; i++)
             {
-                int sample = (Integer)ProbUtil.sample(randomizer.nextDouble(),
+                int sample = (int)ProbUtil.sample(randomizer.NextDouble(),
                         sampleIndexes, normalizedW);
-                for (int idx = 0; idx < S_tp1[i].length; idx++)
+                for (int idx = 0; idx < S_tp1[i].Length; idx++)
                 {
                     AssignmentProposition ap = S_tp1[sample][idx];
                     newS[i][idx] = new AssignmentProposition(ap.getTermVariable(),

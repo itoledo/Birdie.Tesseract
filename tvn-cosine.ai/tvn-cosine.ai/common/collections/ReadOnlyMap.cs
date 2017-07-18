@@ -62,6 +62,11 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
+        void IQueue<KeyValuePair<KEY, VALUE>>.Sort(IComparer<KeyValuePair<KEY, VALUE>> comparer)
+        {
+            throw new NotSupportedException("Not supported");
+        }
+
         void IMap<KEY, VALUE>.Put(KEY key, VALUE value)
         {
             throw new NotSupportedException("Not supported");

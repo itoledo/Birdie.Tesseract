@@ -1,7 +1,7 @@
 ﻿namespace tvn.cosine.ai.util.math.geom.shapes
 {
     /**
-     * This class implements a line in a two-dimensional Cartesian plot.<br/>
+     * This class : a line in a two-dimensional Cartesian plot.<br/>
      * Every line consists of a starting point and an ending point represented by a {@link Point2D}.<br/>
      * In addition the line between these two points can be represented as a {@link Vector2D}. 
      * 
@@ -10,7 +10,7 @@
      * @author Andreas Walscheid
      *
      */
-    public final class Line2D implements IGeometric2D
+    public final class Line2D : IGeometric2D
     {
 
 
@@ -18,8 +18,8 @@
 	private final Vector2D line;
 	private final Point2D end;
 	
-	private final boolean zeroX;
-	private final boolean zeroY;
+	private final bool zeroX;
+	private final bool zeroY;
 	
 	/**
 	 * @param start the starting point of the line.
@@ -29,7 +29,7 @@
     {
         this.start = start;
         this.line = line;
-        this.end = start.add(line);
+        this.end = start.Add(line);
 
         this.zeroX = Util.compareDoubles(line.getX(), 0.0d);
         this.zeroY = Util.compareDoubles(line.getY(), 0.0d);
@@ -89,7 +89,7 @@
         return end;
     }
 
-    @Override
+     
     public Point2D randomPoint()
     {
         if (zeroX && zeroY)
@@ -112,18 +112,18 @@
         }
     }
 
-    @Override
-    public boolean isInside(Point2D point)
+     
+    public bool isInside(Point2D point)
     {
         return false;
     }
 
-    @Override
-    public boolean isInsideBorder(Point2D point)
+     
+    public bool isInsideBorder(Point2D point)
     {
         if (zeroX && zeroY)
         {
-            return start.equals(point);
+            return start.Equals(point);
         }
         else if (zeroX)
         {
@@ -143,13 +143,13 @@
         }
     }
 
-    @Override
+     
     public double rayCast(Ray2D ray)
     {
         if (!ray.getDirection().isParallel(line))
         {
             final double divisor = (ray.getDirection().getY() * line.getX() - ray.getDirection().getX() * line.getY());
-            if (Util.compareDoubles(divisor, 0.0d)) return Double.POSITIVE_INFINITY;
+            if (Util.compareDoubles(divisor, 0.0d)) return double.POSITIVE_INFINITY;
             final double len1 = (start.getY() * line.getX() - ray.getStart().getY() * line.getX() - start.getX() * line.getY() + ray.getStart().getX() * line.getY()) / divisor;
             if (len1 > 0)
             {
@@ -173,16 +173,16 @@
                 }
             }
         }
-        return Double.POSITIVE_INFINITY;
+        return double.POSITIVE_INFINITY;
     }
 
-    @Override
+     
     public Rect2D getBounds()
     {
         return new Rect2D(start.getX(), start.getY(), end.getX(), end.getY());
     }
 
-    @Override
+     
     public Line2D transform(TransformMatrix2D matrix)
     {
         final Point2D   startNew = matrix.multiply(start),

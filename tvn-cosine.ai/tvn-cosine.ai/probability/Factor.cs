@@ -1,5 +1,20 @@
-﻿namespace tvn.cosine.ai.probability
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.proposition;
+
+namespace tvn.cosine.ai.probability
 {
+    public interface FactorIterator : Iterator
+    { 
+        /**
+         * Interface to be implemented by an object/algorithm that wishes to iterate
+         * over the possible assignments for the random variables comprising this
+         * Factor.
+         * 
+         * @see Factor#iterateOver(Iterator)
+         * @see Factor#iterateOver(Iterator, params AssignmentProposition[] )
+         */
+    }
+
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 524.<br>
      * <br>
@@ -9,36 +24,12 @@
      * 
      */
     public interface Factor
-    {
-
-        /**
-         * Interface to be implemented by an object/algorithm that wishes to iterate
-         * over the possible assignments for the random variables comprising this
-         * Factor.
-         * 
-         * @see Factor#iterateOver(Iterator)
-         * @see Factor#iterateOver(Iterator, AssignmentProposition...)
-         */
-        public interface Iterator
-        {
-            /**
-             * Called for each possible assignment for the Random Variables
-             * comprising this Factor.
-             * 
-             * @param possibleAssignment
-             *            a possible assignment, &omega;, of variable/value pairs.
-             * @param value
-             *            the value associated with &omega;
-             */
-            void iterate(Map<RandomVariable, Object> possibleAssignment,
-                    double value);
-        }
-
+    {  
         /**
          * @return a consistent ordered Set (e.g. LinkedHashSet) of the argument
          *         variables for this Factor.
          */
-        Set<RandomVariable> getArgumentVariables();
+        ISet<RandomVariable> getArgumentVariables();
 
         /**
          * 
@@ -47,7 +38,7 @@
          * @return true if this Factor contains the passed in Random Variable, false
          *         otherwise.
          */
-        boolean contains(RandomVariable rv);
+        bool contains(RandomVariable rv);
 
         /**
          * <b>Note:</b> Do not modify the double[] returned by this method directly
@@ -70,7 +61,7 @@
          * @return a new Factor containing any remaining random variables not summed
          *         out and a new set of values updated with the summed out values.
          */
-        Factor sumOut(RandomVariable...vars);
+        Factor sumOut(params RandomVariable[] vars);
 
         /**
          * Pointwise multiplication of this Factor by a given multiplier, creating a
@@ -99,7 +90,7 @@
          *         product factor is the ordered union of the left term (this) and
          *         the right term (multiplier).
          * 
-         * @see Factor#pointwiseProductPOS(Factor, RandomVariable...)
+         * @see Factor#pointwiseProductPOS(Factor, params RandomVariable[] )
          */
         Factor pointwiseProduct(Factor multiplier);
 
@@ -122,8 +113,7 @@
          * 
          * @see Factor#pointwiseProduct(Factor)
          */
-        Factor pointwiseProductPOS(Factor multiplier,
-                RandomVariable...prodVarOrder);
+        Factor pointwiseProductPOS(Factor multiplier, params RandomVariable[] prodVarOrder);
 
         /**
          * Iterate over all the possible value assignments for the Random Variables
@@ -132,7 +122,7 @@
          * @param fi
          *            the Factor Iterator to iterate.
          */
-        void iterateOver(Iterator fi);
+        void iterateOver(FactorIterator fi);
 
         /**
          * Iterate over all possible values assignments for the Random Variables
@@ -145,7 +135,6 @@
          *            Fixed values for a subset of the Random Variables comprising
          *            this Factor.
          */
-        void iterateOver(Iterator fi, AssignmentProposition...fixedValues);
-    }
-
+        void iterateOver(FactorIterator fi, params AssignmentProposition[] fixedValues);
+    } 
 }

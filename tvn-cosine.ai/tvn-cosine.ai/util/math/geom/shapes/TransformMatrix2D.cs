@@ -129,7 +129,7 @@
          * @param op2 the {@link TransformMatrix2D} to be compared to this matrix.
          * @return true if both matrices are identical.
          */
-        public boolean equals(TransformMatrix2D op2)
+        public bool equals(TransformMatrix2D op2)
         {
             if (op2 == null) return false;
             return Util.compareDoubles(this.a, op2.a) && Util.compareDoubles(this.b, op2.b) && Util.compareDoubles(this.c, op2.c) && Util.compareDoubles(this.d, op2.d) && Util.compareDoubles(this.e, op2.e) && Util.compareDoubles(this.f, op2.f);
@@ -141,11 +141,11 @@
          * @param o the object to be compared to this matrix.
          * @return true if the object is identical to this matrix.
          */
-        @Override
-        public boolean equals(Object o)
+         
+        public override bool Equals(object o)
         {
-            if (o instanceof TransformMatrix2D)
-			return this.equals((TransformMatrix2D)o);
+            if (o is TransformMatrix2D)
+			return this.Equals((TransformMatrix2D)o);
             return false;
         }
     }

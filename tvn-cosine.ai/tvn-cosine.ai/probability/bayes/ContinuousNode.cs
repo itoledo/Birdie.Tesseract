@@ -6,7 +6,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public interface ContinuousNode extends Node
+    public interface ContinuousNode : Node
     {
 
     }

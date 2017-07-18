@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.logic.common
 {
@@ -11,41 +12,43 @@ namespace tvn.cosine.ai.logic.common
      * 
      */
     public class ParserException : RuntimeException
-    { 
-    private List<Token> problematicTokens = new ArrayList<Token>();
-
-    public ParserException(String message, Token...problematicTokens)
     {
-        super(message);
-        if (problematicTokens != null)
+        private IQueue<Token> problematicTokens = Factory.CreateQueue<Token>();
+
+        public ParserException(string message, params Token[] problematicTokens)
+            : base(message)
         {
-            for (Token pt : problematicTokens)
+
+            if (problematicTokens != null)
             {
-                this.problematicTokens.add(pt);
+                foreach (Token pt in problematicTokens)
+                {
+                    this.problematicTokens.Add(pt);
+                }
             }
         }
-    }
 
-    public ParserException(String message, Throwable cause, Token...problematicTokens)
-    {
-        super(message, cause);
-        if (problematicTokens != null)
+        public ParserException(string message, Exception cause, params Token[] problematicTokens)
+            : base(message, cause)
         {
-            for (Token pt : problematicTokens)
+
+            if (problematicTokens != null)
             {
-                this.problematicTokens.add(pt);
+                foreach (Token pt in problematicTokens)
+                {
+                    this.problematicTokens.Add(pt);
+                }
             }
         }
-    }
 
-    /**
-	 * 
-	 * @return a list of 0 or more tokens from the input stream that are
-	 *         believed to have contributed to the parse exception.
-	 */
-    public List<Token> getProblematicTokens()
-    {
-        return problematicTokens;
+        /**
+         * 
+         * @return a list of 0 or more tokens from the input stream that are
+         *         believed to have contributed to the parse exception.
+         */
+        public IQueue<Token> getProblematicTokens()
+        {
+            return problematicTokens;
+        }
     }
-}
 }

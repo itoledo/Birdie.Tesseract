@@ -28,10 +28,10 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public class GibbsAsk implements BayesSampleInference
+    public class GibbsAsk : BayesSampleInference
     {
 
-    private Randomizer randomizer = null;
+    private IRandom randomizer = null;
 
     public GibbsAsk()
     {
@@ -67,23 +67,23 @@
         double[] N = new double[ProbUtil
                 .expectedSizeOfCategoricalDistribution(X)];
         // Z, the nonevidence variables in bn
-        Set<RandomVariable> Z = new LinkedHashSet<RandomVariable>(
+        ISet<RandomVariable> Z = Factory.CreateSet<RandomVariable>(
                 bn.getVariablesInTopologicalOrder());
         for (AssignmentProposition ap : e)
         {
-            Z.remove(ap.getTermVariable());
+            Z.Remove(ap.getTermVariable());
         }
         // <b>x</b>, the current state of the network, initially copied from e
-        Map<RandomVariable, Object> x = new LinkedHashMap<RandomVariable, Object>();
+        Map<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
         for (AssignmentProposition ap : e)
         {
-            x.put(ap.getTermVariable(), ap.getValue());
+            x.Put(ap.getTermVariable(), ap.getValue());
         }
 
         // initialize <b>x</b> with random values for the variables in Z
         for (RandomVariable Zi : Z)
         {
-            x.put(Zi, ProbUtil.randomSample(bn.getNode(Zi), x, randomizer));
+            x.Put(Zi, ProbUtil.randomSample(bn.getNode(Zi), x, randomizer));
         }
 
         // for j = 1 to N do
@@ -94,7 +94,7 @@
             {
                 // set the value of Z<sub>i</sub> in <b>x</b> by sampling from
                 // <b>P</b>(Z<sub>i</sub>|mb(Z<sub>i</sub>))
-                x.put(Zi,
+                x.Put(Zi,
                         ProbUtil.mbRandomSample(bn.getNode(Zi), x, randomizer));
             }
             // Note: moving this outside the previous for loop,
@@ -117,7 +117,7 @@
 
     //
     // START-BayesSampleInference
-    @Override
+     
     public CategoricalDistribution ask(final RandomVariable[] X,
             final AssignmentProposition[] observedEvidence,
             final BayesianNetwork bn, int N)

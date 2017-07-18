@@ -6,25 +6,25 @@
      *
      * @author Ruediger Lunde
      */
-    public interface InferenceLog<VAR extends Variable, VAL>
+    public interface InferenceLog<VAR : Variable, VAL>
     {
-        boolean isEmpty();
-        boolean inconsistencyFound();
+        bool isEmpty();
+        bool inconsistencyFound();
         void undo(CSP<VAR, VAL> csp);
 
         /**
          * Returns an empty inference log.
          */
-        static <VAR extends Variable, VAL> InferenceLog<VAR, VAL> emptyLog()
+        static <VAR : Variable, VAL> InferenceLog<VAR, VAL> emptyLog()
         {
             return new InferenceLog<VAR, VAL>() {
-            @Override
-            public boolean isEmpty() { return true; }
+             
+            public bool isEmpty() { return true; }
 
-        @Override
-                public boolean inconsistencyFound() { return false; }
+         
+                public bool inconsistencyFound() { return false; }
 
-        @Override
+         
                 public void undo(CSP<VAR, VAL> csp) { }
     };
 }

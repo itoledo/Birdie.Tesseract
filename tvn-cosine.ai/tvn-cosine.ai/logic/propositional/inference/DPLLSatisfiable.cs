@@ -39,7 +39,7 @@
      * @author Ravi Mohan
      * @author Mike Stampone
      */
-    public class DPLLSatisfiable implements DPLL
+    public class DPLLSatisfiable : DPLL
     {
 
         /**
@@ -50,15 +50,15 @@
          *            a sentence in propositional logic.
          * @return true if the sentence is satisfiable, false otherwise.
          */
-        @Override
+         
 
-    public boolean dpllSatisfiable(Sentence s)
+    public bool dpllSatisfiable(Sentence s)
     {
         // clauses <- the set of clauses in the CNF representation of s
-        Set<Clause> clauses = ConvertToConjunctionOfClauses.convert(s)
+        ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(s)
                 .getClauses();
         // symbols <- a list of the proposition symbols in s
-        List<PropositionSymbol> symbols = getPropositionSymbolsInSentence(s);
+        IQueue<PropositionSymbol> symbols = getPropositionSymbolsInSentence(s);
 
         // return DPLL(clauses, symbols, {})
         return dpll(clauses, symbols, new Model());
@@ -76,8 +76,8 @@
 	 * @return true if the model is satisfiable under current assignments, false
 	 *         otherwise.
 	 */
-    @Override
-    public boolean dpll(Set<Clause> clauses, List<PropositionSymbol> symbols,
+     
+    public bool dpll(Set<Clause> clauses, IQueue<PropositionSymbol> symbols,
             Model model)
     {
         // if every clause in clauses is true in model then return true
@@ -111,7 +111,7 @@
 
         // P <- FIRST(symbols); rest <- REST(symbols)
         PropositionSymbol p = Util.first(symbols);
-        List<PropositionSymbol> rest = Util.rest(symbols);
+        IQueue<PropositionSymbol> rest = Util.rest(symbols);
         // return DPLL(clauses, rest, model U {P = true}) or
         // ...... DPLL(clauses, rest, model U {P = false})
         return dpll(clauses, rest, model.union(p, true))
@@ -131,22 +131,22 @@
 	 *            a propositional sentence.
 	 * @return true, if &alpha; is entailed by KB, false otherwise.
 	 */
-    @Override
-    public boolean isEntailed(KnowledgeBase kb, Sentence alpha)
+     
+    public bool isEntailed(KnowledgeBase kb, Sentence alpha)
     {
         // AIMA3e p.g. 260: kb |= alpha, can be done by testing
         // unsatisfiability of kb & ~alpha.
-        Set<Clause> kbAndNotAlpha = new LinkedHashSet<Clause>();
+        ISet<Clause> kbAndNotAlpha = Factory.CreateSet<Clause>();
         Sentence notQuery = new ComplexSentence(Connective.NOT, alpha);
-        Set<PropositionSymbol> symbols = new LinkedHashSet<PropositionSymbol>();
-        List<PropositionSymbol> querySymbols = new ArrayList<PropositionSymbol>(SymbolCollector.getSymbolsFrom(notQuery));
+        ISet<PropositionSymbol> symbols = Factory.CreateSet<PropositionSymbol>();
+        IQueue<PropositionSymbol> querySymbols = Factory.CreateQueue<PropositionSymbol>(SymbolCollector.getSymbolsFrom(notQuery));
 
         kbAndNotAlpha.addAll(kb.asCNF());
         kbAndNotAlpha.addAll(ConvertToConjunctionOfClauses.convert(notQuery).getClauses());
         symbols.addAll(querySymbols);
         symbols.addAll(kb.getSymbols());
 
-        return !dpll(kbAndNotAlpha, new ArrayList<PropositionSymbol>(symbols), new Model());
+        return !dpll(kbAndNotAlpha, Factory.CreateQueue<PropositionSymbol>(symbols), new Model());
     }
 
     //
@@ -155,9 +155,9 @@
 
     // Note: Override this method if you wish to change the initial variable
     // ordering when dpllSatisfiable is called.
-    protected List<PropositionSymbol> getPropositionSymbolsInSentence(Sentence s)
+    protected IQueue<PropositionSymbol> getPropositionSymbolsInSentence(Sentence s)
     {
-        List<PropositionSymbol> result = new ArrayList<PropositionSymbol>(
+        IQueue<PropositionSymbol> result = Factory.CreateQueue<PropositionSymbol>(
                 SymbolCollector.getSymbolsFrom(s));
 
         return result;
@@ -188,19 +188,19 @@
 	 *         can be identified.
 	 */
     protected Pair<PropositionSymbol, Boolean> findPureSymbol(
-            List<PropositionSymbol> symbols, Set<Clause> clauses, Model model)
+            IQueue<PropositionSymbol> symbols, ISet<Clause> clauses, Model model)
     {
         Pair<PropositionSymbol, Boolean> result = null;
 
-        Set<PropositionSymbol> symbolsToKeep = new HashSet<PropositionSymbol>(symbols);
+        ISet<PropositionSymbol> symbolsToKeep = Factory.CreateSet<PropositionSymbol>(symbols);
         // Collect up possible positive and negative candidate sets of pure
         // symbols
-        Set<PropositionSymbol> candidatePurePositiveSymbols = new HashSet<PropositionSymbol>();
-        Set<PropositionSymbol> candidatePureNegativeSymbols = new HashSet<PropositionSymbol>();
+        ISet<PropositionSymbol> candidatePurePositiveSymbols = Factory.CreateSet<PropositionSymbol>();
+        ISet<PropositionSymbol> candidatePureNegativeSymbols = Factory.CreateSet<PropositionSymbol>();
         for (Clause c : clauses)
         {
             // Algorithm can ignore clauses that are already known to be true
-            if (Boolean.TRUE.equals(model.determineValue(c)))
+            if (Boolean.TRUE.Equals(model.determineValue(c)))
             {
                 continue;
             }
@@ -210,14 +210,14 @@
             {
                 if (symbolsToKeep.contains(p))
                 {
-                    candidatePurePositiveSymbols.add(p);
+                    candidatePurePositiveSymbols.Add(p);
                 }
             }
             for (PropositionSymbol n : c.getNegativeSymbols())
             {
                 if (symbolsToKeep.contains(n))
                 {
-                    candidatePureNegativeSymbols.add(n);
+                    candidatePureNegativeSymbols.Add(n);
                 }
             }
         }
@@ -229,8 +229,8 @@
             // Remove the non-pure symbols
             if (candidatePurePositiveSymbols.contains(s) && candidatePureNegativeSymbols.contains(s))
             {
-                candidatePurePositiveSymbols.remove(s);
-                candidatePureNegativeSymbols.remove(s);
+                candidatePurePositiveSymbols.Remove(s);
+                candidatePureNegativeSymbols.Remove(s);
             }
         }
 
@@ -275,7 +275,7 @@
 	 *         can be identified.
 	 */
     protected Pair<PropositionSymbol, Boolean> findUnitClause(
-            Set<Clause> clauses, Model model)
+            ISet<Clause> clauses, Model model)
     {
         Pair<PropositionSymbol, Boolean> result = null;
 
@@ -338,17 +338,17 @@
         return result;
     }
 
-    protected boolean everyClauseTrue(Set<Clause> clauses, Model model)
+    protected bool everyClauseTrue(Set<Clause> clauses, Model model)
     {
         return model.satisfies(clauses);
     }
 
-    protected boolean someClauseFalse(Set<Clause> clauses, Model model)
+    protected bool someClauseFalse(Set<Clause> clauses, Model model)
     {
         for (Clause c : clauses)
         {
             // Only 1 needs to be false
-            if (Boolean.FALSE.equals(model.determineValue(c)))
+            if (Boolean.FALSE.Equals(model.determineValue(c)))
             {
                 return true;
             }
@@ -357,17 +357,17 @@
     }
 
     // symbols - P
-    protected List<PropositionSymbol> minus(List<PropositionSymbol> symbols,
+    protected IQueue<PropositionSymbol> minus(IQueue<PropositionSymbol> symbols,
             PropositionSymbol p)
     {
-        List<PropositionSymbol> result = new ArrayList<PropositionSymbol>(
+        IQueue<PropositionSymbol> result = Factory.CreateQueue<PropositionSymbol>(
                 symbols.size());
         for (PropositionSymbol s : symbols)
         {
             // symbols - P
-            if (!p.equals(s))
+            if (!p.Equals(s))
             {
-                result.add(s);
+                result.Add(s);
             }
         }
         return result;

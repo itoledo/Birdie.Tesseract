@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.framework.problem
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.framework.problem
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 147.<br>
@@ -30,12 +32,12 @@
         /**
          * Returns the description of the possible actions available to the agent.
          */
-        List<A> getActions(S state);
+        IQueue<A> getActions(S state);
 
         /**
          * Determines whether a given state is a goal state.
          */
-        boolean testGoal(S state);
+        bool testGoal(S state);
 
         /**
          * Returns the <b>step cost</b> of taking action <code>action</code> in state <code>state</code> to reach state

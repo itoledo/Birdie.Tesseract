@@ -1,19 +1,19 @@
 ﻿namespace tvn.cosine.ai.logic.propositional.inference
 {
-    public class OptimizedDPLL implements DPLL
+    public class OptimizedDPLL : DPLL
     {
 
         //
         // START-DPLL
-        @Override
+         
 
-    public boolean dpllSatisfiable(Sentence s)
+    public bool dpllSatisfiable(Sentence s)
     {
         // clauses <- the set of clauses in the CNF representation of s
-        Set<Clause> clauses = ConvertToConjunctionOfClauses.convert(s)
+        ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(s)
                 .getClauses();
         // symbols <- a list of the proposition symbols in s
-        List<PropositionSymbol> symbols = getPropositionSymbolsInSentence(s);
+        IQueue<PropositionSymbol> symbols = getPropositionSymbolsInSentence(s);
 
         // return DPLL(clauses, symbols, {})
         return dpll(clauses, symbols, new Model());
@@ -31,26 +31,26 @@
 	 * @return true if the model is satisfiable under current assignments, false
 	 *         otherwise.
 	 */
-    @Override
-    public boolean dpll(Set<Clause> clauses, List<PropositionSymbol> symbols, Model model)
+     
+    public bool dpll(Set<Clause> clauses, IQueue<PropositionSymbol> symbols, Model model)
     {
         // if every clause in clauses is true in model then return true
         // if some clause in clauses is false in model then return false
         // NOTE: for optimization reasons we only want to determine the
         // values of clauses once on each call to dpll
-        boolean allTrue = true;
-        Set<Clause> unknownClauses = new LinkedHashSet<>();
+        bool allTrue = true;
+        ISet<Clause> unknownClauses = Factory.CreateSet<>();
         for (Clause c : clauses)
         {
             Boolean value = model.determineValue(c);
-            if (!Boolean.TRUE.equals(value))
+            if (!Boolean.TRUE.Equals(value))
             {
                 allTrue = false;
-                if (Boolean.FALSE.equals(value))
+                if (Boolean.FALSE.Equals(value))
                 {
                     return false;
                 }
-                unknownClauses.add(c);
+                unknownClauses.Add(c);
             }
         }
         if (allTrue)
@@ -90,7 +90,7 @@
 
         // P <- FIRST(symbols); rest <- REST(symbols)
         PropositionSymbol p = Util.first(symbols);
-        List<PropositionSymbol> rest = Util.rest(symbols);
+        IQueue<PropositionSymbol> rest = Util.rest(symbols);
         // return DPLL(clauses, rest, model U {P = true}) or
         // ...... DPLL(clauses, rest, model U {P = false})
         return callDPLL(clauses, rest, model, p, true)
@@ -106,22 +106,22 @@
 	 *            a propositional sentence.
 	 * @return true, if &alpha; is entailed by KB, false otherwise.
 	 */
-    @Override
-    public boolean isEntailed(KnowledgeBase kb, Sentence alpha)
+     
+    public bool isEntailed(KnowledgeBase kb, Sentence alpha)
     {
         // AIMA3e p.g. 260: kb |= alpha, can be done by testing
         // unsatisfiability of kb & ~alpha.
-        Set<Clause> kbAndNotAlpha = new LinkedHashSet<>();
+        ISet<Clause> kbAndNotAlpha = Factory.CreateSet<>();
         Sentence notQuery = new ComplexSentence(Connective.NOT, alpha);
-        Set<PropositionSymbol> symbols = new LinkedHashSet<>();
-        List<PropositionSymbol> querySymbols = new ArrayList<>(SymbolCollector.getSymbolsFrom(notQuery));
+        ISet<PropositionSymbol> symbols = Factory.CreateSet<>();
+        IQueue<PropositionSymbol> querySymbols = Factory.CreateQueue<>(SymbolCollector.getSymbolsFrom(notQuery));
 
         kbAndNotAlpha.addAll(kb.asCNF());
         kbAndNotAlpha.addAll(ConvertToConjunctionOfClauses.convert(notQuery).getClauses());
         symbols.addAll(querySymbols);
         symbols.addAll(kb.getSymbols());
 
-        return !dpll(kbAndNotAlpha, new ArrayList<>(symbols), new Model());
+        return !dpll(kbAndNotAlpha, Factory.CreateQueue<>(symbols), new Model());
     }
     // END-DPLL
     //
@@ -132,20 +132,20 @@
 
     // Note: Override this method if you wish to change the initial variable
     // ordering when dpllSatisfiable is called.
-    protected List<PropositionSymbol> getPropositionSymbolsInSentence(Sentence s)
+    protected IQueue<PropositionSymbol> getPropositionSymbolsInSentence(Sentence s)
     {
-        return new ArrayList<>(SymbolCollector.getSymbolsFrom(s));
+        return Factory.CreateQueue<>(SymbolCollector.getSymbolsFrom(s));
     }
 
-    protected boolean callDPLL(Set<Clause> clauses, List<PropositionSymbol> symbols,
-            Model model, PropositionSymbol p, boolean value)
+    protected bool callDPLL(Set<Clause> clauses, IQueue<PropositionSymbol> symbols,
+            Model model, PropositionSymbol p, bool value)
     {
         // We update the model in place with the assignment p=value,
-        boolean result = dpll(clauses, symbols, model.unionInPlace(p, value));
+        bool result = dpll(clauses, symbols, model.unionInPlace(p, value));
         // as backtracking can occur during the recursive calls we
         // need to remove the assigned value before we pop back out from this
         // call.
-        model.remove(p);
+        model.Remove(p);
         return result;
     }
 
@@ -174,15 +174,15 @@
 	 *         can be identified.
 	 */
     protected Pair<PropositionSymbol, Boolean> findPureSymbol(
-            List<PropositionSymbol> symbols, Set<Clause> clauses, Model model)
+            IQueue<PropositionSymbol> symbols, ISet<Clause> clauses, Model model)
     {
         Pair<PropositionSymbol, Boolean> result = null;
 
-        Set<PropositionSymbol> symbolsToKeep = new HashSet<>(symbols);
+        ISet<PropositionSymbol> symbolsToKeep = Factory.CreateSet<>(symbols);
         // Collect up possible positive and negative candidate sets of pure
         // symbols
-        Set<PropositionSymbol> candidatePurePositiveSymbols = new HashSet<>();
-        Set<PropositionSymbol> candidatePureNegativeSymbols = new HashSet<>();
+        ISet<PropositionSymbol> candidatePurePositiveSymbols = Factory.CreateSet<>();
+        ISet<PropositionSymbol> candidatePureNegativeSymbols = Factory.CreateSet<>();
         for (Clause c : clauses)
         {
             // Algorithm can ignore clauses that are already known to be true
@@ -195,14 +195,14 @@
             {
                 if (symbolsToKeep.contains(p))
                 {
-                    candidatePurePositiveSymbols.add(p);
+                    candidatePurePositiveSymbols.Add(p);
                 }
             }
             for (PropositionSymbol n : c.getNegativeSymbols())
             {
                 if (symbolsToKeep.contains(n))
                 {
-                    candidatePureNegativeSymbols.add(n);
+                    candidatePureNegativeSymbols.Add(n);
                 }
             }
         }
@@ -214,8 +214,8 @@
             // Remove the non-pure symbols
             if (candidatePurePositiveSymbols.contains(s) && candidatePureNegativeSymbols.contains(s))
             {
-                candidatePurePositiveSymbols.remove(s);
-                candidatePureNegativeSymbols.remove(s);
+                candidatePurePositiveSymbols.Remove(s);
+                candidatePureNegativeSymbols.Remove(s);
             }
         }
 
@@ -259,7 +259,7 @@
 	 *         can be identified.
 	 */
     protected Pair<PropositionSymbol, Boolean> findUnitClause(
-            Set<Clause> clauses, Model model)
+            ISet<Clause> clauses, Model model)
     {
         Pair<PropositionSymbol, Boolean> result = null;
 
@@ -324,16 +324,16 @@
     }
 
     // symbols - P
-    protected List<PropositionSymbol> minus(List<PropositionSymbol> symbols,
+    protected IQueue<PropositionSymbol> minus(IQueue<PropositionSymbol> symbols,
             PropositionSymbol p)
     {
-        List<PropositionSymbol> result = new ArrayList<>(
+        IQueue<PropositionSymbol> result = Factory.CreateQueue<>(
                 symbols.size());
         for (PropositionSymbol s : symbols)
         {
             // symbols - P
-            if (!p.equals(s))
-                result.add(s);
+            if (!p.Equals(s))
+                result.Add(s);
         }
         return result;
     }

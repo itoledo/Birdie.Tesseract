@@ -5,7 +5,7 @@
      * <br>
      * Closely related to ResultFunction, but for non-deterministic problems; in
      * these problems, the outcome of an action will be a set of results, not a
-     * single result. This class implements the functionality of RESULTS(s, a), page
+     * single result. This class : the functionality of RESULTS(s, a), page
      * 136, returning the states resulting from doing action a in state s.
      * 
      * @author Andrew Brown
@@ -23,6 +23,6 @@
          *            an action to be performed in state s.
          * @return the states that result from doing action a in state s.
          */
-        List<S> results(S state, A action);
+        IQueue<S> results(S state, A action);
     }
 }

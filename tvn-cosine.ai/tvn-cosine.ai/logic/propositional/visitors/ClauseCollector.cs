@@ -6,7 +6,7 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class ClauseCollector extends BasicGatherer<Clause> {
+    public class ClauseCollector : BasicGatherer<Clause> {
 
     /**
 	 * Collect a set of clauses from a list of given sentences.
@@ -17,9 +17,9 @@
 	 * @throws IllegalArgumentException
 	 *             if any of the given sentences are not in CNF.
 	 */
-    public static Set<Clause> getClausesFrom(Sentence...cnfSentences)
+    public static ISet<Clause> getClausesFrom(Sentence...cnfSentences)
     {
-        Set<Clause> result = new LinkedHashSet<Clause>();
+        ISet<Clause> result = Factory.CreateSet<Clause>();
 
         ClauseCollector clauseCollector = new ClauseCollector();
         for (Sentence cnfSentence : cnfSentences)
@@ -30,18 +30,18 @@
         return result;
     }
 
-    @Override
-    public Set<Clause> visitPropositionSymbol(PropositionSymbol s, Set<Clause> arg)
+     
+    public ISet<Clause> visitPropositionSymbol(PropositionSymbol s, ISet<Clause> arg)
     {
         // a positive unit clause
         Literal positiveLiteral = new Literal(s);
-        arg.add(new Clause(positiveLiteral));
+        arg.Add(new Clause(positiveLiteral));
 
         return arg;
     }
 
-    @Override
-    public Set<Clause> visitUnarySentence(ComplexSentence s, Set<Clause> arg)
+     
+    public ISet<Clause> visitUnarySentence(ComplexSentence s, ISet<Clause> arg)
     {
 
         if (!s.getSimplerSentence(0).isPropositionSymbol())
@@ -51,13 +51,13 @@
 
         // a negative unit clause
         Literal negativeLiteral = new Literal((PropositionSymbol)s.getSimplerSentence(0), false);
-        arg.add(new Clause(negativeLiteral));
+        arg.Add(new Clause(negativeLiteral));
 
         return arg;
     }
 
-    @Override
-    public Set<Clause> visitBinarySentence(ComplexSentence s, Set<Clause> arg)
+     
+    public ISet<Clause> visitBinarySentence(ComplexSentence s, ISet<Clause> arg)
     {
 
         if (s.isAndSentence())
@@ -67,8 +67,8 @@
         }
         else if (s.isOrSentence())
         {
-            List<Literal> literals = new ArrayList<Literal>(LiteralCollector.getLiterals(s));
-            arg.add(new Clause(literals));
+            IQueue<Literal> literals = Factory.CreateQueue<Literal>(LiteralCollector.getLiterals(s));
+            arg.Add(new Clause(literals));
         }
         else
         {
@@ -81,12 +81,12 @@
     //
     // PRIVATE
     //
-    private static class LiteralCollector extends BasicGatherer<Literal> {
+    private static class LiteralCollector : BasicGatherer<Literal> {
 
 
-        private static Set<Literal> getLiterals(Sentence disjunctiveSentence)
+        private static ISet<Literal> getLiterals(Sentence disjunctiveSentence)
     {
-        Set<Literal> result = new LinkedHashSet<Literal>();
+        ISet<Literal> result = Factory.CreateSet<Literal>();
 
         LiteralCollector literalCollector = new LiteralCollector();
         result = disjunctiveSentence.accept(literalCollector, result);
@@ -94,18 +94,18 @@
         return result;
     }
 
-    @Override
-        public Set<Literal> visitPropositionSymbol(PropositionSymbol s, Set<Literal> arg)
+     
+        public ISet<Literal> visitPropositionSymbol(PropositionSymbol s, ISet<Literal> arg)
     {
         // a positive literal
         Literal positiveLiteral = new Literal(s);
-        arg.add(positiveLiteral);
+        arg.Add(positiveLiteral);
 
         return arg;
     }
 
-    @Override
-        public Set<Literal> visitUnarySentence(ComplexSentence s, Set<Literal> arg)
+     
+        public ISet<Literal> visitUnarySentence(ComplexSentence s, ISet<Literal> arg)
     {
 
         if (!s.getSimplerSentence(0).isPropositionSymbol())
@@ -116,13 +116,13 @@
         // a negative literal
         Literal negativeLiteral = new Literal((PropositionSymbol)s.getSimplerSentence(0), false);
 
-        arg.add(negativeLiteral);
+        arg.Add(negativeLiteral);
 
         return arg;
     }
 
-    @Override
-        public Set<Literal> visitBinarySentence(ComplexSentence s, Set<Literal> arg)
+     
+        public ISet<Literal> visitBinarySentence(ComplexSentence s, ISet<Literal> arg)
     {
         if (s.isOrSentence())
         {

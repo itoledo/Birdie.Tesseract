@@ -41,10 +41,10 @@
 						// R_t = false, U_t = false
 						0.8 }, rain_t);
 
-            Map<RandomVariable, RandomVariable> X_0_to_X_1 = new HashMap<RandomVariable, RandomVariable>();
-            X_0_to_X_1.put(ExampleRV.RAIN_tm1_RV, ExampleRV.RAIN_t_RV);
-            Set<RandomVariable> E_1 = new HashSet<RandomVariable>();
-            E_1.add(ExampleRV.UMBREALLA_t_RV);
+            Map<RandomVariable, RandomVariable> X_0_to_X_1 = Factory.CreateMap<RandomVariable, RandomVariable>();
+            X_0_to_X_1.Put(ExampleRV.RAIN_tm1_RV, ExampleRV.RAIN_t_RV);
+            ISet<RandomVariable> E_1 = Factory.CreateSet<RandomVariable>();
+            E_1.Add(ExampleRV.UMBREALLA_t_RV);
 
             return new DynamicBayesNet(priorNetwork, X_0_to_X_1, E_1, rain_tm1);
         }

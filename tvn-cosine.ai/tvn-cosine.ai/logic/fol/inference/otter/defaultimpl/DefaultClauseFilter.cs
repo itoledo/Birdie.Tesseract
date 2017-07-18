@@ -10,7 +10,7 @@
 
         //
         // START-ClauseFilter
-        public Set<Clause> filter(Set<Clause> clauses)
+        public ISet<Clause> filter(Set<Clause> clauses)
         {
             return clauses;
         }

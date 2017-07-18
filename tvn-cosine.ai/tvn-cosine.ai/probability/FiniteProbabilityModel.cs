@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability
+﻿using tvn.cosine.ai.probability.proposition;
+
+namespace tvn.cosine.ai.probability
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 484.<br>
@@ -9,7 +11,7 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public interface FiniteProbabilityModel extends ProbabilityModel
+    public interface FiniteProbabilityModel : ProbabilityModel
     {
 
         /**
@@ -21,7 +23,7 @@
          *         Vector of numbers, where we assume a predefined ordering of the
          *         domain of the relevant random variables.
          */
-        CategoricalDistribution priorDistribution(Proposition... phi);
+        CategoricalDistribution priorDistribution(params Proposition[] phi);
 
         /**
          * Get a conditional distribution. Example:<br>
@@ -36,8 +38,7 @@
          *            information we already have.
          * @return the conditional distribution for <b>P</b>(&phi; | evidence).
          */
-        CategoricalDistribution posteriorDistribution(Proposition phi,
-			Proposition... evidence);
+        CategoricalDistribution posteriorDistribution(Proposition phi, params Proposition[] evidence);
 
         /**
          * Get a distribution on multiple variables. Example, the product rule:<br>
@@ -50,7 +51,6 @@
          *            to be returned.
          * @return the joint distribution for <b>P</b>(X, Y, ...).
          */
-        CategoricalDistribution jointDistribution(Proposition... propositions);
-    }
-
+        CategoricalDistribution jointDistribution(params Proposition[] propositions);
+    } 
 }

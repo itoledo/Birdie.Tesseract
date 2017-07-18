@@ -9,13 +9,13 @@
     public class IfStateThenPlan
     {
 
-        private Object state;
+        private object state;
         private Plan plan;
 
         /**
          * Constructor
          */
-        public IfStateThenPlan(Object state, Plan plan)
+        public IfStateThenPlan(object state, Plan plan)
         {
             this.state = state;
             this.plan = plan;
@@ -26,9 +26,9 @@
          *
          * @return the plan if the given state matches, null otherwise.
          */
-        public Plan ifStateMatches(Object state)
+        public Plan ifStateMatches(object state)
         {
-            if (this.state.equals(state))
+            if (this.state.Equals(state))
             {
                 return this.plan;
             }
@@ -43,8 +43,8 @@
          * 
          * @return a string representation of this if-then-else.
          */
-        @Override
-        public String toString()
+         
+        public override string ToString()
         {
             return "if " + state + " then " + plan;
         }

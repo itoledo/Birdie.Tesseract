@@ -36,7 +36,7 @@
      * 
      * @author Ruediger Lunde
      */
-    public class AC3Strategy<VAR extends Variable, VAL> implements InferenceStrategy<VAR, VAL> {
+    public class AC3Strategy<VAR : Variable, VAL> : InferenceStrategy<VAR, VAL> {
 
     /**
 	 * Makes a CSP consisting of binary constraints arc-consistent.
@@ -70,7 +70,7 @@
         if (domain.size() > 1)
         {
             Queue<VAR> queue = QueueFactory.createFifoQueue();
-            queue.add(var);
+            queue.Add(var);
             log.storeDomainFor(var, domain);
             csp.setDomain(var, new Domain<>(value));
             reduceDomains(queue, csp, log);
@@ -86,7 +86,7 @@
     {
         while (!queue.isEmpty())
         {
-            VAR var = queue.remove();
+            VAR var = queue.Remove();
             for (Constraint<VAR, VAL> constraint : csp.getConstraints(var))
             {
                 VAR neighbor = csp.getNeighbor(var, constraint);
@@ -97,7 +97,7 @@
                         log.setEmptyDomainFound(true);
                         return;
                     }
-                    queue.add(neighbor);
+                    queue.Add(neighbor);
                 }
             }
         }
@@ -107,21 +107,21 @@
 	 * Establishes arc-consistency for (xi, xj).
 	 * @return value true if the domain of xi was reduced.
 	 */
-    private boolean revise(VAR xi, VAR xj, Constraint<VAR, VAL> constraint,
+    private bool revise(VAR xi, VAR xj, Constraint<VAR, VAL> constraint,
             CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
     {
         Domain<VAL> currDomain = csp.getDomain(xi);
-        List<VAL> newValues = new ArrayList<>(currDomain.size());
+        IQueue<VAL> newValues = Factory.CreateQueue<>(currDomain.size());
         Assignment<VAR, VAL> assignment = new Assignment<>();
         for (VAL vi : currDomain)
         {
-            assignment.add(xi, vi);
+            assignment.Add(xi, vi);
             for (VAL vj : csp.getDomain(xj))
             {
-                assignment.add(xj, vj);
+                assignment.Add(xj, vj);
                 if (constraint.isSatisfiedWith(assignment))
                 {
-                    newValues.add(vi);
+                    newValues.Add(vi);
                     break;
                 }
             }

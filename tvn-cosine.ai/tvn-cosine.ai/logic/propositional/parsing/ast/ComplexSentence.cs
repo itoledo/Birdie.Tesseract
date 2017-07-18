@@ -9,7 +9,7 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan 
      */
-    public class ComplexSentence extends Sentence
+    public class ComplexSentence : Sentence
     {
 
 
@@ -17,7 +17,7 @@
     private Sentence[] simplerSentences;
     // Lazy initialize these values.
     private int cachedHashCode = -1;
-    private String cachedConcreteSyntax = null;
+    private string cachedConcreteSyntax = null;
 
     /**
 	 * Constructor.
@@ -33,8 +33,8 @@
         assertLegalArguments(connective, sentences);
 
         this.connective = connective;
-        simplerSentences = new Sentence[sentences.length];
-        System.arraycopy(sentences, 0, simplerSentences, 0, sentences.length);
+        simplerSentences = new Sentence[sentences.Length];
+        System.arraycopy(sentences, 0, simplerSentences, 0, sentences.Length);
     }
 
     /**
@@ -52,41 +52,41 @@
         this(binaryConnective, sentenceL, sentenceR);
     }
 
-    @Override
+     
     public Connective getConnective()
     {
         return connective;
     }
 
-    @Override
+     
     public int getNumberSimplerSentences()
     {
-        return simplerSentences.length;
+        return simplerSentences.Length;
     }
 
-    @Override
+     
     public Sentence getSimplerSentence(int offset)
     {
         return simplerSentences[offset];
     }
 
-    @Override
-    public boolean equals(Object o)
+     
+    public override bool Equals(object o)
     {
         if (this == o)
         {
             return true;
         }
-        if ((o == null) || (this.getClass() != o.getClass()))
+        if ((o == null) || (this.GetType() != o.GetType()))
         {
             return false;
         }
 
-        boolean result = false;
+        bool result = false;
         ComplexSentence other = (ComplexSentence)o;
-        if (other.hashCode() == this.hashCode())
+        if (other.GetHashCode() == this.GetHashCode())
         {
-            if (other.getConnective().equals(this.getConnective())
+            if (other.getConnective().Equals(this.getConnective())
                     && other.getNumberSimplerSentences() == this
                             .getNumberSimplerSentences())
             {
@@ -95,7 +95,7 @@
                 result = true;
                 for (int i = 0; i < this.getNumberSimplerSentences(); i++)
                 {
-                    if (!other.getSimplerSentence(i).equals(
+                    if (!other.getSimplerSentence(i).Equals(
                             this.getSimplerSentence(i)))
                     {
                         result = false;
@@ -108,23 +108,23 @@
         return result;
     }
 
-    @Override
-    public int hashCode()
+     
+    public override int GetHashCode()
     {
         if (cachedHashCode == -1)
         {
-            cachedHashCode = 17 * getConnective().hashCode();
+            cachedHashCode = 17 * getConnective().GetHashCode();
             for (Sentence s : simplerSentences)
             {
-                cachedHashCode = (cachedHashCode * 37) + s.hashCode();
+                cachedHashCode = (cachedHashCode * 37) + s.GetHashCode();
             }
         }
 
         return cachedHashCode;
     }
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         if (cachedConcreteSyntax == null)
         {
@@ -160,16 +160,16 @@
         }
         if (connective == Connective.NOT)
         {
-            if (sentences.length != 1)
+            if (sentences.Length != 1)
             {
-                throw new IllegalArgumentException("A not (~) complex sentence only take 1 simpler sentence not " + sentences.length);
+                throw new IllegalArgumentException("A not (~) complex sentence only take 1 simpler sentence not " + sentences.Length);
             }
         }
         else
         {
-            if (sentences.length != 2)
+            if (sentences.Length != 2)
             {
-                throw new IllegalArgumentException("Connective is binary (" + connective + ") but only " + sentences.length + " simpler sentences provided");
+                throw new IllegalArgumentException("Connective is binary (" + connective + ") but only " + sentences.Length + " simpler sentences provided");
             }
         }
     }

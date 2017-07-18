@@ -32,11 +32,11 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class GraphSearchBFS<S, A> extends QueueSearch<S, A> {
+    public class GraphSearchBFS<S, A> : QueueSearch<S, A> {
 
 
-    private Set<S> explored = new HashSet<>();
-    private Set<S> frontierStates = new HashSet<>();
+    private ISet<S> explored = Factory.CreateSet<>();
+    private ISet<S> frontierStates = Factory.CreateSet<>();
 
     public GraphSearchBFS()
     {
@@ -45,7 +45,7 @@
 
     public GraphSearchBFS(NodeExpander<S, A> nodeExpander)
     {
-        super(nodeExpander);
+        base(nodeExpander);
     }
 
 
@@ -53,12 +53,12 @@
 	 * Clears the set of explored states and calls the search implementation of
 	 * <code>QueSearch</code>
 	 */
-    @Override
-    public Optional<Node<S, A>> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
+     
+    public Node<S,A> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
     {
         // Initialize the explored set to be empty
-        explored.clear();
-        frontierStates.clear();
+        explored.Clear();
+        frontierStates.Clear();
         return super.findNode(problem, frontier);
     }
 
@@ -66,13 +66,13 @@
 	 * Inserts the node at the tail of the frontier if the corresponding state
 	 * is not already a frontier state and was not yet explored.
 	 */
-    @Override
+     
     protected void addToFrontier(Node<S, A> node)
     {
         if (!explored.contains(node.getState()) && !frontierStates.contains(node.getState()))
         {
-            frontier.add(node);
-            frontierStates.add(node.getState());
+            frontier.Add(node);
+            frontierStates.Add(node.getState());
             updateMetrics(frontier.size());
         }
     }
@@ -83,12 +83,12 @@
 	 * 
 	 * @return the node at the head of the frontier.
 	 */
-    @Override
+     
     protected Node<S, A> removeFromFrontier()
     {
-        Node<S, A> result = frontier.remove();
-        explored.add(result.getState());
-        frontierStates.remove(result.getState());
+        Node<S, A> result = frontier.Remove();
+        explored.Add(result.getState());
+        frontierStates.Remove(result.getState());
         updateMetrics(frontier.size());
         return result;
     }
@@ -96,8 +96,8 @@
     /**
 	 * Checks whether there are still some nodes left.
 	 */
-    @Override
-    protected boolean isFrontierEmpty()
+     
+    protected bool isFrontierEmpty()
     {
         return frontier.isEmpty();
     }

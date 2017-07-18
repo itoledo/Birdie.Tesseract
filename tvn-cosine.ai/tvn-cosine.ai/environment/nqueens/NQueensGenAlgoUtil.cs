@@ -7,7 +7,7 @@ namespace tvn.cosine.ai.environment.nqueens
      * A class whose purpose is to provide static utility methods for solving the
      * n-queens problem with genetic algorithms. This includes fitness function,
      * goal test, random creation of individuals and convenience methods for
-     * translating between between an NQueensBoard representation and the Integer list
+     * translating between between an NQueensBoard representation and the int list
      * representation used by the GeneticAlgorithm.
      * 
      * @author Ciaran O'Reilly
@@ -121,7 +121,7 @@ namespace tvn.cosine.ai.environment.nqueens
             NQueensBoard board = new NQueensBoard(boardSize);
             for (int i = 0; i < boardSize; i++)
             {
-                int pos = individual.getRepresentation().get(i);
+                int pos = individual.getRepresentation().Get(i);
                 board.addQueenAt(new XYLocation(i, pos));
             }
             return board;

@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.probability.temporal
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.proposition;
+
+namespace tvn.cosine.ai.probability.temporal
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 576.<br>
@@ -12,22 +15,21 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public interface ForwardBackwardInference extends ForwardStepInference,
-            BackwardStepInference {
+    public interface ForwardBackwardInference : ForwardStepInference, BackwardStepInference
+    {
 
-	/**
-	 * The forward-backward algorithm for smoothing: computing posterior
-	 * probabilities of a sequence of states given a sequence of observations.
-	 * 
-	 * @param ev
-	 *            a vector of evidence values for steps 1,...,t
-	 * @param prior
-	 *            the prior distribution on the initial state,
-	 *            <b>P</b>(X<sub>0</sub>)
-	 * @return a vector of smoothed estimates for steps 1,...,t
-	 */
-	List<CategoricalDistribution> forwardBackward(
-            List<List<AssignmentProposition>> ev, CategoricalDistribution prior);
-}
+        /**
+         * The forward-backward algorithm for smoothing: computing posterior
+         * probabilities of a sequence of states given a sequence of observations.
+         * 
+         * @param ev
+         *            a vector of evidence values for steps 1,...,t
+         * @param prior
+         *            the prior distribution on the initial state,
+         *            <b>P</b>(X<sub>0</sub>)
+         * @return a vector of smoothed estimates for steps 1,...,t
+         */
+        IQueue<CategoricalDistribution> forwardBackward(IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior);
+    }
 
 }

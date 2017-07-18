@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.framework
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.framework
 {
     /**
      * Provides several useful static methods for implementing search.
@@ -6,23 +8,22 @@
      * @author Ruediger Lunde
      */
     public class SearchUtils
-    {
-
+    { 
         /**
          * Returns the path from the root node to this node.
          *
          * @return the path from the root node to this node.
          */
-        public static <S, A> List<Node<S, A>> getPathFromRoot(Node<S, A> node)
+        public static IQueue<Node<S, A>> getPathFromRoot<S, A>(Node<S, A> node)
         {
-            List<Node<S, A>> path = new LinkedList<>();
+            IQueue<Node<S, A>> path = Factory.CreateQueue<Node<S, A>>();
             while (!node.isRootNode())
             {
-                path.add(0, node);
+                path.Insert(0, node);
                 node = node.getParent();
             }
             // ensure the root node is added
-            path.add(0, node);
+            path.Insert(0, node);
             return path;
         }
 
@@ -31,31 +32,26 @@
          * given node. The list is empty, if the node is the root node of the search
          * tree.
          */
-        public static <S, A> List<A> getSequenceOfActions(Node<S, A> node)
+        public static IQueue<A> getSequenceOfActions<S, A>(Node<S, A> node)
         {
-            List<A> actions = new LinkedList<>();
+            IQueue<A> actions = Factory.CreateQueue<A>();
             while (!node.isRootNode())
             {
-                actions.add(0, node.getAction());
+                actions.Insert(0, node.getAction());
                 node = node.getParent();
             }
             return actions;
         }
 
-
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    
-    public static <S, A> Optional<List<A>> toActions(Optional<Node<S, A>> node)
+        public static IQueue<A> toActions<S, A>(Node<S, A> node)
         {
-            return node.isPresent() ? Optional.of(getSequenceOfActions(node.get())) : Optional.empty();
+            return getSequenceOfActions(node);
         }
 
 
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    
-    public static <S, A> Optional<S> toState(Optional<Node<S, A>> node)
+        public static S toState<S, A>(Node<S, A> node)
         {
-            return node.isPresent() ? Optional.of(node.get().getState()) : Optional.empty();
+            return node == null ? default(S) : node.getState();
         }
     }
 }

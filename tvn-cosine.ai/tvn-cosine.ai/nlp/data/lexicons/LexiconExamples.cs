@@ -16,45 +16,45 @@
         public static Lexicon buildWumpusLex()
         {
             Lexicon l = new Lexicon();
-            ArrayList<LexWord> list = new ArrayList<LexWord>();
+            ArrayList<LexWord> list = Factory.CreateQueue<LexWord>();
             // noun list
-            list.add(new LexWord("stench", (float)0.05));
-            list.add(new LexWord("breeze", (float)0.10));
-            list.add(new LexWord("wumpus", (float)0.15));
-            list.add(new LexWord("pits", (float)0.05));
-            list.add(new LexWord("friend", (float)0.10)); // not in textbook
-            list.add(new LexWord("enemy", (float)0.10)); // not in textbook
-            list.add(new LexWord("dog", (float)0.10)); // not in textbook
-            list.add(new LexWord("superhero", (float)0.20)); // not in textbook
-            list.add(new LexWord("virus", (float)0.15)); // not in textbook
-            l.put("NOUN", list);
+            list.Add(new LexWord("stench", (float)0.05));
+            list.Add(new LexWord("breeze", (float)0.10));
+            list.Add(new LexWord("wumpus", (float)0.15));
+            list.Add(new LexWord("pits", (float)0.05));
+            list.Add(new LexWord("friend", (float)0.10)); // not in textbook
+            list.Add(new LexWord("enemy", (float)0.10)); // not in textbook
+            list.Add(new LexWord("dog", (float)0.10)); // not in textbook
+            list.Add(new LexWord("superhero", (float)0.20)); // not in textbook
+            list.Add(new LexWord("virus", (float)0.15)); // not in textbook
+            l.Put("NOUN", list);
             // verb list
-            ArrayList<LexWord> verbList = new ArrayList<LexWord>();
-            verbList.add(new LexWord("is", (float)0.10));
-            verbList.add(new LexWord("feel", (float)0.10));
-            verbList.add(new LexWord("smells", (float)0.10));
-            verbList.add(new LexWord("stinks", (float)0.05));
-            verbList.add(new LexWord("wants", (float)0.20)); // not in textbook
-            verbList.add(new LexWord("flies", (float)0.10)); // not in textbook
-            verbList.add(new LexWord("keeps", (float)0.05)); // not in textbook
-            verbList.add(new LexWord("leaves", (float)0.10)); // not in textbook
-            verbList.add(new LexWord("throws", (float)0.20)); // not in textbook
-            l.put("VERB", verbList);
+            ArrayList<LexWord> verbList = Factory.CreateQueue<LexWord>();
+            verbList.Add(new LexWord("is", (float)0.10));
+            verbList.Add(new LexWord("feel", (float)0.10));
+            verbList.Add(new LexWord("smells", (float)0.10));
+            verbList.Add(new LexWord("stinks", (float)0.05));
+            verbList.Add(new LexWord("wants", (float)0.20)); // not in textbook
+            verbList.Add(new LexWord("flies", (float)0.10)); // not in textbook
+            verbList.Add(new LexWord("keeps", (float)0.05)); // not in textbook
+            verbList.Add(new LexWord("leaves", (float)0.10)); // not in textbook
+            verbList.Add(new LexWord("throws", (float)0.20)); // not in textbook
+            l.Put("VERB", verbList);
             // adjective list
-            ArrayList<LexWord> adjList = new ArrayList<LexWord>();
-            adjList.add(new LexWord("right", (float)0.10));
-            adjList.add(new LexWord("dead", (float)0.05));
-            adjList.add(new LexWord("smelly", (float)0.02));
-            adjList.add(new LexWord("breezy", (float)0.02));
-            adjList.add(new LexWord("foul", (float)0.10));
-            adjList.add(new LexWord("black", (float)0.05));
-            adjList.add(new LexWord("white", (float)0.05));
-            adjList.add(new LexWord("callous", (float)0.10));
-            adjList.add(new LexWord("proud", (float)0.10));
-            adjList.add(new LexWord("right", (float)0.10));
-            adjList.add(new LexWord("gold", (float)0.06));
-            adjList.add(new LexWord("normal", (float)0.25));
-            l.put("ADJS", adjList);
+            ArrayList<LexWord> adjList = Factory.CreateQueue<LexWord>();
+            adjList.Add(new LexWord("right", (float)0.10));
+            adjList.Add(new LexWord("dead", (float)0.05));
+            adjList.Add(new LexWord("smelly", (float)0.02));
+            adjList.Add(new LexWord("breezy", (float)0.02));
+            adjList.Add(new LexWord("foul", (float)0.10));
+            adjList.Add(new LexWord("black", (float)0.05));
+            adjList.Add(new LexWord("white", (float)0.05));
+            adjList.Add(new LexWord("callous", (float)0.10));
+            adjList.Add(new LexWord("proud", (float)0.10));
+            adjList.Add(new LexWord("right", (float)0.10));
+            adjList.Add(new LexWord("gold", (float)0.06));
+            adjList.Add(new LexWord("normal", (float)0.25));
+            l.Put("ADJS", adjList);
             // Adverb list
             l.addLexWords("ADVERB", "here", "0.05", "ahead", "0.05", "nearby", "0.02",
                           "quickly", "0.05", "badly", "0.05", "slowly", "0.08",
@@ -102,7 +102,7 @@
                           ,"Bud","Veta","Janey","Rosalina","Frederica","Lou","Essie","Marinda","Elene"
                           ,"Juliana","Marilyn","Maxima","Branden","Ethan","Donovan","Erinn","Ramon","Jacquiline"};
 
-            for (int i = 0; i < names.length; i++)
+            for (int i = 0; i < names.Length; i++)
             {
                 l.addLexWords("NAME", names[i], "0.02");
             }

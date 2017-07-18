@@ -1,125 +1,129 @@
-﻿namespace tvn.cosine.ai.logic.fol.parsing.ast
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
-    public class Function implements Term
+    public class Function : Term
     {
 
-    private String functionName;
-    private List<Term> terms = new ArrayList<Term>();
-    private String stringRep = null;
-    private int hashCode = 0;
+        private string functionName;
+        private IQueue<Term> terms = Factory.CreateQueue<Term>();
+        private string stringRep = null;
+        private int hashCode = 0;
 
-    public Function(String functionName, List<Term> terms)
-    {
-        this.functionName = functionName;
-        this.terms.addAll(terms);
-    }
-
-    public String getFunctionName()
-    {
-        return functionName;
-    }
-
-    public List<Term> getTerms()
-    {
-        return Collections.unmodifiableList(terms);
-    }
-
-    //
-    // START-Term
-    public String getSymbolicName()
-    {
-        return getFunctionName();
-    }
-
-    public boolean isCompound()
-    {
-        return true;
-    }
-
-    public List<Term> getArgs()
-    {
-        return getTerms();
-    }
-
-    public Object accept(FOLVisitor v, Object arg)
-    {
-        return v.visitFunction(this, arg);
-    }
-
-    public Function copy()
-    {
-        List<Term> copyTerms = new ArrayList<Term>();
-        for (Term t : terms)
+        public Function(string functionName, IQueue<Term> terms)
         {
-            copyTerms.add(t.copy());
+            this.functionName = functionName;
+            this.terms.AddAll(terms);
         }
-        return new Function(functionName, copyTerms);
-    }
 
-    // END-Term
-    //
+        public string getFunctionName()
+        {
+            return functionName;
+        }
 
-    @Override
-    public boolean equals(Object o)
-    {
+        public IQueue<Term> getTerms()
+        {
+            return Factory.CreateReadOnlyQueue<Term>(terms);
+        }
 
-        if (this == o)
+        //
+        // START-Term
+        public string getSymbolicName()
+        {
+            return getFunctionName();
+        }
+
+        public bool isCompound()
         {
             return true;
         }
-        if (!(o instanceof Function)) {
-            return false;
+
+        public IQueue<Term> getArgs()
+        {
+            return getTerms();
         }
 
-        Function f = (Function)o;
-
-        return f.getFunctionName().equals(getFunctionName())
-                && f.getTerms().equals(getTerms());
-    }
-
-    @Override
-    public int hashCode()
-    {
-        if (0 == hashCode)
+        public object accept(FOLVisitor v, object arg)
         {
-            hashCode = 17;
-            hashCode = 37 * hashCode + functionName.hashCode();
-            for (Term t : terms)
+            return v.visitFunction(this, arg);
+        }
+
+        public Function copy()
+        {
+            IQueue<Term> copyTerms = Factory.CreateQueue<Term>();
+            foreach (Term t in terms)
             {
-                hashCode = 37 * hashCode + t.hashCode();
+                copyTerms.Add(t.copy());
             }
+            return new Function(functionName, copyTerms);
         }
-        return hashCode;
-    }
 
-    @Override
-    public String toString()
-    {
-        if (null == stringRep)
+        // END-Term
+        //
+
+
+        public override bool Equals(object o)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.append(functionName);
-            sb.append("(");
 
-            boolean first = true;
-            for (Term t : terms)
+            if (this == o)
             {
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    sb.append(",");
-                }
-                sb.append(t.toString());
+                return true;
+            }
+            if (!(o is Function))
+            {
+                return false;
             }
 
-            sb.append(")");
+            Function f = (Function)o;
 
-            stringRep = sb.toString();
+            return f.getFunctionName().Equals(getFunctionName())
+                    && f.getTerms().Equals(getTerms());
         }
-        return stringRep;
+
+
+        public override int GetHashCode()
+        {
+            if (0 == hashCode)
+            {
+                hashCode = 17;
+                hashCode = 37 * hashCode + functionName.GetHashCode();
+                foreach (Term t in terms)
+                {
+                    hashCode = 37 * hashCode + t.GetHashCode();
+                }
+            }
+            return hashCode;
+        }
+
+
+        public override string ToString()
+        {
+            if (null == stringRep)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(functionName);
+                sb.Append("(");
+
+                bool first = true;
+                foreach (Term t in terms)
+                {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        sb.Append(",");
+                    }
+                    sb.Append(t.ToString());
+                }
+
+                sb.Append(")");
+
+                stringRep = sb.ToString();
+            }
+            return stringRep;
+        }
     }
-}
 }

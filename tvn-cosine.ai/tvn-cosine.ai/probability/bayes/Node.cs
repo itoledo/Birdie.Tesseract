@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability.bayes
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.probability.bayes
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 511.<br>
@@ -28,19 +30,19 @@
          * 
          * @see Node#getParents()
          */
-        boolean isRoot();
+        bool isRoot();
 
         /**
          * 
          * @return the parent Nodes for this Node.
          */
-        Set<Node> getParents();
+        ISet<Node> getParents();
 
         /**
          * 
          * @return the children Nodes for this Node.
          */
-        Set<Node> getChildren();
+        ISet<Node> getChildren();
 
         /**
          * Get this Node's Markov Blanket:<br>
@@ -50,7 +52,7 @@
          * 
          * @return this Node's Markov Blanket.
          */
-        Set<Node> getMarkovBlanket();
+        ISet<Node> getMarkovBlanket();
 
         /**
          * 

@@ -1,8 +1,10 @@
 ﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.environment.eightpuzzle
 {
-    public class BidirectionalEightPuzzleProblem : GeneralProblem<EightPuzzleBoard, Action>, BidirectionalProblem<EightPuzzleBoard, Action> {
+    public class BidirectionalEightPuzzleProblem : 
+        GeneralProblem<EightPuzzleBoard, Action>, BidirectionalProblem<EightPuzzleBoard, Action> {
 
         private readonly Problem<EightPuzzleBoard, Action> reverseProblem;
 
@@ -17,7 +19,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
                 EightPuzzleFunctions.GOAL_STATE,
                 EightPuzzleFunctions.getActions, 
                 EightPuzzleFunctions.getResult,
-                initialStat.Equals));
+                initialState.Equals);
         }
 
         public Problem<EightPuzzleBoard, Action> getOriginalProblem()

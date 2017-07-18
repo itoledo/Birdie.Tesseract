@@ -5,7 +5,7 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public interface SentenceProposition extends Proposition
+    public interface SentenceProposition : Proposition
     {
 
     }

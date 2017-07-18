@@ -2,10 +2,8 @@
 {
     public class Scheduler
     {
-
-        private final int k, limit;
-
-        private final double lam;
+        private readonly int k, limit;
+        private readonly double lam;
 
         public Scheduler(int k, double lam, int limit)
         {
@@ -24,7 +22,7 @@
         public double getTemp(int t)
         {
             if (t < limit)
-                return k * Math.exp((-1) * lam * t);
+                return k * System.Math.Exp((-1) * lam * t);
             else
                 return 0.0;
         }

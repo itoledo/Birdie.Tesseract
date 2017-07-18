@@ -118,7 +118,7 @@
         // safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
         public Set<Room> askSafeRooms(int t)
         {
-            Set<Room> safe = new LinkedHashSet<>();
+            Set<Room> safe = Factory.CreateSet<>();
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
                 for (int y = 1; y <= getCaveYDimension(); y++)
@@ -129,7 +129,7 @@
                     if (ask(new ComplexSentence(newSymbol(LOCATION_VISITED, x, y),
                             Connective.OR, newSymbol(OK_TO_MOVE_INTO, t, x, y))))
                     {
-                        safe.add(new Room(x, y));
+                        safe.Add(new Room(x, y));
                     }
                 }
             }
@@ -141,14 +141,14 @@
         // There is no need to check again.
         public Set<Room> askSafeRooms(int t, Set<Room> visited)
         {
-            Set<Room> safe = new LinkedHashSet<>();
+            Set<Room> safe = Factory.CreateSet<>();
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
                 for (int y = 1; y <= getCaveYDimension(); y++)
                 {
                     Room r = new Room(x, y);
                     if (visited.contains(r) || ask(newSymbol(OK_TO_MOVE_INTO, t, x, y)))
-                        safe.add(new Room(x, y));
+                        safe.Add(new Room(x, y));
                 }
             }
             return safe;
@@ -165,7 +165,7 @@
         // There is no need to check again.
         public Set<Room> askNotUnsafeRooms(int t, Set<Room> visited)
         {
-            Set<Room> notUnsafe = new LinkedHashSet<>();
+            Set<Room> notUnsafe = Factory.CreateSet<>();
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
                 for (int y = 1; y <= getCaveYDimension(); y++)
@@ -173,7 +173,7 @@
                     Room r = new Room(x, y);
                     if (visited.contains(r) || !ask(new ComplexSentence
                             (Connective.NOT, newSymbol(OK_TO_MOVE_INTO, t, x, y))))
-                        notUnsafe.add(r);
+                        notUnsafe.Add(r);
                 }
             }
             return notUnsafe;
@@ -192,32 +192,32 @@
         // possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}
         public Set<Room> askPossibleWumpusRooms(int t)
         {
-            Set<Room> possible = new LinkedHashSet<>();
+            Set<Room> possible = Factory.CreateSet<>();
             for (int x = 1; x <= getCaveXDimension(); x++)
                 for (int y = 1; y <= getCaveYDimension(); y++)
                     if (!ask(new ComplexSentence(Connective.NOT, newSymbol(WUMPUS, x, y))))
-                        possible.add(new Room(x, y));
+                        possible.Add(new Room(x, y));
             return possible;
         }
 
         // unvisited <- {[x, y] : ASK(KB, L<sup>t'</sup><sub>x,y</sub>) = false for all t' &le; t}
         public Set<Room> askUnvisitedRooms(int t)
         {
-            Set<Room> unvisited = new LinkedHashSet<>();
+            Set<Room> unvisited = Factory.CreateSet<>();
 
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
                 for (int y = 1; y <= getCaveYDimension(); y++)
                 {
                     if (!ask(newSymbol(LOCATION_VISITED, x, y)))
-                        unvisited.add(new Room(x, y)); // i.e. is false for all t' <= t
+                        unvisited.Add(new Room(x, y)); // i.e. is false for all t' <= t
 
                     //				way to slow: (try it out!)
                     //				for (int tPrime = 0; tPrime <= t; tPrime++) {
                     //					if (ask(newSymbol(LOCATION, tPrime, x, y)))
                     //						break; // i.e. is not false for all t' <= t
                     //					if (tPrime == t)
-                    //						unvisited.add(new Room(x, y)); // i.e. is false for all t' <= t
+                    //						unvisited.Add(new Room(x, y)); // i.e. is false for all t' <= t
                     //				}
                 }
             }
@@ -275,9 +275,9 @@
          */
         public void makeActionSentence(WumpusAction a, int time)
         {
-            for (WumpusAction action : WumpusAction.values())
+            foreach (WumpusAction action in WumpusAction.values())
             {
-                if (action.equals(a))
+                if (action.Equals(a))
                     tell(newSymbol(action.getSymbol(), time));
                 else
                     tell(new ComplexSentence(Connective.NOT, newSymbol(action.getSymbol(), time)));
@@ -305,28 +305,28 @@
                 for (int x = 1; x <= caveXDimension; x++)
                 {
 
-                    List<PropositionSymbol> pitsIn = new ArrayList<>();
-                    List<PropositionSymbol> wumpsIn = new ArrayList<>();
+                    IQueue<PropositionSymbol> pitsIn = Factory.CreateQueue<>();
+                    IQueue<PropositionSymbol> wumpsIn = Factory.CreateQueue<>();
 
                     if (x > 1)
                     { // West room exists
-                        pitsIn.add(newSymbol(PIT, x - 1, y));
-                        wumpsIn.add(newSymbol(WUMPUS, x - 1, y));
+                        pitsIn.Add(newSymbol(PIT, x - 1, y));
+                        wumpsIn.Add(newSymbol(WUMPUS, x - 1, y));
                     }
                     if (y < caveYDimension)
                     { // North room exists
-                        pitsIn.add(newSymbol(PIT, x, y + 1));
-                        wumpsIn.add(newSymbol(WUMPUS, x, y + 1));
+                        pitsIn.Add(newSymbol(PIT, x, y + 1));
+                        wumpsIn.Add(newSymbol(WUMPUS, x, y + 1));
                     }
                     if (x < caveXDimension)
                     { // East room exists
-                        pitsIn.add(newSymbol(PIT, x + 1, y));
-                        wumpsIn.add(newSymbol(WUMPUS, x + 1, y));
+                        pitsIn.Add(newSymbol(PIT, x + 1, y));
+                        wumpsIn.Add(newSymbol(WUMPUS, x + 1, y));
                     }
                     if (y > 1)
                     { // South room exists
-                        pitsIn.add(newSymbol(PIT, x, y - 1));
-                        wumpsIn.add(newSymbol(WUMPUS, x, y - 1));
+                        pitsIn.Add(newSymbol(PIT, x, y - 1));
+                        wumpsIn.Add(newSymbol(WUMPUS, x, y - 1));
                     }
 
                     tell(new ComplexSentence
@@ -338,10 +338,10 @@
 
             // The agent also knows there is exactly one wumpus. This is represented
             // in two parts. First, we have to say that there is at least one wumpus
-            List<PropositionSymbol> wumpsAtLeast = new ArrayList<>();
+            IQueue<PropositionSymbol> wumpsAtLeast = Factory.CreateQueue<>();
             for (int x = 1; x <= caveXDimension; x++)
                 for (int y = 1; y <= caveYDimension; y++)
-                    wumpsAtLeast.add(newSymbol(WUMPUS, x, y));
+                    wumpsAtLeast.Add(newSymbol(WUMPUS, x, y));
 
             tell(Sentence.newDisjunction(wumpsAtLeast));
 
@@ -512,8 +512,8 @@
         {
             // Successor state axiom for square [x, y]
             // Rules about current location
-            List<Sentence> locDisjuncts = new ArrayList<>();
-            locDisjuncts.add(new ComplexSentence(
+            IQueue<Sentence> locDisjuncts = Factory.CreateQueue<>();
+            locDisjuncts.Add(new ComplexSentence(
                     newSymbol(LOCATION, t, x, y),
                     Connective.AND,
                     new ComplexSentence(
@@ -522,7 +522,7 @@
                             newSymbol(PERCEPT_BUMP, t + 1))));
             if (x > 1)
             { // West room is possible
-                locDisjuncts.add(new ComplexSentence(
+                locDisjuncts.Add(new ComplexSentence(
                         newSymbol(LOCATION, t, x - 1, y),
                         Connective.AND,
                         new ComplexSentence(
@@ -532,7 +532,7 @@
             }
             if (y < caveYDimension)
             { // North room is possible
-                locDisjuncts.add(new ComplexSentence(
+                locDisjuncts.Add(new ComplexSentence(
                         newSymbol(LOCATION, t, x, y + 1),
                         Connective.AND,
                         new ComplexSentence(
@@ -542,7 +542,7 @@
             }
             if (x < caveXDimension)
             { // East room is possible
-                locDisjuncts.add(new ComplexSentence(
+                locDisjuncts.Add(new ComplexSentence(
                         newSymbol(LOCATION, t, x + 1, y),
                         Connective.AND,
                         new ComplexSentence(
@@ -552,7 +552,7 @@
             }
             if (y > 1)
             { // South room is possible
-                locDisjuncts.add(new ComplexSentence(
+                locDisjuncts.Add(new ComplexSentence(
                         newSymbol(LOCATION, t, x, y - 1),
                         Connective.AND,
                         new ComplexSentence(
@@ -630,10 +630,10 @@
                     )));
         }
 
-        @Override
-    public String toString()
+         
+    public override string ToString()
         {
-            List<Sentence> sentences = getSentences();
+            IQueue<Sentence> sentences = getSentences();
             if (sentences.size() == 0)
             {
                 return "";
@@ -646,28 +646,28 @@
                 {
                     if (!first)
                     {
-                        sb.append("\n");
+                        sb.Append("\n");
                     }
-                    sb.append(s.toString());
+                    sb.Append(s.ToString());
                     first = false;
                 }
-                return sb.toString();
+                return sb.ToString();
             }
         }
 
-        public PropositionSymbol newSymbol(String prefix, int timeStep)
+        public PropositionSymbol newSymbol(string prefix, int timeStep)
         {
             return new PropositionSymbol(prefix + "_" + timeStep);
         }
 
-        public PropositionSymbol newSymbol(String prefix, int x, int y)
+        public PropositionSymbol newSymbol(string prefix, int x, int y)
         {
             return new PropositionSymbol(prefix + "_" + x + "_" + y);
         }
 
-        public PropositionSymbol newSymbol(String prefix, int timeStep, int x, int y)
+        public PropositionSymbol newSymbol(string prefix, int timeStep, int x, int y)
         {
-            return newSymbol(newSymbol(prefix, timeStep).toString(), x, y);
+            return newSymbol(newSymbol(prefix, timeStep).ToString(), x, y);
         }
 
         public Metrics getMetrics()

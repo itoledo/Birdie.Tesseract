@@ -12,7 +12,7 @@
      * @author Ruediger Lunde
      *
      */
-    public class GeneticAlgorithmForNumbers extends GeneticAlgorithm<Double> {
+    public class GeneticAlgorithmForNumbers : GeneticAlgorithm<double> {
 
 
     private double minimum;
@@ -33,31 +33,31 @@
 	 */
     public GeneticAlgorithmForNumbers(int individualLength, double min, double max, double mutationProbability)
     {
-        super(individualLength, Collections.< Double > emptySet(), mutationProbability);
+        base(individualLength, Collections.< double > emptySet(), mutationProbability);
         minimum = min;
         maximum = max;
     }
 
     /** Convenience method. */
-    public Individual<Double> createRandomIndividual()
+    public Individual<double> createRandomIndividual()
     {
-        List<Double> representation = new ArrayList<Double>(individualLength);
+        IQueue<double> representation = Factory.CreateQueue<double>(individualLength);
         for (int i = 0; i < individualLength; i++)
-            representation.add(minimum + random.nextDouble() * (maximum - minimum));
-        return new Individual<Double>(representation);
+            representation.Add(minimum + random.NextDouble() * (maximum - minimum));
+        return new Individual<double>(representation);
     }
 
     /**
 	 * Produces for each number in the descendant's representation a random
 	 * value between the corresponding values of its parents.
 	 */
-    @Override
-    protected Individual<Double> reproduce(Individual<Double> x, Individual<Double> y)
+     
+    protected Individual<double> reproduce(Individual<double> x, Individual<double> y)
     {
-        List<Double> newRep = new ArrayList<Double>(x.length());
-        double r = random.nextDouble();
+        IQueue<double> newRep = Factory.CreateQueue<double>(x.length());
+        double r = random.NextDouble();
         for (int i = 0; i < x.length(); i++)
-            newRep.add(x.getRepresentation().get(i) * r + y.getRepresentation().get(i) * (1 - r));
+            newRep.Add(x.getRepresentation().Get(i) * r + y.getRepresentation().Get(i) * (1 - r));
         return new Individual<>(newRep);
     }
 
@@ -66,20 +66,20 @@
 	 * change is +- (maximum - minimum) / 4, but smaller changes have a higher
 	 * likelihood.
 	 */
-    @Override
-    protected Individual<Double> mutate(Individual<Double> child)
+     
+    protected Individual<double> mutate(Individual<double> child)
     {
-        List<Double> rep = child.getRepresentation();
-        List<Double> newRep = new ArrayList<Double>();
+        IQueue<double> rep = child.getRepresentation();
+        IQueue<double> newRep = Factory.CreateQueue<double>();
         for (double num : rep)
         {
-            double r = random.nextDouble() - 0.5;
+            double r = random.NextDouble() - 0.5;
             num += r * r * r * (maximum - minimum) / 2;
             if (num < minimum)
                 num = minimum;
             else if (num > maximum)
                 num = maximum;
-            newRep.add(num);
+            newRep.Add(num);
         }
         return new Individual<>(newRep);
     }

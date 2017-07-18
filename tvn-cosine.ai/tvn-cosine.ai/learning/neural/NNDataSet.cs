@@ -96,7 +96,7 @@ namespace tvn.cosine.ai.learning.neural
         public NNExample getExampleAtRandom()
         {
             int i = Util.randomNumberBetween(0, (presentlyProcessed.size() - 1));
-            return presentlyProcessed.remove(i);
+            return presentlyProcessed.Remove(i);
         }
 
         /*

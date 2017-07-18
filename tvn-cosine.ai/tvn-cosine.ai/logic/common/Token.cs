@@ -10,7 +10,7 @@
     public class Token
     {
         private int type;
-        private String text;
+        private string text;
         private int startCharPositionInInput;
 
         /**
@@ -24,7 +24,7 @@
          *            the position (starting from 0) at which this token 
          *            starts in  the input.
          */
-        public Token(int type, String text, int startCharPositionInInput)
+        public Token(int type, string text, int startCharPositionInInput)
         {
             this.type = type;
             this.text = text;
@@ -36,7 +36,7 @@
          * 
          * @return the attribute-value of this token.
          */
-        public String getText()
+        public string getText()
         {
             return text;
         }
@@ -60,35 +60,35 @@
             return startCharPositionInInput;
         }
 
-        @Override
-        public boolean equals(Object o)
+         
+        public override bool Equals(object o)
         {
 
             if (this == o)
             {
                 return true;
             }
-            if ((o == null) || (this.getClass() != o.getClass()))
+            if ((o == null) || (this.GetType() != o.GetType()))
             {
                 return false;
             }
 
             Token other = (Token)o;
-            return ((other.type == type) && (other.text.equals(text)) && (other.startCharPositionInInput == startCharPositionInInput));
+            return ((other.type == type) && (other.text.Equals(text)) && (other.startCharPositionInInput == startCharPositionInInput));
         }
 
-        @Override
-        public int hashCode()
+         
+        public override int GetHashCode()
         {
             int result = 17;
             result = 37 * result + type;
-            result = 37 * result + text.hashCode();
+            result = 37 * result + text.GetHashCode();
             result = 37 * result + startCharPositionInInput;
             return result;
         }
 
-        @Override
-        public String toString()
+         
+        public override string ToString()
         {
             return "[ " + type + " " + text + " " + startCharPositionInInput + " ]";
         }

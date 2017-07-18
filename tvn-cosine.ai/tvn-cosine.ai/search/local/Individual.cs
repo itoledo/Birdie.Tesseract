@@ -15,7 +15,7 @@
      */
     public class Individual<A>
     {
-        private List<A> representation = new ArrayList<>();
+        private IQueue<A> representation = Factory.CreateQueue<>();
         private int descendants; // for debugging!
 
         /**
@@ -24,16 +24,16 @@
          * @param representation
          *            the individual's representation.
          */
-        public Individual(List<A> representation)
+        public Individual(IQueue<A> representation)
         {
-            this.representation = Collections.unmodifiableList(representation);
+            this.representation = Factory.CreateReadOnlyQueue<>(representation);
         }
 
         /**
          * 
          * @return the individual's representation.
          */
-        public List<A> getRepresentation()
+        public IQueue<A> getRepresentation()
         {
             return representation;
         }
@@ -62,10 +62,10 @@
             return descendants;
         }
 
-        @Override
-        public String toString()
+         
+        public override string ToString()
         {
-            return representation.toString() + descendants;
+            return representation.ToString() + descendants;
         }
     }
 }

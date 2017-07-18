@@ -8,7 +8,7 @@
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class MixedRadixNumber extends Number
+    public class MixedRadixNumber : Number
     {
     //
     private static final long serialVersionUID = 1L;
@@ -17,7 +17,7 @@
     private long maxValue = 0L;
     private int[] radices = null;
     private int[] currentNumeralValue = null;
-    private boolean recalculate = true;
+    private bool recalculate = true;
 
     /**
 	 * Constructs a mixed radix number with a specified value and a specified
@@ -32,8 +32,8 @@
     public MixedRadixNumber(long value, int[] radices)
     {
         this.value = value;
-        this.radices = new int[radices.length];
-        System.arraycopy(radices, 0, this.radices, 0, radices.length);
+        this.radices = new int[radices.Length];
+        System.arraycopy(radices, 0, this.radices, 0, radices.Length);
         calculateMaxValue();
     }
 
@@ -47,13 +47,13 @@
 	 *            the radices used to represent the value of the mixed radix
 	 *            number
 	 */
-    public MixedRadixNumber(long value, List<Integer> radices)
+    public MixedRadixNumber(long value, IQueue<int> radices)
     {
         this.value = value;
         this.radices = new int[radices.size()];
         for (int i = 0; i < radices.size(); i++)
         {
-            this.radices[i] = radices.get(i);
+            this.radices[i] = radices.Get(i);
         }
         calculateMaxValue();
     }
@@ -86,7 +86,7 @@
 	 */
     public long getCurrentValueFor(int[] radixValues)
     {
-        if (radixValues.length != radices.length)
+        if (radixValues.Length != radices.Length)
         {
             throw new IllegalArgumentException(
                     "Radix values not same size as Radices.");
@@ -94,7 +94,7 @@
 
         long cvalue = 0;
         long mvalue = 1;
-        for (int i = 0; i < radixValues.length; i++)
+        for (int i = 0; i < radixValues.Length; i++)
         {
             if (radixValues[i] < 0 || radixValues[i] >= radices[i])
             {
@@ -121,7 +121,7 @@
     {
         this.value = getCurrentValueFor(radixValues);
         System.arraycopy(radixValues, 0, this.currentNumeralValue, 0,
-                radixValues.length);
+                radixValues.Length);
         recalculate = false;
     }
 
@@ -144,7 +144,7 @@
 	 * 
 	 * @return <code>true</code> if the increment was successful.
 	 */
-    public boolean increment()
+    public bool increment()
     {
         if (value < maxValue)
         {
@@ -162,7 +162,7 @@
 	 * 
 	 * @return <code>true</code> if the decrement was successful.
 	 */
-    public boolean decrement()
+    public bool decrement()
     {
         if (value > 0)
         {
@@ -182,12 +182,12 @@
 	 */
     public int getCurrentNumeralValue(int atPosition)
     {
-        if (atPosition >= 0 && atPosition < radices.length)
+        if (atPosition >= 0 && atPosition < radices.Length)
         {
             if (recalculate)
             {
                 long quotient = value;
-                for (int i = 0; i < radices.length; i++)
+                for (int i = 0; i < radices.Length; i++)
                 {
                     if (0 != quotient)
                     {
@@ -205,30 +205,30 @@
             return currentNumeralValue[atPosition];
         }
         throw new IllegalArgumentException(
-                "Argument atPosition must be >=0 and < " + radices.length);
+                "Argument atPosition must be >=0 and < " + radices.Length);
     }
 
     //
     // START-Number
-    @Override
+     
     public int intValue()
     {
         return (int)longValue();
     }
 
-    @Override
+     
     public long longValue()
     {
         return value;
     }
 
-    @Override
+     
     public float floatValue()
     {
         return longValue();
     }
 
-    @Override
+     
     public double doubleValue()
     {
         return longValue();
@@ -237,19 +237,19 @@
     // END-Number
     //
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < radices.length; i++)
+        for (int i = 0; i < radices.Length; i++)
         {
-            sb.append("[");
-            sb.append(this.getCurrentNumeralValue(i));
-            sb.append("]");
+            sb.Append("[");
+            sb.Append(this.getCurrentNumeralValue(i));
+            sb.Append("]");
         }
 
-        return sb.toString();
+        return sb.ToString();
     }
 
     //
@@ -267,12 +267,12 @@
 	 */
     private void calculateMaxValue()
     {
-        if (0 == radices.length)
+        if (0 == radices.Length)
         {
             throw new IllegalArgumentException(
                     "At least 1 radix must be defined.");
         }
-        for (int i = 0; i < radices.length; i++)
+        for (int i = 0; i < radices.Length; i++)
         {
             if (radices[i] < 2)
             {
@@ -283,7 +283,7 @@
 
         // Calculate the maxValue allowed
         maxValue = radices[0];
-        for (int i = 1; i < radices.length; i++)
+        for (int i = 1; i < radices.Length; i++)
         {
             maxValue *= radices[i];
         }
@@ -298,7 +298,7 @@
                             + maxValue);
         }
 
-        currentNumeralValue = new int[radices.length];
+        currentNumeralValue = new int[radices.Length];
     }
 }
 

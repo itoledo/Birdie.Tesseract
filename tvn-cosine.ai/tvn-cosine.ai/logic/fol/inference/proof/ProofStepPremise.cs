@@ -1,37 +1,39 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference.proof
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.logic.fol.inference.proof
 {
-    public class ProofStepPremise extends AbstractProofStep
+    public class ProofStepPremise : AbstractProofStep
     {
-    //
-    private static final List<ProofStep> _noPredecessors = new ArrayList<ProofStep>();
-    //
-    private Object proof = "";
+        //
+        private static readonly IQueue<ProofStep> _noPredecessors = Factory.CreateQueue<ProofStep>();
+        //
+        private object proof = "";
 
-    public ProofStepPremise(Object proof)
-    {
-        this.proof = proof;
-    }
+        public ProofStepPremise(object proof)
+        {
+            this.proof = proof;
+        }
 
-    //
-    // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
-    {
-        return Collections.unmodifiableList(_noPredecessors);
-    }
+        //
+        // START-ProofStep
 
-    @Override
-    public String getProof()
-    {
-        return proof.toString();
-    }
+        public override IQueue<ProofStep> getPredecessorSteps()
+        {
+            return Factory.CreateReadOnlyQueue<ProofStep>(_noPredecessors);
+        }
 
-    @Override
-    public String getJustification()
-    {
-        return "Premise";
+
+        public override string getProof()
+        {
+            return proof.ToString();
+        }
+
+
+        public override string getJustification()
+        {
+            return "Premise";
+        }
+        // END-ProofStep
+        //
     }
-    // END-ProofStep
-    //
-}
 }

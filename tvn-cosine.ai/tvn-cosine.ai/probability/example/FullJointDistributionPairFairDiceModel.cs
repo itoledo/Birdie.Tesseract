@@ -7,7 +7,7 @@
 
     public FullJointDistributionPairFairDiceModel()
     {
-        super(new double[] {
+        base(new double[] {
 				// Dice1 * Dice 2 = 36 possible worlds
 				1.0 / 36.0,
                 1.0 / 36.0,

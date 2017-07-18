@@ -43,7 +43,7 @@
      * 
      * @see SourceVersion#isIdentifier(CharSequence)
      */
-    public class PLParser extends Parser<Sentence> {
+    public class PLParser : Parser<Sentence> {
 
 
     private PLLexer lexer = new PLLexer();
@@ -55,7 +55,7 @@
     {
     }
 
-    @Override
+     
     public Lexer getLexer()
     {
         return lexer;
@@ -64,13 +64,13 @@
     //
     // PROTECTED
     //
-    @Override
+     
     protected Sentence parse()
     {
         Sentence result = null;
 
         ParseNode root = parseSentence(0);
-        if (root != null && root.node instanceof Sentence) {
+        if (root != null && root.node is Sentence) {
             result = (Sentence)root.node;
         }
 
@@ -82,7 +82,7 @@
     //
     private ParseNode parseSentence(int level)
     {
-        List<ParseNode> levelParseNodes = parseLevel(level);
+        IQueue<ParseNode> levelParseNodes = parseLevel(level);
 
         ParseNode result = null;
 
@@ -102,8 +102,8 @@
         // At this point there should just be the root formula
         // for this level.
         if (levelParseNodes.size() == 1
-                && levelParseNodes.get(0).node instanceof Sentence) {
-            result = levelParseNodes.get(0);
+                && levelParseNodes.Get(0).node is Sentence) {
+            result = levelParseNodes.Get(0);
         } else {
             // Did not identify a root sentence for this level,
             // therefore throw an exception indicating the problem.
@@ -114,28 +114,28 @@
         return result;
     }
 
-    private List<ParseNode> groupSimplerSentencesByConnective(
-            Connective connectiveToConstruct, List<ParseNode> parseNodes)
+    private IQueue<ParseNode> groupSimplerSentencesByConnective(
+            Connective connectiveToConstruct, IQueue<ParseNode> parseNodes)
     {
-        List<ParseNode> newParseNodes = new ArrayList<ParseNode>();
+        IQueue<ParseNode> newParseNodes = Factory.CreateQueue<ParseNode>();
         int numSentencesMade = 0;
         // Go right to left in order to make right associative,
         // which is a natural default for propositional logic
         for (int i = parseNodes.size() - 1; i >= 0; i--)
         {
-            ParseNode parseNode = parseNodes.get(i);
-            if (parseNode.node instanceof Connective) {
+            ParseNode parseNode = parseNodes.Get(i);
+            if (parseNode.node is Connective) {
             Connective tokenConnective = (Connective)parseNode.node;
             if (tokenConnective == Connective.NOT)
             {
                 // A unary connective
                 if (i + 1 < parseNodes.size()
-                        && parseNodes.get(i + 1).node instanceof Sentence) {
+                        && parseNodes.Get(i + 1).node is Sentence) {
                     if (tokenConnective == connectiveToConstruct)
                     {
                         ComplexSentence newSentence = new ComplexSentence(
                                 connectiveToConstruct,
-                                (Sentence)parseNodes.get(i + 1).node);
+                                (Sentence)parseNodes.Get(i + 1).node);
                         parseNodes.set(i, new ParseNode(newSentence,
                                 parseNode.token));
                         parseNodes.set(i + 1, null);
@@ -152,17 +152,17 @@
             else
             {
                 // A Binary connective
-                if ((i - 1 >= 0 && parseNodes.get(i - 1).node instanceof Sentence)
+                if ((i - 1 >= 0 && parseNodes.Get(i - 1).node is Sentence)
 
                             && (i + 1 < parseNodes.size() && parseNodes
-                                    .get(i + 1).node instanceof Sentence)) {
+                                    .Get(i + 1).node is Sentence)) {
                     // A binary connective
                     if (tokenConnective == connectiveToConstruct)
                     {
                         ComplexSentence newSentence = new ComplexSentence(
                                 connectiveToConstruct,
-                                (Sentence)parseNodes.get(i - 1).node,
-                                (Sentence)parseNodes.get(i + 1).node);
+                                (Sentence)parseNodes.Get(i - 1).node,
+                                (Sentence)parseNodes.Get(i + 1).node);
                         parseNodes.set(i - 1, new ParseNode(newSentence,
                                 parseNode.token));
                         parseNodes.set(i, null);
@@ -181,9 +181,9 @@
     }
 
 		for (int i = 0; i<parseNodes.size(); i++) {
-			ParseNode parseNode = parseNodes.get(i);
+			ParseNode parseNode = parseNodes.Get(i);
 			if (parseNode != null) {
-				newParseNodes.add(parseNode);
+				newParseNodes.Add(parseNode);
 			}
 		}
 
@@ -205,24 +205,24 @@
 		return newParseNodes;
 	}
 
-	private List<ParseNode> parseLevel(int level)
+	private IQueue<ParseNode> parseLevel(int level)
 {
-    List<ParseNode> tokens = new ArrayList<ParseNode>();
+    IQueue<ParseNode> tokens = Factory.CreateQueue<ParseNode>();
     while (lookAhead(1).getType() != LogicTokenTypes.EOI
             && lookAhead(1).getType() != LogicTokenTypes.RPAREN
             && lookAhead(1).getType() != LogicTokenTypes.RSQRBRACKET)
     {
         if (detectConnective())
         {
-            tokens.add(parseConnective());
+            tokens.Add(parseConnective());
         }
         else if (detectAtomicSentence())
         {
-            tokens.add(parseAtomicSentence());
+            tokens.Add(parseAtomicSentence());
         }
         else if (detectBracket())
         {
-            tokens.add(parseBracketedSentence(level));
+            tokens.Add(parseBracketedSentence(level));
         }
     }
 
@@ -236,7 +236,7 @@
     return tokens;
 }
 
-private boolean detectConnective()
+private bool detectConnective()
 {
     return lookAhead(1).getType() == LogicTokenTypes.CONNECTIVE;
 }
@@ -244,12 +244,12 @@ private boolean detectConnective()
 private ParseNode parseConnective()
 {
     Token token = lookAhead(1);
-    Connective connective = Connective.get(token.getText());
+    Connective connective = Connective.Get(token.getText());
     consume();
     return new ParseNode(connective, token);
 }
 
-private boolean detectAtomicSentence()
+private bool detectAtomicSentence()
 {
     int type = lookAhead(1).getType();
     return type == LogicTokenTypes.TRUE || type == LogicTokenTypes.FALSE
@@ -298,12 +298,12 @@ private ParseNode parseFalse()
 private ParseNode parseSymbol()
 {
     Token token = lookAhead(1);
-    String sym = token.getText();
+    string sym = token.getText();
     consume();
     return new ParseNode(new PropositionSymbol(sym), token);
 }
 
-private boolean detectBracket()
+private bool detectBracket()
 {
     return lookAhead(1).getType() == LogicTokenTypes.LPAREN
             || lookAhead(1).getType() == LogicTokenTypes.LSQRBRACKET;
@@ -313,8 +313,8 @@ private ParseNode parseBracketedSentence(int level)
 {
     Token startToken = lookAhead(1);
 
-    String start = "(";
-    String end = ")";
+    string start = "(";
+    string end = ")";
     if (startToken.getType() == LogicTokenTypes.LSQRBRACKET)
     {
         start = "[";
@@ -328,13 +328,13 @@ private ParseNode parseBracketedSentence(int level)
     return bracketedSentence;
 }
 
-private Token[] getTokens(List<ParseNode> parseNodes)
+private Token[] getTokens(IQueue<ParseNode> parseNodes)
 {
     Token[] result = new Token[parseNodes.size()];
 
     for (int i = 0; i < parseNodes.size(); i++)
     {
-        result[i] = parseNodes.get(i).token;
+        result[i] = parseNodes.Get(i).token;
     }
 
     return result;
@@ -342,18 +342,18 @@ private Token[] getTokens(List<ParseNode> parseNodes)
 
 private class ParseNode
 {
-    public Object node = null;
+    public object node = null;
     public Token token = null;
 
-    public ParseNode(Object node, Token token)
+    public ParseNode(object node, Token token)
     {
         this.node = node;
         this.token = token;
     }
 
-    public String toString()
+    public override string ToString()
     {
-        return node.toString() + " at "
+        return node.ToString() + " at "
                 + token.getStartCharPositionInInput();
     }
 }

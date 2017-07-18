@@ -56,7 +56,7 @@
          * 
          * @return <code>true</code> if the given state is a goal state.
          */
-        public boolean testGoal(S state)
+        public bool testGoal(S state)
         {
             return goalTest.test(state);
         }
@@ -64,7 +64,7 @@
         /**
          * Returns the description of the possible actions available to the agent.
          */
-        List<A> getActions(S state)
+        IQueue<A> getActions(S state)
         {
             return actionsFn.apply(state);
         }
@@ -74,7 +74,7 @@
          * 
          * @return the description of what each action does.
          */
-        public List<S> getResults(S state, A action)
+        public IQueue<S> getResults(S state, A action)
         {
             return this.resultsFn.results(state, action);
         }

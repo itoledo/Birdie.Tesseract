@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability.proposition
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.probability.proposition
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 486.<br>
@@ -21,7 +23,7 @@
          * @return the Set of RandomVariables in the World (sample space) that this
          *         Proposition is applicable to.
          */
-        Set<RandomVariable> getScope();
+        ISet<RandomVariable> getScope();
 
         /**
          * 
@@ -31,7 +33,7 @@
          *         unbound it implies the distributions associated with the variable
          *         is being sought.
          */
-        Set<RandomVariable> getUnboundScope();
+        ISet<RandomVariable> getUnboundScope();
 
         /**
          * Determine whether or not the proposition holds in a particular possible
@@ -43,6 +45,6 @@
          * @return true if the proposition holds in the given possible world, false
          *         otherwise.
          */
-        boolean holds(Map<RandomVariable, Object> possibleWorld);
+        bool holds(IMap<RandomVariable, object> possibleWorld);
     }
 }

@@ -7,7 +7,7 @@
      * @author Ravi Mohan
      * @author Mike Stampone
      */
-    public class PLLexer extends Lexer
+    public class PLLexer : Lexer
     {
 
     /**
@@ -25,7 +25,7 @@
 	 *            a sequence of characters to be converted into a sequence of
 	 *            tokens.
 	 */
-    public PLLexer(String inputString)
+    public PLLexer(string inputString)
     {
         setInput(inputString);
     }
@@ -35,7 +35,7 @@
 	 * 
 	 * @return the next propositional token from the character stream.
 	 */
-    @Override
+     
     public Token nextToken()
     {
         int startPosition = getCurrentPositionInInput();
@@ -82,12 +82,12 @@
         }
     }
 
-    private boolean connectiveDetected(char leadingChar)
+    private bool connectiveDetected(char leadingChar)
     {
         return Connective.isConnectiveIdentifierStart(leadingChar);
     }
 
-    private boolean symbolDetected(char leadingChar)
+    private bool symbolDetected(char leadingChar)
     {
         return PropositionSymbol.isPropositionSymbolIdentifierStart(leadingChar);
     }
@@ -99,16 +99,16 @@
         // Ensure pull out just one connective at a time, the isConnective(...)
         // test ensures we handle chained expressions like the following:
         // ~~P
-        while (Connective.isConnectiveIdentifierPart(lookAhead(1)) && !isConnective(sbuf.toString()))
+        while (Connective.isConnectiveIdentifierPart(lookAhead(1)) && !isConnective(sbuf.ToString()))
         {
-            sbuf.append(lookAhead(1));
+            sbuf.Append(lookAhead(1));
             consume();
         }
 
-        String symbol = sbuf.toString();
+        string symbol = sbuf.ToString();
         if (isConnective(symbol))
         {
-            return new Token(LogicTokenTypes.CONNECTIVE, sbuf.toString(), startPosition);
+            return new Token(LogicTokenTypes.CONNECTIVE, sbuf.ToString(), startPosition);
         }
 
         throw new LexerException("Lexing error on connective " + symbol + " at position " + getCurrentPositionInInput(), getCurrentPositionInInput());
@@ -120,10 +120,10 @@
         StringBuffer sbuf = new StringBuffer();
         while (PropositionSymbol.isPropositionSymbolIdentifierPart(lookAhead(1)))
         {
-            sbuf.append(lookAhead(1));
+            sbuf.Append(lookAhead(1));
             consume();
         }
-        String symbol = sbuf.toString();
+        string symbol = sbuf.ToString();
         if (PropositionSymbol.isAlwaysTrueSymbol(symbol))
         {
             return new Token(LogicTokenTypes.TRUE, PropositionSymbol.TRUE_SYMBOL, startPosition);
@@ -134,13 +134,13 @@
         }
         else if (PropositionSymbol.isPropositionSymbol(symbol))
         {
-            return new Token(LogicTokenTypes.SYMBOL, sbuf.toString(), startPosition);
+            return new Token(LogicTokenTypes.SYMBOL, sbuf.ToString(), startPosition);
         }
 
         throw new LexerException("Lexing error on symbol " + symbol + " at position " + getCurrentPositionInInput(), getCurrentPositionInInput());
     }
 
-    private boolean isConnective(String aSymbol)
+    private bool isConnective(string aSymbol)
     {
         return Connective.isConnective(aSymbol);
     }

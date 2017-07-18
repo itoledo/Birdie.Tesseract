@@ -57,11 +57,11 @@
          * @throws IllegalArgumentException
          *             if KB contains any non-definite clauses.
          */
-        public boolean plfcEntails(KnowledgeBase kb, PropositionSymbol q)
+        public bool plfcEntails(KnowledgeBase kb, PropositionSymbol q)
         {
             // count <- a table, where count[c] is the number of symbols in c's
             // premise
-            Map<Clause, Integer> count = initializeCount(kb);
+            Map<Clause, int> count = initializeCount(kb);
             // inferred <- a table, where inferred[s] is initially false for all
             // symbols
             Map<PropositionSymbol, Boolean> inferred = initializeInferred(kb);
@@ -69,33 +69,33 @@
             // KB
             Queue<PropositionSymbol> agenda = initializeAgenda(count);
             // Note: an index for p to the clauses where p appears in the premise
-            Map<PropositionSymbol, Set<Clause>> pToClausesWithPInPremise = initializeIndex(
+            Map<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = initializeIndex(
                     count, inferred);
 
             // while agenda is not empty do
             while (!agenda.isEmpty())
             {
                 // p <- Pop(agenda)
-                PropositionSymbol p = agenda.remove();
+                PropositionSymbol p = agenda.Remove();
                 // if p = q then return true
-                if (p.equals(q))
+                if (p.Equals(q))
                 {
                     return true;
                 }
                 // if inferred[p] = false then
-                if (inferred.get(p).equals(Boolean.FALSE))
+                if (inferred.Get(p).Equals(Boolean.FALSE))
                 {
                     // inferred[p] <- true
-                    inferred.put(p, true);
+                    inferred.Put(p, true);
                     // for each clause c in KB where p is in c.PREMISE do
-                    for (Clause c : pToClausesWithPInPremise.get(p))
+                    for (Clause c : pToClausesWithPInPremise.Get(p))
                     {
                         // decrement count[c]
                         decrement(count, c);
                         // if count[c] = 0 then add c.CONCLUSION to agenda
-                        if (count.get(c) == 0)
+                        if (count.Get(c) == 0)
                         {
-                            agenda.add(conclusion(c));
+                            agenda.Add(conclusion(c));
                         }
                     }
                 }
@@ -112,13 +112,13 @@
         //
         // PROTECTED
         //
-        protected Map<Clause, Integer> initializeCount(KnowledgeBase kb)
+        protected Map<Clause, int> initializeCount(KnowledgeBase kb)
         {
             // count <- a table, where count[c] is the number of symbols in c's
             // premise
-            Map<Clause, Integer> count = new HashMap<Clause, Integer>();
+            Map<Clause, int> count = Factory.CreateMap<Clause, int>();
 
-            Set<Clause> clauses = ConvertToConjunctionOfClauses.convert(
+            ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(
                     kb.asSentence()).getClauses();
             for (Clause c : clauses)
             {
@@ -129,7 +129,7 @@
                 }
                 // Note: # of negative literals is equivalent to the number of
                 // symbols in c's premise
-                count.put(c, c.getNumberNegativeLiterals());
+                count.Put(c, c.getNumberNegativeLiterals());
             }
 
             return count;
@@ -139,28 +139,28 @@
         {
             // inferred <- a table, where inferred[s] is initially false for all
             // symbols
-            Map<PropositionSymbol, Boolean> inferred = new HashMap<PropositionSymbol, Boolean>();
+            Map<PropositionSymbol, Boolean> inferred = Factory.CreateMap<PropositionSymbol, Boolean>();
             for (PropositionSymbol p : SymbolCollector.getSymbolsFrom(kb
                     .asSentence()))
             {
-                inferred.put(p, false);
+                inferred.Put(p, false);
             }
             return inferred;
         }
 
         // Note: at the point of calling this routine, count will contain all the
         // clauses in KB.
-        protected Queue<PropositionSymbol> initializeAgenda(Map<Clause, Integer> count)
+        protected Queue<PropositionSymbol> initializeAgenda(IMap<Clause, int> count)
         {
             // agenda <- a queue of symbols, initially symbols known to be true in
             // KB
-            Queue<PropositionSymbol> agenda = new LinkedList<PropositionSymbol>();
-            for (Clause c : count.keySet())
+            Queue<PropositionSymbol> agenda = Factory.CreateQueue<PropositionSymbol>();
+            for (Clause c : count.GetKeys())
             {
                 // No premise just a conclusion, then we know its true
                 if (c.getNumberNegativeLiterals() == 0)
                 {
-                    agenda.add(conclusion(c));
+                    agenda.Add(conclusion(c));
                 }
             }
             return agenda;
@@ -168,33 +168,33 @@
 
         // Note: at the point of calling this routine, count will contain all the
         // clauses in KB while inferred will contain all the proposition symbols.
-        protected Map<PropositionSymbol, Set<Clause>> initializeIndex(
-                Map<Clause, Integer> count, Map<PropositionSymbol, Boolean> inferred)
+        protected Map<PropositionSymbol, ISet<Clause>> initializeIndex(
+                Map<Clause, int> count, Map<PropositionSymbol, Boolean> inferred)
         {
-            Map<PropositionSymbol, Set<Clause>> pToClausesWithPInPremise = new HashMap<PropositionSymbol, Set<Clause>>();
-            for (PropositionSymbol p : inferred.keySet())
+            Map<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = Factory.CreateMap<PropositionSymbol, ISet<Clause>>();
+            for (PropositionSymbol p : inferred.GetKeys())
             {
-                Set<Clause> clausesWithPInPremise = new HashSet<Clause>();
-                for (Clause c : count.keySet())
+                ISet<Clause> clausesWithPInPremise = Factory.CreateSet<Clause>();
+                for (Clause c : count.GetKeys())
                 {
                     // Note: The negative symbols comprise the premise
                     if (c.getNegativeSymbols().contains(p))
                     {
-                        clausesWithPInPremise.add(c);
+                        clausesWithPInPremise.Add(c);
                     }
                 }
-                pToClausesWithPInPremise.put(p, clausesWithPInPremise);
+                pToClausesWithPInPremise.Put(p, clausesWithPInPremise);
             }
             return pToClausesWithPInPremise;
         }
 
-        protected void decrement(Map<Clause, Integer> count, Clause c)
+        protected void decrement(IMap<Clause, int> count, Clause c)
         {
-            int currentCount = count.get(c);
+            int currentCount = count.Get(c);
             // Note: a definite clause can just be a fact (i.e. 1 positive literal)
             // However, we only decrement those where the symbol is in the premise
             // so we don't need to worry about going < 0.
-            count.put(c, currentCount - 1);
+            count.Put(c, currentCount - 1);
         }
 
         protected PropositionSymbol conclusion(Clause c)

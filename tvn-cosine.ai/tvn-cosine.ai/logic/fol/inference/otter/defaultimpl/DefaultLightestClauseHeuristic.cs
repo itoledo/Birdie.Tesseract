@@ -1,6 +1,6 @@
 ﻿namespace tvn.cosine.ai.logic.fol.inference.otter.defaultimpl
 {
-    public class DefaultLightestClauseHeuristic implements LightestClauseHeuristic
+    public class DefaultLightestClauseHeuristic : LightestClauseHeuristic
     {
 
 
@@ -28,25 +28,25 @@
 
     public void initialSOS(Set<Clause> clauses)
     {
-        sos.clear();
+        sos.Clear();
         sos.addAll(clauses);
     }
 
     public void addedClauseToSOS(Clause clause)
     {
-        sos.add(clause);
+        sos.Add(clause);
     }
 
     public void removedClauseFromSOS(Clause clause)
     {
-        sos.remove(clause);
+        sos.Remove(clause);
     }
 
     // END-LightestClauseHeuristic
     //
 }
 
-class LightestClauseSorter implements Comparator<Clause> {
+class LightestClauseSorter : Comparator<Clause> {
 
     public int compare(Clause c1, Clause c2)
 {

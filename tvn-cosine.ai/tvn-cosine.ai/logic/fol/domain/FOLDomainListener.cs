@@ -2,12 +2,8 @@
 {
     public interface FOLDomainListener
     {
-        void skolemConstantAdded(FOLDomainSkolemConstantAddedEvent event);
-
-
-    void skolemFunctionAdded(FOLDomainSkolemFunctionAddedEvent event);
-
-
-    void answerLiteralNameAdded(FOLDomainAnswerLiteralAddedEvent event);
-        }
+        void skolemConstantAdded(FOLDomainSkolemConstantAddedEvent even); 
+        void skolemFunctionAdded(FOLDomainSkolemFunctionAddedEvent even); 
+        void answerLiteralNameAdded(FOLDomainAnswerLiteralAddedEvent even);
     }
+}

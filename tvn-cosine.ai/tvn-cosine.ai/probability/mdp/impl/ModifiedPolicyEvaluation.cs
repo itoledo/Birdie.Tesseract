@@ -30,7 +30,7 @@
      * @author Ravi Mohan
      * 
      */
-    public class ModifiedPolicyEvaluation<S, A extends Action> implements PolicyEvaluation<S, A> {
+    public class ModifiedPolicyEvaluation<S, A : Action> : PolicyEvaluation<S, A> {
     // # iterations to use to produce the next utility estimate
     private int k;
     // discount &gamma; to be used.
@@ -56,31 +56,31 @@
 
     //
     // START-PolicyEvaluation
-    @Override
-    public Map<S, Double> evaluate(Map<S, A> pi_i, Map<S, Double> U,
+     
+    public Map<S, double> evaluate(IMap<S, A> pi_i, Map<S, double> U,
             MarkovDecisionProcess<S, A> mdp)
     {
-        Map<S, Double> U_i = new HashMap<S, Double>(U);
-        Map<S, Double> U_ip1 = new HashMap<S, Double>(U);
+        Map<S, double> U_i = Factory.CreateMap<S, double>(U);
+        Map<S, double> U_ip1 = Factory.CreateMap<S, double>(U);
         // repeat k times to produce the next utility estimate
         for (int i = 0; i < k; i++)
         {
             // U<sub>i+1</sub>(s) <- R(s) +
             // &gamma;&Sigma;<sub>s'</sub>P(s'|s,&pi;<sub>i</sub>(s))U<sub>i</sub>(s')
-            for (S s : U.keySet())
+            for (S s : U.GetKeys())
             {
-                A ap_i = pi_i.get(s);
+                A ap_i = pi_i.Get(s);
                 double aSum = 0;
                 // Handle terminal states (i.e. no actions)
                 if (null != ap_i)
                 {
-                    for (S sDelta : U.keySet())
+                    for (S sDelta : U.GetKeys())
                     {
                         aSum += mdp.transitionProbability(sDelta, s, ap_i)
-                                * U_i.get(sDelta);
+                                * U_i.Get(sDelta);
                     }
                 }
-                U_ip1.put(s, mdp.reward(s) + gamma * aSum);
+                U_ip1.Put(s, mdp.reward(s) + gamma * aSum);
             }
 
             U_i.putAll(U_ip1);

@@ -9,7 +9,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class ImplicationElimination extends AbstractPLVisitor<Object> {
+    public class ImplicationElimination : AbstractPLVisitor<Object> {
 
     /**
 	 * Eliminate the implications from a sentence.
@@ -28,8 +28,8 @@
         return result;
     }
 
-    @Override
-    public Sentence visitBinarySentence(ComplexSentence s, Object arg)
+     
+    public Sentence visitBinarySentence(ComplexSentence s, object arg)
     {
         Sentence result = null;
         if (s.isImplicationSentence())

@@ -66,7 +66,7 @@
 
                 // with probability p flip the value in model of a randomly selected
                 // symbol from clause
-                if (random.nextDouble() < p)
+                if (random.NextDouble() < p)
                 {
                     model = model.flip(randomlySelectSymbolFromClause(clause));
                 }
@@ -120,18 +120,18 @@
         protected Model randomAssignmentToSymbolsInClauses(Set<Clause> clauses)
         {
             // Collect the symbols in clauses
-            Set<PropositionSymbol> symbols = new LinkedHashSet<PropositionSymbol>();
+            ISet<PropositionSymbol> symbols = Factory.CreateSet<PropositionSymbol>();
             for (Clause c : clauses)
             {
                 symbols.addAll(c.getSymbols());
             }
 
             // Make initial set of assignments
-            Map<PropositionSymbol, Boolean> values = new HashMap<PropositionSymbol, Boolean>();
+            Map<PropositionSymbol, Boolean> values = Factory.CreateMap<PropositionSymbol, Boolean>();
             for (PropositionSymbol symbol : symbols)
             {
                 // a random assignment of true/false to the symbols in clauses
-                values.put(symbol, random.nextBoolean());
+                values.Put(symbol, random.nextBoolean());
             }
 
             Model result = new Model(values);
@@ -142,38 +142,38 @@
         protected Clause randomlySelectFalseClause(Set<Clause> clauses, Model model)
         {
             // Collect the clauses that are false in the model
-            List<Clause> falseClauses = new ArrayList<Clause>();
+            IQueue<Clause> falseClauses = Factory.CreateQueue<Clause>();
             for (Clause c : clauses)
             {
-                if (Boolean.FALSE.equals(model.determineValue(c)))
+                if (Boolean.FALSE.Equals(model.determineValue(c)))
                 {
-                    falseClauses.add(c);
+                    falseClauses.Add(c);
                 }
             }
 
             // a randomly selected clause from clauses that is false
-            Clause result = falseClauses.get(random.nextInt(falseClauses.size()));
+            Clause result = falseClauses.Get(random.nextInt(falseClauses.size()));
             return result;
         }
 
         protected PropositionSymbol randomlySelectSymbolFromClause(Clause clause)
         {
             // all the symbols in clause
-            Set<PropositionSymbol> symbols = clause.getSymbols();
+            ISet<PropositionSymbol> symbols = clause.getSymbols();
 
             // a randomly selected symbol from clause
-            PropositionSymbol result = (new ArrayList<PropositionSymbol>(symbols))
-                    .get(random.nextInt(symbols.size()));
+            PropositionSymbol result = (Factory.CreateQueue<PropositionSymbol>(symbols))
+                    .Get(random.nextInt(symbols.size()));
             return result;
         }
 
         protected Model flipSymbolInClauseMaximizesNumberSatisfiedClauses(
-                Clause clause, Set<Clause> clauses, Model model)
+                Clause clause, ISet<Clause> clauses, Model model)
         {
             Model result = model;
 
             // all the symbols in clause
-            Set<PropositionSymbol> symbols = clause.getSymbols();
+            ISet<PropositionSymbol> symbols = clause.getSymbols();
             int maxClausesSatisfied = -1;
             for (PropositionSymbol symbol : symbols)
             {
@@ -181,7 +181,7 @@
                 int numberClausesSatisfied = 0;
                 for (Clause c : clauses)
                 {
-                    if (Boolean.TRUE.equals(flippedModel.determineValue(c)))
+                    if (Boolean.TRUE.Equals(flippedModel.determineValue(c)))
                     {
                         numberClausesSatisfied++;
                     }

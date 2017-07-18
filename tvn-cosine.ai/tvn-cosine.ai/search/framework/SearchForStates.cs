@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.search.framework
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.search.framework
 {
     /**
      * Interface for all AIMA3e search algorithms which forget the exploration history and
@@ -22,7 +25,7 @@
          * 
          * @return a state or empty.
          */
-        Optional<S> findState(Problem<S, A> p);
+        S findState(Problem<S, A> p);
 
         /**
          * Returns all the metrics of the search.
@@ -38,7 +41,6 @@
         /**
          * Removes a listener from the list of node listeners.
          */
-        boolean removeNodeListener(Consumer<Node<S, A>> listener);
-    }
-
+        bool removeNodeListener(Consumer<Node<S, A>> listener);
+    } 
 }

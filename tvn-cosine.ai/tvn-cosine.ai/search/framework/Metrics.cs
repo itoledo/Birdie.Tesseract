@@ -1,74 +1,72 @@
-﻿namespace tvn.cosine.ai.search.framework
+﻿using System.Globalization;
+using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.framework
 {
     /**
-     * Stores key-value pairs for efficiency analysis.
-     * 
-     * @author Ravi Mohan
-     * @author Ruediger Lunde
+     * Stores key-value pairs for efficiency analysis. 
      */
-    public class Metrics
+    public class Metrics : IToString
     {
-        private Hashtable<String, String> hash;
+        private IMap<string, string> hash;
 
         public Metrics()
         {
-            this.hash = new Hashtable<String, String>();
+            this.hash = Factory.CreateMap<string, string>();
         }
 
-        public void set(String name, int i)
+        public void set(string name, int i)
         {
-            hash.put(name, Integer.toString(i));
+            hash.Put(name, i.ToString());
         }
 
-        public void set(String name, double d)
+        public void set(string name, double d)
         {
-            hash.put(name, Double.toString(d));
+            hash.Put(name, d.ToString());
         }
 
-        public void incrementInt(String name)
+        public void incrementInt(string name)
         {
             set(name, getInt(name) + 1);
         }
 
-        public void set(String name, long l)
+        public void set(string name, long l)
         {
-            hash.put(name, Long.toString(l));
+            hash.Put(name, l.ToString());
         }
 
-        public int getInt(String name)
+        public int getInt(string name)
         {
-            String value = hash.get(name);
-            return value != null ? Integer.parseInt(value) : 0;
+            return hash.ContainsKey(name) ? int.Parse(name) : 0;
         }
 
-        public double getDouble(String name)
+        public double getDouble(string name)
         {
-            String value = hash.get(name);
-            return value != null ? Double.parseDouble(value) : Double.NaN;
+            return hash.ContainsKey(name) ? double.Parse(name, NumberStyles.Any, CultureInfo.InvariantCulture) : double.NaN;
         }
 
-        public long getLong(String name)
+        public long getLong(string name)
         {
-            String value = hash.get(name);
-            return value != null ? Long.parseLong(value) : 0l;
+            string value = hash.Get(name);
+            return value != null ? long.Parse(value) : 0l;
         }
 
-        public String get(String name)
+        public string get(string name)
         {
-            return hash.get(name);
+            return hash.Get(name);
         }
 
-        public Set<String> keySet()
+        public ISet<string> keySet()
         {
-            return hash.keySet();
+            return hash.GetKeys();
         }
 
         /** Sorts the key-value pairs by key names and formats them as equations. */
-        public String toString()
+        public override string ToString()
         {
-            TreeMap<String, String> map = new TreeMap<String, String>(hash);
-            return map.toString();
+            IMap<string, string> map = Factory.CreateTreeMap<string, string>(hash);
+            return map.ToString();
         }
     }
-
 }

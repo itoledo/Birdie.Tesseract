@@ -59,7 +59,7 @@ namespace tvn.cosine.ai.environment.vacuum
                 results.Add(s);
 
                string currentLocation = state.getAgentLocation(agent);
-               string adjacentLocation = (currentLocation.equals(VacuumEnvironment.LOCATION_A))
+               string adjacentLocation = (currentLocation.Equals(VacuumEnvironment.LOCATION_A))
                          ? VacuumEnvironment.LOCATION_B : VacuumEnvironment.LOCATION_A;
 
                 if (action == VacuumEnvironment.ACTION_MOVE_RIGHT)

@@ -6,13 +6,13 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public class HMM implements HiddenMarkovModel
+    public class HMM : HiddenMarkovModel
     {
 
     private RandomVariable stateVariable = null;
     private FiniteDomain stateVariableDomain = null;
     private Matrix transitionModel = null;
-    private Map<Object, Matrix> sensorModel = null;
+    private Map<object, Matrix> sensorModel = null;
     private Matrix prior = null;
 
     /**
@@ -37,7 +37,7 @@
 	 *            Matrix form.
 	 */
     public HMM(RandomVariable stateVariable, Matrix transitionModel,
-            Map<Object, Matrix> sensorModel, Matrix prior)
+            Map<object, Matrix> sensorModel, Matrix prior)
     {
         if (!stateVariable.getDomain().isFinite())
         {
@@ -83,39 +83,39 @@
 
     //
     // START-HiddenMarkovModel
-    @Override
+     
     public RandomVariable getStateVariable()
     {
         return stateVariable;
     }
 
-    @Override
+     
     public Matrix getTransitionModel()
     {
         return transitionModel;
     }
 
-    @Override
-    public Map<Object, Matrix> getSensorModel()
+     
+    public Map<object, Matrix> getSensorModel()
     {
         return sensorModel;
     }
 
-    @Override
+     
     public Matrix getPrior()
     {
         return prior;
     }
 
-    @Override
-    public Matrix getEvidence(List<AssignmentProposition> evidence)
+     
+    public Matrix getEvidence(IQueue<AssignmentProposition> evidence)
     {
         if (evidence.size() != 1)
         {
             throw new IllegalArgumentException(
                     "Only a single evidence observation value should be provided.");
         }
-        Matrix e = sensorModel.get(evidence.get(0).getValue());
+        Matrix e = sensorModel.Get(evidence.Get(0).getValue());
         if (null == e)
         {
             throw new IllegalArgumentException(
@@ -124,44 +124,44 @@
         return e;
     }
 
-    @Override
+     
     public Matrix createUnitMessage()
     {
         double[] values = new double[stateVariableDomain.size()];
         Arrays.fill(values, 1.0);
-        return new Matrix(values, values.length);
+        return new Matrix(values, values.Length);
     }
 
-    @Override
+     
     public Matrix convert(CategoricalDistribution fromCD)
     {
         double[] values = fromCD.getValues();
-        return new Matrix(values, values.length);
+        return new Matrix(values, values.Length);
     }
 
-    @Override
+     
     public CategoricalDistribution convert(Matrix fromMessage)
     {
         return new ProbabilityTable(fromMessage.getRowPackedCopy(),
                 stateVariable);
     }
 
-    @Override
-    public List<CategoricalDistribution> convert(List<Matrix> matrixs)
+     
+    public IQueue<CategoricalDistribution> convert(IQueue<Matrix> matrixs)
     {
-        List<CategoricalDistribution> cds = new ArrayList<CategoricalDistribution>();
+        IQueue<CategoricalDistribution> cds = Factory.CreateQueue<CategoricalDistribution>();
         for (Matrix m : matrixs)
         {
-            cds.add(convert(m));
+            cds.Add(convert(m));
         }
         return cds;
     }
 
-    @Override
+     
     public Matrix normalize(Matrix m)
     {
         double[] values = m.getRowPackedCopy();
-        return new Matrix(Util.normalize(values), values.length);
+        return new Matrix(Util.normalize(values), values.Length);
     }
 
     // END-HiddenMarkovModel

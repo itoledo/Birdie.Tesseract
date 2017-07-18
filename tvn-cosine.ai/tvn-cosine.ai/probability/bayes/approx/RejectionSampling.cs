@@ -28,7 +28,7 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public class RejectionSampling implements BayesSampleInference
+    public class RejectionSampling : BayesSampleInference
     {
 
 
@@ -72,7 +72,7 @@
         for (int j = 0; j < Nsamples; j++)
         {
             // <b>x</b> <- PRIOR-SAMPLE(bn)
-            Map<RandomVariable, Object> x = ps.priorSample(bn);
+            Map<RandomVariable, object> x = ps.priorSample(bn);
             // if <b>x</b> is consistent with e then
             if (isConsistent(x, e))
             {
@@ -87,7 +87,7 @@
 
     //
     // START-BayesSampleInference
-    @Override
+     
     public CategoricalDistribution ask(final RandomVariable[] X,
             final AssignmentProposition[] observedEvidence,
             final BayesianNetwork bn, int N)
@@ -101,13 +101,13 @@
     //
     // PRIVATE METHODS
     //
-    private boolean isConsistent(Map<RandomVariable, Object> x,
+    private bool isConsistent(IMap<RandomVariable, object> x,
             AssignmentProposition[] e)
     {
 
         for (AssignmentProposition ap : e)
         {
-            if (!ap.getValue().equals(x.get(ap.getTermVariable())))
+            if (!ap.getValue().Equals(x.Get(ap.getTermVariable())))
             {
                 return false;
             }

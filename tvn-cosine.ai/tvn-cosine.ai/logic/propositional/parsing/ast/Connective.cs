@@ -33,7 +33,7 @@
 	 * 
 	 * @return the symbol for this connective.
 	 */
-    public String getSymbol()
+    public string getSymbol()
     {
         return symbol;
     }
@@ -47,8 +47,8 @@
         return precedence;
     }
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         return getSymbol();
     }
@@ -61,25 +61,25 @@
 	 *            connective.
 	 * @return true if the symbol passed in is representative of a connective.
 	 */
-    public static boolean isConnective(String symbol)
+    public static bool isConnective(string symbol)
     {
-        if (NOT.getSymbol().equals(symbol))
+        if (NOT.getSymbol().Equals(symbol))
         {
             return true;
         }
-        else if (AND.getSymbol().equals(symbol))
+        else if (AND.getSymbol().Equals(symbol))
         {
             return true;
         }
-        else if (OR.getSymbol().equals(symbol))
+        else if (OR.getSymbol().Equals(symbol))
         {
             return true;
         }
-        else if (IMPLICATION.getSymbol().equals(symbol))
+        else if (IMPLICATION.getSymbol().Equals(symbol))
         {
             return true;
         }
-        else if (BICONDITIONAL.getSymbol().equals(symbol))
+        else if (BICONDITIONAL.getSymbol().Equals(symbol))
         {
             return true;
         }
@@ -96,25 +96,25 @@
 	 *             if a connective cannot be found that matches the given
 	 *             symbol.
 	 */
-    public static Connective get(String symbol)
+    public static Connective get(string symbol)
     {
-        if (NOT.getSymbol().equals(symbol))
+        if (NOT.getSymbol().Equals(symbol))
         {
             return NOT;
         }
-        else if (AND.getSymbol().equals(symbol))
+        else if (AND.getSymbol().Equals(symbol))
         {
             return AND;
         }
-        else if (OR.getSymbol().equals(symbol))
+        else if (OR.getSymbol().Equals(symbol))
         {
             return OR;
         }
-        else if (IMPLICATION.getSymbol().equals(symbol))
+        else if (IMPLICATION.getSymbol().Equals(symbol))
         {
             return IMPLICATION;
         }
-        else if (BICONDITIONAL.getSymbol().equals(symbol))
+        else if (BICONDITIONAL.getSymbol().Equals(symbol))
         {
             return BICONDITIONAL;
         }
@@ -131,7 +131,7 @@
 	 * @return true if the given character is at the beginning of a connective's
 	 *         symbolic representation, false otherwise.
 	 */
-    public static boolean isConnectiveIdentifierStart(char ch)
+    public static bool isConnectiveIdentifierStart(char ch)
     {
         return _connectiveLeadingChars.contains(ch);
     }
@@ -144,7 +144,7 @@
 	 * @return true if the given character is part of a connective's symbolic
 	 *         representation, false otherwise.
 	 */
-    public static boolean isConnectiveIdentifierPart(char ch)
+    public static bool isConnectiveIdentifierPart(char ch)
     {
         return _connectiveChars.contains(ch);
     }
@@ -152,14 +152,14 @@
     //
     // PRIVATE
     //
-    private static final Set<Character> _connectiveLeadingChars = Util.createSet('~', '&', '|', '=', '<');
-    private static final Set<Character> _connectiveChars        = Util.createSet('~', '&', '|', '=', '<', '>');
+    private static final ISet<Character> _connectiveLeadingChars = Util.createSet('~', '&', '|', '=', '<');
+    private static final ISet<Character> _connectiveChars        = Util.createSet('~', '&', '|', '=', '<', '>');
 
-    private final String symbol;
+    private final string symbol;
 	private final int precedence;
 
 
-    Connective(String symbol, int precedence)
+    Connective(string symbol, int precedence)
     {
         this.symbol = symbol;
         this.precedence = precedence;

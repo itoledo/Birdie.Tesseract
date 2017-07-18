@@ -14,10 +14,10 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class Model implements PLVisitor<Boolean, Boolean> {
+    public class Model : PLVisitor<Boolean, Boolean> {
 
 
-    private HashMap<PropositionSymbol, Boolean> assignments = new HashMap<PropositionSymbol, Boolean>();
+    private HashMap<PropositionSymbol, Boolean> assignments = Factory.CreateMap<PropositionSymbol, Boolean>();
 
     /**
 	 * Default Constructor.
@@ -26,56 +26,56 @@
     {
     }
 
-    public Model(Map<PropositionSymbol, Boolean> values)
+    public Model(IMap<PropositionSymbol, Boolean> values)
     {
         assignments.putAll(values);
     }
 
     public Boolean getValue(PropositionSymbol symbol)
     {
-        return assignments.get(symbol);
+        return assignments.Get(symbol);
     }
 
-    public boolean isTrue(PropositionSymbol symbol)
+    public bool isTrue(PropositionSymbol symbol)
     {
-        return Boolean.TRUE.equals(assignments.get(symbol));
+        return Boolean.TRUE.Equals(assignments.Get(symbol));
     }
 
-    public boolean isFalse(PropositionSymbol symbol)
+    public bool isFalse(PropositionSymbol symbol)
     {
-        return Boolean.FALSE.equals(assignments.get(symbol));
+        return Boolean.FALSE.Equals(assignments.Get(symbol));
     }
 
-    public Model union(PropositionSymbol symbol, boolean b)
+    public Model union(PropositionSymbol symbol, bool b)
     {
         Model m = new Model();
         m.assignments.putAll(this.assignments);
-        m.assignments.put(symbol, b);
+        m.assignments.Put(symbol, b);
         return m;
     }
 
-    public Model unionInPlace(PropositionSymbol symbol, boolean b)
+    public Model unionInPlace(PropositionSymbol symbol, bool b)
     {
-        assignments.put(symbol, b);
+        assignments.Put(symbol, b);
         return this;
     }
 
-    public boolean remove(PropositionSymbol p)
+    public bool remove(PropositionSymbol p)
     {
-        return assignments.remove(p);
+        return assignments.Remove(p);
     }
 
-    public boolean isTrue(Sentence s)
+    public bool isTrue(Sentence s)
     {
-        return Boolean.TRUE.equals(s.accept(this, null));
+        return Boolean.TRUE.Equals(s.accept(this, null));
     }
 
-    public boolean isFalse(Sentence s)
+    public bool isFalse(Sentence s)
     {
-        return Boolean.FALSE.equals(s.accept(this, null));
+        return Boolean.FALSE.Equals(s.accept(this, null));
     }
 
-    public boolean isUnknown(Sentence s)
+    public bool isUnknown(Sentence s)
     {
         return null == s.accept(this, null);
     }
@@ -93,9 +93,9 @@
         return this;
     }
 
-    public Set<PropositionSymbol> getAssignedSymbols()
+    public ISet<PropositionSymbol> getAssignedSymbols()
     {
-        return Collections.unmodifiableSet(assignments.keySet());
+        return Factory.CreateReadOnlySet<>(assignments.GetKeys());
     }
 
     /**
@@ -105,12 +105,12 @@
 	 *            a set of propositional clauses.
 	 * @return if the model satisfies the clauses, false otherwise.
 	 */
-    public boolean satisfies(Set<Clause> clauses)
+    public bool satisfies(Set<Clause> clauses)
     {
         for (Clause c : clauses)
         {
             // All must to be true
-            if (!Boolean.TRUE.equals(determineValue(c)))
+            if (!Boolean.TRUE.Equals(determineValue(c)))
             {
                 return false;
             }
@@ -144,14 +144,14 @@
         }
         else
         {
-            boolean unassignedSymbols = false;
+            bool unassignedSymbols = false;
             Boolean value = null;
             for (PropositionSymbol positive : c.getPositiveSymbols())
             {
-                value = assignments.get(positive);
+                value = assignments.Get(positive);
                 if (value != null)
                 {
-                    if (Boolean.TRUE.equals(value))
+                    if (Boolean.TRUE.Equals(value))
                     {
                         result = Boolean.TRUE;
                         break;
@@ -167,10 +167,10 @@
             {
                 for (PropositionSymbol negative : c.getNegativeSymbols())
                 {
-                    value = assignments.get(negative);
+                    value = assignments.Get(negative);
                     if (value != null)
                     {
-                        if (Boolean.FALSE.equals(value))
+                        if (Boolean.FALSE.Equals(value))
                         {
                             result = Boolean.TRUE;
                             break;
@@ -205,18 +205,18 @@
         {
             System.out.print(e.getKey() + " = " + e.getValue() + " ");
         }
-        System.out.println();
+        System.Console.WriteLine();
     }
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
-        return assignments.toString();
+        return assignments.ToString();
     }
 
     //
     // START-PLVisitor
-    @Override
+     
     public Boolean visitPropositionSymbol(PropositionSymbol s, Boolean arg)
     {
         if (s.isAlwaysTrue())
@@ -230,10 +230,10 @@
         return getValue(s);
     }
 
-    @Override
+     
     public Boolean visitUnarySentence(ComplexSentence fs, Boolean arg)
     {
-        Object negatedValue = fs.getSimplerSentence(0).accept(this, null);
+        object negatedValue = fs.getSimplerSentence(0).accept(this, null);
         if (negatedValue != null)
         {
             return new Boolean(!((Boolean)negatedValue).booleanValue());
@@ -244,7 +244,7 @@
         }
     }
 
-    @Override
+     
     public Boolean visitBinarySentence(ComplexSentence bs, Boolean arg)
     {
         Boolean firstValue = (Boolean)bs.getSimplerSentence(0).accept(this,
@@ -260,21 +260,21 @@
         else
         {
             Connective connective = bs.getConnective();
-            if (connective.equals(Connective.AND))
+            if (connective.Equals(Connective.AND))
             {
                 return firstValue && secondValue;
             }
-            else if (connective.equals(Connective.OR))
+            else if (connective.Equals(Connective.OR))
             {
                 return firstValue || secondValue;
             }
-            else if (connective.equals(Connective.IMPLICATION))
+            else if (connective.Equals(Connective.IMPLICATION))
             {
                 return !(firstValue && !secondValue);
             }
-            else if (connective.equals(Connective.BICONDITIONAL))
+            else if (connective.Equals(Connective.BICONDITIONAL))
             {
-                return firstValue.equals(secondValue);
+                return firstValue.Equals(secondValue);
             }
             return null;
         }

@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.search.framework
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections; 
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.search.framework
 {
     /**
      * Instances of this class are responsible for node creation and expansion. They
@@ -12,17 +16,16 @@
      */
     public class NodeExpander<S, A>
     {
-
-        protected boolean useParentLinks = true;
+        protected bool _useParentLinks = true;
 
         /**
          * Modifies {@link #useParentLinks} and returns this node expander. When
          * using local search to search for states, parent links are not needed and
          * lead to unnecessary memory consumption.
          */
-        public NodeExpander useParentLinks(boolean s)
+        public NodeExpander<S, A> useParentLinks(bool s)
         {
-            useParentLinks = s;
+            _useParentLinks = s;
             return this;
         }
 
@@ -34,7 +37,7 @@
          */
         public Node<S, A> createRootNode(S state)
         {
-            return new Node<>(state);
+            return new Node<S, A>(state);
         }
 
         /**
@@ -45,8 +48,8 @@
          */
         public Node<S, A> createNode(S state, Node<S, A> parent, A action, double stepCost)
         {
-            Node<S, A> p = useParentLinks ? parent : null;
-            return new Node<>(state, p, action, parent.getPathCost() + stepCost);
+            Node<S, A> p = _useParentLinks ? parent : null;
+            return new Node<S, A>(state, p, action, parent.getPathCost() + stepCost);
         }
 
         /**
@@ -61,16 +64,16 @@
          * @return the children obtained from expanding the specified node in the
          *         specified problem.
          */
-        public List<Node<S, A>> expand(Node<S, A> node, Problem<S, A> problem)
+        public IQueue<Node<S, A>> expand(Node<S, A> node, Problem<S, A> problem)
         {
-            List<Node<S, A>> successors = new ArrayList<>();
+            IQueue<Node<S, A>> successors = Factory.CreateQueue<Node<S, A>>();
 
-            for (A action : problem.getActions(node.getState()))
+            foreach (A action in problem.getActions(node.getState()))
             {
                 S successorState = problem.getResult(node.getState(), action);
 
                 double stepCost = problem.getStepCosts(node.getState(), action, successorState);
-                successors.add(createNode(successorState, node, action, stepCost));
+                successors.Add(createNode(successorState, node, action, stepCost));
             }
             notifyNodeListeners(node);
             return successors;
@@ -83,7 +86,7 @@
          * All node listeners added to this list get informed whenever a node is
          * expanded.
          */
-        private List<Consumer<Node<S, A>>> nodeListeners = new ArrayList<>();
+        private IQueue<Consumer<Node<S, A>>> nodeListeners = Factory.CreateQueue<Consumer<Node<S, A>>>();
 
         /**
          * Adds a listener to the list of node listeners. It is informed whenever a
@@ -91,22 +94,21 @@
          */
         public void addNodeListener(Consumer<Node<S, A>> listener)
         {
-            nodeListeners.add(listener);
+            nodeListeners.Add(listener);
         }
 
         /**
          * Removes a listener from the list of node listeners.
          */
-        public boolean removeNodeListener(Consumer<Node<S, A>> listener)
+        public bool removeNodeListener(Consumer<Node<S, A>> listener)
         {
-            return nodeListeners.remove(listener);
+            return nodeListeners.Remove(listener);
         }
 
         protected void notifyNodeListeners(Node<S, A> node)
         {
-            for (Consumer<Node<S, A>> listener : nodeListeners)
-                listener.accept(node);
+            foreach (Consumer<Node<S, A>> listener in nodeListeners)
+                listener(node);
         }
     }
-
 }

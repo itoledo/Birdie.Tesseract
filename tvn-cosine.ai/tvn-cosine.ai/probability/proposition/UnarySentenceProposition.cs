@@ -5,7 +5,7 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public interface UnarySentenceProposition extends SentenceProposition
+    public interface UnarySentenceProposition : SentenceProposition
     {
 
     }

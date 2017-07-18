@@ -21,9 +21,9 @@
         private AgentPosition start = new AgentPosition(1, 1, AgentPosition.Orientation.FACING_NORTH);
         private Room wumpus;
         private Room gold;
-        private Set<Room> pits = new LinkedHashSet<>();
+        private ISet<Room> pits = Factory.CreateSet<>();
 
-        private Set<Room> allowedRooms;
+        private ISet<Room> allowedRooms;
 
         /**
          * Default Constructor. Create a Wumpus Case of default dimensions 4x4.
@@ -63,7 +63,7 @@
          *            cave specification - two character per square (unfortunately a Wumpus can reside on top of a pit),
          *            first line first, then second line etc. Mapping: S=start, W=Wumpus, G=gold, P=pit.
          */
-        public WumpusCave(int caveXDimension, int caveYDimension, String config)
+        public WumpusCave(int caveXDimension, int caveYDimension, string config)
         {
             this(caveXDimension, caveYDimension);
             if (config.length() != 2 * caveXDimension * caveYDimension)
@@ -77,7 +77,7 @@
                     case 'S': start = new AgentPosition(r.getX(), r.getY(), AgentPosition.Orientation.FACING_NORTH); break;
                     case 'W': wumpus = r; break;
                     case 'G': gold = r; break;
-                    case 'P': pits.add(r); break;
+                    case 'P': pits.Add(r); break;
                 }
             }
         }
@@ -89,7 +89,7 @@
          */
         public WumpusCave setAllowed(Set<Room> allowedRooms)
         {
-            this.allowedRooms.clear();
+            this.allowedRooms.Clear();
             this.allowedRooms.addAll(allowedRooms);
             return this;
         }
@@ -104,12 +104,12 @@
             gold = room;
         }
 
-        public void setPit(Room room, boolean b)
+        public void setPit(Room room, bool b)
         {
             if (!b)
-                pits.remove(room);
-            else if (!room.equals(start.getRoom()) && !room.equals(gold))
-                pits.add(room);
+                pits.Remove(room);
+            else if (!room.Equals(start.getRoom()) && !room.Equals(gold))
+                pits.Add(room);
         }
 
         public int getCaveXDimension()
@@ -137,7 +137,7 @@
             return gold;
         }
 
-        public boolean isPit(Room room)
+        public bool isPit(Room room)
         {
             return pits.contains(room);
         }
@@ -183,17 +183,17 @@
             return new AgentPosition(position.getX(), position.getY(), orientation);
         }
 
-        public Set<Room> getAllRooms()
+        public ISet<Room> getAllRooms()
         {
-            Set<Room> allowedRooms = new HashSet<>();
+            ISet<Room> allowedRooms = Factory.CreateSet<>();
             for (int x = 1; x <= caveXDimension; x++)
                 for (int y = 1; y <= caveYDimension; y++)
-                    allowedRooms.add(new Room(x, y));
+                    allowedRooms.Add(new Room(x, y));
             return allowedRooms;
         }
 
-        @Override
-        public String toString()
+         
+        public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
             for (int y = caveYDimension; y >= 1; y--)
@@ -201,12 +201,12 @@
                 for (int x = 1; x <= caveXDimension; x++)
                 {
                     Room r = new Room(x, y);
-                    String txt = "";
-                    if (r.equals(start.getRoom()))
+                    string txt = "";
+                    if (r.Equals(start.getRoom()))
                         txt += "S";
-                    if (r.equals(gold))
+                    if (r.Equals(gold))
                         txt += "G";
-                    if (r.equals(wumpus))
+                    if (r.Equals(wumpus))
                         txt += "W";
                     if (isPit(r))
                         txt += "P";
@@ -217,11 +217,11 @@
                         txt += " ";
                     else if (txt.length() > 2) // cannot represent...
                         txt = txt.substring(0, 2);
-                    builder.append(txt);
+                    builder.Append(txt);
                 }
-                builder.append("\n");
+                builder.Append("\n");
             }
-            return builder.toString();
+            return builder.ToString();
         }
     }
 }

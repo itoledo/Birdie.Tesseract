@@ -1,15 +1,15 @@
 ﻿namespace tvn.cosine.ai.logic.fol.inference.proof
 {
-    public class ProofStepClauseFactor extends AbstractProofStep
+    public class ProofStepClauseFactor : AbstractProofStep
     {
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+    private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
     private Clause factor = null;
     private Clause factorOf = null;
     private Literal lx = null;
     private Literal ly = null;
-    private Map<Variable, Term> subst = new LinkedHashMap<Variable, Term>();
-    private Map<Variable, Term> renameSubst = new LinkedHashMap<Variable, Term>();
+    private Map<Variable, Term> subst = Factory.CreateMap<Variable, Term>();
+    private Map<Variable, Term> renameSubst = Factory.CreateMap<Variable, Term>();
 
     public ProofStepClauseFactor(Clause factor, Clause factorOf, Literal lx,
             Literal ly, Map<Variable, Term> subst,
@@ -21,22 +21,22 @@
         this.ly = ly;
         this.subst.putAll(subst);
         this.renameSubst.putAll(renameSubst);
-        this.predecessors.add(factorOf.getProofStep());
+        this.predecessors.Add(factorOf.getProofStep());
     }
 
     //
     // START-ProofStep
-    public List<ProofStep> getPredecessorSteps()
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(predecessors);
+        return Factory.CreateReadOnlyQueue<>(predecessors);
     }
 
-    public String getProof()
+    public string getProof()
     {
-        return factor.toString();
+        return factor.ToString();
     }
 
-    public String getJustification()
+    public string getJustification()
     {
         return "Factor of " + factorOf.getProofStep().getStepNumber() + "  ["
                 + lx + ", " + ly + "], subst=" + subst + ", renaming="

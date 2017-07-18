@@ -7,34 +7,34 @@
      */
     public class Variable
     {
-        private final String name;
+        private final string name;
 
-    public Variable(String name)
+    public Variable(string name)
         {
             this.name = name;
         }
 
-        public final String getName()
+        public final string getName()
         {
             return name;
         }
 
-        public String toString()
+        public override string ToString()
         {
             return name;
         }
 
         /** Variables with equal names are equal. */
-        @Override
-        public final boolean equals(Object obj)
+         
+        public final bool equals(object obj)
         {
-            return obj instanceof Variable && this.name.equals(((Variable)obj).name);
+            return obj is Variable && this.name.Equals(((Variable)obj).name);
         }
 
-        @Override
+         
         public final int hashCode()
         {
-            return name.hashCode();
+            return name.GetHashCode();
         }
     }
 

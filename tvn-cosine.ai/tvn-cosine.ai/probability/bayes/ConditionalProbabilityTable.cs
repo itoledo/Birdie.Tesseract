@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability.bayes
+﻿using tvn.cosine.ai.probability.proposition;
+
+namespace tvn.cosine.ai.probability.bayes
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 512.<br>
@@ -10,16 +12,10 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public interface ConditionalProbabilityTable extends
-            ConditionalProbabilityDistribution
+    public interface ConditionalProbabilityTable : ConditionalProbabilityDistribution
     {
-
-        @Override
-        CategoricalDistribution getConditioningCase(Object... parentValues);
-
-        @Override
-        CategoricalDistribution getConditioningCase(
-			AssignmentProposition... parentValues);
+        new CategoricalDistribution getConditioningCase(params object[] parentValues); 
+        new CategoricalDistribution getConditioningCase(params AssignmentProposition[] parentValues);
 
         /**
          * Construct a Factor consisting of the Random Variables from the
@@ -30,7 +26,7 @@
          * @return a Factor for the Random Variables from the Conditional
          *         Probability Table that are not part of the evidence.
          */
-        Factor getFactorFor(AssignmentProposition... evidence);
+        Factor getFactorFor(params AssignmentProposition[] evidence);
     }
 
 }

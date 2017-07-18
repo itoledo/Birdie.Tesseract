@@ -1,5 +1,20 @@
-﻿namespace tvn.cosine.ai.probability
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.proposition;
+
+namespace tvn.cosine.ai.probability
 {
+    public class ProbabilityModelImpl
+    {
+        /**
+         * The default threshold for rounding errors. Example, to test if
+         * probabilities sum to 1:<br>
+         * <br>
+         * System.Math.Abs(1 - probabilitySum) <
+         * ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD;
+         */
+        public const double DEFAULT_ROUNDING_THRESHOLD = 1e-8;
+    }
+
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 484.<br>
      * <br>
@@ -10,23 +25,14 @@
      * @author Ciaran O'Reilly
      */
     public interface ProbabilityModel
-    {
-        /**
-         * The default threshold for rounding errors. Example, to test if
-         * probabilities sum to 1:<br>
-         * <br>
-         * Math.abs(1 - probabilitySum) <
-         * ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD;
-         */
-        final double DEFAULT_ROUNDING_THRESHOLD = 1e-8;
-
+    { 
         /**
          * 
          * @return true, if 0 <= P(&omega;) <= 1 for every &omega; and
          *         &sum;<sub>&omega; &isin; &Omega;</sub> P(&omega;) = 1 (Equation
          *         13.1 pg. 484 AIMA3e), false otherwise.
          */
-        boolean isValid();
+        bool isValid();
 
         /**
          * For any proposition &phi;, P(&phi;) = &sum;<sub>&omega; &isin;
@@ -41,7 +47,7 @@
          *            returned.
          * @return the probability of the proposition &phi;.
          */
-        double prior(Proposition...phi);
+        double prior(params Proposition[] phi);
 
         /**
          * Unlike unconditional or prior probabilities, most of the time we have
@@ -74,13 +80,13 @@
          *            information we already have.
          * @return the probability of the proposition &phi; given evidence.
          */
-        double posterior(Proposition phi, Proposition...evidence);
+        double posterior(Proposition phi, params Proposition[] evidence);
 
         /**
          * @return a consistent ordered Set (e.g. LinkedHashSet) of the random
          *         variables describing the atomic variable/value pairs this
          *         probability model can take on. Refer to pg. 486 AIMA3e.
          */
-        Set<RandomVariable> getRepresentation();
+        ISet<RandomVariable> getRepresentation();
     }
 }

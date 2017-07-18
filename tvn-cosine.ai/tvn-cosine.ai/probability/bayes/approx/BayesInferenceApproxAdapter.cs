@@ -6,7 +6,7 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public class BayesInferenceApproxAdapter implements BayesInference
+    public class BayesInferenceApproxAdapter : BayesInference
     {
 
     private int N = 1000;
@@ -67,7 +67,7 @@
 
     //
     // START-BayesInference
-    @Override
+     
     public CategoricalDistribution ask(final RandomVariable[] X,
             final AssignmentProposition[] observedEvidence,
             final BayesianNetwork bn)

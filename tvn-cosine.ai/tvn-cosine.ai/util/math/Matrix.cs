@@ -49,7 +49,7 @@
      *         Technology.
      * @version 5 August 1998
      */
-    public class Matrix implements Cloneable, java.io.Serializable {
+    public class Matrix : Cloneable, java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
     /*
@@ -76,12 +76,12 @@
 	 */
 
     /** Construct a diagonal Matrix from the given List of doubles */
-    public static Matrix createDiagonalMatrix(List<Double> values)
+    public static Matrix createDiagonalMatrix(IQueue<double> values)
     {
         Matrix m = new Matrix(values.size(), values.size(), 0);
         for (int i = 0; i < values.size(); i++)
         {
-            m.set(i, i, values.get(i));
+            m.set(i, i, values.Get(i));
         }
         return m;
     }
@@ -139,11 +139,11 @@
 
     public Matrix(double[][] A)
     {
-        m = A.length;
-        n = A[0].length;
+        m = A.Length;
+        n = A[0].Length;
         for (int i = 0; i < m; i++)
         {
-            if (A[i].length != n)
+            if (A[i].Length != n)
             {
                 throw new IllegalArgumentException(
                         "All rows must have the same length.");
@@ -185,8 +185,8 @@
     public Matrix(double vals[], int m)
     {
         this.m = m;
-        n = (m != 0 ? vals.length / m : 0);
-        if (m * n != vals.length)
+        n = (m != 0 ? vals.Length / m : 0);
+        if (m * n != vals.Length)
         {
             throw new IllegalArgumentException(
                     "Array length must be a multiple of m.");
@@ -216,13 +216,13 @@
 
     public static Matrix constructWithCopy(double[][] A)
     {
-        int m = A.length;
-        int n = A[0].length;
+        int m = A.Length;
+        int n = A[0].Length;
         Matrix X = new Matrix(m, n);
         double[][] C = X.getArray();
         for (int i = 0; i < m; i++)
         {
-            if (A[i].length != n)
+            if (A[i].Length != n)
             {
                 throw new IllegalArgumentException(
                         "All rows must have the same length.");
@@ -257,8 +257,8 @@
 	 * Clone the Matrix object.
 	 */
 
-    @Override
-    public Object clone()
+     
+    public object clone()
     {
         return this.copy();
     }
@@ -420,13 +420,13 @@
 
     public Matrix getMatrix(int[] r, int[] c)
     {
-        Matrix X = new Matrix(r.length, c.length);
+        Matrix X = new Matrix(r.length, c.Length);
         double[][] B = X.getArray();
         try
         {
-            for (int i = 0; i < r.length; i++)
+            for (int i = 0; i < r.Length; i++)
             {
-                for (int j = 0; j < c.length; j++)
+                for (int j = 0; j < c.Length; j++)
                 {
                     B[i][j] = A[r[i]][c[j]];
                 }
@@ -455,13 +455,13 @@
 
     public Matrix getMatrix(int i0, int i1, int[] c)
     {
-        Matrix X = new Matrix(i1 - i0 + 1, c.length);
+        Matrix X = new Matrix(i1 - i0 + 1, c.Length);
         double[][] B = X.getArray();
         try
         {
             for (int i = i0; i <= i1; i++)
             {
-                for (int j = 0; j < c.length; j++)
+                for (int j = 0; j < c.Length; j++)
                 {
                     B[i - i0][j] = A[i][c[j]];
                 }
@@ -494,7 +494,7 @@
         double[][] B = X.getArray();
         try
         {
-            for (int i = 0; i < r.length; i++)
+            for (int i = 0; i < r.Length; i++)
             {
                 for (int j = j0; j <= j1; j++)
                 {
@@ -551,7 +551,7 @@
             {
                 for (int j = j0; j <= j1; j++)
                 {
-                    A[i][j] = X.get(i - i0, j - j0);
+                    A[i][j] = X.Get(i - i0, j - j0);
                 }
             }
         }
@@ -578,11 +578,11 @@
     {
         try
         {
-            for (int i = 0; i < r.length; i++)
+            for (int i = 0; i < r.Length; i++)
             {
-                for (int j = 0; j < c.length; j++)
+                for (int j = 0; j < c.Length; j++)
                 {
-                    A[r[i]][c[j]] = X.get(i, j);
+                    A[r[i]][c[j]] = X.Get(i, j);
                 }
             }
         }
@@ -611,11 +611,11 @@
     {
         try
         {
-            for (int i = 0; i < r.length; i++)
+            for (int i = 0; i < r.Length; i++)
             {
                 for (int j = j0; j <= j1; j++)
                 {
-                    A[r[i]][j] = X.get(i, j - j0);
+                    A[r[i]][j] = X.Get(i, j - j0);
                 }
             }
         }
@@ -646,9 +646,9 @@
         {
             for (int i = i0; i <= i1; i++)
             {
-                for (int j = 0; j < c.length; j++)
+                for (int j = 0; j < c.Length; j++)
                 {
-                    A[i][c[j]] = X.get(i - i0, j);
+                    A[i][c[j]] = X.Get(i - i0, j);
                 }
             }
         }
@@ -692,7 +692,7 @@
             double s = 0;
             for (int i = 0; i < m; i++)
             {
-                s += Math.abs(A[i][j]);
+                s += System.Math.Abs(A[i][j]);
             }
             f = Math.max(f, s);
         }
@@ -722,7 +722,7 @@
             double s = 0;
             for (int j = 0; j < n; j++)
             {
-                s += Math.abs(A[i][j]);
+                s += System.Math.Abs(A[i][j]);
             }
             f = Math.max(f, s);
         }
@@ -1329,7 +1329,7 @@
         {
             for (int j = 0; j < n; j++)
             {
-                String s = format.format(A[i][j]); // format the number
+                string s = format.format(A[i][j]); // format the number
                 int padding = Math.max(1, width - s.length()); // At _least_ 1
                                                                // space
                 for (int k = 0; k < padding; k++)
@@ -1358,10 +1358,10 @@
         StreamTokenizer tokenizer = new StreamTokenizer(input);
 
     // Although StreamTokenizer will parse numbers, it doesn't recognize
-    // scientific notation (E or D); however, Double.valueOf does.
+    // scientific notation (E or D); however, double.valueOf does.
     // The strategy here is to disable StreamTokenizer's number parsing.
     // We'll only get whitespace delimited words, EOL's and EOF's.
-    // These words should all be numbers, for Double.valueOf to parse.
+    // These words should all be numbers, for double.valueOf to parse.
 
     tokenizer.resetSyntax();
 		tokenizer.wordChars(0, 255);
@@ -1394,7 +1394,7 @@ v.removeAllElements();
 				if (j >= n)
 					throw new java.io.IOException("Row " + v.size()
 							+ " is too long.");
-				row[j++] = Double.valueOf(tokenizer.sval).doubleValue();
+				row[j++] = double.valueOf(tokenizer.sval).doubleValue();
 			} while (tokenizer.nextToken() == StreamTokenizer.TT_WORD);
 			if (j<n)
 				throw new java.io.IOException("Row " + v.size()
@@ -1406,8 +1406,8 @@ v.copyInto(A); // copy the rows out of the vector
 		return new Matrix(A);
 	}
 
-	@Override
-    public String toString()
+	 
+    public override string ToString()
 {
     StringBuffer buf = new StringBuffer();
     for (int i = 0; i < getRowDimension(); i++)
@@ -1415,13 +1415,13 @@ v.copyInto(A); // copy the rows out of the vector
 
         for (int j = 0; j < getColumnDimension(); j++)
         {
-            buf.append(get(i, j));
-            buf.append(" ");
+            buf.Append(get(i, j));
+            buf.Append(" ");
         }
-        buf.append("\n");
+        buf.Append("\n");
     }
 
-    return buf.toString();
+    return buf.ToString();
 }
 
 /*

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.robotics.impl.datatypes
+﻿using tvn.cosine.ai.robotics.datatypes;
+
+namespace tvn.cosine.ai.robotics.impl.datatypes
 {
     /**
      * This interface describes functionality for a pose in a two-dimensional Cartesian plot.
@@ -10,20 +12,23 @@
      * @param <P> the pose implementing {@code IPose2D}.
      * @param <M> a movement (or sequence of movements) of the robot, implementing {@link IMclMove}. 
      */
-    public interface IPose2D<P extends IPose2D<P, M>,M extends IMclMove<M>> extends IMclPose<P,Angle,M> {
-	
-	/**
-	 * @return the X coordinate of the pose.
-	 */
-	double getX();
-	/**
-	 * @return the Y coordinate of the pose.
-	 */
-	double getY();
-	/**
-	 * @return the heading of the pose in radians.
-	 */
-	double getHeading();
+    public interface IPose2D<P, M> : IMclPose<P, Angle, M>
+        where P : IPose2D<P, M>
+        where M : IMclMove<M>
+    {
+
+        /**
+         * @return the X coordinate of the pose.
+         */
+        double getX();
+        /**
+         * @return the Y coordinate of the pose.
+         */
+        double getY();
+        /**
+         * @return the heading of the pose in radians.
+         */
+        double getHeading();
     }
 
 }

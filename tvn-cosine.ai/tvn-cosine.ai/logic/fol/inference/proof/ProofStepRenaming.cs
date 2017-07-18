@@ -2,33 +2,33 @@
 {
     public class ProofStepRenaming : AbstractProofStep
     { 
-        private List<ProofStep> predecessors = new ArrayList<ProofStep>();
-        private Object proof = "";
+        private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
+        private object proof = "";
 
-        public ProofStepRenaming(Object proof, ProofStep predecessor)
+        public ProofStepRenaming(object proof, ProofStep predecessor)
         {
             this.proof = proof;
-            this.predecessors.add(predecessor);
+            this.predecessors.Add(predecessor);
         }
 
         //
         // START-ProofStep
-        @Override
-    public List<ProofStep> getPredecessorSteps()
+         
+    public IQueue<ProofStep> getPredecessorSteps()
         {
-            return Collections.unmodifiableList(predecessors);
+            return Factory.CreateReadOnlyQueue<>(predecessors);
         }
 
-        @Override
-    public String getProof()
+         
+    public string getProof()
         {
-            return proof.toString();
+            return proof.ToString();
         }
 
-        @Override
-    public String getJustification()
+         
+    public string getJustification()
         {
-            return "Renaming of " + predecessors.get(0).getStepNumber();
+            return "Renaming of " + predecessors.Get(0).getStepNumber();
         }
         // END-ProofStep
         //

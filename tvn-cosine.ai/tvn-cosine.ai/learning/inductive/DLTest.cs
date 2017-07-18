@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.learning.inductive
                 }
             }
             return true;
-            // return e.targetValue().equals(targetValue);
+            // return e.targetValue().Equals(targetValue);
         }
 
         public DataSet matchedExamples(DataSet ds)
@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.learning.inductive
             {
                 if (matches(e))
                 {
-                    matched.add(e);
+                    matched.Add(e);
                 }
             }
             return matched;
@@ -54,7 +54,7 @@ namespace tvn.cosine.ai.learning.inductive
             {
                 if (!(matches(e)))
                 {
-                    unmatched.add(e);
+                    unmatched.Add(e);
                 }
             }
             return unmatched;

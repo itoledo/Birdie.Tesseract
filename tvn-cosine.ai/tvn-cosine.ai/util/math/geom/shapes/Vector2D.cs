@@ -112,7 +112,7 @@
          * @param op2 the second vector.
          * @return {@code true} if the two vectors are parallel.
          */
-        public boolean isAbsoluteParallel(Vector2D op2)
+        public bool isAbsoluteParallel(Vector2D op2)
         {
             return (this.y * op2.getX() - this.x * op2.getY() == 0);
         }
@@ -123,7 +123,7 @@
          * @param op2 the second vector.
          * @return {@code true} if the two vectors are parallel.
          */
-        public boolean isParallel(Vector2D op2)
+        public bool isParallel(Vector2D op2)
         {
             final double angle = angleTo(op2);
             return Util.compareDoubles(angle, 0.0d) || Util.compareDoubles(angle, Math.PI);
@@ -155,17 +155,17 @@
          * @param op2 the second vector.
          * @return true if the vectors are equal in direction and length.
          */
-        public boolean equals(Vector2D op2)
+        public bool equals(Vector2D op2)
         {
             if (op2 == null) return false;
             return Util.compareDoubles(this.x, op2.x) && Util.compareDoubles(this.y, op2.y);
         }
 
-        @Override
-         public boolean equals(Object o)
+         
+         public override bool Equals(object o)
         {
-            if (o instanceof Vector2D)
-			 return this.equals((Vector2D)o);
+            if (o is Vector2D)
+			 return this.Equals((Vector2D)o);
             return false;
         }
     }

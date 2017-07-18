@@ -18,6 +18,11 @@ namespace tvn.cosine.ai.common.collections
             AddAll(items);
         }
 
+        void IQueue<T>.Sort(IComparer<T> comparer)
+        {
+            throw new NotSupportedException("Not supported");
+        }
+
         public bool Add(T item)
         {
             return backingSet.Add(item);

@@ -186,7 +186,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 plan.Add(WumpusAction.CLIMB);
             }
             // action <- POP(plan)
-            WumpusAction action = plan.remove();
+            WumpusAction action = plan.Remove();
             // TELL(KB, MAKE-ACTION-SENTENCE(action, t))
             kb.makeActionSentence(action, t);
             // t <- t+1
@@ -242,9 +242,9 @@ namespace tvn.cosine.ai.environment.wumpusworld
             SearchForActions<AgentPosition, WumpusAction> search =
                     new AStarSearch<>(new GraphSearch<>(),
                     new ManhattanHeuristicFunction(goals));
-            Optional<List<WumpusAction>> actions = search.findActions(problem);
+            Optional<IQueue<WumpusAction>> actions = search.findActions(problem);
 
-            return actions.isPresent() ? actions.get() : Collections.emptyList();
+            return actions.isPresent() ? actions.Get() : Collections.emptyList();
         }
 
         /**

@@ -25,15 +25,15 @@
      * @author Mike Stampone
      * @author Ruediger Lunde
      */
-    public class HillClimbingSearch<S, A> implements SearchForActions<S, A>, SearchForStates<S, A>, Informed<S, A> {
+    public class HillClimbingSearch<S, A> : SearchForActions<S, A>, SearchForStates<S, A>, Informed<S, A> {
 
     public enum SearchOutcome
     {
         FAILURE, SOLUTION_FOUND
     }
 
-    public static final String METRIC_NODES_EXPANDED = "nodesExpanded";
-    public static final String METRIC_NODE_VALUE = "nodeValue";
+    public static final string METRIC_NODES_EXPANDED = "nodesExpanded";
+    public static final string METRIC_NODE_VALUE = "nodeValue";
 
     private ToDoubleFunction<Node<S, A>> h = null;
     private final NodeExpander<S, A> nodeExpander;
@@ -58,21 +58,21 @@
         nodeExpander.addNodeListener((node)->metrics.incrementInt(METRIC_NODES_EXPANDED));
     }
 
-    @Override
+     
     public void setHeuristicFunction(ToDoubleFunction<Node<S, A>> h)
     {
         this.h = h;
     }
 
-    @Override
-    public Optional<List<A>> findActions(Problem<S, A> p)
+     
+    public IQueue<A> findActions(Problem<S, A> p)
     {
         nodeExpander.useParentLinks(true);
         return SearchUtils.toActions(findNode(p));
     }
 
-    @Override
-    public Optional<S> findState(Problem<S, A> p)
+     
+    public S findState(Problem<S, A> p)
     {
         nodeExpander.useParentLinks(false);
         return SearchUtils.toState(findNode(p));
@@ -86,7 +86,7 @@
      * @return a node or empty
      */
     // function HILL-CLIMBING(problem) returns a state that is a local maximum
-    public Optional<Node<S, A>> findNode(Problem<S, A> p)
+    public Node<S,A> findNode(Problem<S, A> p)
     {
         clearMetrics();
         outcome = SearchOutcome.FAILURE;
@@ -98,7 +98,7 @@
         {
             lastState = current.getState();
             metrics.set(METRIC_NODE_VALUE, getValue(current));
-            List<Node<S, A>> children = nodeExpander.expand(current, p);
+            IQueue<Node<S, A>> children = nodeExpander.expand(current, p);
             // neighbor <- a highest-valued successor of current
             neighbor = getHighestValuedNodeFrom(children);
 
@@ -156,14 +156,14 @@
         metrics.set(METRIC_NODE_VALUE, 0);
     }
 
-    @Override
+     
     public void addNodeListener(Consumer<Node<S, A>> listener)
     {
         nodeExpander.addNodeListener(listener);
     }
 
-    @Override
-    public boolean removeNodeListener(Consumer<Node<S, A>> listener)
+     
+    public bool removeNodeListener(Consumer<Node<S, A>> listener)
     {
         return nodeExpander.removeNodeListener(listener);
     }
@@ -172,9 +172,9 @@
     // PRIVATE METHODS
     //
 
-    private Node<S, A> getHighestValuedNodeFrom(List<Node<S, A>> children)
+    private Node<S, A> getHighestValuedNodeFrom(IQueue<Node<S, A>> children)
     {
-        double highestValue = Double.NEGATIVE_INFINITY;
+        double highestValue = double.NEGATIVE_INFINITY;
         Node<S, A> nodeWithHighestValue = null;
         for (Node<S, A> child : children)
         {

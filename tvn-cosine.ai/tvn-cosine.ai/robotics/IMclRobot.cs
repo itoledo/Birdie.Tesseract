@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.robotics
+﻿using tvn.cosine.ai.robotics.datatypes;
+
+namespace tvn.cosine.ai.robotics
 {
     /**
      * This interface defines functionality a robotic agent has to implement in order to localize itself via {@link MonteCarloLocalization}. 
@@ -11,19 +13,22 @@
      * @param <M> a movement (or sequence of movements) of the robot, implementing {@link IMclMove}. 
      * @param <R> a range measurement, implementing {@link IMclRangeReading}.
      */
-    public interface IMclRobot<V extends IMclVector, M extends IMclMove<M>, R extends IMclRangeReading<R, V>> {
-	/**
-	 * Causes a series of sensor measurements to determine the distance to various obstacles within the environment.
-	 * @return an array of range measurements {@code <R>}. 
-	 * @throws RobotException thrown if the range reading was not successful.
-	 */
-	R[] getRangeReadings() throws RobotException;
-    /**
-	 * Causes the robot to perform a movement.
-	 * @return the move the robot performed.
-	 * @throws RobotException thrown if the move was not successful.
-	 */
-    M performMove() throws RobotException;
-}
-
+    public interface IMclRobot<V, M, R>
+        where V : IMclVector
+        where M : IMclMove<M>
+        where R : IMclRangeReading<R, V>
+    {
+        /**
+         * Causes a series of sensor measurements to determine the distance to various obstacles within the environment.
+         * @return an array of range measurements {@code <R>}. 
+         * @throws RobotException thrown if the range reading was not successful.
+         */
+        R[] getRangeReadings();
+        /**
+         * Causes the robot to perform a movement.
+         * @return the move the robot performed.
+         * @throws RobotException thrown if the move was not successful.
+         */
+        M performMove();
+    } 
 }

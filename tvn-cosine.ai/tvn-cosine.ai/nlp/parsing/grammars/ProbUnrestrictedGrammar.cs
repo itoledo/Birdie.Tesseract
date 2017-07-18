@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.nlp.parsing.grammars
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.nlp.parsing.grammars
 {
     /**
      * Represents the most general grammatical formalism,
@@ -8,208 +11,217 @@
      * @author Jonathon
      *
      */
-    public class ProbUnrestrictedGrammar implements ProbabilisticGrammar
+    public class ProbUnrestrictedGrammar : ProbabilisticGrammar
     {
 
-    // types of grammars
-    public static final int UNRESTRICTED = 0;
-    public static final int CONTEXT_SENSITIVE = 1;
-    public static final int CONTEXT_FREE = 2;
-    public static final int REGULAR = 3;
-    public static final int CNFGRAMMAR = 4;
-    public static final int PROB_CONTEXT_FREE = 5;
+        // types of grammars
+        public const int UNRESTRICTED = 0;
+        public const int CONTEXT_SENSITIVE = 1;
+        public const int CONTEXT_FREE = 2;
+        public const int REGULAR = 3;
+        public const int CNFGRAMMAR = 4;
+        public const int PROB_CONTEXT_FREE = 5;
 
-    public List<Rule> rules;
-    public List<String> vars;
-    public List<String> terminals;
-    public int type;
+        public IQueue<Rule> rules;
+        public IQueue<string> vars;
+        public IQueue<string> terminals;
+        public int type;
 
-    // default constructor. has no rules
-    public ProbUnrestrictedGrammar()
-    {
-        type = 0;
-        rules = new ArrayList<>();
-        vars = new ArrayList<>();
-        terminals = new ArrayList<>();
-    }
-
-    /**
-	 * Add a number of rules at once, testing each in turn
-	 * for validity, and then testing the batch for probability validity.
-	 * @param ruleList
-	 * @return true if rules are valid and incorporated into the grammar. false, otherwise
-	 */
-    public boolean addRules(List<Rule> ruleList)
-    {
-        for (Rule aRuleList : ruleList)
+        // default constructor. has no rules
+        public ProbUnrestrictedGrammar()
         {
-            if (!validRule(aRuleList))
-                return false;
+            type = 0;
+            rules = Factory.CreateQueue<Rule>();
+            vars = Factory.CreateQueue<string>();
+            terminals = Factory.CreateQueue<string>();
         }
-        if (!validateRuleProbabilities(ruleList))
-            return false;
-        rules = ruleList;
-        updateVarsAndTerminals();
-        return true;
-    }
 
-    /**
-	 * Add a single rule the grammar, testing it for structural 
-	 * and probability validity.
-	 * @param rule
-	 * @return true if rule is incorporated. false, otherwise
-	 */
-    // TODO: More sophisticated probability distribution management
-    public boolean addRule(Rule rule)
-    {
-        if (validRule(rule))
+        /**
+         * Add a number of rules at once, testing each in turn
+         * for validity, and then testing the batch for probability validity.
+         * @param ruleList
+         * @return true if rules are valid and incorporated into the grammar. false, otherwise
+         */
+        public bool addRules(IQueue<Rule> ruleList)
         {
-            rules.add(rule);
-            updateVarsAndTerminals(rule);
+            foreach (Rule aRuleList in ruleList)
+            {
+                if (!validRule(aRuleList))
+                    return false;
+            }
+            if (!validateRuleProbabilities(ruleList))
+                return false;
+            rules = ruleList;
+            updateVarsAndTerminals();
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
 
-    /**
-	 * For a set of rules, test whether each batch of rules with the same 
-	 * LHS have their probabilities sum to exactly 1.0
-	 * @param ruleList
-	 * @return true if the probabilities are valid. false, otherwise
-	 */
-    public boolean validateRuleProbabilities(List<Rule> ruleList)
-    {
-        float probTotal = 0;
-        for (String var : vars)
+        /**
+         * Add a single rule the grammar, testing it for structural 
+         * and probability validity.
+         * @param rule
+         * @return true if rule is incorporated. false, otherwise
+         */
+        // TODO: More sophisticated probability distribution management
+        public bool addRule(Rule rule)
         {
-            for (int j = 0; j < ruleList.size(); j++)
+            if (validRule(rule))
             {
-                // reset probTotal at start
-                if (j == 0)
-                    probTotal = (float)0.0;
-                if (ruleList.get(j).lhs.get(0).equals(var))
-                    probTotal += ruleList.get(j).PROB;
-                // check probTotal hasn't exceed max
-                if (probTotal > 1.0)
-                    return false;
-                // check we have correct probability total
-                if (j == ruleList.size() - 1 && probTotal != (float)1.0)
-                    return false;
+                rules.Add(rule);
+                updateVarsAndTerminals(rule);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
-        return true;
-    }
 
-    /**
-	 * Test validity of the LHS and RHS of grammar rule.
-	 * In unrestricted grammar, the only invalid rule type is
-	 * a rule with a null LHS.
-	 * @param r ( a rule )
-	 * @return true, if rule has valid form. false, otherwise
-	 */
-    public boolean validRule(Rule r)
-    {
-        return r.lhs != null && r.lhs.size() > 0;
-    }
-
-    /** 
-	 * Whenever a new rule is added to the grammar, we want to 
-	 * update the list of variables and terminals with any new grammar symbols
-	 */
-    public void updateVarsAndTerminals()
-    {
-        if (rules == null)
+        /**
+         * For a set of rules, test whether each batch of rules with the same 
+         * LHS have their probabilities sum to exactly 1.0
+         * @param ruleList
+         * @return true if the probabilities are valid. false, otherwise
+         */
+        public bool validateRuleProbabilities(IQueue<Rule> ruleList)
         {
-            vars = new ArrayList<>();
-            terminals = new ArrayList<>();
-            return;
-        }
-        for (Rule r : rules)
-            updateVarsAndTerminals(r);    // update the variables and terminals for this rule
-    }
-
-    /**
-	 * Update variable and terminal lists with a single rule's symbols,
-	 * if there a new symbols
-	 * @param r
-	 */
-    public void updateVarsAndTerminals(Rule r)
-    {
-        // check lhs for new terminals or variables
-        for (int j = 0; j < r.lhs.size(); j++)
-        {
-            if (isVariable(r.lhs.get(j)) && !vars.contains(r.lhs.get(j)))
-                vars.add(r.lhs.get(j));
-            else if (isTerminal(r.lhs.get(j)) && !terminals.contains(r.lhs.get(j)))
-                terminals.add(r.lhs.get(j));
-        }
-        // for rhs we must check that this isn't a null-rule
-        if (r.rhs != null)
-        {
-            // check rhs for new terminals or variables
-            for (int j = 0; j < r.rhs.size(); j++)
+            float probTotal = 0;
+            foreach (string var in vars)
             {
-                if (isVariable(r.rhs.get(j)) && !vars.contains(r.rhs.get(j)))
-                    vars.add(r.rhs.get(j));
-                else if (isTerminal(r.rhs.get(j)) && !terminals.contains(r.rhs.get(j)))
-                    terminals.add(r.rhs.get(j));
+                for (int j = 0; j < ruleList.Size(); j++)
+                {
+                    // reset probTotal at start
+                    if (j == 0)
+                        probTotal = (float)0.0;
+                    if (ruleList.Get(j).lhs.Get(0).Equals(var))
+                        probTotal += ruleList.Get(j).PROB;
+                    // check probTotal hasn't exceed max
+                    if (probTotal > 1.0)
+                        return false;
+                    // check we have correct probability total
+                    if (j == ruleList.Size() - 1 && probTotal != (float)1.0)
+                        return false;
+                }
             }
+            return true;
         }
-        // maintain sorted lists
-        Collections.sort(vars);
-        Collections.sort(terminals);
-    }
 
-
-    /**
-	 * Check if we have a variable, as they are uppercase strings.
-	 * @param s
-	 * @return
-	 */
-    public static boolean isVariable(String s)
-    {
-        for (int i = 0; i < s.length(); i++)
+        /**
+         * Test validity of the LHS and RHS of grammar rule.
+         * In unrestricted grammar, the only invalid rule type is
+         * a rule with a null LHS.
+         * @param r ( a rule )
+         * @return true, if rule has valid form. false, otherwise
+         */
+        public bool validRule(Rule r)
         {
-            if (!Character.isUpperCase(s.charAt(i)))
-                return false;
+            return r.lhs != null && r.lhs.Size() > 0;
         }
-        return true;
-    }
 
-    /** 
-	 * Check if we have a terminal, as they are lowercase strings
-	 * @param s
-	 * @return true, if string must be a terminal. false, otherwise
-	 */
-    public static boolean isTerminal(String s)
-    {
-        for (int i = 0; i < s.length(); i++)
+        /** 
+         * Whenever a new rule is added to the grammar, we want to 
+         * update the list of variables and terminals with any new grammar symbols
+         */
+        public void updateVarsAndTerminals()
         {
-            if (!Character.isLowerCase(s.charAt(i)))
-                return false;
+            if (rules == null)
+            {
+                vars = Factory.CreateQueue<string>();
+                terminals = Factory.CreateQueue<string>();
+                return;
+            }
+            foreach (Rule r in rules)
+                updateVarsAndTerminals(r);    // update the variables and terminals for this rule
         }
-        return true;
+
+        /**
+         * Update variable and terminal lists with a single rule's symbols,
+         * if there a new symbols
+         * @param r
+         */
+        public void updateVarsAndTerminals(Rule r)
+        {
+            // check lhs for new terminals or variables
+            for (int j = 0; j < r.lhs.Size(); j++)
+            {
+                if (isVariable(r.lhs.Get(j)) && !vars.Contains(r.lhs.Get(j)))
+                    vars.Add(r.lhs.Get(j));
+                else if (isTerminal(r.lhs.Get(j)) && !terminals.Contains(r.lhs.Get(j)))
+                    terminals.Add(r.lhs.Get(j));
+            }
+            // for rhs we must check that this isn't a null-rule
+            if (r.rhs != null)
+            {
+                // check rhs for new terminals or variables
+                for (int j = 0; j < r.rhs.Size(); j++)
+                {
+                    if (isVariable(r.rhs.Get(j)) && !vars.Contains(r.rhs.Get(j)))
+                        vars.Add(r.rhs.Get(j));
+                    else if (isTerminal(r.rhs.Get(j)) && !terminals.Contains(r.rhs.Get(j)))
+                        terminals.Add(r.rhs.Get(j));
+                }
+            }
+            // maintain sorted lists
+            vars.Sort();
+            terminals.Sort();
+        }
+
+
+        /**
+         * Check if we have a variable, as they are uppercase strings.
+         * @param s
+         * @return
+         */
+        public static bool isVariable(string s)
+        {
+            for (int i = 0; i < s.Length ; i++)
+            {
+                if (!char.IsUpper(s[i]))
+                    return false;
+            }
+            return true;
+        }
+
+        /** 
+         * Check if we have a terminal, as they are lowercase strings
+         * @param s
+         * @return true, if string must be a terminal. false, otherwise
+         */
+        public static bool isTerminal(string s)
+        {
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (!char.IsLower(s[i]))
+                    return false;
+            }
+            return true;
+        }
+
+
+
+        public override string ToString()
+        {
+            StringBuilder output = new StringBuilder();
+
+            output.Append("Variables:  ");
+            foreach (var var in vars)
+            {
+                output.Append(var).Append(", ");
+            }
+
+            output.Append('\n');
+            output.Append("Terminals:  ");
+            foreach (var terminal in terminals)
+            {
+                output.Append(terminal).Append(", ");
+            }
+
+            output.Append('\n');
+            foreach (var rule in rules)
+            {
+                output.Append(rule.ToString()).Append('\n');
+            }
+            return output.ToString();
+        }
     }
-
-
-    @Override
-    public String toString()
-    {
-        StringBuilder output = new StringBuilder();
-
-        output.append("Variables:  ");
-        vars.forEach(var->output.append(var).append(", "));
-
-        output.append('\n');
-        output.append("Terminals:  ");
-        terminals.forEach(terminal->output.append(terminal).append(", "));
-
-        output.append('\n');
-        rules.forEach(rule->output.append(rule.toString()).append('\n'));
-        return output.toString();
-    }
-}
 }

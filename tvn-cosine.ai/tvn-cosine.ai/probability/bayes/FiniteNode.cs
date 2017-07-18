@@ -6,7 +6,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public interface FiniteNode extends DiscreteNode
+    public interface FiniteNode : DiscreteNode
     {
 
         /**

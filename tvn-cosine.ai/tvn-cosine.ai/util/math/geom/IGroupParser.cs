@@ -19,6 +19,6 @@
          * @throws Exception if an error is found while parsing the input.
          * @return the constructed list of geometric shapes.
          */
-        ArrayList<IGeometric2D> parse(InputStream input, String groupID) throws Exception;
+        ArrayList<IGeometric2D> parse(InputStream input, string groupID) throws Exception;
     }
 }

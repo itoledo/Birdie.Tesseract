@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.probability.bayes.impl
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+
+namespace tvn.cosine.ai.probability.bayes.impl
 {
     /**
      * Abstract base implementation of the Node interface.
@@ -6,131 +9,130 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public abstract class AbstractNode implements Node
+    public abstract class AbstractNode : Node
     {
 
-    private RandomVariable variable = null;
-    private Set<Node> parents = null;
-    private Set<Node> children = null;
+        private RandomVariable variable = null;
+        private ISet<Node> parents = null;
+        private ISet<Node> children = null;
 
-    public AbstractNode(RandomVariable var)
-    {
-        this(var, (Node[])null);
-    }
+        public AbstractNode(RandomVariable var)
+                : this(var, (Node[])null)
+        { }
 
-    public AbstractNode(RandomVariable var, Node...parents)
-    {
-        if (null == var)
+        public AbstractNode(RandomVariable var, params Node[] parents)
         {
-            throw new IllegalArgumentException(
-                    "Random Variable for Node must be specified.");
-        }
-        this.variable = var;
-        this.parents = new LinkedHashSet<Node>();
-        if (null != parents)
-        {
-            for (Node p : parents)
+            if (null == var)
             {
-                ((AbstractNode)p).addChild(this);
-                this.parents.add(p);
+                throw new IllegalArgumentException("Random Variable for Node must be specified.");
             }
-        }
-        this.parents = Collections.unmodifiableSet(this.parents);
-        this.children = Collections.unmodifiableSet(new LinkedHashSet<Node>());
-    }
-
-    //
-    // START-Node
-    @Override
-    public RandomVariable getRandomVariable()
-    {
-        return variable;
-    }
-
-    @Override
-    public boolean isRoot()
-    {
-        return 0 == getParents().size();
-    }
-
-    @Override
-    public Set<Node> getParents()
-    {
-        return parents;
-    }
-
-    @Override
-    public Set<Node> getChildren()
-    {
-        return children;
-    }
-
-    @Override
-    public Set<Node> getMarkovBlanket()
-    {
-        LinkedHashSet<Node> mb = new LinkedHashSet<Node>();
-        // Given its parents,
-        mb.addAll(getParents());
-        // children,
-        mb.addAll(getChildren());
-        // and children's parents
-        for (Node cn : getChildren())
-        {
-            mb.addAll(cn.getParents());
+            this.variable = var;
+            this.parents = Factory.CreateSet<Node>();
+            if (null != parents)
+            {
+                foreach (Node p in parents)
+                {
+                    ((AbstractNode)p).addChild(this);
+                    this.parents.Add(p);
+                }
+            }
+            this.parents = Factory.CreateReadOnlySet<Node>(this.parents);
+            this.children = Factory.CreateReadOnlySet<Node>(Factory.CreateSet<Node>());
         }
 
-        return mb;
-    }
+        //
+        // START-Node
 
-    public abstract ConditionalProbabilityDistribution getCPD();
-
-    // END-Node
-    //
-
-    @Override
-    public String toString()
-    {
-        return getRandomVariable().getName();
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (null == o)
+        public RandomVariable getRandomVariable()
         {
+            return variable;
+        }
+
+
+        public bool isRoot()
+        {
+            return 0 == getParents().Size();
+        }
+
+
+        public ISet<Node> getParents()
+        {
+            return parents;
+        }
+
+
+        public ISet<Node> getChildren()
+        {
+            return children;
+        }
+
+
+        public ISet<Node> getMarkovBlanket()
+        {
+            ISet<Node> mb = Factory.CreateSet<Node>();
+            // Given its parents,
+            mb.AddAll(getParents());
+            // children,
+            mb.AddAll(getChildren());
+            // and children's parents
+            foreach (Node cn in getChildren())
+            {
+                mb.AddAll(cn.getParents());
+            }
+
+            return mb;
+        }
+
+        public abstract ConditionalProbabilityDistribution getCPD();
+
+        // END-Node
+        //
+
+
+        public override string ToString()
+        {
+            return getRandomVariable().getName();
+        }
+
+
+        public override bool Equals(object o)
+        {
+            if (null == o)
+            {
+                return false;
+            }
+            if (o == this)
+            {
+                return true;
+            }
+
+            if (o is Node)
+            {
+                Node n = (Node)o;
+
+                return getRandomVariable().Equals(n.getRandomVariable());
+            }
+
             return false;
         }
-        if (o == this)
+
+
+        public override int GetHashCode()
         {
-            return true;
+            return variable.GetHashCode();
         }
 
-        if (o instanceof Node) {
-            Node n = (Node)o;
+        //
+        // PROTECTED METHODS
+        //
+        protected void addChild(Node childNode)
+        {
+            children = Factory.CreateSet<Node>(children);
 
-            return getRandomVariable().equals(n.getRandomVariable());
+            children.Add(childNode);
+
+            children = Factory.CreateReadOnlySet<Node>(children);
         }
-
-        return false;
     }
-
-    @Override
-    public int hashCode()
-    {
-        return variable.hashCode();
-    }
-
-    //
-    // PROTECTED METHODS
-    //
-    protected void addChild(Node childNode)
-    {
-        children = new LinkedHashSet<Node>(children);
-
-        children.add(childNode);
-
-        children = Collections.unmodifiableSet(children);
-    }
-}
 
 }

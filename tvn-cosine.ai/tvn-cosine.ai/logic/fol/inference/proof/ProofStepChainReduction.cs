@@ -3,7 +3,7 @@
     public class ProofStepChainReduction : AbstractProofStep
     {
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+    private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
     private Chain reduction = null;
     private Chain nearParent, farParent = null;
     private Map<Variable, Term> subst = null;
@@ -15,26 +15,26 @@
         this.nearParent = nearParent;
         this.farParent = farParent;
         this.subst = subst;
-        this.predecessors.add(farParent.getProofStep());
-        this.predecessors.add(nearParent.getProofStep());
+        this.predecessors.Add(farParent.getProofStep());
+        this.predecessors.Add(nearParent.getProofStep());
     }
 
     //
     // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
+     
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(predecessors);
+        return Factory.CreateReadOnlyQueue<>(predecessors);
     }
 
-    @Override
-    public String getProof()
+     
+    public string getProof()
     {
-        return reduction.toString();
+        return reduction.ToString();
     }
 
-    @Override
-    public String getJustification()
+     
+    public string getJustification()
     {
         return "Reduction: " + nearParent.getProofStep().getStepNumber() + ","
                 + farParent.getProofStep().getStepNumber() + " " + subst;

@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.search.csp
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.search.csp
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.8, Page 221.<br>
@@ -31,96 +34,97 @@
      * @author Ruediger Lunde
      * @author Mike Stampone
      */
-    public class MinConflictsSolver<VAR extends Variable, VAL> extends CspSolver<VAR, VAL> {
-
-    private int maxSteps;
-
-    /**
-	 * Constructs a min-conflicts strategy with a given number of steps allowed
-	 * before giving up.
-	 * 
-	 * @param maxSteps
-	 *            the number of steps allowed before giving up
-	 */
-    public MinConflictsSolver(int maxSteps)
+    public class MinConflictsSolver<VAR, VAL> : CspSolver<VAR, VAL>
+        where VAR : Variable
     {
-        this.maxSteps = maxSteps;
-    }
+        private int maxSteps;
 
-    public Optional<Assignment<VAR, VAL>> solve(CSP<VAR, VAL> csp)
-    {
-        Assignment<VAR, VAL> current = generateRandomAssignment(csp);
-        fireStateChanged(csp, current, null);
-        for (int i = 0; i < maxSteps && !Tasks.currIsCancelled(); i++)
+        /**
+         * Constructs a min-conflicts strategy with a given number of steps allowed
+         * before giving up.
+         * 
+         * @param maxSteps
+         *            the number of steps allowed before giving up
+         */
+        public MinConflictsSolver(int maxSteps)
         {
-            if (current.isSolution(csp))
-            {
-                return Optional.of(current);
-            }
-            else
-            {
-                Set<VAR> vars = getConflictedVariables(current, csp);
-                VAR var = Util.selectRandomlyFromSet(vars);
-                VAL value = getMinConflictValueFor(var, current, csp);
-                current.add(var, value);
-                fireStateChanged(csp, current, var);
-            }
+            this.maxSteps = maxSteps;
         }
-        return Optional.empty();
-    }
 
-    private Assignment<VAR, VAL> generateRandomAssignment(CSP<VAR, VAL> csp)
-    {
-        Assignment<VAR, VAL> result = new Assignment<>();
-        for (VAR var : csp.getVariables())
+        public Assignment<VAR, VAL> solve(CSP<VAR, VAL> csp)
         {
-            VAL randomValue = Util.selectRandomlyFromList(csp.getDomain(var).asList());
-            result.add(var, randomValue);
-        }
-        return result;
-    }
-
-    private Set<VAR> getConflictedVariables(Assignment<VAR, VAL> assignment, CSP<VAR, VAL> csp)
-    {
-        Set<VAR> result = new LinkedHashSet<>();
-        csp.getConstraints().stream().filter(constraint-> !constraint.isSatisfiedWith(assignment)).
-                forEach(constraint->constraint.getScope().stream().filter(var-> !result.contains(var)).
-                        forEach(result::add));
-        return result;
-    }
-
-    private VAL getMinConflictValueFor(VAR var, Assignment<VAR, VAL> assignment, CSP<VAR, VAL> csp)
-    {
-        List<Constraint<VAR, VAL>> constraints = csp.getConstraints(var);
-        Assignment<VAR, VAL> testAssignment = assignment.clone();
-        int minConflict = Integer.MAX_VALUE;
-        List<VAL> resultCandidates = new ArrayList<>();
-        for (VAL value : csp.getDomain(var))
-        {
-            testAssignment.add(var, value);
-            int currConflict = countConflicts(testAssignment, constraints);
-            if (currConflict <= minConflict)
+            Assignment<VAR, VAL> current = generateRandomAssignment(csp);
+            fireStateChanged(csp, current, null);
+            for (int i = 0; i < maxSteps && !Tasks.currIsCancelled(); i++)
             {
-                if (currConflict < minConflict)
+                if (current.isSolution(csp))
                 {
-                    resultCandidates.clear();
-                    minConflict = currConflict;
+                    return current;
                 }
-                resultCandidates.add(value);
+                else
+                {
+                    ISet<VAR> vars = getConflictedVariables(current, csp);
+                    VAR var = Util.selectRandomlyFromSet(vars);
+                    VAL value = getMinConflictValueFor(var, current, csp);
+                    current.add(var, value);
+                    fireStateChanged(csp, current, var);
+                }
             }
+            return null;
         }
-        return (!resultCandidates.isEmpty()) ? Util.selectRandomlyFromList(resultCandidates) : null;
-    }
 
-    private int countConflicts(Assignment<VAR, VAL> assignment,
-            List<Constraint<VAR, VAL>> constraints)
-    {
-        int result = 0;
-        for (Constraint<VAR, VAL> constraint : constraints)
-            if (!constraint.isSatisfiedWith(assignment))
-                result++;
-        return result;
+        private Assignment<VAR, VAL> generateRandomAssignment(CSP<VAR, VAL> csp)
+        {
+            Assignment<VAR, VAL> result = new Assignment<VAR, VAL>();
+            foreach (VAR var in csp.getVariables())
+            {
+                VAL randomValue = Util.selectRandomlyFromIQueue(csp.getDomain(var).asList());
+                result.add(var, randomValue);
+            }
+            return result;
+        }
+
+        private ISet<VAR> getConflictedVariables(Assignment<VAR, VAL> assignment, CSP<VAR, VAL> csp)
+        {
+            ISet<VAR> result = Factory.CreateSet<VAR>();
+            csp.getConstraints().stream().filter(constraint-> !constraint.isSatisfiedWith(assignment)).
+                    forEach(constraint->constraint.getScope().stream().filter(var-> !result.contains(var)).
+                            forEach(result::add));
+            return result;
+        }
+
+        private VAL getMinConflictValueFor(VAR var, Assignment<VAR, VAL> assignment, CSP<VAR, VAL> csp)
+        {
+            IQueue<Constraint<VAR, VAL>> constraints = csp.getConstraints(var);
+            Assignment<VAR, VAL> testAssignment = assignment.clone();
+            int minConflict = int.MaxValue;
+            IQueue<VAL> resultCandidates = Factory.CreateQueue<VAL>();
+            foreach (VAL value in csp.getDomain(var))
+            {
+                testAssignment.Add(var, value);
+                int currConflict = countConflicts(testAssignment, constraints);
+                if (currConflict <= minConflict)
+                {
+                    if (currConflict < minConflict)
+                    {
+                        resultCandidates.Clear();
+                        minConflict = currConflict;
+                    }
+                    resultCandidates.Add(value);
+                }
+            }
+            return (!resultCandidates.IsEmpty()) ? Util.selectRandomlyFromIQueue<VAL>(resultCandidates) : default(VAL);
+        }
+
+        private int countConflicts(Assignment<VAR, VAL> assignment,
+                IQueue<Constraint<VAR, VAL>> constraints)
+        {
+            int result = 0;
+            foreach (Constraint<VAR, VAL> constraint in constraints)
+                if (!constraint.isSatisfiedWith(assignment))
+                    result++;
+            return result;
+        }
     }
-}
 
 }

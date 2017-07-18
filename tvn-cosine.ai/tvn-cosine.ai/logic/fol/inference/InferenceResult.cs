@@ -7,7 +7,7 @@
          * @return true, if the query is not entailed from the premises. This just
          *         means the query is not entailed, the query itself may be true.
          */
-        boolean isPossiblyFalse();
+        bool isPossiblyFalse();
 
         /**
          * 
@@ -16,14 +16,14 @@
          *         indicating that there can possibly be more than 1 proof/bindings
          *         for the query, see: isPartialResultDueToTimeout()).
          */
-        boolean isTrue();
+        bool isTrue();
 
         /**
          * 
          * @return true, if the inference procedure ran for a length of time and
          *         found no proof one way or the other before it timed out.
          */
-        boolean isUnknownDueToTimeout();
+        bool isUnknownDueToTimeout();
 
         /**
          * 
@@ -32,13 +32,13 @@
          *         returned) and the inference procedure was still looking for other
          *         possible answers before it timed out.
          */
-        boolean isPartialResultDueToTimeout();
+        bool isPartialResultDueToTimeout();
 
         /**
          * 
          * @return a list of 0 or more proofs (multiple proofs can be returned if
          *         the original query contains variables).
          */
-        List<Proof> getProofs();
+        IQueue<Proof> getProofs();
     }
 }

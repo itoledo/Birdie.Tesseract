@@ -8,17 +8,17 @@
          * representation.
          * 
          * @param proof
-         * @return a String representation of the Proof.
+         * @return a string representation of the Proof.
          */
-        public static String printProof(Proof proof)
+        public static string printProof(Proof proof)
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.append("Proof, Answer Bindings: ");
-            sb.append(proof.getAnswerBindings());
-            sb.append("\n");
+            sb.Append("Proof, Answer Bindings: ");
+            sb.Append(proof.getAnswerBindings());
+            sb.Append("\n");
 
-            List<ProofStep> steps = proof.getSteps();
+            IQueue<ProofStep> steps = proof.getSteps();
 
             int maxStepWidth = "Step".length();
             int maxProofWidth = "Proof".length();
@@ -27,7 +27,7 @@
             // Calculate the maximum width for each column in the proof
             for (ProofStep step : steps)
             {
-                String sn = "" + step.getStepNumber();
+                string sn = "" + step.getStepNumber();
                 if (sn.length() > maxStepWidth)
                 {
                     maxStepWidth = sn.length();
@@ -47,28 +47,28 @@
             maxProofWidth += 1;
             maxJustificationWidth += 1;
 
-            String f = "|%-" + maxStepWidth + "s| %-" + maxProofWidth + "s|%-"
+            string f = "|%-" + maxStepWidth + "s| %-" + maxProofWidth + "s|%-"
                     + maxJustificationWidth + "s|\n";
 
             int barWidth = 5 + maxStepWidth + maxProofWidth + maxJustificationWidth;
             StringBuilder bar = new StringBuilder();
             for (int i = 0; i < barWidth; i++)
             {
-                bar.append("-");
+                bar.Append("-");
             }
-            bar.append("\n");
+            bar.Append("\n");
 
-            sb.append(bar);
-            sb.append(String.format(f, "Step", "Proof", "Justification"));
-            sb.append(bar);
+            sb.Append(bar);
+            sb.Append(String.format(f, "Step", "Proof", "Justification"));
+            sb.Append(bar);
             for (ProofStep step : steps)
             {
-                sb.append(String.format(f, "" + step.getStepNumber(),
+                sb.Append(String.format(f, "" + step.getStepNumber(),
                         step.getProof(), step.getJustification()));
             }
-            sb.append(bar);
+            sb.Append(bar);
 
-            return sb.toString();
+            return sb.ToString();
         }
     }
 }

@@ -38,7 +38,7 @@
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class LRTAStarAgent<S, A extends Action> extends AbstractAgent
+    public class LRTAStarAgent<S, A : Action> : AbstractAgent
     {
 
 
@@ -48,7 +48,7 @@
     // persistent: result, a table, indexed by state and action, initially empty
     private final TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<>();
     // H, a table of cost estimates indexed by state, initially empty
-    private final HashMap<S, Double> H = new HashMap<>();
+    private final HashMap<S, double> H = Factory.CreateMap<>();
     // s, a, the previous state and action, initially null
     private S s = null;
     private A a = null;
@@ -141,7 +141,7 @@
 
     // function LRTA*-AGENT(s') returns an action
     // inputs: s', a percept that identifies the current state
-    @Override
+     
     public Action execute(Percept psPrimed)
     {
         S sPrimed = ptsFn.apply(psPrimed);
@@ -155,35 +155,35 @@
             // if s' is a new state (not in H) then H[s'] <- h(s')
             if (!H.containsKey(sPrimed))
             {
-                H.put(sPrimed, getHeuristicFunction().applyAsDouble(sPrimed));
+                H.Put(sPrimed, getHeuristicFunction().applyAsDouble(sPrimed));
             }
             // if s is not null
             if (null != s)
             {
                 // result[s, a] <- s'
-                result.put(s, a, sPrimed);
+                result.Put(s, a, sPrimed);
 
                 // H[s] <- min LRTA*-COST(s, b, result[s, b], H)
                 // b (element of) ACTIONS(s)
-                double min = Double.MAX_VALUE;
+                double min = double.MAX_VALUE;
                 for (A b : problem.getActions(s))
                 {
-                    double cost = lrtaCost(s, b, result.get(s, b));
+                    double cost = lrtaCost(s, b, result.Get(s, b));
                     if (cost < min)
                     {
                         min = cost;
                     }
                 }
-                H.put(s, min);
+                H.Put(s, min);
             }
             // a <- an action b in ACTIONS(s') that minimizes LRTA*-COST(s', b,
             // result[s', b], H)
-            double min = Double.MAX_VALUE;
+            double min = double.MAX_VALUE;
             // Just in case no actions
             a = null;
             for (A b : problem.getActions(sPrimed))
             {
-                double cost = lrtaCost(sPrimed, b, result.get(sPrimed, b));
+                double cost = lrtaCost(sPrimed, b, result.Get(sPrimed, b));
                 if (cost < min)
                 {
                     min = cost;
@@ -211,8 +211,8 @@
     private void init()
     {
         setAlive(true);
-        result.clear();
-        H.clear();
+        result.Clear();
+        H.Clear();
         s = null;
         a = null;
     }
@@ -227,7 +227,7 @@
         }
         // else return c(s, a, s') + H[s']
         return problem.getStepCosts(s, action, sDelta)
-                + H.get(sDelta);
+                + H.Get(sDelta);
     }
 }
 

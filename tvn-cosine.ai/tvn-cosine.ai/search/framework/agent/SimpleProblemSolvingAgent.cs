@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.search.framework.agent
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.search.framework.agent
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.1, page 67.<br>
@@ -34,98 +39,98 @@
      * @author Mike Stampone
      * @author Ruediger Lunde
      */
-    public abstract class SimpleProblemSolvingAgent<S, A extends Action> extends AbstractAgent
+    public abstract class SimpleProblemSolvingAgent<S, A> : AbstractAgent
+        where A : Action
     {
+        // seq, an action sequence, initially empty
+        private IQueue<A> seq = Factory.CreateQueue<A>();
 
-    // seq, an action sequence, initially empty
-    private Queue<A> seq = new LinkedList<>();
+        //
+        private bool formulateGoalsIndefinitely = true;
 
-    //
-    private boolean formulateGoalsIndefinitely = true;
+        private int maxGoalsToFormulate = 1;
 
-    private int maxGoalsToFormulate = 1;
+        private int goalsFormulated = 0;
 
-    private int goalsFormulated = 0;
-
-    /**
-	 * Constructs a simple problem solving agent which will formulate goals
-	 * indefinitely.
-	 */
-    public SimpleProblemSolvingAgent()
-    {
-        formulateGoalsIndefinitely = true;
-    }
-
-    /**
-	 * Constructs a simple problem solving agent which will formulate, at
-	 * maximum, the specified number of goals.
-	 * 
-	 * @param maxGoalsToFormulate
-	 *            the maximum number of goals this agent is to formulate.
-	 */
-    public SimpleProblemSolvingAgent(int maxGoalsToFormulate)
-    {
-        formulateGoalsIndefinitely = false;
-        this.maxGoalsToFormulate = maxGoalsToFormulate;
-    }
-
-    // function SIMPLE-PROBLEM-SOLVING-AGENT(percept) returns an action
-    @Override
-    public Action execute(Percept p)
-    {
-        Action action = NoOpAction.NO_OP; // return value if at goal or goal not found
-
-        // state <- UPDATE-STATE(state, percept)
-        updateState(p);
-        // if seq is empty then do
-        if (seq.isEmpty())
+        /**
+         * Constructs a simple problem solving agent which will formulate goals
+         * indefinitely.
+         */
+        public SimpleProblemSolvingAgent()
         {
-            if (formulateGoalsIndefinitely || goalsFormulated < maxGoalsToFormulate)
+            formulateGoalsIndefinitely = true;
+        }
+
+        /**
+         * Constructs a simple problem solving agent which will formulate, at
+         * maximum, the specified number of goals.
+         * 
+         * @param maxGoalsToFormulate
+         *            the maximum number of goals this agent is to formulate.
+         */
+        public SimpleProblemSolvingAgent(int maxGoalsToFormulate)
+        {
+            formulateGoalsIndefinitely = false;
+            this.maxGoalsToFormulate = maxGoalsToFormulate;
+        }
+
+        // function SIMPLE-PROBLEM-SOLVING-AGENT(percept) returns an action
+
+        public override Action execute(Percept p)
+        {
+            Action action = NoOpAction.NO_OP; // return value if at goal or goal not found
+
+            // state <- UPDATE-STATE(state, percept)
+            updateState(p);
+            // if seq is empty then do
+            if (seq.IsEmpty())
             {
-                if (goalsFormulated > 0)
+                if (formulateGoalsIndefinitely || goalsFormulated < maxGoalsToFormulate)
                 {
+                    if (goalsFormulated > 0)
+                    {
+                        notifyViewOfMetrics();
+                    }
+                    // goal <- FORMULATE-GOAL(state)
+                    object goal = formulateGoal();
+                    goalsFormulated++;
+                    // problem <- FORMULATE-PROBLEM(state, goal)
+                    Problem<S, A> problem = formulateProblem(goal);
+                    // seq <- SEARCH(problem)
+                    IQueue<A> actions = search(problem);
+                    if (null != actions)
+                        seq.AddAll(actions);
+                }
+                else
+                {
+                    // Agent no longer wishes to
+                    // achieve any more goals
+                    setAlive(false);
                     notifyViewOfMetrics();
                 }
-                // goal <- FORMULATE-GOAL(state)
-                Object goal = formulateGoal();
-                goalsFormulated++;
-                // problem <- FORMULATE-PROBLEM(state, goal)
-                Problem<S, A> problem = formulateProblem(goal);
-                // seq <- SEARCH(problem)
-                Optional<List<A>> actions = search(problem);
-                if (actions.isPresent())
-                    seq.addAll(actions.get());
             }
-            else
+
+            if (seq.Size() > 0)
             {
-                // Agent no longer wishes to
-                // achieve any more goals
-                setAlive(false);
-                notifyViewOfMetrics();
+                // action <- FIRST(seq)
+                // seq <- REST(seq)
+                action = seq.Pop();
             }
+
+            return action;
         }
 
-        if (seq.size() > 0)
-        {
-            // action <- FIRST(seq)
-            // seq <- REST(seq)
-            action = seq.remove();
-        }
+        //
+        // PROTECTED METHODS
+        //
+        protected abstract void updateState(Percept p);
 
-        return action;
+        protected abstract object formulateGoal();
+
+        protected abstract Problem<S, A> formulateProblem(object goal);
+
+        protected abstract IQueue<A> search(Problem<S, A> problem);
+
+        protected abstract void notifyViewOfMetrics();
     }
-
-    //
-    // PROTECTED METHODS
-    //
-    protected abstract void updateState(Percept p);
-
-    protected abstract Object formulateGoal();
-
-    protected abstract Problem<S, A> formulateProblem(Object goal);
-
-    protected abstract Optional<List<A>> search(Problem<S, A> problem);
-
-    protected abstract void notifyViewOfMetrics();
-}
 }

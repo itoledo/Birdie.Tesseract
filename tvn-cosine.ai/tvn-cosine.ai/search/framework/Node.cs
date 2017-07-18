@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.framework
+﻿using tvn.cosine.ai.common;
+
+namespace tvn.cosine.ai.search.framework
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.10, page
@@ -28,7 +30,7 @@
      * @author Mike Stampone
      * @author Ruediger Lunde
      */
-    public class Node<S, A>
+    public class Node<S, A> : IToString
     {
 
         // n.STATE: the state in the state space to which the node corresponds;
@@ -73,8 +75,9 @@
          *            the the specified action.
          */
         public Node(S state, Node<S, A> parent, A action, double pathCost)
+            : this(state)
         {
-            this(state);
+
             this.parent = parent;
             this.action = action;
             this.pathCost = pathCost;
@@ -127,13 +130,12 @@
          * 
          * @return <code>true</code> if the node has no parent.
          */
-        public boolean isRootNode()
+        public bool isRootNode()
         {
             return parent == null;
         }
 
-        @Override
-        public String toString()
+        public override string ToString()
         {
             return "[parent=" + parent + ", action=" + action + ", state=" + getState() + ", pathCost=" + pathCost + "]";
         }

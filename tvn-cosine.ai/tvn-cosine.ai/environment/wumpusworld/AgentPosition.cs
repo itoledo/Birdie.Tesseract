@@ -75,7 +75,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
 
         public override string ToString()
         {
-            return room.toString() + "->" + orientation.getSymbol();
+            return room.ToString() + "->" + orientation.getSymbol();
         }
 
         public override bool Equals(object obj)

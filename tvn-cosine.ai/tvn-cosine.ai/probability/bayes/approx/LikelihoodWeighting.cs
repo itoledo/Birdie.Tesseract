@@ -39,10 +39,10 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public class LikelihoodWeighting implements BayesSampleInference
+    public class LikelihoodWeighting : BayesSampleInference
     {
 
-    private Randomizer randomizer = null;
+    private IRandom randomizer = null;
 
     public LikelihoodWeighting()
     {
@@ -83,7 +83,7 @@
         for (int j = 0; j < N; j++)
         {
             // <b>x</b>,w <- WEIGHTED-SAMPLE(bn,e)
-            Pair<Map<RandomVariable, Object>, Double> x_w = weightedSample(bn,
+            Pair<IMap<RandomVariable, object>, double> x_w = weightedSample(bn,
                     e);
             // W[x] <- W[x] + w where x is the value of X in <b>x</b>
             W[ProbUtil.indexOf(X, x_w.getFirst())] += x_w.getSecond();
@@ -103,16 +103,16 @@
 	 *            <b>P</b>(X<sub>1</sub>,...,X<sub>n</sub>)
 	 * @return return <b>x</b>, w - an event with its associated weight.
 	 */
-    public Pair<Map<RandomVariable, Object>, Double> weightedSample(
+    public Pair<IMap<RandomVariable, object>, double> weightedSample(
             BayesianNetwork bn, AssignmentProposition[] e)
     {
         // w <- 1;
         double w = 1.0;
         // <b>x</b> <- an event with n elements initialized from e
-        Map<RandomVariable, Object> x = new LinkedHashMap<RandomVariable, Object>();
+        Map<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
         for (AssignmentProposition ap : e)
         {
-            x.put(ap.getTermVariable(), ap.getValue());
+            x.Put(ap.getTermVariable(), ap.getValue());
         }
 
         // foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
@@ -134,16 +134,16 @@
             {
                 // else <b>x</b>[i] <- a random sample from
                 // <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
-                x.put(Xi, ProbUtil.randomSample(bn.getNode(Xi), x, randomizer));
+                x.Put(Xi, ProbUtil.randomSample(bn.getNode(Xi), x, randomizer));
             }
         }
         // return <b>x</b>, w
-        return new Pair<Map<RandomVariable, Object>, Double>(x, w);
+        return new Pair<IMap<RandomVariable, object>, double>(x, w);
     }
 
     //
     // START-BayesSampleInference
-    @Override
+     
     public CategoricalDistribution ask(final RandomVariable[] X,
             final AssignmentProposition[] observedEvidence,
             final BayesianNetwork bn, int N)

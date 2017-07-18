@@ -14,12 +14,12 @@
      * @author Ravi Mohan
      * 
      */
-    public class DepthFirstSearch<S, A> extends QueueBasedSearch<S, A> {
+    public class DepthFirstSearch<S, A> : QueueBasedSearch<S, A> {
 
 
     public DepthFirstSearch(QueueSearch<S, A> impl)
     {
-        super(impl, QueueFactory.createLifoQueue());
+        base(impl, QueueFactory.createLifoQueue());
     }
 }
 }

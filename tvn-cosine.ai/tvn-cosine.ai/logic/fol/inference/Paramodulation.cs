@@ -23,7 +23,7 @@
 
     private static StandardizeApartIndexical _saIndexical = StandardizeApartIndexicalFactory
             .newStandardizeApartIndexical('p');
-    private static List<Literal> _emptyLiteralList = new ArrayList<Literal>();
+    private static IQueue<Literal> _emptyLiteralList = Factory.CreateQueue<Literal>();
     //
     private StandardizeApart sApart = new StandardizeApart();
 
@@ -31,14 +31,14 @@
     {
     }
 
-    public Set<Clause> apply(Clause c1, Clause c2)
+    public ISet<Clause> apply(Clause c1, Clause c2)
     {
         return apply(c1, c2, false);
     }
 
-    public Set<Clause> apply(Clause c1, Clause c2, boolean standardizeApart)
+    public ISet<Clause> apply(Clause c1, Clause c2, bool standardizeApart)
     {
-        Set<Clause> paraExpressions = new LinkedHashSet<Clause>();
+        ISet<Clause> paraExpressions = Factory.CreateSet<Clause>();
 
         for (int i = 0; i < 2; i++)
         {
@@ -59,7 +59,7 @@
                 // Must be a positive term equality to be used
                 // for paramodulation.
                 if (possEqLit.isPositiveLiteral()
-                        && possEqLit.getAtomicSentence() instanceof TermEquality) {
+                        && possEqLit.getAtomicSentence() is TermEquality) {
             TermEquality assertion = (TermEquality)possEqLit
                     .getAtomicSentence();
 
@@ -91,7 +91,7 @@
 
                         // Want to ignore reflexivity axiom situation,
                         // i.e. x = x
-                        if (icm.getMatchingTerm().equals(replaceWith))
+                        if (icm.getMatchingTerm().Equals(replaceWith))
                         {
                             continue;
                         }
@@ -105,19 +105,19 @@
                         // I have an alternative, create a new clause
                         // with the alternative and the substitution
                         // applied to all the literals before returning
-                        List<Literal> newLits = new ArrayList<Literal>();
+                        IQueue<Literal> newLits = Factory.CreateQueue<Literal>();
                         for (Literal l2 : topClause.getLiterals())
                         {
-                            if (l1.equals(l2))
+                            if (l1.Equals(l2))
                             {
-                                newLits.add(l1
+                                newLits.Add(l1
                                         .newInstance((AtomicSentence)substVisitor.subst(
                                                 icm.getMatchingSubstitution(),
                                                 altExpression)));
                             }
                             else
                             {
-                                newLits.add(substVisitor.subst(
+                                newLits.Add(substVisitor.subst(
                                         icm.getMatchingSubstitution(),
                                         l2));
                             }
@@ -127,11 +127,11 @@
                         // the term equality used.
                         for (Literal l2 : equalityClause.getLiterals())
                         {
-                            if (possEqLit.equals(l2))
+                            if (possEqLit.Equals(l2))
                             {
                                 continue;
                             }
-                            newLits.add(substVisitor.subst(
+                            newLits.Add(substVisitor.subst(
                                     icm.getMatchingSubstitution(), l2));
                         }
 
@@ -160,7 +160,7 @@
                         {
                             c1.setStandardizedApartCheckNotRequired();
                         }
-                        paraExpressions.add(nc);
+                        paraExpressions.Add(nc);
                         break;
                     }
                 }
@@ -175,9 +175,9 @@
 	//
 	// PROTECTED METHODS
 	//
-	@Override
-    protected boolean isValidMatch(Term toMatch,
-            Set<Variable> toMatchVariables, Term possibleMatch,
+	 
+    protected bool isValidMatch(Term toMatch,
+            ISet<Variable> toMatchVariables, Term possibleMatch,
             Map<Variable, Term> substitution)
 {
 
@@ -186,7 +186,7 @@
         // Note:
         // [Brand 1975] showed that paramodulation into
         // variables is unnecessary.
-        if (!(possibleMatch instanceof Variable)) {
+        if (!(possibleMatch is Variable)) {
             // TODO: Find out whether the following statement from:
             // http://www.cs.miami.edu/~geoff/Courses/CSC648-07F/Content/
             // Paramodulation.shtml
@@ -194,7 +194,7 @@
             // intuitively makes sense:
             // "Similarly, depending on how paramodulation is used, it is
             // often unnecessary to paramodulate from variables."
-            // if (!(toMatch instanceof Variable)) {
+            // if (!(toMatch is Variable)) {
             return true;
             // }
         }

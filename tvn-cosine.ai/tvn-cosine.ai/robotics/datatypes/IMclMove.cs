@@ -10,12 +10,13 @@
      * 
      * @param <M> the class that is implementing this interface.
      */
-    public interface IMclMove<M extends IMclMove<M>> {
-	/**
-	 * Generates noise onto the move to mask errors in measuring the performed movements and to localize successfully with a smaller number of particles than without noise.
-	 * @return a new move onto that noise has been added.
-	 */
-	M generateNoise();
-}
-
+    public interface IMclMove<M>
+        where M : IMclMove<M>
+    {
+        /**
+         * Generates noise onto the move to mask errors in measuring the performed movements and to localize successfully with a smaller number of particles than without noise.
+         * @return a new move onto that noise has been added.
+         */
+        M generateNoise();
+    } 
 }

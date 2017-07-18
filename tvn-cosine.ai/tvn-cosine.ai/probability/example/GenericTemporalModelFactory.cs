@@ -47,8 +47,8 @@
 
         public static Map<RandomVariable, RandomVariable> getUmbrellaWorld_Xt_to_Xtm1_Map()
         {
-            Map<RandomVariable, RandomVariable> tToTm1StateVarMap = new HashMap<RandomVariable, RandomVariable>();
-            tToTm1StateVarMap.put(ExampleRV.RAIN_t_RV, ExampleRV.RAIN_tm1_RV);
+            Map<RandomVariable, RandomVariable> tToTm1StateVarMap = Factory.CreateMap<RandomVariable, RandomVariable>();
+            tToTm1StateVarMap.Put(ExampleRV.RAIN_t_RV, ExampleRV.RAIN_tm1_RV);
 
             return tToTm1StateVarMap;
         }

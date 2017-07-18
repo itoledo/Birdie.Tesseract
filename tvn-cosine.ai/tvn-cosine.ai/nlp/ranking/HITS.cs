@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.nlp.ranking
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+
+namespace tvn.cosine.ai.nlp.ranking
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 871.<br>
@@ -30,10 +34,9 @@
      */
     public class HITS
     {
-
-        final int RANK_HISTORY_DEPTH;
-        final double DELTA_TOLERANCE; // somewhat arbitrary
-        Map<String, Page> pTable;
+        readonly int RANK_HISTORY_DEPTH;
+        readonly double DELTA_TOLERANCE; // somewhat arbitrary
+        IMap<string, Page> pTable;
         // DETECT CONVERGENCE VARS
         double[] prevAuthVals;
         double[] prevHubVals;
@@ -42,7 +45,7 @@
         ////////////////////////////
 
         // TODO: Improve the convergence detection functionality
-        public HITS(Map<String, Page> pTable, int rank_hist_depth, double delta_tolerance)
+        public HITS(IMap<string, Page> pTable, int rank_hist_depth, double delta_tolerance)
         {
             this.pTable = pTable;
             this.RANK_HISTORY_DEPTH = rank_hist_depth;
@@ -50,18 +53,17 @@
 
         }
 
-        public HITS(Map<String, Page> pTable)
-        {
-            this(pTable, 3, 0.05);
-        }
+        public HITS(IMap<string, Page> pTable)
+            : this(pTable, 3, 0.05)
+        { }
 
         // function HITS(query) returns pages with hub and authority number
-        public List<Page> hits(String query)
+        public IQueue<Page> hits(string query)
         {
             // pages <- EXPAND-PAGES(RELEVANT-PAGES(query))
-            List<Page> pages = expandPages(relevantPages(query));
+            IQueue<Page> pages = expandPages(relevantPages(query));
             // for each p in pages
-            for (Page p : pages)
+            foreach (Page p in pages)
             {
                 // p.AUTHORITY <- 1
                 p.authority = 1;
@@ -72,7 +74,7 @@
             while (!convergence(pages))
             {
                 // for each p in pages do
-                for (Page p : pages)
+                foreach (Page p in pages)
                 {
                     // p.AUTHORITY <- &Sigma<sub>i</sub> INLINK<sub>i</sub>(p).HUB
                     p.authority = SumInlinkHubScore(p);
@@ -93,14 +95,14 @@
          * @return
          * @throws UnsupportedEncodingException
          */
-        public List<Page> relevantPages(String query)
+        public IQueue<Page> relevantPages(string query)
         {
-            List<Page> relevantPages = new ArrayList<>();
-            for (Page p : pTable.values())
+            IQueue<Page> relevantPages = Factory.CreateQueue<Page>();
+            foreach (Page p in pTable.GetValues())
             {
                 if (matches(query, p.getContent()))
                 {
-                    relevantPages.add(p);
+                    relevantPages.Add(p);
                 }
             }
             return relevantPages;
@@ -113,9 +115,9 @@
          * @param text
          * @return
          */
-        public boolean matches(String query, String text)
+        public bool matches(string query, string text)
         {
-            return text.contains(query);
+            return text.Contains(query);
         }
 
         /**
@@ -125,34 +127,34 @@
          * @param pages
          * @return
          */
-        public List<Page> expandPages(List<Page> pages)
+        public IQueue<Page> expandPages(IQueue<Page> pages)
         {
 
-            List<Page> expandedPages = new ArrayList<>();
-            Set<String> inAndOutLinks = new HashSet<>();
-            // Go through all pages an build a list of String links
-            for (Page currP : pages)
+            IQueue<Page> expandedPages = Factory.CreateQueue<Page>();
+            ISet<string> inAndOutLinks = Factory.CreateSet<string>();
+            // Go through all pages an build a list of string links
+            foreach (Page currP in pages)
             {
-                if (!expandedPages.contains(currP))
-                    expandedPages.add(currP);
-                List<String> currInlinks = currP.getInlinks();
-                for (String currInlink : currInlinks)
-                    inAndOutLinks.add(currInlink);
-                List<String> currOutlinks = currP.getOutlinks();
-                for (String currOutlink : currOutlinks)
-                    inAndOutLinks.add(currOutlink);
+                if (!expandedPages.Contains(currP))
+                    expandedPages.Add(currP);
+                IQueue<string> currInlinks = currP.getInlinks();
+                foreach (string currInlink in currInlinks)
+                    inAndOutLinks.Add(currInlink);
+                IQueue<string> currOutlinks = currP.getOutlinks();
+                foreach (string currOutlink in currOutlinks)
+                    inAndOutLinks.Add(currOutlink);
             }
-            // go through String links and add their respective pages to our return
+            // go through string links and add their respective pages to our return
             // list
-            for (String addr : inAndOutLinks)
+            foreach (string addr in inAndOutLinks)
             {
-                Page p = pTable.get(addr);
-                if (p != null && !expandedPages.contains(p))
+                Page p = pTable.Get(addr);
+                if (p != null && !expandedPages.Contains(p))
                 { // a valid link may
                   // not have an
                   // associated page
                   // in our table
-                    expandedPages.add(p);
+                    expandedPages.Add(p);
                 }
             }
             return expandedPages;
@@ -165,19 +167,19 @@
          * @param pages
          * @return
          */
-        public List<Page> normalize(List<Page> pages)
+        public IQueue<Page> normalize(IQueue<Page> pages)
         {
             double hubTotal = 0;
             double authTotal = 0;
-            for (Page p : pages)
+            foreach (Page p in pages)
             {
                 // Sum Hub scores over all pages
-                hubTotal += Math.pow(p.hub, 2);
+                hubTotal += System.Math.Pow(p.hub, 2);
                 // Sum Authority scores over all pages
-                authTotal += Math.pow(p.authority, 2);
+                authTotal += System.Math.Pow(p.authority, 2);
             }
             // divide all hub and authority scores for all pages
-            for (Page p : pages)
+            foreach (Page p in pages)
             {
                 if (hubTotal > 0)
                 {
@@ -209,11 +211,11 @@
          */
         public double SumInlinkHubScore(Page page)
         {
-            List<String> inLinks = page.getInlinks();
+            IQueue<string> inLinks = page.getInlinks();
             double hubScore = 0;
-            for (String inLink1 : inLinks)
+            foreach (string inLink1 in inLinks)
             {
-                Page inLink = pTable.get(inLink1);
+                Page inLink = pTable.Get(inLink1);
                 if (inLink != null)
                     hubScore += inLink.hub;
                 // else: page is linked to by a Page not in our table
@@ -231,11 +233,11 @@
          */
         public double SumOutlinkAuthorityScore(Page page)
         {
-            List<String> outLinks = page.getOutlinks();
+            IQueue<string> outLinks = page.getOutlinks();
             double authScore = 0;
-            for (String outLink1 : outLinks)
+            foreach (string outLink1 in outLinks)
             {
-                Page outLink = pTable.get(outLink1);
+                Page outLink = pTable.Get(outLink1);
                 if (outLink != null)
                     authScore += outLink.authority;
             }
@@ -248,7 +250,7 @@
          * 
          * @return
          */
-        private boolean convergence(List<Page> pages)
+        private bool convergence(IQueue<Page> pages)
         {
             double aveHubDelta = 100;
             double aveAuthDelta = 100;
@@ -258,11 +260,11 @@
             }
 
             // get current values from pages
-            double[] currHubVals = new double[pages.size()];
-            double[] currAuthVals = new double[pages.size()];
-            for (int i = 0; i < pages.size(); i++)
+            double[] currHubVals = new double[pages.Size()];
+            double[] currAuthVals = new double[pages.Size()];
+            for (int i = 0; i < pages.Size(); i++)
             {
-                Page currPage = pages.get(i);
+                Page currPage = pages.Get(i);
                 currHubVals[i] = currPage.hub;
                 currHubVals[i] = currPage.authority;
             }
@@ -275,8 +277,8 @@
             // compare to past values
             aveHubDelta = getAveDelta(currHubVals, prevHubVals);
             aveAuthDelta = getAveDelta(currAuthVals, prevAuthVals);
-            if (aveHubDelta + aveAuthDelta < DELTA_TOLERANCE || (Math.abs(prevAveHubDelta - aveHubDelta) < 0.01
-                    && Math.abs(prevAveAuthDelta - aveAuthDelta) < 0.01))
+            if (aveHubDelta + aveAuthDelta < DELTA_TOLERANCE || (System.Math.Abs(prevAveHubDelta - aveHubDelta) < 0.01
+                    && System.Math.Abs(prevAveAuthDelta - aveAuthDelta) < 0.01))
             {
                 return true;
             }
@@ -300,12 +302,15 @@
         public double getAveDelta(double[] curr, double[] prev)
         {
             double aveDelta = 0;
-            assert(curr.length == prev.length);
-            for (int j = 0; j < curr.length; j++)
+            if (curr.Length != prev.Length)
             {
-                aveDelta += Math.abs(curr[j] - prev[j]);
+                throw new IllegalArgumentException("curr must be == to prev");
             }
-            aveDelta /= curr.length;
+            for (int j = 0; j < curr.Length; j++)
+            {
+                aveDelta += System.Math.Abs(curr[j] - prev[j]);
+            }
+            aveDelta /= curr.Length;
             return aveDelta;
         }
 
@@ -315,10 +320,10 @@
          * @param pageTable
          * @return
          */
-        public Page getMaxHub(List<Page> result)
+        public Page getMaxHub(IQueue<Page> result)
         {
             Page maxHub = null;
-            for (Page currPage : result)
+            foreach (Page currPage in result)
             {
                 if (maxHub == null || currPage.hub > maxHub.hub)
                     maxHub = currPage;
@@ -332,10 +337,10 @@
          * @param pageTable
          * @return
          */
-        public Page getMaxAuthority(List<Page> result)
+        public Page getMaxAuthority(IQueue<Page> result)
         {
             Page maxAuthority = null;
-            for (Page currPage : result)
+            foreach (Page currPage in result)
             {
                 if (maxAuthority == null || currPage.authority > maxAuthority.authority)
                     maxAuthority = currPage;
@@ -348,12 +353,9 @@
          * 
          * @param result
          */
-        public void sortHub(List<Page> result)
+        class SortHubSorter : IComparer<Page>
         {
-            Collections.sort(result, new Comparator<Page>()
-            {
-
-            public int compare(Page p1, Page p2)
+            public int Compare(Page p1, Page p2)
             {
                 // Sorts by 'TimeStarted' property
                 return p1.hub < p2.hub ? -1 : p1.hub > p2.hub ? 1 : secondaryOrderSort(p1, p2);
@@ -362,62 +364,67 @@
             // If 'TimeStarted' property is equal sorts by 'TimeEnded' property
             public int secondaryOrderSort(Page p1, Page p2)
             {
-                return p1.getLocation().compareToIgnoreCase(p2.getLocation()) < 1 ? -1
-                        : p1.getLocation().compareToIgnoreCase(p2.getLocation()) > 1 ? 1 : 0;
+                return p1.getLocation().ToLower().CompareTo(p2.getLocation().ToLower()) < 1 ? -1
+                        : p1.getLocation().ToLower().CompareTo(p2.getLocation().ToLower()) > 1 ? 1 : 0;
             }
-        });
-	}
-
-    /**
-	 * Organize the list of pages according to their descending Authority Scores
-	 * 
-	 * @param result
-	 */
-    public void sortAuthority(List<Page> result)
-    {
-        Collections.sort(result, new Comparator<Page>()
-        {
-
-            public int compare(Page p1, Page p2)
-        {
-            // Sorts by 'TimeStarted' property
-            return p1.hub < p2.hub ? -1 : p1.hub > p2.hub ? 1 : secondaryOrderSort(p1, p2);
         }
 
-        // If 'TimeStarted' property is equal sorts by 'TimeEnded' property
-        public int secondaryOrderSort(Page p1, Page p2)
+        public void sortHub(IQueue<Page> result)
         {
-            return p1.getLocation().compareToIgnoreCase(p2.getLocation()) < 1 ? -1
-                    : p1.getLocation().compareToIgnoreCase(p2.getLocation()) > 1 ? 1 : 0;
+            result.Sort(new SortHubSorter());
         }
-    });
-	}
 
-/**
- * Simple console display of HITS Algorithm results.
- * 
- * @param result
- */
-public void report(List<Page> result)
-{
+        class SortAuthoritySorter : IComparer<Page>
+        {
+            public int Compare(Page p1, Page p2)
+            {
+                // Sorts by 'TimeStarted' property
+                return p1.hub < p2.hub ? -1 : p1.hub > p2.hub ? 1 : secondaryOrderSort(p1, p2);
+            }
 
-    // Print Pages out ranked by highest authority
-    sortAuthority(result);
-    System.out.println("AUTHORITY RANKINGS : ");
-    for (Page currP : result)
-        System.out.printf(currP.getLocation() + ": " + "%.5f" + '\n', currP.authority);
-    System.out.println();
-    // Print Pages out ranked by highest hub
-    sortHub(result);
-    System.out.println("HUB RANKINGS : ");
-    for (Page currP : result)
-        System.out.printf(currP.getLocation() + ": " + "%.5f" + '\n', currP.hub);
-    System.out.println();
-    // Print Max Authority
-    System.out.println("Page with highest Authority score: " + getMaxAuthority(result).getLocation());
-    // Print Max Authority
-    System.out.println("Page with highest Hub score: " + getMaxAuthority(result).getLocation());
-}
+            // If 'TimeStarted' property is equal sorts by 'TimeEnded' property
+            public int secondaryOrderSort(Page p1, Page p2)
+            {
+                return p1.getLocation().ToLower().CompareTo(p2.getLocation().ToLower()) < 1 ? -1
+                        : p1.getLocation().ToLower().CompareTo(p2.getLocation().ToLower()) > 1 ? 1 : 0;
+            }
+        }
 
-}
+        /**
+         * Organize the list of pages according to their descending Authority Scores
+         * 
+         * @param result
+         */
+        public void sortAuthority(IQueue<Page> result)
+        {
+            result.Sort(new SortAuthoritySorter());
+        }
+
+        /**
+         * Simple console display of HITS Algorithm results.
+         * 
+         * @param result
+         */
+        public void report(IQueue<Page> result)
+        {
+
+            // Print Pages out ranked by highest authority
+            sortAuthority(result);
+            System.Console.WriteLine("AUTHORITY RANKINGS : ");
+            foreach (Page currP in result)
+                System.Console.Write(currP.getLocation() + ": " + "%.5f" + '\n', currP.authority);
+            System.Console.WriteLine();
+            // Print Pages out ranked by highest hub
+            sortHub(result);
+            System.Console.WriteLine("HUB RANKINGS : ");
+            foreach (Page currP in result)
+                System.Console.Write(currP.getLocation() + ": " + "%.5f" + '\n', currP.hub);
+            System.Console.WriteLine();
+            // Print Max Authority
+            System.Console.WriteLine("Page with highest Authority score: " + getMaxAuthority(result).getLocation());
+            // Print Max Authority
+            System.Console.WriteLine("Page with highest Hub score: " + getMaxAuthority(result).getLocation());
+        }
+
+    }
 }

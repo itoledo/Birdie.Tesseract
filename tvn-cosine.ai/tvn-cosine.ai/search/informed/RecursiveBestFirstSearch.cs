@@ -35,20 +35,20 @@
      * @author Mike Stampone
      * @author Ruediger Lunde
      */
-    public class RecursiveBestFirstSearch<S, A> implements SearchForActions<S, A>, Informed<S, A> {
+    public class RecursiveBestFirstSearch<S, A> : SearchForActions<S, A>, Informed<S, A> {
 
-    public static final String METRIC_NODES_EXPANDED = "nodesExpanded";
-    public static final String METRIC_MAX_RECURSIVE_DEPTH = "maxRecursiveDepth";
-    public static final String METRIC_PATH_COST = "pathCost";
+    public static final string METRIC_NODES_EXPANDED = "nodesExpanded";
+    public static final string METRIC_MAX_RECURSIVE_DEPTH = "maxRecursiveDepth";
+    public static final string METRIC_PATH_COST = "pathCost";
 
-    private static final Double INFINITY = Double.MAX_VALUE;
+    private static final double INFINITY = double.MAX_VALUE;
 
     private final ToDoubleFunction<Node<S, A>> evalFn;
-    private boolean avoidLoops;
+    private bool avoidLoops;
     private final NodeExpander<S, A> nodeExpander;
 
     // stores the states on the current path if avoidLoops is true.
-    private Set<S> explored = new HashSet<>();
+    private ISet<S> explored = Factory.CreateSet<>();
     private Metrics metrics;
 
     public RecursiveBestFirstSearch(ToDoubleFunction<Node<S, A>> evalFn)
@@ -59,12 +59,12 @@
     /**
      * Constructor which allows to enable the loop avoidance strategy.
      */
-    public RecursiveBestFirstSearch(ToDoubleFunction<Node<S, A>> evalFn, boolean avoidLoops)
+    public RecursiveBestFirstSearch(ToDoubleFunction<Node<S, A>> evalFn, bool avoidLoops)
     {
         this(evalFn, avoidLoops, new NodeExpander<>());
     }
 
-    public RecursiveBestFirstSearch(ToDoubleFunction<Node<S, A>> evalFn, boolean avoidLoops,
+    public RecursiveBestFirstSearch(ToDoubleFunction<Node<S, A>> evalFn, bool avoidLoops,
                                     NodeExpander<S, A> nodeExpander)
     {
         this.evalFn = evalFn;
@@ -77,19 +77,19 @@
     /**
      * Modifies the evaluation function if it is a {@link HeuristicEvaluationFunction}.
      */
-    @Override
+     
     public void setHeuristicFunction(ToDoubleFunction<Node<S, A>> h)
     {
-        if (evalFn instanceof HeuristicEvaluationFunction)
+        if (evalFn is HeuristicEvaluationFunction)
             ((HeuristicEvaluationFunction<S, A>)evalFn).setHeuristicFunction(h);
     }
 
     // function RECURSIVE-BEST-FIRST-SEARCH(problem) returns a solution, or
     // failure
-    @Override
-    public Optional<List<A>> findActions(Problem<S, A> p)
+     
+    public IQueue<A> findActions(Problem<S, A> p)
     {
-        explored.clear();
+        explored.Clear();
         clearMetrics();
 
         // RBFS(problem, MAKE-NODE(INITIAL-STATE[problem]), infinity)
@@ -107,7 +107,7 @@
     /**
      * Returns all the search metrics.
      */
-    @Override
+     
     public Metrics getMetrics()
     {
         return metrics;
@@ -123,14 +123,14 @@
         metrics.set(METRIC_PATH_COST, 0.0);
     }
 
-    @Override
+     
     public void addNodeListener(Consumer<Node<S, A>> listener)
     {
         nodeExpander.addNodeListener(listener);
     }
 
-    @Override
-    public boolean removeNodeListener(Consumer<Node<S, A>> listener)
+     
+    public bool removeNodeListener(Consumer<Node<S, A>> listener)
     {
         return nodeExpander.removeNodeListener(listener);
     }
@@ -151,7 +151,7 @@
         // successors <- []
         // for each action in problem.ACTION(node.STATE) do
         // add CHILD-NODE(problem, node, action) into successors
-        List<Node<S, A>> successors = expandNode(node, p);
+        IQueue<Node<S, A>> successors = expandNode(node, p);
 
         // if successors is empty then return failure, infinity
         if (successors.isEmpty())
@@ -164,7 +164,7 @@
         for (int s = 0; s < size; s++)
         {
             // s.f <- max(s.g + s.h, node.f)
-            f[s] = Math.max(evalFn.applyAsDouble(successors.get(s)), node_f);
+            f[s] = Math.max(evalFn.applyAsDouble(successors.Get(s)), node_f);
         }
 
         // repeat
@@ -180,7 +180,7 @@
             // if best.f > f_limit then return failure, best.f
             int altIndex = getNextBestFValueIndex(f, bestIndex);
             // result, best.f <- RBFS(problem, best, min(f_limit, alternative))
-            SearchResult<S, A> sr = rbfs(p, successors.get(bestIndex), f[bestIndex], Math.min(fLimit, f[altIndex]),
+            SearchResult<S, A> sr = rbfs(p, successors.Get(bestIndex), f[bestIndex], Math.min(fLimit, f[altIndex]),
                     recursiveDepth + 1);
             f[bestIndex] = sr.getFCostLimit();
             // if result != failure then return result
@@ -195,9 +195,9 @@
     private int getBestFValueIndex(double[] f)
     {
         int lidx = 0;
-        Double lowestSoFar = INFINITY;
+        double lowestSoFar = INFINITY;
 
-        for (int i = 0; i < f.length; i++)
+        for (int i = 0; i < f.Length; i++)
         {
             if (f[i] < lowestSoFar)
             {
@@ -215,9 +215,9 @@
         // Array may only contain 1 item (i.e. no alternative),
         // therefore default to bestIndex initially
         int lidx = bestIndex;
-        Double lowestSoFar = INFINITY;
+        double lowestSoFar = INFINITY;
 
-        for (int i = 0; i < f.length; i++)
+        for (int i = 0; i < f.Length; i++)
         {
             if (i != bestIndex && f[i] < lowestSoFar)
             {
@@ -229,12 +229,12 @@
         return lidx;
     }
 
-    private List<Node<S, A>> expandNode(Node<S, A> node, Problem<S, A> problem)
+    private IQueue<Node<S, A>> expandNode(Node<S, A> node, Problem<S, A> problem)
     {
-        List<Node<S, A>> result = nodeExpander.expand(node, problem);
+        IQueue<Node<S, A>> result = nodeExpander.expand(node, problem);
         if (avoidLoops)
         {
-            explored.add(node.getState());
+            explored.Add(node.getState());
             result = result.stream().filter(n-> !explored.contains(n.getState())).collect(Collectors.toList());
         }
         return result;
@@ -243,7 +243,7 @@
     private SearchResult<S, A> getResult(Node<S, A> currNode, Node<S, A> solutionNode, double fCostLimit)
     {
         if (avoidLoops && currNode != null)
-            explored.remove(currNode.getState());
+            explored.Remove(currNode.getState());
         return new SearchResult<>(solutionNode, fCostLimit);
     }
 
@@ -274,7 +274,7 @@
             this.fCostLimit = fCostLimit;
         }
 
-        public boolean hasSolution()
+        public bool hasSolution()
         {
             return solNode != null;
         }
@@ -284,7 +284,7 @@
             return solNode;
         }
 
-        public Double getFCostLimit()
+        public double getFCostLimit()
         {
             return fCostLimit;
         }

@@ -9,7 +9,7 @@
 
         void stepInnerFor(Clause i, Clause j);
 
-        void stepResolved(Clause iFactor, Clause jFactor, Set<Clause> resolvents);
+        void stepResolved(Clause iFactor, Clause jFactor, ISet<Clause> resolvents);
 
         void stepFinished(Set<Clause> clauses, InferenceResult result);
     }

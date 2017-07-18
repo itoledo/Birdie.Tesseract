@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.search.framework
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.search.framework
 {
     /**
      * Base class for all search algorithms which use a queue to manage not yet
@@ -12,51 +16,51 @@
      *
      * @author Ruediger Lunde
      */
-    public abstract class QueueBasedSearch<S, A> implements SearchForActions<S, A>, SearchForStates<S, A> {
-
-    protected final QueueSearch<S, A> impl;
-    private final Queue<Node<S, A>> frontier;
-
-    protected QueueBasedSearch(QueueSearch<S, A> impl, Queue<Node<S, A>> queue)
+    public abstract class QueueBasedSearch<S, A> : SearchForActions<S, A>, SearchForStates<S, A>
     {
-        this.impl = impl;
-        this.frontier = queue;
-    }
+        protected readonly QueueSearch<S, A> impl;
+        private readonly IQueue<Node<S, A>> frontier;
 
-    @Override
-    public Optional<List<A>> findActions(Problem<S, A> p)
-    {
-        impl.getNodeExpander().useParentLinks(true);
-        frontier.clear();
-        Optional<Node<S, A>> node = impl.findNode(p, frontier);
-        return SearchUtils.toActions(node);
-    }
+        protected QueueBasedSearch(QueueSearch<S, A> impl, IQueue<Node<S, A>> queue)
+        {
+            this.impl = impl;
+            this.frontier = queue;
+        }
 
-    @Override
-    public Optional<S> findState(Problem<S, A> p)
-    {
-        impl.getNodeExpander().useParentLinks(false);
-        frontier.clear();
-        Optional<Node<S, A>> node = impl.findNode(p, frontier);
-        return SearchUtils.toState(node);
-    }
 
-    @Override
-    public Metrics getMetrics()
-    {
-        return impl.getMetrics();
-    }
+        public IQueue<A> findActions(Problem<S, A> p)
+        {
+            impl.getNodeExpander().useParentLinks(true);
+            frontier.Clear();
+            Node<S, A> node = impl.findNode(p, frontier);
+            return SearchUtils.toActions(node);
+        }
 
-    @Override
-    public void addNodeListener(Consumer<Node<S, A>> listener)
-    {
-        impl.getNodeExpander().addNodeListener(listener);
-    }
 
-    @Override
-    public boolean removeNodeListener(Consumer<Node<S, A>> listener)
-    {
-        return impl.getNodeExpander().removeNodeListener(listener);
+        public S findState(Problem<S, A> p)
+        {
+            impl.getNodeExpander().useParentLinks(false);
+            frontier.Clear();
+            Node<S, A> node = impl.findNode(p, frontier);
+            return SearchUtils.toState(node);
+        }
+
+
+        public Metrics getMetrics()
+        {
+            return impl.getMetrics();
+        }
+
+
+        public void addNodeListener(Consumer<Node<S, A>> listener)
+        {
+            impl.getNodeExpander().addNodeListener(listener);
+        }
+
+
+        public bool removeNodeListener(Consumer<Node<S, A>> listener)
+        {
+            return impl.getNodeExpander().removeNodeListener(listener);
+        }
     }
-}
 }

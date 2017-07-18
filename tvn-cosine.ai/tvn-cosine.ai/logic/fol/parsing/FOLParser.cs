@@ -24,13 +24,13 @@
             return lexer.getFOLDomain();
         }
 
-        public Sentence parse(String s)
+        public Sentence parse(string s)
         {
             setUpToParse(s);
             return parseSentence();
         }
 
-        public void setUpToParse(String s)
+        public void setUpToParse(string s)
         {
             lookAheadBuffer = new Token[1];
             lexer.setInput(s);
@@ -64,7 +64,7 @@
         public Term parseVariable()
         {
             Token t = lookAhead(1);
-            String value = t.getText();
+            string value = t.getText();
             consume();
             return new Variable(value);
         }
@@ -72,7 +72,7 @@
         public Term parseConstant()
         {
             Token t = lookAhead(1);
-            String value = t.getText();
+            string value = t.getText();
             consume();
             return new Constant(value);
         }
@@ -80,32 +80,32 @@
         public Term parseFunction()
         {
             Token t = lookAhead(1);
-            String functionName = t.getText();
-            List<Term> terms = processTerms();
+            string functionName = t.getText();
+            IQueue<Term> terms = processTerms();
             return new Function(functionName, terms);
         }
 
         public Sentence parsePredicate()
         {
             Token t = lookAhead(1);
-            String predicateName = t.getText();
-            List<Term> terms = processTerms();
+            string predicateName = t.getText();
+            IQueue<Term> terms = processTerms();
             return new Predicate(predicateName, terms);
         }
 
-        private List<Term> processTerms()
+        private IQueue<Term> processTerms()
         {
             consume();
-            List<Term> terms = new ArrayList<Term>();
+            IQueue<Term> terms = Factory.CreateQueue<Term>();
             match("(");
             Term term = parseTerm();
-            terms.add(term);
+            terms.Add(term);
 
             while (lookAhead(1).getType() == LogicTokenTypes.COMMA)
             {
                 match(",");
                 term = parseTerm();
-                terms.add(term);
+                terms.Add(term);
             }
             match(")");
             return terms;
@@ -115,7 +115,7 @@
         {
             Term term1 = parseTerm();
             match("=");
-            // System.out.println("=");
+            // System.Console.WriteLine("=");
             Term term2 = parseTerm();
             return new TermEquality(term1, term2);
         }
@@ -136,15 +136,15 @@
 
         protected void consume()
         {
-            // System.out.println("consuming" +lookAheadBuffer[0].getText());
+            // System.Console.WriteLine("consuming" +lookAheadBuffer[0].getText());
             loadNextTokenFromInput();
-            // System.out.println("next token " +lookAheadBuffer[0].getText());
+            // System.Console.WriteLine("next token " +lookAheadBuffer[0].getText());
         }
 
         protected void loadNextTokenFromInput()
         {
 
-            boolean eoiEncountered = false;
+            bool eoiEncountered = false;
             for (int i = 0; i < lookAhead - 1; i++)
             {
 
@@ -169,7 +169,7 @@
 
         }
 
-        protected boolean isEndOfInput(Token t)
+        protected bool isEndOfInput(Token t)
         {
             return (t.getType() == LogicTokenTypes.EOI);
         }
@@ -182,9 +182,9 @@
             }
         }
 
-        protected void match(String terminalSymbol)
+        protected void match(string terminalSymbol)
         {
-            if (lookAhead(1).getText().equals(terminalSymbol))
+            if (lookAhead(1).getText().Equals(terminalSymbol))
             {
                 consume();
             }
@@ -232,16 +232,16 @@
 
         private Sentence parseQuantifiedSentence()
         {
-            String quantifier = lookAhead(1).getText();
+            string quantifier = lookAhead(1).getText();
             consume();
-            List<Variable> variables = new ArrayList<Variable>();
+            IQueue<Variable> variables = Factory.CreateQueue<Variable>();
             Variable var = (Variable)parseVariable();
-            variables.add(var);
+            variables.Add(var);
             while (lookAhead(1).getType() == LogicTokenTypes.COMMA)
             {
                 consume();
                 var = (Variable)parseVariable();
-                variables.add(var);
+                variables.Add(var);
             }
             Sentence sentence = parseSentence();
             return new QuantifiedSentence(quantifier, variables, sentence);
@@ -253,7 +253,7 @@
             Sentence sen = parseSentence();
             while (binaryConnector(lookAhead(1)))
             {
-                String connector = lookAhead(1).getText();
+                string connector = lookAhead(1).getText();
                 consume();
                 Sentence other = parseSentence();
                 sen = new ConnectedSentence(connector, sen, other);
@@ -263,10 +263,10 @@
 
         }
 
-        private boolean binaryConnector(Token t)
+        private bool binaryConnector(Token t)
         {
             if ((t.getType() == LogicTokenTypes.CONNECTIVE)
-                    && (!(t.getText().equals("NOT"))))
+                    && (!(t.getText().Equals("NOT"))))
             {
                 return true;
             }
@@ -276,7 +276,7 @@
             }
         }
 
-        private boolean lParen(Token t)
+        private bool lParen(Token t)
         {
             if (t.getType() == LogicTokenTypes.LPAREN)
             {
@@ -288,7 +288,7 @@
             }
         }
 
-        private boolean term(Token t)
+        private bool term(Token t)
         {
             if ((t.getType() == LogicTokenTypes.FUNCTION)
                     || (t.getType() == LogicTokenTypes.CONSTANT)
@@ -303,7 +303,7 @@
 
         }
 
-        private boolean predicate(Token t)
+        private bool predicate(Token t)
         {
             if ((t.getType() == LogicTokenTypes.PREDICATE))
             {
@@ -315,10 +315,10 @@
             }
         }
 
-        private boolean notToken(Token t)
+        private bool notToken(Token t)
         {
             if ((t.getType() == LogicTokenTypes.CONNECTIVE)
-                    && (t.getText().equals("NOT")))
+                    && (t.getText().Equals("NOT")))
             {
                 return true;
             }

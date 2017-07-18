@@ -24,7 +24,7 @@
     public class PriorSample
     {
 
-        private Randomizer randomizer = null;
+        private IRandom randomizer = null;
 
         public PriorSample()
         {
@@ -49,16 +49,16 @@
          *            <b>P</b>(X<sub>1</sub>,...,X<sub>n</sub>)
          * @return an event sampled from the prior specified by bn
          */
-        public Map<RandomVariable, Object> priorSample(BayesianNetwork bn)
+        public Map<RandomVariable, object> priorSample(BayesianNetwork bn)
         {
             // x <- an event with n elements
-            Map<RandomVariable, Object> x = new LinkedHashMap<RandomVariable, Object>();
+            Map<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
             // foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
             for (RandomVariable Xi : bn.getVariablesInTopologicalOrder())
             {
                 // x[i] <- a random sample from
                 // <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
-                x.put(Xi, ProbUtil.randomSample(bn.getNode(Xi), x, randomizer));
+                x.Put(Xi, ProbUtil.randomSample(bn.getNode(Xi), x, randomizer));
             }
             // return x
             return x;

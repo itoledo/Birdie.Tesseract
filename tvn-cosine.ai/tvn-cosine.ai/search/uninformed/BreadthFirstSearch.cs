@@ -31,7 +31,7 @@
      * @author Ruediger Lunde
      * @author Ciaran O'Reilly
      */
-    public class BreadthFirstSearch<S, A> extends QueueBasedSearch<S, A> {
+    public class BreadthFirstSearch<S, A> : QueueBasedSearch<S, A> {
 
 
     public BreadthFirstSearch()
@@ -41,7 +41,7 @@
 
     public BreadthFirstSearch(QueueSearch<S, A> impl)
     {
-        super(impl, QueueFactory.createFifoQueue());
+        base(impl, QueueFactory.createFifoQueue());
         // Goal test is to be applied to each node when it is generated
         // rather than when it is selected for expansion.
         impl.setEarlyGoalTest(true);

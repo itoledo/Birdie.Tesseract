@@ -43,7 +43,7 @@
          * 
          * @return the sensor model in matrix form.
          */
-        Map<Object, Matrix> getSensorModel();
+        Map<object, Matrix> getSensorModel();
 
         /**
          * Return the prior distribution represented as a column vector in Matrix
@@ -62,7 +62,7 @@
          * @return the Matrix representation of this evidence assignment from the
          *         sensor model.
          */
-        Matrix getEvidence(List<AssignmentProposition> evidence);
+        Matrix getEvidence(IQueue<AssignmentProposition> evidence);
 
         /**
          * Return a new column vector in matrix form with all values set to 1.0.
@@ -100,7 +100,7 @@
          * @return a corresponding list of Categorical Distribution representation
          *         of the passed in column vectors.
          */
-        List<CategoricalDistribution> convert(List<Matrix> matrixs);
+        IQueue<CategoricalDistribution> convert(IQueue<Matrix> matrixs);
 
         /**
          * Create a normalized column vector in matrix form of the passed in column

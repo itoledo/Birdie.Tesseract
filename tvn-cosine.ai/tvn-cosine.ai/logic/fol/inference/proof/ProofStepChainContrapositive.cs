@@ -1,9 +1,9 @@
 ﻿namespace tvn.cosine.ai.logic.fol.inference.proof
 {
-    public class ProofStepChainContrapositive extends AbstractProofStep
+    public class ProofStepChainContrapositive : AbstractProofStep
     {
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+    private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
     private Chain contrapositive = null;
     private Chain contrapositiveOf = null;
 
@@ -12,25 +12,25 @@
     {
         this.contrapositive = contrapositive;
         this.contrapositiveOf = contrapositiveOf;
-        this.predecessors.add(contrapositiveOf.getProofStep());
+        this.predecessors.Add(contrapositiveOf.getProofStep());
     }
 
     //
     // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
+     
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(predecessors);
+        return Factory.CreateReadOnlyQueue<>(predecessors);
     }
 
-    @Override
-    public String getProof()
+     
+    public string getProof()
     {
-        return contrapositive.toString();
+        return contrapositive.ToString();
     }
 
-    @Override
-    public String getJustification()
+     
+    public string getJustification()
     {
         return "Contrapositive: "
                 + contrapositiveOf.getProofStep().getStepNumber();

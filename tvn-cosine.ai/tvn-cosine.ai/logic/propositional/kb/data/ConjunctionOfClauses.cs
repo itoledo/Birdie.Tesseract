@@ -13,9 +13,9 @@
      */
     public class ConjunctionOfClauses
     {
-        private Set<Clause> clauses = new LinkedHashSet<Clause>();
+        private ISet<Clause> clauses = Factory.CreateSet<Clause>();
         //
-        private String cachedStringRep = null;
+        private string cachedStringRep = null;
         private int cachedHashCode = -1;
 
         /**
@@ -28,7 +28,7 @@
         {
             this.clauses.addAll(conjunctionOfClauses);
             // Make immutable
-            this.clauses = Collections.unmodifiableSet(this.clauses);
+            this.clauses = Factory.CreateReadOnlySet<>(this.clauses);
         }
 
         /**
@@ -44,7 +44,7 @@
          * 
          * @return the set of clauses contained by this conjunction.
          */
-        public Set<Clause> getClauses()
+        public ISet<Clause> getClauses()
         {
             return clauses;
         }
@@ -61,7 +61,7 @@
          */
         public ConjunctionOfClauses extend(Collection<Clause> additionalClauses)
         {
-            Set<Clause> extendedClauses = new LinkedHashSet<Clause>();
+            ISet<Clause> extendedClauses = Factory.CreateSet<Clause>();
             extendedClauses.addAll(clauses);
             extendedClauses.addAll(additionalClauses);
 
@@ -70,14 +70,14 @@
             return result;
         }
 
-        @Override
-        public String toString()
+         
+        public override string ToString()
         {
             if (cachedStringRep == null)
             {
                 StringBuilder sb = new StringBuilder();
-                boolean first = true;
-                sb.append("{");
+                bool first = true;
+                sb.Append("{");
                 for (Clause c : clauses)
                 {
                     if (first)
@@ -86,29 +86,29 @@
                     }
                     else
                     {
-                        sb.append(", ");
+                        sb.Append(", ");
                     }
-                    sb.append(c);
+                    sb.Append(c);
                 }
-                sb.append("}");
-                cachedStringRep = sb.toString();
+                sb.Append("}");
+                cachedStringRep = sb.ToString();
             }
 
             return cachedStringRep;
         }
 
-        @Override
-        public int hashCode()
+         
+        public override int GetHashCode()
         {
             if (cachedHashCode == -1)
             {
-                cachedHashCode = clauses.hashCode();
+                cachedHashCode = clauses.GetHashCode();
             }
             return cachedHashCode;
         }
 
-        @Override
-        public boolean equals(Object othObj)
+         
+        public bool equals(object othObj)
         {
             if (null == othObj)
             {
@@ -118,12 +118,12 @@
             {
                 return true;
             }
-            if (!(othObj instanceof ConjunctionOfClauses)) {
+            if (!(othObj is ConjunctionOfClauses)) {
                 return false;
             }
             ConjunctionOfClauses othConjunctionOfClauses = (ConjunctionOfClauses)othObj;
 
-            return othConjunctionOfClauses.clauses.equals(this.clauses);
+            return othConjunctionOfClauses.clauses.Equals(this.clauses);
         }
     }
 }

@@ -14,10 +14,10 @@
      */
     public class Chain
     {
-        private static List<Literal> _emptyLiteralsList = Collections
-                .unmodifiableList(new ArrayList<Literal>());
+        private static IQueue<Literal> _emptyLiteralsList = Collections
+                .unmodifiableList(Factory.CreateQueue<Literal>());
         //
-        private List<Literal> literals = new ArrayList<Literal>();
+        private IQueue<Literal> literals = Factory.CreateQueue<Literal>();
         private ProofStep proofStep = null;
 
         public Chain()
@@ -25,7 +25,7 @@
             // i.e. the empty chain
         }
 
-        public Chain(List<Literal> literals)
+        public Chain(IQueue<Literal> literals)
         {
             this.literals.addAll(literals);
         }
@@ -50,14 +50,14 @@
             this.proofStep = proofStep;
         }
 
-        public boolean isEmpty()
+        public bool isEmpty()
         {
             return literals.size() == 0;
         }
 
         public void addLiteral(Literal literal)
         {
-            literals.add(literal);
+            literals.Add(literal);
         }
 
         public Literal getHead()
@@ -66,10 +66,10 @@
             {
                 return null;
             }
-            return literals.get(0);
+            return literals.Get(0);
         }
 
-        public List<Literal> getTail()
+        public IQueue<Literal> getTail()
         {
             if (0 == literals.size())
             {
@@ -84,9 +84,9 @@
             return literals.size();
         }
 
-        public List<Literal> getLiterals()
+        public IQueue<Literal> getLiterals()
         {
-            return Collections.unmodifiableList(literals);
+            return Factory.CreateReadOnlyQueue<>(literals);
         }
 
         /**
@@ -96,43 +96,43 @@
          * 
          * @return a list of contrapositives for this chain.
          */
-        public List<Chain> getContrapositives()
+        public IQueue<Chain> getContrapositives()
         {
-            List<Chain> contrapositives = new ArrayList<Chain>();
-            List<Literal> lits = new ArrayList<Literal>();
+            IQueue<Chain> contrapositives = Factory.CreateQueue<Chain>();
+            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
 
             for (int i = 1; i < literals.size(); i++)
             {
-                lits.clear();
-                lits.add(literals.get(i));
+                lits.Clear();
+                lits.Add(literals.Get(i));
                 lits.addAll(literals.subList(0, i));
                 lits.addAll(literals.subList(i + 1, literals.size()));
                 Chain cont = new Chain(lits);
                 cont.setProofStep(new ProofStepChainContrapositive(cont, this));
-                contrapositives.add(cont);
+                contrapositives.Add(cont);
             }
 
             return contrapositives;
         }
 
-        @Override
-        public String toString()
+         
+        public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.append("<");
+            sb.Append("<");
 
             for (int i = 0; i < literals.size(); i++)
             {
                 if (i > 0)
                 {
-                    sb.append(",");
+                    sb.Append(",");
                 }
-                sb.append(literals.get(i).toString());
+                sb.Append(literals.Get(i).ToString());
             }
 
-            sb.append(">");
+            sb.Append(">");
 
-            return sb.toString();
+            return sb.ToString();
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace tvn.cosine.ai.probability.proposition
 {
-    public abstract class AbstractProposition implements Proposition
+    public abstract class AbstractProposition : Proposition
     {
 
 
-    private LinkedHashSet<RandomVariable> scope = new LinkedHashSet<RandomVariable>();
-    private LinkedHashSet<RandomVariable> unboundScope = new LinkedHashSet<RandomVariable>();
+    private LinkedHashSet<RandomVariable> scope = Factory.CreateSet<RandomVariable>();
+    private LinkedHashSet<RandomVariable> unboundScope = Factory.CreateSet<RandomVariable>();
 
     public AbstractProposition()
     {
@@ -14,17 +14,17 @@
 
     //
     // START-Proposition
-    public Set<RandomVariable> getScope()
+    public ISet<RandomVariable> getScope()
     {
         return scope;
     }
 
-    public Set<RandomVariable> getUnboundScope()
+    public ISet<RandomVariable> getUnboundScope()
     {
         return unboundScope;
     }
 
-    public abstract boolean holds(Map<RandomVariable, Object> possibleWorld);
+    public abstract bool holds(IMap<RandomVariable, object> possibleWorld);
 
     // END-Proposition
     //
@@ -34,7 +34,7 @@
     //
     protected void addScope(RandomVariable var)
     {
-        scope.add(var);
+        scope.Add(var);
     }
 
     protected void addScope(Collection<RandomVariable> vars)
@@ -44,7 +44,7 @@
 
     protected void addUnboundScope(RandomVariable var)
     {
-        unboundScope.add(var);
+        unboundScope.Add(var);
     }
 
     protected void addUnboundScope(Collection<RandomVariable> vars)

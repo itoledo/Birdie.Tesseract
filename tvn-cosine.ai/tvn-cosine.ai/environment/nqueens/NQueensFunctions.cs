@@ -1,4 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.environment.nqueens
@@ -12,14 +15,13 @@ namespace tvn.cosine.ai.environment.nqueens
      * @author Ciaran O'Reilly
      */
     public class NQueensFunctions
-    {
-
+    { 
         public static Problem<NQueensBoard, QueenAction> createIncrementalFormulationProblem(int boardSize)
         {
             return new GeneralProblem<NQueensBoard, QueenAction>(new NQueensBoard(boardSize),
                 NQueensFunctions.getIFActions,
-                    NQueensFunctions.getResult,
-                    NQueensFunctions.testGoal);
+                NQueensFunctions.getResult,
+                NQueensFunctions.testGoal);
         }
 
         public static Problem<NQueensBoard, QueenAction> createCompleteStateFormulationProblem
@@ -27,8 +29,8 @@ namespace tvn.cosine.ai.environment.nqueens
         {
             return new GeneralProblem<NQueensBoard, QueenAction>(new NQueensBoard(boardSize, config),
                 NQueensFunctions.getCSFActions,
-                    NQueensFunctions.getResult,
-                    NQueensFunctions.testGoal);
+                NQueensFunctions.getResult,
+                NQueensFunctions.testGoal);
         }
 
         /**
@@ -50,8 +52,7 @@ namespace tvn.cosine.ai.environment.nqueens
                 XYLocation newLocation = new XYLocation(numQueens, i);
                 if (!(state.isSquareUnderAttack(newLocation)))
                 {
-                    actions.Add(new QueenAction(QueenAction.PLACE_QUEEN,
-                            newLocation));
+                    actions.Add(new QueenAction(QueenAction.PLACE_QUEEN, newLocation));
                 }
             }
             return actions;
@@ -66,7 +67,7 @@ namespace tvn.cosine.ai.environment.nqueens
          */
         public static IQueue<QueenAction> getCSFActions(NQueensBoard state)
         {
-            IQueue<QueenAction> actions = Factory.CreateQueue < ();
+            IQueue<QueenAction> actions = Factory.CreateQueue<QueenAction>();
             for (int i = 0; i < state.getSize(); i++)
                 for (int j = 0; j < state.getSize(); j++)
                 {

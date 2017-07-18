@@ -7,7 +7,7 @@ namespace tvn.cosine.ai.common.collections
         public abstract IEnumerator<T> GetEnumerator();
 
         public override bool Equals(object obj)
-        { 
+        {
             return ToString().Equals(obj.ToString());
         }
 
@@ -35,6 +35,22 @@ namespace tvn.cosine.ai.common.collections
             }
             sb.Append(']');
             return sb.ToString();
+        }
+
+
+        protected class ComparerAdaptor : System.Collections.Generic.Comparer<T>
+        {
+            private readonly IComparer<T> comparer;
+
+            public ComparerAdaptor(IComparer<T> comparer)
+            {
+                this.comparer = comparer;
+            }
+
+            public override int Compare(T x, T y)
+            {
+                return this.comparer.Compare(x, y);
+            }
         }
     }
 }

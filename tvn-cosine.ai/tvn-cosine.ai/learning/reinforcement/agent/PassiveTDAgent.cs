@@ -39,15 +39,15 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         where A : Action
     {
         // persistent: &pi;, a fixed policy
-        private Map<S, A> pi = new HashMap<S, A>();
+        private Map<S, A> pi = Factory.CreateMap<S, A>();
         // U, a table of utilities, initially empty
-        private Map<S, Double> U = new HashMap<S, Double>();
+        private Map<S, double> U = Factory.CreateMap<S, double>();
         // N<sub>s</sub>, a table of frequencies for states, initially zero
         private FrequencyCounter<S> Ns = new FrequencyCounter<S>();
         // s,a,r, the previous state, action, and reward, initially null
         private S s = null;
         private A a = null;
-        private Double r = null;
+        private double r = null;
         //
         private double alpha = 0.0;
         private double gamma = 0.0;
@@ -62,7 +62,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          * @param gamma
          *            discount to be used.
          */
-        public PassiveTDAgent(Map<S, A> fixedPolicy, double alpha, double gamma)
+        public PassiveTDAgent(IMap<S, A> fixedPolicy, double alpha, double gamma)
         {
             this.pi.putAll(fixedPolicy);
             this.alpha = alpha;
@@ -78,7 +78,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          *            r'.
          * @return an action
          */
-        @Override
+         
     public A execute(PerceptStateReward<S> percept)
         {
             // if s' is new then U[s'] <- r'
@@ -86,7 +86,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             double rDelta = percept.reward();
             if (!U.containsKey(sDelta))
             {
-                U.put(sDelta, rDelta);
+                U.Put(sDelta, rDelta);
             }
             // if s is not null then
             if (null != s)
@@ -94,8 +94,8 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
                 // increment N<sub>s</sub>[s]
                 Ns.incrementFor(s);
                 // U[s] <- U[s] + &alpha;(N<sub>s</sub>[s])(r + &gamma;U[s'] - U[s])
-                double U_s = U.get(s);
-                U.put(s, U_s + alpha(Ns, s) * (r + gamma * U.get(sDelta) - U_s));
+                double U_s = U.Get(s);
+                U.Put(s, U_s + alpha(Ns, s) * (r + gamma * U.Get(sDelta) - U_s));
             }
             // if s'.TERMINAL? then s,a,r <- null else s,a,r <- s',&pi;[s'],r'
             if (isTerminal(sDelta))
@@ -107,7 +107,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             else
             {
                 s = sDelta;
-                a = pi.get(sDelta);
+                a = pi.Get(sDelta);
                 r = rDelta;
             }
 
@@ -115,17 +115,17 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             return a;
         }
 
-        @Override
-    public Map<S, Double> getUtility()
+         
+    public Map<S, double> getUtility()
         {
-            return new HashMap<S, Double>(U);
+            return Factory.CreateMap<S, double>(U);
         }
 
-        @Override
+         
     public void reset()
         {
-            U = new HashMap<S, Double>();
-            Ns.clear();
+            U = Factory.CreateMap<S, double>();
+            Ns.Clear();
             s = null;
             a = null;
             r = null;
@@ -158,10 +158,10 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         //
         // PRIVATE METHODS
         //
-        private boolean isTerminal(S s)
+        private bool isTerminal(S s)
         {
-            boolean terminal = false;
-            Action a = pi.get(s);
+            bool terminal = false;
+            Action a = pi.Get(s);
             if (null == a || a.isNoOp())
             {
                 // No actions possible in state is considered terminal.

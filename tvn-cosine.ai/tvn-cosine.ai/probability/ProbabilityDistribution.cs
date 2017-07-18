@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.probability
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.proposition;
+
+namespace tvn.cosine.ai.probability
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 487.<br>
@@ -20,7 +23,7 @@
          * @return a consistent ordered Set (e.g. LinkedHashSet) of the random
          *         variables this probability distribution is for.
          */
-        Set<RandomVariable> getFor();
+        ISet<RandomVariable> getFor();
 
         /**
          * 
@@ -29,7 +32,7 @@
          * @return true if this Distribution is for the passed in Random Variable,
          *         false otherwise.
          */
-        boolean contains(RandomVariable rv);
+        bool contains(RandomVariable rv);
 
         /**
          * Get the value for the provided set of values for the random variables
@@ -42,7 +45,7 @@
          * @return the value for the possible worlds associated with the assignments
          *         for the random variables comprising the Distribution.
          */
-        double getValue(Object...eventValues);
+        double getValue(params object[] eventValues);
 
         /**
          * Get the value for the provided set of AssignmentPropositions for the
@@ -55,7 +58,6 @@
          * @return the value for the possible worlds associated with the assignments
          *         for the random variables comprising the Distribution.
          */
-        double getValue(AssignmentProposition...eventValues);
-    }
-
+        double getValue(params AssignmentProposition[] eventValues);
+    } 
 }

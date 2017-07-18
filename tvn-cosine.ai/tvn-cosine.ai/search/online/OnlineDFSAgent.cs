@@ -34,7 +34,7 @@
      * @author Ruediger Lunde
      * 
      */
-    public class OnlineDFSAgent<S, A extends Action> extends AbstractAgent
+    public class OnlineDFSAgent<S, A : Action> : AbstractAgent
     {
 
 
@@ -43,10 +43,10 @@
     // persistent: result, a table, indexed by state and action, initially empty
     private final TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<>();
     // untried, a table that lists, for each state, the actions not yet tried
-    private final Map<S, List<A>> untried = new HashMap<>();
+    private final Map<S, IQueue<A>> untried = Factory.CreateMap<>();
     // unbacktracked, a table that lists,
     // for each state, the backtracks not yet tried
-    private final Map<S, List<S>> unbacktracked = new HashMap<>();
+    private final Map<S, IQueue<S>> unbacktracked = Factory.CreateMap<>();
     // s, a, the previous state and action, initially null
     private S s = null;
     private A a = null;
@@ -113,7 +113,7 @@
 
     // function ONLINE-DFS-AGENT(s') returns an action
     // inputs: s', a percept that identifies the current state
-    @Override
+     
     public Action execute(Percept psPrimed)
     {
         S sPrimed = ptsFn.apply(psPrimed);
@@ -128,7 +128,7 @@
             // ACTIONS(s')
             if (!untried.containsKey(sPrimed))
             {
-                untried.put(sPrimed, problem.getActions(sPrimed));
+                untried.Put(sPrimed, problem.getActions(sPrimed));
             }
 
             // if s is not null then do
@@ -138,26 +138,26 @@
                 // [s, a] then don't put it back on the unbacktracked
                 // list otherwise you can keep oscillating
                 // between the same states endlessly.
-                if (!(sPrimed.equals(result.get(s, a))))
+                if (!(sPrimed.Equals(result.Get(s, a))))
                 {
                     // result[s, a] <- s'
-                    result.put(s, a, sPrimed);
+                    result.Put(s, a, sPrimed);
 
                     // Ensure the unbacktracked always has a list for s'
                     if (!unbacktracked.containsKey(sPrimed))
                     {
-                        unbacktracked.put(sPrimed, new ArrayList<>());
+                        unbacktracked.Put(sPrimed, Factory.CreateQueue<>());
                     }
 
                     // add s to the front of the unbacktracked[s']
-                    unbacktracked.get(sPrimed).add(0, s);
+                    unbacktracked.Get(sPrimed).Add(0, s);
                 }
             }
             // if untried[s'] is empty then
-            if (untried.get(sPrimed).isEmpty())
+            if (untried.Get(sPrimed).isEmpty())
             {
                 // if unbacktracked[s'] is empty then return stop
-                if (unbacktracked.get(sPrimed).isEmpty())
+                if (unbacktracked.Get(sPrimed).isEmpty())
                 {
                     a = null;
                 }
@@ -165,10 +165,10 @@
                 {
                     // else a <- an action b such that result[s', b] =
                     // POP(unbacktracked[s'])
-                    S popped = unbacktracked.get(sPrimed).remove(0);
-                    for (Pair<S, A> sa : result.keySet())
+                    S popped = unbacktracked.Get(sPrimed).Remove(0);
+                    for (Pair<S, A> sa : result.GetKeys())
                     {
-                        if (sa.getFirst().equals(sPrimed) && result.get(sa).equals(popped))
+                        if (sa.getFirst().Equals(sPrimed) && result.Get(sa).Equals(popped))
                         {
                             a = sa.getSecond();
                             break;
@@ -179,7 +179,7 @@
             else
             {
                 // else a <- POP(untried[s'])
-                a = untried.get(sPrimed).remove(0);
+                a = untried.Get(sPrimed).Remove(0);
             }
         }
 
@@ -203,9 +203,9 @@
     private void init()
     {
         setAlive(true);
-        result.clear();
-        untried.clear();
-        unbacktracked.clear();
+        result.Clear();
+        untried.Clear();
+        unbacktracked.Clear();
         s = null;
         a = null;
     }

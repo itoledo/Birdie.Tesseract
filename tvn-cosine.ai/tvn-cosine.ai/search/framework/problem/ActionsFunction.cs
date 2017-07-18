@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.framework.problem
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.framework.problem
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 67.<br>
@@ -11,6 +13,5 @@
      *
      * @author Ruediger Lunde
      */
-    public interface ActionsFunction<S, A> extends Function<S, List<A>> { }
-
+    public delegate IQueue<A> ActionsFunction<S, A>(S state); 
 }

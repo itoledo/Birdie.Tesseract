@@ -29,40 +29,40 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public class HMMForwardBackwardConstantSpace extends HMMForwardBackward
+    public class HMMForwardBackwardConstantSpace : HMMForwardBackward
     {
 
 
     public HMMForwardBackwardConstantSpace(HiddenMarkovModel hmm)
     {
-        super(hmm);
+        base(hmm);
     }
 
     //
     // START-ForwardBackwardInference
-    @Override
-    public List<CategoricalDistribution> forwardBackward(
-            List<List<AssignmentProposition>> ev, CategoricalDistribution prior)
+     
+    public IQueue<CategoricalDistribution> forwardBackward(
+            IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
     {
         // local variables: f, the forward message <- prior
         Matrix f = hmm.convert(prior);
         // b, a representation of the backward message, initially all 1s
         Matrix b = hmm.createUnitMessage();
         // sv, a vector of smoothed estimates for steps 1,...,t
-        List<Matrix> sv = new ArrayList<Matrix>(ev.size());
+        IQueue<Matrix> sv = Factory.CreateQueue<Matrix>(ev.size());
 
         // for i = 1 to t do
         for (int i = 0; i < ev.size(); i++)
         {
             // fv[i] <- FORWARD(fv[i-1], ev[i])
-            f = forward(f, hmm.getEvidence(ev.get(i)));
+            f = forward(f, hmm.getEvidence(ev.Get(i)));
         }
         // for i = t downto 1 do
         for (int i = ev.size() - 1; i >= 0; i--)
         {
             // sv[i] <- NORMALIZE(fv[i] * b)
-            sv.add(0, hmm.normalize(f.arrayTimes(b)));
-            Matrix e = hmm.getEvidence(ev.get(i));
+            sv.Add(0, hmm.normalize(f.arrayTimes(b)));
+            Matrix e = hmm.getEvidence(ev.Get(i));
             // b <- BACKWARD(b, ev[i])
             b = backward(b, e);
             // f1:t <-

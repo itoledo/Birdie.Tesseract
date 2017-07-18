@@ -13,6 +13,6 @@
      *
      * @author Ruediger Lunde
      */
-    public interface ResultFunction<S, A> extends BiFunction<S, A, S> { }
+    public delegate S ResultFunction<S, A>(S s, A a);
 
 }

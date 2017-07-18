@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.probability.temporal
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.proposition;
+
+namespace tvn.cosine.ai.probability.temporal
 {
     /**
      * * The FORWARD operator is defined by Equation (15.5).<br>
@@ -30,8 +33,6 @@
          *            <b>e</b><sub>t+1</sub>
          * @return f<sub>1:t+1</sub>
          */
-        CategoricalDistribution forward(CategoricalDistribution f1_t,
-                List<AssignmentProposition> e_tp1);
-    }
-
+        CategoricalDistribution forward(CategoricalDistribution f1_t, IQueue<AssignmentProposition> e_tp1);
+    } 
 }

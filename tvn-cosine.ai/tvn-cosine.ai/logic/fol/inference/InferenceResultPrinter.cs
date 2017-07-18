@@ -8,33 +8,33 @@
          * 
          * @param ir
          *            an InferenceResult
-         * @return a String representation of the InferenceResult.
+         * @return a string representation of the InferenceResult.
          */
-        public static String printInferenceResult(InferenceResult ir)
+        public static string printInferenceResult(InferenceResult ir)
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.append("InferenceResult.isTrue=" + ir.isTrue());
-            sb.append("\n");
-            sb.append("InferenceResult.isPossiblyFalse=" + ir.isPossiblyFalse());
-            sb.append("\n");
-            sb.append("InferenceResult.isUnknownDueToTimeout="
+            sb.Append("InferenceResult.isTrue=" + ir.isTrue());
+            sb.Append("\n");
+            sb.Append("InferenceResult.isPossiblyFalse=" + ir.isPossiblyFalse());
+            sb.Append("\n");
+            sb.Append("InferenceResult.isUnknownDueToTimeout="
                     + ir.isUnknownDueToTimeout());
-            sb.append("\n");
-            sb.append("InferenceResult.isPartialResultDueToTimeout="
+            sb.Append("\n");
+            sb.Append("InferenceResult.isPartialResultDueToTimeout="
                     + ir.isPartialResultDueToTimeout());
-            sb.append("\n");
-            sb.append("InferenceResult.#Proofs=" + ir.getProofs().size());
-            sb.append("\n");
+            sb.Append("\n");
+            sb.Append("InferenceResult.#Proofs=" + ir.getProofs().size());
+            sb.Append("\n");
             int proofNo = 0;
             for (Proof p : ir.getProofs())
             {
                 proofNo++;
-                sb.append("InferenceResult.Proof#" + proofNo + "=\n"
+                sb.Append("InferenceResult.Proof#" + proofNo + "=\n"
                         + ProofPrinter.printProof(p));
             }
 
-            return sb.toString();
+            return sb.ToString();
         }
     }
 }

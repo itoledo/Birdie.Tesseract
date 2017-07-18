@@ -9,7 +9,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public abstract class AtomicSentence extends Sentence
+    public abstract class AtomicSentence : Sentence
     {
 
     }

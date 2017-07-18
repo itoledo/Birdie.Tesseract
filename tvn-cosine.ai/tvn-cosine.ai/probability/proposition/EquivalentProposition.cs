@@ -1,15 +1,15 @@
 ﻿namespace tvn.cosine.ai.probability.proposition
 {
-    public class EquivalentProposition extends AbstractDerivedProposition
+    public class EquivalentProposition : AbstractDerivedProposition
     {
     //
-    private String toString = null;
+    private string toString = null;
 
-    public EquivalentProposition(String name, RandomVariable...equivs)
+    public EquivalentProposition(string name, params RandomVariable[] equivs)
     {
-        super(name);
+        base(name);
 
-        if (null == equivs || 1 >= equivs.length)
+        if (null == equivs || 1 >= equivs.Length)
         {
             throw new IllegalArgumentException(
                     "Equivalent variables must be specified.");
@@ -22,16 +22,16 @@
 
     //
     // START-Proposition
-    public boolean holds(Map<RandomVariable, Object> possibleWorld)
+    public bool holds(IMap<RandomVariable, object> possibleWorld)
     {
-        boolean holds = true;
+        bool holds = true;
 
         Iterator<RandomVariable> i = getScope().iterator();
         RandomVariable rvC, rvL = i.next();
         while (i.hasNext())
         {
             rvC = i.next();
-            if (!possibleWorld.get(rvL).equals(possibleWorld.get(rvC)))
+            if (!possibleWorld.Get(rvL).Equals(possibleWorld.Get(rvC)))
             {
                 holds = false;
                 break;
@@ -45,19 +45,19 @@
     // END-Proposition
     //
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         if (null == toString)
         {
             StringBuilder sb = new StringBuilder();
-            sb.append(getDerivedName());
+            sb.Append(getDerivedName());
             for (RandomVariable rv : getScope())
             {
-                sb.append(" = ");
-                sb.append(rv);
+                sb.Append(" = ");
+                sb.Append(rv);
             }
-            toString = sb.toString();
+            toString = sb.ToString();
         }
         return toString;
     }

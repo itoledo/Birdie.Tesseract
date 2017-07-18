@@ -59,10 +59,10 @@
 
         private Matrix createDerivativeMatrix(Vector lastInducedField)
         {
-            List<Double> lst = Factory.CreateQueue<Double>();
+            IQueue<double> lst = Factory.CreateQueue<double>();
             for (int i = 0; i < lastInducedField.size(); i++)
             {
-                lst.add(new Double(layer.getActivationFunction().deriv(
+                lst.Add(new Double(layer.getActivationFunction().deriv(
                         lastInducedField.getValue(i))));
             }
             return Matrix.createDiagonalMatrix(lst);

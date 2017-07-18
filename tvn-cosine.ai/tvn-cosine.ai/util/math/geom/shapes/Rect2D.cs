@@ -1,7 +1,7 @@
 ﻿namespace tvn.cosine.ai.util.math.geom.shapes
 {
     /**
-     * This class implements a rectangle in a two-dimensional Cartesian plot that has its edges parallel to the axis of the plot.<br/>
+     * This class : a rectangle in a two-dimensional Cartesian plot that has its edges parallel to the axis of the plot.<br/>
      * With this condition fast operations are possible for ray-casting and point-inside-testing.
      * 
      * @author Arno von Borries
@@ -9,7 +9,7 @@
      * @author Andreas Walscheid
      *
      */
-    public final class Rect2D implements IGeometric2D
+    public final class Rect2D : IGeometric2D
     {
 
 
@@ -103,7 +103,7 @@
         return upperLeft;
     }
 
-    @Override
+     
     public Point2D randomPoint()
     {
         double x = Util.generateRandomDoubleBetween(lowerLeft.getX(), upperRight.getX());
@@ -111,8 +111,8 @@
         return new Point2D(x, y);
     }
 
-    @Override
-    public boolean isInside(Point2D point)
+     
+    public bool isInside(Point2D point)
     {
         return lowerLeft.getX() < point.getX() &&
                 lowerLeft.getY() < point.getY() &&
@@ -120,8 +120,8 @@
                 upperRight.getY() > point.getY();
     }
 
-    @Override
-    public boolean isInsideBorder(Point2D point)
+     
+    public bool isInsideBorder(Point2D point)
     {
         return lowerLeft.getX() <= point.getX() &&
                 lowerLeft.getY() <= point.getY() &&
@@ -129,10 +129,10 @@
                 upperRight.getY() >= point.getY();
     }
 
-    @Override
+     
     public double rayCast(Ray2D ray)
     {
-        double result = Double.POSITIVE_INFINITY;
+        double result = double.POSITIVE_INFINITY;
         if (!Util.compareDoubles(ray.getDirection().getY(), 0.0d))
         {
             //check for the horizontal sides
@@ -176,13 +176,13 @@
         return result * ray.getDirection().length();
     }
 
-    @Override
+     
     public Rect2D getBounds()
     {
         return this;
     }
 
-    @Override
+     
     public IGeometric2D transform(TransformMatrix2D matrix)
     {
         final Point2D lowerLeftNew = matrix.multiply(lowerLeft);

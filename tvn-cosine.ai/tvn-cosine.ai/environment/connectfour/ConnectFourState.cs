@@ -157,7 +157,7 @@ namespace tvn.cosine.ai.environment.connectfour
                 for (int j = 0; j < 2; j++)
                 {
                     WinPositionInfo wInf = wInfo[j];
-                    wInf.clear();
+                    wInf.Clear();
                     int rBound = rIncr > 0 ? getRows() : -1;
                     int cBound = cIncr > 0 ? getCols() : -1;
 

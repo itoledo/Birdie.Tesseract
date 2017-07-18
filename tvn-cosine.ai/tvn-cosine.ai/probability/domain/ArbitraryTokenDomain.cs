@@ -9,29 +9,29 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public class ArbitraryTokenDomain extends AbstractFiniteDomain
+    public class ArbitraryTokenDomain : AbstractFiniteDomain
     {
 
 
-    private Set<Object> possibleValues = null;
-    private boolean ordered = false;
+    private ISet<Object> possibleValues = null;
+    private bool ordered = false;
 
-    public ArbitraryTokenDomain(Object...pValues)
+    public ArbitraryTokenDomain(params object[] pValues)
     {
         this(false, pValues);
     }
 
-    public ArbitraryTokenDomain(boolean ordered, Object...pValues)
+    public ArbitraryTokenDomain(bool ordered, params object[] pValues)
     {
         this.ordered = ordered;
         // Keep consistent order
-        possibleValues = new LinkedHashSet<Object>();
-        for (Object v : pValues)
+        possibleValues = Factory.CreateSet<Object>();
+        for (object v : pValues)
         {
-            possibleValues.add(v);
+            possibleValues.Add(v);
         }
         // Ensure cannot be modified
-        possibleValues = Collections.unmodifiableSet(possibleValues);
+        possibleValues = Factory.CreateReadOnlySet<>(possibleValues);
 
         indexPossibleValues(possibleValues);
     }
@@ -39,14 +39,14 @@
     //
     // START-Domain
 
-    @Override
+     
     public int size()
     {
         return possibleValues.size();
     }
 
-    @Override
-    public boolean isOrdered()
+     
+    public bool isOrdered()
     {
         return ordered;
     }
@@ -56,8 +56,8 @@
 
     //
     // START-FiniteDomain
-    @Override
-    public Set<Object> getPossibleValues()
+     
+    public ISet<Object> getPossibleValues()
     {
         return possibleValues;
     }
@@ -65,27 +65,27 @@
     // END-finiteDomain
     //
 
-    @Override
-    public boolean equals(Object o)
+     
+    public override bool Equals(object o)
     {
 
         if (this == o)
         {
             return true;
         }
-        if (!(o instanceof ArbitraryTokenDomain)) {
+        if (!(o is ArbitraryTokenDomain)) {
             return false;
         }
 
         ArbitraryTokenDomain other = (ArbitraryTokenDomain)o;
 
-        return this.possibleValues.equals(other.possibleValues);
+        return this.possibleValues.Equals(other.possibleValues);
     }
 
-    @Override
-    public int hashCode()
+     
+    public override int GetHashCode()
     {
-        return possibleValues.hashCode();
+        return possibleValues.GetHashCode();
     }
 }
 

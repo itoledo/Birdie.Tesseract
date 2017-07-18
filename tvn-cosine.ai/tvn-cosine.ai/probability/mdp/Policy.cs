@@ -20,7 +20,7 @@
      * @author Ravi Mohan
      * 
      */
-    public interface Policy<S, A extends Action>
+    public interface Policy<S, A : Action>
     {
         /**
          * &pi;(s) is the action recommended by the policy &pi; for state s.

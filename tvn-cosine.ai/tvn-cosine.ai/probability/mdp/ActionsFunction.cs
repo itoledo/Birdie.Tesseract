@@ -11,7 +11,7 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public interface ActionsFunction<S, A extends Action>
+    public interface ActionsFunction<S, A : Action>
     {
         /**
          * Get the set of actions for state s.
@@ -20,6 +20,6 @@
          *            the state.
          * @return the set of actions for state s.
          */
-        Set<A> actions(S s);
+        ISet<A> actions(S s);
     }
 }

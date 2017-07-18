@@ -47,14 +47,14 @@
          * @return a list of actions describing a solution for the given problem or
          *         null if no solution is found (i.e failure)
          */
-        public List<Action> satPlan(Describe init, Describe transition, Describe goal, int tMax)
+        public IQueue<Action> satPlan(Describe init, Describe transition, Describe goal, int tMax)
         {
 
             // for t = 0 to T<sub>max</sub> do
             for (int t = 0; t <= tMax; t++)
             {
                 // cnf &larr;  TRANSLATE-TO-SAT(init, transition, goal, t)
-                Set<Clause> cnf = translateToSAT(init, transition, goal, t);
+                ISet<Clause> cnf = translateToSAT(init, transition, goal, t);
                 // model &larr; SAT-SOLVER(cnf)
                 Model model = satSolver.solve(cnf);
                 // if model is not null then
@@ -86,7 +86,7 @@
          */
         interface SolutionExtractor
         {
-            List<Action> extractSolution(Model model);
+            IQueue<Action> extractSolution(Model model);
         }
 
         private SATSolver satSolver = null;
@@ -101,7 +101,7 @@
         //
         // PROTECTED
         //
-        protected Set<Clause> translateToSAT(Describe init, Describe transition, Describe goal, int t)
+        protected ISet<Clause> translateToSAT(Describe init, Describe transition, Describe goal, int t)
         {
             Sentence s = ComplexSentence.newConjunction(init.assertions(t), transition.assertions(t), goal.assertions(t));
             return ConvertToConjunctionOfClauses.convert(s).getClauses();

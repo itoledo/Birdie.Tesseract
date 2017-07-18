@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.search.uninformed
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.search.uninformed
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.17, page
@@ -29,145 +34,141 @@
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class DepthLimitedSearch<S, A> implements SearchForActions<S, A>, SearchForStates<S, A> {
-
-
-    public static final String METRIC_NODES_EXPANDED = "nodesExpanded";
-	public static final String METRIC_PATH_COST = "pathCost";
-
-	public final Node<S, A> cutoffNode = new Node<>(null);
-    private final int limit;
-    private final NodeExpander<S, A> nodeExpander;
-    private Metrics metrics = new Metrics();
-
-    public DepthLimitedSearch(int limit)
+    public class DepthLimitedSearch<S, A> : SearchForActions<S, A>, SearchForStates<S, A>
     {
-        this(limit, new NodeExpander<>());
-    }
+        public const string METRIC_NODES_EXPANDED = "nodesExpanded";
+        public const string METRIC_PATH_COST = "pathCost";
 
-    public DepthLimitedSearch(int limit, NodeExpander<S, A> nodeExpander)
-    {
-        this.limit = limit;
-        this.nodeExpander = nodeExpander;
-    }
+        public readonly Node<S, A> cutoffNode = new Node<S, A>(default(S));
+        private readonly int limit;
+        private readonly NodeExpander<S, A> nodeExpander;
+        private Metrics metrics = new Metrics();
 
-    // function DEPTH-LIMITED-SEARCH(problem, limit) returns a solution, or
-    // failure/cutoff
-    /**
-	 * Returns a list of actions to reach the goal if a goal was found, or empty.
-	 * The list itself can be empty if the initial state is a goal state.
-	 * 
-	 * @return if goal found, the list of actions to the goal, empty otherwise.
-	 */
-    @Override
-    public Optional<List<A>> findActions(Problem<S, A> p)
-    {
-        nodeExpander.useParentLinks(true);
-        Optional<Node<S, A>> node = findNode(p);
-        return !isCutoffResult(node) ? SearchUtils.toActions(node) : Optional.empty();
-    }
+        public DepthLimitedSearch(int limit)
+            : this(limit, new NodeExpander<S, A>())
+        { }
 
-    @Override
-    public Optional<S> findState(Problem<S, A> p)
-    {
-        nodeExpander.useParentLinks(false);
-        Optional<Node<S, A>> node = findNode(p);
-        return !isCutoffResult(node) ? SearchUtils.toState(node) : Optional.empty();
-    }
-
-    public Optional<Node<S, A>> findNode(Problem<S, A> p)
-    {
-        clearMetrics();
-        // return RECURSIVE-DLS(MAKE-NODE(INITIAL-STATE[problem]), problem,
-        // limit)
-        Node<S, A> node = recursiveDLS(nodeExpander.createRootNode(p.getInitialState()), p, limit);
-        return node != null ? Optional.of(node) : Optional.empty();
-    }
-
-    // function RECURSIVE-DLS(node, problem, limit) returns a solution, or
-    // failure/cutoff
-
-    /**
-	 * Returns a solution node, the {@link #cutoffNode}, or null (failure).
-	 */
-    private Node<S, A> recursiveDLS(Node<S, A> node, Problem<S, A> problem, int limit)
-    {
-        // if problem.GOAL-TEST(node.STATE) then return SOLUTION(node)
-        if (problem.testSolution(node))
+        public DepthLimitedSearch(int limit, NodeExpander<S, A> nodeExpander)
         {
-            metrics.set(METRIC_PATH_COST, node.getPathCost());
-            return node;
+            this.limit = limit;
+            this.nodeExpander = nodeExpander;
         }
-        else if (0 == limit || Tasks.currIsCancelled())
+
+        // function DEPTH-LIMITED-SEARCH(problem, limit) returns a solution, or
+        // failure/cutoff
+        /**
+         * Returns a list of actions to reach the goal if a goal was found, or empty.
+         * The list itself can be empty if the initial state is a goal state.
+         * 
+         * @return if goal found, the list of actions to the goal, empty otherwise.
+         */
+
+        public IQueue<A> findActions(Problem<S, A> p)
         {
-            // else if limit = 0 then return cutoff
-            return cutoffNode;
+            nodeExpander.useParentLinks(true);
+            Node<S, A> node = findNode(p);
+            return !isCutoffResult(node) ? SearchUtils.toActions(node) : null;
         }
-        else
+
+
+
+        public S findState(Problem<S, A> p)
         {
-            // else
-            // cutoff_occurred? <- false
-            boolean cutoffOccurred = false;
-            // for each action in problem.ACTIONS(node.STATE) do
-            metrics.incrementInt(METRIC_NODES_EXPANDED);
-            for (Node<S, A> child : nodeExpander.expand(node, problem))
+            nodeExpander.useParentLinks(false);
+            Node<S, A> node = findNode(p);
+            return !isCutoffResult(node) ? SearchUtils.toState(node) : default(S);
+        }
+
+        public Node<S, A> findNode(Problem<S, A> p)
+        {
+            clearMetrics();
+            // return RECURSIVE-DLS(MAKE-NODE(INITIAL-STATE[problem]), problem,
+            // limit)
+            Node<S, A> node = recursiveDLS(nodeExpander.createRootNode(p.getInitialState()), p, limit);
+            return node != null ? node : null;
+        }
+
+        // function RECURSIVE-DLS(node, problem, limit) returns a solution, or
+        // failure/cutoff
+
+        /**
+         * Returns a solution node, the {@link #cutoffNode}, or null (failure).
+         */
+        private Node<S, A> recursiveDLS(Node<S, A> node, Problem<S, A> problem, int limit)
+        {
+            // if problem.GOAL-TEST(node.STATE) then return SOLUTION(node)
+            if (problem.testSolution(node))
             {
-                // child <- CHILD-NODE(problem, node, action)
-                // result <- RECURSIVE-DLS(child, problem, limit - 1)
-                Node<S, A> result = recursiveDLS(child, problem, limit - 1);
-                // if result = cutoff then cutoff_occurred? <- true
-                if (result == cutoffNode)
-                {
-                    cutoffOccurred = true;
-                }
-                else if (result != null)
-                {
-                    // else if result != failure then return result
-                    return result;
-                }
+                metrics.set(METRIC_PATH_COST, node.getPathCost());
+                return node;
             }
-            // if cutoff_occurred? then return cutoff else return failure
-            return cutoffOccurred ? cutoffNode : null;
+            else if (0 == limit || Tasks.currIsCancelled())
+            {
+                // else if limit = 0 then return cutoff
+                return cutoffNode;
+            }
+            else
+            {
+                // else
+                // cutoff_occurred? <- false
+                bool cutoffOccurred = false;
+                // for each action in problem.ACTIONS(node.STATE) do
+                metrics.incrementInt(METRIC_NODES_EXPANDED);
+                foreach (Node<S, A> child in nodeExpander.expand(node, problem))
+                {
+                    // child <- CHILD-NODE(problem, node, action)
+                    // result <- RECURSIVE-DLS(child, problem, limit - 1)
+                    Node<S, A> result = recursiveDLS(child, problem, limit - 1);
+                    // if result = cutoff then cutoff_occurred? <- true
+                    if (result == cutoffNode)
+                    {
+                        cutoffOccurred = true;
+                    }
+                    else if (result != null)
+                    {
+                        // else if result != failure then return result
+                        return result;
+                    }
+                }
+                // if cutoff_occurred? then return cutoff else return failure
+                return cutoffOccurred ? cutoffNode : null;
+            }
         }
-    }
+
+        public bool isCutoffResult(Node<S, A> node)
+        {
+            return null != node
+                && node == cutoffNode;
+        }
+
+        /**
+         * Returns all the search metrics.
+         */
+
+        public Metrics getMetrics()
+        {
+            return metrics;
+        }
 
 
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+        public void addNodeListener(Consumer<Node<S, A>> listener)
+        {
+            nodeExpander.addNodeListener(listener);
+        }
 
-    public boolean isCutoffResult(Optional<Node<S, A>> node)
-    {
-        return node.isPresent() && node.get() == cutoffNode;
-    }
 
-    /**
-	 * Returns all the search metrics.
-	 */
-    @Override
-    public Metrics getMetrics()
-    {
-        return metrics;
-    }
+        public bool removeNodeListener(Consumer<Node<S, A>> listener)
+        {
+            return nodeExpander.removeNodeListener(listener);
+        }
 
-    @Override
-    public void addNodeListener(Consumer<Node<S, A>> listener)
-    {
-        nodeExpander.addNodeListener(listener);
-    }
-
-    @Override
-    public boolean removeNodeListener(Consumer<Node<S, A>> listener)
-    {
-        return nodeExpander.removeNodeListener(listener);
-    }
-
-    /**
-	 * Sets the nodes expanded and path cost metrics to zero.
-	 */
-    private void clearMetrics()
-    {
-        metrics.set(METRIC_NODES_EXPANDED, 0);
-        metrics.set(METRIC_PATH_COST, 0);
-    }
-}
-
+        /**
+         * Sets the nodes expanded and path cost metrics to zero.
+         */
+        private void clearMetrics()
+        {
+            metrics.set(METRIC_NODES_EXPANDED, 0);
+            metrics.set(METRIC_PATH_COST, 0);
+        }
+    } 
 }

@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.nlp.parsing.grammars
+﻿using System.Text;
+using System.Text.RegularExpressions;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.nlp.parsing.grammars
 {
     /**
      * A derivation rule that is contained within a grammar. This rule is probabilistic, in that it 
@@ -9,13 +13,12 @@
      */
     public class Rule
     {
-
-        public final float PROB;
-        public final List<String> lhs; // Left hand side of derivation rule
-        public final List<String> rhs; // Right hand side of derivation rule
+        public readonly float PROB;
+        public readonly IQueue<string> lhs; // Left hand side of derivation rule
+        public readonly IQueue<string> rhs; // Right hand side of derivation rule
 
         // Basic constructor
-        public Rule(List<String> lhs, List<String> rhs, float probability)
+        public Rule(IQueue<string> lhs, IQueue<string> rhs, float probability)
         {
             this.lhs = lhs;
             this.rhs = rhs;
@@ -23,7 +26,7 @@
         }
 
         // null RHS rule constructor
-        public Rule(List<String> lhs, float probability)
+        public Rule(IQueue<string> lhs, float probability)
         {
             this.lhs = lhs;
             this.rhs = null;
@@ -31,17 +34,17 @@
         }
 
         // string split constructor
-        public Rule(String lhs, String rhs, float probability)
+        public Rule(string lhs, string rhs, float probability)
         {
-            if ("".equals(lhs))
-                this.lhs = new ArrayList<>();
+            if ("".Equals(lhs))
+                this.lhs = Factory.CreateQueue<string>();
             else
-                this.lhs = new ArrayList<>(Arrays.asList(lhs.split("\\s*,\\s*")));
+                this.lhs = Factory.CreateQueue<string>(Regex.Split(lhs, "\\s*,\\s*"));
 
-            if ("".equals(rhs))
-                this.rhs = new ArrayList<>();
+            if ("".Equals(rhs))
+                this.rhs = Factory.CreateQueue<string>();
             else
-                this.rhs = new ArrayList<>(Arrays.asList(rhs.split("\\s*,\\s*")));
+                this.rhs = Factory.CreateQueue<string>(Regex.Split(rhs, "\\s*,\\s*"));
 
             this.PROB = validateProb(probability);
         }
@@ -58,43 +61,43 @@
                 return (float)0.5; // probably should throw exception
         }
 
-        public boolean derives(List<String> sentForm)
+        public bool derives(IQueue<string> sentForm)
         {
-            if (rhs.size() != sentForm.size())
+            if (rhs.Size() != sentForm.Size())
                 return false;
-            for (int i = 0; i < sentForm.size(); i++)
+            for (int i = 0; i < sentForm.Size(); i++)
             {
-                if (!Objects.equals(rhs.get(i), sentForm.get(i)))
+                if (!rhs.Get(i).Equals(sentForm.Get(i)))
                     return false;
             }
             return true;
         }
 
-        public boolean derives(String terminal)
+        public bool derives(string terminal)
         {
-            return rhs.size() == 1 && rhs.get(0).equals(terminal);
+            return rhs.Size() == 1 && rhs.Get(0).Equals(terminal);
         }
 
-        @Override
-        public String toString()
+
+        public override string ToString()
         {
             StringBuilder output = new StringBuilder();
 
-            for (String lh : lhs)
+            foreach (string lh in lhs)
             {
-                output.append(lh);
+                output.Append(lh);
             }
 
-            output.append(" -> ");
+            output.Append(" -> ");
 
-            for (String rh : rhs)
+            foreach (string rh in rhs)
             {
-                output.append(rh);
+                output.Append(rh);
             }
 
-            output.append(" ").append(String.valueOf(PROB));
+            output.Append(" ").Append(PROB.ToString());
 
-            return output.toString();
+            return output.ToString();
         }
     }
 }

@@ -3,7 +3,7 @@
     public class ProofStepChainDropped : AbstractProofStep
     {
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+    private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
     private Chain dropped = null;
     private Chain droppedOff = null;
 
@@ -11,25 +11,25 @@
     {
         this.dropped = dropped;
         this.droppedOff = droppedOff;
-        this.predecessors.add(droppedOff.getProofStep());
+        this.predecessors.Add(droppedOff.getProofStep());
     }
 
     //
     // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
+     
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(predecessors);
+        return Factory.CreateReadOnlyQueue<>(predecessors);
     }
 
-    @Override
-    public String getProof()
+     
+    public string getProof()
     {
-        return dropped.toString();
+        return dropped.ToString();
     }
 
-    @Override
-    public String getJustification()
+     
+    public string getJustification()
     {
         return "Dropped: " + droppedOff.getProofStep().getStepNumber();
     }

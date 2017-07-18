@@ -51,6 +51,11 @@ namespace tvn.cosine.ai.common.collections
             return backingQueue.Size();
         }
 
+        void IQueue<T>.Sort(IComparer<T> comparer)
+        {
+            throw new NotSupportedException("Not supported");
+        }
+
         T IQueue<T>.Pop()
         {
             throw new NotSupportedException();

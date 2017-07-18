@@ -5,16 +5,16 @@
 
         public static void main(String[] args)
         {
-            List<Page> result;
+            IQueue<Page> result;
             // build page table
-            Map<String, Page> pageTable = PagesDataset.loadDefaultPages();
+            Map<string, Page> pageTable = PagesDataset.loadDefaultPages();
             // Create HITS Ranker
             HITS hits = new HITS(pageTable);
             // run hits
-            System.out.println("Ranking...");
+            System.Console.WriteLine("Ranking...");
             result = hits.hits("man is");
             // report results
-            System.out.println("Ranking Finished.");
+            System.Console.WriteLine("Ranking Finished.");
             hits.report(result);
         }
     }

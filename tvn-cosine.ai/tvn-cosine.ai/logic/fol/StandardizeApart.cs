@@ -22,10 +22,10 @@
         public StandardizeApartResult standardizeApart(Sentence sentence,
                 StandardizeApartIndexical standardizeApartIndexical)
         {
-            Set<Variable> toRename = variableCollector
+            ISet<Variable> toRename = variableCollector
                     .collectAllVariables(sentence);
-            Map<Variable, Term> renameSubstitution = new HashMap<Variable, Term>();
-            Map<Variable, Term> reverseSubstitution = new HashMap<Variable, Term>();
+            Map<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
+            Map<Variable, Term> reverseSubstitution = Factory.CreateMap<Variable, Term>();
 
             for (Variable var : toRename)
             {
@@ -38,8 +38,8 @@
                     // accidentally used in the sentence
                 } while (toRename.contains(v));
 
-                renameSubstitution.put(var, v);
-                reverseSubstitution.put(v, var);
+                renameSubstitution.Put(var, v);
+                reverseSubstitution.Put(v, var);
             }
 
             Sentence standardized = substVisitor.subst(renameSubstitution,
@@ -53,8 +53,8 @@
                 StandardizeApartIndexical standardizeApartIndexical)
         {
 
-            Set<Variable> toRename = variableCollector.collectAllVariables(clause);
-            Map<Variable, Term> renameSubstitution = new HashMap<Variable, Term>();
+            ISet<Variable> toRename = variableCollector.collectAllVariables(clause);
+            Map<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
 
             for (Variable var : toRename)
             {
@@ -67,16 +67,16 @@
                     // accidentally used in the sentence
                 } while (toRename.contains(v));
 
-                renameSubstitution.put(var, v);
+                renameSubstitution.Put(var, v);
             }
 
             if (renameSubstitution.size() > 0)
             {
-                List<Literal> literals = new ArrayList<Literal>();
+                IQueue<Literal> literals = Factory.CreateQueue<Literal>();
 
                 for (Literal l : clause.getLiterals())
                 {
-                    literals.add(substVisitor.subst(renameSubstitution, l));
+                    literals.Add(substVisitor.subst(renameSubstitution, l));
                 }
                 Clause renamed = new Clause(literals);
                 renamed.setProofStep(new ProofStepRenaming(renamed, clause
@@ -91,8 +91,8 @@
                 StandardizeApartIndexical standardizeApartIndexical)
         {
 
-            Set<Variable> toRename = variableCollector.collectAllVariables(chain);
-            Map<Variable, Term> renameSubstitution = new HashMap<Variable, Term>();
+            ISet<Variable> toRename = variableCollector.collectAllVariables(chain);
+            Map<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
 
             for (Variable var : toRename)
             {
@@ -105,18 +105,18 @@
                     // accidentally used in the sentence
                 } while (toRename.contains(v));
 
-                renameSubstitution.put(var, v);
+                renameSubstitution.Put(var, v);
             }
 
             if (renameSubstitution.size() > 0)
             {
-                List<Literal> lits = new ArrayList<Literal>();
+                IQueue<Literal> lits = Factory.CreateQueue<Literal>();
 
                 for (Literal l : chain.getLiterals())
                 {
                     AtomicSentence atom = (AtomicSentence)substVisitor.subst(
                             renameSubstitution, l.getAtomicSentence());
-                    lits.add(l.newInstance(atom));
+                    lits.Add(l.newInstance(atom));
                 }
 
                 Chain renamed = new Chain(lits);
@@ -130,11 +130,11 @@
             return chain;
         }
 
-        public Map<Variable, Term> standardizeApart(List<Literal> l1Literals,
-                List<Literal> l2Literals,
+        public Map<Variable, Term> standardizeApart(IQueue<Literal> l1Literals,
+                IQueue<Literal> l2Literals,
                 StandardizeApartIndexical standardizeApartIndexical)
         {
-            Set<Variable> toRename = new HashSet<Variable>();
+            ISet<Variable> toRename = Factory.CreateSet<Variable>();
 
             for (Literal pl : l1Literals)
             {
@@ -147,7 +147,7 @@
                         .getAtomicSentence()));
             }
 
-            Map<Variable, Term> renameSubstitution = new HashMap<Variable, Term>();
+            Map<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
 
             for (Variable var : toRename)
             {
@@ -160,24 +160,24 @@
                     // accidentally used in the sentence
                 } while (toRename.contains(v));
 
-                renameSubstitution.put(var, v);
+                renameSubstitution.Put(var, v);
             }
 
-            List<Literal> posLits = new ArrayList<Literal>();
-            List<Literal> negLits = new ArrayList<Literal>();
+            IQueue<Literal> posLits = Factory.CreateQueue<Literal>();
+            IQueue<Literal> negLits = Factory.CreateQueue<Literal>();
 
             for (Literal pl : l1Literals)
             {
-                posLits.add(substVisitor.subst(renameSubstitution, pl));
+                posLits.Add(substVisitor.subst(renameSubstitution, pl));
             }
             for (Literal nl : l2Literals)
             {
-                negLits.add(substVisitor.subst(renameSubstitution, nl));
+                negLits.Add(substVisitor.subst(renameSubstitution, nl));
             }
 
-            l1Literals.clear();
+            l1Literals.Clear();
             l1Literals.addAll(posLits);
-            l2Literals.clear();
+            l2Literals.Clear();
             l2Literals.addAll(negLits);
 
             return renameSubstitution;

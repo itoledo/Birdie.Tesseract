@@ -42,7 +42,7 @@
     public class AlphaBetaSearch<S, A, P> implements
             AdversarialSearch<S, A> {
 
-    public final static String METRICS_NODES_EXPANDED = "nodesExpanded";
+    public final static string METRICS_NODES_EXPANDED = "nodesExpanded";
 
     Game<S, A, P> game;
     private Metrics metrics = new Metrics();
@@ -61,17 +61,17 @@
         this.game = game;
     }
 
-    @Override
+     
     public A makeDecision(S state)
     {
         metrics = new Metrics();
         A result = null;
-        double resultValue = Double.NEGATIVE_INFINITY;
+        double resultValue = double.NEGATIVE_INFINITY;
         P player = game.getPlayer(state);
         for (A action : game.getActions(state))
         {
             double value = minValue(game.getResult(state, action), player,
-                    Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+                    double.NEGATIVE_INFINITY, double.POSITIVE_INFINITY);
             if (value > resultValue)
             {
                 result = action;
@@ -86,7 +86,7 @@
         metrics.incrementInt(METRICS_NODES_EXPANDED);
         if (game.isTerminal(state))
             return game.getUtility(state, player);
-        double value = Double.NEGATIVE_INFINITY;
+        double value = double.NEGATIVE_INFINITY;
         for (A action : game.getActions(state))
         {
             value = Math.max(value, minValue( //
@@ -103,7 +103,7 @@
         metrics.incrementInt(METRICS_NODES_EXPANDED);
         if (game.isTerminal(state))
             return game.getUtility(state, player);
-        double value = Double.POSITIVE_INFINITY;
+        double value = double.POSITIVE_INFINITY;
         for (A action : game.getActions(state))
         {
             value = Math.min(value, maxValue( //
@@ -115,7 +115,7 @@
         return value;
     }
 
-    @Override
+     
     public Metrics getMetrics()
     {
         return metrics;

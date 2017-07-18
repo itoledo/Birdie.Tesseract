@@ -11,7 +11,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class MoveNotInwards extends AbstractPLVisitor<Object> {
+    public class MoveNotInwards : AbstractPLVisitor<Object> {
 
     /**
 	 * Move ~ inwards.
@@ -35,8 +35,8 @@
         return result;
     }
 
-    @Override
-    public Sentence visitUnarySentence(ComplexSentence s, Object arg)
+     
+    public Sentence visitUnarySentence(ComplexSentence s, object arg)
     {
         Sentence result = null;
 

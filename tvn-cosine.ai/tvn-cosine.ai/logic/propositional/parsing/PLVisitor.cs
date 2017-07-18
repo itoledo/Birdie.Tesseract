@@ -7,7 +7,7 @@
      * propositional logic used in this library. The key difference between the
      * default Visitor pattern and the code here, is that in the former the visit()
      * methods have a void visit(ConcreteNode) signature while the visitors used
-     * here have a Object visit(ConcreteNode, Object arg) signature. This simplifies
+     * here have a object visit(ConcreteNode, object arg) signature. This simplifies
      * testing and allows some recursive code that is hard with the former .
      * 
      * @author Ravi Mohan

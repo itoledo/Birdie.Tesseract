@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.probability.mdp
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.probability.mdp
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 656.<br>
@@ -15,7 +18,8 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public interface PolicyEvaluation<S, A extends Action>
+    public interface PolicyEvaluation<S, A>
+        where A : Action
     {
         /**
          * <b>Policy evaluation:</b> given a policy &pi;<sub>i</sub>, calculate
@@ -31,8 +35,7 @@
          * @return U<sub>i</sub>=U<sup>&pi;<sub>i</sub></sup>, the utility of each
          *         state if &pi;<sub>i</sub> were to be executed.
          */
-        Map<S, Double> evaluate(Map<S, A> pi_i, Map<S, Double> U,
-                MarkovDecisionProcess<S, A> mdp);
+        IMap<S, double> evaluate(IMap<S, A> pi_i, IMap<S, double> U, MarkovDecisionProcess<S, A> mdp);
     }
 
 }

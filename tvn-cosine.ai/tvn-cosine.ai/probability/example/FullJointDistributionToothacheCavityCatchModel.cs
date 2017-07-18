@@ -7,7 +7,7 @@
 
     public FullJointDistributionToothacheCavityCatchModel()
     {
-        super(new double[] {
+        base(new double[] {
 				// Toothache = true, Cavity = true, Catch = true
 				0.108,
 				// Toothache = true, Cavity = true, Catch = false

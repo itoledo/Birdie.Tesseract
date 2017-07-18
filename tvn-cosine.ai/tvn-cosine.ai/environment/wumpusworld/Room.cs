@@ -47,24 +47,24 @@
             return y;
         }
 
-        @Override
-        public String toString()
+         
+        public override string ToString()
         {
             return "[" + x + "," + y + "]";
         }
 
-        @Override
-        public boolean equals(Object o)
+         
+        public override bool Equals(object o)
         {
-            if (o != null && o instanceof Room) {
+            if (o != null && o is Room) {
                 Room r = (Room)o;
                 return x == r.x && y == r.y;
             }
             return false;
         }
 
-        @Override
-        public int hashCode()
+         
+        public override int GetHashCode()
         {
             int result = 17;
             result = 37 * result + getX();

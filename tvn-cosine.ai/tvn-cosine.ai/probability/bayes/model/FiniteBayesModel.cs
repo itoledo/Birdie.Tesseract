@@ -17,12 +17,12 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public class FiniteBayesModel implements FiniteProbabilityModel
+    public class FiniteBayesModel : FiniteProbabilityModel
     {
 
 
     private BayesianNetwork bayesNet = null;
-    private Set<RandomVariable> representation = new LinkedHashSet<RandomVariable>();
+    private ISet<RandomVariable> representation = Factory.CreateSet<RandomVariable>();
     private BayesInference bayesInference = null;
 
     public FiniteBayesModel(BayesianNetwork bn)
@@ -54,14 +54,14 @@
 
     //
     // START-ProbabilityModel
-    public boolean isValid()
+    public bool isValid()
     {
         // Handle rounding
-        return Math.abs(1 - prior(representation
+        return System.Math.Abs(1 - prior(representation
                 .toArray(new Proposition[representation.size()]))) <= ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD;
     }
 
-    public double prior(Proposition...phi)
+    public double prior( params Proposition[] phi)
     {
         // Calculating the prior, therefore no relevant evidence
         // just query over the scope of proposition phi in order
@@ -78,7 +78,7 @@
         CategoricalDistribution.Iterator di = new CategoricalDistribution.Iterator()
         {
 
-            public void iterate(Map<RandomVariable, Object> possibleWorld,
+            public void iterate(IMap<RandomVariable, object> possibleWorld,
                     double probability)
     {
         if (conjunct.holds(possibleWorld))
@@ -92,7 +92,7 @@ d.iterateOver(di);
 		return probSum[0];
 	}
 
-	public double posterior(Proposition phi, Proposition...evidence)
+	public double posterior(Proposition phi, params Proposition[] evidence)
 {
 
     Proposition conjEvidence = ProbUtil.constructConjunction(evidence);
@@ -108,7 +108,7 @@ d.iterateOver(di);
     return 0;
 }
 
-public Set<RandomVariable> getRepresentation()
+public ISet<RandomVariable> getRepresentation()
 {
     return representation;
 }
@@ -118,13 +118,13 @@ public Set<RandomVariable> getRepresentation()
 
 //
 // START-FiniteProbabilityModel
-public CategoricalDistribution priorDistribution(Proposition...phi)
+public CategoricalDistribution priorDistribution( params Proposition[] phi)
 {
     return jointDistribution(phi);
 }
 
 public CategoricalDistribution posteriorDistribution(Proposition phi,
-        Proposition...evidence)
+        params Proposition[] evidence)
 {
 
     Proposition conjEvidence = ProbUtil.constructConjunction(evidence);
@@ -142,7 +142,7 @@ public CategoricalDistribution posteriorDistribution(Proposition phi,
     // if the all of the evidences scope are bound (if not
     // you are returning in essence a set of conditional
     // distributions, which you do not want normalized).
-    boolean unboundEvidence = false;
+    bool unboundEvidence = false;
     for (Proposition e : evidence)
     {
         if (e.getUnboundScope().size() > 0)
@@ -160,12 +160,12 @@ public CategoricalDistribution posteriorDistribution(Proposition phi,
 }
 
 public CategoricalDistribution jointDistribution(
-        Proposition...propositions)
+        params Proposition[] propositions)
 {
     ProbabilityTable d = null;
     final Proposition conjProp = ProbUtil
             .constructConjunction(propositions);
-    final LinkedHashSet< RandomVariable > vars = new LinkedHashSet<RandomVariable>(
+    final LinkedHashSet< RandomVariable > vars = Factory.CreateSet<RandomVariable>(
             conjProp.getUnboundScope());
 
     if (vars.size() > 0)
@@ -179,13 +179,13 @@ public CategoricalDistribution jointDistribution(
         }
 
         final ProbabilityTable ud = new ProbabilityTable(distVars);
-        final Object[] values = new Object[vars.size()];
+        final object[]  values = new object[vars.size()];
 
         CategoricalDistribution.Iterator di = new CategoricalDistribution.Iterator()
         {
 
 
-                public void iterate(Map<RandomVariable, Object> possibleWorld,
+                public void iterate(IMap<RandomVariable, object> possibleWorld,
                         double probability)
 {
     if (conjProp.holds(possibleWorld))
@@ -193,7 +193,7 @@ public CategoricalDistribution jointDistribution(
         int i = 0;
         for (RandomVariable rv : vars)
         {
-            values[i] = possibleWorld.get(rv);
+            values[i] = possibleWorld.Get(rv);
             i++;
         }
         int dIdx = ud.getIndex(values);

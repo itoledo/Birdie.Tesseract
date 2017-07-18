@@ -7,7 +7,7 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class SymbolCollector extends BasicGatherer<PropositionSymbol> {
+    public class SymbolCollector : BasicGatherer<PropositionSymbol> {
 
     /**
 	 * Collect a set of propositional symbols from a list of given sentences.
@@ -17,9 +17,9 @@
 	 * @return a set of all the proposition symbols that are not always true or
 	 *         false contained within the input sentences.
 	 */
-    public static Set<PropositionSymbol> getSymbolsFrom(Sentence...sentences)
+    public static ISet<PropositionSymbol> getSymbolsFrom(Sentence...sentences)
     {
-        Set<PropositionSymbol> result = new LinkedHashSet<PropositionSymbol>();
+        ISet<PropositionSymbol> result = Factory.CreateSet<PropositionSymbol>();
 
         SymbolCollector symbolCollector = new SymbolCollector();
         for (Sentence s : sentences)
@@ -30,14 +30,14 @@
         return result;
     }
 
-    @Override
-    public Set<PropositionSymbol> visitPropositionSymbol(PropositionSymbol s,
-            Set<PropositionSymbol> arg)
+     
+    public ISet<PropositionSymbol> visitPropositionSymbol(PropositionSymbol s,
+            ISet<PropositionSymbol> arg)
     {
         // Do not add the always true or false symbols
         if (!s.isAlwaysTrue() && !s.isAlwaysFalse())
         {
-            arg.add(s);
+            arg.Add(s);
         }
         return arg;
     }

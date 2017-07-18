@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.learning.reinforcement.example
+﻿using tvn.cosine.ai.environment.cellworld;
+
+namespace tvn.cosine.ai.learning.reinforcement.example
 {
     /**
      * An implementation of the PerceptStateReward interface for the cell world
@@ -10,9 +12,9 @@
      * @author oreilly
      * 
      */
-    public class CellWorldPercept : PerceptStateReward<Cell<Double>>
+    public class CellWorldPercept : PerceptStateReward<Cell<double>>
     { 
-        private Cell<Double> cell = null;
+        private Cell<double> cell = null;
 
         /**
          * Constructor.
@@ -20,7 +22,7 @@
          * @param cell
          *            the cell within the environment that the percept refers to.
          */
-        public CellWorldPercept(Cell<Double> cell)
+        public CellWorldPercept(Cell<double> cell)
         {
             this.cell = cell;
         }
@@ -29,7 +31,7 @@
          * 
          * @return the cell within the environment that the percept refers to.
          */
-        public Cell<Double> getCell()
+        public Cell<double> getCell()
         {
             return cell;
         }
@@ -40,7 +42,7 @@
          * @param cell
          *            the cell within the environment that the percept refers to.
          */
-        public void setCell(Cell<Double> cell)
+        public void setCell(Cell<double> cell)
         {
             this.cell = cell;
         }
@@ -48,14 +50,14 @@
         //
         // START-PerceptStateReward
 
-        @Override
+         
     public double reward()
         {
-            return cell.getContent().doubleValue();
+            return cell.getContent();
         }
 
-        @Override
-    public Cell<Double> state()
+         
+    public Cell<double> state()
         {
             return cell;
         }

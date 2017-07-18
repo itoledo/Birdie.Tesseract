@@ -1,4 +1,12 @@
-﻿namespace tvn.cosine.ai.logic.fol.kb.data
+﻿using System.Text;
+using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.fol.inference.proof;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol.kb.data
 {
     /**
      * A Clause: A disjunction of literals.
@@ -11,23 +19,22 @@
     public class Clause
     {
         //
-        private static StandardizeApartIndexical _saIndexical = StandardizeApartIndexicalFactory
-                .newStandardizeApartIndexical('c');
+        private static StandardizeApartIndexical _saIndexical = StandardizeApartIndexicalFactory.newStandardizeApartIndexical('c');
         private static Unifier _unifier = new Unifier();
         private static SubstVisitor _substVisitor = new SubstVisitor();
         private static VariableCollector _variableCollector = new VariableCollector();
         private static StandardizeApart _standardizeApart = new StandardizeApart();
         private static LiteralsSorter _literalSorter = new LiteralsSorter();
         //
-        private final Set<Literal> literals = new LinkedHashSet<Literal>();
-        private final List<Literal> positiveLiterals = new ArrayList<Literal>();
-        private final List<Literal> negativeLiterals = new ArrayList<Literal>();
-        private boolean immutable = false;
-        private boolean saCheckRequired = true;
-        private String equalityIdentity = "";
-        private Set<Clause> factors = null;
-        private Set<Clause> nonTrivialFactors = null;
-        private String stringRep = null;
+        private readonly ISet<Literal> literals = Factory.CreateSet<Literal>();
+        private readonly IQueue<Literal> positiveLiterals = Factory.CreateQueue<Literal>();
+        private readonly IQueue<Literal> negativeLiterals = Factory.CreateQueue<Literal>();
+        private bool immutable = false;
+        private bool saCheckRequired = true;
+        private string equalityIdentity = "";
+        private ISet<Clause> factors = null;
+        private ISet<Clause> nonTrivialFactors = null;
+        private string stringRep = null;
         private ProofStep proofStep = null;
 
         public Clause()
@@ -35,24 +42,24 @@
             // i.e. the empty clause
         }
 
-        public Clause(List<Literal> lits)
+        public Clause(IQueue<Literal> lits)
         {
             this.literals.addAll(lits);
             for (Literal l : literals)
             {
                 if (l.isPositiveLiteral())
                 {
-                    this.positiveLiterals.add(l);
+                    this.positiveLiterals.Add(l);
                 }
                 else
                 {
-                    this.negativeLiterals.add(l);
+                    this.negativeLiterals.Add(l);
                 }
             }
             recalculateIdentity();
         }
 
-        public Clause(List<Literal> lits1, List<Literal> lits2)
+        public Clause(IQueue<Literal> lits1, IQueue<Literal> lits2)
         {
             literals.addAll(lits1);
             literals.addAll(lits2);
@@ -60,11 +67,11 @@
             {
                 if (l.isPositiveLiteral())
                 {
-                    this.positiveLiterals.add(l);
+                    this.positiveLiterals.Add(l);
                 }
                 else
                 {
-                    this.negativeLiterals.add(l);
+                    this.negativeLiterals.Add(l);
                 }
             }
             recalculateIdentity();
@@ -85,7 +92,7 @@
             this.proofStep = proofStep;
         }
 
-        public boolean isImmutable()
+        public bool isImmutable()
         {
             return immutable;
         }
@@ -95,7 +102,7 @@
             immutable = true;
         }
 
-        public boolean isStandardizedApartCheckRequired()
+        public bool isStandardizedApartCheckRequired()
         {
             return saCheckRequired;
         }
@@ -105,51 +112,50 @@
             saCheckRequired = false;
         }
 
-        public boolean isEmpty()
+        public bool isEmpty()
         {
-            return literals.size() == 0;
+            return literals.Size() == 0;
         }
 
-        public boolean isUnitClause()
+        public bool isUnitClause()
         {
-            return literals.size() == 1;
+            return literals.Size() == 1;
         }
 
-        public boolean isDefiniteClause()
+        public bool isDefiniteClause()
         {
             // A Definite Clause is a disjunction of literals of which exactly 1 is
             // positive.
-            return !isEmpty() && positiveLiterals.size() == 1;
+            return !isEmpty() && positiveLiterals.Size() == 1;
         }
 
-        public boolean isImplicationDefiniteClause()
+        public bool isImplicationDefiniteClause()
         {
             // An Implication Definite Clause is a disjunction of literals of
             // which exactly 1 is positive and there is 1 or more negative
             // literals.
-            return isDefiniteClause() && negativeLiterals.size() >= 1;
+            return isDefiniteClause() && negativeLiterals.Size() >= 1;
         }
 
-        public boolean isHornClause()
+        public bool isHornClause()
         {
             // A Horn clause is a disjunction of literals of which at most one is
             // positive.
-            return !isEmpty() && positiveLiterals.size() <= 1;
+            return !isEmpty() && positiveLiterals.Size() <= 1;
         }
 
-        public boolean isTautology()
+        public bool isTautology()
         {
-
-            for (Literal pl : positiveLiterals)
+            foreach (Literal pl in positiveLiterals)
             {
                 // Literals in a clause must be exact complements
                 // for tautology elimination to apply. Do not
                 // remove non-identical literals just because
                 // they are complements under unification, see pg16:
                 // http://logic.stanford.edu/classes/cs157/2008/notes/chap09.pdf
-                for (Literal nl : negativeLiterals)
+                foreach (Literal nl in negativeLiterals)
                 {
-                    if (pl.getAtomicSentence().equals(nl.getAtomicSentence()))
+                    if (pl.getAtomicSentence().Equals(nl.getAtomicSentence()))
                     {
                         return true;
                     }
@@ -163,20 +169,19 @@
         {
             if (isImmutable())
             {
-                throw new IllegalStateException(
-                        "Clause is immutable, cannot be updated.");
+                throw new IllegalStateException("Clause is immutable, cannot be updated.");
             }
-            int origSize = literals.size();
-            literals.add(literal);
-            if (literals.size() > origSize)
+            int origSize = literals.Size();
+            literals.Add(literal);
+            if (literals.Size() > origSize)
             {
                 if (literal.isPositiveLiteral())
                 {
-                    positiveLiterals.add(literal);
+                    positiveLiterals.Add(literal);
                 }
                 else
                 {
-                    negativeLiterals.add(literal);
+                    negativeLiterals.Add(literal);
                 }
             }
             recalculateIdentity();
@@ -207,42 +212,42 @@
             return negativeLiterals.size();
         }
 
-        public Set<Literal> getLiterals()
+        public ISet<Literal> getLiterals()
         {
-            return Collections.unmodifiableSet(literals);
+            return Factory.CreateReadOnlySet<Literal>(literals);
         }
 
-        public List<Literal> getPositiveLiterals()
+        public IQueue<Literal> getPositiveLiterals()
         {
-            return Collections.unmodifiableList(positiveLiterals);
+            return Factory.CreateReadOnlyQueue<Literal>(positiveLiterals);
         }
 
-        public List<Literal> getNegativeLiterals()
+        public IQueue<Literal> getNegativeLiterals()
         {
-            return Collections.unmodifiableList(negativeLiterals);
+            return Factory.CreateReadOnlyQueue<Literal>(negativeLiterals);
         }
 
-        public Set<Clause> getFactors()
+        public ISet<Clause> getFactors()
         {
             if (null == factors)
             {
                 calculateFactors(null);
             }
-            return Collections.unmodifiableSet(factors);
+            return Factory.CreateReadOnlySet<Clause>(factors);
         }
 
-        public Set<Clause> getNonTrivialFactors()
+        public ISet<Clause> getNonTrivialFactors()
         {
             if (null == nonTrivialFactors)
             {
                 calculateFactors(null);
             }
-            return Collections.unmodifiableSet(nonTrivialFactors);
+            return Factory.CreateReadOnlySet<Clause>(nonTrivialFactors);
         }
 
-        public boolean subsumes(Clause othC)
+        public bool subsumes(Clause othC)
         {
-            boolean subsumes = false;
+            bool subsumes = false;
 
             // Equality is not subsumption
             if (!(this == othC))
@@ -256,19 +261,19 @@
                                 .getNumberNegativeLiterals())
                 {
 
-                    Map<String, List<Literal>> thisToTry = collectLikeLiterals(this.literals);
-                    Map<String, List<Literal>> othCToTry = collectLikeLiterals(othC.literals);
+                    Map<string, IQueue<Literal>> thisToTry = collectLikeLiterals(this.literals);
+                    Map<string, IQueue<Literal>> othCToTry = collectLikeLiterals(othC.literals);
                     // Ensure all like literals from this clause are a subset
                     // of the other clause.
-                    if (othCToTry.keySet().containsAll(thisToTry.keySet()))
+                    if (othCToTry.GetKeys().containsAll(thisToTry.GetKeys()))
                     {
-                        boolean isAPossSubset = true;
+                        bool isAPossSubset = true;
                         // Ensure that each set of same named literals
                         // from this clause is a subset of the other
                         // clauses same named literals.
-                        for (String pk : thisToTry.keySet())
+                        foreach (string pk in thisToTry.GetKeys())
                         {
-                            if (thisToTry.get(pk).size() > othCToTry.get(pk).size())
+                            if (thisToTry.Get(pk).Size() > othCToTry.Get(pk).Size())
                             {
                                 isAPossSubset = false;
                                 break;
@@ -291,14 +296,14 @@
         // Note: Applies binary resolution rule
         // Note: returns a set with an empty clause if both clauses
         // are empty, otherwise returns a set of binary resolvents.
-        public Set<Clause> binaryResolvents(Clause othC)
+        public ISet<Clause> binaryResolvents(Clause othC)
         {
-            Set<Clause> resolvents = new LinkedHashSet<Clause>();
+            ISet<Clause> resolvents = Factory.CreateSet<Clause>();
             // Resolving two empty clauses
             // gives you an empty clause
             if (isEmpty() && othC.isEmpty())
             {
-                resolvents.add(new Clause());
+                resolvents.Add(new Clause());
                 return resolvents;
             }
 
@@ -306,22 +311,22 @@
             // Before attempting binary resolution
             othC = saIfRequired(othC);
 
-            List<Literal> allPosLits = new ArrayList<Literal>();
-            List<Literal> allNegLits = new ArrayList<Literal>();
+            IQueue<Literal> allPosLits = Factory.CreateQueue<Literal>();
+            IQueue<Literal> allNegLits = Factory.CreateQueue<Literal>();
             allPosLits.addAll(this.positiveLiterals);
             allPosLits.addAll(othC.positiveLiterals);
             allNegLits.addAll(this.negativeLiterals);
             allNegLits.addAll(othC.negativeLiterals);
 
-            List<Literal> trPosLits = new ArrayList<Literal>();
-            List<Literal> trNegLits = new ArrayList<Literal>();
-            List<Literal> copyRPosLits = new ArrayList<Literal>();
-            List<Literal> copyRNegLits = new ArrayList<Literal>();
+            IQueue<Literal> trPosLits = Factory.CreateQueue<Literal>();
+            IQueue<Literal> trNegLits = Factory.CreateQueue<Literal>();
+            IQueue<Literal> copyRPosLits = Factory.CreateQueue<Literal>();
+            IQueue<Literal> copyRNegLits = Factory.CreateQueue<Literal>();
 
             for (int i = 0; i < 2; i++)
             {
-                trPosLits.clear();
-                trNegLits.clear();
+                trPosLits.Clear();
+                trNegLits.Clear();
 
                 if (i == 0)
                 {
@@ -339,43 +344,40 @@
                 }
 
                 // Now check to see if they resolve
-                Map<Variable, Term> copyRBindings = new LinkedHashMap<Variable, Term>();
+                Map<Variable, Term> copyRBindings = Factory.CreateMap<Variable, Term>();
                 for (Literal pl : trPosLits)
                 {
-                    for (Literal nl : trNegLits)
+                    foreach (Literal nl in trNegLits)
                     {
-                        copyRBindings.clear();
+                        copyRBindings.Clear();
                         if (null != _unifier.unify(pl.getAtomicSentence(),
                                 nl.getAtomicSentence(), copyRBindings))
                         {
-                            copyRPosLits.clear();
-                            copyRNegLits.clear();
-                            boolean found = false;
-                            for (Literal l : allPosLits)
+                            copyRPosLits.Clear();
+                            copyRNegLits.Clear();
+                            bool found = false;
+                            foreach (Literal l in allPosLits)
                             {
-                                if (!found && pl.equals(l))
+                                if (!found && pl.Equals(l))
                                 {
                                     found = true;
                                     continue;
                                 }
-                                copyRPosLits.add(_substVisitor.subst(copyRBindings,
-                                        l));
+                                copyRPosLits.Add(_substVisitor.subst(copyRBindings, l));
                             }
                             found = false;
-                            for (Literal l : allNegLits)
+                            foreach (Literal l in allNegLits)
                             {
-                                if (!found && nl.equals(l))
+                                if (!found && nl.Equals(l))
                                 {
                                     found = true;
                                     continue;
                                 }
-                                copyRNegLits.add(_substVisitor.subst(copyRBindings,
-                                        l));
+                                copyRNegLits.Add(_substVisitor.subst(copyRBindings, l));
                             }
                             // Ensure the resolvents are standardized apart
-                            Map<Variable, Term> renameSubstitituon = _standardizeApart
-                                    .standardizeApart(copyRPosLits, copyRNegLits,
-                                            _saIndexical);
+                            IMap<Variable, Term> renameSubstitituon = _standardizeApart
+                                    .standardizeApart(copyRPosLits, copyRNegLits, _saIndexical);
                             Clause c = new Clause(copyRPosLits, copyRNegLits);
                             c.setProofStep(new ProofStepClauseBinaryResolvent(c,
                                     pl, nl, this, othC, copyRBindings,
@@ -388,7 +390,7 @@
                             {
                                 c.setStandardizedApartCheckNotRequired();
                             }
-                            resolvents.add(c);
+                            resolvents.Add(c);
                         }
                     }
                 }
@@ -397,27 +399,27 @@
             return resolvents;
         }
 
-        @Override
-        public String toString()
+
+        public override string ToString()
         {
             if (null == stringRep)
             {
-                List<Literal> sortedLiterals = new ArrayList<Literal>(literals);
-                Collections.sort(sortedLiterals, _literalSorter);
+                IQueue<Literal> sortedLiterals = Factory.CreateQueue<Literal>(literals);
+                sortedLiterals.Sort(_literalSorter);
 
-                stringRep = sortedLiterals.toString();
+                stringRep = sortedLiterals.ToString();
             }
             return stringRep;
         }
 
-        @Override
-        public int hashCode()
+
+        public override int GetHashCode()
         {
-            return equalityIdentity.hashCode();
+            return equalityIdentity.GetHashCode();
         }
 
-        @Override
-        public boolean equals(Object othObj)
+
+        public bool equals(object othObj)
         {
             if (null == othObj)
             {
@@ -427,15 +429,16 @@
             {
                 return true;
             }
-            if (!(othObj instanceof Clause)) {
+            if (!(othObj is Clause))
+            {
                 return false;
             }
             Clause othClause = (Clause)othObj;
 
-            return equalityIdentity.equals(othClause.equalityIdentity);
+            return equalityIdentity.Equals(othClause.equalityIdentity);
         }
 
-        public String getEqualityIdentity()
+        public string getEqualityIdentity()
         {
             return equalityIdentity;
         }
@@ -449,7 +452,7 @@
 
                 // Sort the literals first based on negation, atomic sentence,
                 // constant, function and variable.
-                List<Literal> sortedLiterals = new ArrayList<Literal>(literals);
+                IQueue<Literal> sortedLiterals = Factory.CreateQueue<Literal>(literals);
                 Collections.sort(sortedLiterals, _literalSorter);
 
                 // All variables are considered the same as regards
@@ -475,13 +478,13 @@
 
         private void calculateFactors(Set<Clause> parentFactors)
         {
-            nonTrivialFactors = new LinkedHashSet<Clause>();
+            nonTrivialFactors = Factory.CreateSet<Clause>();
 
-            Map<Variable, Term> theta = new HashMap<Variable, Term>();
-            List<Literal> lits = new ArrayList<Literal>();
+            Map<Variable, Term> theta = Factory.CreateMap<Variable, Term>();
+            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
             for (int i = 0; i < 2; i++)
             {
-                lits.clear();
+                lits.Clear();
                 if (i == 0)
                 {
                     // Look at the positive literals
@@ -496,24 +499,24 @@
                 {
                     for (int y = x + 1; y < lits.size(); y++)
                     {
-                        Literal litX = lits.get(x);
-                        Literal litY = lits.get(y);
+                        Literal litX = lits.Get(x);
+                        Literal litY = lits.Get(y);
 
-                        theta.clear();
+                        theta.Clear();
                         Map<Variable, Term> substitution = _unifier.unify(
                                 litX.getAtomicSentence(), litY.getAtomicSentence(),
                                 theta);
                         if (null != substitution)
                         {
-                            List<Literal> posLits = new ArrayList<Literal>();
-                            List<Literal> negLits = new ArrayList<Literal>();
+                            IQueue<Literal> posLits = Factory.CreateQueue<Literal>();
+                            IQueue<Literal> negLits = Factory.CreateQueue<Literal>();
                             if (i == 0)
                             {
-                                posLits.add(_substVisitor.subst(substitution, litX));
+                                posLits.Add(_substVisitor.subst(substitution, litX));
                             }
                             else
                             {
-                                negLits.add(_substVisitor.subst(substitution, litX));
+                                negLits.Add(_substVisitor.subst(substitution, litX));
                             }
                             for (Literal pl : positiveLiterals)
                             {
@@ -521,15 +524,15 @@
                                 {
                                     continue;
                                 }
-                                posLits.add(_substVisitor.subst(substitution, pl));
+                                posLits.Add(_substVisitor.subst(substitution, pl));
                             }
-                            for (Literal nl : negativeLiterals)
+                            foreach (Literal nl in negativeLiterals)
                             {
                                 if (nl == litX || nl == litY)
                                 {
                                     continue;
                                 }
-                                negLits.add(_substVisitor.subst(substitution, nl));
+                                negLits.Add(_substVisitor.subst(substitution, nl));
                             }
                             // Ensure the non trivial factor is standardized apart
                             Map<Variable, Term> renameSubst = _standardizeApart
@@ -564,13 +567,13 @@
                 }
             }
 
-            factors = new LinkedHashSet<Clause>();
+            factors = Factory.CreateSet<Clause>();
             // Need to add self, even though a non-trivial
             // factor. See: slide 30
             // http://logic.stanford.edu/classes/cs157/2008/lectures/lecture10.pdf
             // for example of incompleteness when
             // trivial factor not included.
-            factors.add(this);
+            factors.Add(this);
             factors.addAll(nonTrivialFactors);
         }
 
@@ -582,12 +585,12 @@
             // order to work correctly.
             if (isStandardizedApartCheckRequired() || this == othClause)
             {
-                Set<Variable> mVariables = _variableCollector
+                ISet<Variable> mVariables = _variableCollector
                         .collectAllVariables(this);
-                Set<Variable> oVariables = _variableCollector
+                ISet<Variable> oVariables = _variableCollector
                         .collectAllVariables(othClause);
 
-                Set<Variable> cVariables = new HashSet<Variable>();
+                ISet<Variable> cVariables = Factory.CreateSet<Variable>();
                 cVariables.addAll(mVariables);
                 cVariables.addAll(oVariables);
 
@@ -601,42 +604,42 @@
             return othClause;
         }
 
-        private Map<String, List<Literal>> collectLikeLiterals(Set<Literal> literals)
+        private Map<string, IQueue<Literal>> collectLikeLiterals(Set<Literal> literals)
         {
-            Map<String, List<Literal>> likeLiterals = new HashMap<String, List<Literal>>();
+            Map<string, IQueue<Literal>> likeLiterals = Factory.CreateMap<string, IQueue<Literal>>();
             for (Literal l : literals)
             {
                 // Want to ensure P(a, b) is considered different than P(a, b, c)
                 // i.e. consider an atom's arity P/#.
-                String literalName = (l.isNegativeLiteral() ? "~" : "")
+                string literalName = (l.isNegativeLiteral() ? "~" : "")
                         + l.getAtomicSentence().getSymbolicName() + "/"
                         + l.getAtomicSentence().getArgs().size();
-                List<Literal> like = likeLiterals.get(literalName);
+                IQueue<Literal> like = likeLiterals.Get(literalName);
                 if (null == like)
                 {
-                    like = new ArrayList<Literal>();
-                    likeLiterals.put(literalName, like);
+                    like = Factory.CreateQueue<Literal>();
+                    likeLiterals.Put(literalName, like);
                 }
-                like.add(l);
+                like.Add(l);
             }
             return likeLiterals;
         }
 
-        private boolean checkSubsumes(Clause othC,
-                Map<String, List<Literal>> thisToTry,
-                Map<String, List<Literal>> othCToTry)
+        private bool checkSubsumes(Clause othC,
+                Map<string, IQueue<Literal>> thisToTry,
+                Map<string, IQueue<Literal>> othCToTry)
         {
-            boolean subsumes = false;
+            bool subsumes = false;
 
-            List<Term> thisTerms = new ArrayList<Term>();
-            List<Term> othCTerms = new ArrayList<Term>();
+            IQueue<Term> thisTerms = Factory.CreateQueue<Term>();
+            IQueue<Term> othCTerms = Factory.CreateQueue<Term>();
 
             // Want to track possible number of permuations
-            List<Integer> radices = new ArrayList<Integer>();
-            for (String literalName : thisToTry.keySet())
+            IQueue<int> radices = Factory.CreateQueue<int>();
+            for (string literalName : thisToTry.GetKeys())
             {
-                int sizeT = thisToTry.get(literalName).size();
-                int sizeO = othCToTry.get(literalName).size();
+                int sizeT = thisToTry.Get(literalName).size();
+                int sizeO = othCToTry.Get(literalName).size();
 
                 if (sizeO > 1)
                 {
@@ -652,12 +655,12 @@
                         int r = sizeO - i;
                         if (r > 1)
                         {
-                            radices.add(r);
+                            radices.Add(r);
                         }
                     }
                 }
                 // Track the terms for this clause
-                for (Literal tl : thisToTry.get(literalName))
+                for (Literal tl : thisToTry.Get(literalName))
                 {
                     thisTerms.addAll(tl.getAtomicSentence().getArgs());
                 }
@@ -673,21 +676,21 @@
             // Want to ensure none of the othCVariables are
             // part of the key set of a unification as
             // this indicates it is not a legal subsumption.
-            Set<Variable> othCVariables = _variableCollector
+            ISet<Variable> othCVariables = _variableCollector
                     .collectAllVariables(othC);
-            Map<Variable, Term> theta = new LinkedHashMap<Variable, Term>();
-            List<Literal> literalPermuations = new ArrayList<Literal>();
+            Map<Variable, Term> theta = Factory.CreateMap<Variable, Term>();
+            IQueue<Literal> literalPermuations = Factory.CreateQueue<Literal>();
             for (long l = 0L; l < numPermutations; l++)
             {
                 // Track the other clause's terms for this
                 // permutation.
-                othCTerms.clear();
+                othCTerms.Clear();
                 int radixIdx = 0;
-                for (String literalName : thisToTry.keySet())
+                for (string literalName : thisToTry.GetKeys())
                 {
-                    int sizeT = thisToTry.get(literalName).size();
-                    literalPermuations.clear();
-                    literalPermuations.addAll(othCToTry.get(literalName));
+                    int sizeT = thisToTry.Get(literalName).size();
+                    literalPermuations.Clear();
+                    literalPermuations.addAll(othCToTry.Get(literalName));
                     int sizeO = literalPermuations.size();
 
                     if (sizeO > 1)
@@ -701,7 +704,7 @@
                                 // to use the correct permuation
                                 int numPos = permutation
                                         .getCurrentNumeralValue(radixIdx);
-                                othCTerms.addAll(literalPermuations.remove(numPos)
+                                othCTerms.addAll(literalPermuations.Remove(numPos)
                                         .getAtomicSentence().getArgs());
                                 radixIdx++;
                             }
@@ -709,7 +712,7 @@
                             {
                                 // is the last mapping, therefore
                                 // won't be on the radix
-                                othCTerms.addAll(literalPermuations.get(0)
+                                othCTerms.addAll(literalPermuations.Get(0)
                                         .getAtomicSentence().getArgs());
                             }
                         }
@@ -717,7 +720,7 @@
                     else
                     {
                         // a 1 to 1 mapping
-                        othCTerms.addAll(literalPermuations.get(0)
+                        othCTerms.addAll(literalPermuations.Get(0)
                                 .getAtomicSentence().getArgs());
                     }
                 }
@@ -728,11 +731,11 @@
                 // Therefore want this clause to be the first
                 // so can do the othCVariables check for an invalid
                 // subsumes.
-                theta.clear();
+                theta.Clear();
                 if (null != _unifier.unify(thisTerms, othCTerms, theta))
                 {
-                    boolean containsAny = false;
-                    for (Variable v : theta.keySet())
+                    bool containsAny = false;
+                    for (Variable v : theta.GetKeys())
                     {
                         if (othCVariables.contains(v))
                         {
@@ -760,330 +763,338 @@
         }
     }
 
-    class LiteralsSorter implements Comparator<Literal> {
-
-    public int compare(Literal o1, Literal o2)
+    class LiteralsSorter : IComparer<Literal>
     {
-        int rVal = 0;
-        // If literals are not negated the same
-        // then positive literals are considered
-        // (by convention here) to be of higher
-        // order than negative literals
-        if (o1.isPositiveLiteral() != o2.isPositiveLiteral())
+        public int Compare(Literal o1, Literal o2)
         {
-            if (o1.isPositiveLiteral())
+            int rVal = 0;
+            // If literals are not negated the same
+            // then positive literals are considered
+            // (by convention here) to be of higher
+            // order than negative literals
+            if (o1.isPositiveLiteral() != o2.isPositiveLiteral())
             {
-                return 1;
+                if (o1.isPositiveLiteral())
+                {
+                    return 1;
+                }
+                return -1;
             }
-            return -1;
-        }
 
-        // Check their symbolic names for order first
-        rVal = o1.getAtomicSentence().getSymbolicName()
-                .compareTo(o2.getAtomicSentence().getSymbolicName());
+            // Check their symbolic names for order first
+            rVal = o1.getAtomicSentence().getSymbolicName()
+                    .compareTo(o2.getAtomicSentence().getSymbolicName());
 
-        // If have same symbolic names
-        // then need to compare individual arguments
-        // for order.
-        if (0 == rVal)
-        {
-            rVal = compareArgs(o1.getAtomicSentence().getArgs(), o2
-                    .getAtomicSentence().getArgs());
-        }
-
-        return rVal;
-    }
-
-    private int compareArgs(List<Term> args1, List<Term> args2)
-    {
-        int rVal = 0;
-
-        // Compare argument sizes first
-        rVal = args1.size() - args2.size();
-
-        if (0 == rVal && args1.size() > 0)
-        {
-            // Move forward and compare the
-            // first arguments
-            Term t1 = args1.get(0);
-            Term t2 = args2.get(0);
-
-            if (t1.getClass() == t2.getClass())
+            // If have same symbolic names
+            // then need to compare individual arguments
+            // for order.
+            if (0 == rVal)
             {
-                // Note: Variables are considered to have
-                // the same order
-                if (t1 instanceof Constant) {
-                    rVal = t1.getSymbolicName().compareTo(t2.getSymbolicName());
-                } else if (t1 instanceof Function) {
-                    rVal = t1.getSymbolicName().compareTo(t2.getSymbolicName());
+                rVal = compareArgs(o1.getAtomicSentence().getArgs(), o2
+                        .getAtomicSentence().getArgs());
+            }
+
+            return rVal;
+        }
+
+        private int compareArgs(IQueue<Term> args1, IQueue<Term> args2)
+        {
+            int rVal = 0;
+
+            // Compare argument sizes first
+            rVal = args1.Size() - args2.Size();
+
+            if (0 == rVal && args1.Size() > 0)
+            {
+                // Move forward and compare the
+                // first arguments
+                Term t1 = args1.Get(0);
+                Term t2 = args2.Get(0);
+
+                if (t1.GetType() == t2.GetType())
+                {
+                    // Note: Variables are considered to have
+                    // the same order
+                    if (t1 is Constant)
+                    {
+                        rVal = t1.getSymbolicName().CompareTo(t2.getSymbolicName());
+                    }
+                    else if (t1 is Function)
+                    {
+                        rVal = t1.getSymbolicName().CompareTo(t2.getSymbolicName());
+                        if (0 == rVal)
+                        {
+                            // Same function names, therefore
+                            // compare the function arguments
+                            rVal = compareArgs(t1.getArgs(), t2.getArgs());
+                        }
+                    }
+
+                    // If the first args are the same
+                    // then compare the ordering of the
+                    // remaining arguments
                     if (0 == rVal)
                     {
-                        // Same function names, therefore
-                        // compare the function arguments
-                        rVal = compareArgs(t1.getArgs(), t2.getArgs());
+                        rVal = compareArgs(args1.subList(1, args1.Size()),
+                                args2.subList(1, args2.Size()));
                     }
                 }
-
-                // If the first args are the same
-                // then compare the ordering of the
-                // remaining arguments
-                if (0 == rVal)
+                else
                 {
-                    rVal = compareArgs(args1.subList(1, args1.size()),
-                            args2.subList(1, args2.size()));
-                }
-            }
-            else
-            {
-                // Order for different Terms is:
-                // Constant > Function > Variable
-                if (t1 instanceof Constant) {
-                    rVal = 1;
-                } else if (t2 instanceof Constant) {
-                    rVal = -1;
-                } else if (t1 instanceof Function) {
-                    rVal = 1;
-                } else {
-                    rVal = -1;
-                }
-            }
-        }
-
-        return rVal;
-    }
-}
-
-class ClauseEqualityIdentityConstructor implements FOLVisitor
-{
-
-    private StringBuilder identity = new StringBuilder();
-private int noVarPositions = 0;
-private int[] clauseVarCounts = null;
-private int currentLiteral = 0;
-private Map<String, List<Integer>> varPositions = new HashMap<String, List<Integer>>();
-
-public ClauseEqualityIdentityConstructor(List<Literal> literals,
-        LiteralsSorter sorter)
-{
-
-    clauseVarCounts = new int[literals.size()];
-
-    for (Literal l : literals)
-    {
-        if (l.isNegativeLiteral())
-        {
-            identity.append("~");
-        }
-        identity.append(l.getAtomicSentence().getSymbolicName());
-        identity.append("(");
-        boolean firstTerm = true;
-        for (Term t : l.getAtomicSentence().getArgs())
-        {
-            if (firstTerm)
-            {
-                firstTerm = false;
-            }
-            else
-            {
-                identity.append(",");
-            }
-            t.accept(this, null);
-        }
-        identity.append(")");
-        currentLiteral++;
-    }
-
-    int min, max;
-    min = max = 0;
-    for (int i = 0; i < literals.size(); i++)
-    {
-        int incITo = i;
-        int next = i + 1;
-        max += clauseVarCounts[i];
-        while (next < literals.size())
-        {
-            if (0 != sorter.compare(literals.get(i), literals.get(next)))
-            {
-                break;
-            }
-            max += clauseVarCounts[next];
-            incITo = next; // Need to skip to the end of the range
-            next++;
-        }
-        // This indicates two or more literals are identical
-        // except for variable naming (note: identical
-        // same name would be removed as are working
-        // with sets so don't need to worry about this).
-        if ((next - i) > 1)
-        {
-            // Need to check each variable
-            // and if it has a position within the
-            // current min/max range then need
-            // to include its alternative
-            // sort order positions as well
-            for (String key : varPositions.keySet())
-            {
-                List<Integer> positions = varPositions.get(key);
-                List<Integer> additPositions = new ArrayList<Integer>();
-                // Add then subtract for all possible
-                // positions in range
-                for (int pos : positions)
-                {
-                    if (pos >= min && pos < max)
+                    // Order for different Terms is:
+                    // Constant > Function > Variable
+                    if (t1 is Constant)
                     {
-                        int pPos = pos;
-                        int nPos = pos;
-                        for (int candSlot = i; candSlot < (next - 1); candSlot++)
+                        rVal = 1;
+                    }
+                    else if (t2 is Constant)
+                    {
+                        rVal = -1;
+                    }
+                    else if (t1 is Function)
+                    {
+                        rVal = 1;
+                    }
+                    else
+                    {
+                        rVal = -1;
+                    }
+                }
+            }
+
+            return rVal;
+        }
+    }
+
+    class ClauseEqualityIdentityConstructor : FOLVisitor
+    {
+        private StringBuilder identity = new StringBuilder();
+        private int noVarPositions = 0;
+        private int[] clauseVarCounts = null;
+        private int currentLiteral = 0;
+        private IMap<string, IQueue<int>> varPositions = Factory.CreateMap<string, IQueue<int>>();
+
+        public ClauseEqualityIdentityConstructor(IQueue<Literal> literals, LiteralsSorter sorter)
+        {
+
+            clauseVarCounts = new int[literals.Size()];
+
+            foreach (Literal l in literals)
+            {
+                if (l.isNegativeLiteral())
+                {
+                    identity.Append("~");
+                }
+                identity.Append(l.getAtomicSentence().getSymbolicName());
+                identity.Append("(");
+                bool firstTerm = true;
+                foreach (Term t in l.getAtomicSentence().getArgs())
+                {
+                    if (firstTerm)
+                    {
+                        firstTerm = false;
+                    }
+                    else
+                    {
+                        identity.Append(",");
+                    }
+                    t.accept(this, null);
+                }
+                identity.Append(")");
+                currentLiteral++;
+            }
+
+            int min, max;
+            min = max = 0;
+            for (int i = 0; i < literals.size(); i++)
+            {
+                int incITo = i;
+                int next = i + 1;
+                max += clauseVarCounts[i];
+                while (next < literals.size())
+                {
+                    if (0 != sorter.compare(literals.Get(i), literals.Get(next)))
+                    {
+                        break;
+                    }
+                    max += clauseVarCounts[next];
+                    incITo = next; // Need to skip to the end of the range
+                    next++;
+                }
+                // This indicates two or more literals are identical
+                // except for variable naming (note: identical
+                // same name would be removed as are working
+                // with sets so don't need to worry about this).
+                if ((next - i) > 1)
+                {
+                    // Need to check each variable
+                    // and if it has a position within the
+                    // current min/max range then need
+                    // to include its alternative
+                    // sort order positions as well
+                    for (string key : varPositions.GetKeys())
+                    {
+                        IQueue<int> positions = varPositions.Get(key);
+                        IQueue<int> additPositions = Factory.CreateQueue<int>();
+                        // Add then subtract for all possible
+                        // positions in range
+                        for (int pos : positions)
                         {
-                            pPos += clauseVarCounts[i];
-                            if (pPos >= min && pPos < max)
+                            if (pos >= min && pos < max)
                             {
-                                if (!positions.contains(pPos)
-                                        && !additPositions.contains(pPos))
+                                int pPos = pos;
+                                int nPos = pos;
+                                for (int candSlot = i; candSlot < (next - 1); candSlot++)
                                 {
-                                    additPositions.add(pPos);
-                                }
-                            }
-                            nPos -= clauseVarCounts[i];
-                            if (nPos >= min && nPos < max)
-                            {
-                                if (!positions.contains(nPos)
-                                        && !additPositions.contains(nPos))
-                                {
-                                    additPositions.add(nPos);
+                                    pPos += clauseVarCounts[i];
+                                    if (pPos >= min && pPos < max)
+                                    {
+                                        if (!positions.contains(pPos)
+                                                && !additPositions.contains(pPos))
+                                        {
+                                            additPositions.Add(pPos);
+                                        }
+                                    }
+                                    nPos -= clauseVarCounts[i];
+                                    if (nPos >= min && nPos < max)
+                                    {
+                                        if (!positions.contains(nPos)
+                                                && !additPositions.contains(nPos))
+                                        {
+                                            additPositions.Add(nPos);
+                                        }
+                                    }
                                 }
                             }
                         }
+                        positions.addAll(additPositions);
                     }
                 }
-                positions.addAll(additPositions);
+                min = max;
+                i = incITo;
             }
-        }
-        min = max;
-        i = incITo;
-    }
 
-    // Determine the maxWidth
-    int maxWidth = 1;
-    while (noVarPositions >= 10)
-    {
-        noVarPositions = noVarPositions / 10;
-        maxWidth++;
-    }
-
-    // Sort the individual position lists
-    // And then add their string representations
-    // together
-    List<String> varOffsets = new ArrayList<String>();
-    for (String key : varPositions.keySet())
-    {
-        List<Integer> positions = varPositions.get(key);
-        Collections.sort(positions);
-        StringBuilder sb = new StringBuilder();
-        for (int pos : positions)
-        {
-            String posStr = Integer.toString(pos);
-            int posStrLen = posStr.length();
-            int padLen = maxWidth - posStrLen;
-            for (int i = 0; i < padLen; i++)
+            // Determine the maxWidth
+            int maxWidth = 1;
+            while (noVarPositions >= 10)
             {
-                sb.append('0');
+                noVarPositions = noVarPositions / 10;
+                maxWidth++;
             }
-            sb.append(posStr);
+
+            // Sort the individual position lists
+            // And then add their string representations
+            // together
+            IQueue<string> varOffsets = Factory.CreateQueue<string>();
+            for (string key : varPositions.GetKeys())
+            {
+                IQueue<int> positions = varPositions.Get(key);
+                Collections.sort(positions);
+                StringBuilder sb = new StringBuilder();
+                for (int pos : positions)
+                {
+                    string posStr = Integer.toString(pos);
+                    int posStrLen = posStr.length();
+                    int padLen = maxWidth - posStrLen;
+                    for (int i = 0; i < padLen; i++)
+                    {
+                        sb.Append('0');
+                    }
+                    sb.Append(posStr);
+                }
+                varOffsets.Add(sb.ToString());
+            }
+            Collections.sort(varOffsets);
+            for (int i = 0; i < varOffsets.size(); i++)
+            {
+                identity.Append(varOffsets.Get(i));
+                if (i < (varOffsets.size() - 1))
+                {
+                    identity.Append(",");
+                }
+            }
         }
-        varOffsets.add(sb.toString());
-    }
-    Collections.sort(varOffsets);
-    for (int i = 0; i < varOffsets.size(); i++)
-    {
-        identity.append(varOffsets.get(i));
-        if (i < (varOffsets.size() - 1))
+
+        public string getIdentity()
         {
-            identity.append(",");
+            return identity.ToString();
         }
-    }
-}
 
-public String getIdentity()
-{
-    return identity.toString();
-}
-
-//
-// START-FOLVisitor
-public Object visitVariable(Variable var, Object arg)
-{
-    // All variables will be marked with an *
-    identity.append("*");
-
-    List<Integer> positions = varPositions.get(var.getValue());
-    if (null == positions)
-    {
-        positions = new ArrayList<Integer>();
-        varPositions.put(var.getValue(), positions);
-    }
-    positions.add(noVarPositions);
-
-    noVarPositions++;
-    clauseVarCounts[currentLiteral]++;
-    return var;
-}
-
-public Object visitConstant(Constant constant, Object arg)
-{
-    identity.append(constant.getValue());
-    return constant;
-}
-
-public Object visitFunction(Function function, Object arg)
-{
-    boolean firstTerm = true;
-    identity.append(function.getFunctionName());
-    identity.append("(");
-    for (Term t : function.getTerms())
-    {
-        if (firstTerm)
+        //
+        // START-FOLVisitor
+        public object visitVariable(Variable var, object arg)
         {
-            firstTerm = false;
+            // All variables will be marked with an *
+            identity.Append("*");
+
+            IQueue<int> positions = varPositions.Get(var.getValue());
+            if (null == positions)
+            {
+                positions = Factory.CreateQueue<int>();
+                varPositions.Put(var.getValue(), positions);
+            }
+            positions.Add(noVarPositions);
+
+            noVarPositions++;
+            clauseVarCounts[currentLiteral]++;
+            return var;
         }
-        else
+
+        public object visitConstant(Constant constant, object arg)
         {
-            identity.append(",");
+            identity.Append(constant.getValue());
+            return constant;
         }
-        t.accept(this, arg);
+
+        public object visitFunction(Function function, object arg)
+        {
+            bool firstTerm = true;
+            identity.Append(function.getFunctionName());
+            identity.Append("(");
+            for (Term t : function.getTerms())
+            {
+                if (firstTerm)
+                {
+                    firstTerm = false;
+                }
+                else
+                {
+                    identity.Append(",");
+                }
+                t.accept(this, arg);
+            }
+            identity.Append(")");
+
+            return function;
+        }
+
+        public object visitPredicate(Predicate predicate, object arg)
+        {
+            throw new IllegalStateException("Should not be called");
+        }
+
+        public object visitTermEquality(TermEquality equality, object arg)
+        {
+            throw new IllegalStateException("Should not be called");
+        }
+
+        public object visitQuantifiedSentence(QuantifiedSentence sentence,
+                object arg)
+        {
+            throw new IllegalStateException("Should not be called");
+        }
+
+        public object visitNotSentence(NotSentence sentence, object arg)
+        {
+            throw new IllegalStateException("Should not be called");
+        }
+
+        public object visitConnectedSentence(ConnectedSentence sentence, object arg)
+        {
+            throw new IllegalStateException("Should not be called");
+        }
+
+        // END-FOLVisitor
+        //
     }
-    identity.append(")");
-
-    return function;
-}
-
-public Object visitPredicate(Predicate predicate, Object arg)
-{
-    throw new IllegalStateException("Should not be called");
-}
-
-public Object visitTermEquality(TermEquality equality, Object arg)
-{
-    throw new IllegalStateException("Should not be called");
-}
-
-public Object visitQuantifiedSentence(QuantifiedSentence sentence,
-        Object arg)
-{
-    throw new IllegalStateException("Should not be called");
-}
-
-public Object visitNotSentence(NotSentence sentence, Object arg)
-{
-    throw new IllegalStateException("Should not be called");
-}
-
-public Object visitConnectedSentence(ConnectedSentence sentence, Object arg)
-{
-    throw new IllegalStateException("Should not be called");
-}
-
-	// END-FOLVisitor
-	//
-}
 }

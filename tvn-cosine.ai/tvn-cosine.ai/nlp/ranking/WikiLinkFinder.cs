@@ -5,57 +5,57 @@
 
         // TODO
         // Make more intelligent link search
-        public List<String> getOutlinks(Page page)
+        public IQueue<string> getOutlinks(Page page)
         {
 
-            String content = page.getContent();
-            List<String> outLinks = new ArrayList<String>();
+            string content = page.getContent();
+            IQueue<string> outLinks = Factory.CreateQueue<string>();
             // search content for all href="x" outlinks
-            List<String> allMatches = new ArrayList<String>();
+            IQueue<string> allMatches = Factory.CreateQueue<string>();
             Matcher m = Pattern.compile("href=\"(/wiki/.*?)\"").matcher(content);
             while (m.find())
             {
-                allMatches.add(m.group());
+                allMatches.Add(m.group());
             }
             for (int i = 0; i < allMatches.size(); i++)
             {
-                String match = allMatches.get(i);
+                string match = allMatches.Get(i);
                 String[] tokens = match.split("\"");
-                String location = tokens[1].toLowerCase(); // also, tokens[0] = the
+                string location = tokens[1].toLowerCase(); // also, tokens[0] = the
                                                            // text before the first
                                                            // quote,
                                                            // and tokens[2] is the
                                                            // text after the second
                                                            // quote
-                outLinks.add(location);
+                outLinks.Add(location);
             }
 
             return outLinks;
         }
 
-        @Override
-    public List<String> getInlinks(Page target, Map<String, Page> pageTable)
+         
+    public IQueue<string> getInlinks(Page target, Map<string, Page> pageTable)
         {
 
-            String location = target.getLocation().toLowerCase(); // make comparison
+            string location = target.getLocation().toLowerCase(); // make comparison
                                                                   // case
                                                                   // insensitive
-            List<String> inlinks = new ArrayList<String>(); // initialise a list for
+            IQueue<string> inlinks = Factory.CreateQueue<string>(); // initialise a list for
                                                             // the inlinks
 
             // go through all pages and if they link back to target then add that
             // page's location to the target's inlinks
-            Iterator<String> keySetIterator = pageTable.keySet().iterator();
+            Iterator<string> keySetIterator = pageTable.GetKeys().iterator();
             while (keySetIterator.hasNext())
             {
-                Page p = pageTable.get(keySetIterator.next());
+                Page p = pageTable.Get(keySetIterator.next());
                 for (int i = 0; i < p.getOutlinks().size(); i++)
                 {
-                    String pForward = p.getOutlinks().get(i).toLowerCase().replace('\\', '/');
-                    String pBackward = p.getOutlinks().get(i).toLowerCase().replace('/', '\\');
-                    if (pForward.equals(location) || pBackward.equals(location))
+                    string pForward = p.getOutlinks().Get(i).toLowerCase().replace('\\', '/');
+                    string pBackward = p.getOutlinks().Get(i).toLowerCase().replace('/', '\\');
+                    if (pForward.Equals(location) || pBackward.Equals(location))
                     {
-                        inlinks.add(p.getLocation().toLowerCase());
+                        inlinks.Add(p.getLocation().toLowerCase());
                         break;
                     }
                 }

@@ -1,26 +1,23 @@
 ﻿namespace tvn.cosine.ai.logic.fol.domain
 {
-    public class FOLDomainAnswerLiteralAddedEvent extends FOLDomainEvent
-    { 
-    private String answerLiteralName;
-
-    public FOLDomainAnswerLiteralAddedEvent(Object source,
-            String answerLiteralName)
+    public class FOLDomainAnswerLiteralAddedEvent : FOLDomainEvent
     {
-        super(source);
+        private string answerLiteralName;
 
-        this.answerLiteralName = answerLiteralName;
-    }
+        public FOLDomainAnswerLiteralAddedEvent(object source, string answerLiteralName)
+            : base(source)
+        {
+            this.answerLiteralName = answerLiteralName;
+        }
 
-    public String getAnswerLiteralNameName()
-    {
-        return answerLiteralName;
-    }
+        public string getAnswerLiteralNameName()
+        {
+            return answerLiteralName;
+        }
 
-    @Override
-    public void notifyListener(FOLDomainListener listener)
-    {
-        listener.answerLiteralNameAdded(this);
+        public override void notifyListener(FOLDomainListener listener)
+        {
+            listener.answerLiteralNameAdded(this);
+        }
     }
-}
 }

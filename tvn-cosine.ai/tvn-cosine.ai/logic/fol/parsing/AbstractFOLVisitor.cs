@@ -1,6 +1,6 @@
 ﻿namespace tvn.cosine.ai.logic.fol.parsing
 {
-    public class AbstractFOLVisitor implements FOLVisitor
+    public class AbstractFOLVisitor : FOLVisitor
     {
 
 
@@ -8,75 +8,75 @@
     {
     }
 
-    protected Sentence recreate(Object ast)
+    protected Sentence recreate(object ast)
     {
         return ((Sentence)ast).copy();
     }
 
-    public Object visitVariable(Variable variable, Object arg)
+    public object visitVariable(Variable variable, object arg)
     {
         return variable.copy();
     }
 
-    public Object visitQuantifiedSentence(QuantifiedSentence sentence,
-            Object arg)
+    public object visitQuantifiedSentence(QuantifiedSentence sentence,
+            object arg)
     {
-        List<Variable> variables = new ArrayList<Variable>();
+        IQueue<Variable> variables = Factory.CreateQueue<Variable>();
         for (Variable var : sentence.getVariables())
         {
-            variables.add((Variable)var.accept(this, arg));
+            variables.Add((Variable)var.accept(this, arg));
         }
 
         return new QuantifiedSentence(sentence.getQuantifier(), variables,
                 (Sentence)sentence.getQuantified().accept(this, arg));
     }
 
-    public Object visitPredicate(Predicate predicate, Object arg)
+    public object visitPredicate(Predicate predicate, object arg)
     {
-        List<Term> terms = predicate.getTerms();
-        List<Term> newTerms = new ArrayList<Term>();
+        IQueue<Term> terms = predicate.getTerms();
+        IQueue<Term> newTerms = Factory.CreateQueue<Term>();
         for (int i = 0; i < terms.size(); i++)
         {
-            Term t = terms.get(i);
+            Term t = terms.Get(i);
             Term subsTerm = (Term)t.accept(this, arg);
-            newTerms.add(subsTerm);
+            newTerms.Add(subsTerm);
         }
         return new Predicate(predicate.getPredicateName(), newTerms);
 
     }
 
-    public Object visitTermEquality(TermEquality equality, Object arg)
+    public object visitTermEquality(TermEquality equality, object arg)
     {
         Term newTerm1 = (Term)equality.getTerm1().accept(this, arg);
         Term newTerm2 = (Term)equality.getTerm2().accept(this, arg);
         return new TermEquality(newTerm1, newTerm2);
     }
 
-    public Object visitConstant(Constant constant, Object arg)
+    public object visitConstant(Constant constant, object arg)
     {
         return constant;
     }
 
-    public Object visitFunction(Function function, Object arg)
+    public object visitFunction(Function function, object arg)
     {
-        List<Term> terms = function.getTerms();
-        List<Term> newTerms = new ArrayList<Term>();
+        IQueue<Term> terms = function.getTerms();
+        IQueue<Term> newTerms = Factory.CreateQueue<Term>();
         for (int i = 0; i < terms.size(); i++)
         {
-            Term t = terms.get(i);
+            Term t = terms.Get(i);
             Term subsTerm = (Term)t.accept(this, arg);
-            newTerms.add(subsTerm);
+            newTerms.Add(subsTerm);
         }
         return new Function(function.getFunctionName(), newTerms);
     }
 
-    public Object visitNotSentence(NotSentence sentence, Object arg)
+    public object visitNotSentence(NotSentence sentence, object arg)
     {
         return new NotSentence((Sentence)sentence.getNegated().accept(this,
                 arg));
     }
 
-    public Object visitConnectedSentence(ConnectedSentence sentence, Object arg)
+    public object visitConnectedSentence(ConnectedSentence sentence, object arg)
     {
         Sentence substFirst = (Sentence)sentence.getFirst().accept(this, arg);
         Sentence substSecond = (Sentence)sentence.getSecond()

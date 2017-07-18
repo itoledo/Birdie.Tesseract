@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.robotics.datatypes
+﻿using tvn.cosine.ai.common;
+
+namespace tvn.cosine.ai.robotics.datatypes
 {
     /**
      * A pose consists of a position in the environment and a heading in which the pose is facing.<br/>
@@ -13,7 +15,11 @@
      * @param <V> an n-1-dimensional vector implementing {@link IMclVector}, where n is the dimensionality of the environment. This vector describes the angle between two rays in the environment.
      * @param <M> a movement (or sequence of movements) of the robot, implementing {@link IMclMove}.
      */
-    public interface IMclPose<P extends IMclPose<P, V, M>,V extends IMclVector,M extends IMclMove<M>> extends Cloneable
+    public interface IMclPose<P, V, M> : ICloneable<P>
+        where P : IMclPose<P, V, M>
+        where V : IMclVector
+        where M : IMclMove<M>
+
     {
         /**
          * Moves a pose according to a given move.<br/>
@@ -28,18 +34,13 @@
          * @param angle the angle by which the pose should be rotated.
          * @return a new pose that has been rotated.
          */
-        P addAngle(V angle);
+        P addAngle(V angle); 
         /**
-         * Clones an object according to {@link Cloneable}.
-         * @return a new pose with the same position and heading.
+         * Calculates the length of the straight line between this pose and another pose.<br/>
+         * {@code x.distanceTo(y)} has to return the same value as {@code y.distanceTo(x)}.
+         * @param pose another pose to which the distance is calculated.
+         * @return the distance between the two poses.
          */
-        P clone();
-	/**
-	 * Calculates the length of the straight line between this pose and another pose.<br/>
-	 * {@code x.distanceTo(y)} has to return the same value as {@code y.distanceTo(x)}.
-	 * @param pose another pose to which the distance is calculated.
-	 * @return the distance between the two poses.
-	 */
-	double distanceTo(P pose);
+        double distanceTo(P pose);
     }
 }

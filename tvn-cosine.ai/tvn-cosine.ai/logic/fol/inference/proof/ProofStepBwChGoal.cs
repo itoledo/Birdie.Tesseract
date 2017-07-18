@@ -3,11 +3,11 @@
     public class ProofStepBwChGoal : AbstractProofStep
     {
     //
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+    private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
     //
     private Clause toProve = null;
     private Literal currentGoal = null;
-    private Map<Variable, Term> bindings = new LinkedHashMap<Variable, Term>();
+    private Map<Variable, Term> bindings = Factory.CreateMap<Variable, Term>();
 
     public ProofStepBwChGoal(Clause toProve, Literal currentGoal,
             Map<Variable, Term> bindings)
@@ -24,43 +24,43 @@
 
     public void setPredecessor(ProofStep predecessor)
     {
-        predecessors.clear();
-        predecessors.add(predecessor);
+        predecessors.Clear();
+        predecessors.Add(predecessor);
     }
 
     //
     // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
+     
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(predecessors);
+        return Factory.CreateReadOnlyQueue<>(predecessors);
     }
 
-    @Override
-    public String getProof()
+     
+    public string getProof()
     {
         StringBuilder sb = new StringBuilder();
-        List<Literal> nLits = toProve.getNegativeLiterals();
+        IQueue<Literal> nLits = toProve.getNegativeLiterals();
         for (int i = 0; i < toProve.getNumberNegativeLiterals(); i++)
         {
-            sb.append(nLits.get(i).getAtomicSentence());
+            sb.Append(nLits.Get(i).getAtomicSentence());
             if (i != (toProve.getNumberNegativeLiterals() - 1))
             {
-                sb.append(" AND ");
+                sb.Append(" AND ");
             }
         }
         if (toProve.getNumberNegativeLiterals() > 0)
         {
-            sb.append(" => ");
+            sb.Append(" => ");
         }
-        sb.append(toProve.getPositiveLiterals().get(0));
-        return sb.toString();
+        sb.Append(toProve.getPositiveLiterals().Get(0));
+        return sb.ToString();
     }
 
-    @Override
-    public String getJustification()
+     
+    public string getJustification()
     {
-        return "Current Goal " + currentGoal.getAtomicSentence().toString()
+        return "Current Goal " + currentGoal.getAtomicSentence().ToString()
                 + ", " + bindings;
     }
     // END-ProofStep

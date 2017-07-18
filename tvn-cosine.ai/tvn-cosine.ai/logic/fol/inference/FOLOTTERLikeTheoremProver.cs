@@ -55,12 +55,12 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class FOLOTTERLikeTheoremProver implements InferenceProcedure
+    public class FOLOTTERLikeTheoremProver : InferenceProcedure
     {
     //
     // Ten seconds is default maximum query time permitted
     private long maxQueryTime = 10 * 1000;
-    private boolean useParamodulation = true;
+    private bool useParamodulation = true;
     private LightestClauseHeuristic lightestClauseHeuristic = new DefaultLightestClauseHeuristic();
     private ClauseFilter clauseFilter = new DefaultClauseFilter();
     private ClauseSimplifier clauseSimplifier = new DefaultClauseSimplifier();
@@ -77,13 +77,13 @@
         setMaxQueryTime(maxQueryTime);
     }
 
-    public FOLOTTERLikeTheoremProver(boolean useParamodulation)
+    public FOLOTTERLikeTheoremProver(bool useParamodulation)
     {
         setUseParamodulation(useParamodulation);
     }
 
     public FOLOTTERLikeTheoremProver(long maxQueryTime,
-            boolean useParamodulation)
+            bool useParamodulation)
     {
         setMaxQueryTime(maxQueryTime);
         setUseParamodulation(useParamodulation);
@@ -99,12 +99,12 @@
         this.maxQueryTime = maxQueryTime;
     }
 
-    public boolean isUseParamodulation()
+    public bool isUseParamodulation()
     {
         return useParamodulation;
     }
 
-    public void setUseParamodulation(boolean useParamodulation)
+    public void setUseParamodulation(bool useParamodulation)
     {
         this.useParamodulation = useParamodulation;
     }
@@ -144,8 +144,8 @@
     // START-InferenceProcedure
     public InferenceResult ask(FOLKnowledgeBase KB, Sentence alpha)
     {
-        Set<Clause> sos = new HashSet<Clause>();
-        Set<Clause> usable = new HashSet<Clause>();
+        ISet<Clause> sos = Factory.CreateSet<Clause>();
+        ISet<Clause> usable = Factory.CreateSet<Clause>();
 
         // Usable set will be the set of clauses in the KB,
         // are assuming this is satisfiable as using the
@@ -167,14 +167,14 @@
             reflexivityClause.addLiteral(new Literal(reflexivityAxiom));
             reflexivityClause = KB.standardizeApart(reflexivityClause);
             reflexivityClause.setStandardizedApartCheckNotRequired();
-            usable.add(reflexivityClause);
+            usable.Add(reflexivityClause);
         }
 
         Sentence notAlpha = new NotSentence(alpha);
         // Want to use an answer literal to pull
         // query variables where necessary
         Literal answerLiteral = KB.createAnswerLiteral(notAlpha);
-        Set<Variable> answerLiteralVariables = KB
+        ISet<Variable> answerLiteralVariables = KB
                 .collectAllVariables(answerLiteral.getAtomicSentence());
         Clause answerClause = new Clause();
 
@@ -227,7 +227,7 @@
 	 * </pre>
 	 */
     private InferenceResult otter(OTTERAnswerHandler ansHandler,
-            IndexedClauses idxdClauses, Set<Clause> sos, Set<Clause> usable)
+            IndexedClauses idxdClauses, ISet<Clause> sos, ISet<Clause> usable)
     {
 
         getLightestClauseHeuristic().initialSOS(sos);
@@ -240,9 +240,9 @@
             if (null != clause)
             {
                 // * move clause from sos to usable
-                sos.remove(clause);
+                sos.Remove(clause);
                 getLightestClauseHeuristic().removedClauseFromSOS(clause);
-                usable.add(clause);
+                usable.Add(clause);
                 // * PROCESS(INFER(clause, usable), sos)
                 process(ansHandler, idxdClauses, infer(clause, usable), sos,
                         usable);
@@ -258,26 +258,26 @@
 	 * <pre>
 	 * function INFER(clause, usable) returns clauses
 	 */
-    private Set<Clause> infer(Clause clause, Set<Clause> usable)
+    private ISet<Clause> infer(Clause clause, ISet<Clause> usable)
     {
-        Set<Clause> resultingClauses = new LinkedHashSet<Clause>();
+        ISet<Clause> resultingClauses = Factory.CreateSet<Clause>();
 
         // * resolve clause with each member of usable
         for (Clause c : usable)
         {
-            Set<Clause> resolvents = clause.binaryResolvents(c);
+            ISet<Clause> resolvents = clause.binaryResolvents(c);
             for (Clause rc : resolvents)
             {
-                resultingClauses.add(rc);
+                resultingClauses.Add(rc);
             }
 
             // if using paramodulation to handle equality
             if (isUseParamodulation())
             {
-                Set<Clause> paras = paramodulation.apply(clause, c, true);
+                ISet<Clause> paras = paramodulation.apply(clause, c, true);
                 for (Clause p : paras)
                 {
-                    resultingClauses.add(p);
+                    resultingClauses.Add(p);
                 }
             }
         }
@@ -288,8 +288,8 @@
 
     // procedure PROCESS(clauses, sos)
     private void process(OTTERAnswerHandler ansHandler,
-            IndexedClauses idxdClauses, Set<Clause> clauses, Set<Clause> sos,
-            Set<Clause> usable)
+            IndexedClauses idxdClauses, ISet<Clause> clauses, ISet<Clause> sos,
+            ISet<Clause> usable)
     {
 
         // * for each clause in clauses do
@@ -343,11 +343,11 @@
     }
 
     private void lookForUnitRefutation(OTTERAnswerHandler ansHandler,
-            IndexedClauses idxdClauses, Clause clause, Set<Clause> sos,
-            Set<Clause> usable)
+            IndexedClauses idxdClauses, Clause clause, ISet<Clause> sos,
+            ISet<Clause> usable)
     {
 
-        Set<Clause> toCheck = new LinkedHashSet<Clause>();
+        ISet<Clause> toCheck = Factory.CreateSet<Clause>();
 
         if (ansHandler.isCheckForUnitRefutation(clause))
         {
@@ -355,14 +355,14 @@
             {
                 if (s.isUnitClause())
                 {
-                    toCheck.add(s);
+                    toCheck.Add(s);
                 }
             }
             for (Clause u : usable)
             {
                 if (u.isUnitClause())
                 {
-                    toCheck.add(u);
+                    toCheck.Add(u);
                 }
             }
         }
@@ -410,13 +410,13 @@
     {
         private LightestClauseHeuristic lightestClauseHeuristic = null;
         // Group the clauses by their # of literals.
-        private Map<Integer, Set<Clause>> clausesGroupedBySize = new HashMap<Integer, Set<Clause>>();
+        private Map<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateMap<int, ISet<Clause>>();
         // Keep track of the min and max # of literals.
-        private int minNoLiterals = Integer.MAX_VALUE;
+        private int minNoLiterals = int.MaxValue;
         private int maxNoLiterals = 0;
 
         public IndexedClauses(LightestClauseHeuristic lightestClauseHeuristic,
-                Set<Clause> sos, Set<Clause> usable)
+                ISet<Clause> sos, ISet<Clause> usable)
         {
             this.lightestClauseHeuristic = lightestClauseHeuristic;
             for (Clause c : sos)
@@ -429,13 +429,13 @@
             }
         }
 
-        public void addClause(Clause c, Set<Clause> sos, Set<Clause> usable)
+        public void addClause(Clause c, ISet<Clause> sos, ISet<Clause> usable)
         {
             // Perform forward subsumption elimination
-            boolean addToSOS = true;
+            bool addToSOS = true;
             for (int i = minNoLiterals; i < c.getNumberLiterals(); i++)
             {
-                Set<Clause> fs = clausesGroupedBySize.get(i);
+                ISet<Clause> fs = clausesGroupedBySize.Get(i);
                 if (null != fs)
                 {
                     for (Clause s : fs)
@@ -455,30 +455,30 @@
 
             if (addToSOS)
             {
-                sos.add(c);
+                sos.Add(c);
                 lightestClauseHeuristic.addedClauseToSOS(c);
                 indexClause(c);
                 // Have added clause, therefore
                 // perform backward subsumption elimination
-                Set<Clause> subsumed = new HashSet<Clause>();
+                ISet<Clause> subsumed = Factory.CreateSet<Clause>();
                 for (int i = c.getNumberLiterals() + 1; i <= maxNoLiterals; i++)
                 {
-                    subsumed.clear();
-                    Set<Clause> bs = clausesGroupedBySize.get(i);
+                    subsumed.Clear();
+                    ISet<Clause> bs = clausesGroupedBySize.Get(i);
                     if (null != bs)
                     {
                         for (Clause s : bs)
                         {
                             if (c.subsumes(s))
                             {
-                                subsumed.add(s);
+                                subsumed.Add(s);
                                 if (sos.contains(s))
                                 {
-                                    sos.remove(s);
+                                    sos.Remove(s);
                                     lightestClauseHeuristic
                                             .removedClauseFromSOS(s);
                                 }
-                                usable.remove(s);
+                                usable.Remove(s);
                             }
                         }
                         bs.removeAll(subsumed);
@@ -501,29 +501,29 @@
             {
                 maxNoLiterals = size;
             }
-            Set<Clause> cforsize = clausesGroupedBySize.get(size);
+            ISet<Clause> cforsize = clausesGroupedBySize.Get(size);
             if (null == cforsize)
             {
-                cforsize = new HashSet<Clause>();
-                clausesGroupedBySize.put(size, cforsize);
+                cforsize = Factory.CreateSet<Clause>();
+                clausesGroupedBySize.Put(size, cforsize);
             }
-            cforsize.add(c);
+            cforsize.Add(c);
         }
     }
 
-    class OTTERAnswerHandler implements InferenceResult
+    class OTTERAnswerHandler : InferenceResult
     {
 
         private Literal answerLiteral = null;
-    private Set<Variable> answerLiteralVariables = null;
+    private ISet<Variable> answerLiteralVariables = null;
     private Clause answerClause = null;
     private long finishTime = 0L;
-    private boolean complete = false;
-    private List<Proof> proofs = new ArrayList<Proof>();
-    private boolean timedOut = false;
+    private bool complete = false;
+    private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
+    private bool timedOut = false;
 
     public OTTERAnswerHandler(Literal answerLiteral,
-            Set<Variable> answerLiteralVariables, Clause answerClause,
+            ISet<Variable> answerLiteralVariables, Clause answerClause,
             long maxQueryTime)
     {
         this.answerLiteral = answerLiteral;
@@ -535,27 +535,27 @@
 
     //
     // START-InferenceResult
-    public boolean isPossiblyFalse()
+    public bool isPossiblyFalse()
     {
         return !timedOut && proofs.size() == 0;
     }
 
-    public boolean isTrue()
+    public bool isTrue()
     {
         return proofs.size() > 0;
     }
 
-    public boolean isUnknownDueToTimeout()
+    public bool isUnknownDueToTimeout()
     {
         return timedOut && proofs.size() == 0;
     }
 
-    public boolean isPartialResultDueToTimeout()
+    public bool isPartialResultDueToTimeout()
     {
         return timedOut && proofs.size() > 0;
     }
 
-    public List<Proof> getProofs()
+    public IQueue<Proof> getProofs()
     {
         return proofs;
     }
@@ -563,17 +563,17 @@
     // END-InferenceResult
     //
 
-    public boolean isComplete()
+    public bool isComplete()
     {
         return complete;
     }
 
-    public boolean isLookingForAnswerLiteral()
+    public bool isLookingForAnswerLiteral()
     {
         return !answerClause.isEmpty();
     }
 
-    public boolean isCheckForUnitRefutation(Clause clause)
+    public bool isCheckForUnitRefutation(Clause clause)
     {
 
         if (isLookingForAnswerLiteral())
@@ -584,7 +584,7 @@
                 {
                     if (t.getAtomicSentence()
                             .getSymbolicName()
-                            .equals(answerLiteral.getAtomicSentence()
+                            .Equals(answerLiteral.getAtomicSentence()
                                     .getSymbolicName()))
                     {
                         return true;
@@ -600,16 +600,16 @@
         return false;
     }
 
-    public boolean isAnswer(Clause clause)
+    public bool isAnswer(Clause clause)
     {
-        boolean isAns = false;
+        bool isAns = false;
 
         if (answerClause.isEmpty())
         {
             if (clause.isEmpty())
             {
-                proofs.add(new ProofFinal(clause.getProofStep(),
-                        new HashMap<Variable, Term>()));
+                proofs.Add(new ProofFinal(clause.getProofStep(),
+                        Factory.CreateMap<Variable, Term>()));
                 complete = true;
                 isAns = true;
             }
@@ -630,25 +630,25 @@
                     && clause.isDefiniteClause()
                     && clause
                             .getPositiveLiterals()
-                            .get(0)
+                            .Get(0)
                             .getAtomicSentence()
                             .getSymbolicName()
-                            .equals(answerLiteral.getAtomicSentence()
+                            .Equals(answerLiteral.getAtomicSentence()
                                     .getSymbolicName()))
             {
-                Map<Variable, Term> answerBindings = new HashMap<Variable, Term>();
-                List<Term> answerTerms = clause.getPositiveLiterals()
-                        .get(0).getAtomicSentence().getArgs();
+                Map<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
+                IQueue<Term> answerTerms = clause.getPositiveLiterals()
+                        .Get(0).getAtomicSentence().getArgs();
                 int idx = 0;
                 for (Variable v : answerLiteralVariables)
                 {
-                    answerBindings.put(v, answerTerms.get(idx));
+                    answerBindings.Put(v, answerTerms.Get(idx));
                     idx++;
                 }
-                boolean addNewAnswer = true;
+                bool addNewAnswer = true;
                 for (Proof p : proofs)
                 {
-                    if (p.getAnswerBindings().equals(answerBindings))
+                    if (p.getAnswerBindings().Equals(answerBindings))
                     {
                         addNewAnswer = false;
                         break;
@@ -656,7 +656,7 @@
                 }
                 if (addNewAnswer)
                 {
-                    proofs.add(new ProofFinal(clause.getProofStep(),
+                    proofs.Add(new ProofFinal(clause.getProofStep(),
                             answerBindings));
                 }
                 isAns = true;
@@ -673,14 +673,14 @@
         return isAns;
     }
 
-    @Override
-        public String toString()
+     
+        public override string ToString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("isComplete=" + complete);
-        sb.append("\n");
-        sb.append("result=" + proofs);
-        return sb.toString();
+        sb.Append("isComplete=" + complete);
+        sb.Append("\n");
+        sb.Append("result=" + proofs);
+        return sb.ToString();
     }
 }
 }

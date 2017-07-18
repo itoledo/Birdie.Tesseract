@@ -71,6 +71,11 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException();
         }
 
+        void IQueue<T>.Sort(IComparer<T> comparer)
+        {
+            throw new NotSupportedException("Not supported");
+        }
+
         bool IQueue<T>.Add(T item)
         {
             throw new NotSupportedException();

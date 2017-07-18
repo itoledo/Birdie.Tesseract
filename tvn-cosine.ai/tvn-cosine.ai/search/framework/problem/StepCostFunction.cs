@@ -11,8 +11,5 @@
      *
      * @author Ruediger Lunde
      */
-    public interface StepCostFunction<S, A>
-    {
-        double applyAsDouble(S s, A a, S sDelta);
-    }
+    public delegate double StepCostFunction<S, A>(S s, A a, S sDelta); 
 }

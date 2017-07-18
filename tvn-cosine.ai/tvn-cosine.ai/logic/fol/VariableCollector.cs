@@ -10,27 +10,27 @@
 
     // Note: The set guarantees the order in which they were
     // found.
-    public Set<Variable> collectAllVariables(Sentence sentence)
+    public ISet<Variable> collectAllVariables(Sentence sentence)
     {
-        Set<Variable> variables = new LinkedHashSet<Variable>();
+        ISet<Variable> variables = Factory.CreateSet<Variable>();
 
         sentence.accept(this, variables);
 
         return variables;
     }
 
-    public Set<Variable> collectAllVariables(Term term)
+    public ISet<Variable> collectAllVariables(Term term)
     {
-        Set<Variable> variables = new LinkedHashSet<Variable>();
+        ISet<Variable> variables = Factory.CreateSet<Variable>();
 
         term.accept(this, variables);
 
         return variables;
     }
 
-    public Set<Variable> collectAllVariables(Clause clause)
+    public ISet<Variable> collectAllVariables(Clause clause)
     {
-        Set<Variable> variables = new LinkedHashSet<Variable>();
+        ISet<Variable> variables = Factory.CreateSet<Variable>();
 
         for (Literal l : clause.getLiterals())
         {
@@ -40,9 +40,9 @@
         return variables;
     }
 
-    public Set<Variable> collectAllVariables(Chain chain)
+    public ISet<Variable> collectAllVariables(Chain chain)
     {
-        Set<Variable> variables = new LinkedHashSet<Variable>();
+        ISet<Variable> variables = Factory.CreateSet<Variable>();
 
         for (Literal l : chain.getLiterals())
         {
@@ -55,21 +55,21 @@
 
     @SuppressWarnings("unchecked")
 
-    public Object visitVariable(Variable var, Object arg)
+    public object visitVariable(Variable var, object arg)
     {
-        Set<Variable> variables = (Set<Variable>)arg;
-        variables.add(var);
+        ISet<Variable> variables = (Set<Variable>)arg;
+        variables.Add(var);
         return var;
     }
 
 
     @SuppressWarnings("unchecked")
 
-    public Object visitQuantifiedSentence(QuantifiedSentence sentence,
-            Object arg)
+    public object visitQuantifiedSentence(QuantifiedSentence sentence,
+            object arg)
     {
         // Ensure I collect quantified variables too
-        Set<Variable> variables = (Set<Variable>)arg;
+        ISet<Variable> variables = (Set<Variable>)arg;
         variables.addAll(sentence.getVariables());
 
         sentence.getQuantified().accept(this, arg);
@@ -77,7 +77,7 @@
         return sentence;
     }
 
-    public Object visitPredicate(Predicate predicate, Object arg)
+    public object visitPredicate(Predicate predicate, object arg)
     {
         for (Term t : predicate.getTerms())
         {
@@ -86,19 +86,19 @@
         return predicate;
     }
 
-    public Object visitTermEquality(TermEquality equality, Object arg)
+    public object visitTermEquality(TermEquality equality, object arg)
     {
         equality.getTerm1().accept(this, arg);
         equality.getTerm2().accept(this, arg);
         return equality;
     }
 
-    public Object visitConstant(Constant constant, Object arg)
+    public object visitConstant(Constant constant, object arg)
     {
         return constant;
     }
 
-    public Object visitFunction(Function function, Object arg)
+    public object visitFunction(Function function, object arg)
     {
         for (Term t : function.getTerms())
         {
@@ -107,13 +107,13 @@
         return function;
     }
 
-    public Object visitNotSentence(NotSentence sentence, Object arg)
+    public object visitNotSentence(NotSentence sentence, object arg)
     {
         sentence.getNegated().accept(this, arg);
         return sentence;
     }
 
-    public Object visitConnectedSentence(ConnectedSentence sentence, Object arg)
+    public object visitConnectedSentence(ConnectedSentence sentence, object arg)
     {
         sentence.getFirst().accept(this, arg);
         sentence.getSecond().accept(this, arg);

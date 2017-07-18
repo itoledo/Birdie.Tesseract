@@ -1,6 +1,6 @@
 ﻿namespace tvn.cosine.ai.nlp.parsing.grammars
 {
-    public class ProbContextFreeGrammar extends ProbContextSensitiveGrammar implements ProbabilisticGrammar
+    public class ProbContextFreeGrammar : ProbContextSensitiveGrammar : ProbabilisticGrammar
     {
 
     // default constructor
@@ -15,11 +15,11 @@
 	 * both the restrictions of the parent grammars (unrestricted and context-sens)
 	 * and this grammar's restrictions.
 	 */
-    public boolean addRules(List<Rule> ruleList)
+    public bool addRules(IQueue<Rule> ruleList)
     {
         for (int i = 0; i < ruleList.size(); i++)
         {
-            if (!super.validRule(ruleList.get(i)) || !validRule(ruleList.get(i)))
+            if (!super.validRule(ruleList.Get(i)) || !validRule(ruleList.Get(i)))
             {
                 return false;
             }
@@ -33,13 +33,13 @@
 	 * both the restrictions of the parent grammars (unrestricted and context-sens)
 	 * and this grammar's restrictions.
 	 */
-    public boolean addRule(Rule r)
+    public bool addRule(Rule r)
     {
         if (!super.validRule(r) || !validRule(r))
         {
             return false;
         }
-        rules.add(r);
+        rules.Add(r);
         return true;
     }
 
@@ -50,14 +50,14 @@
 	 * consist of a single non-terminal (variable). There are no restrictions on the rhs
 	 * 
 	 */
-    public boolean validRule(Rule r)
+    public bool validRule(Rule r)
     {
         if (!super.validRule(r))
         {
             return false;
         }
         // lhs must be a single non-terminal
-        if (r.lhs.size() != 1 || !isVariable(r.lhs.get(0)))
+        if (r.lhs.size() != 1 || !isVariable(r.lhs.Get(0)))
         {
             return false;
         }
@@ -72,14 +72,14 @@
 	 * @param rhs
 	 * @return
 	 */
-    public boolean leftDerivesRight(ArrayList<String> lhs, ArrayList<String> rhs)
+    public bool leftDerivesRight(ArrayList<string> lhs, ArrayList<string> rhs)
     {
 
         // for each rule in the grammar 
         for (int i = 0; i < rules.size(); i++)
         {
-            Rule r = rules.get(i);
-            if (r.lhs.equals(lhs) && r.rhs.equals(rhs))
+            Rule r = rules.Get(i);
+            if (r.lhs.Equals(lhs) && r.rhs.Equals(rhs))
             {
                 // matching rule found. left does derive the right in this grammar
                 return true;

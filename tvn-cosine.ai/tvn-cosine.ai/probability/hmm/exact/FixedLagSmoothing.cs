@@ -64,7 +64,7 @@
         private Matrix B = null;
         // e<sub>t-d:t</sub>, double-ended list of evidence from t-d to t, initially
         // empty
-        private List<Matrix> e_tmd_to_t = new LinkedList<Matrix>();
+        private IQueue<Matrix> e_tmd_to_t = Factory.CreateQueue<Matrix>();
         // a hidden Markov model with S * S transition matrix <b>T</b>
         private HiddenMarkovModel hmm = null;
         // d, the length of the lag for smoothing
@@ -98,25 +98,25 @@
          * @return a distribution over <b>X</b><sub>t-d</sub>
          */
         public CategoricalDistribution fixedLagSmoothing(
-                List<AssignmentProposition> et)
+                IQueue<AssignmentProposition> et)
         {
             // local variables: <b>O</b><sub>t-d</sub>, <b>O</b><sub>t</sub>,
             // diagonal matrices containing the sensor model information
             Matrix O_tmd, O_t;
 
             // add e<sub>t</sub> to the end of e<sub>t-d:t</sub>
-            e_tmd_to_t.add(hmm.getEvidence(et));
+            e_tmd_to_t.Add(hmm.getEvidence(et));
             // <b>O</b><sub>t</sub> <- diagonal matrix containing
             // <b>P</b>(e<sub>t</sub> | X<sub>t</sub>)
-            O_t = e_tmd_to_t.get(e_tmd_to_t.size() - 1);
+            O_t = e_tmd_to_t.Get(e_tmd_to_t.size() - 1);
             // if t > d then
             if (t > d)
             {
                 // remove e<sub>t-d-1</sub> from the beginning of e<sub>t-d:t</sub>
-                e_tmd_to_t.remove(0);
+                e_tmd_to_t.Remove(0);
                 // <b>O</b><sub>t-d</sub> <- diagonal matrix containing
                 // <b>P</b>(e<sub>t-d</sub> | X<sub>t-d</sub>)
-                O_tmd = e_tmd_to_t.get(0);
+                O_tmd = e_tmd_to_t.Get(0);
                 // <b>f</b> <- FORWARD(<b>f</b>, e<sub>t-d</sub>)
                 f = forward(f, O_tmd);
                 // <b>B</b> <-
@@ -178,7 +178,7 @@
             // e<sub>t-d:t</sub>, double-ended list of evidence from t-d to t,
             // initially
             // empty
-            e_tmd_to_t.clear();
+            e_tmd_to_t.Clear();
             unitMessage = hmm.createUnitMessage();
         }
     }

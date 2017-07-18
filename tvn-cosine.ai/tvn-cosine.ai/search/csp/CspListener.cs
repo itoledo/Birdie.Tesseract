@@ -6,7 +6,7 @@
      *
      * @author Ruediger Lunde
      */
-    public interface CspListener<VAR extends Variable, VAL>
+    public interface CspListener<VAR : Variable, VAL>
     {
         /**
          * Informs about changed assignments and inference steps.
@@ -22,11 +22,11 @@
          * inference steps and provides some metrics.
          * @author Ruediger Lunde
          */
-        class StepCounter<VAR extends Variable, VAL> implements CspListener<VAR, VAL> {
+        class StepCounter<VAR : Variable, VAL> : CspListener<VAR, VAL> {
         private int assignmentCount = 0;
         private int inferenceCount = 0;
 
-        @Override
+         
             public void stateChanged(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR variable)
         {
             if (assignment != null)

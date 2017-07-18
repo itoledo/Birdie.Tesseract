@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.learning.reinforcement.agent
 {
@@ -62,14 +63,14 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
     {
         // persistent: Q, a table of action values indexed by state and action,
         // initially zero
-        Map<Pair<S, A>, Double> Q = new HashMap<Pair<S, A>, Double>();
+        Map<Pair<S, A>, double> Q = Factory.CreateMap<Pair<S, A>, double>();
         // N<sub>sa</sub>, a table of frequencies for state-action pairs, initially
         // zero
         private FrequencyCounter<Pair<S, A>> Nsa = new FrequencyCounter<Pair<S, A>>();
         // s,a,r, the previous state, action, and reward, initially null
         private S s = null;
         private A a = null;
-        private Double r = null;
+        private double r = null;
         //
         private ActionsFunction<S, A> actionsFunction = null;
         private A noneAction = null;
@@ -119,8 +120,8 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          *            r'.
          * @return an action
          */
-        @Override
-    public A execute(PerceptStateReward<S> percept)
+
+        public A execute(PerceptStateReward<S> percept)
         {
 
             S sPrime = percept.state();
@@ -129,7 +130,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             // if TERMAINAL?(s') then Q[s',None] <- r'
             if (isTerminal(sPrime))
             {
-                Q.put(new Pair<S, A>(sPrime, noneAction), rPrime);
+                Q.Put(new Pair<S, A>(sPrime, noneAction), rPrime);
             }
 
             // if s is not null then
@@ -140,20 +141,20 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
                 Nsa.incrementFor(sa);
                 // Q[s,a] <- Q[s,a] + &alpha;(N<sub>sa</sub>[s,a])(r +
                 // &gamma;max<sub>a'</sub>Q[s',a'] - Q[s,a])
-                Double Q_sa = Q.get(sa);
+                double Q_sa = Q.Get(sa);
                 if (null == Q_sa)
                 {
                     Q_sa = 0.0;
                 }
-                Q.put(sa, Q_sa + alpha(Nsa, s, a)
+                Q.Put(sa, Q_sa + alpha(Nsa, s, a)
                         * (r + gamma * maxAPrime(sPrime) - Q_sa));
             }
             // if s'.TERMINAL? then s,a,r <- null else
             // s,a,r <- s',argmax<sub>a'</sub>f(Q[s',a'],N<sub>sa</sub>[s',a']),r'
             if (isTerminal(sPrime))
             {
-                s = null;
-                a = null;
+                s =  default(S);
+                a = default(A);
                 r = null;
             }
             else
@@ -167,30 +168,30 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             return a;
         }
 
-        @Override
-    public void reset()
+
+        public override void reset()
         {
-            Q.clear();
-            Nsa.clear();
-            s = null;
-            a = null;
-            r = null;
+            Q.Clear();
+            Nsa.Clear();
+            s = default(S);
+            a = default(A);
+            r = 0;
         }
 
-        @Override
-    public Map<S, Double> getUtility()
+
+        public Map<S, double> getUtility()
         {
             // Q-values are directly related to utility values as follows
             // (AIMA3e pg. 843 - 21.6) :
             // U(s) = max<sub>a</sub>Q(s,a).
-            Map<S, Double> U = new HashMap<S, Double>();
-            for (Pair<S, A> sa : Q.keySet())
+            Map<S, double> U = Factory.CreateMap<S, double>();
+            foreach (Pair<S, A> sa in Q.GetKeys())
             {
-                Double q = Q.get(sa);
-                Double u = U.get(sa.getFirst());
+                double q = Q.Get(sa);
+                double u = U.Get(sa.getFirst());
                 if (null == u || u < q)
                 {
-                    U.put(sa.getFirst(), q);
+                    U.Put(sa.getFirst(), q);
                 }
             }
 
@@ -253,9 +254,9 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         //
         // PRIVATE METHODS
         //
-        private boolean isTerminal(S s)
+        private bool isTerminal(S s)
         {
-            boolean terminal = false;
+            bool terminal = false;
             if (null != s && actionsFunction.actions(s).size() == 0)
             {
                 // No actions possible in state is considered terminal.
@@ -266,24 +267,24 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
 
         private double maxAPrime(S sPrime)
         {
-            double max = Double.NEGATIVE_INFINITY;
+            double max = double.NEGATIVE_INFINITY;
             if (actionsFunction.actions(sPrime).size() == 0)
             {
                 // a terminal state
-                max = Q.get(new Pair<S, A>(sPrime, noneAction));
+                max = Q.Get(new Pair<S, A>(sPrime, noneAction));
             }
             else
             {
                 for (A aPrime : actionsFunction.actions(sPrime))
                 {
-                    Double Q_sPrimeAPrime = Q.get(new Pair<S, A>(sPrime, aPrime));
+                    double Q_sPrimeAPrime = Q.Get(new Pair<S, A>(sPrime, aPrime));
                     if (null != Q_sPrimeAPrime && Q_sPrimeAPrime > max)
                     {
                         max = Q_sPrimeAPrime;
                     }
                 }
             }
-            if (max == Double.NEGATIVE_INFINITY)
+            if (max == double.NEGATIVE_INFINITY)
             {
                 // Assign 0 as the mimics Q being initialized to 0 up front.
                 max = 0.0;
@@ -295,11 +296,11 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         private A argmaxAPrime(S sPrime)
         {
             A a = null;
-            double max = Double.NEGATIVE_INFINITY;
+            double max = double.NEGATIVE_INFINITY;
             for (A aPrime : actionsFunction.actions(sPrime))
             {
                 Pair<S, A> sPrimeAPrime = new Pair<S, A>(sPrime, aPrime);
-                double explorationValue = f(Q.get(sPrimeAPrime), Nsa.getCount(sPrimeAPrime));
+                double explorationValue = f(Q.Get(sPrimeAPrime), Nsa.getCount(sPrimeAPrime));
                 if (explorationValue > max)
                 {
                     max = explorationValue;

@@ -27,7 +27,7 @@
      * @author Ruediger Lunde
      * @author Ravi Mohan
      */
-    public class TreeSearch<S, A> extends QueueSearch<S, A> {
+    public class TreeSearch<S, A> : QueueSearch<S, A> {
 
 
     public TreeSearch()
@@ -37,16 +37,16 @@
 
     public TreeSearch(NodeExpander<S, A> nodeExpander)
     {
-        super(nodeExpander);
+        base(nodeExpander);
     }
 
     /**
 	 * Inserts the node at the tail of the frontier.
 	 */
-    @Override
+     
     protected void addToFrontier(Node<S, A> node)
     {
-        frontier.add(node);
+        frontier.Add(node);
         updateMetrics(frontier.size());
     }
 
@@ -55,10 +55,10 @@
 	 * 
 	 * @return the node at the head of the frontier.
 	 */
-    @Override
+     
     protected Node<S, A> removeFromFrontier()
     {
-        Node<S, A> result = frontier.remove();
+        Node<S, A> result = frontier.Remove();
         updateMetrics(frontier.size());
         return result;
     }
@@ -66,8 +66,8 @@
     /**
 	 * Checks whether the frontier contains not yet expanded nodes.
 	 */
-    @Override
-    protected boolean isFrontierEmpty()
+     
+    protected bool isFrontierEmpty()
     {
         return frontier.isEmpty();
     }

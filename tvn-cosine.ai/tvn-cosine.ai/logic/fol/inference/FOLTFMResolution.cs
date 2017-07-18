@@ -19,7 +19,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class FOLTFMResolution implements InferenceProcedure
+    public class FOLTFMResolution : InferenceProcedure
     {
 
 
@@ -68,7 +68,7 @@
     {
 
         // clauses <- the set of clauses in CNF representation of KB ^ ~alpha
-        Set<Clause> clauses = new LinkedHashSet<Clause>();
+        ISet<Clause> clauses = Factory.CreateSet<Clause>();
         for (Clause c : KB.getAllClauses())
         {
             c = KB.standardizeApart(c);
@@ -79,7 +79,7 @@
         // Want to use an answer literal to pull
         // query variables where necessary
         Literal answerLiteral = KB.createAnswerLiteral(notAlpha);
-        Set<Variable> answerLiteralVariables = KB
+        ISet<Variable> answerLiteralVariables = KB
                 .collectAllVariables(answerLiteral.getAtomicSentence());
         Clause answerClause = new Clause();
 
@@ -112,8 +112,8 @@
                 answerLiteralVariables, answerClause, maxQueryTime);
 
         // new <- {}
-        Set<Clause> newClauses = new LinkedHashSet<Clause>();
-        Set<Clause> toAdd = new LinkedHashSet<Clause>();
+        ISet<Clause> newClauses = Factory.CreateSet<Clause>();
+        ISet<Clause> toAdd = Factory.CreateSet<Clause>();
         // loop do
         int noOfPrevClauses = clauses.size();
         do
@@ -124,20 +124,20 @@
                         newClauses.size());
             }
 
-            newClauses.clear();
+            newClauses.Clear();
 
             // for each Ci, Cj in clauses do
             Clause[] clausesA = new Clause[clauses.size()];
             clauses.toArray(clausesA);
             // Basically, using the simple T)wo F)inger M)ethod here.
-            for (int i = 0; i < clausesA.length; i++)
+            for (int i = 0; i < clausesA.Length; i++)
             {
                 Clause cI = clausesA[i];
                 if (null != tracer)
                 {
                     tracer.stepOuterFor(cI);
                 }
-                for (int j = i; j < clausesA.length; j++)
+                for (int j = i; j < clausesA.Length; j++)
                 {
                     Clause cJ = clausesA[j];
 
@@ -147,11 +147,11 @@
                     }
 
                     // resolvent <- FOL-RESOLVE(Ci, Cj)
-                    Set<Clause> resolvents = cI.binaryResolvents(cJ);
+                    ISet<Clause> resolvents = cI.binaryResolvents(cJ);
 
                     if (resolvents.size() > 0)
                     {
-                        toAdd.clear();
+                        toAdd.Clear();
                         // new <- new <UNION> resolvent
                         for (Clause rc : resolvents)
                         {
@@ -214,19 +214,19 @@
     //
     // PRIVATE METHODS
     //
-    class TFMAnswerHandler implements InferenceResult
+    class TFMAnswerHandler : InferenceResult
     {
 
         private Literal answerLiteral = null;
-    private Set<Variable> answerLiteralVariables = null;
+    private ISet<Variable> answerLiteralVariables = null;
     private Clause answerClause = null;
     private long finishTime = 0L;
-    private boolean complete = false;
-    private List<Proof> proofs = new ArrayList<Proof>();
-    private boolean timedOut = false;
+    private bool complete = false;
+    private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
+    private bool timedOut = false;
 
     public TFMAnswerHandler(Literal answerLiteral,
-            Set<Variable> answerLiteralVariables, Clause answerClause,
+            ISet<Variable> answerLiteralVariables, Clause answerClause,
             long maxQueryTime)
     {
         this.answerLiteral = answerLiteral;
@@ -238,27 +238,27 @@
 
     //
     // START-InferenceResult
-    public boolean isPossiblyFalse()
+    public bool isPossiblyFalse()
     {
         return !timedOut && proofs.size() == 0;
     }
 
-    public boolean isTrue()
+    public bool isTrue()
     {
         return proofs.size() > 0;
     }
 
-    public boolean isUnknownDueToTimeout()
+    public bool isUnknownDueToTimeout()
     {
         return timedOut && proofs.size() == 0;
     }
 
-    public boolean isPartialResultDueToTimeout()
+    public bool isPartialResultDueToTimeout()
     {
         return timedOut && proofs.size() > 0;
     }
 
-    public List<Proof> getProofs()
+    public IQueue<Proof> getProofs()
     {
         return proofs;
     }
@@ -266,7 +266,7 @@
     // END-InferenceResult
     //
 
-    public boolean isComplete()
+    public bool isComplete()
     {
         return complete;
     }
@@ -281,8 +281,8 @@
             {
                 if (aClause.isEmpty())
                 {
-                    proofs.add(new ProofFinal(aClause.getProofStep(),
-                            new HashMap<Variable, Term>()));
+                    proofs.Add(new ProofFinal(aClause.getProofStep(),
+                            Factory.CreateMap<Variable, Term>()));
                     complete = true;
                 }
             }
@@ -302,25 +302,25 @@
                         && aClause.isDefiniteClause()
                         && aClause
                                 .getPositiveLiterals()
-                                .get(0)
+                                .Get(0)
                                 .getAtomicSentence()
                                 .getSymbolicName()
-                                .equals(answerLiteral.getAtomicSentence()
+                                .Equals(answerLiteral.getAtomicSentence()
                                         .getSymbolicName()))
                 {
-                    Map<Variable, Term> answerBindings = new HashMap<Variable, Term>();
-                    List<Term> answerTerms = aClause.getPositiveLiterals()
-                            .get(0).getAtomicSentence().getArgs();
+                    Map<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
+                    IQueue<Term> answerTerms = aClause.getPositiveLiterals()
+                            .Get(0).getAtomicSentence().getArgs();
                     int idx = 0;
                     for (Variable v : answerLiteralVariables)
                     {
-                        answerBindings.put(v, answerTerms.get(idx));
+                        answerBindings.Put(v, answerTerms.Get(idx));
                         idx++;
                     }
-                    boolean addNewAnswer = true;
+                    bool addNewAnswer = true;
                     for (Proof p : proofs)
                     {
-                        if (p.getAnswerBindings().equals(answerBindings))
+                        if (p.getAnswerBindings().Equals(answerBindings))
                         {
                             addNewAnswer = false;
                             break;
@@ -328,7 +328,7 @@
                     }
                     if (addNewAnswer)
                     {
-                        proofs.add(new ProofFinal(aClause.getProofStep(),
+                        proofs.Add(new ProofFinal(aClause.getProofStep(),
                                 answerBindings));
                     }
                 }
@@ -343,14 +343,14 @@
         }
     }
 
-    @Override
-        public String toString()
+     
+        public override string ToString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("isComplete=" + complete);
-        sb.append("\n");
-        sb.append("result=" + proofs);
-        return sb.toString();
+        sb.Append("isComplete=" + complete);
+        sb.Append("\n");
+        sb.Append("result=" + proofs);
+        return sb.ToString();
     }
 }
 }

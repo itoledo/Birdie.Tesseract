@@ -1,30 +1,24 @@
 ﻿namespace tvn.cosine.ai.logic.fol.domain
 {
-    public class FOLDomainSkolemConstantAddedEvent extends FOLDomainEvent
+    public class FOLDomainSkolemConstantAddedEvent : FOLDomainEvent
     {
+        private string skolemConstantName;
+
+        public FOLDomainSkolemConstantAddedEvent(object source, string skolemConstantName)
+            : base(source)
+        {
+            this.skolemConstantName = skolemConstantName;
+        }
+
+        public string getSkolemConstantName()
+        {
+            return skolemConstantName;
+        }
 
 
-    private static final long serialVersionUID = 1L;
-
-    private String skolemConstantName;
-
-    public FOLDomainSkolemConstantAddedEvent(Object source,
-            String skolemConstantName)
-    {
-        super(source);
-
-        this.skolemConstantName = skolemConstantName;
+        public override void notifyListener(FOLDomainListener listener)
+        {
+            listener.skolemConstantAdded(this);
+        }
     }
-
-    public String getSkolemConstantName()
-    {
-        return skolemConstantName;
-    }
-
-    @Override
-    public void notifyListener(FOLDomainListener listener)
-    {
-        listener.skolemConstantAdded(this);
-    }
-}
 }

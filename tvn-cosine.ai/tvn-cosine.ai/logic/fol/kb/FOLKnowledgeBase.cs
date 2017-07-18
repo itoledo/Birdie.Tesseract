@@ -21,15 +21,15 @@
         //
         // Keeps track of the Sentences in their original form as added to the
         // Knowledge base.
-        private List<Sentence> originalSentences = new ArrayList<Sentence>();
+        private IQueue<Sentence> originalSentences = Factory.CreateQueue<Sentence>();
         // The KB in clause form
-        private Set<Clause> clauses = new LinkedHashSet<Clause>();
+        private ISet<Clause> clauses = Factory.CreateSet<Clause>();
         // Keep track of all of the definite clauses in the database
         // along with those that represent implications.
-        private List<Clause> allDefiniteClauses = new ArrayList<Clause>();
-        private List<Clause> implicationDefiniteClauses = new ArrayList<Clause>();
+        private IQueue<Clause> allDefiniteClauses = Factory.CreateQueue<Clause>();
+        private IQueue<Clause> implicationDefiniteClauses = Factory.CreateQueue<Clause>();
         // All the facts in the KB indexed by Atomic Sentence name (Note: pg. 279)
-        private Map<String, List<Literal>> indexFacts = new HashMap<String, List<Literal>>();
+        private Map<string, IQueue<Literal>> indexFacts = Factory.CreateMap<string, IQueue<Literal>>();
         // Keep track of indexical keys for uniquely standardizing apart sentences
         private StandardizeApartIndexical variableIndexical = StandardizeApartIndexicalFactory
                 .newStandardizeApartIndexical('v');
@@ -67,11 +67,11 @@
 
         public void clear()
         {
-            this.originalSentences.clear();
-            this.clauses.clear();
-            this.allDefiniteClauses.clear();
-            this.implicationDefiniteClauses.clear();
-            this.indexFacts.clear();
+            this.originalSentences.Clear();
+            this.clauses.Clear();
+            this.allDefiniteClauses.Clear();
+            this.implicationDefiniteClauses.Clear();
+            this.indexFacts.Clear();
         }
 
         public InferenceProcedure getInferenceProcedure()
@@ -87,14 +87,14 @@
             }
         }
 
-        public Sentence tell(String sentence)
+        public Sentence tell(string sentence)
         {
             Sentence s = parser.parse(sentence);
             tell(s);
             return s;
         }
 
-        public void tell(List<? extends Sentence> sentences)
+        public void tell(IQueue<? : Sentence> sentences)
         {
             for (Sentence s : sentences)
             {
@@ -112,7 +112,7 @@
          * @param querySentence
          * @return an InferenceResult.
          */
-        public InferenceResult ask(String querySentence)
+        public InferenceResult ask(string querySentence)
         {
             return ask(parser.parse(querySentence));
         }
@@ -133,11 +133,11 @@
             for (Proof p : infResult.getProofs())
             {
                 Map<Variable, Term> im = p.getAnswerBindings();
-                Map<Variable, Term> em = new LinkedHashMap<Variable, Term>();
-                for (Variable rev : saResult.getReverseSubstitution().keySet())
+                Map<Variable, Term> em = Factory.CreateMap<Variable, Term>();
+                for (Variable rev : saResult.getReverseSubstitution().GetKeys())
                 {
-                    em.put((Variable)saResult.getReverseSubstitution().get(rev),
-                            im.get(rev));
+                    em.Put((Variable)saResult.getReverseSubstitution().Get(rev),
+                            im.Get(rev));
                 }
                 p.replaceAnswerBindings(em);
             }
@@ -155,32 +155,32 @@
             return clauses.size() - getNumberFacts();
         }
 
-        public List<Sentence> getOriginalSentences()
+        public IQueue<Sentence> getOriginalSentences()
         {
-            return Collections.unmodifiableList(originalSentences);
+            return Factory.CreateReadOnlyQueue<>(originalSentences);
         }
 
-        public List<Clause> getAllDefiniteClauses()
+        public IQueue<Clause> getAllDefiniteClauses()
         {
-            return Collections.unmodifiableList(allDefiniteClauses);
+            return Factory.CreateReadOnlyQueue<>(allDefiniteClauses);
         }
 
-        public List<Clause> getAllDefiniteClauseImplications()
+        public IQueue<Clause> getAllDefiniteClauseImplications()
         {
-            return Collections.unmodifiableList(implicationDefiniteClauses);
+            return Factory.CreateReadOnlyQueue<>(implicationDefiniteClauses);
         }
 
-        public Set<Clause> getAllClauses()
+        public ISet<Clause> getAllClauses()
         {
-            return Collections.unmodifiableSet(clauses);
+            return Factory.CreateReadOnlySet<>(clauses);
         }
 
         // Note: pg 278, FETCH(q) concept.
-        public synchronized Set<Map<Variable, Term>> fetch(Literal l) {
+        public synchronized ISet<IMap<Variable, Term>> fetch(Literal l) {
             // Get all of the substitutions in the KB that p unifies with
-            Set<Map<Variable, Term>> allUnifiers = new LinkedHashSet<Map<Variable, Term>>();
+            ISet<IMap<Variable, Term>> allUnifiers = Factory.CreateSet<IMap<Variable, Term>>();
 
-            List<Literal> matchingFacts = fetchMatchingFacts(l);
+            IQueue<Literal> matchingFacts = fetchMatchingFacts(l);
             if (null != matchingFacts)
             {
                 for (Literal fact : matchingFacts)
@@ -189,7 +189,7 @@
                             l.getAtomicSentence(), fact.getAtomicSentence());
                     if (null != substitution)
                     {
-                        allUnifiers.add(substitution);
+                        allUnifiers.Add(substitution);
                     }
                 }
             }
@@ -198,16 +198,16 @@
         }
 
         // Note: To support FOL-FC-Ask
-        public Set<Map<Variable, Term>> fetch(List<Literal> literals)
+        public ISet<IMap<Variable, Term>> fetch(IQueue<Literal> literals)
         {
-            Set<Map<Variable, Term>> possibleSubstitutions = new LinkedHashSet<Map<Variable, Term>>();
+            ISet<IMap<Variable, Term>> possibleSubstitutions = Factory.CreateSet<IMap<Variable, Term>>();
 
             if (literals.size() > 0)
             {
-                Literal first = literals.get(0);
-                List<Literal> rest = literals.subList(1, literals.size());
+                Literal first = literals.Get(0);
+                IQueue<Literal> rest = literals.subList(1, literals.size());
 
-                recursiveFetch(new LinkedHashMap<Variable, Term>(), first, rest,
+                recursiveFetch(Factory.CreateMap<Variable, Term>(), first, rest,
                         possibleSubstitutions);
             }
 
@@ -219,17 +219,17 @@
             return unifier.unify(x, y);
         }
 
-        public Sentence subst(Map<Variable, Term> theta, Sentence aSentence)
+        public Sentence subst(IMap<Variable, Term> theta, Sentence aSentence)
         {
             return substVisitor.subst(theta, aSentence);
         }
 
-        public Literal subst(Map<Variable, Term> theta, Literal l)
+        public Literal subst(IMap<Variable, Term> theta, Literal l)
         {
             return substVisitor.subst(theta, l);
         }
 
-        public Term subst(Map<Variable, Term> theta, Term term)
+        public Term subst(IMap<Variable, Term> theta, Term term)
         {
             return substVisitor.subst(theta, term);
         }
@@ -251,7 +251,7 @@
             return standardizeApart.standardizeApart(chain, variableIndexical);
         }
 
-        public Set<Variable> collectAllVariables(Sentence sentence)
+        public ISet<Variable> collectAllVariables(Sentence sentence)
         {
             return variableCollector.collectAllVariables(sentence);
         }
@@ -261,32 +261,32 @@
             return cnfConverter.convertToCNF(sentence);
         }
 
-        public Set<Clause> convertToClauses(Sentence sentence)
+        public ISet<Clause> convertToClauses(Sentence sentence)
         {
             CNF cnf = cnfConverter.convertToCNF(sentence);
 
-            return new LinkedHashSet<Clause>(cnf.getConjunctionOfClauses());
+            return Factory.CreateSet<Clause>(cnf.getConjunctionOfClauses());
         }
 
         public Literal createAnswerLiteral(Sentence forQuery)
         {
-            String alName = parser.getFOLDomain().addAnswerLiteral();
-            List<Term> terms = new ArrayList<Term>();
+            string alName = parser.getFOLDomain().addAnswerLiteral();
+            IQueue<Term> terms = Factory.CreateQueue<Term>();
 
-            Set<Variable> vars = variableCollector.collectAllVariables(forQuery);
+            ISet<Variable> vars = variableCollector.collectAllVariables(forQuery);
             for (Variable v : vars)
             {
                 // Ensure copies of the variables are used.
-                terms.add(v.copy());
+                terms.Add(v.copy());
             }
 
             return new Literal(new Predicate(alName, terms));
         }
 
         // Note: see pg. 281
-        public boolean isRenaming(Literal l)
+        public bool isRenaming(Literal l)
         {
-            List<Literal> possibleMatches = fetchMatchingFacts(l);
+            IQueue<Literal> possibleMatches = fetchMatchingFacts(l);
             if (null != possibleMatches)
             {
                 return isRenaming(l, possibleMatches);
@@ -296,7 +296,7 @@
         }
 
         // Note: see pg. 281
-        public boolean isRenaming(Literal l, List<Literal> possibleMatches)
+        public bool isRenaming(Literal l, IQueue<Literal> possibleMatches)
         {
 
             for (Literal q : possibleMatches)
@@ -312,7 +312,7 @@
                     int cntVarTerms = 0;
                     for (Term t : subst.values())
                     {
-                        if (t instanceof Variable) {
+                        if (t is Variable) {
                 cntVarTerms++;
             }
         }
@@ -327,16 +327,16 @@
 		return false;
 	}
 
-	@Override
-    public String toString()
+	 
+    public override string ToString()
 {
     StringBuilder sb = new StringBuilder();
     for (Sentence s : originalSentences)
     {
-        sb.append(s.toString());
-        sb.append("\n");
+        sb.Append(s.ToString());
+        sb.Append("\n");
     }
-    return sb.toString();
+    return sb.ToString();
 }
 
 //
@@ -355,7 +355,7 @@ protected FOLParser getParser()
 // Note: pg 278, STORE(s) concept.
 private synchronized void store(Sentence sentence)
 {
-    originalSentences.add(sentence);
+    originalSentences.Add(sentence);
 
     // Convert the sentence to CNF
     CNF cnfOfOrig = cnfConverter.convertToCNF(sentence);
@@ -378,17 +378,17 @@ private synchronized void store(Sentence sentence)
         // Will make all clauses immutable
         // so that they cannot be modified externally.
         c.setImmutable();
-        if (clauses.add(c))
+        if (clauses.Add(c))
         {
             // If added keep track of special types of
             // clauses, as useful for query purposes
             if (c.isDefiniteClause())
             {
-                allDefiniteClauses.add(c);
+                allDefiniteClauses.Add(c);
             }
             if (c.isImplicationDefiniteClause())
             {
-                implicationDefiniteClauses.add(c);
+                implicationDefiniteClauses.Add(c);
             }
             if (c.isUnitClause())
             {
@@ -402,24 +402,24 @@ private synchronized void store(Sentence sentence)
 // see pg. 279 for general idea.
 private void indexFact(Literal fact)
 {
-    String factKey = getFactKey(fact);
+    string factKey = getFactKey(fact);
     if (!indexFacts.containsKey(factKey))
     {
-        indexFacts.put(factKey, new ArrayList<Literal>());
+        indexFacts.Put(factKey, Factory.CreateQueue<Literal>());
     }
 
-    indexFacts.get(factKey).add(fact);
+    indexFacts.Get(factKey).Add(fact);
 }
 
-private void recursiveFetch(Map<Variable, Term> theta, Literal l,
-        List<Literal> remainingLiterals,
-        Set<Map<Variable, Term>> possibleSubstitutions)
+private void recursiveFetch(IMap<Variable, Term> theta, Literal l,
+        IQueue<Literal> remainingLiterals,
+        ISet<IMap<Variable, Term>> possibleSubstitutions)
 {
 
     // Find all substitutions for current predicate based on the
     // substitutions of prior predicates in the list (i.e. SUBST with
     // theta).
-    Set<Map<Variable, Term>> pSubsts = fetch(subst(theta, l));
+    ISet<IMap<Variable, Term>> pSubsts = fetch(subst(theta, l));
 
     // No substitutions, therefore cannot continue
     if (null == pSubsts)
@@ -427,7 +427,7 @@ private void recursiveFetch(Map<Variable, Term> theta, Literal l,
         return;
     }
 
-    for (Map<Variable, Term> psubst : pSubsts)
+    for (IMap<Variable, Term> psubst : pSubsts)
     {
         // Ensure all prior substitution information is maintained
         // along the chain of predicates (i.e. for shared variables
@@ -437,13 +437,13 @@ private void recursiveFetch(Map<Variable, Term> theta, Literal l,
         {
             // This means I am at the end of the chain of predicates
             // and have found a valid substitution.
-            possibleSubstitutions.add(psubst);
+            possibleSubstitutions.Add(psubst);
         }
         else
         {
             // Need to move to the next link in the chain of substitutions
-            Literal first = remainingLiterals.get(0);
-            List<Literal> rest = remainingLiterals.subList(1,
+            Literal first = remainingLiterals.Get(0);
+            IQueue<Literal> rest = remainingLiterals.subList(1,
                     remainingLiterals.size());
 
             recursiveFetch(psubst, first, rest, possibleSubstitutions);
@@ -451,25 +451,25 @@ private void recursiveFetch(Map<Variable, Term> theta, Literal l,
     }
 }
 
-private List<Literal> fetchMatchingFacts(Literal l)
+private IQueue<Literal> fetchMatchingFacts(Literal l)
 {
-    return indexFacts.get(getFactKey(l));
+    return indexFacts.Get(getFactKey(l));
 }
 
-private String getFactKey(Literal l)
+private string getFactKey(Literal l)
 {
     StringBuilder key = new StringBuilder();
     if (l.isPositiveLiteral())
     {
-        key.append("+");
+        key.Append("+");
     }
     else
     {
-        key.append("-");
+        key.Append("-");
     }
-    key.append(l.getAtomicSentence().getSymbolicName());
+    key.Append(l.getAtomicSentence().getSymbolicName());
 
-    return key.toString();
+    return key.ToString();
 }
 }
 }

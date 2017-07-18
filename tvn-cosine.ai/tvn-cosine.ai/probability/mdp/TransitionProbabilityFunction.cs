@@ -11,7 +11,7 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public interface TransitionProbabilityFunction<S, A extends Action>
+    public interface TransitionProbabilityFunction<S, A : Action>
     {
 
         /**

@@ -1,4 +1,6 @@
-﻿using tvn.cosine.ai.util;
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.environment.wumpusworld
 {
@@ -10,36 +12,35 @@ namespace tvn.cosine.ai.environment.wumpusworld
      * @author Ciaran O'Reilly
      * @author Ruediger Lunde
      */
-    public class ManhattanHeuristicFunction : ToDoubleFunction<Node<AgentPosition, WumpusAction>> {
-
-
-    private List<AgentPosition> goals = new ArrayList<>();
-
-    public ManhattanHeuristicFunction(Set<AgentPosition> goals)
+    public class ManhattanHeuristicFunction : ToDoubleFunction<Node<AgentPosition, WumpusAction>>
     {
-        this.goals.addAll(goals);
-    }
+        private IQueue<AgentPosition> goals = Factory.CreateQueue<AgentPosition>();
 
-    @Override
-    public double applyAsDouble(Node<AgentPosition, WumpusAction> node)
-    {
-        AgentPosition pos = node.getState();
-        int nearestGoalDist = Integer.MAX_VALUE;
-        for (AgentPosition g : goals)
+        public ManhattanHeuristicFunction(ISet<AgentPosition> goals)
         {
-            int tmp = evaluateManhattanDistanceOf(pos.getX(), pos.getY(), g.getX(), g.getY());
-            if (tmp < nearestGoalDist)
-                nearestGoalDist = tmp;
+            this.goals.AddAll(goals);
         }
-        return (double)nearestGoalDist;
-    }
 
-    //
-    // PRIVATE
-    //
-    private int evaluateManhattanDistanceOf(int x1, int y1, int x2, int y2)
-    {
-        return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+
+        public double applyAsDouble(Node<AgentPosition, WumpusAction> node)
+        {
+            AgentPosition pos = node.getState();
+            int nearestGoalDist = int.MaxValue;
+            foreach (AgentPosition g in goals)
+            {
+                int tmp = evaluateManhattanDistanceOf(pos.getX(), pos.getY(), g.getX(), g.getY());
+                if (tmp < nearestGoalDist)
+                    nearestGoalDist = tmp;
+            }
+            return (double)nearestGoalDist;
+        }
+
+        //
+        // PRIVATE
+        //
+        private int evaluateManhattanDistanceOf(int x1, int y1, int x2, int y2)
+        {
+            return System.Math.Abs(x1 - x2) + System.Math.Abs(y1 - y2);
+        }
     }
-}
 }

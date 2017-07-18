@@ -80,6 +80,11 @@ namespace tvn.cosine.ai.common.collections
             return new Enumerator(backingMap);
         }
 
+        void IQueue<KeyValuePair<KEY, VALUE>>.Sort(IComparer<KeyValuePair<KEY, VALUE>> comparer)
+        {
+            throw new NotSupportedException("Not supported");
+        }
+         
         public IQueue<KEY> GetKeys()
         {
             IQueue<KEY> obj = Factory.CreateSet<KEY>();

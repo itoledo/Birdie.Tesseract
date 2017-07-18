@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.probability.bayes
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.proposition;
+
+namespace tvn.cosine.ai.probability.bayes
 {
     /**
      * A conditional probability distribution on a RandomVariable X<sub>i</sub>:<br>
@@ -21,7 +24,7 @@
          * @return a consistent ordered Set (e.g. LinkedHashSet) of the parent
          *         Random Variables for this conditional distribution.
          */
-        Set<RandomVariable> getParents();
+        ISet<RandomVariable> getParents();
 
         /**
          * A convenience method for merging the elements of getParents() and getOn()
@@ -31,7 +34,7 @@
          * @return a consistent ordered Set (e.g. LinkedHashSet) of the random
          *         variables this conditional probability distribution is for.
          */
-        Set<RandomVariable> getFor();
+        ISet<RandomVariable> getFor();
 
         /**
          * 
@@ -40,7 +43,7 @@
          * @return true if the conditional distribution is for the passed in Random
          *         Variable, false otherwise.
          */
-        boolean contains(RandomVariable rv);
+        bool contains(RandomVariable rv);
 
         /**
          * Get the value for the provided set of values for the random variables
@@ -53,7 +56,7 @@
          * @return the value for the possible worlds associated with the assignments
          *         for the random variables comprising the Conditional Distribution.
          */
-        double getValue(Object...eventValues);
+        double getValue(params object[] eventValues);
 
         /**
          * Get the value for the provided set of AssignmentPropositions for the
@@ -66,7 +69,7 @@
          * @return the value for the possible worlds associated with the assignments
          *         for the random variables comprising the Conditional Distribution.
          */
-        double getValue(AssignmentProposition...eventValues);
+        double getValue(params AssignmentProposition[] eventValues);
 
         /**
          * A conditioning case is just a possible combination of values for the
@@ -83,7 +86,7 @@
          * @see ConditionalProbabilityDistribution#getOn()
          * @see ConditionalProbabilityDistribution#getParents()
          */
-        ProbabilityDistribution getConditioningCase(Object...parentValues);
+        ProbabilityDistribution getConditioningCase(params object[] parentValues);
 
         /**
          * A conditioning case is just a possible combination of values for the
@@ -99,8 +102,7 @@
          * @see ConditionalProbabilityDistribution#getOn()
          * @see ConditionalProbabilityDistribution#getParents()
          */
-        ProbabilityDistribution getConditioningCase(
-                AssignmentProposition...parentValues);
+        ProbabilityDistribution getConditioningCase(params AssignmentProposition[] parentValues);
 
         /**
          * Retrieve a specific example for the Random Variable this conditional
@@ -117,7 +119,7 @@
          *         distribution is on, based on the probability argument passed in.
          * @see ConditionalProbabilityDistribution#getOn()
          */
-        Object getSample(double probabilityChoice, Object...parentValues);
+        object getSample(double probabilityChoice, params object[] parentValues);
 
         /**
          * Retrieve a specific example for the Random Variable this conditional
@@ -133,8 +135,7 @@
          *         distribution is on, based on the probability argument passed in.
          * @see ConditionalProbabilityDistribution#getOn()
          */
-        Object getSample(double probabilityChoice,
-                AssignmentProposition...parentValues);
+        object getSample(double probabilityChoice, params AssignmentProposition[] parentValues);
     }
 
 }

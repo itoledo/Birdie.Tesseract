@@ -1,4 +1,11 @@
-﻿namespace tvn.cosine.ai.robotics
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.util;
+using tvn.cosine.ai.robotics.datatypes;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.robotics
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 982.<br>
@@ -42,141 +49,144 @@
      * @param <M> a movement (or sequence of movements) of the robot implementing {@link IMclMove}. 
      * @param <R> a range measurement implementing {@link IMclRangeReading}.
      */
-    public final class MonteCarloLocalization<P extends IMclPose<P, V, M>, V extends IMclVector, M extends IMclMove<M>, R extends IMclRangeReading<R, V>> {
-	
-	private static final String SAMPLE_INDEXES_NAME = "SAMPLE_INDEXES";
-	
-	private final IMclMap<P, V, M, R> map;
-    private final Randomizer randomizer;
-	
-	private RandVar sampleIndexes;
-    private double weightCutOff;
-
-    /**
-	 * @param map an instance of a class implementing {@link IMclMap}.
-	 * @param randomizer a {@link Randomizer} that is used for re-sampling.
-	 */
-    public MonteCarloLocalization(IMclMap<P, V, M, R> map, Randomizer randomizer)
+    public class MonteCarloLocalization<P, V, M, R>
+        where P : IMclPose<P, V, M>
+        where V : IMclVector
+        where M : IMclMove<M>
+        where R : IMclRangeReading<R, V>
     {
-        this.map = map;
-        this.randomizer = randomizer;
-    }
 
-    /**
-	 * Sets the minimum weight of the particles.
-	 * @param cutOff the minimum weight below which the corresponding particle gets removed during the {@code resample()} step. Set to zero when in doubt.
-	 */
-    public void setWeightCutOff(double cutOff)
-    {
-        this.weightCutOff = cutOff;
-    }
+        private const string SAMPLE_INDEXES_NAME = "SAMPLE_INDEXES";
 
-    /**
-	 * Applies a move to the samples, creating a new {@link Set}.
-	 * @param samples the samples the move will be applied to.
-	 * @param move the move to be applied to the samples.
-	 * @return a new set of size N containing the moved samples.
-	 */
-    protected Set<P> applyMove(Set<P> samples, M move)
-    {
-        Set<P> newSamples = new LinkedHashSet<P>();
-        for (P sample: samples)
+        private readonly IMclMap<P, V, M, R> map;
+        private readonly IRandom randomizer;
+
+        private RandVar sampleIndexes;
+        private double weightCutOff;
+
+        /**
+         * @param map an instance of a class implementing {@link IMclMap}.
+         * @param randomizer a {@link Randomizer} that is used for re-sampling.
+         */
+        public MonteCarloLocalization(IMclMap<P, V, M, R> map, IRandom randomizer)
         {
-            newSamples.add(sample.applyMovement(move.generateNoise()));
+            this.map = map;
+            this.randomizer = randomizer;
         }
-        return newSamples;
-    }
 
-    /**
-	 * Weights the samples by a given vector of range scans.
-	 * @param samples the samples to be weighted.
-	 * @param rangeReadings the vector containing all range scans.
-	 * @return a vector of weights of size N.
-	 */
-    protected double[] weightSamples(Set<P> samples, R[] rangeReadings)
-    {
-        Iterator<P> samplesIterator = samples.iterator();
-        double[] w = new double[samples.size()];
-        for (int j = 0; j < samples.size(); j++)
+        /**
+         * Sets the minimum weight of the particles.
+         * @param cutOff the minimum weight below which the corresponding particle gets removed during the {@code resample()} step. Set to zero when in doubt.
+         */
+        public void setWeightCutOff(double cutOff)
         {
-            P sample = samplesIterator.next();
-            if (map.isPoseValid(sample))
+            this.weightCutOff = cutOff;
+        }
+
+        /**
+         * Applies a move to the samples, creating a new {@link Set}.
+         * @param samples the samples the move will be applied to.
+         * @param move the move to be applied to the samples.
+         * @return a new set of size N containing the moved samples.
+         */
+        protected ISet<P> applyMove(ISet<P> samples, M move)
+        {
+            ISet<P> newSamples = Factory.CreateSet<P>();
+            foreach (P sample in samples)
             {
-                w[j] = 1.0d;
-                for (int i = 0; i < rangeReadings.length; i++)
+                newSamples.Add(sample.applyMovement(move.generateNoise()));
+            }
+            return newSamples;
+        }
+
+        /**
+         * Weights the samples by a given vector of range scans.
+         * @param samples the samples to be weighted.
+         * @param rangeReadings the vector containing all range scans.
+         * @return a vector of weights of size N.
+         */
+        protected double[] weightSamples(ISet<P> samples, R[] rangeReadings)
+        {
+            int j = 0;
+            double[] w = new double[samples.Size()];
+            foreach (P sample in samples)
+            { 
+                if (map.isPoseValid(sample))
                 {
-                    w[j] = w[j] * rangeReadings[i].calculateWeight(map.rayCast(sample.addAngle(rangeReadings[i].getAngle())));
+                    w[j] = 1.0d;
+                    for (int i = 0; i < rangeReadings.Length; i++)
+                    {
+                        w[j] = w[j] * rangeReadings[i].calculateWeight(map.rayCast(sample.addAngle(rangeReadings[i].getAngle())));
+                    }
                 }
+                else
+                {
+                    w[j] = 0.0d;
+                }
+                ++j;
             }
-            else
+            return w;
+        }
+
+        /**
+         * Taken {@code weightedSampleWithReplacement} out of {@link ParticleFiltering} and extended by a minimum weight.
+         * @param samples the samples to be re-sampled.
+         * @param w the probability distribution on the samples.
+         * @return the new set of samples.
+         */
+        protected ISet<P> extendedWeightedSampleWithReplacement(ISet<P> samples, double[] w)
+        {
+            int i = 0;
+            for (; i < samples.Size(); i++)
             {
-                w[j] = 0.0d;
+                if (w[i] > weightCutOff) break;
             }
+            if (i >= samples.Size()) return generateCloud(samples.Size()); /*If all particleCloud are below weightCutOff, generate a new set of samples, as we are lost.*/
+                                                                           /*WEIGHTED-SAMPLE-WITH-REPLACEMENT:*/
+            double[] normalizedW = Util.normalize(w);
+            ISet<P> newSamples = Factory.CreateSet<P>();
+            P[] array = samples.ToArray();
+            for (i = 0; i < samples.Size(); i++)
+            {
+                int selectedSample = (int)ProbUtil.sample(randomizer.NextDouble(), sampleIndexes, normalizedW);
+                newSamples.Add((array[selectedSample]).clone());
+            }
+            return newSamples;
         }
-        return w;
-    }
 
-    /**
-	 * Taken {@code weightedSampleWithReplacement} out of {@link ParticleFiltering} and extended by a minimum weight.
-	 * @param samples the samples to be re-sampled.
-	 * @param w the probability distribution on the samples.
-	 * @return the new set of samples.
-	 */
-    @SuppressWarnings("unchecked")
-
-    protected Set<P> extendedWeightedSampleWithReplacement(Set<P> samples, double[] w)
-    {
-        int i = 0;
-        for (; i < samples.size(); i++)
+        /**
+         * This method is the initialization phase of the algorithm. It has to be called to generate a set of samples of count N.
+         * @param N the count of samples.
+         * @return a set containing N samples.
+         */
+        public ISet<P> generateCloud(int N)
         {
-            if (w[i] > weightCutOff) break;
+            ISet<P> samples = Factory.CreateSet<P>();
+            int[] indexes = new int[N];
+            for (int i = 0; i < N; i++)
+            {
+                samples.Add(map.randomPose());
+                indexes[i] = i;
+            }
+            sampleIndexes = new RandVar(SAMPLE_INDEXES_NAME, new FiniteIntegerDomain(indexes));
+            return samples;
         }
-        if (i >= samples.size()) return generateCloud(samples.size()); /*If all particleCloud are below weightCutOff, generate a new set of samples, as we are lost.*/
-                                                                       /*WEIGHTED-SAMPLE-WITH-REPLACEMENT:*/
-        double[] normalizedW = Util.normalize(w);
-        Set<P> newSamples = new LinkedHashSet<P>();
-        Object[] array = samples.toArray(new Object[0]);
-        for (i = 0; i < samples.size(); i++)
-        {
-            final int selectedSample = (Integer)ProbUtil.sample(randomizer.nextDouble(), sampleIndexes, normalizedW);
-            newSamples.add(((P)array[selectedSample]).clone());
-        }
-        return newSamples;
-    }
 
-    /**
-	 * This method is the initialization phase of the algorithm. It has to be called to generate a set of samples of count N.
-	 * @param N the count of samples.
-	 * @return a set containing N samples.
-	 */
-    public Set<P> generateCloud(int N)
-    {
-        Set<P> samples = new LinkedHashSet<P>();
-        Integer[] indexes = new Integer[N];
-        for (int i = 0; i < N; i++)
+        /**
+         * Executes the update cycle of the Monte-Carlo-Localization for the given parameters.
+         * @param samples the sample cloud.
+         * @param move the move to be applied to the cloud.
+         * @param rangeReadings the range scan that has been performed after the move has ended.
+         * @return a new Set containing updated samples. {@code null} is returned if {@code samples} is {@code null}.
+         */
+        public ISet<P> localize(ISet<P> samples, M move, R[] rangeReadings)
         {
-            samples.add(map.randomPose());
-            indexes[i] = i;
+            if (samples == null) return null;/*initialization phase = call generateCloud*/
+            ISet<P> newSamples = applyMove(samples, move);/*motion model*/
+            double[] w = weightSamples(newSamples, rangeReadings);/*range sensor noise model*/
+            newSamples = extendedWeightedSampleWithReplacement(newSamples, w);
+            return newSamples;
         }
-        sampleIndexes = new RandVar(SAMPLE_INDEXES_NAME, new FiniteIntegerDomain(indexes));
-        return samples;
     }
-
-    /**
-	 * Executes the update cycle of the Monte-Carlo-Localization for the given parameters.
-	 * @param samples the sample cloud.
-	 * @param move the move to be applied to the cloud.
-	 * @param rangeReadings the range scan that has been performed after the move has ended.
-	 * @return a new Set containing updated samples. {@code null} is returned if {@code samples} is {@code null}.
-	 */
-    public Set<P> localize(Set<P> samples, M move, R[] rangeReadings)
-    {
-        if (samples == null) return null;/*initialization phase = call generateCloud*/
-        Set<P> newSamples = applyMove(samples, move);/*motion model*/
-        double[] w = weightSamples(newSamples, rangeReadings);/*range sensor noise model*/
-        newSamples = extendedWeightedSampleWithReplacement(newSamples, w);
-        return newSamples;
-    }
-}
 
 }

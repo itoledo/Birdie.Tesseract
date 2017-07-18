@@ -5,42 +5,42 @@
 
         public double authority;
         public double hub;
-        private String location;
-        private String content;
-        private List<String> linkTo;
-        private List<String> linkedFrom;
+        private string location;
+        private string content;
+        private IQueue<string> linkTo;
+        private IQueue<string> linkedFrom;
 
-        public Page(String location)
+        public Page(string location)
         {
             authority = 0;
             hub = 0;
             this.location = location;
-            this.linkTo = new ArrayList<String>();
-            this.linkedFrom = new ArrayList<String>();
+            this.linkTo = Factory.CreateQueue<string>();
+            this.linkedFrom = Factory.CreateQueue<string>();
         }
 
-        public String getLocation()
+        public string getLocation()
         {
             return location;
         }
 
-        public String getContent()
+        public string getContent()
         {
             return content;
         }
 
-        public boolean setContent(String content)
+        public bool setContent(string content)
         {
             this.content = content;
             return true;
         }
 
-        public List<String> getInlinks()
+        public IQueue<string> getInlinks()
         {
             return linkedFrom;
         }
 
-        public List<String> getOutlinks()
+        public IQueue<string> getOutlinks()
         {
             return linkTo;
         }

@@ -32,7 +32,7 @@
      * @author Ravi Mohan
      * 
      */
-    public class PolicyIteration<S, A extends Action>
+    public class PolicyIteration<S, A : Action>
     {
 
         private PolicyEvaluation<S, A> policyEvaluation = null;
@@ -60,10 +60,10 @@
         {
             // local variables: U, a vector of utilities for states in S, initially
             // zero
-            Map<S, Double> U = Util.create(mdp.states(), new Double(0));
+            Map<S, double> U = Util.create(mdp.states(), new Double(0));
             // &pi;, a policy vector indexed by state, initially random
             Map<S, A> pi = initialPolicyVector(mdp);
-            boolean unchanged;
+            bool unchanged;
             // repeat
             do
             {
@@ -77,15 +77,15 @@
                     // calculate:
                     // max<sub>a &isin; A(s)</sub>
                     // &Sigma;<sub>s'</sub>P(s'|s,a)U[s']
-                    double aMax = Double.NEGATIVE_INFINITY, piVal = 0;
-                    A aArgmax = pi.get(s);
+                    double aMax = double.NEGATIVE_INFINITY, piVal = 0;
+                    A aArgmax = pi.Get(s);
                     for (A a : mdp.actions(s))
                     {
                         double aSum = 0;
                         for (S sDelta : mdp.states())
                         {
                             aSum += mdp.transitionProbability(sDelta, s, a)
-                                    * U.get(sDelta);
+                                    * U.Get(sDelta);
                         }
                         if (aSum > aMax)
                         {
@@ -94,7 +94,7 @@
                         }
                         // track:
                         // &Sigma;<sub>s'</sub>P(s'|s,&pi;[s])U[s']
-                        if (a.equals(pi.get(s)))
+                        if (a.Equals(pi.Get(s)))
                         {
                             piVal = aSum;
                         }
@@ -106,7 +106,7 @@
                     {
                         // &pi;[s] <- argmax<sub>a &isin;A(s)</sub>
                         // &Sigma;<sub>s'</sub>P(s'|s,a)U[s']
-                        pi.put(s, aArgmax);
+                        pi.Put(s, aArgmax);
                         // unchanged? <- false
                         unchanged = false;
                     }
@@ -125,19 +125,19 @@
          *            an MDP with states S, actions A(s), transition model P(s'|s,a)
          * @return a policy vector indexed by state, initially random.
          */
-        public static <S, A extends Action> Map<S, A> initialPolicyVector(
+        public static <S, A : Action> Map<S, A> initialPolicyVector(
                 MarkovDecisionProcess<S, A> mdp)
         {
-            Map<S, A> pi = new LinkedHashMap<S, A>();
-            List<A> actions = new ArrayList<A>();
+            Map<S, A> pi = Factory.CreateMap<S, A>();
+            IQueue<A> actions = Factory.CreateQueue<A>();
             for (S s : mdp.states())
             {
-                actions.clear();
+                actions.Clear();
                 actions.addAll(mdp.actions(s));
                 // Handle terminal states (i.e. no actions).
                 if (actions.size() > 0)
                 {
-                    pi.put(s, Util.selectRandomlyFromList(actions));
+                    pi.Put(s, Util.selectRandomlyFromList(actions));
                 }
             }
             return pi;

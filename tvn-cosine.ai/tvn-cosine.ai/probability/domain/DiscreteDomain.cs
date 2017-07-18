@@ -5,7 +5,7 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public interface DiscreteDomain extends Domain
+    public interface DiscreteDomain : Domain
     {
 
     }

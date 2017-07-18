@@ -1,25 +1,25 @@
 ﻿namespace tvn.cosine.ai.logic.fol.parsing
 {
-    public class FOLLexer extends Lexer
+    public class FOLLexer : Lexer
     {
 
     private FOLDomain domain;
-    private Set<String> connectors, quantifiers;
+    private ISet<string> connectors, quantifiers;
 
     public FOLLexer(FOLDomain domain)
     {
         this.domain = domain;
 
-        connectors = new HashSet<String>();
-        connectors.add(Connectors.NOT);
-        connectors.add(Connectors.AND);
-        connectors.add(Connectors.OR);
-        connectors.add(Connectors.IMPLIES);
-        connectors.add(Connectors.BICOND);
+        connectors = Factory.CreateSet<string>();
+        connectors.Add(Connectors.NOT);
+        connectors.Add(Connectors.AND);
+        connectors.Add(Connectors.OR);
+        connectors.Add(Connectors.IMPLIES);
+        connectors.Add(Connectors.BICOND);
 
-        quantifiers = new HashSet<String>();
-        quantifiers.add(Quantifiers.FORALL);
-        quantifiers.add(Quantifiers.EXISTS);
+        quantifiers = Factory.CreateSet<string>();
+        quantifiers.Add(Quantifiers.FORALL);
+        quantifiers.Add(Quantifiers.EXISTS);
     }
 
     public FOLDomain getFOLDomain()
@@ -27,7 +27,7 @@
         return domain;
     }
 
-    @Override
+     
     public Token nextToken()
     {
         int startPosition = getCurrentPositionInInput();
@@ -51,7 +51,7 @@
         }
         else if (identifierDetected())
         {
-            // System.out.println("identifier detected");
+            // System.Console.WriteLine("identifier detected");
             return identifier();
         }
         else if (Character.isWhitespace(lookAhead(1)))
@@ -76,11 +76,11 @@
         while ((Character.isJavaIdentifierPart(lookAhead(1)))
                 || partOfConnector())
         {
-            sbuf.append(lookAhead(1));
+            sbuf.Append(lookAhead(1));
             consume();
         }
-        String readString = new String(sbuf);
-        // System.out.println(readString);
+        string readString = new String(sbuf);
+        // System.Console.WriteLine(readString);
         if (connectors.contains(readString))
         {
             return new Token(LogicTokenTypes.CONNECTIVE, readString, startPosition);
@@ -105,7 +105,7 @@
         {
             return new Token(LogicTokenTypes.VARIABLE, readString, startPosition);
         }
-        else if (readString.equals("="))
+        else if (readString.Equals("="))
         {
             return new Token(LogicTokenTypes.EQUALS, readString, startPosition);
         }
@@ -115,18 +115,18 @@
         }
     }
 
-    private boolean isVariable(String s)
+    private bool isVariable(string s)
     {
-        return (Character.isLowerCase(s.charAt(0)));
+        return (char.IsLower(s.charAt(0)));
     }
 
-    private boolean identifierDetected()
+    private bool identifierDetected()
     {
         return (Character.isJavaIdentifierStart(lookAhead(1)))
                 || partOfConnector();
     }
 
-    private boolean partOfConnector()
+    private bool partOfConnector()
     {
         return (lookAhead(1) == '=') || (lookAhead(1) == '<')
                 || (lookAhead(1) == '>');

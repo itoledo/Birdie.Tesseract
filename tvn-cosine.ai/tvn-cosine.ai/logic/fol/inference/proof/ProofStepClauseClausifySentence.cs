@@ -1,36 +1,36 @@
 ﻿namespace tvn.cosine.ai.logic.fol.inference.proof
 {
-    public class ProofStepClauseClausifySentence extends AbstractProofStep
+    public class ProofStepClauseClausifySentence : AbstractProofStep
     {
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+    private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
     private Clause clausified = null;
 
     public ProofStepClauseClausifySentence(Clause clausified,
             Sentence origSentence)
     {
         this.clausified = clausified;
-        this.predecessors.add(new ProofStepPremise(origSentence));
+        this.predecessors.Add(new ProofStepPremise(origSentence));
     }
 
     //
     // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
+     
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(predecessors);
+        return Factory.CreateReadOnlyQueue<>(predecessors);
     }
 
-    @Override
-    public String getProof()
+     
+    public string getProof()
     {
-        return clausified.toString();
+        return clausified.ToString();
     }
 
-    @Override
-    public String getJustification()
+     
+    public string getJustification()
     {
-        return "Clausified " + predecessors.get(0).getStepNumber();
+        return "Clausified " + predecessors.Get(0).getStepNumber();
     }
     // END-ProofStep
     //

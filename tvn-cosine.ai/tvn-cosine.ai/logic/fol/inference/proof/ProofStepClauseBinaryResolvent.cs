@@ -1,15 +1,15 @@
 ﻿namespace tvn.cosine.ai.logic.fol.inference.proof
 {
-    public class ProofStepClauseBinaryResolvent extends AbstractProofStep
+    public class ProofStepClauseBinaryResolvent : AbstractProofStep
     {
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+    private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
     private Clause resolvent = null;
     private Literal posLiteral = null;
     private Literal negLiteral = null;
     private Clause parent1, parent2 = null;
-    private Map<Variable, Term> subst = new LinkedHashMap<Variable, Term>();
-    private Map<Variable, Term> renameSubst = new LinkedHashMap<Variable, Term>();
+    private Map<Variable, Term> subst = Factory.CreateMap<Variable, Term>();
+    private Map<Variable, Term> renameSubst = Factory.CreateMap<Variable, Term>();
 
     public ProofStepClauseBinaryResolvent(Clause resolvent, Literal pl,
             Literal nl, Clause parent1, Clause parent2,
@@ -22,23 +22,23 @@
         this.parent2 = parent2;
         this.subst.putAll(subst);
         this.renameSubst.putAll(renameSubst);
-        this.predecessors.add(parent1.getProofStep());
-        this.predecessors.add(parent2.getProofStep());
+        this.predecessors.Add(parent1.getProofStep());
+        this.predecessors.Add(parent2.getProofStep());
     }
 
     //
     // START-ProofStep
-    public List<ProofStep> getPredecessorSteps()
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(predecessors);
+        return Factory.CreateReadOnlyQueue<>(predecessors);
     }
 
-    public String getProof()
+    public string getProof()
     {
-        return resolvent.toString();
+        return resolvent.ToString();
     }
 
-    public String getJustification()
+    public string getJustification()
     {
         int lowStep = parent1.getProofStep().getStepNumber();
         int highStep = parent2.getProofStep().getStepNumber();

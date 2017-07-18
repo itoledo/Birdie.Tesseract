@@ -143,14 +143,14 @@
          * @param path
          * @return a conditional plan or null on failure
          */
-        public Plan andSearch(List<S> states, NondeterministicProblem<S, A> problem, Path path)
+        public Plan andSearch(IQueue<S> states, NondeterministicProblem<S, A> problem, Path path)
         {
             // do metrics, setup
             this.expandedNodes++;
-            Object[] _states = states.toArray();
-            Plan[] plans = new Plan[_states.length];
+            object[]  _states = states.toArray();
+            Plan[] plans = new Plan[_states.Length];
             // for each s_i in states do
-            for (int i = 0; i < _states.length; i++)
+            for (int i = 0; i < _states.Length; i++)
             {
                 // plan_i <- OR-SEARCH(s_i, problem, path)
                 plans[i] = orSearch((S)_states[i], problem, path);
@@ -162,14 +162,14 @@
             }
             // return [if s_1 then plan_1 else ... if s_n-1 then plan_n-1 else
             // plan_n]
-            Object[] steps = new Object[plans.length];
-            if (plans.length > 0)
+            object[]  steps = new object[plans.Length];
+            if (plans.Length > 0)
             {
-                for (int i = 0; i < plans.length - 1; i++)
+                for (int i = 0; i < plans.Length - 1; i++)
                 {
                     steps[i] = new IfStateThenPlan(_states[i], plans[i]);
                 }
-                steps[steps.length - 1] = plans[plans.length - 1];
+                steps[steps.Length - 1] = plans[plans.Length - 1];
             }
 
             return new Plan(steps);

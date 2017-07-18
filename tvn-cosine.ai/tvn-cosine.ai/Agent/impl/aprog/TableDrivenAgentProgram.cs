@@ -83,7 +83,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         {
             Action action = null;
 
-            action = table.get(percepts, ACTION);
+            action = table.Get(percepts, ACTION);
             if (null == action)
             {
                 action = NoOpAction.NO_OP;

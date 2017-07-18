@@ -61,7 +61,7 @@
     {
         // Assertions on the type of queries this Inference procedure
         // supports
-        if (!(query instanceof AtomicSentence)) {
+        if (!(query is AtomicSentence)) {
             throw new IllegalArgumentException(
                     "Only Atomic Queries are supported.");
         }
@@ -71,11 +71,11 @@
         Literal alpha = new Literal((AtomicSentence)query);
 
         // local variables: new, the new sentences inferred on each iteration
-        List<Literal> newSentences = new ArrayList<Literal>();
+        IQueue<Literal> newSentences = Factory.CreateQueue<Literal>();
 
         // Ensure query is not already a know fact before
         // attempting forward chaining.
-        Set<Map<Variable, Term>> answers = KB.fetch(alpha);
+        ISet<IMap<Variable, Term>> answers = KB.fetch(alpha);
         if (answers.size() > 0)
         {
             ansHandler.addProofStep(new ProofStepFoChAlreadyAFact(alpha));
@@ -88,7 +88,7 @@
         {
 
             // new <- {}
-            newSentences.clear();
+            newSentences.Clear();
             // for each rule in KB do
             // (p1 ^ ... ^ pn => q) <-STANDARDIZE-VARIABLES(rule)
             for (Clause impl : KB.getAllDefiniteClauseImplications())
@@ -97,19 +97,19 @@
                 // for each theta such that SUBST(theta, p1 ^ ... ^ pn) =
                 // SUBST(theta, p'1 ^ ... ^ p'n)
                 // --- for some p'1,...,p'n in KB
-                for (Map<Variable, Term> theta : KB.fetch(invert(impl
+                for (IMap<Variable, Term> theta : KB.fetch(invert(impl
                         .getNegativeLiterals())))
                 {
                     // q' <- SUBST(theta, q)
                     Literal qDelta = KB.subst(theta, impl.getPositiveLiterals()
-                            .get(0));
+                            .Get(0));
                     // if q' does not unify with some sentence already in KB or
                     // new then do
                     if (!KB.isRenaming(qDelta)
                             && !KB.isRenaming(qDelta, newSentences))
                     {
                         // add q' to new
-                        newSentences.add(qDelta);
+                        newSentences.Add(qDelta);
                         ansHandler.addProofStep(impl, qDelta, theta);
                         // theta <- UNIFY(q', alpha)
                         theta = KB.unify(qDelta.getAtomicSentence(),
@@ -162,23 +162,23 @@
     //
     // PRIVATE METHODS
     //
-    private List<Literal> invert(List<Literal> lits)
+    private IQueue<Literal> invert(IQueue<Literal> lits)
     {
-        List<Literal> invLits = new ArrayList<Literal>();
+        IQueue<Literal> invLits = Factory.CreateQueue<Literal>();
         for (Literal l : lits)
         {
-            invLits.add(new Literal(l.getAtomicSentence(), (l
+            invLits.Add(new Literal(l.getAtomicSentence(), (l
                     .isPositiveLiteral() ? true : false)));
         }
         return invLits;
     }
 
-    class FCAskAnswerHandler implements InferenceResult
+    class FCAskAnswerHandler : InferenceResult
     {
 
 
         private ProofStep stepFinal = null;
-    private List<Proof> proofs = new ArrayList<Proof>();
+    private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
 
     public FCAskAnswerHandler()
     {
@@ -187,27 +187,27 @@
 
     //
     // START-InferenceResult
-    public boolean isPossiblyFalse()
+    public bool isPossiblyFalse()
     {
         return proofs.size() == 0;
     }
 
-    public boolean isTrue()
+    public bool isTrue()
     {
         return proofs.size() > 0;
     }
 
-    public boolean isUnknownDueToTimeout()
+    public bool isUnknownDueToTimeout()
     {
         return false;
     }
 
-    public boolean isPartialResultDueToTimeout()
+    public bool isPartialResultDueToTimeout()
     {
         return false;
     }
 
-    public List<Proof> getProofs()
+    public IQueue<Proof> getProofs()
     {
         return proofs;
     }
@@ -227,11 +227,11 @@
         stepFinal = step;
     }
 
-    public void setAnswers(Set<Map<Variable, Term>> answers)
+    public void setAnswers(Set<IMap<Variable, Term>> answers)
     {
-        for (Map<Variable, Term> ans : answers)
+        for (IMap<Variable, Term> ans : answers)
         {
-            proofs.add(new ProofFinal(stepFinal, ans));
+            proofs.Add(new ProofFinal(stepFinal, ans));
         }
     }
 }

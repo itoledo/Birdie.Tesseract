@@ -7,7 +7,7 @@
      * @author R. Lunde
      * @author Mike Stampone
      */
-    public class Point2D implements Cloneable
+    public class Point2D : Cloneable
     {
 
 
@@ -98,21 +98,21 @@
 	 * @param op2 the second point.
 	 * @return {@code true} if the points have the same coordinates.
 	 */
-    public boolean equals(Point2D op2)
+    public bool equals(Point2D op2)
     {
         if (op2 == null) return false;
         return Util.compareDoubles(this.x, op2.x) && Util.compareDoubles(this.y, op2.y);
     }
 
-    @Override
-     public boolean equals(Object o)
+     
+     public override bool Equals(object o)
     {
-        if (o instanceof Point2D)
-			 return this.equals((Point2D)o);
+        if (o is Point2D)
+			 return this.Equals((Point2D)o);
         return false;
     }
 
-    @Override
+     
     public Point2D clone()
     {
         return new Point2D(this.x, this.y);

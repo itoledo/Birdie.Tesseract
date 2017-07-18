@@ -1,7 +1,7 @@
 ﻿namespace tvn.cosine.ai.probability.proposition
 {
-    public interface DerivedProposition extends SentenceProposition
+    public interface DerivedProposition : SentenceProposition
     {
-        String getDerivedName();
+        string getDerivedName();
     }
 }

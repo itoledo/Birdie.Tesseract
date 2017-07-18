@@ -1,21 +1,21 @@
 ﻿namespace tvn.cosine.ai.probability.proposition
 {
-    public abstract class AbstractDerivedProposition extends AbstractProposition
+    public abstract class AbstractDerivedProposition : AbstractProposition
 
-        implements DerivedProposition
+        : DerivedProposition
     {
 
 
-    private String name = null;
+    private string name = null;
 
-    public AbstractDerivedProposition(String name)
+    public AbstractDerivedProposition(string name)
     {
         this.name = name;
     }
 
     //
     // START-DerivedProposition
-    public String getDerivedName()
+    public string getDerivedName()
     {
         return name;
     }

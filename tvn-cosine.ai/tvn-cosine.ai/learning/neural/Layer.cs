@@ -75,7 +75,7 @@
             Vector inducedFieldVector = new Vector(numberOfNeurons());
             for (int i = 0; i < numberOfNeurons(); i++)
             {
-                inducedFieldVector.setValue(i, inducedField.get(i, 0));
+                inducedFieldVector.setValue(i, inducedField.Get(i, 0));
             }
 
             lastInducedField = inducedFieldVector.copyVector();
@@ -171,7 +171,7 @@
             Vector result = new Vector(biasMatrix.getRowDimension());
             for (int i = 0; i < biasMatrix.getRowDimension(); i++)
             {
-                result.setValue(i, biasMatrix.get(i, 0));
+                result.setValue(i, biasMatrix.Get(i, 0));
             }
             biasVector = result;
         }

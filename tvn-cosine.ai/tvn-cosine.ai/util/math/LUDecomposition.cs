@@ -13,7 +13,7 @@
      * decomposition is in the solution of square systems of simultaneous linear
      * equations. This will fail if isNonsingular() returns false.
      */
-    public class LUDecomposition implements java.io.Serializable
+    public class LUDecomposition : java.io.Serializable
     {
 
     private static final long serialVersionUID = 1L;
@@ -109,7 +109,7 @@
             int p = j;
             for (int i = j + 1; i < m; i++)
             {
-                if (Math.abs(LUcolj[i]) > Math.abs(LUcolj[p]))
+                if (System.Math.Abs(LUcolj[i]) > System.Math.Abs(LUcolj[p]))
                 {
                     p = i;
                 }
@@ -157,8 +157,8 @@
 	 * A.getArrayCopy(); m = A.getRowDimension(); n = A.getColumnDimension();
 	 * piv = new int[m]; for (int i = 0; i < m; i++) { piv[i] = i; } pivsign =
 	 * 1; // Main loop. for (int k = 0; k < n; k++) { // Find pivot. int p = k;
-	 * for (int i = k+1; i < m; i++) { if (Math.abs(LU[i][k]) >
-	 * Math.abs(LU[p][k])) { p = i; } } // Exchange if necessary. if (p != k) {
+	 * for (int i = k+1; i < m; i++) { if (System.Math.Abs(LU[i][k]) >
+	 * System.Math.Abs(LU[p][k])) { p = i; } } // Exchange if necessary. if (p != k) {
 	 * for (int j = 0; j < n; j++) { double t = LU[p][j]; LU[p][j] = LU[k][j];
 	 * LU[k][j] = t; } int t = piv[p]; piv[p] = piv[k]; piv[k] = t; pivsign =
 	 * -pivsign; } // Compute multipliers and eliminate k-th column. if
@@ -176,7 +176,7 @@
 	 * 
 	 * @return true if U, and hence A, is nonsingular.
 	 */
-    public boolean isNonsingular()
+    public bool isNonsingular()
     {
         for (int j = 0; j < n; j++)
         {

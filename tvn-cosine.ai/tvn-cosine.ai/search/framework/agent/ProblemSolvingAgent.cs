@@ -37,11 +37,11 @@
      *
      * @author Ruediger Lunde
      */
-    public abstract class ProblemSolvingAgent<S, A extends Action> extends AbstractAgent
+    public abstract class ProblemSolvingAgent<S, A : Action> : AbstractAgent
     {
 
     /** Plan, an action sequence, initially empty. */
-    protected Queue<A> plan = new LinkedList<>();
+    protected Queue<A> plan = Factory.CreateQueue<>();
 
 
     /**
@@ -63,11 +63,11 @@
             if (goal.isPresent())
             {
                 // problem <- FORMULATE-PROBLEM(state, goal)
-                Problem<S, A> problem = formulateProblem(goal.get());
+                Problem<S, A> problem = formulateProblem(goal.Get());
                 // state.plan <- SEARCH(problem)
-                Optional<List<A>> actions = search(problem);
+                IQueue<A> actions = search(problem);
                 if (actions.isPresent())
-                    plan.addAll(actions.get());
+                    plan.addAll(actions.Get());
                 else if (!tryWithAnotherGoal())
                 {
                     // unable to identify a path
@@ -86,7 +86,7 @@
         {
             // action <- FIRST(plan)
             // plan <- REST(plan)
-            action = plan.remove();
+            action = plan.Remove();
         }
         return action;
     }
@@ -99,7 +99,7 @@
 	 * goal, it might be interesting, not to stop when the first local goal
 	 * turns out to be unreachable.
 	 */
-    protected boolean tryWithAnotherGoal()
+    protected bool tryWithAnotherGoal()
     {
         return false;
     }
@@ -129,12 +129,12 @@
     /**
 	 * Primitive operation, responsible for search problem generation.
 	 */
-    protected abstract Problem<S, A> formulateProblem(Object goal);
+    protected abstract Problem<S, A> formulateProblem(object goal);
 
     /**
 	 * Primitive operation, responsible for the generation of an action list
 	 * (plan) for the given search problem.
 	 */
-    protected abstract Optional<List<A>> search(Problem<S, A> problem);
+    protected abstract IQueue<A> search(Problem<S, A> problem);
 }
 }

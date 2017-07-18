@@ -53,7 +53,7 @@
          * @return true if a complex sentence with a Not connective, false
          *         otherwise.
          */
-        public boolean isNotSentence()
+        public bool isNotSentence()
         {
             return hasConnective(Connective.NOT);
         }
@@ -63,7 +63,7 @@
          * @return true if a complex sentence with an And connective, false
          *         otherwise.
          */
-        public boolean isAndSentence()
+        public bool isAndSentence()
         {
             return hasConnective(Connective.AND);
         }
@@ -73,7 +73,7 @@
          * @return true if a complex sentence with an Or connective, false
          *         otherwise.
          */
-        public boolean isOrSentence()
+        public bool isOrSentence()
         {
             return hasConnective(Connective.OR);
         }
@@ -83,7 +83,7 @@
          * @return true if a complex sentence with an Implication connective, false
          *         otherwise.
          */
-        public boolean isImplicationSentence()
+        public bool isImplicationSentence()
         {
             return hasConnective(Connective.IMPLICATION);
         }
@@ -93,7 +93,7 @@
          * @return true if a complex sentence with a Biconditional connective, false
          *         otherwise.
          */
-        public boolean isBiconditionalSentence()
+        public bool isBiconditionalSentence()
         {
             return hasConnective(Connective.BICONDITIONAL);
         }
@@ -102,7 +102,7 @@
          * 
          * @return true if a proposition symbol, false otherwise.
          */
-        public boolean isPropositionSymbol()
+        public bool isPropositionSymbol()
         {
             return getConnective() == null;
         }
@@ -112,7 +112,7 @@
          * @return true if a complex sentence containing a single simpler sentence,
          *         false otherwise.
          */
-        public boolean isUnarySentence()
+        public bool isUnarySentence()
         {
             return hasConnective(Connective.NOT);
         }
@@ -122,7 +122,7 @@
          * @return true if a complex sentence containing two simpler sentences,
          *         false otherwise.
          */
-        public boolean isBinarySentence()
+        public bool isBinarySentence()
         {
             return getConnective() != null && !hasConnective(Connective.NOT);
         }
@@ -169,14 +169,14 @@
          *            the connective of the parent sentence.
          * @param childSentence
          *            a simpler child sentence.
-         * @return a String representation of the Sentence, bracketed if the parent
+         * @return a string representation of the Sentence, bracketed if the parent
          *         based on its connective has higher precedence.
          */
-        public String bracketSentenceIfNecessary(Connective parentConnective,
+        public string bracketSentenceIfNecessary(Connective parentConnective,
                 Sentence childSentence)
         {
-            String result = null;
-            if (childSentence instanceof ComplexSentence) {
+            string result = null;
+            if (childSentence is ComplexSentence) {
                 ComplexSentence cs = (ComplexSentence)childSentence;
                 if (cs.getConnective().getPrecedence() < parentConnective
                         .getPrecedence())
@@ -187,7 +187,7 @@
 
             if (result == null)
             {
-                result = childSentence.toString();
+                result = childSentence.ToString();
             }
 
             return result;
@@ -210,7 +210,7 @@
          * 			the disjuncts from which to create the disjunction.
          * @return a disjunction of the given disjuncts.
          */
-        public static Sentence newDisjunction(List<? extends Sentence> disjuncts)
+        public static Sentence newDisjunction(IQueue<? : Sentence> disjuncts)
         {
             if (disjuncts.size() == 0)
             {
@@ -218,7 +218,7 @@
             }
             else if (disjuncts.size() == 1)
             {
-                return disjuncts.get(0);
+                return disjuncts.Get(0);
             }
             return new ComplexSentence(Util.first(disjuncts), Connective.OR, newDisjunction(Util.rest(disjuncts)));
         }
@@ -240,7 +240,7 @@
          * 			the conjuncts from which to create the conjunction.
          * @return a conjunction of the given conjuncts.
          */
-        public static Sentence newConjunction(List<? extends Sentence> conjuncts)
+        public static Sentence newConjunction(IQueue<? : Sentence> conjuncts)
         {
             if (conjuncts.size() == 0)
             {
@@ -248,7 +248,7 @@
             }
             else if (conjuncts.size() == 1)
             {
-                return conjuncts.get(0);
+                return conjuncts.Get(0);
             }
             return new ComplexSentence(Util.first(conjuncts), Connective.AND, newConjunction(Util.rest(conjuncts)));
         }
@@ -256,7 +256,7 @@
         //
         // PROTECTED
         //
-        protected boolean hasConnective(Connective connective)
+        protected bool hasConnective(Connective connective)
         {
             // Note: can use '==' as Connective is an enum.
             return getConnective() == connective;

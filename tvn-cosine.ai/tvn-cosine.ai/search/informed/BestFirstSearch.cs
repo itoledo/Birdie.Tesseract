@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.search.informed
+﻿using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.qsearch;
+using tvn.cosine.ai.search.informed;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.search.informed
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 92.<br>
@@ -14,35 +19,35 @@
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class BestFirstSearch<S, A> extends QueueBasedSearch<S, A> implements Informed<S, A> {
-
-
-    private final ToDoubleFunction<Node<S, A>> evalFn;
-
-    /**
-	 * Constructs a best first search from a specified search problem and
-	 * evaluation function.
-	 * 
-	 * @param impl
-	 *            a search space exploration strategy.
-	 * @param evalFn
-	 *            an evaluation function, which returns a number purporting to
-	 *            describe the desirability (or lack thereof) of expanding a
-	 *            node.
-	 */
-    public BestFirstSearch(QueueSearch<S, A> impl, final ToDoubleFunction<Node<S, A>> evalFn)
+    public class BestFirstSearch<S, A> : QueueBasedSearch<S, A>, Informed<S, A>
     {
-        super(impl, QueueFactory.createPriorityQueue(Comparator.comparing(evalFn::applyAsDouble)));
-        this.evalFn = evalFn;
-    }
+        private readonly ToDoubleFunction<Node<S, A>> evalFn;
 
-    /** Modifies the evaluation function if it is a {@link HeuristicEvaluationFunction}. */
-    @Override
-    public void setHeuristicFunction(ToDoubleFunction<Node<S, A>> h)
-    {
-        if (evalFn instanceof HeuristicEvaluationFunction)
-			((HeuristicEvaluationFunction<S, A>)evalFn).setHeuristicFunction(h);
+        /**
+         * Constructs a best first search from a specified search problem and
+         * evaluation function.
+         * 
+         * @param impl
+         *            a search space exploration strategy.
+         * @param evalFn
+         *            an evaluation function, which returns a number purporting to
+         *            describe the desirability (or lack thereof) of expanding a
+         *            node.
+         */
+        public BestFirstSearch(QueueSearch<S, A> impl, ToDoubleFunction<Node<S, A>> evalFn)
+            : base(impl, QueueFactory.createPriorityQueue(Comparator.comparing(evalFn::applyAsDouble)))
+        {
+
+            this.evalFn = evalFn;
+        }
+
+        /** Modifies the evaluation function if it is a {@link HeuristicEvaluationFunction}. */
+
+        public void setHeuristicFunction(ToDoubleFunction<Node<S, A>> h)
+        {
+            if (evalFn is HeuristicEvaluationFunction<S, A>)
+                ((HeuristicEvaluationFunction<S, A>)evalFn).setHeuristicFunction(h);
+        }
     }
-}
 
 }

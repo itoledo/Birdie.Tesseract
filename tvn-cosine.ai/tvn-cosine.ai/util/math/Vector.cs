@@ -4,7 +4,7 @@
      * @author Ravi Mohan
      * @author Mike Stampone
      */
-    public class Vector extends Matrix
+    public class Vector : Matrix
     {
 
     private static final long serialVersionUID = 1L;
@@ -18,7 +18,7 @@
 	 */
     public Vector(int size)
     {
-        super(size, 1);
+        base(size, 1);
     }
 
     /**
@@ -27,12 +27,12 @@
 	 * @param lst
 	 *            a list of values
 	 */
-    public Vector(List<Double> lst)
+    public Vector(IQueue<double> lst)
     {
-        super(lst.size(), 1);
+        base(lst.size(), 1);
         for (int i = 0; i < lst.size(); i++)
         {
-            setValue(i, lst.get(i));
+            setValue(i, lst.Get(i));
         }
     }
 
@@ -46,7 +46,7 @@
 	 */
     public double getValue(int i)
     {
-        return super.get(i, 0);
+        return super.Get(i, 0);
     }
 
     /**

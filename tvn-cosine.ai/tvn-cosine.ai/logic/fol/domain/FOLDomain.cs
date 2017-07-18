@@ -1,63 +1,63 @@
-﻿namespace tvn.cosine.ai.logic.fol.domain
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.logic.fol.domain
 {
     public class FOLDomain
     {
-        private Set<String> constants, functions, predicates;
+        private ISet<string> constants, functions, predicates;
         private int skolemConstantIndexical = 0;
         private int skolemFunctionIndexical = 0;
         private int answerLiteralIndexical = 0;
-        private List<FOLDomainListener> listeners = new ArrayList<FOLDomainListener>();
+        private IQueue<FOLDomainListener> listeners = Factory.CreateQueue<FOLDomainListener>();
 
         public FOLDomain()
         {
-            this.constants = new HashSet<String>();
-            this.functions = new HashSet<String>();
-            this.predicates = new HashSet<String>();
+            this.constants = Factory.CreateSet<string>();
+            this.functions = Factory.CreateSet<string>();
+            this.predicates = Factory.CreateSet<string>();
         }
 
         public FOLDomain(FOLDomain toCopy)
+            : this(toCopy.getConstants(), toCopy.getFunctions(), toCopy.getPredicates())
+        {  }
+
+        public FOLDomain(ISet<string> constants, ISet<string> functions, ISet<string> predicates)
         {
-            this(toCopy.getConstants(), toCopy.getFunctions(), toCopy
-                    .getPredicates());
+            this.constants = Factory.CreateSet<string>(constants);
+            this.functions = Factory.CreateSet<string>(functions);
+            this.predicates = Factory.CreateSet<string>(predicates);
         }
 
-        public FOLDomain(Set<String> constants, Set<String> functions,
-                Set<String> predicates)
-        {
-            this.constants = new HashSet<String>(constants);
-            this.functions = new HashSet<String>(functions);
-            this.predicates = new HashSet<String>(predicates);
-        }
-
-        public Set<String> getConstants()
+        public ISet<string> getConstants()
         {
             return constants;
         }
 
-        public Set<String> getFunctions()
+        public ISet<string> getFunctions()
         {
             return functions;
         }
 
-        public Set<String> getPredicates()
+        public ISet<string> getPredicates()
         {
             return predicates;
         }
 
-        public void addConstant(String constant)
+        public void addConstant(string constant)
         {
-            constants.add(constant);
+            constants.Add(constant);
         }
 
-        public String addSkolemConstant()
+        public string addSkolemConstant()
         {
 
-            String sc = null;
+            string sc = null;
             do
             {
                 sc = "SC" + (skolemConstantIndexical++);
-            } while (constants.contains(sc) || functions.contains(sc)
-                    || predicates.contains(sc));
+            } while (constants.Contains(sc) 
+                    || functions.Contains(sc)
+                    || predicates.Contains(sc));
 
             addConstant(sc);
             notifyFOLDomainListeners(new FOLDomainSkolemConstantAddedEvent(this, sc));
@@ -65,14 +65,14 @@
             return sc;
         }
 
-        public void addFunction(String function)
+        public void addFunction(string function)
         {
-            functions.add(function);
+            functions.Add(function);
         }
 
-        public String addSkolemFunction()
+        public string addSkolemFunction()
         {
-            String sf = null;
+            string sf = null;
             do
             {
                 sf = "SF" + (skolemFunctionIndexical++);
@@ -85,14 +85,14 @@
             return sf;
         }
 
-        public void addPredicate(String predicate)
+        public void addPredicate(string predicate)
         {
-            predicates.add(predicate);
+            predicates.Add(predicate);
         }
 
-        public String addAnswerLiteral()
+        public string addAnswerLiteral()
         {
-            String al = null;
+            string al = null;
             do
             {
                 al = "Answer" + (answerLiteralIndexical++);
@@ -110,7 +110,7 @@
             synchronized(listeners) {
                 if (!listeners.contains(listener))
                 {
-                    listeners.add(listener);
+                    listeners.Add(listener);
                 }
             }
         }
@@ -118,7 +118,7 @@
         public void removeFOLDomainListener(FOLDomainListener listener)
         {
             synchronized(listeners) {
-                listeners.remove(listener);
+                listeners.Remove(listener);
             }
         }
 
@@ -131,8 +131,8 @@
                 {
 
                 event.notifyListener(l);
-			}
+        }
+    }
 }
-	}
 }
 }

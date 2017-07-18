@@ -18,32 +18,32 @@
         public static ProbCNFGrammar buildExampleGrammarOne()
         {
             ProbCNFGrammar g = new ProbCNFGrammar();
-            ArrayList<Rule> rules = new ArrayList<Rule>();
+            ArrayList<Rule> rules = Factory.CreateQueue<Rule>();
             // Start Rules
-            rules.add(new Rule("S", "Y,Z", (float)0.10));
-            rules.add(new Rule("B", "B,D", (float)0.10));
-            rules.add(new Rule("B", "G,D", (float)0.10));
-            rules.add(new Rule("C", "E,C", (float)0.10));
-            rules.add(new Rule("C", "E,H", (float)0.10));
-            rules.add(new Rule("E", "M,N", (float)0.10));
-            rules.add(new Rule("D", "M,N", (float)0.10));
-            rules.add(new Rule("Y", "E,C", (float)0.10));
-            rules.add(new Rule("Z", "E,C", (float)0.10));
+            rules.Add(new Rule("S", "Y,Z", (float)0.10));
+            rules.Add(new Rule("B", "B,D", (float)0.10));
+            rules.Add(new Rule("B", "G,D", (float)0.10));
+            rules.Add(new Rule("C", "E,C", (float)0.10));
+            rules.Add(new Rule("C", "E,H", (float)0.10));
+            rules.Add(new Rule("E", "M,N", (float)0.10));
+            rules.Add(new Rule("D", "M,N", (float)0.10));
+            rules.Add(new Rule("Y", "E,C", (float)0.10));
+            rules.Add(new Rule("Z", "E,C", (float)0.10));
 
             // Terminal Rules
-            rules.add(new Rule("M", "m", (float)1.0));
-            rules.add(new Rule("N", "n", (float)1.0));
-            rules.add(new Rule("B", "a", (float)0.25));
-            rules.add(new Rule("B", "b", (float)0.25));
-            rules.add(new Rule("B", "c", (float)0.25));
-            rules.add(new Rule("B", "d", (float)0.25));
-            rules.add(new Rule("G", "a", (float)0.50));
-            rules.add(new Rule("G", "d", (float)0.50));
-            rules.add(new Rule("C", "x", (float)0.20));
-            rules.add(new Rule("C", "y", (float)0.20));
-            rules.add(new Rule("C", "z", (float)0.60));
-            rules.add(new Rule("H", "u", (float)0.50));
-            rules.add(new Rule("H", "z", (float)0.50));
+            rules.Add(new Rule("M", "m", (float)1.0));
+            rules.Add(new Rule("N", "n", (float)1.0));
+            rules.Add(new Rule("B", "a", (float)0.25));
+            rules.Add(new Rule("B", "b", (float)0.25));
+            rules.Add(new Rule("B", "c", (float)0.25));
+            rules.Add(new Rule("B", "d", (float)0.25));
+            rules.Add(new Rule("G", "a", (float)0.50));
+            rules.Add(new Rule("G", "d", (float)0.50));
+            rules.Add(new Rule("C", "x", (float)0.20));
+            rules.Add(new Rule("C", "y", (float)0.20));
+            rules.Add(new Rule("C", "z", (float)0.60));
+            rules.Add(new Rule("H", "u", (float)0.50));
+            rules.Add(new Rule("H", "z", (float)0.50));
 
             // Add all these rules into the grammar
             if (!g.addRules(rules))
@@ -62,14 +62,14 @@
         public static ProbCNFGrammar buildTrivialGrammar()
         {
             ProbCNFGrammar g = new ProbCNFGrammar();
-            ArrayList<Rule> rules = new ArrayList<Rule>();
-            rules.add(new Rule("S", "NP,VP", (float)1.0));
-            rules.add(new Rule("NP", "ARTICLE,NOUN", (float)0.50));
-            rules.add(new Rule("NP", "PRONOUN,ADVERB", (float)0.5));
-            rules.add(new Rule("VP", "VERB,NP", (float)1.0));
+            ArrayList<Rule> rules = Factory.CreateQueue<Rule>();
+            rules.Add(new Rule("S", "NP,VP", (float)1.0));
+            rules.Add(new Rule("NP", "ARTICLE,NOUN", (float)0.50));
+            rules.Add(new Rule("NP", "PRONOUN,ADVERB", (float)0.5));
+            rules.Add(new Rule("VP", "VERB,NP", (float)1.0));
             // add terminal rules
             Lexicon trivLex = LexiconExamples.buildTrivialLexicon();
-            ArrayList<Rule> terminalRules = new ArrayList<Rule>(trivLex.getAllTerminalRules());
+            ArrayList<Rule> terminalRules = Factory.CreateQueue<Rule>(trivLex.getAllTerminalRules());
             rules.addAll(terminalRules);
             // Add all these rules into the grammar
             if (!g.addRules(rules))

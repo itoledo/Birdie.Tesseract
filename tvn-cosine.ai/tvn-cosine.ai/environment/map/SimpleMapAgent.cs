@@ -104,9 +104,9 @@ namespace tvn.cosine.ai.environment.map
         {
             if (notifier != null)
             {
-                ISet<string> keys = search.getMetrics().keySet();
+                ISet<string> keys = search.getMetrics().GetKeys();
                 foreach (string key in keys)
-                    notifier.notifyViews("METRIC[" + key + "]=" + search.getMetrics().get(key));
+                    notifier.notifyViews("METRIC[" + key + "]=" + search.getMetrics().Get(key));
             }
         }
     }

@@ -36,14 +36,14 @@ namespace tvn.cosine.ai.environment.map
         /** Removes everything. */
         public void clear()
         {
-            links.clear();
+            links.Clear();
             locationPositions.Clear();
         }
 
         /** Clears all connections but keeps location position informations. */
         public void clearLinks()
         {
-            links.clear();
+            links.Clear();
         }
 
         /** Returns a list of all locations. */
@@ -86,7 +86,7 @@ namespace tvn.cosine.ai.environment.map
          */
         public double getDistance(string  fromLocation, string toLocation)
         {
-            return links.get(fromLocation, toLocation);
+            return links.Get(fromLocation, toLocation);
         }
 
         /** Adds a one-way connection to the map. */
@@ -116,14 +116,14 @@ namespace tvn.cosine.ai.environment.map
         /** Removes a one-way connection. */
         public void removeUnidirectionalLink(string  fromLocation, string toLocation)
         {
-            links.remove(fromLocation, toLocation);
+            links.Remove(fromLocation, toLocation);
         }
 
         /** Removes the two corresponding one-way connections. */
         public void removeBidirectionalLink(string  fromLocation, string toLocation)
         {
-            links.remove(fromLocation, toLocation);
-            links.remove(toLocation, fromLocation);
+            links.Remove(fromLocation, toLocation);
+            links.Remove(toLocation, fromLocation);
         }
 
         /**

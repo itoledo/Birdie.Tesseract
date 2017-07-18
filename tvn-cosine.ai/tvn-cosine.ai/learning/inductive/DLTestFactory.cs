@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.learning.inductive
                 foreach (string ntaValue in ntaValues)
                 { 
                     DLTest test = new DLTest();
-                    test.add(ntAttribute, ntaValue);
+                    test.Add(ntAttribute, ntaValue);
                     tests.Add(test); 
                 }
             }

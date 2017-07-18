@@ -34,15 +34,15 @@
          * @return the clauses that are subsumed by (that is, more specific than) an
          *         existing clause in the specified set of clauses.
          */
-        public static Set<Clause> findSubsumedClauses(Set<Clause> clauses)
+        public static ISet<Clause> findSubsumedClauses(Set<Clause> clauses)
         {
-            Set<Clause> subsumed = new HashSet<Clause>();
+            ISet<Clause> subsumed = Factory.CreateSet<Clause>();
 
             // Group the clauses by their # of literals.
             // Keep track of the min and max # of literals.
-            int min = Integer.MAX_VALUE;
+            int min = int.MaxValue;
             int max = 0;
-            Map<Integer, Set<Clause>> clausesGroupedBySize = new HashMap<Integer, Set<Clause>>();
+            Map<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateMap<int, ISet<Clause>>();
             for (Clause c : clauses)
             {
                 int size = c.getNumberLiterals();
@@ -54,25 +54,25 @@
                 {
                     max = size;
                 }
-                Set<Clause> cforsize = clausesGroupedBySize.get(size);
+                ISet<Clause> cforsize = clausesGroupedBySize.Get(size);
                 if (null == cforsize)
                 {
-                    cforsize = new HashSet<Clause>();
-                    clausesGroupedBySize.put(size, cforsize);
+                    cforsize = Factory.CreateSet<Clause>();
+                    clausesGroupedBySize.Put(size, cforsize);
                 }
-                cforsize.add(c);
+                cforsize.Add(c);
             }
             // Check if each smaller clause
             // subsumes any of the larger clauses.
             for (int i = min; i < max; i++)
             {
-                Set<Clause> scs = clausesGroupedBySize.get(i);
+                ISet<Clause> scs = clausesGroupedBySize.Get(i);
                 // Ensure there are clauses with this # of literals
                 if (null != scs)
                 {
                     for (int j = i + 1; j <= max; j++)
                     {
-                        Set<Clause> lcs = clausesGroupedBySize.get(j);
+                        ISet<Clause> lcs = clausesGroupedBySize.Get(j);
                         // Ensure there are clauses with this # of literals
                         if (null != lcs)
                         {
@@ -88,7 +88,7 @@
                                         {
                                             if (sc.subsumes(lc))
                                             {
-                                                subsumed.add(lc);
+                                                subsumed.Add(lc);
                                             }
                                         }
                                     }

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability
+﻿using tvn.cosine.ai.probability.domain;
+
+namespace tvn.cosine.ai.probability
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 486.<br>
@@ -15,13 +17,12 @@
          * 
          * @return the name used to uniquely identify this variable.
          */
-        String getName();
+        string getName();
 
         /**
          * 
          * @return the Set of possible values the Random Variable can take on.
          */
         Domain getDomain();
-    }
-
+    } 
 }

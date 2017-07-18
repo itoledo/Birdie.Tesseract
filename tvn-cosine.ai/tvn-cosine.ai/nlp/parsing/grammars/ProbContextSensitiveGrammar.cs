@@ -6,7 +6,7 @@
      * @author Jonathon
      *
      */
-    public class ProbContextSensitiveGrammar extends ProbUnrestrictedGrammar implements ProbabilisticGrammar
+    public class ProbContextSensitiveGrammar : ProbUnrestrictedGrammar : ProbabilisticGrammar
     {
 
     // default constructor
@@ -21,7 +21,7 @@
 	 * both the restrictions of the parent grammar (unrestricted) and
 	 * this grammar's restrictions.
 	 */
-    public boolean addRules(ArrayList<Rule> ruleList)
+    public bool addRules(ArrayList<Rule> ruleList)
     {
         for (Rule aRuleList : ruleList)
         {
@@ -40,14 +40,14 @@
 	 * both the restrictions of the parent grammar (unrestricted) and
 	 * this grammar's restrictions.
 	 */
-    public boolean addRule(Rule r)
+    public bool addRule(Rule r)
     {
         if (!super.validRule(r))
             return false;
         else if (!validRule(r))
             return false;
 
-        rules.add(r);
+        rules.Add(r);
         updateVarsAndTerminals(r);
         return true;
     }
@@ -58,7 +58,7 @@
 	 * and the number of RHS symbols must be equal or greater than the number
 	 * of LHS symbols.
 	 */
-    public boolean validRule(Rule r)
+    public bool validRule(Rule r)
     {
         if (!super.validRule(r))
             return false;

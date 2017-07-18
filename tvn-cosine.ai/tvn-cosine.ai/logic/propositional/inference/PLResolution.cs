@@ -54,27 +54,27 @@
          *            the query, a sentence in propositional logic.
          * @return true if KB |= &alpha;, false otherwise.
          */
-        public boolean plResolution(KnowledgeBase kb, Sentence alpha)
+        public bool plResolution(KnowledgeBase kb, Sentence alpha)
         {
             // clauses <- the set of clauses in the CNF representation
             // of KB & ~alpha
-            Set<Clause> clauses = setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(
+            ISet<Clause> clauses = setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(
                     kb, alpha);
             // new <- {}
-            Set<Clause> newClauses = new LinkedHashSet<Clause>();
+            ISet<Clause> newClauses = Factory.CreateSet<Clause>();
             // loop do
             do
             {
                 // for each pair of clauses C_i, C_j in clauses do
-                List<Clause> clausesAsList = new ArrayList<Clause>(clauses);
+                IQueue<Clause> clausesAsList = Factory.CreateQueue<Clause>(clauses);
                 for (int i = 0; i < clausesAsList.size() - 1; i++)
                 {
-                    Clause ci = clausesAsList.get(i);
+                    Clause ci = clausesAsList.Get(i);
                     for (int j = i + 1; j < clausesAsList.size(); j++)
                     {
-                        Clause cj = clausesAsList.get(j);
+                        Clause cj = clausesAsList.Get(j);
                         // resolvents <- PL-RESOLVE(C_i, C_j)
-                        Set<Clause> resolvents = plResolve(ci, cj);
+                        ISet<Clause> resolvents = plResolve(ci, cj);
                         // if resolvents contains the empty clause then return true
                         if (resolvents.contains(Clause.EMPTY))
                         {
@@ -107,9 +107,9 @@
          * @return the set of all possible clauses obtained by resolving its two
          *         inputs.
          */
-        public Set<Clause> plResolve(Clause ci, Clause cj)
+        public ISet<Clause> plResolve(Clause ci, Clause cj)
         {
-            Set<Clause> resolvents = new LinkedHashSet<Clause>();
+            ISet<Clause> resolvents = Factory.CreateSet<Clause>();
 
             // The complementary positive literals from C_i
             resolvePositiveWithNegative(ci, cj, resolvents);
@@ -123,7 +123,7 @@
         // SUPPORTING CODE
         //
 
-        private boolean discardTautologies = true;
+        private bool discardTautologies = true;
 
         /**
          * Default constructor, which will set the algorithm to discard tautologies
@@ -141,7 +141,7 @@
          *            true if the algorithm is to discard tautological clauses
          *            during processing, false otherwise.
          */
-        public PLResolution(boolean discardTautologies)
+        public PLResolution(bool discardTautologies)
         {
             setDiscardTautologies(discardTautologies);
         }
@@ -150,7 +150,7 @@
          * @return true if the algorithm will discard tautological clauses during
          *         processing.
          */
-        public boolean isDiscardTautologies()
+        public bool isDiscardTautologies()
         {
             return discardTautologies;
         }
@@ -161,7 +161,7 @@
          * 
          * @param discardTautologies
          */
-        public void setDiscardTautologies(boolean discardTautologies)
+        public void setDiscardTautologies(bool discardTautologies)
         {
             this.discardTautologies = discardTautologies;
         }
@@ -169,7 +169,7 @@
         //
         // PROTECTED
         //
-        protected Set<Clause> setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(
+        protected ISet<Clause> setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(
                 KnowledgeBase kb, Sentence alpha)
         {
 
@@ -177,7 +177,7 @@
             Sentence isContradiction = new ComplexSentence(Connective.AND,
                     kb.asSentence(), new ComplexSentence(Connective.NOT, alpha));
             // the set of clauses in the CNF representation
-            Set<Clause> clauses = new LinkedHashSet<Clause>(
+            ISet<Clause> clauses = Factory.CreateSet<Clause>(
                     ConvertToConjunctionOfClauses.convert(isContradiction)
                             .getClauses());
 
@@ -187,32 +187,32 @@
         }
 
         protected void resolvePositiveWithNegative(Clause c1, Clause c2,
-                Set<Clause> resolvents)
+                ISet<Clause> resolvents)
         {
             // Calculate the complementary positive literals from c1 with
             // the negative literals from c2
-            Set<PropositionSymbol> complementary = SetOps.intersection(
+            ISet<PropositionSymbol> complementary = SetOps.intersection(
                     c1.getPositiveSymbols(), c2.getNegativeSymbols());
             // Construct a resolvent clause for each complement found
             for (PropositionSymbol complement : complementary)
             {
-                List<Literal> resolventLiterals = new ArrayList<Literal>();
+                IQueue<Literal> resolventLiterals = Factory.CreateQueue<Literal>();
                 // Retrieve the literals from c1 that are not the complement
                 for (Literal c1l : c1.getLiterals())
                 {
                     if (c1l.isNegativeLiteral()
-                            || !c1l.getAtomicSentence().equals(complement))
+                            || !c1l.getAtomicSentence().Equals(complement))
                     {
-                        resolventLiterals.add(c1l);
+                        resolventLiterals.Add(c1l);
                     }
                 }
                 // Retrieve the literals from c2 that are not the complement
                 for (Literal c2l : c2.getLiterals())
                 {
                     if (c2l.isPositiveLiteral()
-                            || !c2l.getAtomicSentence().equals(complement))
+                            || !c2l.getAtomicSentence().Equals(complement))
                     {
-                        resolventLiterals.add(c2l);
+                        resolventLiterals.Add(c2l);
                     }
                 }
                 // Construct the resolvent clause
@@ -220,7 +220,7 @@
                 // Discard tautological clauses if this optimization is turned on.
                 if (!(isDiscardTautologies() && resolvent.isTautology()))
                 {
-                    resolvents.add(resolvent);
+                    resolvents.Add(resolvent);
                 }
             }
         }
@@ -231,12 +231,12 @@
         {
             if (isDiscardTautologies())
             {
-                Set<Clause> toDiscard = new HashSet<Clause>();
+                ISet<Clause> toDiscard = Factory.CreateSet<Clause>();
                 for (Clause c : clauses)
                 {
                     if (c.isTautology())
                     {
-                        toDiscard.add(c);
+                        toDiscard.Add(c);
                     }
                 }
                 clauses.removeAll(toDiscard);

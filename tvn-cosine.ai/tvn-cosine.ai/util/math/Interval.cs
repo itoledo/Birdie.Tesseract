@@ -12,9 +12,9 @@
     public class Interval<C>
     {
         private Comparable<C> lower = null;
-        private boolean lowerInclusive = true;
+        private bool lowerInclusive = true;
         private Comparable<C> upper = null;
-        private boolean upperInclusive = true;
+        private bool upperInclusive = true;
 
         public Interval()
         {
@@ -49,8 +49,8 @@
          *            whether or not the upper end of the interval is inclusive of
          *            its value.
          */
-        public Interval(Comparable<C> lower, boolean lowerInclusive,
-                Comparable<C> upper, boolean upperInclusive)
+        public Interval(Comparable<C> lower, bool lowerInclusive,
+                Comparable<C> upper, bool upperInclusive)
         {
             setLower(lower);
             setLowerInclusive(lowerInclusive);
@@ -65,14 +65,14 @@
          * @return <code>true</code> if the specified value is between the end
          *         points of this interval.
          */
-        public boolean isInInterval(C o)
+        public bool isInInterval(C o)
         {
             if (null == lower || null == upper)
             {
                 return false;
             }
 
-            boolean in = true;
+            bool in = true;
 
             if (isLowerInclusive())
             {
@@ -102,7 +102,7 @@
          * 
          * @return <code>true</code> if this interval is lower inclusive.
          */
-        public boolean isLowerInclusive()
+        public bool isLowerInclusive()
         {
             return lowerInclusive;
         }
@@ -112,7 +112,7 @@
          * 
          * @return <code>true</code> if this interval is not lower inclusive.
          */
-        public boolean isLowerExclusive()
+        public bool isLowerExclusive()
         {
             return !lowerInclusive;
         }
@@ -124,7 +124,7 @@
          *            <code>true</code> represents lower inclusive and
          *            <code>false</code> represents lower exclusive.
          */
-        public void setLowerInclusive(boolean inclusive)
+        public void setLowerInclusive(bool inclusive)
         {
             this.lowerInclusive = inclusive;
         }
@@ -136,7 +136,7 @@
          *            <code>true</code> represents lower exclusive and
          *            <code>false</code> represents lower inclusive.
          */
-        public void setLowerExclusive(boolean exclusive)
+        public void setLowerExclusive(bool exclusive)
         {
             this.lowerInclusive = !exclusive;
         }
@@ -167,7 +167,7 @@
          * 
          * @return <code>true</code> if this interval is upper inclusive.
          */
-        public boolean isUpperInclusive()
+        public bool isUpperInclusive()
         {
             return upperInclusive;
         }
@@ -177,7 +177,7 @@
          * 
          * @return <code>true</code> if this interval is upper exclusive.
          */
-        public boolean isUpperExclusive()
+        public bool isUpperExclusive()
         {
             return !upperInclusive;
         }
@@ -189,7 +189,7 @@
          *            <code>true</code> represents upper inclusive and
          *            <code>false</code> represents upper exclusive.
          */
-        public void setUpperInclusive(boolean inclusive)
+        public void setUpperInclusive(bool inclusive)
         {
             this.upperInclusive = inclusive;
         }
@@ -201,7 +201,7 @@
          *            <code>true</code> represents upper exclusive and
          *            <code>false</code> represents upper inclusive.
          */
-        public void setUpperExclusive(boolean exclusive)
+        public void setUpperExclusive(bool exclusive)
         {
             this.upperInclusive = !exclusive;
         }
@@ -227,7 +227,7 @@
             this.upper = upper;
         }
 
-        public String toString()
+        public override string ToString()
         {
             return (lowerInclusive ? "[" : "(") + lower + ", " + upper
                     + (upperInclusive ? "]" : ")");

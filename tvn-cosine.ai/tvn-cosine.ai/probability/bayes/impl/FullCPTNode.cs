@@ -8,7 +8,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class FullCPTNode extends AbstractNode implements FiniteNode
+    public class FullCPTNode : AbstractNode : FiniteNode
     {
 
     private ConditionalProbabilityTable cpt = null;
@@ -18,9 +18,9 @@
         this(var, distribution, (Node[])null);
     }
 
-    public FullCPTNode(RandomVariable var, double[] values, Node...parents)
+    public FullCPTNode(RandomVariable var, double[] values, params Node[] parents)
     {
-        super(var, parents);
+        base(var, parents);
 
         RandomVariable[] conditionedOn = new RandomVariable[getParents().size()];
         int i = 0;
@@ -34,7 +34,7 @@
 
     //
     // START-Node
-    @Override
+     
     public ConditionalProbabilityDistribution getCPD()
     {
         return getCPT();
@@ -46,7 +46,7 @@
     //
     // START-FiniteNode
 
-    @Override
+     
     public ConditionalProbabilityTable getCPT()
     {
         return cpt;

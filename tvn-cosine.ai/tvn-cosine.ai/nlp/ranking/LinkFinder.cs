@@ -11,7 +11,7 @@
          * @param page
          * @return
          */
-        List<String> getOutlinks(Page page);
+        IQueue<string> getOutlinks(Page page);
 
         /**
          * Take a Page object and return its inlinks (who links to it) as a list of
@@ -21,7 +21,7 @@
          * @param pageTable
          * @return
          */
-        List<String> getInlinks(Page page, Map<String, Page> pageTable);
+        IQueue<string> getInlinks(Page page, Map<string, Page> pageTable);
 
     }
 }

@@ -22,7 +22,7 @@
          *            a sentence in propositional logic.
          * @return true if the sentence is satisfiable, false otherwise.
          */
-        boolean dpllSatisfiable(Sentence s);
+        bool dpllSatisfiable(Sentence s);
 
         /**
          * DPLL(clauses, symbols, model)<br>
@@ -36,7 +36,7 @@
          * @return true if the model is satisfiable under current assignments, false
          *         otherwise.
          */
-        boolean dpll(Set<Clause> clauses, List<PropositionSymbol> symbols,
+        bool dpll(Set<Clause> clauses, IQueue<PropositionSymbol> symbols,
                 Model model);
 
         /**
@@ -48,6 +48,6 @@
          *            a propositional sentence.
          * @return true, if &alpha; is entailed by KB, false otherwise.
          */
-        boolean isEntailed(KnowledgeBase kb, Sentence alpha);
+        bool isEntailed(KnowledgeBase kb, Sentence alpha);
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.probability.mdp
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.probability.mdp
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 647.<br>
@@ -24,7 +27,8 @@
      * @author Ravi Mohan
      * 
      */
-    public interface MarkovDecisionProcess<S, A extends Action>
+    public interface MarkovDecisionProcess<S, A>
+        where A : Action
     {
 
         /**
@@ -32,7 +36,7 @@
          * 
          * @return the set of states associated with the Markov decision process.
          */
-        Set<S> states();
+        ISet<S> states();
 
         /**
          * Get the initial state s<sub>0</sub> for this instance of a Markov
@@ -49,7 +53,7 @@
          *            the state.
          * @return the set of actions for state s.
          */
-        Set<A> actions(S s);
+        ISet<A> actions(S s);
 
         /**
          * Return the probability of going from state s using action a to s' based

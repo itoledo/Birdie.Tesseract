@@ -7,7 +7,7 @@
 
     public FullJointDistributionMeningitisStiffNeckModel()
     {
-        super(new double[] {
+        base(new double[] {
 				// Meningitis * StiffNeck = 4 possible worlds
 				// Meningitis = true, StiffNeck = true
 				0.000014, // i.e 1/50000 * 0.7

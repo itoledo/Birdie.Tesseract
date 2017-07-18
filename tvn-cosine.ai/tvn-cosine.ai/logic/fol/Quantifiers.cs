@@ -2,17 +2,17 @@
 {
     public class Quantifiers
     {
-        public static final String FORALL = "FORALL";
-	public static final String EXISTS = "EXISTS";
+        public static final string FORALL = "FORALL";
+	public static final string EXISTS = "EXISTS";
 
-	public static boolean isFORALL(String quantifier)
+	public static bool isFORALL(string quantifier)
         {
-            return FORALL.equals(quantifier);
+            return FORALL.Equals(quantifier);
         }
 
-        public static boolean isEXISTS(String quantifier)
+        public static bool isEXISTS(string quantifier)
         {
-            return EXISTS.equals(quantifier);
+            return EXISTS.Equals(quantifier);
         }
     }
 }

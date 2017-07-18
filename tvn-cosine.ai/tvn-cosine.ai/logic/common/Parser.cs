@@ -32,7 +32,7 @@
          * @return the root node of an abstract syntax tree representation of the
          *         the concrete input syntax that was parsed.
          */
-        public S parse(String input)
+        public S parse(string input)
         {
             return parse(new StringReader(input));
         }
@@ -99,9 +99,9 @@
          * @param toMatchSymbol
          *            the symbol to match before consuming it.
          */
-        protected void match(String toMatchSymbol)
+        protected void match(string toMatchSymbol)
         {
-            if (lookAhead(1).getText().equals(toMatchSymbol))
+            if (lookAhead(1).getText().Equals(toMatchSymbol))
             {
                 consume();
             }
@@ -139,7 +139,7 @@
          */
         private void loadNextTokenFromInput()
         {
-            boolean eoiEncountered = false;
+            bool eoiEncountered = false;
             for (int i = 0; i < lookAheadBufferSize - 1; i++)
             {
                 lookAheadBuffer[i] = lookAheadBuffer[i + 1];
@@ -158,7 +158,7 @@
         /*
          * Returns true if the end of the stream has been reached.
          */
-        private boolean isEndOfInput(Token t)
+        private bool isEndOfInput(Token t)
         {
             return (t == null || t.getType() == LogicTokenTypes.EOI);
         }

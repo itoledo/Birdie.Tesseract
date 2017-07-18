@@ -10,7 +10,7 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public interface ProbabilityDensity extends ProbabilityDistribution
+    public interface ProbabilityDensity : ProbabilityDistribution
     {
 
     }

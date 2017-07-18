@@ -3,9 +3,9 @@
     public class ProofFinal : Proof
     {
 
-    private Map<Variable, Term> answerBindings = new LinkedHashMap<Variable, Term>();
+    private Map<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
     private ProofStep finalStep = null;
-    private List<ProofStep> proofSteps = null;
+    private IQueue<ProofStep> proofSteps = null;
 
     public ProofFinal(ProofStep finalStep, Map<Variable, Term> answerBindings)
     {
@@ -15,7 +15,7 @@
 
     //
     // START-Proof
-    public List<ProofStep> getSteps()
+    public IQueue<ProofStep> getSteps()
     {
         // Only calculate if the proof steps are actually requested.
         if (null == proofSteps)
@@ -30,19 +30,19 @@
         return answerBindings;
     }
 
-    public void replaceAnswerBindings(Map<Variable, Term> updatedBindings)
+    public void replaceAnswerBindings(IMap<Variable, Term> updatedBindings)
     {
-        answerBindings.clear();
+        answerBindings.Clear();
         answerBindings.putAll(updatedBindings);
     }
 
     // END-Proof
     //
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
-        return answerBindings.toString();
+        return answerBindings.ToString();
     }
 
     //
@@ -50,7 +50,7 @@
     //
     private void calcualteProofSteps()
     {
-        proofSteps = new ArrayList<ProofStep>();
+        proofSteps = Factory.CreateQueue<ProofStep>();
         addToProofSteps(finalStep);
 
         // Move all premises to the front of the
@@ -58,18 +58,18 @@
         int to = 0;
         for (int i = 0; i < proofSteps.size(); i++)
         {
-            if (proofSteps.get(i) instanceof ProofStepPremise) {
-            ProofStep m = proofSteps.remove(i);
-            proofSteps.add(to, m);
+            if (proofSteps.Get(i) is ProofStepPremise) {
+            ProofStep m = proofSteps.Remove(i);
+            proofSteps.Add(to, m);
             to++;
         }
     }
 
 		// Move the Goals after the premises
 		for (int i = 0; i<proofSteps.size(); i++) {
-			if (proofSteps.get(i) instanceof ProofStepGoal) {
-				ProofStep m = proofSteps.remove(i);
-    proofSteps.add(to, m);
+			if (proofSteps.Get(i) is ProofStepGoal) {
+				ProofStep m = proofSteps.Remove(i);
+    proofSteps.Add(to, m);
 				to++;
 			}
 		}
@@ -77,7 +77,7 @@
 		// Assign the step #s now that all the proof
 		// steps have been unwound
 		for (int i = 0; i<proofSteps.size(); i++) {
-			proofSteps.get(i).setStepNumber(i + 1);
+			proofSteps.Get(i).setStepNumber(i + 1);
 		}
 	}
 
@@ -85,17 +85,17 @@
 {
     if (!proofSteps.contains(step))
     {
-        proofSteps.add(0, step);
+        proofSteps.Add(0, step);
     }
     else
     {
-        proofSteps.remove(step);
-        proofSteps.add(0, step);
+        proofSteps.Remove(step);
+        proofSteps.Add(0, step);
     }
-    List<ProofStep> predecessors = step.getPredecessorSteps();
+    IQueue<ProofStep> predecessors = step.getPredecessorSteps();
     for (int i = predecessors.size() - 1; i >= 0; i--)
     {
-        addToProofSteps(predecessors.get(i));
+        addToProofSteps(predecessors.Get(i));
     }
 }
 }

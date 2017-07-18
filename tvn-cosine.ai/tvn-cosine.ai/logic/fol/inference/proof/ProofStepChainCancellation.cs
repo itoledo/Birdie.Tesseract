@@ -3,7 +3,7 @@
     public class ProofStepChainCancellation : AbstractProofStep
     {
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+    private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
     private Chain cancellation = null;
     private Chain cancellationOf = null;
     private Map<Variable, Term> subst = null;
@@ -14,25 +14,25 @@
         this.cancellation = cancellation;
         this.cancellationOf = cancellationOf;
         this.subst = subst;
-        this.predecessors.add(cancellationOf.getProofStep());
+        this.predecessors.Add(cancellationOf.getProofStep());
     }
 
     //
     // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
+     
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(predecessors);
+        return Factory.CreateReadOnlyQueue<>(predecessors);
     }
 
-    @Override
-    public String getProof()
+     
+    public string getProof()
     {
-        return cancellation.toString();
+        return cancellation.ToString();
     }
 
-    @Override
-    public String getJustification()
+     
+    public string getJustification()
     {
         return "Cancellation: " + cancellationOf.getProofStep().getStepNumber()
                 + " " + subst;

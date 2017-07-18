@@ -40,11 +40,11 @@
 
         P getPlayer(S state);
 
-        List<A> getActions(S state);
+        IQueue<A> getActions(S state);
 
         S getResult(S state, A action);
 
-        boolean isTerminal(S state);
+        bool isTerminal(S state);
 
         double getUtility(S state, P player);
     }

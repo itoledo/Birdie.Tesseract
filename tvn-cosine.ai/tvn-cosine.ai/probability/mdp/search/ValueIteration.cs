@@ -37,7 +37,7 @@
      * @author Ravi Mohan
      * 
      */
-    public class ValueIteration<S, A extends Action>
+    public class ValueIteration<S, A : Action>
     {
         // discount &gamma; to be used.
         private double gamma = 0;
@@ -68,14 +68,14 @@
          *            the maximum error allowed in the utility of any state
          * @return a vector of utilities for states in S
          */
-        public Map<S, Double> valueIteration(MarkovDecisionProcess<S, A> mdp,
+        public Map<S, double> valueIteration(MarkovDecisionProcess<S, A> mdp,
                 double epsilon)
         {
             //
             // local variables: U, U', vectors of utilities for states in S,
             // initially zero
-            Map<S, Double> U = Util.create(mdp.states(), new Double(0));
-            Map<S, Double> Udelta = Util.create(mdp.states(), new Double(0));
+            Map<S, double> U = Util.create(mdp.states(), new Double(0));
+            Map<S, double> Udelta = Util.create(mdp.states(), new Double(0));
             // &delta; the maximum change in the utility of any state in an
             // iteration
             double delta = 0;
@@ -93,12 +93,12 @@
                 for (S s : mdp.states())
                 {
                     // max<sub>a &isin; A(s)</sub>
-                    Set<A> actions = mdp.actions(s);
+                    ISet<A> actions = mdp.actions(s);
                     // Handle terminal states (i.e. no actions).
                     double aMax = 0;
                     if (actions.size() > 0)
                     {
-                        aMax = Double.NEGATIVE_INFINITY;
+                        aMax = double.NEGATIVE_INFINITY;
                     }
                     for (A a : actions)
                     {
@@ -107,7 +107,7 @@
                         for (S sDelta : mdp.states())
                         {
                             aSum += mdp.transitionProbability(sDelta, s, a)
-                                    * U.get(sDelta);
+                                    * U.Get(sDelta);
                         }
                         if (aSum > aMax)
                         {
@@ -116,9 +116,9 @@
                     }
                     // U'[s] <- R(s) + &gamma;
                     // max<sub>a &isin; A(s)</sub>
-                    Udelta.put(s, mdp.reward(s) + gamma * aMax);
+                    Udelta.Put(s, mdp.reward(s) + gamma * aMax);
                     // if |U'[s] - U[s]| > &delta; then &delta; <- |U'[s] - U[s]|
-                    double aDiff = Math.abs(Udelta.get(s) - U.get(s));
+                    double aDiff = System.Math.Abs(Udelta.Get(s) - U.Get(s));
                     if (aDiff > delta)
                     {
                         delta = aDiff;

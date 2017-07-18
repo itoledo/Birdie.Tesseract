@@ -2,39 +2,35 @@
 {
     public class Connectors
     {
-        public static final String AND = "AND";
+        public const string AND = "AND";
+        public const string OR = "OR";
+        public const string NOT = "NOT";
+        public const string IMPLIES = "=>";
+        public const string BICOND = "<=>";
 
-	public static final String OR = "OR";
-
-	public static final String NOT = "NOT";
-
-	public static final String IMPLIES = "=>";
-
-	public static final String BICOND = "<=>";
-
-	public static boolean isAND(String connector)
+        public static bool isAND(string connector)
         {
-            return AND.equals(connector);
+            return AND.Equals(connector);
         }
 
-        public static boolean isOR(String connector)
+        public static bool isOR(string connector)
         {
-            return OR.equals(connector);
+            return OR.Equals(connector);
         }
 
-        public static boolean isNOT(String connector)
+        public static bool isNOT(string connector)
         {
-            return NOT.equals(connector);
+            return NOT.Equals(connector);
         }
 
-        public static boolean isIMPLIES(String connector)
+        public static bool isIMPLIES(string connector)
         {
-            return IMPLIES.equals(connector);
+            return IMPLIES.Equals(connector);
         }
 
-        public static boolean isBICOND(String connector)
+        public static bool isBICOND(string connector)
         {
-            return BICOND.equals(connector);
+            return BICOND.Equals(connector);
         }
     }
 }

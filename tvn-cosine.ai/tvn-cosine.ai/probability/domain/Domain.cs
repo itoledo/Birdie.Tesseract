@@ -18,13 +18,13 @@
          * @return true if the Domain is finite, false otherwise (i.e. discrete
          *         (like the integers) or continuous (like the reals)).
          */
-        boolean isFinite();
+        bool isFinite();
 
         /**
          * 
          * @return !isFinite().
          */
-        boolean isInfinite();
+        bool isInfinite();
 
         /**
          * 
@@ -38,7 +38,7 @@
          *         specify 1 object from the domain is < or = another object in the
          *         domain.
          */
-        boolean isOrdered();
+        bool isOrdered();
     }
 
 }

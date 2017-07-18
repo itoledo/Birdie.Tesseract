@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.environment.wumpusworld
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.environment.wumpusworld
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 237.<br>
@@ -17,25 +20,36 @@
      */
     public class WumpusAction : Action
     {
+        private static readonly ISet<WumpusAction> _values = Factory.CreateSet<WumpusAction>();
 
-        FORWARD("Forward"), TURN_LEFT("TurnLeft"), TURN_RIGHT("TurnRight"), GRAB("Grab"), SHOOT("Shoot"), CLIMB("Climb");
+        public static readonly WumpusAction FORWARD = new WumpusAction("Forward");
+        public static readonly WumpusAction TURN_LEFT = new WumpusAction("TurnLeft");
+        public static readonly WumpusAction TURN_RIGHT = new WumpusAction("TurnRight");
+        public static readonly WumpusAction GRAB = new WumpusAction("Grab");
+        public static readonly WumpusAction SHOOT = new WumpusAction("Shoot");
+        public static readonly WumpusAction CLIMB = new WumpusAction("Climb");
 
-    public String getSymbol()
-    {
-        return symbol;
+        public string getSymbol()
+        {
+            return symbol;
+        }
+         
+        public bool isNoOp()
+        {
+            return false;
+        }
+
+        public static ISet<WumpusAction> values()
+        {
+            return _values;
+        }
+
+        private string symbol;
+
+        WumpusAction(string sym)
+        {
+            symbol = sym;
+            _values.Add(this);
+        }
     }
-
-    @Override
-    public boolean isNoOp()
-    {
-        return false;
-    }
-
-    private String symbol;
-
-    WumpusAction(String sym)
-    {
-        symbol = sym;
-    }
-}
 }

@@ -3,7 +3,7 @@
     public class ProofStepFoChAlreadyAFact : AbstractProofStep
     {
     //
-    private static final List<ProofStep> _noPredecessors = new ArrayList<ProofStep>();
+    private static final IQueue<ProofStep> _noPredecessors = Factory.CreateQueue<ProofStep>();
     //
     private Literal fact = null;
 
@@ -14,20 +14,20 @@
 
     //
     // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
+     
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(_noPredecessors);
+        return Factory.CreateReadOnlyQueue<>(_noPredecessors);
     }
 
-    @Override
-    public String getProof()
+     
+    public string getProof()
     {
-        return fact.toString();
+        return fact.ToString();
     }
 
-    @Override
-    public String getJustification()
+     
+    public string getJustification()
     {
         return "Already a known fact in the KB.";
     }

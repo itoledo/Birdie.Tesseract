@@ -7,7 +7,7 @@
 
         public static int standardizeApart(Chain c, int saIdx)
         {
-            List<Variable> variables = new ArrayList<Variable>();
+            IQueue<Variable> variables = Factory.CreateQueue<Variable>();
             for (Literal l : c.getLiterals())
             {
                 collectAllVariables(l.getAtomicSentence(), variables);
@@ -18,7 +18,7 @@
 
         public static int standardizeApart(Clause c, int saIdx)
         {
-            List<Variable> variables = new ArrayList<Variable>();
+            IQueue<Variable> variables = Factory.CreateQueue<Variable>();
             for (Literal l : c.getLiterals())
             {
                 collectAllVariables(l.getAtomicSentence(), variables);
@@ -30,20 +30,20 @@
         //
         // PRIVATE METHODS
         //
-        private static int standardizeApart(List<Variable> variables, Object expr,
+        private static int standardizeApart(IQueue<Variable> variables, object expr,
                 int saIdx)
         {
-            Map<String, Integer> indexicals = new HashMap<String, Integer>();
+            Map<string, int> indexicals = Factory.CreateMap<string, int>();
             for (Variable v : variables)
             {
                 if (!indexicals.containsKey(v.getIndexedValue()))
                 {
-                    indexicals.put(v.getIndexedValue(), saIdx++);
+                    indexicals.Put(v.getIndexedValue(), saIdx++);
                 }
             }
             for (Variable v : variables)
             {
-                Integer i = indexicals.get(v.getIndexedValue());
+                int i = indexicals.Get(v.getIndexedValue());
                 if (null == i)
                 {
                     throw new RuntimeException("ERROR: duplicate var=" + v
@@ -58,13 +58,13 @@
             return saIdx;
         }
 
-        private static void collectAllVariables(Sentence s, List<Variable> vars)
+        private static void collectAllVariables(Sentence s, IQueue<Variable> vars)
         {
             s.accept(_collectAllVariables, vars);
         }
     }
 
-    class CollectAllVariables implements FOLVisitor
+    class CollectAllVariables : FOLVisitor
     {
 
     public CollectAllVariables()
@@ -75,21 +75,21 @@
 
     @SuppressWarnings("unchecked")
 
-    public Object visitVariable(Variable var, Object arg)
+    public object visitVariable(Variable var, object arg)
     {
-        List<Variable> variables = (List<Variable>)arg;
-        variables.add(var);
+        IQueue<Variable> variables = (IQueue<Variable>)arg;
+        variables.Add(var);
         return var;
     }
 
 
     @SuppressWarnings("unchecked")
 
-    public Object visitQuantifiedSentence(QuantifiedSentence sentence,
-            Object arg)
+    public object visitQuantifiedSentence(QuantifiedSentence sentence,
+            object arg)
     {
         // Ensure I collect quantified variables too
-        List<Variable> variables = (List<Variable>)arg;
+        IQueue<Variable> variables = (IQueue<Variable>)arg;
         variables.addAll(sentence.getVariables());
 
         sentence.getQuantified().accept(this, arg);
@@ -97,7 +97,7 @@
         return sentence;
     }
 
-    public Object visitPredicate(Predicate predicate, Object arg)
+    public object visitPredicate(Predicate predicate, object arg)
     {
         for (Term t : predicate.getTerms())
         {
@@ -106,19 +106,19 @@
         return predicate;
     }
 
-    public Object visitTermEquality(TermEquality equality, Object arg)
+    public object visitTermEquality(TermEquality equality, object arg)
     {
         equality.getTerm1().accept(this, arg);
         equality.getTerm2().accept(this, arg);
         return equality;
     }
 
-    public Object visitConstant(Constant constant, Object arg)
+    public object visitConstant(Constant constant, object arg)
     {
         return constant;
     }
 
-    public Object visitFunction(Function function, Object arg)
+    public object visitFunction(Function function, object arg)
     {
         for (Term t : function.getTerms())
         {
@@ -127,13 +127,13 @@
         return function;
     }
 
-    public Object visitNotSentence(NotSentence sentence, Object arg)
+    public object visitNotSentence(NotSentence sentence, object arg)
     {
         sentence.getNegated().accept(this, arg);
         return sentence;
     }
 
-    public Object visitConnectedSentence(ConnectedSentence sentence, Object arg)
+    public object visitConnectedSentence(ConnectedSentence sentence, object arg)
     {
         sentence.getFirst().accept(this, arg);
         sentence.getSecond().accept(this, arg);

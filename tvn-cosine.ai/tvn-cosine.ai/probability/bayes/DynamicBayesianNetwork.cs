@@ -14,7 +14,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public interface DynamicBayesianNetwork extends BayesianNetwork
+    public interface DynamicBayesianNetwork : BayesianNetwork
     {
 
         /**
@@ -28,7 +28,7 @@
          * 
          * @return the set of state variables representing the prior distribution.
          */
-        Set<RandomVariable> getX_0();
+        ISet<RandomVariable> getX_0();
 
         /**
          * 
@@ -37,13 +37,13 @@
          *         the transition model <b>P</b>(<b>X</b><sub>1</sub> |
          *         <b>X</b><sub>0</sub>).
          */
-        Set<RandomVariable> getX_1();
+        ISet<RandomVariable> getX_1();
 
         /**
          * 
          * @return the X_1 variables in topological order.
          */
-        List<RandomVariable> getX_1_VariablesInTopologicalOrder();
+        IQueue<RandomVariable> getX_1_VariablesInTopologicalOrder();
 
         /**
          * 
@@ -66,7 +66,7 @@
          *         represent the sensor model <b>P</b>(<b>E</b><sub>1</sub> |
          *         <b>X</b><sub>1</sub>).
          */
-        Set<RandomVariable> getE_1();
+        ISet<RandomVariable> getE_1();
     }
 
 }

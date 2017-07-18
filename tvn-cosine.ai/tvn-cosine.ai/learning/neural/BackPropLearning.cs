@@ -103,7 +103,7 @@
                     biasUpdateMatrixWithMomentum.getRowDimension());
             for (int i = 0; i < biasUpdateMatrixWithMomentum.getRowDimension(); i++)
             {
-                result.setValue(i, biasUpdateMatrixWithMomentum.get(i, 0));
+                result.setValue(i, biasUpdateMatrixWithMomentum.Get(i, 0));
             }
             layer.acceptNewBiasUpdate(result.copyVector());
             return result;
@@ -119,7 +119,7 @@
             Vector result = new Vector(biasUpdateMatrix.getRowDimension());
             for (int i = 0; i < biasUpdateMatrix.getRowDimension(); i++)
             {
-                result.setValue(i, biasUpdateMatrix.get(i, 0));
+                result.setValue(i, biasUpdateMatrix.Get(i, 0));
             }
             layer.acceptNewBiasUpdate(result.copyVector());
             return result;

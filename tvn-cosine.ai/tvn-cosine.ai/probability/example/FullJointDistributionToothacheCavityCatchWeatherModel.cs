@@ -7,7 +7,7 @@
 
     public FullJointDistributionToothacheCavityCatchWeatherModel()
     {
-        super(new double[] {
+        base(new double[] {
 				// Toothache = true, Cavity = true, Catch = true, Weather =
 				// sunny
 				0.0648,

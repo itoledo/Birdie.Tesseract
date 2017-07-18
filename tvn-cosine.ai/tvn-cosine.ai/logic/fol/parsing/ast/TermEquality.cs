@@ -1,14 +1,14 @@
 ﻿namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
-    public class TermEquality implements AtomicSentence
+    public class TermEquality : AtomicSentence
     {
 
     private Term term1, term2;
-    private List<Term> terms = new ArrayList<Term>();
-    private String stringRep = null;
+    private IQueue<Term> terms = Factory.CreateQueue<Term>();
+    private string stringRep = null;
     private int hashCode = 0;
 
-    public static String getEqualitySynbol()
+    public static string getEqualitySynbol()
     {
         return "=";
     }
@@ -17,8 +17,8 @@
     {
         this.term1 = term1;
         this.term2 = term2;
-        terms.add(term1);
-        terms.add(term2);
+        terms.Add(term1);
+        terms.Add(term2);
     }
 
     public Term getTerm1()
@@ -33,22 +33,22 @@
 
     //
     // START-AtomicSentence
-    public String getSymbolicName()
+    public string getSymbolicName()
     {
         return getEqualitySynbol();
     }
 
-    public boolean isCompound()
+    public bool isCompound()
     {
         return true;
     }
 
-    public List<Term> getArgs()
+    public IQueue<Term> getArgs()
     {
-        return Collections.unmodifiableList(terms);
+        return Factory.CreateReadOnlyQueue<>(terms);
     }
 
-    public Object accept(FOLVisitor v, Object arg)
+    public object accept(FOLVisitor v, object arg)
     {
         return v.visitTermEquality(this, arg);
     }
@@ -61,45 +61,45 @@
     // END-AtomicSentence
     //
 
-    @Override
-    public boolean equals(Object o)
+     
+    public override bool Equals(object o)
     {
 
         if (this == o)
         {
             return true;
         }
-        if ((o == null) || (this.getClass() != o.getClass()))
+        if ((o == null) || (this.GetType() != o.GetType()))
         {
             return false;
         }
         TermEquality te = (TermEquality)o;
 
-        return te.getTerm1().equals(term1) && te.getTerm2().equals(term2);
+        return te.getTerm1().Equals(term1) && te.getTerm2().Equals(term2);
     }
 
-    @Override
-    public int hashCode()
+     
+    public override int GetHashCode()
     {
         if (0 == hashCode)
         {
             hashCode = 17;
-            hashCode = 37 * hashCode + getTerm1().hashCode();
-            hashCode = 37 * hashCode + getTerm2().hashCode();
+            hashCode = 37 * hashCode + getTerm1().GetHashCode();
+            hashCode = 37 * hashCode + getTerm2().GetHashCode();
         }
         return hashCode;
     }
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         if (null == stringRep)
         {
             StringBuilder sb = new StringBuilder();
-            sb.append(term1.toString());
-            sb.append(" = ");
-            sb.append(term2.toString());
-            stringRep = sb.toString();
+            sb.Append(term1.ToString());
+            sb.Append(" = ");
+            sb.Append(term2.ToString());
+            stringRep = sb.ToString();
         }
         return stringRep;
     }

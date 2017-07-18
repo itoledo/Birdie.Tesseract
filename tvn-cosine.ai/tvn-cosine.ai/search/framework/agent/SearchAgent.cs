@@ -1,4 +1,10 @@
-﻿namespace tvn.cosine.ai.search.framework.agent
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.search.framework.agent
 {
     /**
      *
@@ -8,53 +14,54 @@
      * @author Ravi Mohan
      * @author Ruediger Lunde
      */
-    public class SearchAgent<S, A extends Action> extends AbstractAgent
+    public class SearchAgent<S, A> : AbstractAgent
+        where A : Action
     {
+        private IQueue<A> actionList;
+        private bool hasNext = false;
+        private IEnumerator<A> actionIterator;
 
-    private List<Action> actionList;
+        private Metrics searchMetrics;
 
-    private Iterator<Action> actionIterator;
+        public SearchAgent(Problem<S, A> p, SearchForActions<S, A> search)
+        {
+            IQueue<A> actions = search.findActions(p);
+            actionList = Factory.CreateQueue<A>();
+            if (null != actions)
+                actionList.AddAll(actions);
 
-    private Metrics searchMetrics;
+            actionIterator = actionList.GetEnumerator();
+            searchMetrics = search.getMetrics();
+        }
 
-    public SearchAgent(Problem<S, A> p, SearchForActions<S, A> search) throws Exception
-    {
-        Optional<List<A>> actions = search.findActions(p);
-        actionList = new ArrayList<>();
-		if (actions.isPresent())
-			actionList.addAll(actions.get());
 
-		actionIterator = actionList.iterator();
-		searchMetrics = search.getMetrics();
-	}
+        public override Action execute(Percept p)
+        {
+            hasNext = actionIterator.MoveNext();
+            if (hasNext)
+                return actionIterator.Current;
+            return NoOpAction.NO_OP; // no success or at goal
+        }
 
-@Override
-    public Action execute(Percept p)
-{
-    if (actionIterator.hasNext())
-        return actionIterator.next();
-    return NoOpAction.NO_OP; // no success or at goal
-}
+        public bool isDone()
+        {
+            return !hasNext;
+        }
 
-public boolean isDone()
-{
-    return !actionIterator.hasNext();
-}
+        public IQueue<A> getActions()
+        {
+            return actionList;
+        }
 
-public List<Action> getActions()
-{
-    return actionList;
-}
-
-public Properties getInstrumentation()
-{
-    Properties result = new Properties();
-    for (String key : searchMetrics.keySet())
-    {
-        String value = searchMetrics.get(key);
-        result.setProperty(key, value);
+        public Properties getInstrumentation()
+        {
+            Properties result = new Properties();
+            foreach (string key in searchMetrics.keySet())
+            {
+                string value = searchMetrics.get(key);
+                result.setProperty(key, value);
+            }
+            return result;
+        }
     }
-    return result;
-}
-}
 }

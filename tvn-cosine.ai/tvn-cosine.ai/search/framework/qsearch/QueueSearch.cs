@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.framework.qsearch
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.framework.qsearch
 {
     /**
      * Base class for queue-based search implementations, especially for
@@ -19,14 +21,14 @@
      */
     public abstract class QueueSearch<S, A>
     {
-        public static final String METRIC_NODES_EXPANDED = "nodesExpanded";
-	public static final String METRIC_QUEUE_SIZE = "queueSize";
-	public static final String METRIC_MAX_QUEUE_SIZE = "maxQueueSize";
-	public static final String METRIC_PATH_COST = "pathCost";
+        public const string METRIC_NODES_EXPANDED = "nodesExpanded";
+        public const string METRIC_QUEUE_SIZE = "queueSize";
+        public const string METRIC_MAX_QUEUE_SIZE = "maxQueueSize";
+        public const string METRIC_PATH_COST = "pathCost";
 
-	final protected NodeExpander<S, A> nodeExpander;
-        protected Queue<Node<S, A>> frontier;
-        protected boolean earlyGoalTest = false;
+        readonly protected NodeExpander<S, A> nodeExpander;
+        protected IQueue<Node<S, A>> frontier;
+        protected bool earlyGoalTest = false;
         protected Metrics metrics = new Metrics();
 
         /** Stores the provided node expander and adds a node listener to it. */
@@ -51,7 +53,7 @@
          * 
          * @return a node referencing a goal state, if the goal was found, otherwise empty;
          */
-        public Optional<Node<S, A>> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
+        public Node<S,A> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
         {
             this.frontier = frontier;
             clearMetrics();
@@ -102,13 +104,13 @@
          * Primitive operation which checks whether the frontier contains not yet
          * expanded nodes.
          */
-        protected abstract boolean isFrontierEmpty();
+        protected abstract bool isFrontierEmpty();
 
         /**
          * Enables optimization for FIFO queue based search, especially breadth
          * first search.
          */
-        public void setEarlyGoalTest(boolean b)
+        public void setEarlyGoalTest(bool b)
         {
             earlyGoalTest = b;
         }
@@ -147,7 +149,7 @@
             }
         }
 
-        private Optional<Node<S, A>> getSolution(Node<S, A> node)
+        private Node<S,A> getSolution(Node<S, A> node)
         {
             metrics.set(METRIC_PATH_COST, node.getPathCost());
             return Optional.of(node);

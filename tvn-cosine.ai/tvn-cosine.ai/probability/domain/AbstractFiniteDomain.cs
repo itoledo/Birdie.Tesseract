@@ -1,90 +1,90 @@
-﻿namespace tvn.cosine.ai.probability.domain
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+
+namespace tvn.cosine.ai.probability.domain
 {
-    public abstract class AbstractFiniteDomain implements FiniteDomain
+    public abstract class AbstractFiniteDomain : FiniteDomain
     {
+        private string toString = null;
+        private IMap<object, int> valueToIdx = Factory.CreateMap<object, int>();
+        private IMap<int, object> idxToValue = Factory.CreateMap<int, object>();
 
-
-    private String toString = null;
-    private Map<Object, Integer> valueToIdx = new HashMap<Object, Integer>();
-    private Map<Integer, Object> idxToValue = new HashMap<Integer, Object>();
-
-    public AbstractFiniteDomain()
-    {
-
-    }
-
-    //
-    // START-Domain
-    @Override
-    public boolean isFinite()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean isInfinite()
-    {
-        return false;
-    }
-
-    @Override
-    public abstract int size();
-
-    @Override
-    public abstract boolean isOrdered();
-
-    // END-Domain
-    //
-
-    //
-    // START-FiniteDomain
-    @Override
-    public abstract Set<? extends Object> getPossibleValues();
-
-    @Override
-    public int getOffset(Object value)
-    {
-        Integer idx = valueToIdx.get(value);
-        if (null == idx)
+        public AbstractFiniteDomain()
         {
-            throw new IllegalArgumentException("Value [" + value
-                    + "] is not a possible value of this domain.");
+
         }
-        return idx.intValue();
-    }
 
-    @Override
-    public Object getValueAt(int offset)
-    {
-        return idxToValue.get(offset);
-    }
+        //
+        // START-Domain
 
-    // END-FiniteDomain
-    //
-
-    @Override
-    public String toString()
-    {
-        if (null == toString)
+        public virtual bool isFinite()
         {
-            toString = getPossibleValues().toString();
+            return true;
         }
-        return toString;
-    }
 
-    //
-    // PROTECTED METHODS
-    //
-    protected void indexPossibleValues(Set<? extends Object> possibleValues)
-    {
-        int idx = 0;
-        for (Object value : possibleValues)
+
+        public virtual bool isInfinite()
         {
-            valueToIdx.put(value, idx);
-            idxToValue.put(idx, value);
-            idx++;
+            return false;
+        }
+
+
+        public abstract int size();
+
+
+        public abstract bool isOrdered();
+
+        // END-Domain
+        //
+
+        //
+        // START-FiniteDomain
+
+        public abstract ISet<T> getPossibleValues<T>();
+
+
+        public virtual int getOffset(object value)
+        {
+            if (!valueToIdx.ContainsKey(value))
+            {
+                throw new IllegalArgumentException("Value [" + value
+                        + "] is not a possible value of this domain.");
+            }
+            return valueToIdx.Get(value);
+        }
+
+
+        public object getValueAt(int offset)
+        {
+            return idxToValue.Get(offset);
+        }
+
+        // END-FiniteDomain
+        //
+
+
+        public override string ToString()
+        {
+            if (null == toString)
+            {
+                toString = getPossibleValues<int>().ToString();
+            }
+            return toString;
+        }
+
+        //
+        // PROTECTED METHODS
+        //
+        protected void indexPossibleValues<T>(ISet<T> possibleValues)
+        {
+            int idx = 0;
+            foreach (object value in possibleValues)
+            {
+                valueToIdx.Put(value, idx);
+                idxToValue.Put(idx, value);
+                idx++;
+            }
         }
     }
-}
 
 }

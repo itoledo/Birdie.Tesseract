@@ -1,18 +1,18 @@
 ﻿namespace tvn.cosine.ai.probability.proposition
 {
-    public class SubsetProposition extends AbstractDerivedProposition
+    public class SubsetProposition : AbstractDerivedProposition
     {
 
 
     private FiniteDomain subsetDomain = null;
     private RandomVariable varSubsetOf = null;
     //
-    private String toString = null;
+    private string toString = null;
 
-    public SubsetProposition(String name, FiniteDomain subsetDomain,
+    public SubsetProposition(string name, FiniteDomain subsetDomain,
             RandomVariable ofVar)
     {
-        super(name);
+        base(name);
 
         if (null == subsetDomain)
         {
@@ -25,25 +25,25 @@
 
     //
     // START-Proposition
-    public boolean holds(Map<RandomVariable, Object> possibleWorld)
+    public bool holds(IMap<RandomVariable, object> possibleWorld)
     {
         return subsetDomain.getPossibleValues().contains(
-                possibleWorld.get(varSubsetOf));
+                possibleWorld.Get(varSubsetOf));
     }
 
     // END-Proposition
     //
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         if (null == toString)
         {
             StringBuilder sb = new StringBuilder();
-            sb.append(getDerivedName());
-            sb.append(" = ");
-            sb.append(subsetDomain.toString());
-            toString = sb.toString();
+            sb.Append(getDerivedName());
+            sb.Append(" = ");
+            sb.Append(subsetDomain.ToString());
+            toString = sb.ToString();
         }
         return toString;
     }

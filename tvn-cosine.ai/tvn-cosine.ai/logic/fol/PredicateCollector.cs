@@ -12,56 +12,56 @@
 
     @SuppressWarnings("unchecked")
 
-    public List<Predicate> getPredicates(Sentence s)
+    public IQueue<Predicate> getPredicates(Sentence s)
     {
-        return (List<Predicate>)s.accept(this, new ArrayList<Predicate>());
+        return (IQueue<Predicate>)s.accept(this, Factory.CreateQueue<Predicate>());
     }
 
 
     @SuppressWarnings("unchecked")
 
-    public Object visitPredicate(Predicate p, Object arg)
+    public object visitPredicate(Predicate p, object arg)
     {
-        List<Predicate> predicates = (List<Predicate>)arg;
-        predicates.add(p);
+        IQueue<Predicate> predicates = (IQueue<Predicate>)arg;
+        predicates.Add(p);
         return predicates;
     }
 
-    public Object visitTermEquality(TermEquality equality, Object arg)
+    public object visitTermEquality(TermEquality equality, object arg)
     {
         return arg;
     }
 
-    public Object visitVariable(Variable variable, Object arg)
+    public object visitVariable(Variable variable, object arg)
     {
         return arg;
     }
 
-    public Object visitConstant(Constant constant, Object arg)
+    public object visitConstant(Constant constant, object arg)
     {
         return arg;
     }
 
-    public Object visitFunction(Function function, Object arg)
+    public object visitFunction(Function function, object arg)
     {
         return arg;
     }
 
-    public Object visitNotSentence(NotSentence sentence, Object arg)
+    public object visitNotSentence(NotSentence sentence, object arg)
     {
         sentence.getNegated().accept(this, arg);
         return arg;
     }
 
-    public Object visitConnectedSentence(ConnectedSentence sentence, Object arg)
+    public object visitConnectedSentence(ConnectedSentence sentence, object arg)
     {
         sentence.getFirst().accept(this, arg);
         sentence.getSecond().accept(this, arg);
         return arg;
     }
 
-    public Object visitQuantifiedSentence(QuantifiedSentence sentence,
-            Object arg)
+    public object visitQuantifiedSentence(QuantifiedSentence sentence,
+            object arg)
     {
         sentence.getQuantified().accept(this, arg);
         return arg;

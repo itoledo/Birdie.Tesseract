@@ -3,7 +3,7 @@
     /**
      * Represents a solution plan for an AND-OR search; according to page 135
      * AIMA3e, the plan must be "a subtree that (1) has a goal node at every leaf,
-     * (2) specifies one Object at each of its OR nodes, and (3) includes every
+     * (2) specifies one object at each of its OR nodes, and (3) includes every
      * outcome branch at each of its AND nodes." As demonstrated on page 136, this
      * subtree is implemented as a linked list where every OR node is an Object--
      * satisfying (2)--and every AND node is an if-state-then-plan-else
@@ -11,7 +11,7 @@
      * 
      * @author Andrew Brown
      */
-    public class Plan extends LinkedList<Object> {
+    public class Plan : LinkedList<Object> {
 
 
     private static final long serialVersionUID = 1L;
@@ -27,9 +27,9 @@
 	 * Construct a plan based on a sequence of steps (IfStateThenPlan or a
 	 * Plan).
 	 */
-    public Plan(Object...steps)
+    public Plan(params object[] steps)
     {
-        for (Object step : steps)
+        for (object step : steps)
             add(step);
     }
 
@@ -40,7 +40,7 @@
 	 *            the action to be prepended to this plan.
 	 * @return this plan with action prepended to it.
 	 */
-    public Plan prepend(Object action)
+    public Plan prepend(object action)
     {
         offerFirst(action);
         return this;
@@ -51,24 +51,24 @@
 	 * 
 	 * @return a string representation of this plan.
 	 */
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         StringBuilder s = new StringBuilder();
-        s.append("[");
+        s.Append("[");
         int count = 0;
         int size = this.size();
-        for (Object step : this)
+        for (object step : this)
         {
-            s.append(step);
+            s.Append(step);
             if (count < size - 1)
             {
-                s.append(", ");
+                s.Append(", ");
             }
             count++;
         }
-        s.append("]");
-        return s.toString();
+        s.Append("]");
+        return s.ToString();
     }
 }
 

@@ -46,10 +46,10 @@ namespace tvn.cosine.ai.learning.knowledge
 
         public override string ToString()
         {
-            return classification.toString()
+            return classification.ToString()
                  + " "
                  + Connectors.AND + " "
-                 + description.toString();
+                 + description.ToString();
         }
 
         //
@@ -91,7 +91,7 @@ namespace tvn.cosine.ai.learning.knowledge
                 {
                     part = new Predicate(foldDName, terms);
                     // Need to determine if false
-                    if (!folDSDomain.getTrueGoalValue().equals(
+                    if (!folDSDomain.getTrueGoalValue().Equals(
                             example.getAttributeValueAsString(dname)))
                     {
                         part = new NotSentence(part);

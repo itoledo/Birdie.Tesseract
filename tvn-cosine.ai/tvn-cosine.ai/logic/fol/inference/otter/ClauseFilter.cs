@@ -2,6 +2,6 @@
 {
     public interface ClauseFilter
     {
-        Set<Clause> filter(Set<Clause> clauses);
+        ISet<Clause> filter(Set<Clause> clauses);
     }
 }

@@ -1,9 +1,9 @@
 ﻿namespace tvn.cosine.ai.logic.fol.inference.proof
 {
-    public class ProofStepFoChAssertFact extends AbstractProofStep
+    public class ProofStepFoChAssertFact : AbstractProofStep
     {
     //
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+    private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
     //
     private Clause implication = null;
     private Literal fact = null;
@@ -17,40 +17,40 @@
         this.bindings = bindings;
         if (null != predecessor)
         {
-            predecessors.add(predecessor);
+            predecessors.Add(predecessor);
         }
     }
 
     //
     // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
+     
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(predecessors);
+        return Factory.CreateReadOnlyQueue<>(predecessors);
     }
 
-    @Override
-    public String getProof()
+     
+    public string getProof()
     {
         StringBuilder sb = new StringBuilder();
-        List<Literal> nLits = implication.getNegativeLiterals();
+        IQueue<Literal> nLits = implication.getNegativeLiterals();
         for (int i = 0; i < implication.getNumberNegativeLiterals(); i++)
         {
-            sb.append(nLits.get(i).getAtomicSentence());
+            sb.Append(nLits.Get(i).getAtomicSentence());
             if (i != (implication.getNumberNegativeLiterals() - 1))
             {
-                sb.append(" AND ");
+                sb.Append(" AND ");
             }
         }
-        sb.append(" => ");
-        sb.append(implication.getPositiveLiterals().get(0));
-        return sb.toString();
+        sb.Append(" => ");
+        sb.Append(implication.getPositiveLiterals().Get(0));
+        return sb.ToString();
     }
 
-    @Override
-    public String getJustification()
+     
+    public string getJustification()
     {
-        return "Assert fact " + fact.toString() + ", " + bindings;
+        return "Assert fact " + fact.ToString() + ", " + bindings;
     }
     // END-ProofStep
     //

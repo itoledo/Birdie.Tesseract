@@ -1,9 +1,13 @@
-﻿using tvn.cosine.ai.agent.impl;
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.environment.xyenv
 {
     public class XYEnvironment : AbstractEnvironment
-    { 
+    {
         private XYEnvironmentState envState = null;
 
         //
@@ -11,20 +15,23 @@ namespace tvn.cosine.ai.environment.xyenv
         //
         public XYEnvironment(int width, int height)
         {
-            assert(width > 0);
-            assert(height > 0);
+            if (width <= 0
+             || height <= 0)
+            {
+                throw new IllegalArgumentException("width and height must be > 0");
+            }
 
             envState = new XYEnvironmentState(width, height);
         }
 
         /** Does nothing (don't ask me why...). */
-        @Override
-    public void executeAction(Agent a, Action action)
+
+        public override void executeAction(Agent a, Action action)
         {
         }
 
-        @Override
-    public Percept getPerceptSeenBy(Agent anAgent)
+
+        public override Percept getPerceptSeenBy(Agent anAgent)
         {
             return new DynamicPercept();
         }
@@ -62,139 +69,139 @@ namespace tvn.cosine.ai.environment.xyenv
             return envState.getCurrentLocationFor(eo);
         }
 
-        public Set<EnvironmentObject> getObjectsAt(XYLocation loc)
+        public ISet<EnvironmentObject> getObjectsAt(XYLocation loc)
         {
             return envState.getObjectsAt(loc);
         }
 
-        public Set<EnvironmentObject> getObjectsNear(Agent agent, int radius)
+        public ISet<EnvironmentObject> getObjectsNear(Agent agent, int radius)
         {
             return envState.getObjectsNear(agent, radius);
         }
 
-        public boolean isBlocked(XYLocation loc)
+        public bool isBlocked(XYLocation loc)
         {
-            for (EnvironmentObject eo : envState.getObjectsAt(loc))
+            foreach (EnvironmentObject eo in envState.getObjectsAt(loc))
             {
-                if (eo instanceof Wall) {
-                return true;
+                if (eo is Wall)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void makePerimeter()
+        {
+            for (int i = 0; i < envState.width; i++)
+            {
+                XYLocation loc = new XYLocation(i, 0);
+                XYLocation loc2 = new XYLocation(i, envState.height - 1);
+                envState.moveObjectToAbsoluteLocation(new Wall(), loc);
+                envState.moveObjectToAbsoluteLocation(new Wall(), loc2);
+            }
+
+            for (int i = 0; i < envState.height; i++)
+            {
+                XYLocation loc = new XYLocation(0, i);
+                XYLocation loc2 = new XYLocation(envState.width - 1, i);
+                envState.moveObjectToAbsoluteLocation(new Wall(), loc);
+                envState.moveObjectToAbsoluteLocation(new Wall(), loc2);
             }
         }
-		return false;
-	}
+    }
 
-    public void makePerimeter()
+    class XYEnvironmentState : EnvironmentState
     {
-        for (int i = 0; i < envState.width; i++)
+        public int width;
+        public int height;
+
+        private IMap<XYLocation, ISet<EnvironmentObject>> objsAtLocation = Factory.CreateMap<XYLocation, ISet<EnvironmentObject>>();
+
+        public XYEnvironmentState(int width, int height)
         {
-            XYLocation loc = new XYLocation(i, 0);
-            XYLocation loc2 = new XYLocation(i, envState.height - 1);
-            envState.moveObjectToAbsoluteLocation(new Wall(), loc);
-            envState.moveObjectToAbsoluteLocation(new Wall(), loc2);
+            this.width = width;
+            this.height = height;
+            for (int h = 1; h <= height; h++)
+            {
+                for (int w = 1; w <= width; w++)
+                {
+                    objsAtLocation.Put(new XYLocation(h, w), Factory.CreateSet<EnvironmentObject>());
+                }
+            }
         }
 
-        for (int i = 0; i < envState.height; i++)
+        public void moveObjectToAbsoluteLocation(EnvironmentObject eo, XYLocation loc)
         {
-            XYLocation loc = new XYLocation(0, i);
-            XYLocation loc2 = new XYLocation(envState.width - 1, i);
-            envState.moveObjectToAbsoluteLocation(new Wall(), loc);
-            envState.moveObjectToAbsoluteLocation(new Wall(), loc2);
+            // Ensure is not already at another location
+            foreach (ISet<EnvironmentObject> eos in objsAtLocation.GetValues())
+            {
+                if (eos.Remove(eo))
+                {
+                    break; // Should only every be at 1 location
+                }
+            }
+            // Add it to the location specified
+            getObjectsAt(loc).Add(eo);
+        }
+
+        public ISet<EnvironmentObject> getObjectsAt(XYLocation loc)
+        {
+            ISet<EnvironmentObject> objectsAt = objsAtLocation.Get(loc);
+            if (null == objectsAt)
+            {
+                // Always ensure an empty Set is returned
+                objectsAt = Factory.CreateSet<EnvironmentObject>();
+                objsAtLocation.Put(loc, objectsAt);
+            }
+            return objectsAt;
+        }
+
+        public XYLocation getCurrentLocationFor(EnvironmentObject eo)
+        {
+            foreach (XYLocation loc in objsAtLocation.GetKeys())
+            {
+                if (objsAtLocation.Get(loc).Contains(eo))
+                {
+                    return loc;
+                }
+            }
+            return null;
+        }
+
+        public ISet<EnvironmentObject> getObjectsNear(Agent agent, int radius)
+        {
+            ISet<EnvironmentObject> objsNear = Factory.CreateSet<EnvironmentObject>();
+
+            XYLocation agentLocation = getCurrentLocationFor(agent);
+            foreach (XYLocation loc in objsAtLocation.GetKeys())
+            {
+                if (withinRadius(radius, agentLocation, loc))
+                {
+                    objsNear.AddAll(objsAtLocation.Get(loc));
+                }
+            }
+            // Ensure the 'agent' is not included in the Set of
+            // objects near
+            objsNear.Remove(agent);
+
+            return objsNear;
+        }
+
+
+        public override string ToString()
+        {
+            return "XYEnvironmentState:" + objsAtLocation.ToString();
+        }
+
+        //
+        // PRIVATE METHODS
+        //
+        private bool withinRadius(int radius, XYLocation agentLocation, XYLocation objectLocation)
+        {
+            int xdifference = agentLocation.getXCoOrdinate() - objectLocation.getXCoOrdinate();
+            int ydifference = agentLocation.getYCoOrdinate() - objectLocation.getYCoOrdinate();
+            return System.Math.Sqrt((xdifference * xdifference) + (ydifference * ydifference)) <= radius;
         }
     }
-}
-
-class XYEnvironmentState implements EnvironmentState
-{
-	int width;
-	int height;
-
-
-    private Map<XYLocation, Set<EnvironmentObject>> objsAtLocation = new LinkedHashMap<XYLocation, Set<EnvironmentObject>>();
-
-public XYEnvironmentState(int width, int height)
-{
-    this.width = width;
-    this.height = height;
-    for (int h = 1; h <= height; h++)
-    {
-        for (int w = 1; w <= width; w++)
-        {
-            objsAtLocation.put(new XYLocation(h, w), new LinkedHashSet<EnvironmentObject>());
-        }
-    }
-}
-
-public void moveObjectToAbsoluteLocation(EnvironmentObject eo, XYLocation loc)
-{
-    // Ensure is not already at another location
-    for (Set<EnvironmentObject> eos : objsAtLocation.values())
-    {
-        if (eos.remove(eo))
-        {
-            break; // Should only every be at 1 location
-        }
-    }
-    // Add it to the location specified
-    getObjectsAt(loc).add(eo);
-}
-
-public Set<EnvironmentObject> getObjectsAt(XYLocation loc)
-{
-    Set<EnvironmentObject> objectsAt = objsAtLocation.get(loc);
-    if (null == objectsAt)
-    {
-        // Always ensure an empty Set is returned
-        objectsAt = new LinkedHashSet<EnvironmentObject>();
-        objsAtLocation.put(loc, objectsAt);
-    }
-    return objectsAt;
-}
-
-public XYLocation getCurrentLocationFor(EnvironmentObject eo)
-{
-    for (XYLocation loc : objsAtLocation.keySet())
-    {
-        if (objsAtLocation.get(loc).contains(eo))
-        {
-            return loc;
-        }
-    }
-    return null;
-}
-
-public Set<EnvironmentObject> getObjectsNear(Agent agent, int radius)
-{
-    Set<EnvironmentObject> objsNear = new LinkedHashSet<>();
-
-    XYLocation agentLocation = getCurrentLocationFor(agent);
-    for (XYLocation loc : objsAtLocation.keySet())
-    {
-        if (withinRadius(radius, agentLocation, loc))
-        {
-            objsNear.addAll(objsAtLocation.get(loc));
-        }
-    }
-    // Ensure the 'agent' is not included in the Set of
-    // objects near
-    objsNear.remove(agent);
-
-    return objsNear;
-}
-
-@Override
-    public String toString()
-{
-    return "XYEnvironmentState:" + objsAtLocation.toString();
-}
-
-//
-// PRIVATE METHODS
-//
-private boolean withinRadius(int radius, XYLocation agentLocation, XYLocation objectLocation)
-{
-    int xdifference = agentLocation.getXCoOrdinate() - objectLocation.getXCoOrdinate();
-    int ydifference = agentLocation.getYCoOrdinate() - objectLocation.getYCoOrdinate();
-    return Math.sqrt((xdifference * xdifference) + (ydifference * ydifference)) <= radius;
-}
-}
 }

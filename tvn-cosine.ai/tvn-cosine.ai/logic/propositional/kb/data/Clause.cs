@@ -16,14 +16,14 @@
     {
         public static final Clause EMPTY = new Clause();
         //
-        private Set<Literal> literals = new LinkedHashSet<Literal>();
+        private ISet<Literal> literals = Factory.CreateSet<Literal>();
         //
-        private Set<PropositionSymbol> cachedPositiveSymbols = new LinkedHashSet<PropositionSymbol>();
-        private Set<PropositionSymbol> cachedNegativeSymbols = new LinkedHashSet<PropositionSymbol>();
-        private Set<PropositionSymbol> cachedSymbols = new LinkedHashSet<PropositionSymbol>();
+        private ISet<PropositionSymbol> cachedPositiveSymbols = Factory.CreateSet<PropositionSymbol>();
+        private ISet<PropositionSymbol> cachedNegativeSymbols = Factory.CreateSet<PropositionSymbol>();
+        private ISet<PropositionSymbol> cachedSymbols = Factory.CreateSet<PropositionSymbol>();
         //
         private Boolean cachedIsTautologyResult = null;
-        private String cachedStringRep = null;
+        private string cachedStringRep = null;
         private int cachedHashCode = -1;
 
         /**
@@ -32,7 +32,7 @@
         public Clause()
         {
             // i.e. the empty clause
-            this(new ArrayList<Literal>());
+            this(Factory.CreateQueue<Literal>());
         }
 
         /**
@@ -63,16 +63,16 @@
                     // False | ~True
                     continue;
                 }
-                if (this.literals.add(l))
+                if (this.literals.Add(l))
                 {
                     // Only add to caches if not already added
                     if (l.isPositiveLiteral())
                     {
-                        this.cachedPositiveSymbols.add(l.getAtomicSentence());
+                        this.cachedPositiveSymbols.Add(l.getAtomicSentence());
                     }
                     else
                     {
-                        this.cachedNegativeSymbols.add(l.getAtomicSentence());
+                        this.cachedNegativeSymbols.Add(l.getAtomicSentence());
                     }
                 }
             }
@@ -81,8 +81,8 @@
             cachedSymbols.addAll(cachedNegativeSymbols);
 
             // Make immutable
-            this.literals = Collections.unmodifiableSet(this.literals);
-            cachedSymbols = Collections.unmodifiableSet(cachedSymbols);
+            this.literals = Factory.CreateReadOnlySet<>(this.literals);
+            cachedSymbols = Factory.CreateReadOnlySet<>(cachedSymbols);
             cachedPositiveSymbols = Collections
                     .unmodifiableSet(cachedPositiveSymbols);
             cachedNegativeSymbols = Collections
@@ -96,7 +96,7 @@
          * 
          * @return true if an empty clause, false otherwise.
          */
-        public boolean isFalse()
+        public bool isFalse()
         {
             return isEmpty();
         }
@@ -105,7 +105,7 @@
          * 
          * @return true if the clause is empty (i.e. 'False'), false otherwise.
          */
-        public boolean isEmpty()
+        public bool isEmpty()
         {
             return literals.size() == 0;
         }
@@ -115,7 +115,7 @@
          * 
          * @return true if the clause is unit, false otherwise.
          */
-        public boolean isUnitClause()
+        public bool isUnitClause()
         {
             return literals.size() == 1;
         }
@@ -130,7 +130,7 @@
          * 
          * @return true if a definite clause, false otherwise.
          */
-        public boolean isDefiniteClause()
+        public bool isDefiniteClause()
         {
             return cachedPositiveSymbols.size() == 1;
         }
@@ -142,7 +142,7 @@
          * 
          * @return true if an implication definite clause, false otherwise.
          */
-        public boolean isImplicationDefiniteClause()
+        public bool isImplicationDefiniteClause()
         {
             return isDefiniteClause() && cachedNegativeSymbols.size() >= 1;
         }
@@ -153,7 +153,7 @@
          * 
          * @return true if a Horn clause, false otherwise.
          */
-        public boolean isHornClause()
+        public bool isHornClause()
         {
             return !isEmpty() && cachedPositiveSymbols.size() <= 1;
         }
@@ -163,7 +163,7 @@
          * 
          * @return true if a Goal clause, false otherwise.
          */
-        public boolean isGoalClause()
+        public bool isGoalClause()
         {
             return !isEmpty() && cachedPositiveSymbols.size() == 0;
         }
@@ -180,7 +180,7 @@
          * 
          * @return true if the clause represents a tautology, false otherwise.
          */
-        public boolean isTautology()
+        public bool isTautology()
         {
             if (cachedIsTautologyResult == null)
             {
@@ -245,7 +245,7 @@
          * 
          * @return the set of literals making up the clause.
          */
-        public Set<Literal> getLiterals()
+        public ISet<Literal> getLiterals()
         {
             return literals;
         }
@@ -254,7 +254,7 @@
          * 
          * @return the set of symbols from the clause's positive and negative literals.
          */
-        public Set<PropositionSymbol> getSymbols()
+        public ISet<PropositionSymbol> getSymbols()
         {
             return cachedSymbols;
         }
@@ -263,7 +263,7 @@
          * 
          * @return the set of symbols from the clause's positive literals.
          */
-        public Set<PropositionSymbol> getPositiveSymbols()
+        public ISet<PropositionSymbol> getPositiveSymbols()
         {
             return cachedPositiveSymbols;
         }
@@ -272,19 +272,19 @@
          * 
          * @return the set of symbols from the clause's negative literals.
          */
-        public Set<PropositionSymbol> getNegativeSymbols()
+        public ISet<PropositionSymbol> getNegativeSymbols()
         {
             return cachedNegativeSymbols;
         }
 
-        @Override
-        public String toString()
+         
+        public override string ToString()
         {
             if (cachedStringRep == null)
             {
                 StringBuilder sb = new StringBuilder();
-                boolean first = true;
-                sb.append("{");
+                bool first = true;
+                sb.Append("{");
                 for (Literal l : literals)
                 {
                     if (first)
@@ -293,18 +293,18 @@
                     }
                     else
                     {
-                        sb.append(", ");
+                        sb.Append(", ");
                     }
-                    sb.append(l);
+                    sb.Append(l);
                 }
-                sb.append("}");
-                cachedStringRep = sb.toString();
+                sb.Append("}");
+                cachedStringRep = sb.ToString();
             }
             return cachedStringRep;
         }
 
-        @Override
-        public boolean equals(Object othObj)
+         
+        public bool equals(object othObj)
         {
             if (null == othObj)
             {
@@ -314,20 +314,20 @@
             {
                 return true;
             }
-            if (!(othObj instanceof Clause)) {
+            if (!(othObj is Clause)) {
                 return false;
             }
             Clause othClause = (Clause)othObj;
 
-            return othClause.literals.equals(this.literals);
+            return othClause.literals.Equals(this.literals);
         }
 
-        @Override
-        public int hashCode()
+         
+        public override int GetHashCode()
         {
             if (cachedHashCode == -1)
             {
-                cachedHashCode = literals.hashCode();
+                cachedHashCode = literals.GetHashCode();
             }
             return cachedHashCode;
         }

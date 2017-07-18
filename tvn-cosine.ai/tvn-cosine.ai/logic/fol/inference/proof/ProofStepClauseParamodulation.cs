@@ -2,7 +2,7 @@
 {
     public class ProofStepClauseParamodulation : AbstractProofStep
     {
-        private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+        private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
         private Clause paramodulated = null;
         private Clause topClause = null;
         private Clause equalityClause = null;
@@ -15,26 +15,26 @@
             this.topClause = topClause;
             this.equalityClause = equalityClause;
             this.assertion = assertion;
-            this.predecessors.add(topClause.getProofStep());
-            this.predecessors.add(equalityClause.getProofStep());
+            this.predecessors.Add(topClause.getProofStep());
+            this.predecessors.Add(equalityClause.getProofStep());
         }
 
         //
         // START-ProofStep
-        @Override
-    public List<ProofStep> getPredecessorSteps()
+         
+    public IQueue<ProofStep> getPredecessorSteps()
         {
-            return Collections.unmodifiableList(predecessors);
+            return Factory.CreateReadOnlyQueue<>(predecessors);
         }
 
-        @Override
-    public String getProof()
+         
+    public string getProof()
         {
-            return paramodulated.toString();
+            return paramodulated.ToString();
         }
 
-        @Override
-    public String getJustification()
+         
+    public string getJustification()
         {
             return "Paramodulation: " + topClause.getProofStep().getStepNumber()
                     + ", " + equalityClause.getProofStep().getStepNumber() + ", ["

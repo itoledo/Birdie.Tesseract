@@ -6,7 +6,7 @@
      * 
      * @author Andrew Brown
      */
-    public class Path extends LinkedList<Object> {
+    public class Path : LinkedList<Object> {
 
 
     private static final long serialVersionUID = 1L;
@@ -20,7 +20,7 @@
 	 * @return a new Path that contains this path's states along with the passed
 	 *         in argument states appended to the end.
 	 */
-    public Path append(Object...states)
+    public Path append(params object[] states)
     {
         Path appendedPath = new Path();
         appendedPath.addAll(this);
@@ -37,10 +37,10 @@
 	 * @return a new Path that contains the passed in state along with this
 	 *         path's current states.
 	 */
-    public Path prepend(Object state)
+    public Path prepend(object state)
     {
         Path prependedPath = new Path();
-        prependedPath.add(state);
+        prependedPath.Add(state);
         prependedPath.addAll(this);
 
         return prependedPath;

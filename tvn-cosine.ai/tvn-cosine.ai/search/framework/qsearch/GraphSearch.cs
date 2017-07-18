@@ -34,10 +34,10 @@
      *
      * @author Ruediger Lunde
      */
-    public class GraphSearch<S, A> extends QueueSearch<S, A> {
+    public class GraphSearch<S, A> : QueueSearch<S, A> {
 
 
-    private Set<S> explored = new HashSet<>();
+    private ISet<S> explored = Factory.CreateSet<>();
 
     public GraphSearch()
     {
@@ -46,18 +46,18 @@
 
     public GraphSearch(NodeExpander<S, A> nodeExpander)
     {
-        super(nodeExpander);
+        base(nodeExpander);
     }
 
     /**
 	 * Clears the set of explored states and calls the search implementation of
 	 * {@link QueueSearch}.
 	 */
-    @Override
-    public Optional<Node<S, A>> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
+     
+    public Node<S,A> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
     {
         // initialize the explored set to be empty
-        explored.clear();
+        explored.Clear();
         return super.findNode(problem, frontier);
     }
 
@@ -65,12 +65,12 @@
 	 * Inserts the node at the tail of the frontier if the corresponding state
 	 * was not yet explored.
 	 */
-    @Override
+     
     protected void addToFrontier(Node<S, A> node)
     {
         if (!explored.contains(node.getState()))
         {
-            frontier.add(node);
+            frontier.Add(node);
             updateMetrics(frontier.size());
         }
     }
@@ -83,13 +83,13 @@
 	 * 
 	 * @return the node at the head of the frontier.
 	 */
-    @Override
+     
     protected Node<S, A> removeFromFrontier()
     {
         cleanUpFrontier(); // not really necessary because isFrontierEmpty
                            // should be called before...
-        Node<S, A> result = frontier.remove();
-        explored.add(result.getState());
+        Node<S, A> result = frontier.Remove();
+        explored.Add(result.getState());
         updateMetrics(frontier.size());
         return result;
     }
@@ -98,8 +98,8 @@
 	 * Pops nodes of already explored states from the head of the frontier
 	 * and checks whether there are still some nodes left.
 	 */
-    @Override
-    protected boolean isFrontierEmpty()
+     
+    protected bool isFrontierEmpty()
     {
         cleanUpFrontier();
         updateMetrics(frontier.size());
@@ -113,7 +113,7 @@
     private void cleanUpFrontier()
     {
         while (!frontier.isEmpty() && explored.contains(frontier.element().getState()))
-            frontier.remove();
+            frontier.Remove();
     }
 }
 }

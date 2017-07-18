@@ -1,24 +1,24 @@
 ﻿namespace tvn.cosine.ai.probability.proposition
 {
-    public class IntegerSumProposition extends AbstractDerivedProposition
+    public class IntegerSumProposition : AbstractDerivedProposition
     {
 
 
     private FiniteIntegerDomain sumsDomain = null;
-    private List<RandomVariable> sumVars = new ArrayList<RandomVariable>();
+    private IQueue<RandomVariable> sumVars = Factory.CreateQueue<RandomVariable>();
     //
-    private String toString = null;
+    private string toString = null;
 
-    public IntegerSumProposition(String name, FiniteIntegerDomain sumsDomain,
-            RandomVariable...sums)
+    public IntegerSumProposition(string name, FiniteIntegerDomain sumsDomain,
+            params RandomVariable[] sums)
     {
-        super(name);
+        base(name);
 
         if (null == sumsDomain)
         {
             throw new IllegalArgumentException("Sum Domain must be specified.");
         }
-        if (null == sums || 0 == sums.length)
+        if (null == sums || 0 == sums.Length)
         {
             throw new IllegalArgumentException(
                     "Sum variables must be specified.");
@@ -27,24 +27,24 @@
         for (RandomVariable rv : sums)
         {
             addScope(rv);
-            sumVars.add(rv);
+            sumVars.Add(rv);
         }
     }
 
     //
     // START-Proposition
-    public boolean holds(Map<RandomVariable, Object> possibleWorld)
+    public bool holds(IMap<RandomVariable, object> possibleWorld)
     {
-        Integer sum = new Integer(0);
+        int sum = new Integer(0);
 
         for (RandomVariable rv : sumVars)
         {
-            Object o = possibleWorld.get(rv);
-            if (o instanceof Integer) {
-            sum += ((Integer)o);
+            object o = possibleWorld.Get(rv);
+            if (o is Integer) {
+            sum += ((int)o);
         } else {
             throw new IllegalArgumentException(
-                    "Possible World does not contain a Integer value for the sum variable:"
+                    "Possible World does not contain a int value for the sum variable:"
                             + rv);
         }
     }
@@ -55,16 +55,16 @@
 // END-Proposition
 //
 
-@Override
-    public String toString()
+ 
+    public override string ToString()
 {
     if (null == toString)
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(getDerivedName());
-        sb.append(" = ");
-        sb.append(sumsDomain.toString());
-        toString = sb.toString();
+        sb.Append(getDerivedName());
+        sb.Append(" = ");
+        sb.Append(sumsDomain.ToString());
+        toString = sb.ToString();
     }
     return toString;
 }

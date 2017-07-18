@@ -5,7 +5,7 @@
      *
      * @author Ruediger Lunde
      */
-    public interface InferenceStrategy<VAR extends Variable, VAL>
+    public interface InferenceStrategy<VAR : Variable, VAL>
     {
 
         /**

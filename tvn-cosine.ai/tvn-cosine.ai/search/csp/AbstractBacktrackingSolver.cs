@@ -41,7 +41,7 @@
      *
      * @author Ruediger Lunde
      */
-    public abstract class AbstractBacktrackingSolver<VAR extends Variable, VAL> extends CspSolver<VAR, VAL> {
+    public abstract class AbstractBacktrackingSolver<VAR : Variable, VAL> : CspSolver<VAR, VAL> {
 
     /** Applies a recursive backtracking search to solve the CSP. */
     public Optional<Assignment<VAR, VAL>> solve(CSP<VAR, VAL> csp)
@@ -67,7 +67,7 @@
             VAR var = selectUnassignedVariable(csp, assignment);
             for (VAL value : orderDomainValues(csp, assignment, var))
             {
-                assignment.add(var, value);
+                assignment.Add(var, value);
                 fireStateChanged(csp, assignment, var);
                 if (assignment.isConsistent(csp.getConstraints(var)))
                 {
@@ -82,7 +82,7 @@
                     }
                     log.undo(csp);
                 }
-                assignment.remove(var);
+                assignment.Remove(var);
             }
         }
         return result;

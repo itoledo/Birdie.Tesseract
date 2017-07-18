@@ -24,7 +24,7 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public abstract class KBAgent extends AbstractAgent
+    public abstract class KBAgent : AbstractAgent
     {
     // persistent: KB, a knowledge base
     protected KnowledgeBase KB;
@@ -37,7 +37,7 @@
     }
 
     // function KB-AGENT(percept) returns an action
-    @Override
+     
     public Action execute(Percept percept)
     {
         // TELL(KB, MAKE-PERCEPT-SENTENCE(percept, t))

@@ -1,13 +1,13 @@
 ﻿namespace tvn.cosine.ai.probability.proposition
 {
-    public class NotProposition extends AbstractProposition implements
+    public class NotProposition : AbstractProposition implements
             UnarySentenceProposition
     {
 
 
     private Proposition proposition;
     //
-    private String toString = null;
+    private string toString = null;
 
     public NotProposition(Proposition prop)
     {
@@ -23,23 +23,23 @@
         proposition = prop;
     }
 
-    @Override
-    public boolean holds(Map<RandomVariable, Object> possibleWorld)
+     
+    public bool holds(IMap<RandomVariable, object> possibleWorld)
     {
         return !proposition.holds(possibleWorld);
     }
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         if (null == toString)
         {
             StringBuilder sb = new StringBuilder();
-            sb.append("(NOT ");
-            sb.append(proposition.toString());
-            sb.append(")");
+            sb.Append("(NOT ");
+            sb.Append(proposition.ToString());
+            sb.Append(")");
 
-            toString = sb.toString();
+            toString = sb.ToString();
         }
         return toString;
     }

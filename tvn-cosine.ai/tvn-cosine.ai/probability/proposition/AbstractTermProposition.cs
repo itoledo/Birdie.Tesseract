@@ -1,8 +1,8 @@
 ﻿namespace tvn.cosine.ai.probability.proposition
 {
-    public abstract class AbstractTermProposition extends AbstractProposition
+    public abstract class AbstractTermProposition : AbstractProposition
 
-        implements TermProposition
+        : TermProposition
     {
 
 

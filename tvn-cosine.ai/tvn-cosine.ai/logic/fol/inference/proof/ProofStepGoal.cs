@@ -3,31 +3,31 @@
     public class ProofStepGoal : AbstractProofStep
     {
     //
-    private static final List<ProofStep> _noPredecessors = new ArrayList<ProofStep>();
+    private static final IQueue<ProofStep> _noPredecessors = Factory.CreateQueue<ProofStep>();
     //
-    private Object proof = "";
+    private object proof = "";
 
-    public ProofStepGoal(Object proof)
+    public ProofStepGoal(object proof)
     {
         this.proof = proof;
     }
 
     //
     // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
+     
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(_noPredecessors);
+        return Factory.CreateReadOnlyQueue<>(_noPredecessors);
     }
 
-    @Override
-    public String getProof()
+     
+    public string getProof()
     {
-        return proof.toString();
+        return proof.ToString();
     }
 
-    @Override
-    public String getJustification()
+     
+    public string getJustification()
     {
         return "Goal";
     }

@@ -14,9 +14,9 @@
     public class Literal
     {
         private PropositionSymbol atom = null;
-        private boolean positive = true; // Assume positive by default.
+        private bool positive = true; // Assume positive by default.
                                          //
-        private String cachedStringRep = null;
+        private string cachedStringRep = null;
         private int cachedHashCode = -1;
 
         /**
@@ -39,7 +39,7 @@
          *            true if to be a positive literal, false to be a negative
          *            literal.
          */
-        public Literal(PropositionSymbol atom, boolean positive)
+        public Literal(PropositionSymbol atom, bool positive)
         {
             this.atom = atom;
             this.positive = positive;
@@ -49,7 +49,7 @@
          * 
          * @return true if a positive literal, false otherwise.
          */
-        public boolean isPositiveLiteral()
+        public bool isPositiveLiteral()
         {
             return positive;
         }
@@ -58,7 +58,7 @@
          * 
          * @return true if a negative literal, false otherwise.
          */
-        public boolean isNegativeLiteral()
+        public bool isNegativeLiteral()
         {
             return !positive;
         }
@@ -77,7 +77,7 @@
          * @return true if the literal is representative of an always true
          *         proposition (i.e. True or ~False), false otherwise.
          */
-        public boolean isAlwaysTrue()
+        public bool isAlwaysTrue()
         {
             // True | ~False
             if (isPositiveLiteral())
@@ -95,7 +95,7 @@
          * @return true if the literal is representative of an always false
          *         proposition (i.e. False or ~True), false othwerwise.
          */
-        public boolean isAlwaysFalse()
+        public bool isAlwaysFalse()
         {
             // False | ~True
             if (isPositiveLiteral())
@@ -108,47 +108,47 @@
             }
         }
 
-        @Override
-        public String toString()
+         
+        public override string ToString()
         {
             if (null == cachedStringRep)
             {
                 StringBuilder sb = new StringBuilder();
                 if (isNegativeLiteral())
                 {
-                    sb.append(Connective.NOT.toString());
+                    sb.Append(Connective.NOT.ToString());
                 }
-                sb.append(getAtomicSentence().toString());
-                cachedStringRep = sb.toString();
+                sb.Append(getAtomicSentence().ToString());
+                cachedStringRep = sb.ToString();
             }
 
             return cachedStringRep;
         }
 
-        @Override
-        public boolean equals(Object o)
+         
+        public override bool Equals(object o)
         {
             if (this == o)
             {
                 return true;
             }
-            if (!(o instanceof Literal)) {
+            if (!(o is Literal)) {
                 return false;
             }
             Literal l = (Literal)o;
             return l.isPositiveLiteral() == isPositiveLiteral()
-                    && l.getAtomicSentence().equals(getAtomicSentence());
+                    && l.getAtomicSentence().Equals(getAtomicSentence());
         }
 
-        @Override
-        public int hashCode()
+         
+        public override int GetHashCode()
         {
             if (cachedHashCode == -1)
             {
                 cachedHashCode = 17;
                 cachedHashCode = (cachedHashCode * 37)
-                        + (isPositiveLiteral() ? "+".hashCode() : "-".hashCode());
-                cachedHashCode = (cachedHashCode * 37) + atom.hashCode();
+                        + (isPositiveLiteral() ? "+".GetHashCode() : "-".GetHashCode());
+                cachedHashCode = (cachedHashCode * 37) + atom.GetHashCode();
             }
             return cachedHashCode;
         }

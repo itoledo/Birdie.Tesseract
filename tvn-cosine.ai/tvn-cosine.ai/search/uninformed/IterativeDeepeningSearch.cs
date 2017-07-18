@@ -21,10 +21,10 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class IterativeDeepeningSearch<S, A> implements SearchForActions<S, A>, SearchForStates<S, A> {
+    public class IterativeDeepeningSearch<S, A> : SearchForActions<S, A>, SearchForStates<S, A> {
 
-    public static final String METRIC_NODES_EXPANDED = "nodesExpanded";
-	public static final String METRIC_PATH_COST = "pathCost";
+    public static final string METRIC_NODES_EXPANDED = "nodesExpanded";
+	public static final string METRIC_PATH_COST = "pathCost";
 
 	private final NodeExpander<S, A> nodeExpander;
     private final Metrics metrics;
@@ -43,15 +43,15 @@
 
     // function ITERATIVE-DEEPENING-SEARCH(problem) returns a solution, or
     // failure
-    @Override
-    public Optional<List<A>> findActions(Problem<S, A> p)
+     
+    public IQueue<A> findActions(Problem<S, A> p)
     {
         nodeExpander.useParentLinks(true);
         return SearchUtils.toActions(findNode(p));
     }
 
-    @Override
-    public Optional<S> findState(Problem<S, A> p)
+     
+    public S findState(Problem<S, A> p)
     {
         nodeExpander.useParentLinks(false);
         return SearchUtils.toState(findNode(p));
@@ -63,7 +63,7 @@
 	 * @param p
 	 * @return
 	 */
-    private Optional<Node<S, A>> findNode(Problem<S, A> p)
+    private Node<S,A> findNode(Problem<S, A> p)
     {
         clearMetrics();
         // for depth = 0 to infinity do
@@ -71,7 +71,7 @@
         {
             // result <- DEPTH-LIMITED-SEARCH(problem, depth)
             DepthLimitedSearch<S, A> dls = new DepthLimitedSearch<>(i, nodeExpander);
-            Optional<Node<S, A>> result = dls.findNode(p);
+            Node<S,A> result = dls.findNode(p);
             updateMetrics(dls.getMetrics());
             // if result != cutoff then return result
             if (!dls.isCutoffResult(result))
@@ -80,20 +80,20 @@
         return Optional.empty();
     }
 
-    @Override
+     
     public Metrics getMetrics()
     {
         return metrics;
     }
 
-    @Override
+     
     public void addNodeListener(Consumer<Node<S, A>> listener)
     {
         nodeExpander.addNodeListener(listener);
     }
 
-    @Override
-    public boolean removeNodeListener(Consumer<Node<S, A>> listener)
+     
+    public bool removeNodeListener(Consumer<Node<S, A>> listener)
     {
         return nodeExpander.removeNodeListener(listener);
     }

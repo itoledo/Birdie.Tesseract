@@ -1,32 +1,32 @@
 ﻿namespace tvn.cosine.ai.probability.domain
 {
-    public abstract class AbstractDiscreteDomain implements DiscreteDomain
+    public abstract class AbstractDiscreteDomain : DiscreteDomain
     {
 
         //
         // START-Domain
-        @Override
+         
 
-    public boolean isFinite()
+    public bool isFinite()
     {
         return false;
     }
 
-    @Override
-    public boolean isInfinite()
+     
+    public bool isInfinite()
     {
         return true;
     }
 
-    @Override
+     
     public int size()
     {
         throw new IllegalStateException(
                 "You cannot determine the size of an infinite domain");
     }
 
-    @Override
-    public abstract boolean isOrdered();
+     
+    public abstract bool isOrdered();
     // END-Domain
     //
 }

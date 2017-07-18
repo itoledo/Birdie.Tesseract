@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.environment.wumpusworld
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.environment.wumpusworld
 {
     /**
     * Implements an environment for the Wumpus World.
@@ -8,11 +11,11 @@
     {
 
     private WumpusCave cave;
-    private boolean isWumpusAlive = true;
-    private boolean isGoldGrabbed;
-    private Map<Agent, AgentPosition> agentPositions = new HashMap<>();
-    private Set<Agent> bumpedAgents = new HashSet<>();
-    private Set<Agent> agentsHavingArrow = new HashSet<>();
+    private bool isWumpusAlive = true;
+    private bool isGoldGrabbed;
+    private Map<Agent, AgentPosition> agentPositions = Factory.CreateMap<>();
+    private ISet<Agent> bumpedAgents = Factory.CreateSet<>();
+    private ISet<Agent> agentsHavingArrow = Factory.CreateSet<>();
     private Agent agentJustKillingWumpus;
 
     public WumpusEnvironment(WumpusCave cave)
@@ -25,58 +28,58 @@
         return cave;
     }
 
-    public boolean isWumpusAlive()
+    public bool isWumpusAlive()
     {
         return isWumpusAlive;
     }
 
-    public boolean isGoalGrabbed()
+    public bool isGoalGrabbed()
     {
         return isGoldGrabbed;
     }
 
     public AgentPosition getAgentPosition(Agent agent)
     {
-        return agentPositions.get(agent);
+        return agentPositions.Get(agent);
     }
 
-    @Override
+     
     public void addAgent(Agent agent)
     {
-        agentPositions.put(agent, cave.getStart());
-        agentsHavingArrow.add(agent);
+        agentPositions.Put(agent, cave.getStart());
+        agentsHavingArrow.Add(agent);
         super.addAgent(agent);
     }
 
-    @Override
+     
     public void executeAction(Agent agent, Action action)
     {
-        bumpedAgents.remove(agent);
+        bumpedAgents.Remove(agent);
         if (agent == agentJustKillingWumpus)
             agentJustKillingWumpus = null;
-        AgentPosition pos = agentPositions.get(agent);
+        AgentPosition pos = agentPositions.Get(agent);
         if (action == WumpusAction.FORWARD)
         {
             AgentPosition newPos = cave.moveForward(pos);
-            agentPositions.put(agent, newPos);
-            if (newPos.equals(pos))
+            agentPositions.Put(agent, newPos);
+            if (newPos.Equals(pos))
             {
-                bumpedAgents.add(agent);
+                bumpedAgents.Add(agent);
             }
-            else if (cave.isPit(newPos.getRoom()) || newPos.getRoom().equals(cave.getWumpus()) && isWumpusAlive)
+            else if (cave.isPit(newPos.getRoom()) || newPos.getRoom().Equals(cave.getWumpus()) && isWumpusAlive)
                 agent.setAlive(false);
         }
         else if (action == WumpusAction.TURN_LEFT)
         {
-            agentPositions.put(agent, cave.turnLeft(pos));
+            agentPositions.Put(agent, cave.turnLeft(pos));
         }
         else if (action == WumpusAction.TURN_RIGHT)
         {
-            agentPositions.put(agent, cave.turnRight(pos));
+            agentPositions.Put(agent, cave.turnRight(pos));
         }
         else if (action == WumpusAction.GRAB)
         {
-            if (!isGoldGrabbed && pos.getRoom().equals(cave.getGold()))
+            if (!isGoldGrabbed && pos.getRoom().Equals(cave.getGold()))
                 isGoldGrabbed = true;
         }
         else if (action == WumpusAction.SHOOT)
@@ -84,7 +87,7 @@
             if (agentsHavingArrow.contains(agent) && isAgentFacingWumpus(pos))
             {
                 isWumpusAlive = false;
-                agentsHavingArrow.remove(agent);
+                agentsHavingArrow.Remove(agent);
                 agentJustKillingWumpus = agent;
             }
         }
@@ -94,7 +97,7 @@
         }
     }
 
-    private boolean isAgentFacingWumpus(AgentPosition pos)
+    private bool isAgentFacingWumpus(AgentPosition pos)
     {
         Room wumpus = cave.getWumpus();
         switch (pos.getOrientation())
@@ -111,23 +114,23 @@
         return false;
     }
 
-    @Override
+     
     public Percept getPerceptSeenBy(Agent anAgent)
     {
         WumpusPercept result = new WumpusPercept();
-        AgentPosition pos = agentPositions.get(anAgent);
-        List<Room> adjacentRooms = Arrays.asList(
+        AgentPosition pos = agentPositions.Get(anAgent);
+        IQueue<Room> adjacentRooms = Arrays.asList(
                 new Room(pos.getX() - 1, pos.getY()), new Room(pos.getX() + 1, pos.getY()),
                 new Room(pos.getX(), pos.getY() - 1), new Room(pos.getX(), pos.getY() + 1)
         );
-        for (Room r : adjacentRooms)
+        foreach (Room r in adjacentRooms)
         {
-            if (r.equals(cave.getWumpus()))
+            if (r.Equals(cave.getWumpus()))
                 result.setStench();
             if (cave.isPit(r))
                 result.setBreeze();
         }
-        if (pos.getRoom().equals(cave.getGold()))
+        if (pos.getRoom().Equals(cave.getGold()))
             result.setGlitter();
         if (bumpedAgents.contains(anAgent))
             result.setBump();

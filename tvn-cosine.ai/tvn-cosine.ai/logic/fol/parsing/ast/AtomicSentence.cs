@@ -1,8 +1,8 @@
 ﻿namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
-    public interface AtomicSentence extends Sentence
+    public interface AtomicSentence : Sentence
     {
-        List<Term> getArgs();
+        IQueue<Term> getArgs();
 
         AtomicSentence copy();
     }

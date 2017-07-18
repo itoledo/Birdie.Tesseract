@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.search.csp
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.datastructures;
+
+namespace tvn.cosine.ai.search.csp
 {
     /**
      * Defines variable and value selection heuristics for CSP backtracking strategies.
@@ -6,124 +9,145 @@
      */
     public class CspHeuristics
     {
-
-
-        public interface VariableSelection<VAR extends Variable, VAL> {
-        List<VAR> apply(CSP<VAR, VAL> csp, List<VAR> vars);
-    }
-
-    public interface ValueSelection<VAR extends Variable, VAL>
-    {
-        List<VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var);
-    }
-
-    public static <VAR extends Variable, VAL> VariableSelection<VAR, VAL> mrv() { return new MrvHeuristic<>(); }
-    public static <VAR extends Variable, VAL> VariableSelection<VAR, VAL> deg() { return new DegHeuristic<>(); }
-    public static <VAR extends Variable, VAL> VariableSelection<VAR, VAL> mrvDeg()
-    {
-        return (csp, vars) -> new DegHeuristic<VAR, VAL>().apply(csp, new MrvHeuristic<VAR, VAL>().apply(csp, vars));
-    }
-    public static <VAR extends Variable, VAL> ValueSelection<VAR, VAL> lcv() { return new LcvHeuristic<>(); }
-
-    /**
-     * Implements the minimum-remaining-values heuristic.
-     */
-    public static class MrvHeuristic<VAR extends Variable, VAL> implements VariableSelection<VAR, VAL> {
-
-        /** Returns variables from <code>vars</code> which are the best with respect to MRV. */
-        public List<VAR> apply(CSP<VAR, VAL> csp, List<VAR> vars)
-    {
-        List<VAR> result = new ArrayList<>();
-        int mrv = Integer.MAX_VALUE;
-        for (VAR var : vars)
+        public interface VariableSelection<VAR, VAL>
+            where VAR : Variable
         {
-            int rv = csp.getDomain(var).size();
-            if (rv <= mrv)
-            {
-                if (rv < mrv)
-                {
-                    result.clear();
-                    mrv = rv;
-                }
-                result.add(var);
-            }
+            IQueue<VAR> apply(CSP<VAR, VAL> csp, IQueue<VAR> vars);
         }
-        return result;
-    }
-}
 
-/**
- * Implements the degree heuristic. Constraints with arbitrary scope size are supported.
- */
-public static class DegHeuristic<VAR extends Variable, VAL> implements VariableSelection<VAR, VAL> {
-
-        /** Returns variables from <code>vars</code> which are the best with respect to DEG. */
-        public List<VAR> apply(CSP<VAR, VAL> csp, List<VAR> vars)
-{
-    List<VAR> result = new ArrayList<>();
-    int maxDegree = -1;
-    for (VAR var : vars)
-    {
-        int degree = csp.getConstraints(var).size();
-        if (degree >= maxDegree)
+        public interface ValueSelection<VAR, VAL>
+            where VAR : Variable
         {
-            if (degree > maxDegree)
-            {
-                result.clear();
-                maxDegree = degree;
-            }
-            result.add(var);
+            IQueue<VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var);
         }
-    }
-    return result;
-}
-    }
 
-    /**
-     * Implements the least constraining value heuristic.
-     */
-    public static class LcvHeuristic<VAR extends Variable, VAL> implements ValueSelection<VAR, VAL> {
-
-        /** Returns the values of Dom(var) in a special order. The least constraining value comes first. */
-        public List<VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
-{
-    List<Pair<VAL, Integer>> pairs = new ArrayList<>();
-    for (VAL value : csp.getDomain(var))
-    {
-        int num = countLostValues(csp, assignment, var, value);
-        pairs.add(new Pair<>(value, num));
-    }
-    return pairs.stream().sorted(Comparator.comparing(Pair::getSecond)).map(Pair::getFirst)
-            .collect(Collectors.toList());
-}
-
-/**
- * Ignores constraints which are not binary.
- */
-private int countLostValues(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var, VAL value)
-{
-    int result = 0;
-    Assignment<VAR, VAL> assign = new Assignment<>();
-    assign.add(var, value);
-    for (Constraint<VAR, VAL> constraint : csp.getConstraints(var))
-    {
-        if (constraint.getScope().size() == 2)
+        public static VariableSelection<VAR, VAL> mrv<VAR, VAL>() where VAR : Variable
         {
-            VAR neighbor = csp.getNeighbor(var, constraint);
-            if (!assignment.contains(neighbor))
-                for (VAL nValue : csp.getDomain(neighbor))
+            return new MrvHeuristic<VAR>();
+        }
+
+        public static VariableSelection<VAR, VAL> deg<VAR, VAL>() where VAR : Variable
+        {
+            return new DegHeuristic<VAR, VAL>();
+        }
+
+        public static VariableSelection<VAR, VAL> mrvDeg<VAR, VAL>()
+            where VAR : Variable
+        {
+            return (csp, vars) => new DegHeuristic<VAR, VAL>().apply(csp, new MrvHeuristic<VAR, VAL>().apply(csp, vars));
+        }
+
+        public static ValueSelection<VAR, VAL> lcv<VAR, VAL>()
+            where VAR : Variable
+        {
+            return new LcvHeuristic<VAR>();
+        }
+
+        /**
+         * Implements the minimum-remaining-values heuristic.
+         */
+        public class MrvHeuristic<VAR, VAL> : VariableSelection<VAR, VAL>
+            where VAR : Variable
+        {
+
+            /** Returns variables from <code>vars</code> which are the best with respect to MRV. */
+            public IQueue<VAR> apply(CSP<VAR, VAL> csp, IQueue<VAR> vars)
+            {
+                IQueue<VAR> result = Factory.CreateQueue<VAR>();
+                int mrv = int.MaxValue;
+                foreach (VAR var in vars)
                 {
-                    assign.add(neighbor, nValue);
-                    if (!constraint.isSatisfiedWith(assign))
+                    int rv = csp.getDomain(var).size();
+                    if (rv <= mrv)
                     {
-                        ++result;
+                        if (rv < mrv)
+                        {
+                            result.Clear();
+                            mrv = rv;
+                        }
+                        result.Add(var);
                     }
                 }
+                return result;
+            }
+        }
+
+        /**
+         * Implements the degree heuristic. Constraints with arbitrary scope size are supported.
+         */
+        public class DegHeuristic<VAR, VAL> : VariableSelection<VAR, VAL>
+            where VAR : Variable
+        {
+
+            /** Returns variables from <code>vars</code> which are the best with respect to DEG. */
+            public IQueue<VAR> apply(CSP<VAR, VAL> csp, IQueue<VAR> vars)
+            {
+                IQueue<VAR> result = Factory.CreateQueue<VAR>();
+                int maxDegree = -1;
+                foreach (VAR var in vars)
+                {
+                    int degree = csp.getConstraints(var).size();
+                    if (degree >= maxDegree)
+                    {
+                        if (degree > maxDegree)
+                        {
+                            result.Clear();
+                            maxDegree = degree;
+                        }
+                        result.Add(var);
+                    }
+                }
+                return result;
+            }
+        }
+
+        /**
+         * Implements the least constraining value heuristic.
+         */
+        public class LcvHeuristic<VAR, VAL> : ValueSelection<VAR, VAL>
+            where VAR : Variable
+        {
+
+            /** Returns the values of Dom(var) in a special order. The least constraining value comes first. */
+            public IQueue<VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
+            {
+                IQueue<Pair<VAL, int>> pairs = Factory.CreateQueue<Pair<VAL, int>>();
+                foreach (VAL value in csp.getDomain(var))
+                {
+                    int num = countLostValues(csp, assignment, var, value);
+                    pairs.Add(new Pair<VAL, int>(value, num));
+                }
+                return pairs.stream().sorted(Comparator.comparing(Pair.getSecond)).map(Pair.getFirst)
+                        .collect(Collectors.toList());
+            }
+
+            /**
+             * Ignores constraints which are not binary.
+             */
+            private int countLostValues(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var, VAL value)
+            {
+                int result = 0;
+                Assignment<VAR, VAL> assign = new Assignment<VAR, VAL>();
+                assign.add(var, value);
+                foreach (Constraint<VAR, VAL> constraint in csp.getConstraints(var))
+                {
+                    if (constraint.getScope().size() == 2)
+                    {
+                        VAR neighbor = csp.getNeighbor(var, constraint);
+                        if (!assignment.contains(neighbor))
+                            foreach (VAL nValue in csp.getDomain(neighbor))
+                            {
+                                assign.add(neighbor, nValue);
+                                if (!constraint.isSatisfiedWith(assign))
+                                {
+                                    ++result;
+                                }
+                            }
+                    }
+                }
+                return result;
+            }
         }
     }
-    return result;
-}
-    }
-}
 
 }

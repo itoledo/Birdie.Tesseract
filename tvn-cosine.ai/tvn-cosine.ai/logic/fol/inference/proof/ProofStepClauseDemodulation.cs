@@ -1,9 +1,9 @@
 ﻿namespace tvn.cosine.ai.logic.fol.inference.proof
 {
-    public class ProofStepClauseDemodulation extends AbstractProofStep
+    public class ProofStepClauseDemodulation : AbstractProofStep
     {
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+    private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
     private Clause demodulated = null;
     private Clause origClause = null;
     private TermEquality assertion = null;
@@ -14,25 +14,25 @@
         this.demodulated = demodulated;
         this.origClause = origClause;
         this.assertion = assertion;
-        this.predecessors.add(origClause.getProofStep());
+        this.predecessors.Add(origClause.getProofStep());
     }
 
     //
     // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
+     
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(predecessors);
+        return Factory.CreateReadOnlyQueue<>(predecessors);
     }
 
-    @Override
-    public String getProof()
+     
+    public string getProof()
     {
-        return demodulated.toString();
+        return demodulated.ToString();
     }
 
-    @Override
-    public String getJustification()
+     
+    public string getJustification()
     {
         return "Demodulation: " + origClause.getProofStep().getStepNumber()
                 + ", [" + assertion + "]";

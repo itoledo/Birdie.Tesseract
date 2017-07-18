@@ -42,7 +42,7 @@
 
             Sentence cnfSentence = ConvertToCNF.convert(s);
 
-            List<Clause> clauses = new ArrayList<Clause>();
+            IQueue<Clause> clauses = Factory.CreateQueue<Clause>();
             clauses.addAll(ClauseCollector.getClausesFrom(cnfSentence));
 
             result = new ConjunctionOfClauses(clauses);

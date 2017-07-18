@@ -1,75 +1,75 @@
-﻿namespace tvn.cosine.ai.probability.domain
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.probability.domain
 {
-    public class FiniteIntegerDomain extends AbstractFiniteDomain
+    public class FiniteIntegerDomain : AbstractFiniteDomain
     {
+        private ISet<int> possibleValues;
 
-
-    private Set<Integer> possibleValues = null;
-
-    public FiniteIntegerDomain(Integer...pValues)
-    {
-        // Keep consistent order
-        possibleValues = new LinkedHashSet<Integer>();
-        for (Integer v : pValues)
+        public FiniteIntegerDomain(params int[] pValues)
         {
-            possibleValues.add(v);
+            // Keep consistent order
+            possibleValues = Factory.CreateSet<int>();
+            foreach (int v in pValues)
+            {
+                possibleValues.Add(v);
+            }
+            // Ensure cannot be modified
+            possibleValues = Factory.CreateReadOnlySet<int>(possibleValues);
+
+            indexPossibleValues(possibleValues);
         }
-        // Ensure cannot be modified
-        possibleValues = Collections.unmodifiableSet(possibleValues);
 
-        indexPossibleValues(possibleValues);
-    }
+        //
+        // START-Domain
 
-    //
-    // START-Domain
-    @Override
-    public int size()
-    {
-        return possibleValues.size();
-    }
+        public override int size()
+        {
+            return possibleValues.Size();
+        }
 
-    @Override
-    public boolean isOrdered()
-    {
-        return true;
-    }
 
-    // END-Domain
-    //
-
-    //
-    // START-DiscreteDomain
-    @Override
-    public Set<Integer> getPossibleValues()
-    {
-        return possibleValues;
-    }
-
-    // END-DiscreteDomain
-    //
-
-    @Override
-    public boolean equals(Object o)
-    {
-
-        if (this == o)
+        public override bool isOrdered()
         {
             return true;
         }
-        if (!(o instanceof FiniteIntegerDomain)) {
-            return false;
+
+        // END-Domain
+        //
+
+        //
+        // START-DiscreteDomain
+
+        public override ISet<int> getPossibleValues()
+        {
+            return possibleValues;
         }
 
-        FiniteIntegerDomain other = (FiniteIntegerDomain)o;
+        // END-DiscreteDomain
+        //
 
-        return this.possibleValues.equals(other.possibleValues);
-    }
 
-    @Override
-    public int hashCode()
-    {
-        return possibleValues.hashCode();
-    }
-}
+        public override bool Equals(object o)
+        {
 
+            if (this == o)
+            {
+                return true;
+            }
+            if (!(o is FiniteIntegerDomain))
+            {
+                return false;
+            }
+
+            FiniteIntegerDomain other = (FiniteIntegerDomain)o;
+
+            return this.possibleValues.Equals(other.possibleValues);
+        }
+
+
+        public override int GetHashCode()
+        {
+            return possibleValues.GetHashCode();
+        }
+    } 
 }

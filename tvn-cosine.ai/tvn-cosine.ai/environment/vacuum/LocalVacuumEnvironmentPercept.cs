@@ -66,12 +66,12 @@ namespace tvn.cosine.ai.environment.vacuum
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.append("[");
-            sb.append(getAgentLocation());
-            sb.append(", ");
-            sb.append(getLocationState());
-            sb.append("]");
-            return sb.toString();
+            sb.Append("[");
+            sb.Append(getAgentLocation());
+            sb.Append(", ");
+            sb.Append(getLocationState());
+            sb.Append("]");
+            return sb.ToString();
         }
     }
 }

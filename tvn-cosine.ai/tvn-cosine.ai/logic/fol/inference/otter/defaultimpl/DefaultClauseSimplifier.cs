@@ -5,14 +5,14 @@
 
 
     private Demodulation demodulation = new Demodulation();
-    private List<TermEquality> rewrites = new ArrayList<TermEquality>();
+    private IQueue<TermEquality> rewrites = Factory.CreateQueue<TermEquality>();
 
     public DefaultClauseSimplifier()
     {
 
     }
 
-    public DefaultClauseSimplifier(List<TermEquality> rewrites)
+    public DefaultClauseSimplifier(IQueue<TermEquality> rewrites)
     {
         this.rewrites.addAll(rewrites);
     }

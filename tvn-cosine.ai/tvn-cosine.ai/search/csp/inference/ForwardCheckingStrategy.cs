@@ -4,10 +4,10 @@
      * Implements forward checking. Constraints which are not binary are ignored here.
      * @author Ruediger Lunde
      */
-    public class ForwardCheckingStrategy<VAR extends Variable, VAL> implements InferenceStrategy<VAR, VAL> {
+    public class ForwardCheckingStrategy<VAR : Variable, VAL> : InferenceStrategy<VAR, VAL> {
 
         /** The CSP is not changed at the beginning. */
-        @Override
+         
     public InferenceLog apply(CSP csp)
     {
         return InferenceLog.emptyLog();
@@ -19,7 +19,7 @@
      * It is called after <code>assignment</code> has (recursively) been extended with a value
      * assignment for <code>var</code>.
      */
-    @Override
+     
     public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
     {
         DomainLog<VAR, VAL> log = new DomainLog<>();
@@ -46,21 +46,21 @@
      * <code>constraint</code> and <code>assignment</code>. Modifies the domain log accordingly so
      * that all changes can be undone later on.
      */
-    private boolean revise(VAR var, Constraint<VAR, VAL> constraint, Assignment<VAR, VAL> assignment,
+    private bool revise(VAR var, Constraint<VAR, VAL> constraint, Assignment<VAR, VAL> assignment,
                            CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
     {
 
-        boolean revised = false;
+        bool revised = false;
         for (VAL value : csp.getDomain(var))
         {
-            assignment.add(var, value);
+            assignment.Add(var, value);
             if (!constraint.isSatisfiedWith(assignment))
             {
                 log.storeDomainFor(var, csp.getDomain(var));
                 csp.removeValueFromDomain(var, value);
                 revised = true;
             }
-            assignment.remove(var);
+            assignment.Remove(var);
         }
         return revised;
     }

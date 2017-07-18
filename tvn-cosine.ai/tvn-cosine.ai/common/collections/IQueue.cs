@@ -16,7 +16,11 @@
         T Peek();
         void Clear();
         bool Contains(T item);
+        bool ContainsAll(IQueue<T> other);
         bool Remove(T item);
-        void Sort();
+        void RemoveAll(IQueue<T> items);
+        void Sort(IComparer<T> comparer);
+        T[] ToArray();
+        void Reverse();
     }
 }

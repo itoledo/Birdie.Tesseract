@@ -11,12 +11,12 @@
      * 
      * @author Ruediger Lunde
      */
-    public interface Constraint<VAR extends Variable, VAL>
+    public interface Constraint<VAR : Variable, VAL>
     {
         /** Returns a tuple of variables that participate in the constraint. */
-        List<VAR> getScope();
+        IQueue<VAR> getScope();
 
         /** Constrains the values that the variables can take on. */
-        boolean isSatisfiedWith(Assignment<VAR, VAL> assignment);
+        bool isSatisfiedWith(Assignment<VAR, VAL> assignment);
     }
 }

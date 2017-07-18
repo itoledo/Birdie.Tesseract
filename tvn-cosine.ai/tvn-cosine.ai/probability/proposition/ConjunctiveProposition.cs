@@ -1,6 +1,6 @@
 ﻿namespace tvn.cosine.ai.probability.proposition
 {
-    public class ConjunctiveProposition extends AbstractProposition implements
+    public class ConjunctiveProposition : AbstractProposition implements
             BinarySentenceProposition
     {
 
@@ -8,7 +8,7 @@
     private Proposition left = null;
     private Proposition right = null;
     //
-    private String toString = null;
+    private string toString = null;
 
     public ConjunctiveProposition(Proposition left, Proposition right)
     {
@@ -32,25 +32,25 @@
         this.right = right;
     }
 
-    @Override
-    public boolean holds(Map<RandomVariable, Object> possibleWorld)
+     
+    public bool holds(IMap<RandomVariable, object> possibleWorld)
     {
         return left.holds(possibleWorld) && right.holds(possibleWorld);
     }
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         if (null == toString)
         {
             StringBuilder sb = new StringBuilder();
-            sb.append("(");
-            sb.append(left.toString());
-            sb.append(" AND ");
-            sb.append(right.toString());
-            sb.append(")");
+            sb.Append("(");
+            sb.Append(left.ToString());
+            sb.Append(" AND ");
+            sb.Append(right.ToString());
+            sb.Append(")");
 
-            toString = sb.toString();
+            toString = sb.ToString();
         }
 
         return toString;

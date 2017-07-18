@@ -1,53 +1,55 @@
-﻿namespace tvn.cosine.ai.probability.proposition
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+
+namespace tvn.cosine.ai.probability.proposition
 {
-    public class AssignmentProposition extends AbstractTermProposition
+    public class AssignmentProposition : AbstractTermProposition
     {
+        private object value = null;
+        //
+        private string toString = null;
 
-    private Object value = null;
-    //
-    private String toString = null;
-
-    public AssignmentProposition(RandomVariable forVariable, Object value)
-    {
-        super(forVariable);
-        setValue(value);
-    }
-
-    public Object getValue()
-    {
-        return value;
-    }
-
-    public void setValue(Object value)
-    {
-        if (null == value)
+        public AssignmentProposition(RandomVariable forVariable, object value)
+            : base(forVariable)
         {
-            throw new IllegalArgumentException(
-                    "The value for the Random Variable must be specified.");
+            setValue(value);
         }
-        this.value = value;
-    }
 
-    @Override
-    public boolean holds(Map<RandomVariable, Object> possibleWorld)
-    {
-        return value.equals(possibleWorld.get(getTermVariable()));
-    }
-
-    @Override
-    public String toString()
-    {
-        if (null == toString)
+        public object getValue()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getTermVariable().getName());
-            sb.append(" = ");
-            sb.append(value);
-
-            toString = sb.toString();
+            return value;
         }
-        return toString;
+
+        public void setValue(object value)
+        {
+            if (null == value)
+            {
+                throw new IllegalArgumentException("The value for the Random Variable must be specified.");
+            }
+            this.value = value;
+        }
+
+
+        public bool holds(IMap<RandomVariable, object> possibleWorld)
+        {
+            return value.Equals(possibleWorld.Get(getTermVariable()));
+        }
+
+
+        public override string ToString()
+        {
+            if (null == toString)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(getTermVariable().getName());
+                sb.Append(" = ");
+                sb.Append(value);
+
+                toString = sb.ToString();
+            }
+            return toString;
+        }
     }
-}
 
 }

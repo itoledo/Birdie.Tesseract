@@ -1,9 +1,9 @@
 ﻿namespace tvn.cosine.ai.logic.fol.inference.proof
 {
-    public class ProofStepChainFromClause extends AbstractProofStep
+    public class ProofStepChainFromClause : AbstractProofStep
     {
 
-    private List<ProofStep> predecessors = new ArrayList<ProofStep>();
+    private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
     private Chain chain = null;
     private Clause fromClause = null;
 
@@ -11,25 +11,25 @@
     {
         this.chain = chain;
         this.fromClause = fromClause;
-        this.predecessors.add(fromClause.getProofStep());
+        this.predecessors.Add(fromClause.getProofStep());
     }
 
     //
     // START-ProofStep
-    @Override
-    public List<ProofStep> getPredecessorSteps()
+     
+    public IQueue<ProofStep> getPredecessorSteps()
     {
-        return Collections.unmodifiableList(predecessors);
+        return Factory.CreateReadOnlyQueue<>(predecessors);
     }
 
-    @Override
-    public String getProof()
+     
+    public string getProof()
     {
-        return chain.toString();
+        return chain.ToString();
     }
 
-    @Override
-    public String getJustification()
+     
+    public string getJustification()
     {
         return "Chain from Clause: "
                 + fromClause.getProofStep().getStepNumber();

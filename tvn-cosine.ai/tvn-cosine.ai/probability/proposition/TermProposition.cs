@@ -8,7 +8,7 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public interface TermProposition extends Proposition
+    public interface TermProposition : Proposition
     {
         /**
          * 

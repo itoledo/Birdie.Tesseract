@@ -16,39 +16,39 @@
      *
      * @author Ruediger Lunde
      */
-    public class CSP<VAR extends Variable, VAL> implements Cloneable
+    public class CSP<VAR : Variable, VAL> : Cloneable
     {
 
-    private List<VAR> variables;
-    private List<Domain<VAL>> domains;
-    private List<Constraint<VAR, VAL>> constraints;
+    private IQueue<VAR> variables;
+    private IQueue<Domain<VAL>> domains;
+    private IQueue<Constraint<VAR, VAL>> constraints;
 
     /**
      * Lookup, which maps a variable to its index in the list of variables.
      */
-    private Hashtable<Variable, Integer> varIndexHash;
+    private IMap<Variable, int> varIndexHash;
     /**
      * Constraint network. Maps variables to those constraints in which they
      * participate.
      */
-    private Hashtable<Variable, List<Constraint<VAR, VAL>>> cnet;
+    private IMap<Variable, IQueue<Constraint<VAR, VAL>>> cnet;
 
     /**
      * Creates a new CSP.
      */
     public CSP()
     {
-        variables = new ArrayList<>();
-        domains = new ArrayList<>();
-        constraints = new ArrayList<>();
-        varIndexHash = new Hashtable<>();
-        cnet = new Hashtable<>();
+        variables = Factory.CreateQueue<>();
+        domains = Factory.CreateQueue<>();
+        constraints = Factory.CreateQueue<>();
+        varIndexHash = Factory.CreateMap<>();
+        cnet = Factory.CreateMap<>();
     }
 
     /**
      * Creates a new CSP.
      */
-    public CSP(List<VAR> vars)
+    public CSP(IQueue<VAR> vars)
     {
         this();
         vars.forEach(this::addVariable);
@@ -62,10 +62,10 @@
         if (!varIndexHash.containsKey(var))
         {
             Domain<VAL> emptyDomain = new Domain<>(Collections.emptyList());
-            variables.add(var);
-            domains.add(emptyDomain);
-            varIndexHash.put(var, variables.size() - 1);
-            cnet.put(var, new ArrayList<>());
+            variables.Add(var);
+            domains.Add(emptyDomain);
+            varIndexHash.Put(var, variables.size() - 1);
+            cnet.Put(var, Factory.CreateQueue<>());
         }
         else
         {
@@ -73,14 +73,14 @@
         }
     }
 
-    public List<VAR> getVariables()
+    public IQueue<VAR> getVariables()
     {
-        return Collections.unmodifiableList(variables);
+        return Factory.CreateReadOnlyQueue<>(variables);
     }
 
     public int indexOf(Variable var)
     {
-        return varIndexHash.get(var);
+        return varIndexHash.Get(var);
     }
 
     public void setDomain(VAR var, Domain<VAL> domain)
@@ -90,20 +90,20 @@
 
     public Domain<VAL> getDomain(Variable var)
     {
-        return domains.get(varIndexHash.get(var));
+        return domains.Get(varIndexHash.Get(var));
     }
 
     /**
      * Replaces the domain of the specified variable by new domain, which
      * contains all values of the old domain except the specified value.
      */
-    public boolean removeValueFromDomain(VAR var, VAL value)
+    public bool removeValueFromDomain(VAR var, VAL value)
     {
         Domain<VAL> currDomain = getDomain(var);
-        List<VAL> values = new ArrayList<>(currDomain.size());
+        IQueue<VAL> values = Factory.CreateQueue<>(currDomain.size());
         for (VAL v : currDomain)
-            if (!v.equals(value))
-                values.add(v);
+            if (!v.Equals(value))
+                values.Add(v);
         if (values.size() < currDomain.size())
         {
             setDomain(var, new Domain<>(values));
@@ -114,21 +114,21 @@
 
     public void addConstraint(Constraint<VAR, VAL> constraint)
     {
-        constraints.add(constraint);
+        constraints.Add(constraint);
         for (VAR var : constraint.getScope())
-            cnet.get(var).add(constraint);
+            cnet.Get(var).Add(constraint);
     }
 
-    public boolean removeConstraint(Constraint<VAR, VAL> constraint)
+    public bool removeConstraint(Constraint<VAR, VAL> constraint)
     {
-        boolean result = constraints.remove(constraint);
+        bool result = constraints.Remove(constraint);
         if (result)
             for (VAR var : constraint.getScope())
-                cnet.get(var).remove(constraint);
+                cnet.Get(var).Remove(constraint);
         return result;
     }
 
-    public List<Constraint<VAR, VAL>> getConstraints()
+    public IQueue<Constraint<VAR, VAL>> getConstraints()
     {
         return constraints;
     }
@@ -136,9 +136,9 @@
     /**
      * Returns all constraints in which the specified variable participates.
      */
-    public List<Constraint<VAR, VAL>> getConstraints(Variable var)
+    public IQueue<Constraint<VAR, VAL>> getConstraints(Variable var)
     {
-        return cnet.get(var);
+        return cnet.Get(var);
     }
 
     /**
@@ -148,13 +148,13 @@
      */
     public VAR getNeighbor(VAR var, Constraint<VAR, VAL> constraint)
     {
-        List<VAR> scope = constraint.getScope();
+        IQueue<VAR> scope = constraint.getScope();
         if (scope.size() == 2)
         {
-            if (var.equals(scope.get(0)))
-                return scope.get(1);
-            else if (var.equals(scope.get(1)))
-                return scope.get(0);
+            if (var.Equals(scope.Get(0)))
+                return scope.Get(1);
+            else if (var.Equals(scope.Get(1)))
+                return scope.Get(0);
         }
         return null;
     }
@@ -170,7 +170,7 @@
         try
         {
             result = (CSP<VAR, VAL>)clone();
-            result.domains = new ArrayList<>(domains.size());
+            result.domains = Factory.CreateQueue<>(domains.size());
             result.domains.addAll(domains);
         }
         catch (CloneNotSupportedException e)

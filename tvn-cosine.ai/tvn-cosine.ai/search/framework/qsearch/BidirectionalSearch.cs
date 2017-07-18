@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.search.framework.qsearch
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.search.framework.qsearch
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 90.<br>
@@ -21,290 +25,298 @@
      *
      * @author Ruediger Lunde
      */
-    public class BidirectionalSearch<S, A> extends QueueSearch<S, A> {
-
-
-    private final static int ORG_P_IDX = 0;
-    private final static int REV_P_IDX = 1;
-
-    /**
-	 * Controls whether all actions of the reverse problem are tested to be
-	 * reversible. This shouldn't be necessary for a correctly implemented
-	 * bidirectional problem. But in case this is not guaranteed, the test is
-	 * helpful to avoid failures.
-	 */
-    private boolean isReverseActionTestEnabled = true;
-
-    // index 0: original problem, index 2: reverse problem
-    private List<Map<S, ExtendedNode<S, A>>> explored;
-    private ExtendedNode<S, A> goalStateNode;
-
-    public BidirectionalSearch()
+    public class BidirectionalSearch<S, A> : QueueSearch<S, A>
     {
-        this(new NodeExpander<>());
-    }
+        private const int ORG_P_IDX = 0;
+        private const int REV_P_IDX = 1;
+        private bool isCancelled;
 
-    public BidirectionalSearch(NodeExpander<S, A> nodeExpander)
-    {
-        super(nodeExpander);
-        explored = new ArrayList<>(2);
-        explored.add(new HashMap<>());
-        explored.add(new HashMap<>());
-    }
+        /**
+         * Controls whether all actions of the reverse problem are tested to be
+         * reversible. This shouldn't be necessary for a correctly implemented
+         * bidirectional problem. But in case this is not guaranteed, the test is
+         * helpful to avoid failures.
+         */
+        private bool isReverseActionTestEnabled = true;
 
-    /**
-	 * Implements an approximation algorithm for bidirectional problems with
-	 * exactly one initial and one goal state. The algorithm guarantees the
-	 * following: If the queue is ordered by path costs (uniform cost search),
-	 * the path costs of the solution will be less or equal to the costs of the
-	 * best solution multiplied with two. Especially, if all step costs are
-	 * equal and the reverse problem provides reverse actions for all actions of
-	 * the original problem, the path costs of the result will exceed the
-	 * optimal path by the costs of one step at maximum.
-	 * 
-	 * @param problem
-	 *            a bidirectional search problem
-	 * @param frontier
-	 *            the data structure to be used to decide which node to be
-	 *            expanded next
-	 * 
-	 * @return a list of actions to the goal if the goal was found, a list
-	 *         containing a single NoOp Action if already at the goal, or an
-	 *         empty list if the goal could not be found.
-	 */
-    @SuppressWarnings("unchecked")
+        // index 0: original problem, index 2: reverse problem
+        private IQueue<IMap<S, ExtendedNode<S, A>>> explored;
+        private ExtendedNode<S, A> goalStateNode;
 
-    public Optional<Node<S, A>> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
-    {
-        assert(problem instanceof BidirectionalProblem);
+        public BidirectionalSearch()
+            : this(new NodeExpander<S, A>())
+        { }
 
-        nodeExpander.useParentLinks(true); // bidirectional search needs parents!
-        this.frontier = frontier;
-        clearMetrics();
-        explored.get(ORG_P_IDX).clear();
-        explored.get(REV_P_IDX).clear();
-
-        Problem<S, A> orgP = ((BidirectionalProblem<S, A>)problem).getOriginalProblem();
-        Problem<S, A> revP = ((BidirectionalProblem<S, A>)problem).getReverseProblem();
-        ExtendedNode<S, A> initStateNode;
-        initStateNode = new ExtendedNode<>(nodeExpander.createRootNode(orgP.getInitialState()), ORG_P_IDX);
-        goalStateNode = new ExtendedNode<>(nodeExpander.createRootNode(revP.getInitialState()), REV_P_IDX);
-
-        if (orgP.getInitialState().equals(revP.getInitialState()))
-            return getSolution(orgP, initStateNode, goalStateNode);
-
-        // initialize the frontier using the initial state of the problem
-        addToFrontier(initStateNode);
-        addToFrontier(goalStateNode);
-
-        while (!isFrontierEmpty() && !Tasks.currIsCancelled())
+        public BidirectionalSearch(NodeExpander<S, A> nodeExpander)
+            : base(nodeExpander)
         {
-            // choose a leaf node and remove it from the frontier
-            ExtendedNode<S, A> nodeToExpand = (ExtendedNode)removeFromFrontier();
-            ExtendedNode<S, A> nodeFromOtherProblem;
+            explored = Factory.CreateQueue<IMap<S, ExtendedNode<S, A>>>();
+            explored.Add(Factory.CreateMap<S, ExtendedNode<S, A>>());
+            explored.Add(Factory.CreateMap<S, ExtendedNode<S, A>>());
+        }
 
-            // if the node contains a goal state then return the
-            // corresponding solution
-            if (!earlyGoalTest && (nodeFromOtherProblem = getCorrespondingNodeFromOtherProblem(nodeToExpand)) != null)
-                return getSolution(orgP, nodeToExpand, nodeFromOtherProblem);
+        public bool GetIsCancelled()
+        {
+            return isCancelled;
+        }
 
-            // expand the chosen node, adding the resulting nodes to the
-            // frontier
-            for (Node<S, A> s : nodeExpander.expand(nodeToExpand, problem))
+        public void SetIsCancelled(bool isCancelled)
+        {
+            this.isCancelled = isCancelled;
+        }
+
+        /**
+         * Implements an approximation algorithm for bidirectional problems with
+         * exactly one initial and one goal state. The algorithm guarantees the
+         * following: If the queue is ordered by path costs (uniform cost search),
+         * the path costs of the solution will be less or equal to the costs of the
+         * best solution multiplied with two. Especially, if all step costs are
+         * equal and the reverse problem provides reverse actions for all actions of
+         * the original problem, the path costs of the result will exceed the
+         * optimal path by the costs of one step at maximum.
+         * 
+         * @param problem
+         *            a bidirectional search problem
+         * @param frontier
+         *            the data structure to be used to decide which node to be
+         *            expanded next
+         * 
+         * @return a list of actions to the goal if the goal was found, a list
+         *         containing a single NoOp Action if already at the goal, or an
+         *         empty list if the goal could not be found.
+         */
+        public Node<S, A> findNode(Problem<S, A> problem, IQueue<Node<S, A>> frontier)
+        {
+            if (!(problem is BidirectionalProblem<S, A>))
             {
-                ExtendedNode<S, A> successor = new ExtendedNode<>(s, nodeToExpand.getProblemIndex());
-                if (!isReverseActionTestEnabled || nodeToExpand.getProblemIndex() == ORG_P_IDX
-                        || getReverseAction(orgP, successor) != null)
+                throw new IllegalArgumentException("problem is not a BidirectionalProblem<S, A>");
+            }
+            this.isCancelled = false;
+            nodeExpander.useParentLinks(true); // bidirectional search needs parents!
+            this.frontier = frontier;
+            clearMetrics();
+            explored.Get(ORG_P_IDX).Clear();
+            explored.Get(REV_P_IDX).Clear();
+
+            Problem<S, A> orgP = ((BidirectionalProblem<S, A>)problem).getOriginalProblem();
+            Problem<S, A> revP = ((BidirectionalProblem<S, A>)problem).getReverseProblem();
+            ExtendedNode<S, A> initStateNode;
+            initStateNode = new ExtendedNode<S, A>(nodeExpander.createRootNode(orgP.getInitialState()), ORG_P_IDX);
+            goalStateNode = new ExtendedNode<S, A>(nodeExpander.createRootNode(revP.getInitialState()), REV_P_IDX);
+
+            if (orgP.getInitialState().Equals(revP.getInitialState()))
+                return getSolution(orgP, initStateNode, goalStateNode);
+
+            // initialize the frontier using the initial state of the problem
+            addToFrontier(initStateNode);
+            addToFrontier(goalStateNode);
+
+            while (!isFrontierEmpty() && !this.isCancelled)
+            {
+                // choose a leaf node and remove it from the frontier
+                ExtendedNode<S, A> nodeToExpand = (ExtendedNode<S, A>)removeFromFrontier();
+                ExtendedNode<S, A> nodeFromOtherProblem;
+
+                // if the node contains a goal state then return the
+                // corresponding solution
+                if (!earlyGoalTest && (nodeFromOtherProblem = getCorrespondingNodeFromOtherProblem(nodeToExpand)) != null)
+                    return getSolution(orgP, nodeToExpand, nodeFromOtherProblem);
+
+                // expand the chosen node, adding the resulting nodes to the
+                // frontier
+                foreach (Node<S, A> s in nodeExpander.expand(nodeToExpand, problem))
                 {
+                    ExtendedNode<S, A> successor = new ExtendedNode<S, A>(s, nodeToExpand.getProblemIndex());
+                    if (!isReverseActionTestEnabled || nodeToExpand.getProblemIndex() == ORG_P_IDX
+                            || getReverseAction(orgP, successor) != null)
+                    {
 
-                    if (earlyGoalTest
-                            && (nodeFromOtherProblem = getCorrespondingNodeFromOtherProblem(successor)) != null)
-                        return getSolution(orgP, successor, nodeFromOtherProblem);
+                        if (earlyGoalTest
+                                && (nodeFromOtherProblem = getCorrespondingNodeFromOtherProblem(successor)) != null)
+                            return getSolution(orgP, successor, nodeFromOtherProblem);
 
-                    addToFrontier(successor);
+                        addToFrontier(successor);
+                    }
                 }
             }
+            // if the frontier is empty then return failure
+            return null;
         }
-        // if the frontier is empty then return failure
-        return Optional.empty();
-    }
 
-    /**
-	 * Enables a check for all actions offered by the reverse problem whether
-	 * there exists a corresponding action of the original problem. Default
-	 * value is true.
-	 */
-    public void setReverseActionTestEnabled(boolean b)
-    {
-        isReverseActionTestEnabled = b;
-    }
-
-    /**
-	 * Inserts the node at the tail of the frontier if the corresponding state
-	 * is not yet explored.
-	 */
-    @Override
-    protected void addToFrontier(Node<S, A> node)
-    {
-        if (!isExplored(node))
+        /**
+         * Enables a check for all actions offered by the reverse problem whether
+         * there exists a corresponding action of the original problem. Default
+         * value is true.
+         */
+        public void setReverseActionTestEnabled(bool b)
         {
-            frontier.add(node);
-            updateMetrics(frontier.size());
+            isReverseActionTestEnabled = b;
         }
-    }
 
-    /**
-	 * Cleans up the head of the frontier, removes the first node of a
-	 * non-explored state from the head of the frontier, adds it to the
-	 * corresponding explored map, and returns the node.
-	 * 
-	 * @return A node of a not yet explored state.
-	 */
-    @Override
-    protected Node<S, A> removeFromFrontier()
-    {
-        cleanUpFrontier(); // not really necessary because isFrontierEmpty
-                           // should be called before...
-        Node<S, A> result = frontier.remove();
-        updateMetrics(frontier.size());
-        // add the node to the explored set of the corresponding problem
-        setExplored(result);
-        return result;
-    }
+        /**
+         * Inserts the node at the tail of the frontier if the corresponding state
+         * is not yet explored.
+         */
 
-    /**
-	 * Pops nodes of already explored states from the head of the frontier and
-	 * checks whether there are still some nodes left.
-	 */
-    @Override
-    protected boolean isFrontierEmpty()
-    {
-        cleanUpFrontier();
-        updateMetrics(frontier.size());
-        return frontier.isEmpty();
-    }
-
-    /**
-	 * Helper method which removes nodes of already explored states from the
-	 * head of the frontier.
-	 */
-    private void cleanUpFrontier()
-    {
-        while (!frontier.isEmpty() && isExplored(frontier.element()))
-            frontier.remove();
-    }
-
-    /**
-	 * Computes a node whose sequence of recursive parents corresponds to a
-	 * sequence of actions which leads from the initial state of the original
-	 * problem to the state of node1 and then to the initial state of the
-	 * reverse problem, following reverse actions to parents of node2. Note that
-	 * both nodes must be linked to the same state. Success is not guaranteed if
-	 * some actions cannot be reversed.
-	 */
-    private Optional<Node<S, A>> getSolution(Problem<S, A> orgP, ExtendedNode<S, A> node1, ExtendedNode<S, A> node2)
-    {
-        assert node1.getState().equals(node2.getState());
-
-        Node<S, A> orgNode = node1.getProblemIndex() == ORG_P_IDX ? node1 : node2;
-        Node<S, A> revNode = node1.getProblemIndex() == REV_P_IDX ? node1 : node2;
-
-        while (revNode.getParent() != null)
+        protected override void addToFrontier(Node<S, A> node)
         {
-            A action = getReverseAction(orgP, revNode);
-            if (action != null)
+            if (!isExplored(node))
             {
-                S nextState = revNode.getParent().getState();
-                double stepCosts = orgP.getStepCosts(revNode.getState(), action, nextState);
-                orgNode = nodeExpander.createNode(nextState, orgNode, action, stepCosts);
-                revNode = revNode.getParent();
-            }
-            else
-            {
-                return Optional.empty();
+                frontier.Add(node);
+                updateMetrics(frontier.Size());
             }
         }
-        metrics.set(METRIC_PATH_COST, orgNode.getPathCost());
-        return Optional.of(orgNode);
-    }
 
-    /**
-	 * Returns the action which leads from the state of <code>node</code> to the
-	 * state of the node's parent, if such an action exists in problem
-	 * <code>orgP</code>.
-	 */
-    private A getReverseAction(Problem<S, A> orgP, Node<S, A> node)
-    {
-        S currState = node.getState();
-        S nextState = node.getParent().getState();
+        /**
+         * Cleans up the head of the frontier, removes the first node of a
+         * non-explored state from the head of the frontier, adds it to the
+         * corresponding explored map, and returns the node.
+         * 
+         * @return A node of a not yet explored state.
+         */
 
-        for (A action : orgP.getActions(currState))
+        protected override Node<S, A> removeFromFrontier()
         {
-            S aResult = orgP.getResult(currState, action);
-            if (nextState.equals(aResult))
-                return action;
-        }
-        return null;
-    }
-
-
-    @SuppressWarnings("unchecked")
-
-    private boolean isExplored(Node<S, A> node)
-    {
-        ExtendedNode<S, A> eNode = (ExtendedNode)node;
-        return explored.get(eNode.getProblemIndex()).containsKey(eNode.getState());
-    }
-
-
-    @SuppressWarnings("unchecked")
-
-    private void setExplored(Node<S, A> node)
-    {
-        ExtendedNode<S, A> eNode = (ExtendedNode)node;
-        explored.get(eNode.getProblemIndex()).put(eNode.getState(), eNode);
-    }
-
-    private ExtendedNode<S, A> getCorrespondingNodeFromOtherProblem(ExtendedNode<S, A> node)
-    {
-        ExtendedNode<S, A> result = explored.get(1 - node.getProblemIndex()).get(node.getState());
-
-        // Caution: The goal test of the original problem should always include
-        // the root node of the reverse problem as that node might not yet have
-        // been explored yet. This is important if the reverse problem does not
-        // provide reverse actions for all original problem actions.
-        if (result == null && node.getProblemIndex() == ORG_P_IDX && node.getState() == goalStateNode.getState())
-            result = goalStateNode;
-        return result;
-    }
-
-    /**
-	 * Maintains the usual node data and additionally the index of the problem
-	 * to which the node belongs.
-	 * 
-	 * @author Ruediger Lunde
-	 *
-	 */
-    private static class ExtendedNode<S, A> extends Node<S, A> {
-
-		int problemIndex;
-
-        ExtendedNode(Node<S, A> node, int problemIndex) {
-            super(node.getState(), node.getParent(), node.getAction(), node.getPathCost());
-            this.problemIndex = problemIndex;
+            cleanUpFrontier(); // not really necessary because isFrontierEmpty
+                               // should be called before...
+            Node<S, A> result = frontier.Pop();
+            updateMetrics(frontier.Size());
+            // add the node to the explored set of the corresponding problem
+            setExplored(result);
+            return result;
         }
 
-		int getProblemIndex() {
-            return problemIndex;
+        /**
+         * Pops nodes of already explored states from the head of the frontier and
+         * checks whether there are still some nodes left.
+         */
+
+        protected override bool isFrontierEmpty()
+        {
+            cleanUpFrontier();
+            updateMetrics(frontier.Size());
+            return frontier.IsEmpty();
         }
 
-        @Override
+        /**
+         * Helper method which removes nodes of already explored states from the
+         * head of the frontier.
+         */
+        private void cleanUpFrontier()
+        {
+            while (!frontier.IsEmpty() && isExplored(frontier.Peek()))
+                frontier.Pop();
+        }
 
-        public String toString()
-    {
-        return "[" + getState() + ":" + problemIndex + "]";
+        /**
+         * Computes a node whose sequence of recursive parents corresponds to a
+         * sequence of actions which leads from the initial state of the original
+         * problem to the state of node1 and then to the initial state of the
+         * reverse problem, following reverse actions to parents of node2. Note that
+         * both nodes must be linked to the same state. Success is not guaranteed if
+         * some actions cannot be reversed.
+         */
+        private Node<S, A> getSolution(Problem<S, A> orgP, ExtendedNode<S, A> node1, ExtendedNode<S, A> node2)
+        {
+            if (!node1.getState().Equals(node2.getState()))
+            {
+                throw new NotSupportedException("states not equal");
+            }
+
+            Node<S, A> orgNode = node1.getProblemIndex() == ORG_P_IDX ? node1 : node2;
+            Node<S, A> revNode = node1.getProblemIndex() == REV_P_IDX ? node1 : node2;
+
+            while (revNode.getParent() != null)
+            {
+                A action = getReverseAction(orgP, revNode);
+                if (action != null)
+                {
+                    S nextState = revNode.getParent().getState();
+                    double stepCosts = orgP.getStepCosts(revNode.getState(), action, nextState);
+                    orgNode = nodeExpander.createNode(nextState, orgNode, action, stepCosts);
+                    revNode = revNode.getParent();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            metrics.set(METRIC_PATH_COST, orgNode.getPathCost());
+            return orgNode;
+        }
+
+        /**
+         * Returns the action which leads from the state of <code>node</code> to the
+         * state of the node's parent, if such an action exists in problem
+         * <code>orgP</code>.
+         */
+        private A getReverseAction(Problem<S, A> orgP, Node<S, A> node)
+        {
+            S currState = node.getState();
+            S nextState = node.getParent().getState();
+
+            foreach (A action in orgP.getActions(currState))
+            {
+                S aResult = orgP.getResult(currState, action);
+                if (nextState.Equals(aResult))
+                    return action;
+            }
+            return default(A);
+        }
+
+
+        private bool isExplored(Node<S, A> node)
+        {
+            ExtendedNode<S, A> eNode = (ExtendedNode<S, A>)node;
+            return explored.Get(eNode.getProblemIndex()).ContainsKey(eNode.getState());
+        }
+
+
+        private void setExplored(Node<S, A> node)
+        {
+            ExtendedNode<S, A> eNode = (ExtendedNode<S, A>)node;
+            explored.Get(eNode.getProblemIndex()).Put(eNode.getState(), eNode);
+        }
+
+        private ExtendedNode<S, A> getCorrespondingNodeFromOtherProblem(ExtendedNode<S, A> node)
+        {
+            ExtendedNode<S, A> result = explored.Get(1 - node.getProblemIndex()).Get(node.getState());
+
+            // Caution: The goal test of the original problem should always include
+            // the root node of the reverse problem as that node might not yet have
+            // been explored yet. This is important if the reverse problem does not
+            // provide reverse actions for all original problem actions.
+            if (result == null && node.getProblemIndex() == ORG_P_IDX && node.getState().Equals(goalStateNode.getState()))
+                result = goalStateNode;
+            return result;
+        }
+
+        /**
+         * Maintains the usual node data and additionally the index of the problem
+         * to which the node belongs.
+         * 
+         * @author Ruediger Lunde
+         *
+         */
+        class ExtendedNode<S, A> : Node<S, A>
+        {
+            int problemIndex;
+
+            public ExtendedNode(Node<S, A> node, int problemIndex)
+                  : base(node.getState(), node.getParent(), node.getAction(), node.getPathCost())
+            {
+                this.problemIndex = problemIndex;
+            }
+
+            public int getProblemIndex()
+            {
+                return problemIndex;
+            }
+
+            public override string ToString()
+            {
+                return "[" + getState() + ":" + problemIndex + "]";
+            }
+        }
     }
-}
-}
-
 }

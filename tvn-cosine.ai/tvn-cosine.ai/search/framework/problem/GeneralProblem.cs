@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.framework.problem
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.framework.problem
 {
     /**
      * Configurable problem which uses objects to explicitly represent the required
@@ -9,93 +11,93 @@
      *
      * @author Ruediger Lunde
      */
-    public class GeneralProblem<S, A> implements Problem<S, A> {
-    private S initialState;
-
-    private ActionsFunction<S, A> actionsFn;
-
-    private ResultFunction<S, A> resultFn;
-
-    private GoalTest<S> goalTest;
-
-    private StepCostFunction<S, A> stepCostFn;
-
-    /**
-     * Constructs a problem with the specified components, which includes a step
-     * cost function.
-     *
-     * @param initialState
-     *            the initial state of the agent.
-     * @param actionsFn
-     *            a description of the possible actions available to the agent.
-     * @param resultFn
-     *            a description of what each action does; the formal name for
-     *            this is the transition model, specified by a function
-     *            RESULT(s, a) that returns the state that results from doing
-     *            action a in state s.
-     * @param goalTest
-     *            test determines whether a given state is a goal state.
-     * @param stepCostFn
-     *            a path cost function that assigns a numeric cost to each path.
-     *            The problem-solving-agent chooses a cost function that
-     *            reflects its own performance measure.
-     */
-    public GeneralProblem(S initialState, ActionsFunction<S, A> actionsFn, ResultFunction<S, A> resultFn,
-                          GoalTest<S> goalTest, StepCostFunction<S, A> stepCostFn)
+    public class GeneralProblem<S, A> : Problem<S, A>
     {
-        this.initialState = initialState;
-        this.actionsFn = actionsFn;
-        this.resultFn = resultFn;
-        this.goalTest = goalTest;
-        this.stepCostFn = stepCostFn;
-    }
+        private S initialState;
+        private ActionsFunction<S, A> actionsFn;
+        private ResultFunction<S, A> resultFn;
+        private GoalTest<S> goalTest;
+        private StepCostFunction<S, A> stepCostFn;
 
-    /**
-     * Constructs a problem with the specified components, and a default step
-     * cost function (i.e. 1 per step).
-     *
-     * @param initialState
-     *            the initial state that the agent starts in.
-     * @param actionsFn
-     *            a description of the possible actions available to the agent.
-     * @param resultFn
-     *            a description of what each action does; the formal name for
-     *            this is the transition model, specified by a function
-     *            RESULT(s, a) that returns the state that results from doing
-     *            action a in state s.
-     * @param goalTest
-     *            test determines whether a given state is a goal state.
-     */
-    public GeneralProblem(S initialState, ActionsFunction<S, A> actionsFn, ResultFunction<S, A> resultFn,
-                          GoalTest<S> goalTest)
-    {
-        this(initialState, actionsFn, resultFn, goalTest, (s, a, sPrimed) -> 1.0);
-    }
+        /**
+         * Constructs a problem with the specified components, which includes a step
+         * cost function.
+         *
+         * @param initialState
+         *            the initial state of the agent.
+         * @param actionsFn
+         *            a description of the possible actions available to the agent.
+         * @param resultFn
+         *            a description of what each action does; the formal name for
+         *            this is the transition model, specified by a function
+         *            RESULT(s, a) that returns the state that results from doing
+         *            action a in state s.
+         * @param goalTest
+         *            test determines whether a given state is a goal state.
+         * @param stepCostFn
+         *            a path cost function that assigns a numeric cost to each path.
+         *            The problem-solving-agent chooses a cost function that
+         *            reflects its own performance measure.
+         */
+        public GeneralProblem(S initialState,
+                              ActionsFunction<S, A> actionsFn,
+                              ResultFunction<S, A> resultFn,
+                              GoalTest<S> goalTest,
+                              StepCostFunction<S, A> stepCostFn)
+        {
+            this.initialState = initialState;
+            this.actionsFn = actionsFn;
+            this.resultFn = resultFn;
+            this.goalTest = goalTest;
+            this.stepCostFn = stepCostFn;
+        }
 
-    public S getInitialState()
-    {
-        return initialState;
-    }
+        /**
+         * Constructs a problem with the specified components, and a default step
+         * cost function (i.e. 1 per step).
+         *
+         * @param initialState
+         *            the initial state that the agent starts in.
+         * @param actionsFn
+         *            a description of the possible actions available to the agent.
+         * @param resultFn
+         *            a description of what each action does; the formal name for
+         *            this is the transition model, specified by a function
+         *            RESULT(s, a) that returns the state that results from doing
+         *            action a in state s.
+         * @param goalTest
+         *            test determines whether a given state is a goal state.
+         */
+        public GeneralProblem(S initialState,
+                              ActionsFunction<S, A> actionsFn,
+                              ResultFunction<S, A> resultFn,
+                              GoalTest<S> goalTest)
+            : this(initialState, actionsFn, resultFn, goalTest, (s, a, sPrimed) => 1.0)
+        { }
 
-    public List<A> getActions(S state)
-    {
-        return actionsFn.apply(state);
-    }
+        public override S getInitialState()
+        {
+            return initialState;
+        }
 
-    public S getResult(S state, A action)
-    {
-        return resultFn.apply(state, action);
-    }
+        public override IQueue<A> getActions(S state)
+        {
+            return actionsFn(state);
+        }
 
-    public boolean testGoal(S state)
-    {
-        return goalTest.test(state);
-    }
+        public override S getResult(S state, A action)
+        {
+            return resultFn(state, action);
+        }
 
-    public double getStepCosts(S state, A action, S statePrimed)
-    {
-        return stepCostFn.applyAsDouble(state, action, statePrimed);
-    }
-}
+        public override bool testGoal(S state)
+        {
+            return goalTest(state);
+        }
 
+        public override double getStepCosts(S state, A action, S statePrimed)
+        {
+            return stepCostFn(state, action, statePrimed);
+        }
+    } 
 }

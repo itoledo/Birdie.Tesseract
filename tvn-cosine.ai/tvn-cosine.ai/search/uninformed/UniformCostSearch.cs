@@ -36,7 +36,7 @@
      * @author Ruediger Lunde
      * @author Ciaran O'Reilly
      */
-    public class UniformCostSearch<S, A> extends QueueBasedSearch<S, A> {
+    public class UniformCostSearch<S, A> : QueueBasedSearch<S, A> {
 
     /** Creates a UniformCostSearch instance using GraphSearch */
     public UniformCostSearch()
@@ -50,7 +50,7 @@
 	 */
     public UniformCostSearch(QueueSearch<S, A> impl)
     {
-        super(impl, QueueFactory.createPriorityQueue(Comparator.comparing(Node::getPathCost)));
+        base(impl, QueueFactory.createPriorityQueue(Comparator.comparing(Node::getPathCost)));
     }
 }
 }

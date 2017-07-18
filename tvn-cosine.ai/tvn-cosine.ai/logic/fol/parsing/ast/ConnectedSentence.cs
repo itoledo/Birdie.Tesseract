@@ -1,115 +1,117 @@
-﻿namespace tvn.cosine.ai.logic.fol.parsing.ast
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
-    public class ConnectedSentence implements Sentence
-    {
+    public class ConnectedSentence : Sentence
+    { 
+        private string connector;
+        private Sentence first, second;
+        private IQueue<Sentence> args = Factory.CreateQueue<Sentence>();
+        private string stringRep = null;
+        private int hashCode = 0;
 
-    private String connector;
-    private Sentence first, second;
-    private List<Sentence> args = new ArrayList<Sentence>();
-    private String stringRep = null;
-    private int hashCode = 0;
+        public ConnectedSentence(string connector, Sentence first, Sentence second)
+        {
+            this.connector = connector;
+            this.first = first;
+            this.second = second;
+            args.Add(first);
+            args.Add(second);
+        }
 
-    public ConnectedSentence(String connector, Sentence first, Sentence second)
-    {
-        this.connector = connector;
-        this.first = first;
-        this.second = second;
-        args.add(first);
-        args.add(second);
-    }
+        public string getConnector()
+        {
+            return connector;
+        }
 
-    public String getConnector()
-    {
-        return connector;
-    }
+        public Sentence getFirst()
+        {
+            return first;
+        }
 
-    public Sentence getFirst()
-    {
-        return first;
-    }
+        public Sentence getSecond()
+        {
+            return second;
+        }
 
-    public Sentence getSecond()
-    {
-        return second;
-    }
+        //
+        // START-Sentence
+        public string getSymbolicName()
+        {
+            return getConnector();
+        }
 
-    //
-    // START-Sentence
-    public String getSymbolicName()
-    {
-        return getConnector();
-    }
-
-    public boolean isCompound()
-    {
-        return true;
-    }
-
-    public List<Sentence> getArgs()
-    {
-        return Collections.unmodifiableList(args);
-    }
-
-    public Object accept(FOLVisitor v, Object arg)
-    {
-        return v.visitConnectedSentence(this, arg);
-    }
-
-    public ConnectedSentence copy()
-    {
-        return new ConnectedSentence(connector, first.copy(), second.copy());
-    }
-
-    // END-Sentence
-    //
-
-    @Override
-    public boolean equals(Object o)
-    {
-
-        if (this == o)
+        public bool isCompound()
         {
             return true;
         }
-        if ((o == null) || (this.getClass() != o.getClass()))
-        {
-            return false;
-        }
-        ConnectedSentence cs = (ConnectedSentence)o;
-        return cs.getConnector().equals(getConnector())
-                && cs.getFirst().equals(getFirst())
-                && cs.getSecond().equals(getSecond());
-    }
 
-    @Override
-    public int hashCode()
-    {
-        if (0 == hashCode)
+        public IQueue<Sentence> getArgs()
         {
-            hashCode = 17;
-            hashCode = 37 * hashCode + getConnector().hashCode();
-            hashCode = 37 * hashCode + getFirst().hashCode();
-            hashCode = 37 * hashCode + getSecond().hashCode();
+            return Factory.CreateReadOnlyQueue<Sentence>(args);
         }
-        return hashCode;
-    }
 
-    @Override
-    public String toString()
-    {
-        if (null == stringRep)
+        public object accept(FOLVisitor v, object arg)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.append("(");
-            sb.append(first.toString());
-            sb.append(" ");
-            sb.append(connector);
-            sb.append(" ");
-            sb.append(second.toString());
-            sb.append(")");
-            stringRep = sb.toString();
+            return v.visitConnectedSentence(this, arg);
         }
-        return stringRep;
+
+        public ConnectedSentence copy()
+        {
+            return new ConnectedSentence(connector, first.copy(), second.copy());
+        }
+
+        // END-Sentence
+        //
+
+
+        public override bool Equals(object o)
+        {
+
+            if (this == o)
+            {
+                return true;
+            }
+            if ((o == null) || (this.GetType() != o.GetType()))
+            {
+                return false;
+            }
+            ConnectedSentence cs = (ConnectedSentence)o;
+            return cs.getConnector().Equals(getConnector())
+                    && cs.getFirst().Equals(getFirst())
+                    && cs.getSecond().Equals(getSecond());
+        }
+
+
+        public override int GetHashCode()
+        {
+            if (0 == hashCode)
+            {
+                hashCode = 17;
+                hashCode = 37 * hashCode + getConnector().GetHashCode();
+                hashCode = 37 * hashCode + getFirst().GetHashCode();
+                hashCode = 37 * hashCode + getSecond().GetHashCode();
+            }
+            return hashCode;
+        }
+
+
+        public override string ToString()
+        {
+            if (null == stringRep)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("(");
+                sb.Append(first.ToString());
+                sb.Append(" ");
+                sb.Append(connector);
+                sb.Append(" ");
+                sb.Append(second.ToString());
+                sb.Append(")");
+                stringRep = sb.ToString();
+            }
+            return stringRep;
+        }
     }
-}
 }

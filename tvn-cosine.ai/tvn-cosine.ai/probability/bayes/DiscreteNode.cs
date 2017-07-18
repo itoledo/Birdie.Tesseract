@@ -6,7 +6,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public interface DiscreteNode extends Node
+    public interface DiscreteNode : Node
     {
 
     }

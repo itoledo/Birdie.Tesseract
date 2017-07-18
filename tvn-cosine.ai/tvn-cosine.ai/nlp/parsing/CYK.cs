@@ -38,7 +38,7 @@
     public class CYK
     {
 
-        public float[][][] parse(List<String> words, ProbCNFGrammar grammar)
+        public float[][][] parse(IQueue<string> words, ProbCNFGrammar grammar)
         {
             final int N = length(words);
             final int M = grammar.vars.size();
@@ -49,10 +49,10 @@
                 //   P[X,i,1] <- p
                 for (int j = 0; j < grammar.rules.size(); j++)
                 {
-                    Rule r = (Rule)grammar.rules.get(j);
-                    if (r.derives(words.get(i)))
+                    Rule r = (Rule)grammar.rules.Get(j);
+                    if (r.derives(words.Get(i)))
                     {                   // rule is of form X -> w, where w = words[i]
-                        int x = grammar.vars.indexOf(r.lhs.get(0)); // get the index of rule's LHS variable
+                        int x = grammar.vars.indexOf(r.lhs.Get(0)); // get the index of rule's LHS variable
                         P[x][i][0] = r.PROB;                        // not P[X][i][1] because we use 0-based indexing
                     }
                 }
@@ -70,9 +70,9 @@
                             if (r.rhs.size() == 2)
                             {
                                 // get index of rule's variables X, Y, and Z
-                                int x = grammar.vars.indexOf(r.lhs.get(0));
-                                int y = grammar.vars.indexOf(r.rhs.get(0));
-                                int z = grammar.vars.indexOf(r.rhs.get(1));
+                                int x = grammar.vars.indexOf(r.lhs.Get(0));
+                                int y = grammar.vars.indexOf(r.rhs.Get(0));
+                                int z = grammar.vars.indexOf(r.rhs.Get(1));
                                 P[x][start - 1][length - 1] = Math.max(P[x][start - 1][length - 1],
                                                                   P[y][start - 1][len1 - 1] *
                                                                   P[z][start + len1 - 1][len2 - 1] * r.PROB);
@@ -89,7 +89,7 @@
          * @param ls
          * @return the length of the list
          */
-        public int length(List<String> ls)
+        public int length(IQueue<string> ls)
         {
             return ls.size();
         }
@@ -100,22 +100,22 @@
          * @param words
          * @param g
          */
-        public void printProbTable(float[][][] probTable, List<String> words, ProbUnrestrictedGrammar g)
+        public void printProbTable(float[][][] probTable, IQueue<string> words, ProbUnrestrictedGrammar g)
         {
             final int N = words.size();
             final int M = g.vars.size(); // num non-terminals in grammar
 
             for (int i = 0; i < M; i++)
             {
-                System.out.println("Table For : " + g.vars.get(i) + "(" + i + ")");
+                System.Console.WriteLine("Table For : " + g.vars.Get(i) + "(" + i + ")");
                 for (int j = 0; j < N; j++)
                 {
                     System.out.print(j + "| ");
                     for (int k = 0; k < N; k++)
                         System.out.print(probTable[i][j][k] + " | ");
-                    System.out.println();
+                    System.Console.WriteLine();
                 }
-                System.out.println();
+                System.Console.WriteLine();
             }
         }
 
@@ -126,7 +126,7 @@
          * @param g
          * @return
          */
-        public ArrayList<String> getMostProbableDerivation(float[][][] probTable, ProbUnrestrictedGrammar g)
+        public ArrayList<string> getMostProbableDerivation(float[][][] probTable, ProbUnrestrictedGrammar g)
         {
             // TODO
             return null;

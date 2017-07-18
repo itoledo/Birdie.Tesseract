@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability.bayes
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.probability.bayes
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 510.<br>
@@ -38,7 +40,7 @@
          * @return a list of the Random Variables, in topological order, contained
          *         within the network.
          */
-        List<RandomVariable> getVariablesInTopologicalOrder();
+        IQueue<RandomVariable> getVariablesInTopologicalOrder();
 
         /**
          * 
@@ -49,6 +51,5 @@
          *         Network.
          */
         Node getNode(RandomVariable rv);
-    }
-
+    } 
 }

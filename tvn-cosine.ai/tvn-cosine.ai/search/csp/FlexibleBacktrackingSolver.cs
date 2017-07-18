@@ -10,7 +10,7 @@
      *
      * @author Ruediger Lunde
      */
-    public class FlexibleBacktrackingSolver<VAR extends Variable, VAL> extends AbstractBacktrackingSolver<VAR, VAL> {
+    public class FlexibleBacktrackingSolver<VAR : Variable, VAL> : AbstractBacktrackingSolver<VAR, VAL> {
 
     private CspHeuristics.VariableSelection<VAR, VAL> varSelectionStrategy;
     private CspHeuristics.ValueSelection<VAR, VAL> valSelectionStrategy;
@@ -56,7 +56,7 @@
     /**
      * Applies an initial inference step and then calls the super class implementation.
      */
-    @Override
+     
     public Optional<Assignment<VAR, VAL>> solve(CSP<VAR, VAL> csp)
     {
         if (inferenceStrategy != null)
@@ -76,20 +76,20 @@
     /**
      * Primitive operation, selecting a not yet assigned variable.
      */
-    @Override
+     
     protected VAR selectUnassignedVariable(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment)
     {
-        List<VAR> vars = csp.getVariables().stream().
+        IQueue<VAR> vars = csp.getVariables().stream().
                 filter((v)-> !assignment.contains(v)).collect(Collectors.toList());
         if (varSelectionStrategy != null)
             vars = varSelectionStrategy.apply(csp, vars);
-        return vars.get(0);
+        return vars.Get(0);
     }
 
     /**
      * Primitive operation, ordering the domain values of the specified variable.
      */
-    @Override
+     
     protected Iterable<VAL> orderDomainValues(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
     {
         if (valSelectionStrategy != null)
@@ -107,7 +107,7 @@
      * (2) possibly inferred empty domains, and
      * (3) how to restore the original CSP.
      */
-    @Override
+     
     protected InferenceLog<VAR, VAL> inference(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
     {
         if (inferenceStrategy != null)

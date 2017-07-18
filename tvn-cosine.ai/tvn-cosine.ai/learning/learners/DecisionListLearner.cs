@@ -84,7 +84,7 @@ namespace tvn.cosine.ai.learning.learners
             // with the same target value
             DataSet matched = test.matchedExamples(ds);
             DecisionList list = new DecisionList(positive, negative);
-            list.add(test, matched.getExample(0).targetValue());
+            list.Add(test, matched.getExample(0).targetValue());
             return list.mergeWith(decisionListLearning(test.unmatchedExamples(ds)));
         }
 

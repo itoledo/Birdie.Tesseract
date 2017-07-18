@@ -23,17 +23,17 @@
          * @param point the point to be tested.
          * @return true if the point is inside the shape.
          */
-        boolean isInside(Point2D point);
+        bool isInside(Point2D point);
         /**
          * Tests whether the point is inside this geometric shape including its border.
          * @param point the point to be tested.
          * @return true if the point is inside the shape or on its border.
          */
-        boolean isInsideBorder(Point2D point);
+        bool isInsideBorder(Point2D point);
         /**
          * Intersects this geometric shape with a ray.
          * @param ray the ray to intersect.
-         * @return the length of the ray until it intersects with this shape. {@code Double.POSITIVE_INFINITY} if it does not intersect this shape.
+         * @return the length of the ray until it intersects with this shape. {@code double.POSITIVE_INFINITY} if it does not intersect this shape.
          */
         double rayCast(Ray2D ray);
         /**

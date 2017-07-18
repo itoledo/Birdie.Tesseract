@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.environment.wumpusworld
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.environment.wumpusworld
 {
     /**
      * Factory class for constructing functions for use in the Wumpus World environment.
@@ -10,60 +13,40 @@
 
         public static ActionsFunction<AgentPosition, WumpusAction> createActionsFunction(WumpusCave cave)
         {
-            return new WumpusActionsFunction(cave);
+            return (state) =>
+            {
+                IQueue<WumpusAction> actions = Factory.CreateQueue<WumpusAction>();
+
+                AgentPosition pos = cave.moveForward(state);
+                if (!pos.Equals(state))
+                    actions.Add(WumpusAction.FORWARD);
+
+                actions.Add(WumpusAction.TURN_LEFT);
+                actions.Add(WumpusAction.TURN_RIGHT);
+
+                return actions;
+            };
         }
 
         public static ResultFunction<AgentPosition, WumpusAction> createResultFunction(WumpusCave cave)
         {
-            return new WumpusResultFunction(cave);
-        }
-
-
-        private static class WumpusActionsFunction implements ActionsFunction<AgentPosition, WumpusAction> {
-
-        private WumpusCave cave;
-
-        private WumpusActionsFunction(WumpusCave cave)
-        {
-            this.cave = cave;
-        }
-
-        @Override
-            public List<WumpusAction> apply(AgentPosition state)
-        {
-            List<WumpusAction> actions = new ArrayList<>();
-
-            AgentPosition pos = cave.moveForward(state);
-            if (!pos.equals(state))
-                actions.add(WumpusAction.FORWARD);
-            actions.add(WumpusAction.TURN_LEFT);
-            actions.add(WumpusAction.TURN_RIGHT);
-
-            return actions;
-        }
+            return (state, action) =>
+            {
+                AgentPosition result = state;
+                if (action == WumpusAction.FORWARD)
+                {
+                    result = cave.moveForward(state);
+                }
+                else if (action == WumpusAction.TURN_LEFT)
+                {
+                    result = cave.turnLeft(state);
+                }
+                else if (action == WumpusAction.TURN_RIGHT)
+                {
+                    result = cave.turnRight(state);
+                }
+                return result;
+            };
+        } 
     }
-
-    private static class WumpusResultFunction implements ResultFunction<AgentPosition, WumpusAction> {
-
-        private WumpusCave cave;
-
-    private WumpusResultFunction(WumpusCave cave)
-    {
-        this.cave = cave;
-    }
-
-    @Override
-        public AgentPosition apply(AgentPosition state, WumpusAction action)
-    {
-        AgentPosition result = state;
-        switch (action)
-        {
-            case FORWARD: result = cave.moveForward(state); break;
-            case TURN_LEFT: result = cave.turnLeft(state); break;
-            case TURN_RIGHT: result = cave.turnRight(state); break;
-        }
-        return result;
-    }
-}
-}
 }

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability.bayes
+﻿using tvn.cosine.ai.probability.proposition;
+
+namespace tvn.cosine.ai.probability.bayes
 {
     /**
      * General interface to be implemented by Bayesian Inference algorithms.
@@ -17,9 +19,8 @@
          *            variables
          * @return a distribution over the query variables.
          */
-        CategoricalDistribution ask(final RandomVariable[] X,
-                final AssignmentProposition[] observedEvidence,
-                final BayesianNetwork bn);
-    }
-
+        CategoricalDistribution ask(  RandomVariable[] X,
+                 AssignmentProposition[] observedEvidence,
+                 BayesianNetwork bn);
+    }         
 }

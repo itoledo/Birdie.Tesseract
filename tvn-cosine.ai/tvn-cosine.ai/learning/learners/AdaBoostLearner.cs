@@ -107,7 +107,7 @@ namespace tvn.cosine.ai.learning.learners
                 {
                     if (predictedValue.Equals(v))
                     {
-                        table.set(v, learner, table.get(v, learner)
+                        table.set(v, learner, table.Get(v, learner)
                                 + learnerWeights.Get(learner) * 1);
                     }
                 }
@@ -192,7 +192,7 @@ namespace tvn.cosine.ai.learning.learners
             double score = 0.0;
             foreach (Learner l in learners)
             {
-                score += table.get(targetValue, l);
+                score += table.Get(targetValue, l);
             }
             return score;
         }

@@ -96,6 +96,11 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException("Not supported");
         }
 
+        void IQueue<T>.Sort(IComparer<T> comparer)
+        {
+            throw new NotSupportedException("Not supported");
+        }
+
         class Enumerator : IEnumerator<T>
         {
             private readonly T[] values;

@@ -1,33 +1,33 @@
 ﻿namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
-    public class QuantifiedSentence implements Sentence
+    public class QuantifiedSentence : Sentence
     {
 
-    private String quantifier;
-    private List<Variable> variables = new ArrayList<Variable>();
+    private string quantifier;
+    private IQueue<Variable> variables = Factory.CreateQueue<Variable>();
     private Sentence quantified;
-    private List<FOLNode> args = new ArrayList<FOLNode>();
-    private String stringRep = null;
+    private IQueue<FOLNode> args = Factory.CreateQueue<FOLNode>();
+    private string stringRep = null;
     private int hashCode = 0;
 
-    public QuantifiedSentence(String quantifier, List<Variable> variables,
+    public QuantifiedSentence(string quantifier, IQueue<Variable> variables,
             Sentence quantified)
     {
         this.quantifier = quantifier;
         this.variables.addAll(variables);
         this.quantified = quantified;
         this.args.addAll(variables);
-        this.args.add(quantified);
+        this.args.Add(quantified);
     }
 
-    public String getQuantifier()
+    public string getQuantifier()
     {
         return quantifier;
     }
 
-    public List<Variable> getVariables()
+    public IQueue<Variable> getVariables()
     {
-        return Collections.unmodifiableList(variables);
+        return Factory.CreateReadOnlyQueue<>(variables);
     }
 
     public Sentence getQuantified()
@@ -37,32 +37,32 @@
 
     //
     // START-Sentence
-    public String getSymbolicName()
+    public string getSymbolicName()
     {
         return getQuantifier();
     }
 
-    public boolean isCompound()
+    public bool isCompound()
     {
         return true;
     }
 
-    public List<FOLNode> getArgs()
+    public IQueue<FOLNode> getArgs()
     {
-        return Collections.unmodifiableList(args);
+        return Factory.CreateReadOnlyQueue<>(args);
     }
 
-    public Object accept(FOLVisitor v, Object arg)
+    public object accept(FOLVisitor v, object arg)
     {
         return v.visitQuantifiedSentence(this, arg);
     }
 
     public QuantifiedSentence copy()
     {
-        List<Variable> copyVars = new ArrayList<Variable>();
+        IQueue<Variable> copyVars = Factory.CreateQueue<Variable>();
         for (Variable v : variables)
         {
-            copyVars.add(v.copy());
+            copyVars.Add(v.copy());
         }
         return new QuantifiedSentence(quantifier, copyVars, quantified.copy());
     }
@@ -70,55 +70,55 @@
     // END-Sentence
     //
 
-    @Override
-    public boolean equals(Object o)
+     
+    public override bool Equals(object o)
     {
 
         if (this == o)
         {
             return true;
         }
-        if ((o == null) || (this.getClass() != o.getClass()))
+        if ((o == null) || (this.GetType() != o.GetType()))
         {
             return false;
         }
         QuantifiedSentence cs = (QuantifiedSentence)o;
-        return cs.quantifier.equals(quantifier)
-                && cs.variables.equals(variables)
-                && cs.quantified.equals(quantified);
+        return cs.quantifier.Equals(quantifier)
+                && cs.variables.Equals(variables)
+                && cs.quantified.Equals(quantified);
     }
 
-    @Override
-    public int hashCode()
+     
+    public override int GetHashCode()
     {
         if (0 == hashCode)
         {
             hashCode = 17;
-            hashCode = 37 * hashCode + quantifier.hashCode();
+            hashCode = 37 * hashCode + quantifier.GetHashCode();
             for (Variable v : variables)
             {
-                hashCode = 37 * hashCode + v.hashCode();
+                hashCode = 37 * hashCode + v.GetHashCode();
             }
-            hashCode = hashCode * 37 + quantified.hashCode();
+            hashCode = hashCode * 37 + quantified.GetHashCode();
         }
         return hashCode;
     }
 
-    @Override
-    public String toString()
+     
+    public override string ToString()
     {
         if (null == stringRep)
         {
             StringBuilder sb = new StringBuilder();
-            sb.append(quantifier);
-            sb.append(" ");
+            sb.Append(quantifier);
+            sb.Append(" ");
             for (Variable v : variables)
             {
-                sb.append(v.toString());
-                sb.append(" ");
+                sb.Append(v.ToString());
+                sb.Append(" ");
             }
-            sb.append(quantified.toString());
-            stringRep = sb.toString();
+            sb.Append(quantified.ToString());
+            stringRep = sb.ToString();
         }
         return stringRep;
     }

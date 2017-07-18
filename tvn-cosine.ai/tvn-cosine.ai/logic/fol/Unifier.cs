@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.fol
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 9.1, page
@@ -49,9 +52,7 @@
         private static SubstVisitor _substVisitor = new SubstVisitor();
 
         public Unifier()
-        {
-
-        }
+        { }
 
         /**
          * Returns a Map<Variable, Term> representing the substitution (i.e. a set
@@ -67,9 +68,9 @@
          *         of variable/term pairs) or null which is used to indicate a
          *         failure to unify.
          */
-        public Map<Variable, Term> unify(FOLNode x, FOLNode y)
+        public IMap<Variable, Term> unify(FOLNode x, FOLNode y)
         {
-            return unify(x, y, new LinkedHashMap<Variable, Term>());
+            return unify(x, y, Factory.CreateMap<Variable, Term>());
         }
 
         /**
@@ -88,30 +89,33 @@
          *         of variable/term pairs) or null which is used to indicate a
          *         failure to unify.
          */
-        public Map<Variable, Term> unify(FOLNode x, FOLNode y,
-                Map<Variable, Term> theta)
+        public IMap<Variable, Term> unify(FOLNode x, FOLNode y, IMap<Variable, Term> theta)
         {
             // if theta = failure then return failure
             if (theta == null)
             {
                 return null;
             }
-            else if (x.equals(y))
+            else if (x.Equals(y))
             {
                 // else if x = y then return theta
                 return theta;
             }
-            else if (x instanceof Variable) {
+            else if (x is Variable)
+            {
                 // else if VARIABLE?(x) then return UNIVY-VAR(x, y, theta)
                 return unifyVar((Variable)x, y, theta);
-            } else if (y instanceof Variable) {
+            }
+            else if (y is Variable)
+            {
                 // else if VARIABLE?(y) then return UNIFY-VAR(y, x, theta)
                 return unifyVar((Variable)y, x, theta);
-            } else if (isCompound(x) && isCompound(y))
+            }
+            else if (isCompound(x) && isCompound(y))
             {
                 // else if COMPOUND?(x) and COMPOUND?(y) then
                 // return UNIFY(x.ARGS, y.ARGS, UNIFY(x.OP, y.OP, theta))
-                return unify(args(x), args(y), unifyOps(op(x), op(y), theta));
+                return unify(args<FOLNode>(x), args<FOLNode>(y), unifyOps(op(x), op(y), theta));
             }
             else
             {
@@ -138,29 +142,28 @@
          */
         // else if LIST?(x) and LIST?(y) then
         // return UNIFY(x.REST, y.REST, UNIFY(x.FIRST, y.FIRST, theta))
-        public Map<Variable, Term> unify(List<? extends FOLNode> x,
-                List<? extends FOLNode> y, Map<Variable, Term> theta)
+        public IMap<Variable, Term> unify<T>(IQueue<T> x, IQueue<T> y, IMap<Variable, Term> theta) where T : FOLNode
         {
             if (theta == null)
             {
                 return null;
             }
-            else if (x.size() != y.size())
+            else if (x.Size() != y.Size())
             {
                 return null;
             }
-            else if (x.size() == 0 && y.size() == 0)
+            else if (x.Size() == 0 && y.Size() == 0)
             {
                 return theta;
             }
-            else if (x.size() == 1 && y.size() == 1)
+            else if (x.Size() == 1 && y.Size() == 1)
             {
-                return unify(x.get(0), y.get(0), theta);
+                return unify(x.Get(0), y.Get(0), theta);
             }
             else
             {
                 return unify(x.subList(1, x.size()), y.subList(1, y.size()),
-                        unify(x.get(0), y.get(0), theta));
+                        unify(x.Get(0), y.Get(0), theta));
             }
         }
 
@@ -174,27 +177,27 @@
         // behavior, as is the case with Prolog.
         // Note: Implementation is based on unify-bug.pdf document by Peter Norvig:
         // http://norvig.com/unify-bug.pdf
-        protected boolean occurCheck(Map<Variable, Term> theta, Variable var,
-                FOLNode x)
+        protected bool occurCheck(IMap<Variable, Term> theta, Variable var, FOLNode x)
         {
             // ((equal var x) t)
-            if (var.equals(x))
+            if (var.Equals(x))
             {
                 return true;
                 // ((bound? x subst)
             }
-            else if (theta.containsKey(x))
+            else if (theta.ContainsKey(x as Variable))
             {
                 // (occurs-in? var (lookup x subst) subst))
-                return occurCheck(theta, var, theta.get(x));
+                return occurCheck(theta, var, theta.Get(x as Variable));
                 // ((consp x) (or (occurs-in? var (first x) subst) (occurs-in? var
                 // (rest x) subst)))
             }
-            else if (x instanceof Function) {
+            else if (x is Function)
+            {
                 // (or (occurs-in? var (first x) subst) (occurs-in? var (rest x)
                 // subst)))
                 Function fx = (Function)x;
-                for (Term fxt : fx.getArgs())
+                foreach (Term fxt in fx.getArgs())
                 {
                     if (occurCheck(theta, var, fxt))
                     {
@@ -217,80 +220,89 @@
          *       theta, the substitution built up so far
          * </code>
          */
-        private Map<Variable, Term> unifyVar(Variable var, FOLNode x,
-                Map<Variable, Term> theta)
+        private IMap<Variable, Term> unifyVar(Variable var, FOLNode x,
+                IMap<Variable, Term> theta)
         {
 
-            if (!Term.class.isInstance(x)) {
-			return null;
-		} else if (theta.keySet().contains(var)) {
-			// if {var/val} E theta then return UNIFY(val, x, theta)
-			return unify(theta.get(var), x, theta);
-    } else if (theta.keySet().contains(x)) {
-			// else if {x/val} E theta then return UNIFY(var, val, theta)
-			return unify(var, theta.get(x), theta);
-} else if (occurCheck(theta, var, x)) {
-			// else if OCCUR-CHECK?(var, x) then return failure
-			return null;
-		} else {
-            // else return add {var/x} to theta
-            cascadeSubstitution(theta, var, (Term) x);
-			return theta;
-		}
-	}
+            if (!(x is Term))
+            {
+                return null;
+            }
+            else if (theta.GetKeys().Contains(var))
+            {
+                // if {var/val} E theta then return UNIFY(val, x, theta)
+                return unify(theta.Get(var), x, theta);
+            }
+            else if (theta.GetKeys().Contains(x))
+            {
+                // else if {x/val} E theta then return UNIFY(var, val, theta)
+                return unify(var, theta.Get(x), theta);
+            }
+            else if (occurCheck(theta, var, x))
+            {
+                // else if OCCUR-CHECK?(var, x) then return failure
+                return null;
+            }
+            else
+            {
+                // else return add {var/x} to theta
+                cascadeSubstitution(theta, var, (Term)x);
+                return theta;
+            }
+        }
 
-	private Map<Variable, Term> unifyOps(String x, String y,
-            Map<Variable, Term> theta)
-{
-    if (theta == null)
-    {
-        return null;
-    }
-    else if (x.equals(y))
-    {
-        return theta;
-    }
-    else
-    {
-        return null;
-    }
-}
+        private IMap<Variable, Term> unifyOps(string x, string y, IMap<Variable, Term> theta)
+        {
+            if (theta == null)
+            {
+                return null;
+            }
+            else if (x.Equals(y))
+            {
+                return theta;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-private List<? extends FOLNode> args(FOLNode x)
-{
-    return x.getArgs();
-}
+        private IQueue<T> args<T>(FOLNode x) where T : FOLNode
+        {
+            return x.getArgs<T>();
+        }
 
-private String op(FOLNode x)
-{
-    return x.getSymbolicName();
-}
+        private string op(FOLNode x)
+        {
+            return x.getSymbolicName();
+        }
 
-private boolean isCompound(FOLNode x)
-{
-    return x.isCompound();
-}
+        private bool isCompound(FOLNode x)
+        {
+            return x.isCompound();
+        }
 
-// See:
-// http://logic.stanford.edu/classes/cs157/2008/miscellaneous/faq.html#jump165
-// for need for this.
-private Map<Variable, Term> cascadeSubstitution(Map<Variable, Term> theta,
-        Variable var, Term x)
-{
-    theta.put(var, x);
-    for (Variable v : theta.keySet())
-    {
-        theta.put(v, _substVisitor.subst(theta, theta.get(v)));
+        // See:
+        // http://logic.stanford.edu/classes/cs157/2008/miscellaneous/faq.html#jump165
+        // for need for this.
+        private Map<Variable, Term> cascadeSubstitution(IMap<Variable, Term> theta,
+                Variable var, Term x)
+        {
+            theta.Put(var, x);
+            for (Variable v : theta.GetKeys())
+            {
+                theta.Put(v, _substVisitor.subst(theta, theta.Get(v)));
+            }
+            // Ensure Function Terms are correctly updates by passing over them
+            // again. Fix for testBadCascadeSubstitution_LCL418_1()
+            for (Variable v : theta.GetKeys())
+            {
+                Term t = theta.Get(v);
+                if (t is Function)
+                {
+                    theta.Put(v, _substVisitor.subst(theta, t));
+                }
+            }
+            return theta;
+        }
     }
-    // Ensure Function Terms are correctly updates by passing over them
-    // again. Fix for testBadCascadeSubstitution_LCL418_1()
-    for (Variable v : theta.keySet())
-    {
-        Term t = theta.get(v);
-        if (t instanceof Function) {
-        theta.put(v, _substVisitor.subst(theta, t));
-    }
-}
-		return theta;
-	}
-}

@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace tvn.cosine.ai.common.collections
+﻿namespace tvn.cosine.ai.common.collections
 {
     public class Queue<T> : QueueBase<T>, IQueue<T>
     {
@@ -9,6 +7,11 @@ namespace tvn.cosine.ai.common.collections
         public Queue()
         {
             backingList = new System.Collections.Generic.List<T>();
+        }
+
+        void IQueue<T>.Sort(IComparer<T> comparer)
+        {
+            backingList.Sort(new ComparerAdaptor(comparer));
         }
 
         public Queue(IQueue<T> items)

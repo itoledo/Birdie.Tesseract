@@ -44,18 +44,18 @@
      */
     public class GeneticAlgorithm<A>
     {
-        protected static final String POPULATION_SIZE = "populationSize";
-	protected static final String ITERATIONS = "iterations";
-	protected static final String TIME_IN_MILLISECONDS = "timeInMSec";
+        protected static final string POPULATION_SIZE = "populationSize";
+	protected static final string ITERATIONS = "iterations";
+	protected static final string TIME_IN_MILLISECONDS = "timeInMSec";
 	//
 	protected Metrics metrics = new Metrics();
         //
         protected int individualLength;
-        protected List<A> finiteAlphabet;
+        protected IQueue<A> finiteAlphabet;
         protected double mutationProbability;
 
         protected Random random;
-        private List<ProgressTracker<A>> progressTrackers = new ArrayList<ProgressTracker<A>>();
+        private IQueue<ProgressTracker<A>> progressTrackers = Factory.CreateQueue<ProgressTracker<A>>();
 
         public GeneticAlgorithm(int individualLength, Collection<A> finiteAlphabet, double mutationProbability)
         {
@@ -66,7 +66,7 @@
                 Random random)
         {
             this.individualLength = individualLength;
-            this.finiteAlphabet = new ArrayList<A>(finiteAlphabet);
+            this.finiteAlphabet = Factory.CreateQueue<A>(finiteAlphabet);
             this.mutationProbability = mutationProbability;
             this.random = random;
 
@@ -76,7 +76,7 @@
         /** Progress tracers can be used to display progress information. */
         public void addProgressTracer(ProgressTracker<A> pTracer)
         {
-            progressTrackers.add(pTracer);
+            progressTrackers.Add(pTracer);
         }
 
         /**
@@ -118,7 +118,7 @@
             Individual<A> bestIndividual = null;
 
             // Create a local copy of the population to work with
-            List<Individual<A>> population = new ArrayList<>(initPopulation);
+            IQueue<Individual<A>> population = Factory.CreateQueue<>(initPopulation);
             // Validate the population and setup the instrumentation
             validatePopulation(population);
             updateMetrics(population, 0, 0L);
@@ -149,7 +149,7 @@
         public Individual<A> retrieveBestIndividual(Collection<Individual<A>> population, FitnessFunction<A> fitnessFn)
         {
             Individual<A> bestIndividual = null;
-            double bestSoFarFValue = Double.NEGATIVE_INFINITY;
+            double bestSoFarFValue = double.NEGATIVE_INFINITY;
 
             for (Individual<A> individual : population)
             {
@@ -169,7 +169,7 @@
          */
         public void clearInstrumentation()
         {
-            updateMetrics(new ArrayList<Individual<A>>(), 0, 0L);
+            updateMetrics(Factory.CreateQueue<Individual<A>>(), 0, 0L);
         }
 
         /**
@@ -236,10 +236,10 @@
          * Primitive operation which is responsible for creating the next
          * generation. Override to get progress information!
          */
-        protected List<Individual<A>> nextGeneration(List<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        protected IQueue<Individual<A>> nextGeneration(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
         {
             // new_population <- empty set
-            List<Individual<A>> newPopulation = new ArrayList<Individual<A>>(population.size());
+            IQueue<Individual<A>> newPopulation = Factory.CreateQueue<Individual<A>>(population.size());
             // for i = 1 to SIZE(population) do
             for (int i = 0; i < population.size(); i++)
             {
@@ -250,42 +250,42 @@
                 // child <- REPRODUCE(x, y)
                 Individual<A> child = reproduce(x, y);
                 // if (small random probability) then child <- MUTATE(child)
-                if (random.nextDouble() <= mutationProbability)
+                if (random.NextDouble() <= mutationProbability)
                 {
                     child = mutate(child);
                 }
                 // add child to new_population
-                newPopulation.add(child);
+                newPopulation.Add(child);
             }
             notifyProgressTrackers(getIterations(), population);
             return newPopulation;
         }
 
         // RANDOM-SELECTION(population, FITNESS-FN)
-        protected Individual<A> randomSelection(List<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        protected Individual<A> randomSelection(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
         {
             // Default result is last individual
             // (just to avoid problems with rounding errors)
-            Individual<A> selected = population.get(population.size() - 1);
+            Individual<A> selected = population.Get(population.size() - 1);
 
             // Determine all of the fitness values
             double[] fValues = new double[population.size()];
             for (int i = 0; i < population.size(); i++)
             {
-                fValues[i] = fitnessFn.apply(population.get(i));
+                fValues[i] = fitnessFn.apply(population.Get(i));
             }
             // Normalize the fitness values
             fValues = Util.normalize(fValues);
-            double prob = random.nextDouble();
+            double prob = random.NextDouble();
             double totalSoFar = 0.0;
-            for (int i = 0; i < fValues.length; i++)
+            for (int i = 0; i < fValues.Length; i++)
             {
                 // Are at last element so assign by default
                 // in case there are rounding issues with the normalized values
                 totalSoFar += fValues[i];
                 if (prob <= totalSoFar)
                 {
-                    selected = population.get(i);
+                    selected = population.Get(i);
                     break;
                 }
             }
@@ -303,7 +303,7 @@
             // c <- random number from 1 to n
             int c = randomOffset(individualLength);
             // return APPEND(SUBSTRING(x, 1, c), SUBSTRING(y, c+1, n))
-            List<A> childRepresentation = new ArrayList<A>();
+            IQueue<A> childRepresentation = Factory.CreateQueue<A>();
             childRepresentation.addAll(x.getRepresentation().subList(0, c));
             childRepresentation.addAll(y.getRepresentation().subList(c, individualLength));
 
@@ -315,9 +315,9 @@
             int mutateOffset = randomOffset(individualLength);
             int alphaOffset = randomOffset(finiteAlphabet.size());
 
-            List<A> mutatedRepresentation = new ArrayList<A>(child.getRepresentation());
+            IQueue<A> mutatedRepresentation = Factory.CreateQueue<A>(child.getRepresentation());
 
-            mutatedRepresentation.set(mutateOffset, finiteAlphabet.get(alphaOffset));
+            mutatedRepresentation.set(mutateOffset, finiteAlphabet.Get(alphaOffset));
 
             return new Individual<A>(mutatedRepresentation);
         }
@@ -335,7 +335,7 @@
             {
                 throw new IllegalArgumentException("Must start with at least a population of size 1");
             }
-            // String lengths are assumed to be of fixed size,
+            // string lengths are assumed to be of fixed size,
             // therefore ensure initial populations lengths correspond to this
             for (Individual<A> individual : population)
             {

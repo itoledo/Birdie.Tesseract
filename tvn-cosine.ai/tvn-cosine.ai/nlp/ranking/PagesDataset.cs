@@ -3,17 +3,17 @@
     public class PagesDataset
     {
 
-        static String wikiPagesFolderPath = "src\\main\\resources\\aima\\core\\ranking\\data\\pages";
-        static String testFilesFolderPath = "src\\main\\resources\\aima\\core\\ranking\\data\\pages\\test_pages";
+        static string wikiPagesFolderPath = "src\\main\\resources\\aima\\core\\ranking\\data\\pages";
+        static string testFilesFolderPath = "src\\main\\resources\\aima\\core\\ranking\\data\\pages\\test_pages";
 
         private static WikiLinkFinder wlf;
 
-        public static Map<String, Page> loadDefaultPages()
+        public static Map<string, Page> loadDefaultPages()
         {
             return loadPages(wikiPagesFolderPath);
         }
 
-        public static Map<String, Page> loadTestPages()
+        public static Map<string, Page> loadTestPages()
         {
             return loadPages(testFilesFolderPath);
         }
@@ -27,10 +27,10 @@
          * @return a hashtable of Page objects, accessed by article name (which is a
          *         location for wikipedia: \wiki\*article name*)
          */
-        public static Map<String, Page> loadPages(String folderPath)
+        public static Map<string, Page> loadPages(string folderPath)
         {
 
-            Map<String, Page> pageTable = new Hashtable<String, Page>();
+            Map<string, Page> pageTable = Factory.CreateMap<string, Page>();
             Page currPage;
             File[] listOfFiles;
             wlf = new WikiLinkFinder();
@@ -47,13 +47,13 @@
 
             // Access each .txt file to create a new Page object for that file's
             // article
-            for (int i = 0; i < listOfFiles.length; i++)
+            for (int i = 0; i < listOfFiles.Length; i++)
             {
                 File currFile = listOfFiles[i];
                 if (currFile.isFile())
                 {
                     currPage = wikiPageFromFile(folder, currFile);
-                    pageTable.put(currPage.getLocation(), currPage);
+                    pageTable.Put(currPage.getLocation(), currPage);
                 }
             }
             // now that all pages are loaded and their outlinks have been
@@ -65,9 +65,9 @@
         public static Page wikiPageFromFile(File folder, File f)
         {
             Page p;
-            String pageLocation = getPageName(f); // will be like: \wiki\*article
+            string pageLocation = getPageName(f); // will be like: \wiki\*article
                                                   // name*.toLowercase()
-            String content = loadFileText(folder, f); // get html source as string
+            string content = loadFileText(folder, f); // get html source as string
             p = new Page(pageLocation); // create the page object
             p.setContent(content); // give the page its html source as a string
             p.getOutlinks().addAll(wlf.getOutlinks(p)); // search html source for
@@ -75,31 +75,31 @@
             return p;
         }
 
-        public static Map<String, Page> determineAllInlinks(Map<String, Page> pageTable)
+        public static Map<string, Page> determineAllInlinks(IMap<string, Page> pageTable)
         {
             Page currPage;
-            Set<String> keySet = pageTable.keySet();
-            Iterator<String> keySetIterator = keySet.iterator();
+            ISet<string> keySet = pageTable.GetKeys();
+            Iterator<string> keySetIterator = keySet.iterator();
             while (keySetIterator.hasNext())
             {
-                currPage = pageTable.get(keySetIterator.next());
-                // add the inlinks to an currently empty List<String> object
+                currPage = pageTable.Get(keySetIterator.next());
+                // add the inlinks to an currently empty IQueue<string> object
                 currPage.getInlinks().addAll(wlf.getInlinks(currPage, pageTable));
             }
             return pageTable;
         }
 
-        public static String getPageName(File f)
+        public static string getPageName(File f)
         {
 
-            String wikiPrefix = "/wiki/";
-            String filename = f.getName();
+            string wikiPrefix = "/wiki/";
+            string filename = f.getName();
             if (filename.indexOf(".") > 0)
                 filename = filename.substring(0, filename.lastIndexOf("."));
             return wikiPrefix + filename.toLowerCase();
         } // end getPageName()
 
-        public static String loadFileText(File folder, File file)
+        public static string loadFileText(File folder, File file)
         {
 
             StringBuilder pageContent = new StringBuilder();
@@ -108,15 +108,15 @@
             // repeat for all files
             try
             {
-                String sCurrentLine;
-                String folderPath = folder.getAbsolutePath();
-                String fileName = file.getName();
+                string sCurrentLine;
+                string folderPath = folder.getAbsolutePath();
+                string fileName = file.getName();
 
                 br = new BufferedReader(new FileReader(folderPath + File.separator + fileName));
 
                 while ((sCurrentLine = br.readLine()) != null)
                 {
-                    pageContent.append(sCurrentLine);
+                    pageContent.Append(sCurrentLine);
                 }
             }
             catch (IOException e)
@@ -136,7 +136,7 @@
                 }
             }
 
-            return pageContent.toString();
+            return pageContent.ToString();
         } // end loadFileText()
 
         // TODO:

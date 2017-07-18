@@ -203,9 +203,9 @@ namespace tvn.cosine.ai.environment.wumpusworld
                     goals.contains);
             SearchForActions<AgentPosition, WumpusAction> search =
                     new AStarSearch<>(new GraphSearch<>(), new ManhattanHeuristicFunction(goals));
-            Optional<List<WumpusAction>> actions = search.findActions(problem);
+            Optional<IQueue<WumpusAction>> actions = search.findActions(problem);
 
-            return actions.isPresent() ? actions.get() : Collections.emptyList();
+            return actions.isPresent() ? actions.Get() : Collections.emptyList();
         }
 
         /**

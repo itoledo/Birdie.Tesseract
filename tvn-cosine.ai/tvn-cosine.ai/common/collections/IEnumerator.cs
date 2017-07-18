@@ -5,6 +5,6 @@
         T Current { get; }
         T GetCurrent();
         bool MoveNext();
-        void Reset();
+        void Reset(); 
     }
 }

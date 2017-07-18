@@ -10,9 +10,9 @@
      * @param <A>
      *            the argument type to be passed to the visitor methods.
      */
-    public abstract class AbstractPLVisitor<A> implements PLVisitor<A, Sentence> {
+    public abstract class AbstractPLVisitor<A> : PLVisitor<A, Sentence> {
 
-        @Override
+         
 
     public Sentence visitPropositionSymbol(PropositionSymbol s, A arg)
     {
@@ -21,7 +21,7 @@
         return s;
     }
 
-    @Override
+     
     public Sentence visitUnarySentence(ComplexSentence s, A arg)
     {
         // a new Complex Sentence with the same connective but possibly
@@ -30,7 +30,7 @@
                 .accept(this, arg));
     }
 
-    @Override
+     
     public Sentence visitBinarySentence(ComplexSentence s, A arg)
     {
         // a new Complex Sentence with the same connective but possibly
