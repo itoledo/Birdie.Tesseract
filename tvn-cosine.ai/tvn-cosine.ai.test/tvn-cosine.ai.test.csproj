@@ -48,17 +48,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="agent\impl\aprog\simplerule\RuleTest.cs" />
-    <Compile Include="agent\impl\aprog\TableDrivenAgentProgramTest.cs" />
-    <Compile Include="agent\impl\DynamicPerceptTest.cs" />
-    <Compile Include="agent\impl\MockAgent.cs" />
-    <Compile Include="agent\impl\PerceptSequenceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="unit\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\tvn-cosine.ai\tvn-cosine.ai.csproj">
       <Project>{463b77f0-c009-4eba-9b9a-24866c73e2d7}</Project>
