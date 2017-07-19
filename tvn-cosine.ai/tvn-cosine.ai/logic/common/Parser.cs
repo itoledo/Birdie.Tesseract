@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.logic.common
      * @param <S> the root type of the abstract syntax tree being parsed.
      */
     public abstract class Parser<S>
-    { 
+    {
         protected int lookAheadBufferSize = 1;
         //
         private Token[] lookAheadBuffer = null;
@@ -34,7 +34,7 @@ namespace tvn.cosine.ai.logic.common
          * @return the root node of an abstract syntax tree representation of the
          *         the concrete input syntax that was parsed.
          */
-        public S parse(string input)
+        public virtual S parse(string input)
         {
             return parse(new StringReader(input));
         }
@@ -47,7 +47,7 @@ namespace tvn.cosine.ai.logic.common
          * @return the root node of an abstract syntax tree representation of the
          *         the concrete input syntax that was parsed.
          */
-        public S parse(TextReader inputReader)
+        public virtual S parse(TextReader inputReader)
         {
             S result = default(S);
 
@@ -65,11 +65,7 @@ namespace tvn.cosine.ai.logic.common
 
             return result;
         }
-
-        //
-        // PROTECTED
-        //
-
+         
         /**
          * To be implemented by concrete implementations of this class.
          * 
@@ -81,7 +77,7 @@ namespace tvn.cosine.ai.logic.common
         /**
          * @return the token at the specified position in the lookahead buffer.
          */
-        protected Token lookAhead(int i)
+        protected virtual Token lookAhead(int i)
         {
             return lookAheadBuffer[i - 1];
         }
@@ -89,7 +85,7 @@ namespace tvn.cosine.ai.logic.common
         /**
          * Consume 1 token from the input.
          */
-        protected void consume()
+        protected virtual void consume()
         {
             loadNextTokenFromInput();
         }
@@ -101,7 +97,7 @@ namespace tvn.cosine.ai.logic.common
          * @param toMatchSymbol
          *            the symbol to match before consuming it.
          */
-        protected void match(string toMatchSymbol)
+        protected virtual void match(string toMatchSymbol)
         {
             if (lookAhead(1).getText().Equals(toMatchSymbol))
             {
@@ -116,10 +112,7 @@ namespace tvn.cosine.ai.logic.common
             }
 
         }
-
-        //
-        // PRIVATE
-        //
+         
         private void initializeLookAheadBuffer()
         {
             lookAheadBuffer = new Token[lookAheadBufferSize];

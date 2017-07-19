@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.propositional.kb.data
+﻿using System.Text;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.kb.data
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
@@ -15,7 +18,7 @@
     {
         private PropositionSymbol atom = null;
         private bool positive = true; // Assume positive by default.
-                                         //
+                                      //
         private string cachedStringRep = null;
         private int cachedHashCode = -1;
 
@@ -26,9 +29,8 @@
          *            the atomic sentence comprising the literal.
          */
         public Literal(PropositionSymbol atom)
-        {
-            this(atom, true);
-        }
+            : this(atom, true)
+        { }
 
         /**
          * Constructor.
@@ -108,7 +110,7 @@
             }
         }
 
-         
+
         public override string ToString()
         {
             if (null == cachedStringRep)
@@ -125,14 +127,15 @@
             return cachedStringRep;
         }
 
-         
+
         public override bool Equals(object o)
         {
             if (this == o)
             {
                 return true;
             }
-            if (!(o is Literal)) {
+            if (!(o is Literal))
+            {
                 return false;
             }
             Literal l = (Literal)o;
@@ -140,7 +143,7 @@
                     && l.getAtomicSentence().Equals(getAtomicSentence());
         }
 
-         
+
         public override int GetHashCode()
         {
             if (cachedHashCode == -1)

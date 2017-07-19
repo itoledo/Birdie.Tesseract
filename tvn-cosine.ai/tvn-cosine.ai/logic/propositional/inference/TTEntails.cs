@@ -1,4 +1,11 @@
-﻿namespace tvn.cosine.ai.logic.propositional.inference
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 7.10, page
@@ -53,8 +60,7 @@
         public bool ttEntails(KnowledgeBase kb, Sentence alpha)
         {
             // symbols <- a list of proposition symbols in KB and &alpha
-            IQueue<PropositionSymbol> symbols = Factory.CreateQueue<PropositionSymbol>(
-                    SymbolCollector.getSymbolsFrom(kb.asSentence(), alpha));
+            IQueue<PropositionSymbol> symbols = Factory.CreateQueue<PropositionSymbol>(SymbolCollector.getSymbolsFrom(kb.asSentence(), alpha));
 
             // return TT-CHECK-ALL(KB, &alpha; symbols, {})
             return ttCheckAll(kb, alpha, symbols, new Model());
@@ -76,11 +82,10 @@
          *            query.
          * @return true if KB entails &alpha;, false otherwise.
          */
-        public bool ttCheckAll(KnowledgeBase kb, Sentence alpha,
-                IQueue<PropositionSymbol> symbols, Model model)
+        public bool ttCheckAll(KnowledgeBase kb, Sentence alpha, IQueue<PropositionSymbol> symbols, Model model)
         {
             // if EMPTY?(symbols) then
-            if (symbols.isEmpty())
+            if (symbols.IsEmpty())
             {
                 // if PL-TRUE?(KB, model) then return PL-TRUE?(&alpha;, model)
                 if (model.isTrue(kb.asSentence()))

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.logic.propositional.parsing
+﻿using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.parsing
 {
     /**
      * <b>Propositional Logic Visitor:</b> A <a

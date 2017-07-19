@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.logic.propositional.visitors
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.visitors
 {
     /**
      * Utility class for collecting clauses from CNF Sentences.
@@ -6,135 +11,131 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class ClauseCollector : BasicGatherer<Clause> {
-
-    /**
-	 * Collect a set of clauses from a list of given sentences.
-	 * 
-	 * @param cnfSentences
-	 *            a list of CNF sentences from which to collect clauses.
-	 * @return a set of all contained clauses.
-	 * @throws IllegalArgumentException
-	 *             if any of the given sentences are not in CNF.
-	 */
-    public static ISet<Clause> getClausesFrom(Sentence...cnfSentences)
+    public class ClauseCollector : BasicGatherer<Clause>
     {
-        ISet<Clause> result = Factory.CreateSet<Clause>();
-
-        ClauseCollector clauseCollector = new ClauseCollector();
-        for (Sentence cnfSentence : cnfSentences)
+        /**
+         * Collect a set of clauses from a list of given sentences.
+         * 
+         * @param cnfSentences
+         *            a list of CNF sentences from which to collect clauses.
+         * @return a set of all contained clauses.
+         * @throws IllegalArgumentException
+         *             if any of the given sentences are not in CNF.
+         */
+        public static ISet<Clause> getClausesFrom(params Sentence[] cnfSentences)
         {
-            result = cnfSentence.accept(clauseCollector, result);
+            ISet<Clause> result = Factory.CreateSet<Clause>();
+
+            ClauseCollector clauseCollector = new ClauseCollector();
+            foreach (Sentence cnfSentence in cnfSentences)
+            {
+                result = cnfSentence.accept(clauseCollector, result);
+            }
+
+            return result;
         }
 
-        return result;
-    }
 
-     
-    public ISet<Clause> visitPropositionSymbol(PropositionSymbol s, ISet<Clause> arg)
-    {
-        // a positive unit clause
-        Literal positiveLiteral = new Literal(s);
-        arg.Add(new Clause(positiveLiteral));
-
-        return arg;
-    }
-
-     
-    public ISet<Clause> visitUnarySentence(ComplexSentence s, ISet<Clause> arg)
-    {
-
-        if (!s.getSimplerSentence(0).isPropositionSymbol())
+        public override ISet<Clause> visitPropositionSymbol(PropositionSymbol s, ISet<Clause> arg)
         {
-            throw new IllegalStateException("Sentence is not in CNF: " + s);
+            // a positive unit clause
+            Literal positiveLiteral = new Literal(s);
+            arg.Add(new Clause(positiveLiteral));
+
+            return arg;
         }
 
-        // a negative unit clause
-        Literal negativeLiteral = new Literal((PropositionSymbol)s.getSimplerSentence(0), false);
-        arg.Add(new Clause(negativeLiteral));
 
-        return arg;
-    }
+        public override ISet<Clause> visitUnarySentence(ComplexSentence s, ISet<Clause> arg)
+        {
 
-     
-    public ISet<Clause> visitBinarySentence(ComplexSentence s, ISet<Clause> arg)
-    {
+            if (!s.getSimplerSentence(0).isPropositionSymbol())
+            {
+                throw new IllegalStateException("Sentence is not in CNF: " + s);
+            }
 
-        if (s.isAndSentence())
-        {
-            s.getSimplerSentence(0).accept(this, arg);
-            s.getSimplerSentence(1).accept(this, arg);
-        }
-        else if (s.isOrSentence())
-        {
-            IQueue<Literal> literals = Factory.CreateQueue<Literal>(LiteralCollector.getLiterals(s));
-            arg.Add(new Clause(literals));
-        }
-        else
-        {
-            throw new IllegalArgumentException("Sentence is not in CNF: " + s);
+            // a negative unit clause
+            Literal negativeLiteral = new Literal((PropositionSymbol)s.getSimplerSentence(0), false);
+            arg.Add(new Clause(negativeLiteral));
+
+            return arg;
         }
 
-        return arg;
-    }
 
-    //
-    // PRIVATE
-    //
-    private static class LiteralCollector : BasicGatherer<Literal> {
-
-
-        private static ISet<Literal> getLiterals(Sentence disjunctiveSentence)
-    {
-        ISet<Literal> result = Factory.CreateSet<Literal>();
-
-        LiteralCollector literalCollector = new LiteralCollector();
-        result = disjunctiveSentence.accept(literalCollector, result);
-
-        return result;
-    }
-
-     
-        public ISet<Literal> visitPropositionSymbol(PropositionSymbol s, ISet<Literal> arg)
-    {
-        // a positive literal
-        Literal positiveLiteral = new Literal(s);
-        arg.Add(positiveLiteral);
-
-        return arg;
-    }
-
-     
-        public ISet<Literal> visitUnarySentence(ComplexSentence s, ISet<Literal> arg)
-    {
-
-        if (!s.getSimplerSentence(0).isPropositionSymbol())
+        public override ISet<Clause> visitBinarySentence(ComplexSentence s, ISet<Clause> arg)
         {
-            throw new IllegalStateException("Sentence is not in CNF: " + s);
+
+            if (s.isAndSentence())
+            {
+                s.getSimplerSentence(0).accept(this, arg);
+                s.getSimplerSentence(1).accept(this, arg);
+            }
+            else if (s.isOrSentence())
+            {
+                IQueue<Literal> literals = Factory.CreateQueue<Literal>(LiteralCollector.getLiterals(s));
+                arg.Add(new Clause(literals));
+            }
+            else
+            {
+                throw new IllegalArgumentException("Sentence is not in CNF: " + s);
+            }
+
+            return arg;
         }
 
-        // a negative literal
-        Literal negativeLiteral = new Literal((PropositionSymbol)s.getSimplerSentence(0), false);
-
-        arg.Add(negativeLiteral);
-
-        return arg;
-    }
-
-     
-        public ISet<Literal> visitBinarySentence(ComplexSentence s, ISet<Literal> arg)
-    {
-        if (s.isOrSentence())
+        class LiteralCollector : BasicGatherer<Literal>
         {
-            s.getSimplerSentence(0).accept(this, arg);
-            s.getSimplerSentence(1).accept(this, arg);
+            public static ISet<Literal> getLiterals(Sentence disjunctiveSentence)
+            {
+                ISet<Literal> result = Factory.CreateSet<Literal>();
+
+                LiteralCollector literalCollector = new LiteralCollector();
+                result = disjunctiveSentence.accept(literalCollector, result);
+
+                return result;
+            }
+
+
+            public override ISet<Literal> visitPropositionSymbol(PropositionSymbol s, ISet<Literal> arg)
+            {
+                // a positive literal
+                Literal positiveLiteral = new Literal(s);
+                arg.Add(positiveLiteral);
+
+                return arg;
+            }
+
+
+            public override ISet<Literal> visitUnarySentence(ComplexSentence s, ISet<Literal> arg)
+            {
+
+                if (!s.getSimplerSentence(0).isPropositionSymbol())
+                {
+                    throw new IllegalStateException("Sentence is not in CNF: " + s);
+                }
+
+                // a negative literal
+                Literal negativeLiteral = new Literal((PropositionSymbol)s.getSimplerSentence(0), false);
+
+                arg.Add(negativeLiteral);
+
+                return arg;
+            }
+
+
+            public override ISet<Literal> visitBinarySentence(ComplexSentence s, ISet<Literal> arg)
+            {
+                if (s.isOrSentence())
+                {
+                    s.getSimplerSentence(0).accept(this, arg);
+                    s.getSimplerSentence(1).accept(this, arg);
+                }
+                else
+                {
+                    throw new IllegalArgumentException("Sentence is not in CNF: " + s);
+                }
+                return arg;
+            }
         }
-        else
-        {
-            throw new IllegalArgumentException("Sentence is not in CNF: " + s);
-        }
-        return arg;
     }
-}
-}
 }

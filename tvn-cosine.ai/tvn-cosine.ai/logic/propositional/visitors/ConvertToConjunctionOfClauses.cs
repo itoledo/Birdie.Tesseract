@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.logic.propositional.visitors
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.visitors
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>

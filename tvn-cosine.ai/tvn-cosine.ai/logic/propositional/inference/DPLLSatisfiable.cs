@@ -1,7 +1,10 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.logic.propositional.kb;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
+using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.logic.propositional.inference
 {
@@ -46,7 +49,6 @@ namespace tvn.cosine.ai.logic.propositional.inference
      */
     public class DPLLSatisfiable : DPLL
     {
-
         /**
          * DPLL-SATISFIABLE?(s)<br>
          * Checks the satisfiability of a sentence in propositional logic.
@@ -56,12 +58,10 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * @return true if the sentence is satisfiable, false otherwise.
          */
 
-
         public bool dpllSatisfiable(Sentence s)
         {
             // clauses <- the set of clauses in the CNF representation of s
-            ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(s)
-                    .getClauses();
+            ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(s).getClauses();
             // symbols <- a list of the proposition symbols in s
             IQueue<PropositionSymbol> symbols = getPropositionSymbolsInSentence(s);
 
@@ -82,15 +82,26 @@ namespace tvn.cosine.ai.logic.propositional.inference
          *         otherwise.
          */
 
-        public bool dpll(Set<Clause> clauses, IQueue<PropositionSymbol> symbols,
-                Model model)
+        private bool currIsCancelled = false;
+
+        public void SetCurrIsCancelled(bool value)
+        {
+            currIsCancelled = value;
+        }
+
+        public bool GetCurrIsCancelled()
+        {
+            return currIsCancelled;
+        }
+
+        public bool dpll(ISet<Clause> clauses, IQueue<PropositionSymbol> symbols, Model model)
         {
             // if every clause in clauses is true in model then return true
-            if (everyClauseTrue(clauses, model))
+            if (everyClauseTrue(clauses, model).Value)
                 return true;
 
             // if some clause in clauses is false in model then return false
-            if (someClauseFalse(clauses, model) || Tasks.currIsCancelled())
+            if (someClauseFalse(clauses, model) || currIsCancelled)
                 return false;
 
             // P, value <- FIND-PURE-SYMBOL(symbols, clauses, model)
@@ -201,7 +212,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             // symbols
             ISet<PropositionSymbol> candidatePurePositiveSymbols = Factory.CreateSet<PropositionSymbol>();
             ISet<PropositionSymbol> candidatePureNegativeSymbols = Factory.CreateSet<PropositionSymbol>();
-            for (Clause c : clauses)
+            foreach (Clause c in clauses)
             {
                 // Algorithm can ignore clauses that are already known to be true
                 if (true.Equals(model.determineValue(c)))
@@ -210,16 +221,16 @@ namespace tvn.cosine.ai.logic.propositional.inference
                 }
                 // Collect possible candidates, removing all candidates that are
                 // not part of the input list of symbols to be considered.
-                for (PropositionSymbol p : c.getPositiveSymbols())
+                foreach (PropositionSymbol p in c.getPositiveSymbols())
                 {
-                    if (symbolsToKeep.contains(p))
+                    if (symbolsToKeep.Contains(p))
                     {
                         candidatePurePositiveSymbols.Add(p);
                     }
                 }
-                for (PropositionSymbol n : c.getNegativeSymbols())
+                foreach (PropositionSymbol n in c.getNegativeSymbols())
                 {
-                    if (symbolsToKeep.contains(n))
+                    if (symbolsToKeep.Contains(n))
                     {
                         candidatePureNegativeSymbols.Add(n);
                     }
@@ -228,10 +239,10 @@ namespace tvn.cosine.ai.logic.propositional.inference
 
             // Determine the overlap/intersection between the positive and negative
             // candidates
-            for (PropositionSymbol s : symbolsToKeep)
+            foreach (PropositionSymbol s in symbolsToKeep)
             {
                 // Remove the non-pure symbols
-                if (candidatePurePositiveSymbols.contains(s) && candidatePureNegativeSymbols.contains(s))
+                if (candidatePurePositiveSymbols.Contains(s) && candidatePureNegativeSymbols.Contains(s))
                 {
                     candidatePurePositiveSymbols.Remove(s);
                     candidatePureNegativeSymbols.Remove(s);
@@ -239,15 +250,13 @@ namespace tvn.cosine.ai.logic.propositional.inference
             }
 
             // We have an implicit preference for positive pure symbols
-            if (candidatePurePositiveSymbols.size() > 0)
+            if (candidatePurePositiveSymbols.Size() > 0)
             {
-                result = new Pair<PropositionSymbol, bool?>(
-                        candidatePurePositiveSymbols.iterator().next(), true);
+                result = new Pair<PropositionSymbol, bool?>(Util.first(candidatePurePositiveSymbols), true);
             } // We have a negative pure symbol
-            else if (candidatePureNegativeSymbols.size() > 0)
+            else if (candidatePureNegativeSymbols.Size() > 0)
             {
-                result = new Pair<PropositionSymbol, bool?>(
-                        candidatePureNegativeSymbols.iterator().next(), false);
+                result = new Pair<PropositionSymbol, bool?>(Util.first(candidatePureNegativeSymbols), false);
             }
 
             return result;
@@ -283,18 +292,17 @@ namespace tvn.cosine.ai.logic.propositional.inference
         {
             Pair<PropositionSymbol, bool?> result = null;
 
-            for (Clause c : clauses)
+            foreach (Clause c in clauses)
             {
                 // if clauses value is currently unknown
                 // (i.e. means known literals are false)
                 if (model.determineValue(c) == null)
                 {
                     Literal unassigned = null;
-                    // Default definition of a unit clause is a clause
-                    // with just one literal
+                    // Default definition of a unit clause is a clause with just one literal
                     if (c.isUnitClause())
                     {
-                        unassigned = c.getLiterals().iterator().next();
+                        unassigned = Util.first(c.getLiterals());
                     }
                     else
                     {
@@ -304,9 +312,9 @@ namespace tvn.cosine.ai.logic.propositional.inference
                         // Note: at this point we already know the clause is not
                         // true, so just need to determine if the clause has a
                         // single unassigned literal
-                        for (Literal l : c.getLiterals())
+                        foreach (Literal l in c.getLiterals())
                         {
-                            Boolean value = model.getValue(l.getAtomicSentence());
+                            bool? value = model.getValue(l.getAtomicSentence());
                             if (value == null)
                             {
                                 // The first unassigned literal encountered.
@@ -342,14 +350,14 @@ namespace tvn.cosine.ai.logic.propositional.inference
             return result;
         }
 
-        protected bool everyClauseTrue(Set<Clause> clauses, Model model)
+        protected bool? everyClauseTrue(ISet<Clause> clauses, Model model)
         {
             return model.satisfies(clauses);
         }
 
-        protected bool someClauseFalse(Set<Clause> clauses, Model model)
+        protected bool someClauseFalse(ISet<Clause> clauses, Model model)
         {
-            for (Clause c : clauses)
+            foreach (Clause c in clauses)
             {
                 // Only 1 needs to be false
                 if (false.Equals(model.determineValue(c)))
@@ -361,12 +369,10 @@ namespace tvn.cosine.ai.logic.propositional.inference
         }
 
         // symbols - P
-        protected IQueue<PropositionSymbol> minus(IQueue<PropositionSymbol> symbols,
-                PropositionSymbol p)
+        protected IQueue<PropositionSymbol> minus(IQueue<PropositionSymbol> symbols, PropositionSymbol p)
         {
-            IQueue<PropositionSymbol> result = Factory.CreateQueue<PropositionSymbol>(
-                    symbols.size());
-            for (PropositionSymbol s : symbols)
+            IQueue<PropositionSymbol> result = Factory.CreateQueue<PropositionSymbol>();
+            foreach (PropositionSymbol s in symbols)
             {
                 // symbols - P
                 if (!p.Equals(s))

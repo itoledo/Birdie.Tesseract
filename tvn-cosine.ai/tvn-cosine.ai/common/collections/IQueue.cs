@@ -23,5 +23,6 @@
         T[] ToArray();
         void Reverse();
         IQueue<T> subList(int startPos, int endPos);
+        void Set(int position, T item);
     }
 }

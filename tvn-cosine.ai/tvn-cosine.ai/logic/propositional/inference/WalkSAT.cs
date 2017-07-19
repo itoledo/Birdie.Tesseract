@@ -1,4 +1,10 @@
-﻿namespace tvn.cosine.ai.logic.propositional.inference
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 263.<br>
@@ -45,7 +51,7 @@
          * 
          * @return a satisfying model or failure (null).
          */
-        public Model walkSAT(Set<Clause> clauses, double p, int maxFlips)
+        public Model walkSAT(ISet<Clause> clauses, double p, int maxFlips)
         {
             assertLegalProbability(p);
 
@@ -55,7 +61,7 @@
             for (int i = 0; i < maxFlips || maxFlips < 0; i++)
             {
                 // if model satisfies clauses then return model
-                if (model.satisfies(clauses))
+                if (model.satisfies(clauses).Value)
                 {
                     return model;
                 }
@@ -83,17 +89,13 @@
             return null;
         }
 
-        //
-        // SUPPORTING CODE
-        //
-        private Random random = new Random();
+        private IRandom random = new DefaultRandom();
 
         /**
          * Default Constructor.
          */
         public WalkSAT()
-        {
-        }
+        { }
 
         /**
          * Constructor.
@@ -101,7 +103,7 @@
          * @param random
          *            the random generator to be used by the algorithm.
          */
-        public WalkSAT(Random random)
+        public WalkSAT(IRandom random)
         {
             this.random = random;
         }
@@ -117,21 +119,21 @@
             }
         }
 
-        protected Model randomAssignmentToSymbolsInClauses(Set<Clause> clauses)
+        protected Model randomAssignmentToSymbolsInClauses(ISet<Clause> clauses)
         {
             // Collect the symbols in clauses
             ISet<PropositionSymbol> symbols = Factory.CreateSet<PropositionSymbol>();
-            for (Clause c : clauses)
+            foreach (Clause c in clauses)
             {
                 symbols.AddAll(c.getSymbols());
             }
 
             // Make initial set of assignments
             IMap<PropositionSymbol, bool?> values = Factory.CreateMap<PropositionSymbol, bool?>();
-            for (PropositionSymbol symbol : symbols)
+            foreach (PropositionSymbol symbol in symbols)
             {
                 // a random assignment of true/false to the symbols in clauses
-                values.Put(symbol, random.nextBoolean());
+                values.Put(symbol, random.NextBoolean());
             }
 
             Model result = new Model(values);
@@ -139,11 +141,11 @@
             return result;
         }
 
-        protected Clause randomlySelectFalseClause(Set<Clause> clauses, Model model)
+        protected Clause randomlySelectFalseClause(ISet<Clause> clauses, Model model)
         {
             // Collect the clauses that are false in the model
             IQueue<Clause> falseClauses = Factory.CreateQueue<Clause>();
-            for (Clause c : clauses)
+            foreach (Clause c in clauses)
             {
                 if (false.Equals(model.determineValue(c)))
                 {
@@ -152,7 +154,7 @@
             }
 
             // a randomly selected clause from clauses that is false
-            Clause result = falseClauses.Get(random.nextInt(falseClauses.size()));
+            Clause result = falseClauses.Get(random.Next(falseClauses.Size()));
             return result;
         }
 
@@ -162,24 +164,22 @@
             ISet<PropositionSymbol> symbols = clause.getSymbols();
 
             // a randomly selected symbol from clause
-            PropositionSymbol result = (Factory.CreateQueue<PropositionSymbol>(symbols))
-                    .Get(random.nextInt(symbols.size()));
+            PropositionSymbol result = (Factory.CreateQueue<PropositionSymbol>(symbols)).Get(random.Next(symbols.Size()));
             return result;
         }
 
-        protected Model flipSymbolInClauseMaximizesNumberSatisfiedClauses(
-                Clause clause, ISet<Clause> clauses, Model model)
+        protected Model flipSymbolInClauseMaximizesNumberSatisfiedClauses(Clause clause, ISet<Clause> clauses, Model model)
         {
             Model result = model;
 
             // all the symbols in clause
             ISet<PropositionSymbol> symbols = clause.getSymbols();
             int maxClausesSatisfied = -1;
-            for (PropositionSymbol symbol : symbols)
+            foreach (PropositionSymbol symbol in symbols)
             {
                 Model flippedModel = result.flip(symbol);
                 int numberClausesSatisfied = 0;
-                for (Clause c : clauses)
+                foreach (Clause c in clauses)
                 {
                     if (true.Equals(flippedModel.determineValue(c)))
                     {
@@ -191,7 +191,7 @@
                 {
                     result = flippedModel;
                     maxClausesSatisfied = numberClausesSatisfied;
-                    if (numberClausesSatisfied == clauses.size())
+                    if (numberClausesSatisfied == clauses.Size())
                     {
                         // i.e. satisfies all clauses
                         break; // this is our goal.

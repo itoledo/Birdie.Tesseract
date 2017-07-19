@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.propositional.parsing.ast
+﻿using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.common;
+
+namespace tvn.cosine.ai.logic.propositional.parsing.ast
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
@@ -20,158 +23,158 @@
      */
     public class PropositionSymbol : AtomicSentence
     {
-    //
-    public static final string TRUE_SYMBOL  = "True";
-	public static final string FALSE_SYMBOL = "False";
-	public static final PropositionSymbol TRUE  = new PropositionSymbol(TRUE_SYMBOL);
-    public static final PropositionSymbol FALSE = new PropositionSymbol(FALSE_SYMBOL);
-    //
-    private string symbol;
+        //
+        public const string TRUE_SYMBOL = "True";
+        public const string FALSE_SYMBOL = "False";
+        public static readonly PropositionSymbol TRUE = new PropositionSymbol(TRUE_SYMBOL);
+        public static readonly PropositionSymbol FALSE = new PropositionSymbol(FALSE_SYMBOL);
+        //
+        private string symbol;
 
-    /**
-	 * Constructor.
-	 * 
-	 * @param symbol
-	 *            the symbol uniquely identifying the proposition.
-	 */
-    public PropositionSymbol(string symbol)
-    {
-        // Ensure differing cases for the 'True' and 'False'
-        // propositional constants are represented in a canonical form.
-        if (TRUE_SYMBOL.equalsIgnoreCase(symbol))
+        /**
+         * Constructor.
+         * 
+         * @param symbol
+         *            the symbol uniquely identifying the proposition.
+         */
+        public PropositionSymbol(string symbol)
         {
-            this.symbol = TRUE_SYMBOL;
+            // Ensure differing cases for the 'True' and 'False'
+            // propositional constants are represented in a canonical form.
+            if (TRUE_SYMBOL.ToLower().Equals(symbol.ToLower()))
+            {
+                this.symbol = TRUE_SYMBOL;
+            }
+            else if (FALSE_SYMBOL.ToLower().Equals(symbol.ToLower()))
+            {
+                this.symbol = FALSE_SYMBOL;
+            }
+            else if (isPropositionSymbol(symbol))
+            {
+                this.symbol = symbol;
+            }
+            else
+            {
+                throw new IllegalArgumentException("Not a legal proposition symbol: " + symbol);
+            }
         }
-        else if (FALSE_SYMBOL.equalsIgnoreCase(symbol))
+
+        /**
+         * 
+         * @return true if this is the always 'True' proposition symbol, false
+         *         otherwise.
+         */
+        public bool isAlwaysTrue()
         {
-            this.symbol = FALSE_SYMBOL;
+            return TRUE_SYMBOL.Equals(symbol);
         }
-        else if (isPropositionSymbol(symbol))
+
+        /**
+         * 
+         * @return true if the symbol passed in is the always 'True' proposition
+         *         symbol, false otherwise.
+         */
+        public static bool isAlwaysTrueSymbol(string symbol)
         {
-            this.symbol = symbol;
+            return TRUE_SYMBOL.ToLower().Equals(symbol.ToLower());
         }
-        else
+
+        /**
+         * 
+         * @return true if this is the always 'False' proposition symbol, false
+         *         other.
+         */
+        public bool isAlwaysFalse()
         {
-            throw new IllegalArgumentException("Not a legal proposition symbol: " + symbol);
+            return FALSE_SYMBOL.Equals(symbol);
         }
-    }
 
-    /**
-	 * 
-	 * @return true if this is the always 'True' proposition symbol, false
-	 *         otherwise.
-	 */
-    public bool isAlwaysTrue()
-    {
-        return TRUE_SYMBOL.Equals(symbol);
-    }
-
-    /**
-	 * 
-	 * @return true if the symbol passed in is the always 'True' proposition
-	 *         symbol, false otherwise.
-	 */
-    public static bool isAlwaysTrueSymbol(string symbol)
-    {
-        return TRUE_SYMBOL.equalsIgnoreCase(symbol);
-    }
-
-    /**
-	 * 
-	 * @return true if this is the always 'False' proposition symbol, false
-	 *         other.
-	 */
-    public bool isAlwaysFalse()
-    {
-        return FALSE_SYMBOL.Equals(symbol);
-    }
-
-    /**
-	 * 
-	 * @return true if the symbol passed in is the always 'False' proposition
-	 *         symbol, false other.
-	 */
-    public static bool isAlwaysFalseSymbol(string symbol)
-    {
-        return FALSE_SYMBOL.equalsIgnoreCase(symbol);
-    }
-
-    /**
-	 * Determine if the given symbol is a legal proposition symbol.
-	 * 
-	 * @param symbol
-	 *            a symbol to be tested.
-	 * @return true if the given symbol is a legal proposition symbol, false
-	 *         otherwise.
-	 */
-    public static bool isPropositionSymbol(string symbol)
-    {
-        return SourceVersion.isIdentifier(symbol);
-    }
-
-    /**
-	 * Determine if the given character can be at the beginning of a proposition
-	 * symbol.
-	 * 
-	 * @param ch
-	 *            a character.
-	 * @return true if the given character can be at the beginning of a
-	 *         proposition symbol representation, false otherwise.
-	 */
-    public static bool isPropositionSymbolIdentifierStart(char ch)
-    {
-        return Character.isJavaIdentifierStart(ch);
-    }
-
-    /**
-	 * Determine if the given character is part of a proposition symbol.
-	 * 
-	 * @param ch
-	 *            a character.
-	 * @return true if the given character is part of a proposition symbols
-	 *         representation, false otherwise.
-	 */
-    public static bool isPropositionSymbolIdentifierPart(char ch)
-    {
-        return Character.isJavaIdentifierPart(ch);
-    }
-
-    /**
-	 * 
-	 * @return the symbol uniquely identifying the proposition.
-	 */
-    public string getSymbol()
-    {
-        return symbol;
-    }
-
-     
-    public override bool Equals(object o)
-    {
-
-        if (this == o)
+        /**
+         * 
+         * @return true if the symbol passed in is the always 'False' proposition
+         *         symbol, false other.
+         */
+        public static bool isAlwaysFalseSymbol(string symbol)
         {
-            return true;
+            return FALSE_SYMBOL.ToLower().Equals(symbol.ToLower());
         }
-        if ((o == null) || (this.GetType() != o.GetType()))
+
+        /**
+         * Determine if the given symbol is a legal proposition symbol.
+         * 
+         * @param symbol
+         *            a symbol to be tested.
+         * @return true if the given symbol is a legal proposition symbol, false
+         *         otherwise.
+         */
+        public static bool isPropositionSymbol(string symbol)
         {
-            return false;
+            return SourceVersion.isIdentifier(symbol);
         }
-        PropositionSymbol sym = (PropositionSymbol)o;
-        return symbol.Equals(sym.symbol);
 
-    }
+        /**
+         * Determine if the given character can be at the beginning of a proposition
+         * symbol.
+         * 
+         * @param ch
+         *            a character.
+         * @return true if the given character can be at the beginning of a
+         *         proposition symbol representation, false otherwise.
+         */
+        public static bool isPropositionSymbolIdentifierStart(char ch)
+        {
+            return Character.isJavaIdentifierStart(ch);
+        }
 
-     
-    public override int GetHashCode()
-    {
-        return symbol.GetHashCode();
-    }
+        /**
+         * Determine if the given character is part of a proposition symbol.
+         * 
+         * @param ch
+         *            a character.
+         * @return true if the given character is part of a proposition symbols
+         *         representation, false otherwise.
+         */
+        public static bool isPropositionSymbolIdentifierPart(char ch)
+        {
+            return Character.isJavaIdentifierPart(ch);
+        }
 
-     
-    public override string ToString()
-    {
-        return getSymbol();
+        /**
+         * 
+         * @return the symbol uniquely identifying the proposition.
+         */
+        public string getSymbol()
+        {
+            return symbol;
+        }
+
+
+        public override bool Equals(object o)
+        {
+
+            if (this == o)
+            {
+                return true;
+            }
+            if ((o == null) || (this.GetType() != o.GetType()))
+            {
+                return false;
+            }
+            PropositionSymbol sym = (PropositionSymbol)o;
+            return symbol.Equals(sym.symbol);
+
+        }
+
+
+        public override int GetHashCode()
+        {
+            return symbol.GetHashCode();
+        }
+
+
+        public override string ToString()
+        {
+            return getSymbol();
+        }
     }
-}
 }

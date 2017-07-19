@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.propositional.visitors
+﻿using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.visitors
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
@@ -9,48 +12,49 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class BiconditionalElimination : AbstractPLVisitor<object> {
-
-    /**
-	 * Eliminate the biconditionals from a sentence.
-	 * 
-	 * @param sentence
-	 *            a propositional logic sentence.
-	 * @return an equivalent Sentence to the input with all biconditionals
-	 *         eliminated.
-	 */
-    public static Sentence eliminate(Sentence sentence)
+    public class BiconditionalElimination : AbstractPLVisitor<object>
     {
-        BiconditionalElimination eliminator = new BiconditionalElimination();
 
-        Sentence result = sentence.accept(eliminator, null);
-
-        return result;
-    }
-
-     
-    public Sentence visitBinarySentence(ComplexSentence s, object arg)
-    {
-        Sentence result = null;
-        if (s.isBiconditionalSentence())
+        /**
+         * Eliminate the biconditionals from a sentence.
+         * 
+         * @param sentence
+         *            a propositional logic sentence.
+         * @return an equivalent Sentence to the input with all biconditionals
+         *         eliminated.
+         */
+        public static Sentence eliminate(Sentence sentence)
         {
-            // Eliminate <=>, replace &alpha; <=> &beta;
-            // with (&alpha; => &beta;) & (&beta; => &alpha;)
-            Sentence alpha = s.getSimplerSentence(0).accept(this, arg);
-            Sentence beta = s.getSimplerSentence(1).accept(this, arg);
-            Sentence alphaImpliesBeta = new ComplexSentence(
-                    Connective.IMPLICATION, alpha, beta);
-            Sentence betaImpliesAlpha = new ComplexSentence(
-                    Connective.IMPLICATION, beta, alpha);
+            BiconditionalElimination eliminator = new BiconditionalElimination();
 
-            result = new ComplexSentence(Connective.AND, alphaImpliesBeta,
-                    betaImpliesAlpha);
+            Sentence result = sentence.accept(eliminator, null);
+
+            return result;
         }
-        else
+
+
+        public Sentence visitBinarySentence(ComplexSentence s, object arg)
         {
-            result = super.visitBinarySentence(s, arg);
+            Sentence result = null;
+            if (s.isBiconditionalSentence())
+            {
+                // Eliminate <=>, replace &alpha; <=> &beta;
+                // with (&alpha; => &beta;) & (&beta; => &alpha;)
+                Sentence alpha = s.getSimplerSentence(0).accept(this, arg);
+                Sentence beta = s.getSimplerSentence(1).accept(this, arg);
+                Sentence alphaImpliesBeta = new ComplexSentence(
+                        Connective.IMPLICATION, alpha, beta);
+                Sentence betaImpliesAlpha = new ComplexSentence(
+                        Connective.IMPLICATION, beta, alpha);
+
+                result = new ComplexSentence(Connective.AND, alphaImpliesBeta,
+                        betaImpliesAlpha);
+            }
+            else
+            {
+                result = base.visitBinarySentence(s, arg);
+            }
+            return result;
         }
-        return result;
     }
-}
 }

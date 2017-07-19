@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.propositional.inference
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.kb.data;
+
+namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
      * Basic interface to a SAT Solver.
@@ -15,6 +18,6 @@
          *        a CNF representation of the problem to be solved.
          * @return a satisfiable model or null if it cannot be satisfied.
          */
-        Model solve(Set<Clause> cnf);
+        Model solve(ISet<Clause> cnf);
     }
 }

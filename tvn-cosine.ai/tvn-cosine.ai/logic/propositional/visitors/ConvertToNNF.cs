@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.logic.propositional.visitors
+﻿using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.visitors
 {
     /**
      * Convert a Sentence into an equivalent Negation Normal Form (NNF) Sentence. A
@@ -9,8 +11,7 @@
      * 
      */
     public class ConvertToNNF
-    {
-
+    { 
         /**
          * Returns the specified sentence in its logically equivalent negation
          * normal form.
@@ -26,10 +27,8 @@
             Sentence result = null;
 
             Sentence biconditionalsRemoved = BiconditionalElimination.eliminate(s);
-            Sentence implicationsRemoved = ImplicationElimination
-                    .eliminate(biconditionalsRemoved);
-            Sentence notsMovedIn = MoveNotInwards
-                    .moveNotsInward(implicationsRemoved);
+            Sentence implicationsRemoved = ImplicationElimination.eliminate(biconditionalsRemoved);
+            Sentence notsMovedIn = MoveNotInwards.moveNotsInward(implicationsRemoved);
 
             result = notsMovedIn;
 

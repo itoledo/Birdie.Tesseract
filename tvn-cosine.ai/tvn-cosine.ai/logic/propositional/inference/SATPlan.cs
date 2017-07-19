@@ -1,4 +1,10 @@
-﻿namespace tvn.cosine.ai.logic.propositional.inference
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
+
+namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 261.<br>
@@ -49,14 +55,13 @@
          */
         public IQueue<Action> satPlan(Describe init, Describe transition, Describe goal, int tMax)
         {
-
             // for t = 0 to T<sub>max</sub> do
             for (int t = 0; t <= tMax; t++)
             {
                 // cnf &larr;  TRANSLATE-TO-SAT(init, transition, goal, t)
                 ISet<Clause> cnf = translateToSAT(init, transition, goal, t);
                 // model &larr; SAT-SOLVER(cnf)
-                Model model = satSolver.solve(cnf);
+                kb.data.Model model = satSolver.solve(cnf);
                 // if model is not null then
                 if (model != null)
                 {
@@ -67,15 +72,13 @@
 
             // return failure
             return null;
-        }
+        } 
 
-        //
-        // SUPPORTING CODE
         /**
          * Interface to be implemented to describe different aspects of a given problem.
          *
          */
-        interface Describe
+        public interface Describe
         {
             Sentence assertions(int t);
         }
@@ -84,9 +87,9 @@
          * Interface to be implemented to extract a solution from a satisfiable model.
          *
          */
-        interface SolutionExtractor
+        public interface SolutionExtractor
         {
-            IQueue<Action> extractSolution(Model model);
+            IQueue<Action> extractSolution(kb.data.Model model);
         }
 
         private SATSolver satSolver = null;
@@ -97,10 +100,7 @@
             this.satSolver = satSolver;
             this.solutionExtractor = solutionExtractor;
         }
-
-        //
-        // PROTECTED
-        //
+         
         protected ISet<Clause> translateToSAT(Describe init, Describe transition, Describe goal, int t)
         {
             Sentence s = ComplexSentence.newConjunction(init.assertions(t), transition.assertions(t), goal.assertions(t));

@@ -1,4 +1,12 @@
-﻿namespace tvn.cosine.ai.logic.propositional.inference
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 258.<br>
@@ -67,16 +75,15 @@
             IMap<PropositionSymbol, bool?> inferred = initializeInferred(kb);
             // agenda <- a queue of symbols, initially symbols known to be true in
             // KB
-            Queue<PropositionSymbol> agenda = initializeAgenda(count);
+            IQueue<PropositionSymbol> agenda = initializeAgenda(count);
             // Note: an index for p to the clauses where p appears in the premise
-            IMap<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = initializeIndex(
-                    count, inferred);
+            IMap<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = initializeIndex(count, inferred);
 
             // while agenda is not empty do
-            while (!agenda.isEmpty())
+            while (!agenda.IsEmpty())
             {
                 // p <- Pop(agenda)
-                PropositionSymbol p = agenda.Remove();
+                PropositionSymbol p = agenda.Pop();
                 // if p = q then return true
                 if (p.Equals(q))
                 {
@@ -88,7 +95,7 @@
                     // inferred[p] <- true
                     inferred.Put(p, true);
                     // for each clause c in KB where p is in c.PREMISE do
-                    for (Clause c : pToClausesWithPInPremise.Get(p))
+                    foreach (Clause c in pToClausesWithPInPremise.Get(p))
                     {
                         // decrement count[c]
                         decrement(count, c);
@@ -105,30 +112,20 @@
             return false;
         }
 
-        //
-        // SUPPORTING CODE
-        //
-
-        //
-        // PROTECTED
-        //
         protected IMap<Clause, int> initializeCount(KnowledgeBase kb)
         {
             // count <- a table, where count[c] is the number of symbols in c's
             // premise
             IMap<Clause, int> count = Factory.CreateMap<Clause, int>();
 
-            ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(
-                    kb.asSentence()).getClauses();
-            for (Clause c : clauses)
+            ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(kb.asSentence()).getClauses();
+            foreach (Clause c in clauses)
             {
                 if (!c.isDefiniteClause())
                 {
-                    throw new IllegalArgumentException(
-                            "Knowledge Base contains non-definite clauses:" + c);
+                    throw new IllegalArgumentException("Knowledge Base contains non-definite clauses:" + c);
                 }
-                // Note: # of negative literals is equivalent to the number of
-                // symbols in c's premise
+                // Note: # of negative literals is equivalent to the number of symbols in c's premise
                 count.Put(c, c.getNumberNegativeLiterals());
             }
 
@@ -140,8 +137,7 @@
             // inferred <- a table, where inferred[s] is initially false for all
             // symbols
             IMap<PropositionSymbol, bool?> inferred = Factory.CreateMap<PropositionSymbol, bool?>();
-            for (PropositionSymbol p : SymbolCollector.getSymbolsFrom(kb
-                    .asSentence()))
+            foreach (PropositionSymbol p in SymbolCollector.getSymbolsFrom(kb.asSentence()))
             {
                 inferred.Put(p, false);
             }
@@ -150,12 +146,11 @@
 
         // Note: at the point of calling this routine, count will contain all the
         // clauses in KB.
-        protected Queue<PropositionSymbol> initializeAgenda(IMap<Clause, int> count)
+        protected IQueue<PropositionSymbol> initializeAgenda(IMap<Clause, int> count)
         {
-            // agenda <- a queue of symbols, initially symbols known to be true in
-            // KB
-            Queue<PropositionSymbol> agenda = Factory.CreateQueue<PropositionSymbol>();
-            for (Clause c : count.GetKeys())
+            // agenda <- a queue of symbols, initially symbols known to be true in KB
+            IQueue<PropositionSymbol> agenda = Factory.CreateQueue<PropositionSymbol>();
+            foreach (Clause c in count.GetKeys())
             {
                 // No premise just a conclusion, then we know its true
                 if (c.getNumberNegativeLiterals() == 0)
@@ -168,17 +163,16 @@
 
         // Note: at the point of calling this routine, count will contain all the
         // clauses in KB while inferred will contain all the proposition symbols.
-        protected IMap<PropositionSymbol, ISet<Clause>> initializeIndex(
-                IMap<Clause, int> count, IMap<PropositionSymbol, bool?> inferred)
+        protected IMap<PropositionSymbol, ISet<Clause>> initializeIndex(IMap<Clause, int> count, IMap<PropositionSymbol, bool?> inferred)
         {
             IMap<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = Factory.CreateMap<PropositionSymbol, ISet<Clause>>();
-            for (PropositionSymbol p : inferred.GetKeys())
+            foreach (PropositionSymbol p in inferred.GetKeys())
             {
                 ISet<Clause> clausesWithPInPremise = Factory.CreateSet<Clause>();
-                for (Clause c : count.GetKeys())
+                foreach (Clause c in count.GetKeys())
                 {
                     // Note: The negative symbols comprise the premise
-                    if (c.getNegativeSymbols().contains(p))
+                    if (c.getNegativeSymbols().Contains(p))
                     {
                         clausesWithPInPremise.Add(c);
                     }
@@ -202,7 +196,7 @@
             // Note: the conclusion is from the single positive
             // literal in the definite clause (which we are
             // restricted to).
-            return c.getPositiveSymbols().iterator().next();
+            return Util.first(c.getPositiveSymbols());
         }
     }
 }

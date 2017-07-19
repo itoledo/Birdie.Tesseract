@@ -1,10 +1,17 @@
-﻿namespace tvn.cosine.ai.logic.propositional.kb
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
+
+namespace tvn.cosine.ai.logic.propositional.kb
 {
     public class KnowledgeBase
     {
-        private IQueue<Sentence> sentences = Factory.CreateQueue<>();
-        private ConjunctionOfClauses asCNF = new ConjunctionOfClauses(Collections.emptySet());
-        private ISet<PropositionSymbol> symbols = Factory.CreateSet<>();
+        private IQueue<Sentence> sentences = Factory.CreateQueue<Sentence>();
+        private ConjunctionOfClauses _asCNF = new ConjunctionOfClauses(Factory.CreateSet<Clause>());
+        private ISet<PropositionSymbol> symbols = Factory.CreateSet<PropositionSymbol>();
         private PLParser parser = new PLParser();
 
 
@@ -28,10 +35,10 @@
          */
         public void tell(Sentence aSentence)
         {
-            if (!(sentences.contains(aSentence)))
+            if (!(sentences.Contains(aSentence)))
             {
                 sentences.Add(aSentence);
-                asCNF = asCNF.extend(ConvertToConjunctionOfClauses.convert(aSentence).getClauses());
+                _asCNF = _asCNF.extend(ConvertToConjunctionOfClauses.convert(aSentence).getClauses());
                 symbols.AddAll(SymbolCollector.getSymbolsFrom(aSentence));
             }
         }
@@ -43,9 +50,9 @@
          * @param percepts
          *            what the agent perceives
          */
-        public void tellAll(String[] percepts)
+        public void tellAll(string[] percepts)
         {
-            for (string percept : percepts)
+            foreach (string percept in percepts)
             {
                 tell(percept);
             }
@@ -59,7 +66,7 @@
          */
         public int size()
         {
-            return sentences.size();
+            return sentences.Size();
         }
 
         /**
@@ -80,7 +87,7 @@
          */
         public ISet<Clause> asCNF()
         {
-            return asCNF.getClauses();
+            return _asCNF.getClauses();
         }
 
         /**
@@ -111,10 +118,10 @@
             return new TTEntails().ttEntails(this, alpha);
         }
 
-         
+
         public override string ToString()
         {
-            return sentences.isEmpty() ? "" : asSentence().ToString();
+            return sentences.IsEmpty() ? "" : asSentence().ToString();
         }
 
         /**

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.logic.propositional.parsing.ast
+﻿using tvn.cosine.ai.common.exceptions;
+
+namespace tvn.cosine.ai.logic.propositional.parsing.ast
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
@@ -10,168 +12,165 @@
      * @author Ravi Mohan 
      */
     public class ComplexSentence : Sentence
-    {
+    { 
+        private Connective connective;
+        private Sentence[] simplerSentences;
+        // Lazy initialize these values.
+        private int cachedHashCode = -1;
+        private string cachedConcreteSyntax = null;
 
-
-    private Connective connective;
-    private Sentence[] simplerSentences;
-    // Lazy initialize these values.
-    private int cachedHashCode = -1;
-    private string cachedConcreteSyntax = null;
-
-    /**
-	 * Constructor.
-	 * 
-	 * @param connective
-	 *            the complex sentence's connective.
-	 * @param sentences
-	 *            the simpler sentences making up the complex sentence.
-	 */
-    public ComplexSentence(Connective connective, Sentence...sentences)
-    {
-        // Assertion checks
-        assertLegalArguments(connective, sentences);
-
-        this.connective = connective;
-        simplerSentences = new Sentence[sentences.Length];
-        System.arraycopy(sentences, 0, simplerSentences, 0, sentences.Length);
-    }
-
-    /**
-	 * Convenience constructor for binary sentences.
-	 * 
-	 * @param sentenceL
-	 * 			the left hand sentence.
-	 * @param binaryConnective
-	 * 			the binary connective.
-	 * @param sentenceR
-	 *  		the right hand sentence.
-	 */
-    public ComplexSentence(Sentence sentenceL, Connective binaryConnective, Sentence sentenceR)
-    {
-        this(binaryConnective, sentenceL, sentenceR);
-    }
-
-     
-    public Connective getConnective()
-    {
-        return connective;
-    }
-
-     
-    public int getNumberSimplerSentences()
-    {
-        return simplerSentences.Length;
-    }
-
-     
-    public Sentence getSimplerSentence(int offset)
-    {
-        return simplerSentences[offset];
-    }
-
-     
-    public override bool Equals(object o)
-    {
-        if (this == o)
+        /**
+         * Constructor.
+         * 
+         * @param connective
+         *            the complex sentence's connective.
+         * @param sentences
+         *            the simpler sentences making up the complex sentence.
+         */
+        public ComplexSentence(Connective connective, params Sentence[] sentences)
         {
-            return true;
-        }
-        if ((o == null) || (this.GetType() != o.GetType()))
-        {
-            return false;
+            // Assertion checks
+            assertLegalArguments(connective, sentences);
+
+            this.connective = connective;
+            simplerSentences = new Sentence[sentences.Length];
+            System.Array.Copy(sentences, 0, simplerSentences, 0, sentences.Length);
         }
 
-        bool result = false;
-        ComplexSentence other = (ComplexSentence)o;
-        if (other.GetHashCode() == this.GetHashCode())
+        /**
+         * Convenience constructor for binary sentences.
+         * 
+         * @param sentenceL
+         * 			the left hand sentence.
+         * @param binaryConnective
+         * 			the binary connective.
+         * @param sentenceR
+         *  		the right hand sentence.
+         */
+        public ComplexSentence(Sentence sentenceL, Connective binaryConnective, Sentence sentenceR)
+            : this(binaryConnective, sentenceL, sentenceR)
+        { }
+
+
+        public override Connective getConnective()
         {
-            if (other.getConnective().Equals(this.getConnective())
-                    && other.getNumberSimplerSentences() == this
-                            .getNumberSimplerSentences())
+            return connective;
+        }
+
+
+        public override int getNumberSimplerSentences()
+        {
+            return simplerSentences.Length;
+        }
+
+
+        public override Sentence getSimplerSentence(int offset)
+        {
+            return simplerSentences[offset];
+        }
+
+
+        public override bool Equals(object o)
+        {
+            if (this == o)
             {
-                // connective and # of simpler sentences match
-                // assume match and then test each simpler sentence
-                result = true;
-                for (int i = 0; i < this.getNumberSimplerSentences(); i++)
+                return true;
+            }
+            if ((o == null) || (this.GetType() != o.GetType()))
+            {
+                return false;
+            }
+
+            bool result = false;
+            ComplexSentence other = (ComplexSentence)o;
+            if (other.GetHashCode() == this.GetHashCode())
+            {
+                if (other.getConnective().Equals(this.getConnective())
+                        && other.getNumberSimplerSentences() == this
+                                .getNumberSimplerSentences())
                 {
-                    if (!other.getSimplerSentence(i).Equals(
-                            this.getSimplerSentence(i)))
+                    // connective and # of simpler sentences match
+                    // assume match and then test each simpler sentence
+                    result = true;
+                    for (int i = 0; i < this.getNumberSimplerSentences(); i++)
                     {
-                        result = false;
-                        break;
+                        if (!other.getSimplerSentence(i).Equals(
+                                this.getSimplerSentence(i)))
+                        {
+                            result = false;
+                            break;
+                        }
                     }
                 }
             }
+
+            return result;
         }
 
-        return result;
+
+        public override int GetHashCode()
+        {
+            if (cachedHashCode == -1)
+            {
+                cachedHashCode = 17 * getConnective().GetHashCode();
+                foreach (Sentence s in simplerSentences)
+                {
+                    cachedHashCode = (cachedHashCode * 37) + s.GetHashCode();
+                }
+            }
+
+            return cachedHashCode;
+        }
+
+
+        public override string ToString()
+        {
+            if (cachedConcreteSyntax == null)
+            {
+                if (isUnarySentence())
+                {
+                    cachedConcreteSyntax = getConnective()
+                            + bracketSentenceIfNecessary(getConnective(), getSimplerSentence(0));
+                }
+                else if (isBinarySentence())
+                {
+                    cachedConcreteSyntax = bracketSentenceIfNecessary(getConnective(), getSimplerSentence(0))
+                            + " "
+                            + getConnective()
+                            + " "
+                            + bracketSentenceIfNecessary(getConnective(), getSimplerSentence(1));
+                }
+            }
+            return cachedConcreteSyntax;
+        }
+
+        //
+        // PRIVATE
+        //
+        private void assertLegalArguments(Connective connective, params Sentence[] sentences)
+        {
+            if (connective == null)
+            {
+                throw new IllegalArgumentException("Connective must be specified.");
+            }
+            if (sentences == null)
+            {
+                throw new IllegalArgumentException("> 0 simpler sentences must be specified.");
+            }
+            if (connective == Connective.NOT)
+            {
+                if (sentences.Length != 1)
+                {
+                    throw new IllegalArgumentException("A not (~) complex sentence only take 1 simpler sentence not " + sentences.Length);
+                }
+            }
+            else
+            {
+                if (sentences.Length != 2)
+                {
+                    throw new IllegalArgumentException("Connective is binary (" + connective + ") but only " + sentences.Length + " simpler sentences provided");
+                }
+            }
+        }
     }
-
-     
-    public override int GetHashCode()
-    {
-        if (cachedHashCode == -1)
-        {
-            cachedHashCode = 17 * getConnective().GetHashCode();
-            for (Sentence s : simplerSentences)
-            {
-                cachedHashCode = (cachedHashCode * 37) + s.GetHashCode();
-            }
-        }
-
-        return cachedHashCode;
-    }
-
-     
-    public override string ToString()
-    {
-        if (cachedConcreteSyntax == null)
-        {
-            if (isUnarySentence())
-            {
-                cachedConcreteSyntax = getConnective()
-                        + bracketSentenceIfNecessary(getConnective(), getSimplerSentence(0));
-            }
-            else if (isBinarySentence())
-            {
-                cachedConcreteSyntax = bracketSentenceIfNecessary(getConnective(), getSimplerSentence(0))
-                        + " "
-                        + getConnective()
-                        + " "
-                        + bracketSentenceIfNecessary(getConnective(), getSimplerSentence(1));
-            }
-        }
-        return cachedConcreteSyntax;
-    }
-
-    //
-    // PRIVATE
-    //
-    private void assertLegalArguments(Connective connective, Sentence...sentences)
-    {
-        if (connective == null)
-        {
-            throw new IllegalArgumentException("Connective must be specified.");
-        }
-        if (sentences == null)
-        {
-            throw new IllegalArgumentException("> 0 simpler sentences must be specified.");
-        }
-        if (connective == Connective.NOT)
-        {
-            if (sentences.Length != 1)
-            {
-                throw new IllegalArgumentException("A not (~) complex sentence only take 1 simpler sentence not " + sentences.Length);
-            }
-        }
-        else
-        {
-            if (sentences.Length != 2)
-            {
-                throw new IllegalArgumentException("Connective is binary (" + connective + ") but only " + sentences.Length + " simpler sentences provided");
-            }
-        }
-    }
-}
 }

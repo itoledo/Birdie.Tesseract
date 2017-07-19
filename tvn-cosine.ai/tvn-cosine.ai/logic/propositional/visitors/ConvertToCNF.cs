@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.logic.propositional.visitors
+﻿using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.visitors
 {
     /**
      * Convert a Sentence into an equivalent Conjunctive Normal Form (CNF) Sentence.

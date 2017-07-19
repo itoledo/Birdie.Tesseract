@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.logic.propositional.kb.data
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.kb.data
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): pages 240, 245.<br>
@@ -14,163 +18,142 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class Model : PLVisitor<Boolean, bool?> {
-
-
-    private HashMap<PropositionSymbol, bool?> assignments = Factory.CreateMap<PropositionSymbol, bool?>();
-
-    /**
-	 * Default Constructor.
-	 */
-    public Model()
+    public class Model : PLVisitor<bool?, bool?>
     {
-    }
+        private IMap<PropositionSymbol, bool?> assignments = Factory.CreateMap<PropositionSymbol, bool?>();
 
-    public Model(IMap<PropositionSymbol, bool?> values)
-    {
-        assignments.putAll(values);
-    }
+        /**
+         * Default Constructor.
+         */
+        public Model()
+        { }
 
-    public Boolean getValue(PropositionSymbol symbol)
-    {
-        return assignments.Get(symbol);
-    }
-
-    public bool isTrue(PropositionSymbol symbol)
-    {
-        return true.Equals(assignments.Get(symbol));
-    }
-
-    public bool isFalse(PropositionSymbol symbol)
-    {
-        return false.Equals(assignments.Get(symbol));
-    }
-
-    public Model union(PropositionSymbol symbol, bool b)
-    {
-        Model m = new Model();
-        m.assignments.putAll(this.assignments);
-        m.assignments.Put(symbol, b);
-        return m;
-    }
-
-    public Model unionInPlace(PropositionSymbol symbol, bool b)
-    {
-        assignments.Put(symbol, b);
-        return this;
-    }
-
-    public bool remove(PropositionSymbol p)
-    {
-        return assignments.Remove(p);
-    }
-
-    public bool isTrue(Sentence s)
-    {
-        return true.Equals(s.accept(this, null));
-    }
-
-    public bool isFalse(Sentence s)
-    {
-        return false.Equals(s.accept(this, null));
-    }
-
-    public bool isUnknown(Sentence s)
-    {
-        return null == s.accept(this, null);
-    }
-
-    public Model flip(PropositionSymbol s)
-    {
-        if (isTrue(s))
+        public Model(IMap<PropositionSymbol, bool?> values)
         {
-            return union(s, false);
+            assignments.PutAll(values);
         }
-        if (isFalse(s))
+
+        public bool? getValue(PropositionSymbol symbol)
         {
-            return union(s, true);
+            return assignments.Get(symbol);
         }
-        return this;
-    }
 
-    public ISet<PropositionSymbol> getAssignedSymbols()
-    {
-        return Factory.CreateReadOnlySet<>(assignments.GetKeys());
-    }
-
-    /**
-	 * Determine if the model satisfies a set of clauses.
-	 * 
-	 * @param clauses
-	 *            a set of propositional clauses.
-	 * @return if the model satisfies the clauses, false otherwise.
-	 */
-    public bool satisfies(Set<Clause> clauses)
-    {
-        for (Clause c : clauses)
+        public bool isTrue(PropositionSymbol symbol)
         {
-            // All must to be true
-            if (!true.Equals(determineValue(c)))
+            return true.Equals(assignments.Get(symbol));
+        }
+
+        public bool isFalse(PropositionSymbol symbol)
+        {
+            return false.Equals(assignments.Get(symbol));
+        }
+
+        public Model union(PropositionSymbol symbol, bool? b)
+        {
+            Model m = new Model();
+            m.assignments.PutAll(this.assignments);
+            m.assignments.Put(symbol, b);
+            return m;
+        }
+
+        public Model unionInPlace(PropositionSymbol symbol, bool? b)
+        {
+            assignments.Put(symbol, b);
+            return this;
+        }
+
+        public bool remove(PropositionSymbol p)
+        {
+            return assignments.Remove(p);
+        }
+
+        public bool isTrue(Sentence s)
+        {
+            return true.Equals(s.accept(this, null));
+        }
+
+        public bool isFalse(Sentence s)
+        {
+            return false.Equals(s.accept(this, null));
+        }
+
+        public bool isUnknown(Sentence s)
+        {
+            return null == s.accept(this, null);
+        }
+
+        public Model flip(PropositionSymbol s)
+        {
+            if (isTrue(s))
             {
-                return false;
+                return union(s, false);
             }
-        }
-        return true;
-    }
-
-    /**
-	 * Determine based on the current assignments within the model, whether a
-	 * clause is known to be true, false, or unknown.
-	 * 
-	 * @param c
-	 *            a propositional clause.
-	 * @return true, if the clause is known to be true under the model's
-	 *         assignments. false, if the clause is known to be false under the
-	 *         model's assignments. null, if it is unknown whether the clause is
-	 *         true or false under the model's current assignments.
-	 */
-    public Boolean determineValue(Clause c)
-    {
-        Boolean result = null; // i.e. unknown
-
-        if (c.isTautology())
-        { // Test independent of the model's assignments.
-            result = true;
-        }
-        else if (c.isFalse())
-        { // Test independent of the model's
-          // assignments.
-            result = false;
-        }
-        else
-        {
-            bool unassignedSymbols = false;
-            Boolean value = null;
-            for (PropositionSymbol positive : c.getPositiveSymbols())
+            if (isFalse(s))
             {
-                value = assignments.Get(positive);
-                if (value != null)
+                return union(s, true);
+            }
+            return this;
+        }
+
+        public ISet<PropositionSymbol> getAssignedSymbols()
+        {
+            return Factory.CreateReadOnlySet<PropositionSymbol>(assignments.GetKeys());
+        }
+
+        /**
+         * Determine if the model satisfies a set of clauses.
+         * 
+         * @param clauses
+         *            a set of propositional clauses.
+         * @return if the model satisfies the clauses, false otherwise.
+         */
+        public bool? satisfies(ISet<Clause> clauses)
+        {
+            foreach (Clause c in clauses)
+            {
+                // All must to be true
+                if (!true.Equals(determineValue(c)))
                 {
-                    if (true.Equals(value))
-                    {
-                        result = true;
-                        break;
-                    }
-                }
-                else
-                {
-                    unassignedSymbols = true;
+                    return false;
                 }
             }
-            // If truth not determined, continue checking negative symbols
-            if (result == null)
+            return true;
+        }
+
+        /**
+         * Determine based on the current assignments within the model, whether a
+         * clause is known to be true, false, or unknown.
+         * 
+         * @param c
+         *            a propositional clause.
+         * @return true, if the clause is known to be true under the model's
+         *         assignments. false, if the clause is known to be false under the
+         *         model's assignments. null, if it is unknown whether the clause is
+         *         true or false under the model's current assignments.
+         */
+        public bool? determineValue(Clause c)
+        {
+            bool? result = null; // i.e. unknown
+
+            if (c.isTautology().Value)
+            { // Test independent of the model's assignments.
+                result = true;
+            }
+            else if (c.isFalse())
+            { // Test independent of the model's
+              // assignments.
+                result = false;
+            }
+            else
             {
-                for (PropositionSymbol negative : c.getNegativeSymbols())
+                bool unassignedSymbols = false;
+                bool? value = null;
+                foreach (PropositionSymbol positive in c.getPositiveSymbols())
                 {
-                    value = assignments.Get(negative);
+                    value = assignments.Get(positive);
                     if (value != null)
                     {
-                        if (false.Equals(value))
+                        if (true.Equals(value))
                         {
                             result = true;
                             break;
@@ -181,105 +164,117 @@
                         unassignedSymbols = true;
                     }
                 }
-
+                // If truth not determined, continue checking negative symbols
                 if (result == null)
                 {
-                    // If truth not determined and there are no
-                    // unassigned symbols then we can determine falsehood
-                    // (i.e. all of its literals are assigned false under the
-                    // model)
-                    if (!unassignedSymbols)
+                    foreach (PropositionSymbol negative in c.getNegativeSymbols())
                     {
-                        result = false;
+                        value = assignments.Get(negative);
+                        if (value != null)
+                        {
+                            if (false.Equals(value))
+                            {
+                                result = true;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            unassignedSymbols = true;
+                        }
+                    }
+
+                    if (result == null)
+                    {
+                        // If truth not determined and there are no
+                        // unassigned symbols then we can determine falsehood
+                        // (i.e. all of its literals are assigned false under the
+                        // model)
+                        if (!unassignedSymbols)
+                        {
+                            result = false;
+                        }
                     }
                 }
             }
+
+            return result;
         }
 
-        return result;
-    }
-
-    public void print()
-    {
-        for (Map.Entry<PropositionSymbol, bool?> e : assignments )
+        public void print()
         {
-            System.out.print(e.getKey() + " = " + e.getValue() + " ");
-        }
-        System.Console.WriteLine();
-    }
-
-     
-    public override string ToString()
-    {
-        return assignments.ToString();
-    }
-
-    //
-    // START-PLVisitor
-     
-    public Boolean visitPropositionSymbol(PropositionSymbol s, Boolean arg)
-    {
-        if (s.isAlwaysTrue())
-        {
-            return true;
-        }
-        if (s.isAlwaysFalse())
-        {
-            return false;
-        }
-        return getValue(s);
-    }
-
-     
-    public Boolean visitUnarySentence(ComplexSentence fs, Boolean arg)
-    {
-        object negatedValue = fs.getSimplerSentence(0).accept(this, null);
-        if (negatedValue != null)
-        {
-            return new Boolean(!((Boolean)negatedValue).booleanValue());
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-     
-    public Boolean visitBinarySentence(ComplexSentence bs, Boolean arg)
-    {
-        Boolean firstValue = (Boolean)bs.getSimplerSentence(0).accept(this,
-                null);
-        Boolean secondValue = (Boolean)bs.getSimplerSentence(1).accept(this,
-                null);
-        if ((firstValue == null) || (secondValue == null))
-        {
-            // strictly not true for or/and
-            // -FIX later
-            return null;
-        }
-        else
-        {
-            Connective connective = bs.getConnective();
-            if (connective.Equals(Connective.AND))
+            foreach (var e in assignments)
             {
-                return firstValue && secondValue;
+                System.Console.Write(e.GetKey() + " = " + e.GetValue() + " ");
             }
-            else if (connective.Equals(Connective.OR))
+            System.Console.WriteLine();
+        }
+
+
+        public override string ToString()
+        {
+            return assignments.ToString();
+        }
+
+        public bool? visitPropositionSymbol(PropositionSymbol s, bool? arg)
+        {
+            if (s.isAlwaysTrue())
             {
-                return firstValue || secondValue;
+                return true;
             }
-            else if (connective.Equals(Connective.IMPLICATION))
+            if (s.isAlwaysFalse())
             {
-                return !(firstValue && !secondValue);
+                return false;
             }
-            else if (connective.Equals(Connective.BICONDITIONAL))
+            return getValue(s);
+        }
+
+
+        public bool? visitUnarySentence(ComplexSentence fs, bool? arg)
+        {
+            object negatedValue = fs.getSimplerSentence(0).accept(this, null);
+            if (negatedValue != null)
             {
-                return firstValue.Equals(secondValue);
+                return !((bool)negatedValue);
             }
-            return null;
+            else
+            {
+                return null;
+            }
+        }
+
+
+        public bool? visitBinarySentence(ComplexSentence bs, bool? arg)
+        {
+            bool? firstValue = bs.getSimplerSentence(0).accept(this, null);
+            bool? secondValue = bs.getSimplerSentence(1).accept(this, null);
+            if ((firstValue == null) || (secondValue == null))
+            {
+                // strictly not true for or/and
+                // -FIX later
+                return null;
+            }
+            else
+            {
+                Connective connective = bs.getConnective();
+                if (connective.Equals(Connective.AND))
+                {
+                    return firstValue.Value && secondValue.Value;
+                }
+                else if (connective.Equals(Connective.OR))
+                {
+                    return firstValue.Value || secondValue.Value;
+                }
+                else if (connective.Equals(Connective.IMPLICATION))
+                {
+                    return !(firstValue.Value && !secondValue.Value);
+                }
+                else if (connective.Equals(Connective.BICONDITIONAL))
+                {
+                    return firstValue.Equals(secondValue);
+                }
+                return null;
+            }
         }
     }
-    // END-PLVisitor
-    //
-}
 }

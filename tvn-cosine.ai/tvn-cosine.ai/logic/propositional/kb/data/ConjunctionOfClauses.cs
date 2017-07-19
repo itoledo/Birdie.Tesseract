@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.propositional.kb.data
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.logic.propositional.kb.data
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
@@ -28,7 +31,7 @@
         {
             this.clauses.AddAll(conjunctionOfClauses);
             // Make immutable
-            this.clauses = Factory.CreateReadOnlySet<>(this.clauses);
+            this.clauses = Factory.CreateReadOnlySet<Clause>(this.clauses);
         }
 
         /**
@@ -37,7 +40,7 @@
          */
         public int getNumberOfClauses()
         {
-            return clauses.size();
+            return clauses.Size();
         }
 
         /**
@@ -70,7 +73,7 @@
             return result;
         }
 
-         
+
         public override string ToString()
         {
             if (cachedStringRep == null)
@@ -78,7 +81,7 @@
                 StringBuilder sb = new StringBuilder();
                 bool first = true;
                 sb.Append("{");
-                for (Clause c : clauses)
+                foreach (Clause c in clauses)
                 {
                     if (first)
                     {
@@ -97,7 +100,7 @@
             return cachedStringRep;
         }
 
-         
+
         public override int GetHashCode()
         {
             if (cachedHashCode == -1)
@@ -106,9 +109,8 @@
             }
             return cachedHashCode;
         }
-
          
-        public bool equals(object othObj)
+        public override bool Equals(object othObj)
         {
             if (null == othObj)
             {
@@ -118,7 +120,8 @@
             {
                 return true;
             }
-            if (!(othObj is ConjunctionOfClauses)) {
+            if (!(othObj is ConjunctionOfClauses))
+            {
                 return false;
             }
             ConjunctionOfClauses othConjunctionOfClauses = (ConjunctionOfClauses)othObj;

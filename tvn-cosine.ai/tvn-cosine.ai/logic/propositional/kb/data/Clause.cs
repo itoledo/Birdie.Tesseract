@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.logic.propositional.kb.data
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.logic.propositional.kb.data
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
@@ -14,7 +19,7 @@
      */
     public class Clause
     {
-        public static final Clause EMPTY = new Clause();
+        public static readonly Clause EMPTY = new Clause();
         //
         private ISet<Literal> literals = Factory.CreateSet<Literal>();
         //
@@ -22,7 +27,7 @@
         private ISet<PropositionSymbol> cachedNegativeSymbols = Factory.CreateSet<PropositionSymbol>();
         private ISet<PropositionSymbol> cachedSymbols = Factory.CreateSet<PropositionSymbol>();
         //
-        private Boolean cachedIsTautologyResult = null;
+        private bool? cachedIsTautologyResult = null;
         private string cachedStringRep = null;
         private int cachedHashCode = -1;
 
@@ -30,10 +35,8 @@
          * Default constructor - i.e. the empty clause, which is 'False'.
          */
         public Clause()
-        {
-            // i.e. the empty clause
-            this(Factory.CreateQueue<Literal>());
-        }
+            : this(Factory.CreateQueue<Literal>())  // i.e. the empty clause
+        { }
 
         /**
          * Construct a clause from the given literals. Note: literals the are always
@@ -42,10 +45,9 @@
          * @param literals
          *            the literals to be added to the clause.
          */
-        public Clause(Literal...literals)
-        {
-            this(Arrays.asList(literals));
-        }
+        public Clause(params Literal[] literals)
+             : this(Factory.CreateQueue<Literal>(literals))
+        { }
 
         /**
          * Construct a clause from the given literals. Note: literals the are always
@@ -55,7 +57,7 @@
          */
         public Clause(IQueue<Literal> literals)
         {
-            for (Literal l : literals)
+            foreach (Literal l in literals)
             {
                 if (l.isAlwaysFalse())
                 {
@@ -81,12 +83,10 @@
             cachedSymbols.AddAll(cachedNegativeSymbols);
 
             // Make immutable
-            this.literals = Factory.CreateReadOnlySet<>(this.literals);
-            cachedSymbols = Factory.CreateReadOnlySet<>(cachedSymbols);
-            cachedPositiveSymbols = Collections
-                    .unmodifiableSet(cachedPositiveSymbols);
-            cachedNegativeSymbols = Collections
-                    .unmodifiableSet(cachedNegativeSymbols);
+            this.literals = Factory.CreateReadOnlySet<Literal>(this.literals);
+            cachedSymbols = Factory.CreateReadOnlySet<PropositionSymbol>(cachedSymbols);
+            cachedPositiveSymbols = Factory.CreateReadOnlySet<PropositionSymbol>(cachedPositiveSymbols);
+            cachedNegativeSymbols = Factory.CreateReadOnlySet<PropositionSymbol>(cachedNegativeSymbols);
         }
 
         /**
@@ -107,7 +107,7 @@
          */
         public bool isEmpty()
         {
-            return literals.size() == 0;
+            return literals.Size() == 0;
         }
 
         /**
@@ -117,7 +117,7 @@
          */
         public bool isUnitClause()
         {
-            return literals.size() == 1;
+            return literals.Size() == 1;
         }
 
         /**
@@ -132,7 +132,7 @@
          */
         public bool isDefiniteClause()
         {
-            return cachedPositiveSymbols.size() == 1;
+            return cachedPositiveSymbols.Size() == 1;
         }
 
         /**
@@ -144,7 +144,7 @@
          */
         public bool isImplicationDefiniteClause()
         {
-            return isDefiniteClause() && cachedNegativeSymbols.size() >= 1;
+            return isDefiniteClause() && cachedNegativeSymbols.Size() >= 1;
         }
 
         /**
@@ -155,7 +155,7 @@
          */
         public bool isHornClause()
         {
-            return !isEmpty() && cachedPositiveSymbols.size() <= 1;
+            return !isEmpty() && cachedPositiveSymbols.Size() <= 1;
         }
 
         /**
@@ -165,7 +165,7 @@
          */
         public bool isGoalClause()
         {
-            return !isEmpty() && cachedPositiveSymbols.size() == 0;
+            return !isEmpty() && cachedPositiveSymbols.Size() == 0;
         }
 
         /**
@@ -180,11 +180,11 @@
          * 
          * @return true if the clause represents a tautology, false otherwise.
          */
-        public bool isTautology()
+        public bool? isTautology()
         {
             if (cachedIsTautologyResult == null)
             {
-                for (Literal l : literals)
+                foreach (Literal l in literals)
                 {
                     if (l.isAlwaysTrue())
                     {
@@ -196,8 +196,7 @@
                 // If we still don't know
                 if (cachedIsTautologyResult == null)
                 {
-                    if (SetOps.intersection(cachedPositiveSymbols, cachedNegativeSymbols)
-                            .size() > 0)
+                    if (SetOps.intersection(cachedPositiveSymbols, cachedNegativeSymbols).Size() > 0)
                     {
                         // We have:
                         // P | ~P
@@ -220,7 +219,7 @@
          */
         public int getNumberLiterals()
         {
-            return literals.size();
+            return literals.Size();
         }
 
         /**
@@ -229,7 +228,7 @@
          */
         public int getNumberPositiveLiterals()
         {
-            return cachedPositiveSymbols.size();
+            return cachedPositiveSymbols.Size();
         }
 
         /**
@@ -238,7 +237,7 @@
          */
         public int getNumberNegativeLiterals()
         {
-            return cachedNegativeSymbols.size();
+            return cachedNegativeSymbols.Size();
         }
 
         /**
@@ -277,7 +276,7 @@
             return cachedNegativeSymbols;
         }
 
-         
+
         public override string ToString()
         {
             if (cachedStringRep == null)
@@ -285,7 +284,7 @@
                 StringBuilder sb = new StringBuilder();
                 bool first = true;
                 sb.Append("{");
-                for (Literal l : literals)
+                foreach (Literal l in literals)
                 {
                     if (first)
                     {
@@ -303,8 +302,8 @@
             return cachedStringRep;
         }
 
-         
-        public bool equals(object othObj)
+
+        public override bool Equals(object othObj)
         {
             if (null == othObj)
             {
@@ -314,7 +313,8 @@
             {
                 return true;
             }
-            if (!(othObj is Clause)) {
+            if (!(othObj is Clause))
+            {
                 return false;
             }
             Clause othClause = (Clause)othObj;
@@ -322,7 +322,7 @@
             return othClause.literals.Equals(this.literals);
         }
 
-         
+
         public override int GetHashCode()
         {
             if (cachedHashCode == -1)
