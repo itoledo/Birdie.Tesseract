@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.nlp.parsing
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.nlp.parsing.grammars;
+
+namespace tvn.cosine.ai.nlp.parsing
 {
     /**
      * The Lexicon object appears on pg. 891 of the text and defines a simple
@@ -10,99 +14,99 @@
      * @author Jonathon
      *
      */
-    public class Lexicon : HashMap<string, ArrayList<LexWord>> {
-
-
-    private static final long serialVersionUID = 1L;
-
-    public ArrayList<Rule> getTerminalRules(string partOfSpeech)
+    public class Lexicon : Map<string, IQueue<LexWord>>
     {
-        final string partOfSpeechUpperCase = partOfSpeech.toUpperCase();
-        final ArrayList<Rule> rules = Factory.CreateQueue<>();
-
-        Optional.ofNullable(this.Get(partOfSpeechUpperCase)).ifPresent(lexWords-> {
-            for (LexWord word : lexWords)
-                rules.Add(new Rule(partOfSpeechUpperCase, word.word, word.prob));
-        });
-
-        return rules;
-    }
-
-    public ArrayList<Rule> getAllTerminalRules()
-    {
-        final ArrayList<Rule> allRules = Factory.CreateQueue<>();
-        final ISet<string> keys = this.GetKeys();
-
-        for (string key : keys)
-            allRules.AddAll(this.getTerminalRules(key));
-
-        return allRules;
-    }
-
-    public bool addEntry(string category, string word, float prob)
-    {
-        if (this.ContainsKey(category))
-            this.Get(category).Add(new LexWord(word, prob));
-        else
-            this.Put(category, Factory.CreateQueue<>(Collections.singletonList(new LexWord(word, prob))));
-
-        return true;
-    }
-
-    public bool addLexWords(String...vargs)
-    {
-        ArrayList<LexWord> lexWords = Factory.CreateQueue<>();
-        bool containsKey = false;
-        // number of arguments must be key (1) + lexWord pairs ( x * 2 )
-        if (vargs.Length % 2 != 1)
-            return false;
-
-        string key = vargs[0].toUpperCase();
-        if (this.ContainsKey(key)) { containsKey = true; }
-
-        for (int i = 1; i < vargs.Length; i++)
+        public IQueue<Rule> getTerminalRules(string partOfSpeech)
         {
-            try
+            string partOfSpeechUpperCase = partOfSpeech.ToUpper();
+            IQueue<Rule> rules = Factory.CreateQueue<Rule>();
+
+            if (this.ContainsKey(partOfSpeechUpperCase))
             {
-                if (containsKey)
-                    this.Get(key).Add(new LexWord(vargs[i], Float.valueOf(vargs[i + 1])));
-                else
-                    lexWords.Add(new LexWord(vargs[i], Float.valueOf(vargs[i + 1])));
-                i++;
+                foreach (LexWord word in this.Get(partOfSpeechUpperCase))
+                {
+                    rules.Add(new Rule(partOfSpeechUpperCase, word.getWord(), word.getProb()));
+                }
             }
-            catch (NumberFormatException e)
-            {
-                System.err.println("Supplied args have incorrect format.");
-                return false;
-            }
+
+            return rules;
         }
-        if (!containsKey) { this.Put(key, lexWords); }
-        return true;
 
-    }
-
-    /**
-	 * Add words to an lexicon from an existing lexicon. Using this 
-	 * you can combine lexicons.
-	 * @param lexicon
-	 */
-    public void addLexWords(Lexicon lexicon)
-    {
-        for (Map.Entry<string, ArrayList<LexWord>> pair : lexicon )
+        public IQueue<Rule> getAllTerminalRules()
         {
-            final string key = pair.getKey();
-            final ArrayList<LexWord> lexWords = pair.getValue();
+            IQueue<Rule> allRules = Factory.CreateQueue<Rule>();
+            IQueue<string> keys = this.GetKeys();
 
-            if (this.ContainsKey(key))
-            {
-                for (LexWord word : lexWords)
-                    this.Get(key).Add(word);
-            }
+            foreach (string key in keys)
+                allRules.AddAll(this.getTerminalRules(key));
+
+            return allRules;
+        }
+
+        public bool addEntry(string category, string word, float prob)
+        {
+            if (this.ContainsKey(category))
+                this.Get(category).Add(new LexWord(word, prob));
             else
+                this.Put(category, Factory.CreateQueue<LexWord>(new[] { new LexWord(word, prob) }));
+
+            return true;
+        }
+
+        public bool addLexWords(params string[] vargs)
+        {
+            IQueue<LexWord> lexWords = Factory.CreateQueue<LexWord>();
+            bool containsKey = false;
+            // number of arguments must be key (1) + lexWord pairs ( x * 2 )
+            if (vargs.Length % 2 != 1)
+                return false;
+
+            string key = vargs[0].ToUpper();
+            if (this.ContainsKey(key)) { containsKey = true; }
+
+            for (int i = 1; i < vargs.Length; i++)
             {
-                this.Put(key, lexWords);
+                try
+                {
+                    if (containsKey)
+                        this.Get(key).Add(new LexWord(vargs[i], float.Parse(vargs[i + 1])));
+                    else
+                        lexWords.Add(new LexWord(vargs[i], float.Parse(vargs[i + 1])));
+                    i++;
+                }
+                catch (NumberFormatException e)
+                {
+                    System.Console.WriteLine("Supplied args have incorrect format.");
+                    return false;
+                }
+            }
+            if (!containsKey) { this.Put(key, lexWords); }
+            return true;
+
+        }
+
+        /**
+         * Add words to an lexicon from an existing lexicon. Using this 
+         * you can combine lexicons.
+         * @param lexicon
+         */
+        public void addLexWords(Lexicon lexicon)
+        {
+            foreach (var pair in lexicon)
+            {
+                string key = pair.GetKey();
+                IQueue<LexWord> lexWords = pair.GetValue();
+
+                if (this.ContainsKey(key))
+                {
+                    foreach (LexWord word in lexWords)
+                        this.Get(key).Add(word);
+                }
+                else
+                {
+                    this.Put(key, lexWords);
+                }
             }
         }
     }
-}
 }

@@ -3,15 +3,15 @@
     public class LexWord
     {
         string word;
-        Float prob;
+        float prob;
 
-        public LexWord(string word, Float prob)
+        public LexWord(string word, float prob)
         {
             this.word = word;
             this.prob = prob;
         }
 
         public string getWord() { return word; }
-        public Float getProb() { return prob; }
+        public float getProb() { return prob; }
     }
 }

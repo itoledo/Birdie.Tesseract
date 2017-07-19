@@ -13,7 +13,6 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
      */
     public class ProbUnrestrictedGrammar : ProbabilisticGrammar
     {
-
         // types of grammars
         public const int UNRESTRICTED = 0;
         public const int CONTEXT_SENSITIVE = 1;
@@ -42,7 +41,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          * @param ruleList
          * @return true if rules are valid and incorporated into the grammar. false, otherwise
          */
-        public bool addRules(IQueue<Rule> ruleList)
+        public virtual bool addRules(IQueue<Rule> ruleList)
         {
             foreach (Rule aRuleList in ruleList)
             {
@@ -63,7 +62,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          * @return true if rule is incorporated. false, otherwise
          */
         // TODO: More sophisticated probability distribution management
-        public bool addRule(Rule rule)
+        public virtual bool addRule(Rule rule)
         {
             if (validRule(rule))
             {
@@ -83,7 +82,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          * @param ruleList
          * @return true if the probabilities are valid. false, otherwise
          */
-        public bool validateRuleProbabilities(IQueue<Rule> ruleList)
+        public virtual bool validateRuleProbabilities(IQueue<Rule> ruleList)
         {
             float probTotal = 0;
             foreach (string var in vars)
@@ -113,7 +112,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          * @param r ( a rule )
          * @return true, if rule has valid form. false, otherwise
          */
-        public bool validRule(Rule r)
+        public virtual bool validRule(Rule r)
         {
             return r.lhs != null && r.lhs.Size() > 0;
         }
@@ -122,7 +121,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          * Whenever a new rule is added to the grammar, we want to 
          * update the list of variables and terminals with any new grammar symbols
          */
-        public void updateVarsAndTerminals()
+        public virtual void updateVarsAndTerminals()
         {
             if (rules == null)
             {
@@ -139,7 +138,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          * if there a new symbols
          * @param r
          */
-        public void updateVarsAndTerminals(Rule r)
+        public virtual void updateVarsAndTerminals(Rule r)
         {
             // check lhs for new terminals or variables
             for (int j = 0; j < r.lhs.Size(); j++)
@@ -162,8 +161,8 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
                 }
             }
             // maintain sorted lists
-            vars.Sort();
-            terminals.Sort();
+            vars.Sort(new Queue<string>.Comparer());
+            terminals.Sort(new Queue<string>.Comparer());
         }
 
 
@@ -174,7 +173,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          */
         public static bool isVariable(string s)
         {
-            for (int i = 0; i < s.Length ; i++)
+            for (int i = 0; i < s.Length; i++)
             {
                 if (!char.IsUpper(s[i]))
                     return false;
@@ -196,9 +195,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
             }
             return true;
         }
-
-
-
+         
         public override string ToString()
         {
             StringBuilder output = new StringBuilder();

@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.nlp.parsing
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.nlp.parsing.grammars;
+
+namespace tvn.cosine.ai.nlp.parsing
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 894.<br>
@@ -38,22 +41,22 @@
     public class CYK
     {
 
-        public float[][][] parse(IQueue<string> words, ProbCNFGrammar grammar)
+        public float[,,] parse(IQueue<string> words, ProbCNFGrammar grammar)
         {
-            final int N = length(words);
-            final int M = grammar.vars.size();
-            float[][][] P = new float[M][N][N]; // initialised to 0.0
+            int N = length(words);
+            int M = grammar.vars.Size();
+            float[,,] P = new float[M, N, N]; // initialised to 0.0
             for (int i = 0; i < N; i++)
             {
                 //for each rule of form( X -> words<sub>i</sub>[p]) do
                 //   P[X,i,1] <- p
-                for (int j = 0; j < grammar.rules.size(); j++)
+                for (int j = 0; j < grammar.rules.Size(); j++)
                 {
-                    Rule r = (Rule)grammar.rules.Get(j);
+                    Rule r = grammar.rules.Get(j);
                     if (r.derives(words.Get(i)))
                     {                   // rule is of form X -> w, where w = words[i]
-                        int x = grammar.vars.indexOf(r.lhs.Get(0)); // get the index of rule's LHS variable
-                        P[x][i][0] = r.PROB;                        // not P[X][i][1] because we use 0-based indexing
+                        int x = grammar.vars.IndexOf(r.lhs.Get(0)); // get the index of rule's LHS variable
+                        P[x, i, 0] = r.PROB;                        // not P[X][i][1] because we use 0-based indexing
                     }
                 }
             }
@@ -65,17 +68,17 @@
                     { // N.B. the book incorrectly has N-1 instead of length-1
                         int len2 = length - len1;
                         // for each rule of the form X -> Y Z, where Y,Z are variables of the grammar
-                        for (Rule r : grammar.rules)
+                        foreach (Rule r in grammar.rules)
                         {
-                            if (r.rhs.size() == 2)
+                            if (r.rhs.Size() == 2)
                             {
                                 // get index of rule's variables X, Y, and Z
-                                int x = grammar.vars.indexOf(r.lhs.Get(0));
-                                int y = grammar.vars.indexOf(r.rhs.Get(0));
-                                int z = grammar.vars.indexOf(r.rhs.Get(1));
-                                P[x][start - 1][length - 1] = System.Math.Max(P[x][start - 1][length - 1],
-                                                                  P[y][start - 1][len1 - 1] *
-                                                                  P[z][start + len1 - 1][len2 - 1] * r.PROB);
+                                int x = grammar.vars.IndexOf(r.lhs.Get(0));
+                                int y = grammar.vars.IndexOf(r.rhs.Get(0));
+                                int z = grammar.vars.IndexOf(r.rhs.Get(1));
+                                P[x, start - 1, length - 1] = System.Math.Max(P[x, start - 1, length - 1],
+                                                                  P[y, start - 1, len1 - 1] *
+                                                                  P[z, start + len1 - 1, len2 - 1] * r.PROB);
                             }
                         }
                     }
@@ -91,7 +94,7 @@
          */
         public int length(IQueue<string> ls)
         {
-            return ls.size();
+            return ls.Size();
         }
 
         /**
@@ -100,19 +103,19 @@
          * @param words
          * @param g
          */
-        public void printProbTable(float[][][] probTable, IQueue<string> words, ProbUnrestrictedGrammar g)
+        public void printProbTable(float[,,] probTable, IQueue<string> words, ProbUnrestrictedGrammar g)
         {
-            final int N = words.size();
-            final int M = g.vars.size(); // num non-terminals in grammar
+            int N = words.Size();
+            int M = g.vars.Size(); // num non-terminals in grammar
 
             for (int i = 0; i < M; i++)
             {
                 System.Console.WriteLine("Table For : " + g.vars.Get(i) + "(" + i + ")");
                 for (int j = 0; j < N; j++)
                 {
-                    System.out.print(j + "| ");
+                    System.Console.Write(j + "| ");
                     for (int k = 0; k < N; k++)
-                        System.out.print(probTable[i][j][k] + " | ");
+                        System.Console.Write(probTable[i, j, k] + " | ");
                     System.Console.WriteLine();
                 }
                 System.Console.WriteLine();
@@ -126,7 +129,7 @@
          * @param g
          * @return
          */
-        public ArrayList<string> getMostProbableDerivation(float[][][] probTable, ProbUnrestrictedGrammar g)
+        public IQueue<string> getMostProbableDerivation(float[,,] probTable, ProbUnrestrictedGrammar g)
         {
             // TODO
             return null;

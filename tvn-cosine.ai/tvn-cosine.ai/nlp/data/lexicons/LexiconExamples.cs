@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.nlp.data.lexicons
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.nlp.parsing;
+
+namespace tvn.cosine.ai.nlp.data.lexicons
 {
     /**
      * A store of simple lexicon's for the purpose of testing and demonstrating the CYK Algorithm.
@@ -6,9 +9,7 @@
      *
      */
     public class LexiconExamples
-    {
-
-
+    { 
         /**
          * Builds an expanded version of the 'wumpus lexicon' found on page 891 of AIMA V3
          * @return
@@ -16,7 +17,7 @@
         public static Lexicon buildWumpusLex()
         {
             Lexicon l = new Lexicon();
-            ArrayList<LexWord> list = Factory.CreateQueue<LexWord>();
+            IQueue<LexWord> list = Factory.CreateQueue<LexWord>();
             // noun list
             list.Add(new LexWord("stench", (float)0.05));
             list.Add(new LexWord("breeze", (float)0.10));
@@ -29,7 +30,7 @@
             list.Add(new LexWord("virus", (float)0.15)); // not in textbook
             l.Put("NOUN", list);
             // verb list
-            ArrayList<LexWord> verbList = Factory.CreateQueue<LexWord>();
+            IQueue<LexWord> verbList = Factory.CreateQueue<LexWord>();
             verbList.Add(new LexWord("is", (float)0.10));
             verbList.Add(new LexWord("feel", (float)0.10));
             verbList.Add(new LexWord("smells", (float)0.10));
@@ -41,7 +42,7 @@
             verbList.Add(new LexWord("throws", (float)0.20)); // not in textbook
             l.Put("VERB", verbList);
             // adjective list
-            ArrayList<LexWord> adjList = Factory.CreateQueue<LexWord>();
+            IQueue<LexWord> adjList = Factory.CreateQueue<LexWord>();
             adjList.Add(new LexWord("right", (float)0.10));
             adjList.Add(new LexWord("dead", (float)0.05));
             adjList.Add(new LexWord("smelly", (float)0.02));
@@ -95,7 +96,7 @@
         public static Lexicon buildNameLexicon()
         {
             Lexicon l = new Lexicon();
-            String[] names = {"John","Mary","Boston","Xiao","Hollie","Kendrick","Beverly"
+            string[] names = {"John","Mary","Boston","Xiao","Hollie","Kendrick","Beverly"
                           ,"Garnet","Zora","Shavonda","Peg","Katherin","Beatriz","Deirdre","Gaylord"
                           ,"Desirae","Tresa","Gwyneth","Rashida","Garfield","Pinkie","Claretta","Teressa"
                           ,"Andy","Eugena","Carie","Dinorah","Tess","Johnie","Keely","Antonetta","Darcey"
@@ -124,7 +125,6 @@
             l.addLexWords("VERB", "saw", "0.30", "liked", "0.30", "feel", "0.40");
             l.addLexWords("ADVERB", "happily", "0.30", "sadly", "0.20", "morosely", "0.50");
             return l;
-        }
-
+        } 
     }
 }

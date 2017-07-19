@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.nlp.parsing.grammars
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.nlp.parsing.grammars
 {
     /**
      * A context-sensitive grammar is less restrictive than context-free and more powerful, but
@@ -6,71 +8,70 @@
      * @author Jonathon
      *
      */
-    public class ProbContextSensitiveGrammar : ProbUnrestrictedGrammar : ProbabilisticGrammar
+    public class ProbContextSensitiveGrammar : ProbUnrestrictedGrammar, ProbabilisticGrammar
     {
-
-    // default constructor
-    public ProbContextSensitiveGrammar()
-    {
-        type = 1;
-        rules = null;
-    }
-
-    /**
-	 * Add a ruleList as the grammar's rule list if all rules in it pass
-	 * both the restrictions of the parent grammar (unrestricted) and
-	 * this grammar's restrictions.
-	 */
-    public bool addRules(ArrayList<Rule> ruleList)
-    {
-        for (Rule aRuleList : ruleList)
+        // default constructor
+        public ProbContextSensitiveGrammar()
         {
-            if (!super.validRule(aRuleList))
-                return false;
-            if (!validRule(aRuleList))
-                return false;
+            type = 1;
+            rules = null;
         }
-        rules = ruleList;
-        updateVarsAndTerminals();
-        return true;
-    }
 
-    /**
-	 * Add a rule to the grammar's rule list if it passes
-	 * both the restrictions of the parent grammar (unrestricted) and
-	 * this grammar's restrictions.
-	 */
-    public bool addRule(Rule r)
-    {
-        if (!super.validRule(r))
-            return false;
-        else if (!validRule(r))
-            return false;
+        /**
+         * Add a ruleList as the grammar's rule list if all rules in it pass
+         * both the restrictions of the parent grammar (unrestricted) and
+         * this grammar's restrictions.
+         */
+        public override bool addRules(IQueue<Rule> ruleList)
+        {
+            foreach (Rule aRuleList in ruleList)
+            {
+                if (!base.validRule(aRuleList))
+                    return false;
+                if (!validRule(aRuleList))
+                    return false;
+            }
+            rules = ruleList;
+            updateVarsAndTerminals();
+            return true;
+        }
 
-        rules.Add(r);
-        updateVarsAndTerminals(r);
-        return true;
-    }
+        /**
+         * Add a rule to the grammar's rule list if it passes
+         * both the restrictions of the parent grammar (unrestricted) and
+         * this grammar's restrictions.
+         */
+        public override bool addRule(Rule r)
+        {
+            if (!base.validRule(r))
+                return false;
+            else if (!validRule(r))
+                return false;
 
-    /**
-	 * For a grammar rule to be valid in a context sensitive grammar, 
-	 * all the restrictions of the parent grammar (unrestricted) must hold, 
-	 * and the number of RHS symbols must be equal or greater than the number
-	 * of LHS symbols.
-	 */
-    public bool validRule(Rule r)
-    {
-        if (!super.validRule(r))
-            return false;
+            rules.Add(r);
+            updateVarsAndTerminals(r);
+            return true;
+        }
 
-        // len(rhs) >= len(lhs) must hold in context-sensitive.
-        else if (r.rhs == null)
-            return false;
+        /**
+         * For a grammar rule to be valid in a context sensitive grammar, 
+         * all the restrictions of the parent grammar (unrestricted) must hold, 
+         * and the number of RHS symbols must be equal or greater than the number
+         * of LHS symbols.
+         */
+        public override bool validRule(Rule r)
+        {
+            if (!base.validRule(r))
+                return false;
 
-        else if (r.rhs.size() < r.lhs.size())
-            return false;
+            // len(rhs) >= len(lhs) must hold in context-sensitive.
+            else if (r.rhs == null)
+                return false;
 
-        return true;
-    }
-} // end of ContextSensitiveGrammar()
+            else if (r.rhs.Size() < r.lhs.Size())
+                return false;
+
+            return true;
+        }
+    } // end of ContextSensitiveGrammar()
 }

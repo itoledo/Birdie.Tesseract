@@ -1,9 +1,11 @@
-﻿namespace tvn.cosine.ai.nlp.ranking
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.nlp.ranking
 {
     public class RunHITS
     {
 
-        public static void main(String[] args)
+        public static void main(params string[] args)
         {
             IQueue<Page> result;
             // build page table

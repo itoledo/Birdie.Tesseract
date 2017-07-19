@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.nlp.data.grammars
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.nlp.data.lexicons;
+using tvn.cosine.ai.nlp.parsing;
+using tvn.cosine.ai.nlp.parsing.grammars;
+
+namespace tvn.cosine.ai.nlp.data.grammars
 {
     /**
      * A store of example Probabilistic Chomsky-Normal-Form grammars for testing and 
@@ -18,7 +23,7 @@
         public static ProbCNFGrammar buildExampleGrammarOne()
         {
             ProbCNFGrammar g = new ProbCNFGrammar();
-            ArrayList<Rule> rules = Factory.CreateQueue<Rule>();
+            IQueue<Rule> rules = Factory.CreateQueue<Rule>();
             // Start Rules
             rules.Add(new Rule("S", "Y,Z", (float)0.10));
             rules.Add(new Rule("B", "B,D", (float)0.10));
@@ -62,14 +67,14 @@
         public static ProbCNFGrammar buildTrivialGrammar()
         {
             ProbCNFGrammar g = new ProbCNFGrammar();
-            ArrayList<Rule> rules = Factory.CreateQueue<Rule>();
+            IQueue<Rule> rules = Factory.CreateQueue<Rule>();
             rules.Add(new Rule("S", "NP,VP", (float)1.0));
             rules.Add(new Rule("NP", "ARTICLE,NOUN", (float)0.50));
             rules.Add(new Rule("NP", "PRONOUN,ADVERB", (float)0.5));
             rules.Add(new Rule("VP", "VERB,NP", (float)1.0));
             // add terminal rules
             Lexicon trivLex = LexiconExamples.buildTrivialLexicon();
-            ArrayList<Rule> terminalRules = Factory.CreateQueue<Rule>(trivLex.getAllTerminalRules());
+            IQueue<Rule> terminalRules = Factory.CreateQueue<Rule>(trivLex.getAllTerminalRules());
             rules.AddAll(terminalRules);
             // Add all these rules into the grammar
             if (!g.addRules(rules))

@@ -1,12 +1,16 @@
-﻿namespace tvn.cosine.ai.nlp.data.grammars
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.nlp.data.lexicons;
+using tvn.cosine.ai.nlp.parsing;
+using tvn.cosine.ai.nlp.parsing.grammars;
+
+namespace tvn.cosine.ai.nlp.data.grammars
 {
     public class ProbContextFreeExamples
-    {
-
+    { 
         public static ProbContextFreeGrammar buildWumpusGrammar()
         {
             ProbContextFreeGrammar g = new ProbContextFreeGrammar();
-            ArrayList<Rule> rules = Factory.CreateQueue<Rule>();
+            IQueue<Rule> rules = Factory.CreateQueue<Rule>();
             // Start Rules
             rules.Add(new Rule("S", "NP,VP", (float)0.90));
             rules.Add(new Rule("S", "CONJ,S", (float)0.10));
@@ -42,7 +46,7 @@
             // Now we can add all rules that derive terminal symbols, which are in 
             // this case words.
             Lexicon wumpusLex = LexiconExamples.buildWumpusLex();
-            ArrayList<Rule> terminalRules = Factory.CreateQueue<Rule>(wumpusLex.getAllTerminalRules());
+            IQueue<Rule> terminalRules = Factory.CreateQueue<Rule>(wumpusLex.getAllTerminalRules());
             rules.AddAll(terminalRules);
             // Add all these rules into the grammar
             if (!g.addRules(rules))

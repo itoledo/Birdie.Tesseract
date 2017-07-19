@@ -1,8 +1,11 @@
-﻿namespace tvn.cosine.ai.nlp.ranking
+﻿using System.IO;
+using System.Text;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.nlp.ranking
 {
     public class PagesDataset
     {
-
         static string wikiPagesFolderPath = "src\\main\\resources\\aima\\core\\ranking\\data\\pages";
         static string testFilesFolderPath = "src\\main\\resources\\aima\\core\\ranking\\data\\pages\\test_pages";
 
@@ -32,13 +35,12 @@
 
             IMap<string, Page> pageTable = Factory.CreateMap<string, Page>();
             Page currPage;
-            File[] listOfFiles;
+            string[] listOfFiles;
             wlf = new WikiLinkFinder();
 
-            File folder = new File(folderPath);
-            if (folder.exists() && folder.isDirectory())
+            if (Directory.Exists(folderPath))
             {
-                listOfFiles = folder.listFiles();
+                listOfFiles = Directory.GetFiles(folderPath);
             }
             else
             {
@@ -49,20 +51,15 @@
             // article
             for (int i = 0; i < listOfFiles.Length; i++)
             {
-                File currFile = listOfFiles[i];
-                if (currFile.isFile())
-                {
-                    currPage = wikiPageFromFile(folder, currFile);
-                    pageTable.Put(currPage.getLocation(), currPage);
-                }
+                currPage = wikiPageFromFile(folderPath, new FileInfo(listOfFiles[i]));
+                pageTable.Put(currPage.getLocation(), currPage);
             }
-            // now that all pages are loaded and their outlinks have been
-            // determined,
+            // now that all pages are loaded and their outlinks have been determined,
             // we can determine a page's inlinks and then return the loaded table
             return pageTable = determineAllInlinks(pageTable);
         } // end loadPages()
 
-        public static Page wikiPageFromFile(File folder, File f)
+        public static Page wikiPageFromFile(string folder, FileInfo f)
         {
             Page p;
             string pageLocation = getPageName(f); // will be like: \wiki\*article
@@ -78,61 +75,33 @@
         public static IMap<string, Page> determineAllInlinks(IMap<string, Page> pageTable)
         {
             Page currPage;
-            ISet<string> keySet = pageTable.GetKeys();
-            Iterator<string> keySetIterator = keySet.iterator();
-            while (keySetIterator.hasNext())
+            foreach (var pair in pageTable)
             {
-                currPage = pageTable.Get(keySetIterator.next());
+                currPage = pair.GetValue();
                 // add the inlinks to an currently empty IQueue<string> object
                 currPage.getInlinks().AddAll(wlf.getInlinks(currPage, pageTable));
             }
             return pageTable;
         }
 
-        public static string getPageName(File f)
+        public static string getPageName(FileInfo f)
         {
-
             string wikiPrefix = "/wiki/";
-            string filename = f.getName();
-            if (filename.indexOf(".") > 0)
-                filename = filename.substring(0, filename.lastIndexOf("."));
-            return wikiPrefix + filename.toLowerCase();
+            string filename = f.Name;
+            if (filename.IndexOf(".") > 0)
+                filename = filename.Substring(0, filename.LastIndexOf("."));
+            return wikiPrefix + filename.ToLower();
         } // end getPageName()
 
-        public static string loadFileText(File folder, File file)
+        public static string loadFileText(string folderPath, FileInfo file)
         {
-
             StringBuilder pageContent = new StringBuilder();
-            BufferedReader br = null;
 
-            // repeat for all files
-            try
+            using (StreamReader sr = new StreamReader(file.FullName))
             {
-                string sCurrentLine;
-                string folderPath = folder.getAbsolutePath();
-                string fileName = file.getName();
-
-                br = new BufferedReader(new FileReader(folderPath + File.separator + fileName));
-
-                while ((sCurrentLine = br.readLine()) != null)
+                while (!sr.EndOfStream)
                 {
-                    pageContent.Append(sCurrentLine);
-                }
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            finally
-            {
-                try
-                {
-                    if (br != null)
-                        br.close();
-                }
-                catch (IOException ex)
-                {
-                    ex.printStackTrace();
+                    pageContent.Append(sr.ReadLine());
                 }
             }
 

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.nlp.ranking
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.nlp.ranking
 {
     public interface LinkFinder
     {

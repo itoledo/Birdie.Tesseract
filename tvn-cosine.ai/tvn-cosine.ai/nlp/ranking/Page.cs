@@ -1,8 +1,9 @@
-﻿namespace tvn.cosine.ai.nlp.ranking
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.nlp.ranking
 {
     public class Page
-    {
-
+    { 
         public double authority;
         public double hub;
         private string location;

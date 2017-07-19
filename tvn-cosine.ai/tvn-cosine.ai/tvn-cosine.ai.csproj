@@ -111,6 +111,7 @@
     <Compile Include="common\exceptions\IOException.cs" />
     <Compile Include="common\exceptions\NotImplementedException.cs" />
     <Compile Include="common\exceptions\NotSupportedException.cs" />
+    <Compile Include="common\exceptions\NumberFormatException.cs" />
     <Compile Include="common\exceptions\RuntimeException.cs" />
     <Compile Include="common\collections\FifoQueueNoDuplicates.cs" />
     <Compile Include="common\ICloneable.cs" />
