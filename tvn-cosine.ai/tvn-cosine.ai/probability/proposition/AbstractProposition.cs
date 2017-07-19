@@ -1,56 +1,45 @@
-﻿namespace tvn.cosine.ai.probability.proposition
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.probability.proposition
 {
     public abstract class AbstractProposition : Proposition
     {
+        private ISet<RandomVariable> scope = Factory.CreateSet<RandomVariable>();
+        private ISet<RandomVariable> unboundScope = Factory.CreateSet<RandomVariable>();
 
+        public AbstractProposition()
+        { }
 
-    private LinkedHashSet<RandomVariable> scope = Factory.CreateSet<RandomVariable>();
-    private LinkedHashSet<RandomVariable> unboundScope = Factory.CreateSet<RandomVariable>();
+        public virtual ISet<RandomVariable> getScope()
+        {
+            return scope;
+        }
 
-    public AbstractProposition()
-    {
+        public virtual ISet<RandomVariable> getUnboundScope()
+        {
+            return unboundScope;
+        }
 
-    }
+        public abstract bool holds(IMap<RandomVariable, object> possibleWorld);
 
-    //
-    // START-Proposition
-    public ISet<RandomVariable> getScope()
-    {
-        return scope;
-    }
+        protected virtual void addScope(RandomVariable var)
+        {
+            scope.Add(var);
+        }
 
-    public ISet<RandomVariable> getUnboundScope()
-    {
-        return unboundScope;
-    }
+        protected virtual void addScope(IQueue<RandomVariable> vars)
+        {
+            scope.AddAll(vars);
+        }
 
-    public abstract bool holds(IMap<RandomVariable, object> possibleWorld);
+        protected virtual void addUnboundScope(RandomVariable var)
+        {
+            unboundScope.Add(var);
+        }
 
-    // END-Proposition
-    //
-
-    //
-    // Protected Methods
-    //
-    protected void addScope(RandomVariable var)
-    {
-        scope.Add(var);
-    }
-
-    protected void addScope(Collection<RandomVariable> vars)
-    {
-        scope.addAll(vars);
-    }
-
-    protected void addUnboundScope(RandomVariable var)
-    {
-        unboundScope.Add(var);
-    }
-
-    protected void addUnboundScope(Collection<RandomVariable> vars)
-    {
-        unboundScope.addAll(vars);
-    }
-}
-
+        protected virtual void addUnboundScope(IQueue<RandomVariable> vars)
+        {
+            unboundScope.AddAll(vars);
+        }
+    } 
 }

@@ -16,8 +16,7 @@ namespace tvn.cosine.ai.probability.bayes
      * @author Ciaran O'Reilly
      */
     public interface Node
-    {
-
+    { 
         /**
          * 
          * @return the Random Variable this Node is for/on.
@@ -60,6 +59,5 @@ namespace tvn.cosine.ai.probability.bayes
          *         Node.
          */
         ConditionalProbabilityDistribution getCPD();
-    }
-
+    } 
 }

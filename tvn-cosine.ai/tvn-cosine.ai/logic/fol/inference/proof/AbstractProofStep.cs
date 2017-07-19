@@ -3,32 +3,24 @@
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public abstract class AbstractProofStep : ProofStep
-    {
+    { 
+        private int step = 0;
 
-    private int step = 0;
+        public AbstractProofStep()
+        { }
+         
+        public int getStepNumber()
+        {
+            return step;
+        }
 
-    public AbstractProofStep()
-    { }
+        public void setStepNumber(int step)
+        {
+            this.step = step;
+        }
 
-    //
-    // START-ProofStep
-    public int getStepNumber()
-    {
-        return step;
+        public abstract IQueue<ProofStep> getPredecessorSteps(); 
+        public abstract string getProof(); 
+        public abstract string getJustification(); 
     }
-
-    public void setStepNumber(int step)
-    {
-        this.step = step;
-    }
-
-    public abstract IQueue<ProofStep> getPredecessorSteps();
-
-    public abstract string getProof();
-
-    public abstract string getJustification();
-
-    // END-ProofStep
-    //
-}
 }

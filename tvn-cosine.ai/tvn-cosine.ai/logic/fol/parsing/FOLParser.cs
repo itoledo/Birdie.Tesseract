@@ -1,4 +1,10 @@
-﻿namespace tvn.cosine.ai.logic.fol.parsing
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.common;
+using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol.parsing
 {
     public class FOLParser
     {
@@ -6,18 +12,17 @@
 
         protected Token[] lookAheadBuffer;
 
-        protected int lookAhead = 1;
+        protected int _lookAhead = 1;
 
         public FOLParser(FOLLexer lexer)
         {
             this.lexer = lexer;
-            lookAheadBuffer = new Token[lookAhead];
+            lookAheadBuffer = new Token[_lookAhead];
         }
 
         public FOLParser(FOLDomain domain)
-        {
-            this(new FOLLexer(domain));
-        }
+            : this(new FOLLexer(domain))
+        { }
 
         public FOLDomain getFOLDomain()
         {
@@ -145,7 +150,7 @@
         {
 
             bool eoiEncountered = false;
-            for (int i = 0; i < lookAhead - 1; i++)
+            for (int i = 0; i < _lookAhead - 1; i++)
             {
 
                 lookAheadBuffer[i] = lookAheadBuffer[i + 1];
@@ -159,11 +164,11 @@
             {
                 try
                 {
-                    lookAheadBuffer[lookAhead - 1] = lexer.nextToken();
+                    lookAheadBuffer[_lookAhead - 1] = lexer.nextToken();
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    throw e;
                 }
             }
 
@@ -176,7 +181,7 @@
 
         protected void fillLookAheadBuffer()
         {
-            for (int i = 0; i < lookAhead; i++)
+            for (int i = 0; i < _lookAhead; i++)
             {
                 lookAheadBuffer[i] = lexer.nextToken();
             }

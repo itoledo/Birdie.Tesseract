@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference
+﻿using System.Text;
+using tvn.cosine.ai.logic.fol.inference.proof;
+
+namespace tvn.cosine.ai.logic.fol.inference
 {
     public class InferenceResultPrinter
     {
@@ -18,20 +21,17 @@
             sb.Append("\n");
             sb.Append("InferenceResult.isPossiblyFalse=" + ir.isPossiblyFalse());
             sb.Append("\n");
-            sb.Append("InferenceResult.isUnknownDueToTimeout="
-                    + ir.isUnknownDueToTimeout());
+            sb.Append("InferenceResult.isUnknownDueToTimeout=" + ir.isUnknownDueToTimeout());
             sb.Append("\n");
-            sb.Append("InferenceResult.isPartialResultDueToTimeout="
-                    + ir.isPartialResultDueToTimeout());
+            sb.Append("InferenceResult.isPartialResultDueToTimeout=" + ir.isPartialResultDueToTimeout());
             sb.Append("\n");
-            sb.Append("InferenceResult.#Proofs=" + ir.getProofs().size());
+            sb.Append("InferenceResult.#Proofs=" + ir.getProofs().Size());
             sb.Append("\n");
             int proofNo = 0;
-            for (Proof p : ir.getProofs())
+            foreach (Proof p in ir.getProofs())
             {
                 proofNo++;
-                sb.Append("InferenceResult.Proof#" + proofNo + "=\n"
-                        + ProofPrinter.printProof(p));
+                sb.Append("InferenceResult.Proof#" + proofNo + "=\n" + ProofPrinter.printProof(p));
             }
 
             return sb.ToString();

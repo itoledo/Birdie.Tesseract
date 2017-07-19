@@ -1,13 +1,14 @@
-﻿namespace tvn.cosine.ai.logic.fol.kb
+﻿using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.inference;
+
+namespace tvn.cosine.ai.logic.fol.kb
 {
     public class FOLKnowledgeBaseFactory
     {
 
-        public static FOLKnowledgeBase createKingsKnowledgeBase(
-                InferenceProcedure infp)
+        public static FOLKnowledgeBase createKingsKnowledgeBase(InferenceProcedure infp)
         {
-            FOLKnowledgeBase kb = new FOLKnowledgeBase(DomainFactory.kingsDomain(),
-                    infp);
+            FOLKnowledgeBase kb = new FOLKnowledgeBase(DomainFactory.kingsDomain(), infp);
             kb.tell("((King(x) AND Greedy(x)) => Evil(x))");
             kb.tell("King(John)");
             kb.tell("King(Richard)");
@@ -16,11 +17,9 @@
             return kb;
         }
 
-        public static FOLKnowledgeBase createWeaponsKnowledgeBase(
-                InferenceProcedure infp)
+        public static FOLKnowledgeBase createWeaponsKnowledgeBase(InferenceProcedure infp)
         {
-            FOLKnowledgeBase kb = new FOLKnowledgeBase(
-                    DomainFactory.weaponsDomain(), infp);
+            FOLKnowledgeBase kb = new FOLKnowledgeBase(DomainFactory.weaponsDomain(), infp);
             kb.tell("( (((American(x) AND Weapon(y)) AND Sells(x,y,z)) AND Hostile(z)) => Criminal(x))");
             kb.tell(" Owns(Nono, M1)");
             kb.tell(" Missile(M1)");
@@ -33,11 +32,9 @@
             return kb;
         }
 
-        public static FOLKnowledgeBase createLovesAnimalKnowledgeBase(
-                InferenceProcedure infp)
+        public static FOLKnowledgeBase createLovesAnimalKnowledgeBase(InferenceProcedure infp)
         {
-            FOLKnowledgeBase kb = new FOLKnowledgeBase(
-                    DomainFactory.lovesAnimalDomain(), infp);
+            FOLKnowledgeBase kb = new FOLKnowledgeBase(DomainFactory.lovesAnimalDomain(), infp);
 
             kb.tell("FORALL x (FORALL y (Animal(y) => Loves(x, y)) => EXISTS y Loves(y, x))");
             kb.tell("FORALL x (EXISTS y (Animal(y) AND Kills(x, y)) => FORALL z NOT(Loves(z, x)))");
@@ -49,11 +46,9 @@
             return kb;
         }
 
-        public static FOLKnowledgeBase createRingOfThievesKnowledgeBase(
-                InferenceProcedure infp)
+        public static FOLKnowledgeBase createRingOfThievesKnowledgeBase(InferenceProcedure infp)
         {
-            FOLKnowledgeBase kb = new FOLKnowledgeBase(
-                    DomainFactory.ringOfThievesDomain(), infp);
+            FOLKnowledgeBase kb = new FOLKnowledgeBase(DomainFactory.ringOfThievesDomain(), infp);
 
             // s(x) => ~c(x) One who skis never gets caught
             kb.tell("(Skis(x) => NOT(Caught(x)))");
@@ -122,8 +117,7 @@
         // Note: see -
         // http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf
         // slide 16,17, and 18 for where this test example was taken from.
-        public static FOLKnowledgeBase createABCDEqualityAndSubstitutionKnowledgeBase(
-                InferenceProcedure infp, bool includeEqualityAxioms)
+        public static FOLKnowledgeBase createABCDEqualityAndSubstitutionKnowledgeBase(InferenceProcedure infp, bool includeEqualityAxioms)
         {
             FOLDomain domain = new FOLDomain();
             domain.addConstant("A");

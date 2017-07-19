@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.probability.mdp.search
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.mdp.impl;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.probability.mdp.search
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 657.<br>
@@ -32,9 +37,9 @@
      * @author Ravi Mohan
      * 
      */
-    public class PolicyIteration<S, A : Action>
+    public class PolicyIteration<S, A>
+        where A : Action
     {
-
         private PolicyEvaluation<S, A> policyEvaluation = null;
 
         /**
@@ -60,9 +65,9 @@
         {
             // local variables: U, a vector of utilities for states in S, initially
             // zero
-            Map<S, double> U = Util.create(mdp.states(), new Double(0));
+            IMap<S, double> U = Util.create(mdp.states(), 0D);
             // &pi;, a policy vector indexed by state, initially random
-            Map<S, A> pi = initialPolicyVector(mdp);
+            IMap<S, A> pi = initialPolicyVector(mdp);
             bool unchanged;
             // repeat
             do
@@ -72,20 +77,19 @@
                 // unchanged? <- true
                 unchanged = true;
                 // for each state s in S do
-                for (S s : mdp.states())
+                foreach (S s in mdp.states())
                 {
                     // calculate:
                     // max<sub>a &isin; A(s)</sub>
                     // &Sigma;<sub>s'</sub>P(s'|s,a)U[s']
-                    double aMax = double.NEGATIVE_INFINITY, piVal = 0;
+                    double aMax = double.NegativeInfinity, piVal = 0;
                     A aArgmax = pi.Get(s);
-                    for (A a : mdp.actions(s))
+                    foreach (A a in mdp.actions(s))
                     {
                         double aSum = 0;
-                        for (S sDelta : mdp.states())
+                        foreach (S sDelta in mdp.states())
                         {
-                            aSum += mdp.transitionProbability(sDelta, s, a)
-                                    * U.Get(sDelta);
+                            aSum += mdp.transitionProbability(sDelta, s, a) * U.Get(sDelta);
                         }
                         if (aSum > aMax)
                         {
@@ -125,23 +129,21 @@
          *            an MDP with states S, actions A(s), transition model P(s'|s,a)
          * @return a policy vector indexed by state, initially random.
          */
-        public static <S, A : Action> Map<S, A> initialPolicyVector(
-                MarkovDecisionProcess<S, A> mdp)
+        public static IMap<S, A> initialPolicyVector(MarkovDecisionProcess<S, A> mdp)
         {
-            Map<S, A> pi = Factory.CreateMap<S, A>();
+            IMap<S, A> pi = Factory.CreateMap<S, A>();
             IQueue<A> actions = Factory.CreateQueue<A>();
-            for (S s : mdp.states())
+            foreach (S s in mdp.states())
             {
                 actions.Clear();
-                actions.addAll(mdp.actions(s));
+                actions.AddAll(mdp.actions(s));
                 // Handle terminal states (i.e. no actions).
-                if (actions.size() > 0)
+                if (actions.Size() > 0)
                 {
                     pi.Put(s, Util.selectRandomlyFromList(actions));
                 }
             }
             return pi;
         }
-    }
-
+    } 
 }

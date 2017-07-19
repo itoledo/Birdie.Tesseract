@@ -11,7 +11,5 @@
      * @author Ciaran O'Reilly
      */
     public interface ProbabilityMass : ProbabilityDistribution
-    {
-
-    }
+    { }
 }

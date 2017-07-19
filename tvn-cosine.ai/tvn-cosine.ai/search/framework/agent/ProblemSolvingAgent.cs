@@ -59,7 +59,7 @@
         while (plan.isEmpty())
         {
             // state.goal <- FORMULATE-GOAL(state)
-            Optional<Object> goal = formulateGoal();
+            Optional<object> goal = formulateGoal();
             if (goal.isPresent())
             {
                 // problem <- FORMULATE-PROBLEM(state, goal)
@@ -67,7 +67,7 @@
                 // state.plan <- SEARCH(problem)
                 IQueue<A> actions = search(problem);
                 if (actions.isPresent())
-                    plan.addAll(actions.Get());
+                    plan.AddAll(actions.Get());
                 else if (!tryWithAnotherGoal())
                 {
                     // unable to identify a path
@@ -124,7 +124,7 @@
 	 * goal (which is a possibly modified version of the last formulated goal).
 	 * This might be useful in situations in which plan execution has failed.
 	 */
-    protected abstract Optional<Object> formulateGoal();
+    protected abstract Optional<object> formulateGoal();
 
     /**
 	 * Primitive operation, responsible for search problem generation.

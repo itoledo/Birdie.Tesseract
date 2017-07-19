@@ -1,4 +1,6 @@
-﻿using tvn.cosine.ai.logic.fol.kb.data;
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.inference.proof;
+using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference
@@ -29,10 +31,8 @@ namespace tvn.cosine.ai.logic.fol.inference
      */
     public class Demodulation : AbstractModulation
     {
-
         public Demodulation()
-        {
-        }
+        { }
 
         public Clause apply(TermEquality assertion, Clause clExpression)
         {
@@ -47,7 +47,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     // I have an alternative, create a new clause
                     // with the alternative and return
                     IQueue<Literal> newLits = Factory.CreateQueue<Literal>();
-                    for (Literal l2 : clExpression.getLiterals())
+                    foreach (Literal l2 in clExpression.getLiterals())
                     {
                         if (l1.Equals(l2))
                         {
@@ -61,8 +61,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     // Only apply demodulation at most once on
                     // each call.
                     altClExpression = new Clause(newLits);
-                    altClExpression.setProofStep(new ProofStepClauseDemodulation(
-                            altClExpression, clExpression, assertion));
+                    altClExpression.setProofStep(new ProofStepClauseDemodulation(altClExpression, clExpression, assertion));
                     if (clExpression.isImmutable())
                     {
                         altClExpression.setImmutable();
@@ -78,39 +77,31 @@ namespace tvn.cosine.ai.logic.fol.inference
             return altClExpression;
         }
 
-        public AtomicSentence apply(TermEquality assertion,
-                AtomicSentence expression)
+        public AtomicSentence apply(TermEquality assertion, AtomicSentence expression)
         {
             AtomicSentence altExpression = null;
 
-            IdentifyCandidateMatchingTerm icm = getMatchingSubstitution(
-                    assertion.getTerm1(), expression);
+            IdentifyCandidateMatchingTerm icm = getMatchingSubstitution( assertion.getTerm1(), expression);
 
             if (null != icm)
             {
-                Term replaceWith = substVisitor.subst(
-                        icm.getMatchingSubstitution(), assertion.getTerm2());
+                Term replaceWith = substVisitor.subst( icm.getMatchingSubstitution(), assertion.getTerm2());
                 // Want to ignore reflexivity axiom situation, i.e. x = x
                 if (!icm.getMatchingTerm().Equals(replaceWith))
                 {
                     ReplaceMatchingTerm rmt = new ReplaceMatchingTerm();
 
                     // Only apply demodulation at most once on each call.
-                    altExpression = rmt.replace(expression, icm.getMatchingTerm(),
-                            replaceWith);
+                    altExpression = rmt.replace(expression, icm.getMatchingTerm(), replaceWith);
                 }
             }
 
             return altExpression;
         }
-
-        //
-        // PROTECTED METHODS
-        //
-
-        protected bool isValidMatch(Term toMatch,
+         
+        protected override bool isValidMatch(Term toMatch,
                 ISet<Variable> toMatchVariables, Term possibleMatch,
-                Map<Variable, Term> substitution)
+                IMap<Variable, Term> substitution)
         {
             // Demodulation only allows substitution in the equation only,
             // if the substitution contains variables not in the toMatch
@@ -119,7 +110,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             // Note: see:
             // http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf
             // slide 23 for an example.
-            if (toMatchVariables.containsAll(substitution.GetKeys()))
+            if (toMatchVariables.ContainsAll(substitution.GetKeys()))
             {
                 return true;
             }

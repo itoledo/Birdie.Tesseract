@@ -1,48 +1,46 @@
-﻿namespace tvn.cosine.ai.probability.proposition
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+
+namespace tvn.cosine.ai.probability.proposition
 {
-    public class NotProposition : AbstractProposition implements
-            UnarySentenceProposition
+    public class NotProposition : AbstractProposition, UnarySentenceProposition
     {
+        private Proposition proposition;
+        //
+        private string toString = null;
 
-
-    private Proposition proposition;
-    //
-    private string toString = null;
-
-    public NotProposition(Proposition prop)
-    {
-        if (null == prop)
+        public NotProposition(Proposition prop)
         {
-            throw new IllegalArgumentException(
-                    "Proposition to be negated must be specified.");
+            if (null == prop)
+            {
+                throw new IllegalArgumentException("Proposition to be negated must be specified.");
+            }
+            // Track nested scope
+            addScope(prop.getScope());
+            addUnboundScope(prop.getUnboundScope());
+
+            proposition = prop;
         }
-        // Track nested scope
-        addScope(prop.getScope());
-        addUnboundScope(prop.getUnboundScope());
 
-        proposition = prop;
-    }
 
-     
-    public bool holds(IMap<RandomVariable, object> possibleWorld)
-    {
-        return !proposition.holds(possibleWorld);
-    }
-
-     
-    public override string ToString()
-    {
-        if (null == toString)
+        public override bool holds(IMap<RandomVariable, object> possibleWorld)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("(NOT ");
-            sb.Append(proposition.ToString());
-            sb.Append(")");
-
-            toString = sb.ToString();
+            return !proposition.holds(possibleWorld);
         }
-        return toString;
-    }
-}
+         
+        public override string ToString()
+        {
+            if (null == toString)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("(NOT ");
+                sb.Append(proposition.ToString());
+                sb.Append(")");
 
+                toString = sb.ToString();
+            }
+            return toString;
+        }
+    }
 }

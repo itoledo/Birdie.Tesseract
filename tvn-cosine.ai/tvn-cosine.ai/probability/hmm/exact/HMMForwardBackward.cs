@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.probability.hmm.exact
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.temporal;
+using tvn.cosine.ai.util.math;
+
+namespace tvn.cosine.ai.probability.hmm.exact
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 576.<br>
@@ -34,103 +39,95 @@
      */
     public class HMMForwardBackward : ForwardBackwardInference
     {
+        protected HiddenMarkovModel hmm = null;
 
-
-    protected HiddenMarkovModel hmm = null;
-
-    public HMMForwardBackward(HiddenMarkovModel hmm)
-    {
-        this.hmm = hmm;
-    }
-
-    //
-    // START-ForwardBackwardInference
-     
-    public IQueue<CategoricalDistribution> forwardBackward(
-            IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
-    {
-        // local variables: fv, a vector of forward messages for steps 0,...,t
-        IQueue<Matrix> fv = Factory.CreateQueue<Matrix>(ev.size() + 1);
-        // b, a representation of the backward message, initially all 1s
-        Matrix b = hmm.createUnitMessage();
-        // sv, a vector of smoothed estimates for steps 1,...,t
-        IQueue<Matrix> sv = Factory.CreateQueue<Matrix>(ev.size());
-
-        // fv[0] <- prior
-        fv.Add(hmm.convert(prior));
-        // for i = 1 to t do
-        for (int i = 0; i < ev.size(); i++)
+        public HMMForwardBackward(HiddenMarkovModel hmm)
         {
-            // fv[i] <- FORWARD(fv[i-1], ev[i])
-            fv.Add(forward(fv.Get(i), hmm.getEvidence(ev.Get(i))));
-        }
-        // for i = t downto 1 do
-        for (int i = ev.size() - 1; i >= 0; i--)
-        {
-            // sv[i] <- NORMALIZE(fv[i] * b)
-            sv.Add(0, hmm.normalize(fv.Get(i + 1).arrayTimes(b)));
-            // b <- BACKWARD(b, ev[i])
-            b = backward(b, hmm.getEvidence(ev.Get(i)));
+            this.hmm = hmm;
         }
 
-        // return sv
-        return hmm.convert(sv);
-    }
+        //
+        // START-ForwardBackwardInference
 
-     
-    public CategoricalDistribution forward(CategoricalDistribution f1_t,
-            IQueue<AssignmentProposition> e_tp1)
-    {
-        return hmm.convert(forward(hmm.convert(f1_t), hmm.getEvidence(e_tp1)));
-    }
+        public IQueue<CategoricalDistribution> forwardBackward(IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
+        {
+            // local variables: fv, a vector of forward messages for steps 0,...,t
+            IQueue<Matrix> fv = Factory.CreateQueue<Matrix>();
+            // b, a representation of the backward message, initially all 1s
+            Matrix b = hmm.createUnitMessage();
+            // sv, a vector of smoothed estimates for steps 1,...,t
+            IQueue<Matrix> sv = Factory.CreateQueue<Matrix>();
 
-     
-    public CategoricalDistribution backward(CategoricalDistribution b_kp2t,
-            IQueue<AssignmentProposition> e_kp1)
-    {
-        return hmm
-                .convert(backward(hmm.convert(b_kp2t), hmm.getEvidence(e_kp1)));
-    }
+            // fv[0] <- prior
+            fv.Add(hmm.convert(prior));
+            // for i = 1 to t do
+            for (int i = 0; i < ev.Size(); i++)
+            {
+                // fv[i] <- FORWARD(fv[i-1], ev[i])
+                fv.Add(forward(fv.Get(i), hmm.getEvidence(ev.Get(i))));
+            }
+            // for i = t downto 1 do
+            for (int i = ev.Size() - 1; i >= 0; i--)
+            {
+                // sv[i] <- NORMALIZE(fv[i] * b)
+                sv.Insert(0, hmm.normalize(fv.Get(i + 1).arrayTimes(b)));
+                // b <- BACKWARD(b, ev[i])
+                b = backward(b, hmm.getEvidence(ev.Get(i)));
+            }
 
-    // END-ForwardBackwardInference
-    //
+            // return sv
+            return hmm.convert(sv);
+        }
 
-    /**
-	 * The forward equation (15.5) in Matrix form becomes (15.12):<br>
-	 * 
-	 * <pre>
-	 * <b>f</b><sub>1:t+1</sub> = &alpha;<b>O</b><sub>t+1</sub><b>T</b><sup>T</sup><b>f</b><sub>1:t</sub>
-	 * </pre>
-	 * 
-	 * @param f1_t
-	 *            <b>f</b><sub>1:t</sub>
-	 * @param O_tp1
-	 *            <b>O</b><sub>t+1</sub>
-	 * @return <b>f</b><sub>1:t+1</sub>
-	 */
-    public Matrix forward(Matrix f1_t, Matrix O_tp1)
-    {
-        return hmm.normalize(O_tp1.times(hmm.getTransitionModel().transpose()
-                .times(f1_t)));
-    }
 
-    /**
-	 * The backward equation (15.9) in Matrix form becomes (15.13):<br>
-	 * 
-	 * <pre>
-	 * <b>b</b><sub>k+1:t</sub> = <b>T</b><b>O</b><sub>k+1</sub><b>b</b><sub>k+2:t</sub>
-	 * </pre>
-	 * 
-	 * @param b_kp2t
-	 *            <b>b</b><sub>k+2:t</sub>
-	 * @param O_kp1
-	 *            <b>O</b><sub>k+1</sub>
-	 * @return <b>b</b><sub>k+1:t</sub>
-	 */
-    public Matrix backward(Matrix b_kp2t, Matrix O_kp1)
-    {
-        return hmm.getTransitionModel().times(O_kp1).times(b_kp2t);
-    }
-}
+        public CategoricalDistribution forward(CategoricalDistribution f1_t, IQueue<AssignmentProposition> e_tp1)
+        {
+            return hmm.convert(forward(hmm.convert(f1_t), hmm.getEvidence(e_tp1)));
+        }
 
+
+        public CategoricalDistribution backward(CategoricalDistribution b_kp2t, IQueue<AssignmentProposition> e_kp1)
+        {
+            return hmm.convert(backward(hmm.convert(b_kp2t), hmm.getEvidence(e_kp1)));
+        }
+
+        // END-ForwardBackwardInference
+        //
+
+        /**
+         * The forward equation (15.5) in Matrix form becomes (15.12):<br>
+         * 
+         * <pre>
+         * <b>f</b><sub>1:t+1</sub> = &alpha;<b>O</b><sub>t+1</sub><b>T</b><sup>T</sup><b>f</b><sub>1:t</sub>
+         * </pre>
+         * 
+         * @param f1_t
+         *            <b>f</b><sub>1:t</sub>
+         * @param O_tp1
+         *            <b>O</b><sub>t+1</sub>
+         * @return <b>f</b><sub>1:t+1</sub>
+         */
+        public Matrix forward(Matrix f1_t, Matrix O_tp1)
+        {
+            return hmm.normalize(O_tp1.times(hmm.getTransitionModel().transpose().times(f1_t)));
+        }
+
+        /**
+         * The backward equation (15.9) in Matrix form becomes (15.13):<br>
+         * 
+         * <pre>
+         * <b>b</b><sub>k+1:t</sub> = <b>T</b><b>O</b><sub>k+1</sub><b>b</b><sub>k+2:t</sub>
+         * </pre>
+         * 
+         * @param b_kp2t
+         *            <b>b</b><sub>k+2:t</sub>
+         * @param O_kp1
+         *            <b>O</b><sub>k+1</sub>
+         * @return <b>b</b><sub>k+1:t</sub>
+         */
+        public Matrix backward(Matrix b_kp2t, Matrix O_kp1)
+        {
+            return hmm.getTransitionModel().times(O_kp1).times(b_kp2t);
+        }
+    } 
 }

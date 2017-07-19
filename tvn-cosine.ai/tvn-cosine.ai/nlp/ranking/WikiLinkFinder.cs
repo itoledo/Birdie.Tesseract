@@ -34,7 +34,7 @@
         }
 
          
-    public IQueue<string> getInlinks(Page target, Map<string, Page> pageTable)
+    public IQueue<string> getInlinks(Page target, IMap<string, Page> pageTable)
         {
 
             string location = target.getLocation().toLowerCase(); // make comparison

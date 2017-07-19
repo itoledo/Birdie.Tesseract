@@ -94,7 +94,7 @@
 
                 // Most of the time is spent in the following dot product.
 
-                int kmax = Math.min(i, j);
+                int kmax = System.Math.Min(i, j);
                 double s = 0.0;
                 for (int k = 0; k < kmax; k++)
                 {

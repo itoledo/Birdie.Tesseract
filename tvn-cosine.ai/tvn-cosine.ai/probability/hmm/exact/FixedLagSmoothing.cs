@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.probability.hmm.exact
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.util.math;
+
+namespace tvn.cosine.ai.probability.hmm.exact
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 580.<br>
@@ -52,7 +56,6 @@
      */
     public class FixedLagSmoothing
     {
-
         // persistent:
         // t, the current time, initially 1
         private int t = 1;
@@ -97,8 +100,7 @@
          *            the current evidence from time step t
          * @return a distribution over <b>X</b><sub>t-d</sub>
          */
-        public CategoricalDistribution fixedLagSmoothing(
-                IQueue<AssignmentProposition> et)
+        public CategoricalDistribution fixedLagSmoothing(IQueue<AssignmentProposition> et)
         {
             // local variables: <b>O</b><sub>t-d</sub>, <b>O</b><sub>t</sub>,
             // diagonal matrices containing the sensor model information
@@ -108,12 +110,12 @@
             e_tmd_to_t.Add(hmm.getEvidence(et));
             // <b>O</b><sub>t</sub> <- diagonal matrix containing
             // <b>P</b>(e<sub>t</sub> | X<sub>t</sub>)
-            O_t = e_tmd_to_t.Get(e_tmd_to_t.size() - 1);
+            O_t = e_tmd_to_t.Get(e_tmd_to_t.Size() - 1);
             // if t > d then
             if (t > d)
             {
                 // remove e<sub>t-d-1</sub> from the beginning of e<sub>t-d:t</sub>
-                e_tmd_to_t.Remove(0);
+                e_tmd_to_t.RemoveAt(0);
                 // <b>O</b><sub>t-d</sub> <- diagonal matrix containing
                 // <b>P</b>(e<sub>t-d</sub> | X<sub>t-d</sub>)
                 O_tmd = e_tmd_to_t.Get(0);
@@ -121,8 +123,7 @@
                 f = forward(f, O_tmd);
                 // <b>B</b> <-
                 // <b>O</b><sup>-1</sup><sub>t-d</sub><b>B</b><b>T</b><b>O</b><sub>t</sub>
-                B = O_tmd.inverse().times(hmm.getTransitionModel().inverse())
-                        .times(B).times(hmm.getTransitionModel()).times(O_t);
+                B = O_tmd.inverse().times(hmm.getTransitionModel().inverse()).times(B).times(hmm.getTransitionModel()).times(O_t);
             }
             else
             {
@@ -134,8 +135,7 @@
             CategoricalDistribution rVal = null;
             if (t > d)
             {
-                rVal = hmm
-                        .convert(hmm.normalize(f.arrayTimes(B.times(unitMessage))));
+                rVal = hmm.convert(hmm.normalize(f.arrayTimes(B.times(unitMessage))));
             }
             // t <- t + 1
             t = t + 1;
@@ -157,8 +157,7 @@
          */
         public Matrix forward(Matrix f1_t, Matrix O_tp1)
         {
-            return hmm.normalize(O_tp1.times(hmm.getTransitionModel().transpose()
-                    .times(f1_t)));
+            return hmm.normalize(O_tp1.times(hmm.getTransitionModel().transpose().times(f1_t)));
         }
 
         //
@@ -181,6 +180,5 @@
             e_tmd_to_t.Clear();
             unitMessage = hmm.createUnitMessage();
         }
-    }
-
+    } 
 }

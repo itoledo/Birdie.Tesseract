@@ -39,9 +39,9 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         where A : Action
     {
         // persistent: &pi;, a fixed policy
-        private Map<S, A> pi = Factory.CreateMap<S, A>();
+        private IMap<S, A> pi = Factory.CreateMap<S, A>();
         // U, a table of utilities, initially empty
-        private Map<S, double> U = Factory.CreateMap<S, double>();
+        private IMap<S, double> U = Factory.CreateMap<S, double>();
         // N<sub>s</sub>, a table of frequencies for states, initially zero
         private FrequencyCounter<S> Ns = new FrequencyCounter<S>();
         // s,a,r, the previous state, action, and reward, initially null
@@ -84,7 +84,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             // if s' is new then U[s'] <- r'
             S sDelta = percept.state();
             double rDelta = percept.reward();
-            if (!U.containsKey(sDelta))
+            if (!U.ContainsKey(sDelta))
             {
                 U.Put(sDelta, rDelta);
             }
@@ -116,7 +116,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         }
 
          
-    public Map<S, double> getUtility()
+    public IMap<S, double> getUtility()
         {
             return Factory.CreateMap<S, double>(U);
         }

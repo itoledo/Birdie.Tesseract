@@ -19,7 +19,7 @@ namespace tvn.cosine.ai.logic.fol.domain
 
         public FOLDomain(FOLDomain toCopy)
             : this(toCopy.getConstants(), toCopy.getFunctions(), toCopy.getPredicates())
-        {  }
+        { }
 
         public FOLDomain(ISet<string> constants, ISet<string> functions, ISet<string> predicates)
         {
@@ -55,7 +55,7 @@ namespace tvn.cosine.ai.logic.fol.domain
             do
             {
                 sc = "SC" + (skolemConstantIndexical++);
-            } while (constants.Contains(sc) 
+            } while (constants.Contains(sc)
                     || functions.Contains(sc)
                     || predicates.Contains(sc));
 
@@ -76,8 +76,8 @@ namespace tvn.cosine.ai.logic.fol.domain
             do
             {
                 sf = "SF" + (skolemFunctionIndexical++);
-            } while (constants.contains(sf) || functions.contains(sf)
-                    || predicates.contains(sf));
+            } while (constants.Contains(sf) || functions.Contains(sf)
+                    || predicates.Contains(sf));
 
             addFunction(sf);
             notifyFOLDomainListeners(new FOLDomainSkolemFunctionAddedEvent(this, sf));
@@ -96,8 +96,8 @@ namespace tvn.cosine.ai.logic.fol.domain
             do
             {
                 al = "Answer" + (answerLiteralIndexical++);
-            } while (constants.contains(al) || functions.contains(al)
-                    || predicates.contains(al));
+            } while (constants.Contains(al) || functions.Contains(al)
+                    || predicates.Contains(al));
 
             addPredicate(al);
             notifyFOLDomainListeners(new FOLDomainAnswerLiteralAddedEvent(this, al));
@@ -107,32 +107,23 @@ namespace tvn.cosine.ai.logic.fol.domain
 
         public void addFOLDomainListener(FOLDomainListener listener)
         {
-            synchronized(listeners) {
-                if (!listeners.contains(listener))
-                {
-                    listeners.Add(listener);
-                }
+            if (!listeners.Contains(listener))
+            {
+                listeners.Add(listener);
             }
         }
 
         public void removeFOLDomainListener(FOLDomainListener listener)
         {
-            synchronized(listeners) {
-                listeners.Remove(listener);
+            listeners.Remove(listener);
+        }
+         
+        private void notifyFOLDomainListeners(FOLDomainEvent even)
+        {
+            foreach (FOLDomainListener l in listeners)
+            { 
+                even.notifyListener(l);
             }
         }
-
-        //
-        // PRIVATE METHODS
-        //
-        private void notifyFOLDomainListeners(FOLDomainEvent event) {
-            synchronized(listeners) {
-                for (FOLDomainListener l : listeners)
-                {
-
-                event.notifyListener(l);
-        }
     }
-}
-}
 }

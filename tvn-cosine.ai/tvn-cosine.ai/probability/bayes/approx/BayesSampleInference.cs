@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability.bayes.approx
+﻿using tvn.cosine.ai.probability.proposition;
+
+namespace tvn.cosine.ai.probability.bayes.approx
 {
     /**
      * General interface to be implemented by approximate Bayesian Inference
@@ -20,8 +22,8 @@
          *            the total number of samples to be generated
          * @return an estimate of <b>P</b>(X|e).
          */
-        CategoricalDistribution ask(final RandomVariable[] X,
-                final AssignmentProposition[] observedEvidence,
-                final BayesianNetwork bn, int N);
+        CategoricalDistribution ask(  RandomVariable[] X,
+               AssignmentProposition[] observedEvidence,
+               BayesianNetwork bn, int N);
     }
 }

@@ -11,7 +11,7 @@
      * 
      * @author Andrew Brown
      */
-    public class Plan : LinkedList<Object> {
+    public class Plan : LinkedList<object> {
 
 
     private static final long serialVersionUID = 1L;

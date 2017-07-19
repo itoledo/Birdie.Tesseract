@@ -5,6 +5,7 @@ using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.parsing;
 using tvn.cosine.ai.logic.fol.parsing.ast;
+using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.logic.fol.kb.data
 {
@@ -44,8 +45,8 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
         public Clause(IQueue<Literal> lits)
         {
-            this.literals.addAll(lits);
-            for (Literal l : literals)
+            this.literals.AddAll(lits);
+            foreach (Literal l in literals)
             {
                 if (l.isPositiveLiteral())
                 {
@@ -61,9 +62,9 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
         public Clause(IQueue<Literal> lits1, IQueue<Literal> lits2)
         {
-            literals.addAll(lits1);
-            literals.addAll(lits2);
-            for (Literal l : literals)
+            literals.AddAll(lits1);
+            literals.AddAll(lits2);
+            foreach (Literal l in literals)
             {
                 if (l.isPositiveLiteral())
                 {
@@ -199,17 +200,17 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
         public int getNumberLiterals()
         {
-            return literals.size();
+            return literals.Size();
         }
 
         public int getNumberPositiveLiterals()
         {
-            return positiveLiterals.size();
+            return positiveLiterals.Size();
         }
 
         public int getNumberNegativeLiterals()
         {
-            return negativeLiterals.size();
+            return negativeLiterals.Size();
         }
 
         public ISet<Literal> getLiterals()
@@ -261,11 +262,11 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                                 .getNumberNegativeLiterals())
                 {
 
-                    Map<string, IQueue<Literal>> thisToTry = collectLikeLiterals(this.literals);
-                    Map<string, IQueue<Literal>> othCToTry = collectLikeLiterals(othC.literals);
+                    IMap<string, IQueue<Literal>> thisToTry = collectLikeLiterals(this.literals);
+                    IMap<string, IQueue<Literal>> othCToTry = collectLikeLiterals(othC.literals);
                     // Ensure all like literals from this clause are a subset
                     // of the other clause.
-                    if (othCToTry.GetKeys().containsAll(thisToTry.GetKeys()))
+                    if (othCToTry.GetKeys().ContainsAll(thisToTry.GetKeys()))
                     {
                         bool isAPossSubset = true;
                         // Ensure that each set of same named literals
@@ -313,10 +314,10 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
             IQueue<Literal> allPosLits = Factory.CreateQueue<Literal>();
             IQueue<Literal> allNegLits = Factory.CreateQueue<Literal>();
-            allPosLits.addAll(this.positiveLiterals);
-            allPosLits.addAll(othC.positiveLiterals);
-            allNegLits.addAll(this.negativeLiterals);
-            allNegLits.addAll(othC.negativeLiterals);
+            allPosLits.AddAll(this.positiveLiterals);
+            allPosLits.AddAll(othC.positiveLiterals);
+            allNegLits.AddAll(this.negativeLiterals);
+            allNegLits.AddAll(othC.negativeLiterals);
 
             IQueue<Literal> trPosLits = Factory.CreateQueue<Literal>();
             IQueue<Literal> trNegLits = Factory.CreateQueue<Literal>();
@@ -333,19 +334,19 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                     // See if this clauses positives
                     // unify with the other clauses
                     // negatives
-                    trPosLits.addAll(this.positiveLiterals);
-                    trNegLits.addAll(othC.negativeLiterals);
+                    trPosLits.AddAll(this.positiveLiterals);
+                    trNegLits.AddAll(othC.negativeLiterals);
                 }
                 else
                 {
                     // Try the other way round now
-                    trPosLits.addAll(othC.positiveLiterals);
-                    trNegLits.addAll(this.negativeLiterals);
+                    trPosLits.AddAll(othC.positiveLiterals);
+                    trNegLits.AddAll(this.negativeLiterals);
                 }
 
                 // Now check to see if they resolve
-                Map<Variable, Term> copyRBindings = Factory.CreateMap<Variable, Term>();
-                for (Literal pl : trPosLits)
+                IMap<Variable, Term> copyRBindings = Factory.CreateMap<Variable, Term>();
+                foreach (Literal pl in trPosLits)
                 {
                     foreach (Literal nl in trNegLits)
                     {
@@ -448,39 +449,35 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         //
         private void recalculateIdentity()
         {
-            synchronized(this) {
+            // Sort the literals first based on negation, atomic sentence,
+            // constant, function and variable.
+            IQueue<Literal> sortedLiterals = Factory.CreateQueue<Literal>(literals);
+            sortedLiterals.Sort(_literalSorter);
 
-                // Sort the literals first based on negation, atomic sentence,
-                // constant, function and variable.
-                IQueue<Literal> sortedLiterals = Factory.CreateQueue<Literal>(literals);
-                Collections.sort(sortedLiterals, _literalSorter);
+            // All variables are considered the same as regards
+            // sorting. Therefore, to determine if two clauses
+            // are equivalent you need to determine
+            // the # of unique variables they contain and
+            // there positions across the clauses
+            ClauseEqualityIdentityConstructor ceic = new ClauseEqualityIdentityConstructor(sortedLiterals, _literalSorter);
 
-                // All variables are considered the same as regards
-                // sorting. Therefore, to determine if two clauses
-                // are equivalent you need to determine
-                // the # of unique variables they contain and
-                // there positions across the clauses
-                ClauseEqualityIdentityConstructor ceic = new ClauseEqualityIdentityConstructor(
-                        sortedLiterals, _literalSorter);
+            equalityIdentity = ceic.getIdentity();
 
-                equalityIdentity = ceic.getIdentity();
-
-                // Reset, these as will need to re-calcualte
-                // if requested for again, best to only
-                // access lazily.
-                factors = null;
-                nonTrivialFactors = null;
-                // Reset the objects string representation
-                // until it is requested for.
-                stringRep = null;
-            }
+            // Reset, these as will need to re-calcualte
+            // if requested for again, best to only
+            // access lazily.
+            factors = null;
+            nonTrivialFactors = null;
+            // Reset the objects string representation
+            // until it is requested for.
+            stringRep = null;
         }
 
-        private void calculateFactors(Set<Clause> parentFactors)
+        private void calculateFactors(ISet<Clause> parentFactors)
         {
             nonTrivialFactors = Factory.CreateSet<Clause>();
 
-            Map<Variable, Term> theta = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> theta = Factory.CreateMap<Variable, Term>();
             IQueue<Literal> lits = Factory.CreateQueue<Literal>();
             for (int i = 0; i < 2; i++)
             {
@@ -488,22 +485,22 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 if (i == 0)
                 {
                     // Look at the positive literals
-                    lits.addAll(positiveLiterals);
+                    lits.AddAll(positiveLiterals);
                 }
                 else
                 {
                     // Look at the negative literals
-                    lits.addAll(negativeLiterals);
+                    lits.AddAll(negativeLiterals);
                 }
-                for (int x = 0; x < lits.size(); x++)
+                for (int x = 0; x < lits.Size(); x++)
                 {
-                    for (int y = x + 1; y < lits.size(); y++)
+                    for (int y = x + 1; y < lits.Size(); y++)
                     {
                         Literal litX = lits.Get(x);
                         Literal litY = lits.Get(y);
 
                         theta.Clear();
-                        Map<Variable, Term> substitution = _unifier.unify(
+                        IMap<Variable, Term> substitution = _unifier.unify(
                                 litX.getAtomicSentence(), litY.getAtomicSentence(),
                                 theta);
                         if (null != substitution)
@@ -518,7 +515,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                             {
                                 negLits.Add(_substVisitor.subst(substitution, litX));
                             }
-                            for (Literal pl : positiveLiterals)
+                            foreach (Literal pl in positiveLiterals)
                             {
                                 if (pl == litX || pl == litY)
                                 {
@@ -535,7 +532,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                                 negLits.Add(_substVisitor.subst(substitution, nl));
                             }
                             // Ensure the non trivial factor is standardized apart
-                            Map<Variable, Term> renameSubst = _standardizeApart
+                            IMap<Variable, Term> renameSubst = _standardizeApart
                                     .standardizeApart(posLits, negLits,
                                             _saIndexical);
                             Clause c = new Clause(posLits, negLits);
@@ -552,14 +549,14 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                             if (null == parentFactors)
                             {
                                 c.calculateFactors(nonTrivialFactors);
-                                nonTrivialFactors.addAll(c.getFactors());
+                                nonTrivialFactors.AddAll(c.getFactors());
                             }
                             else
                             {
-                                if (!parentFactors.contains(c))
+                                if (!parentFactors.Contains(c))
                                 {
                                     c.calculateFactors(nonTrivialFactors);
-                                    nonTrivialFactors.addAll(c.getFactors());
+                                    nonTrivialFactors.AddAll(c.getFactors());
                                 }
                             }
                         }
@@ -574,7 +571,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             // for example of incompleteness when
             // trivial factor not included.
             factors.Add(this);
-            factors.addAll(nonTrivialFactors);
+            factors.AddAll(nonTrivialFactors);
         }
 
         private Clause saIfRequired(Clause othClause)
@@ -591,29 +588,28 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                         .collectAllVariables(othClause);
 
                 ISet<Variable> cVariables = Factory.CreateSet<Variable>();
-                cVariables.addAll(mVariables);
-                cVariables.addAll(oVariables);
+                cVariables.AddAll(mVariables);
+                cVariables.AddAll(oVariables);
 
-                if (cVariables.size() < (mVariables.size() + oVariables.size()))
+                if (cVariables.Size() < (mVariables.Size() + oVariables.Size()))
                 {
-                    othClause = _standardizeApart.standardizeApart(othClause,
-                            _saIndexical);
+                    othClause = _standardizeApart.standardizeApart(othClause, _saIndexical);
                 }
             }
 
             return othClause;
         }
 
-        private Map<string, IQueue<Literal>> collectLikeLiterals(Set<Literal> literals)
+        private IMap<string, IQueue<Literal>> collectLikeLiterals(ISet<Literal> literals)
         {
-            Map<string, IQueue<Literal>> likeLiterals = Factory.CreateMap<string, IQueue<Literal>>();
-            for (Literal l : literals)
+            IMap<string, IQueue<Literal>> likeLiterals = Factory.CreateMap<string, IQueue<Literal>>();
+            foreach (Literal l in literals)
             {
                 // Want to ensure P(a, b) is considered different than P(a, b, c)
                 // i.e. consider an atom's arity P/#.
                 string literalName = (l.isNegativeLiteral() ? "~" : "")
                         + l.getAtomicSentence().getSymbolicName() + "/"
-                        + l.getAtomicSentence().getArgs().size();
+                        + l.getAtomicSentence().getArgs().Size();
                 IQueue<Literal> like = likeLiterals.Get(literalName);
                 if (null == like)
                 {
@@ -626,8 +622,8 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         }
 
         private bool checkSubsumes(Clause othC,
-                Map<string, IQueue<Literal>> thisToTry,
-                Map<string, IQueue<Literal>> othCToTry)
+                IMap<string, IQueue<Literal>> thisToTry,
+                IMap<string, IQueue<Literal>> othCToTry)
         {
             bool subsumes = false;
 
@@ -636,10 +632,10 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
             // Want to track possible number of permuations
             IQueue<int> radices = Factory.CreateQueue<int>();
-            for (string literalName : thisToTry.GetKeys())
+            foreach (string literalName in thisToTry.GetKeys())
             {
-                int sizeT = thisToTry.Get(literalName).size();
-                int sizeO = othCToTry.Get(literalName).size();
+                int sizeT = thisToTry.Get(literalName).Size();
+                int sizeO = othCToTry.Get(literalName).Size();
 
                 if (sizeO > 1)
                 {
@@ -660,15 +656,15 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                     }
                 }
                 // Track the terms for this clause
-                for (Literal tl : thisToTry.Get(literalName))
+                foreach (Literal tl in thisToTry.Get(literalName))
                 {
-                    thisTerms.addAll(tl.getAtomicSentence().getArgs());
+                    thisTerms.AddAll(tl.getAtomicSentence().getArgs());
                 }
             }
 
             MixedRadixNumber permutation = null;
             long numPermutations = 1L;
-            if (radices.size() > 0)
+            if (radices.Size() > 0)
             {
                 permutation = new MixedRadixNumber(0, radices);
                 numPermutations = permutation.getMaxAllowedValue() + 1;
@@ -678,7 +674,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             // this indicates it is not a legal subsumption.
             ISet<Variable> othCVariables = _variableCollector
                     .collectAllVariables(othC);
-            Map<Variable, Term> theta = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> theta = Factory.CreateMap<Variable, Term>();
             IQueue<Literal> literalPermuations = Factory.CreateQueue<Literal>();
             for (long l = 0L; l < numPermutations; l++)
             {
@@ -686,12 +682,12 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 // permutation.
                 othCTerms.Clear();
                 int radixIdx = 0;
-                for (string literalName : thisToTry.GetKeys())
+                foreach (string literalName in thisToTry.GetKeys())
                 {
-                    int sizeT = thisToTry.Get(literalName).size();
+                    int sizeT = thisToTry.Get(literalName).Size();
                     literalPermuations.Clear();
-                    literalPermuations.addAll(othCToTry.Get(literalName));
-                    int sizeO = literalPermuations.size();
+                    literalPermuations.AddAll(othCToTry.Get(literalName));
+                    int sizeO = literalPermuations.Size();
 
                     if (sizeO > 1)
                     {
@@ -702,25 +698,24 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                             {
                                 // If not a 1 to 1 mapping then you need
                                 // to use the correct permuation
-                                int numPos = permutation
-                                        .getCurrentNumeralValue(radixIdx);
-                                othCTerms.addAll(literalPermuations.Remove(numPos)
-                                        .getAtomicSentence().getArgs());
+                                int numPos = permutation.getCurrentNumeralValue(radixIdx);
+                                Literal lit = literalPermuations.Get(numPos);
+                                literalPermuations.Remove(lit);
+                                othCTerms.AddAll(lit.getAtomicSentence().getArgs());
                                 radixIdx++;
                             }
                             else
                             {
                                 // is the last mapping, therefore
                                 // won't be on the radix
-                                othCTerms.addAll(literalPermuations.Get(0)
-                                        .getAtomicSentence().getArgs());
+                                othCTerms.AddAll(literalPermuations.Get(0).getAtomicSentence().getArgs());
                             }
                         }
                     }
                     else
                     {
                         // a 1 to 1 mapping
-                        othCTerms.addAll(literalPermuations.Get(0)
+                        othCTerms.AddAll(literalPermuations.Get(0)
                                 .getAtomicSentence().getArgs());
                     }
                 }
@@ -735,9 +730,9 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 if (null != _unifier.unify(thisTerms, othCTerms, theta))
                 {
                     bool containsAny = false;
-                    for (Variable v : theta.GetKeys())
+                    foreach (Variable v in theta.GetKeys())
                     {
-                        if (othCVariables.contains(v))
+                        if (othCVariables.Contains(v))
                         {
                             containsAny = true;
                             break;
@@ -782,16 +777,14 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             }
 
             // Check their symbolic names for order first
-            rVal = o1.getAtomicSentence().getSymbolicName()
-                    .compareTo(o2.getAtomicSentence().getSymbolicName());
+            rVal = o1.getAtomicSentence().getSymbolicName().CompareTo(o2.getAtomicSentence().getSymbolicName());
 
             // If have same symbolic names
             // then need to compare individual arguments
             // for order.
             if (0 == rVal)
             {
-                rVal = compareArgs(o1.getAtomicSentence().getArgs(), o2
-                        .getAtomicSentence().getArgs());
+                rVal = compareArgs(o1.getAtomicSentence().getArgs(), o2.getAtomicSentence().getArgs());
             }
 
             return rVal;
@@ -906,14 +899,14 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
             int min, max;
             min = max = 0;
-            for (int i = 0; i < literals.size(); i++)
+            for (int i = 0; i < literals.Size(); i++)
             {
                 int incITo = i;
                 int next = i + 1;
                 max += clauseVarCounts[i];
-                while (next < literals.size())
+                while (next < literals.Size())
                 {
-                    if (0 != sorter.compare(literals.Get(i), literals.Get(next)))
+                    if (0 != sorter.Compare(literals.Get(i), literals.Get(next)))
                     {
                         break;
                     }
@@ -932,13 +925,13 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                     // current min/max range then need
                     // to include its alternative
                     // sort order positions as well
-                    for (string key : varPositions.GetKeys())
+                    foreach (string key in varPositions.GetKeys())
                     {
                         IQueue<int> positions = varPositions.Get(key);
                         IQueue<int> additPositions = Factory.CreateQueue<int>();
                         // Add then subtract for all possible
                         // positions in range
-                        for (int pos : positions)
+                        foreach (int pos in positions)
                         {
                             if (pos >= min && pos < max)
                             {
@@ -949,8 +942,8 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                                     pPos += clauseVarCounts[i];
                                     if (pPos >= min && pPos < max)
                                     {
-                                        if (!positions.contains(pPos)
-                                                && !additPositions.contains(pPos))
+                                        if (!positions.Contains(pPos)
+                                                && !additPositions.Contains(pPos))
                                         {
                                             additPositions.Add(pPos);
                                         }
@@ -958,8 +951,8 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                                     nPos -= clauseVarCounts[i];
                                     if (nPos >= min && nPos < max)
                                     {
-                                        if (!positions.contains(nPos)
-                                                && !additPositions.contains(nPos))
+                                        if (!positions.Contains(nPos)
+                                                && !additPositions.Contains(nPos))
                                         {
                                             additPositions.Add(nPos);
                                         }
@@ -967,7 +960,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                                 }
                             }
                         }
-                        positions.addAll(additPositions);
+                        positions.AddAll(additPositions);
                     }
                 }
                 min = max;
@@ -986,15 +979,15 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             // And then add their string representations
             // together
             IQueue<string> varOffsets = Factory.CreateQueue<string>();
-            for (string key : varPositions.GetKeys())
+            foreach (string key in varPositions.GetKeys())
             {
                 IQueue<int> positions = varPositions.Get(key);
-                Collections.sort(positions);
+                positions.Sort(new Queue<int>.Comparer());
                 StringBuilder sb = new StringBuilder();
-                for (int pos : positions)
+                foreach (int pos in positions)
                 {
-                    string posStr = Integer.toString(pos);
-                    int posStrLen = posStr.length();
+                    string posStr = pos.ToString();
+                    int posStrLen = posStr.Length;
                     int padLen = maxWidth - posStrLen;
                     for (int i = 0; i < padLen; i++)
                     {
@@ -1004,11 +997,11 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 }
                 varOffsets.Add(sb.ToString());
             }
-            Collections.sort(varOffsets);
-            for (int i = 0; i < varOffsets.size(); i++)
+            varOffsets.Sort(new Queue<string>.Comparer());
+            for (int i = 0; i < varOffsets.Size(); i++)
             {
                 identity.Append(varOffsets.Get(i));
-                if (i < (varOffsets.size() - 1))
+                if (i < (varOffsets.Size() - 1))
                 {
                     identity.Append(",");
                 }
@@ -1051,7 +1044,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             bool firstTerm = true;
             identity.Append(function.getFunctionName());
             identity.Append("(");
-            for (Term t : function.getTerms())
+            foreach (Term t in function.getTerms())
             {
                 if (firstTerm)
                 {
@@ -1078,8 +1071,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             throw new IllegalStateException("Should not be called");
         }
 
-        public object visitQuantifiedSentence(QuantifiedSentence sentence,
-                object arg)
+        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
             throw new IllegalStateException("Should not be called");
         }
@@ -1093,8 +1085,5 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         {
             throw new IllegalStateException("Should not be called");
         }
-
-        // END-FOLVisitor
-        //
     }
 }

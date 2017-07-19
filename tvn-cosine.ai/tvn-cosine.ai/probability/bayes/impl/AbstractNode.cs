@@ -10,8 +10,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
      * @author Ravi Mohan
      */
     public abstract class AbstractNode : Node
-    {
-
+    { 
         private RandomVariable variable = null;
         private ISet<Node> parents = null;
         private ISet<Node> children = null;

@@ -66,12 +66,12 @@
     {
         metrics = new Metrics();
         A result = null;
-        double resultValue = double.NEGATIVE_INFINITY;
+        double resultValue = double.NegativeInfinity;
         P player = game.getPlayer(state);
         for (A action : game.getActions(state))
         {
             double value = minValue(game.getResult(state, action), player,
-                    double.NEGATIVE_INFINITY, double.POSITIVE_INFINITY);
+                    double.NegativeInfinity, double.POSITIVE_INFINITY);
             if (value > resultValue)
             {
                 result = action;
@@ -86,14 +86,14 @@
         metrics.incrementInt(METRICS_NODES_EXPANDED);
         if (game.isTerminal(state))
             return game.getUtility(state, player);
-        double value = double.NEGATIVE_INFINITY;
+        double value = double.NegativeInfinity;
         for (A action : game.getActions(state))
         {
-            value = Math.max(value, minValue( //
+            value = System.Math.Max(value, minValue( //
                     game.getResult(state, action), player, alpha, beta));
             if (value >= beta)
                 return value;
-            alpha = Math.max(alpha, value);
+            alpha = System.Math.Max(alpha, value);
         }
         return value;
     }
@@ -106,11 +106,11 @@
         double value = double.POSITIVE_INFINITY;
         for (A action : game.getActions(state))
         {
-            value = Math.min(value, maxValue( //
+            value = System.Math.Min(value, maxValue( //
                     game.getResult(state, action), player, alpha, beta));
             if (value <= alpha)
                 return value;
-            beta = Math.min(beta, value);
+            beta = System.Math.Min(beta, value);
         }
         return value;
     }

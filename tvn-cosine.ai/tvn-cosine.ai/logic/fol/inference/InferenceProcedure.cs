@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference
+﻿using tvn.cosine.ai.logic.fol.kb;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol.inference
 {
     public interface InferenceProcedure
     {

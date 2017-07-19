@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference
 {
@@ -10,26 +12,19 @@ namespace tvn.cosine.ai.logic.fol.inference
      * 
      */
     public abstract class AbstractModulation
-    {
-        //
-        // PROTECTED ATTRIBUTES
+    { 
         protected VariableCollector variableCollector = new VariableCollector();
         protected Unifier unifier = new Unifier();
         protected SubstVisitor substVisitor = new SubstVisitor();
-
-        //
-        // PROTECTED METODS
-        //
+         
         protected abstract bool isValidMatch(Term toMatch,
                 ISet<Variable> toMatchVariables, Term possibleMatch,
-                Map<Variable, Term> substitution);
+                IMap<Variable, Term> substitution);
 
-        protected IdentifyCandidateMatchingTerm getMatchingSubstitution(
-                Term toMatch, AtomicSentence expression)
+        protected IdentifyCandidateMatchingTerm getMatchingSubstitution(Term toMatch, AtomicSentence expression)
         {
 
-            IdentifyCandidateMatchingTerm icm = new IdentifyCandidateMatchingTerm(
-                    toMatch, expression);
+            IdentifyCandidateMatchingTerm icm = new IdentifyCandidateMatchingTerm(toMatch, expression, this);
 
             if (icm.isMatch())
             {
@@ -41,18 +36,20 @@ namespace tvn.cosine.ai.logic.fol.inference
         }
 
         protected class IdentifyCandidateMatchingTerm : FOLVisitor
-        { 
+        {
             private Term toMatch = null;
             private ISet<Variable> toMatchVariables = null;
             private Term matchingTerm = null;
-            private Map<Variable, Term> substitution = null;
+            private IMap<Variable, Term> substitution = null;
+            private AbstractModulation abstractModulation;
 
             public IdentifyCandidateMatchingTerm(Term toMatch,
-                    AtomicSentence expression)
+                    AtomicSentence expression,
+                    AbstractModulation abstractModulation)
             {
+                this.abstractModulation = abstractModulation;
                 this.toMatch = toMatch;
-                this.toMatchVariables = variableCollector
-                        .collectAllVariables(toMatch);
+                this.toMatchVariables = abstractModulation.variableCollector.collectAllVariables(toMatch);
 
                 expression.accept(this, null);
             }
@@ -67,7 +64,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 return matchingTerm;
             }
 
-            public Map<Variable, Term> getMatchingSubstitution()
+            public IMap<Variable, Term> getMatchingSubstitution()
             {
                 return substitution;
             }
@@ -76,7 +73,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             // START-FOLVisitor
             public object visitPredicate(Predicate p, object arg)
             {
-                for (Term t : p.getArgs())
+                foreach (Term t in p.getArgs())
                 {
                     // Finish processing if have found a match
                     if (null != matchingTerm)
@@ -90,7 +87,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             public object visitTermEquality(TermEquality equality, object arg)
             {
-                for (Term t : equality.getArgs())
+                foreach (Term t in equality.getArgs())
                 {
                     // Finish processing if have found a match
                     if (null != matchingTerm)
@@ -105,9 +102,9 @@ namespace tvn.cosine.ai.logic.fol.inference
             public object visitVariable(Variable variable, object arg)
             {
 
-                if (null != (substitution = unifier.unify(toMatch, variable)))
+                if (null != (substitution = abstractModulation.unifier.unify(toMatch, variable)))
                 {
-                    if (isValidMatch(toMatch, toMatchVariables, variable,
+                    if (abstractModulation.isValidMatch(toMatch, toMatchVariables, variable,
                             substitution))
                     {
                         matchingTerm = variable;
@@ -119,10 +116,9 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             public object visitConstant(Constant constant, object arg)
             {
-                if (null != (substitution = unifier.unify(toMatch, constant)))
+                if (null != (substitution = abstractModulation.unifier.unify(toMatch, constant)))
                 {
-                    if (isValidMatch(toMatch, toMatchVariables, constant,
-                            substitution))
+                    if (abstractModulation.isValidMatch(toMatch, toMatchVariables, constant, substitution))
                     {
                         matchingTerm = constant;
                     }
@@ -133,10 +129,9 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             public object visitFunction(Function function, object arg)
             {
-                if (null != (substitution = unifier.unify(toMatch, function)))
+                if (null != (substitution = abstractModulation.unifier.unify(toMatch, function)))
                 {
-                    if (isValidMatch(toMatch, toMatchVariables, function,
-                            substitution))
+                    if (abstractModulation.isValidMatch(toMatch, toMatchVariables, function, substitution))
                     {
                         matchingTerm = function;
                     }
@@ -145,7 +140,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 if (null == matchingTerm)
                 {
                     // Try the Function's arguments
-                    for (Term t : function.getArgs())
+                    foreach (Term t in function.getArgs())
                     {
                         // Finish processing if have found a match
                         if (null != matchingTerm)
@@ -161,136 +156,115 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             public object visitNotSentence(NotSentence sentence, object arg)
             {
-                throw new IllegalStateException(
-                        "visitNotSentence() should not be called.");
+                throw new IllegalStateException("visitNotSentence() should not be called.");
             }
 
-            public object visitConnectedSentence(ConnectedSentence sentence,
-                    object arg)
+            public object visitConnectedSentence(ConnectedSentence sentence, object arg)
             {
-                throw new IllegalStateException(
-                        "visitConnectedSentence() should not be called.");
+                throw new IllegalStateException("visitConnectedSentence() should not be called.");
             }
 
-            public object visitQuantifiedSentence(QuantifiedSentence sentence,
-                    object arg)
+            public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
             {
-                throw new IllegalStateException(
-                        "visitQuantifiedSentence() should not be called.");
+                throw new IllegalStateException("visitQuantifiedSentence() should not be called.");
             }
-
-            // END-FOLVisitor
-            //
         }
 
         protected class ReplaceMatchingTerm : FOLVisitor
         {
+            private Term toReplace = null;
+            private Term replaceWith = null;
+            private bool replaced = false;
 
-        private Term toReplace = null;
-        private Term replaceWith = null;
-        private bool replaced = false;
+            public ReplaceMatchingTerm()
+            { }
 
-        public ReplaceMatchingTerm()
-        {
-        }
-
-        public AtomicSentence replace(AtomicSentence expression,
-                Term toReplace, Term replaceWith)
-        {
-            this.toReplace = toReplace;
-            this.replaceWith = replaceWith;
-
-            return (AtomicSentence)expression.accept(this, null);
-        }
-
-        //
-        // START-FOLVisitor
-        public object visitPredicate(Predicate p, object arg)
-        {
-            IQueue<Term> newTerms = Factory.CreateQueue<Term>();
-            for (Term t : p.getTerms())
+            public AtomicSentence replace(AtomicSentence expression, Term toReplace, Term replaceWith)
             {
-                Term subsTerm = (Term)t.accept(this, arg);
-                newTerms.Add(subsTerm);
+                this.toReplace = toReplace;
+                this.replaceWith = replaceWith;
+
+                return (AtomicSentence)expression.accept(this, null);
             }
-            return new Predicate(p.getPredicateName(), newTerms);
-        }
 
-        public object visitTermEquality(TermEquality equality, object arg)
-        {
-            Term newTerm1 = (Term)equality.getTerm1().accept(this, arg);
-            Term newTerm2 = (Term)equality.getTerm2().accept(this, arg);
-            return new TermEquality(newTerm1, newTerm2);
-        }
-
-        public object visitVariable(Variable variable, object arg)
-        {
-            if (!replaced)
+            public object visitPredicate(Predicate p, object arg)
             {
-                if (toReplace.Equals(variable))
+                IQueue<Term> newTerms = Factory.CreateQueue<Term>();
+                foreach (Term t in p.getTerms())
                 {
-                    replaced = true;
-                    return replaceWith;
+                    Term subsTerm = (Term)t.accept(this, arg);
+                    newTerms.Add(subsTerm);
                 }
+                return new Predicate(p.getPredicateName(), newTerms);
             }
-            return variable;
-        }
 
-        public object visitConstant(Constant constant, object arg)
-        {
-            if (!replaced)
+            public object visitTermEquality(TermEquality equality, object arg)
             {
-                if (toReplace.Equals(constant))
+                Term newTerm1 = (Term)equality.getTerm1().accept(this, arg);
+                Term newTerm2 = (Term)equality.getTerm2().accept(this, arg);
+                return new TermEquality(newTerm1, newTerm2);
+            }
+
+            public object visitVariable(Variable variable, object arg)
+            {
+                if (!replaced)
                 {
-                    replaced = true;
-                    return replaceWith;
+                    if (toReplace.Equals(variable))
+                    {
+                        replaced = true;
+                        return replaceWith;
+                    }
                 }
+                return variable;
             }
-            return constant;
-        }
 
-        public object visitFunction(Function function, object arg)
-        {
-            if (!replaced)
+            public object visitConstant(Constant constant, object arg)
             {
-                if (toReplace.Equals(function))
+                if (!replaced)
                 {
-                    replaced = true;
-                    return replaceWith;
+                    if (toReplace.Equals(constant))
+                    {
+                        replaced = true;
+                        return replaceWith;
+                    }
                 }
+                return constant;
             }
 
-            IQueue<Term> newTerms = Factory.CreateQueue<Term>();
-            for (Term t : function.getTerms())
+            public object visitFunction(Function function, object arg)
             {
-                Term subsTerm = (Term)t.accept(this, arg);
-                newTerms.Add(subsTerm);
+                if (!replaced)
+                {
+                    if (toReplace.Equals(function))
+                    {
+                        replaced = true;
+                        return replaceWith;
+                    }
+                }
+
+                IQueue<Term> newTerms = Factory.CreateQueue<Term>();
+                foreach (Term t in function.getTerms())
+                {
+                    Term subsTerm = (Term)t.accept(this, arg);
+                    newTerms.Add(subsTerm);
+                }
+                return new Function(function.getFunctionName(), newTerms);
             }
-            return new Function(function.getFunctionName(), newTerms);
-        }
 
-        public object visitNotSentence(NotSentence sentence, object arg)
-        {
-            throw new IllegalStateException(
-                    "visitNotSentence() should not be called.");
-        }
+            public object visitNotSentence(NotSentence sentence, object arg)
+            {
+                throw new IllegalStateException("visitNotSentence() should not be called.");
+            }
 
-        public object visitConnectedSentence(ConnectedSentence sentence,
-                object arg)
-        {
-            throw new IllegalStateException(
-                    "visitConnectedSentence() should not be called.");
-        }
+            public object visitConnectedSentence(ConnectedSentence sentence, object arg)
+            {
+                throw new IllegalStateException("visitConnectedSentence() should not be called.");
+            }
 
-        public object visitQuantifiedSentence(QuantifiedSentence sentence,
-                object arg)
-        {
-            throw new IllegalStateException(
-                    "visitQuantifiedSentence() should not be called.");
+            public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
+            {
+                throw new IllegalStateException("visitQuantifiedSentence() should not be called.");
+            }
         }
-
-        // END-FOLVisitor
-        //
     }
-}
 }

@@ -4,8 +4,7 @@ using tvn.cosine.ai.common.collections;
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     public class Function : Term
-    {
-
+    { 
         private string functionName;
         private IQueue<Term> terms = Factory.CreateQueue<Term>();
         private string stringRep = null;
@@ -26,9 +25,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
         {
             return Factory.CreateReadOnlyQueue<Term>(terms);
         }
-
-        //
-        // START-Term
+         
         public string getSymbolicName()
         {
             return getFunctionName();
@@ -37,6 +34,17 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
         public bool isCompound()
         {
             return true;
+        }
+
+        IQueue<FOLNode> FOLNode.getArgs()
+        {
+            IQueue<FOLNode> obj = Factory.CreateQueue<FOLNode>();
+            foreach (Term term in getTerms())
+            {
+                obj.Add(term);
+            }
+
+            return Factory.CreateReadOnlyQueue<FOLNode>(obj);
         }
 
         public IQueue<Term> getArgs()
@@ -49,6 +57,16 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return v.visitFunction(this, arg);
         }
 
+        FOLNode FOLNode.copy()
+        {
+            return copy();
+        }
+
+        Term Term.copy()
+        {
+            return copy();
+        }
+
         public Function copy()
         {
             IQueue<Term> copyTerms = Factory.CreateQueue<Term>();
@@ -58,11 +76,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             }
             return new Function(functionName, copyTerms);
         }
-
-        // END-Term
-        //
-
-
+         
         public override bool Equals(object o)
         {
 
@@ -80,8 +94,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return f.getFunctionName().Equals(getFunctionName())
                     && f.getTerms().Equals(getTerms());
         }
-
-
+         
         public override int GetHashCode()
         {
             if (0 == hashCode)
@@ -95,8 +108,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             }
             return hashCode;
         }
-
-
+         
         public override string ToString()
         {
             if (null == stringRep)

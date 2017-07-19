@@ -41,7 +41,7 @@
 
 
     private ISet<S> explored = Factory.CreateSet<>();
-    private Map<S, Node<S, A>> frontierNodeLookup = Factory.CreateMap<>();
+    private IMap<S, Node<S, A>> frontierNodeLookup = Factory.CreateMap<>();
     private Comparator<? super Node<S, A>> nodeComparator = null;
 
     public GraphSearchReducedFrontier()

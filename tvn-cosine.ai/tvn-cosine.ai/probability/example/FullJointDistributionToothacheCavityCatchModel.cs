@@ -1,13 +1,11 @@
-﻿namespace tvn.cosine.ai.probability.example
+﻿using tvn.cosine.ai.probability.full;
+
+namespace tvn.cosine.ai.probability.example
 {
-    public class FullJointDistributionToothacheCavityCatchModel extends
-            FullJointDistributionModel
-    {
-
-
-    public FullJointDistributionToothacheCavityCatchModel()
-    {
-        base(new double[] {
+    public class FullJointDistributionToothacheCavityCatchModel : FullJointDistributionModel
+    { 
+        public FullJointDistributionToothacheCavityCatchModel()
+            : base(new double[] {
 				// Toothache = true, Cavity = true, Catch = true
 				0.108,
 				// Toothache = true, Cavity = true, Catch = false
@@ -24,8 +22,7 @@
 				0.144,
 				// Toothache = false, Cavity = false, Catch = false
 				0.576 }, ExampleRV.TOOTHACHE_RV, ExampleRV.CAVITY_RV,
-                ExampleRV.CATCH_RV);
-    }
-}
-
+                    ExampleRV.CATCH_RV)
+        { }
+    } 
 }

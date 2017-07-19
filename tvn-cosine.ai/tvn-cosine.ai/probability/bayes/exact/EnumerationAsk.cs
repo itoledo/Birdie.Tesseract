@@ -151,7 +151,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
              * </pre>
              */
             double sum = 0;
-            foreach (object y in ((FiniteDomain)Y.getDomain()).getPossibleValues<object>())
+            foreach (object y in ((FiniteDomain)Y.getDomain()).getPossibleValues())
             {
                 e.setExtendedValue(Y, y);
                 sum += e.posteriorForParents(Y) * enumerateAll(Util.rest(vars), e);

@@ -95,7 +95,7 @@
     private Token connective()
     {
         int startPosition = getCurrentPositionInInput();
-        StringBuffer sbuf = new StringBuffer();
+        StringBuilder sbuf = new StringBuilder();
         // Ensure pull out just one connective at a time, the isConnective(...)
         // test ensures we handle chained expressions like the following:
         // ~~P
@@ -117,7 +117,7 @@
     private Token symbol()
     {
         int startPosition = getCurrentPositionInInput();
-        StringBuffer sbuf = new StringBuffer();
+        StringBuilder sbuf = new StringBuilder();
         while (PropositionSymbol.isPropositionSymbolIdentifierPart(lookAhead(1)))
         {
             sbuf.Append(lookAhead(1));

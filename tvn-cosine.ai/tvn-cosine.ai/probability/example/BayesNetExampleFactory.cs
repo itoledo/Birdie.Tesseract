@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.probability.example
+﻿using tvn.cosine.ai.probability.bayes;
+using tvn.cosine.ai.probability.bayes.impl;
+
+namespace tvn.cosine.ai.probability.example
 {
     public class BayesNetExampleFactory
     {
@@ -16,12 +19,9 @@
 
         public static BayesianNetwork constructToothacheCavityCatchNetwork()
         {
-            FiniteNode cavity = new FullCPTNode(ExampleRV.CAVITY_RV, new double[] {
-                0.2, 0.8 });
-            @SuppressWarnings("unused")
-    
-        FiniteNode toothache = new FullCPTNode(ExampleRV.TOOTHACHE_RV,
-                new double[] {
+            FiniteNode cavity = new FullCPTNode(ExampleRV.CAVITY_RV, new double[] { 0.2, 0.8 });
+            FiniteNode toothache = new FullCPTNode(ExampleRV.TOOTHACHE_RV,
+                    new double[] {
 						// C=true, T=true
 						0.6,
 						// C=true, T=false
@@ -31,10 +31,8 @@
 						// C=false, T=false
 						0.9
 
-                }, cavity);
-            @SuppressWarnings("unused")
-    
-        FiniteNode catchN = new FullCPTNode(ExampleRV.CATCH_RV, new double[] {
+                    }, cavity);
+            FiniteNode catchN = new FullCPTNode(ExampleRV.CATCH_RV, new double[] {
 				// C=true, Catch=true
 				0.9,
 				// C=true, Catch=false
@@ -49,12 +47,11 @@
 
         public static BayesianNetwork constructToothacheCavityCatchWeatherNetwork()
         {
-            FiniteNode cavity = new FullCPTNode(ExampleRV.CAVITY_RV, new double[] {
-                0.2, 0.8 });
-            @SuppressWarnings("unused")
-    
-        FiniteNode toothache = new FullCPTNode(ExampleRV.TOOTHACHE_RV,
-                new double[] {
+            FiniteNode cavity = new FullCPTNode(ExampleRV.CAVITY_RV, new double[] { 0.2, 0.8 });
+
+
+            FiniteNode toothache = new FullCPTNode(ExampleRV.TOOTHACHE_RV,
+                    new double[] {
 						// C=true, T=true
 						0.6,
 						// C=true, T=false
@@ -64,10 +61,9 @@
 						// C=false, T=false
 						0.9
 
-                }, cavity);
-            @SuppressWarnings("unused")
-    
-        FiniteNode catchN = new FullCPTNode(ExampleRV.CATCH_RV, new double[] {
+                    }, cavity);
+
+            FiniteNode catchN = new FullCPTNode(ExampleRV.CATCH_RV, new double[] {
 				// C=true, Catch=true
 				0.9,
 				// C=true, Catch=false
@@ -94,10 +90,9 @@
         {
             FiniteNode meningitis = new FullCPTNode(ExampleRV.MENINGITIS_RV,
                     new double[] { 1.0 / 50000.0, 1.0 - (1.0 / 50000.0) });
-            @SuppressWarnings("unused")
-    
-        FiniteNode stiffneck = new FullCPTNode(ExampleRV.STIFF_NECK_RV,
-                new double[] {
+
+            FiniteNode stiffneck = new FullCPTNode(ExampleRV.STIFF_NECK_RV,
+                    new double[] {
 						// M=true, S=true
 						0.7,
 						// M=true, S=false
@@ -107,7 +102,7 @@
 						// M=false, S=false
 						0.9900138002760055
 
-                }, meningitis);
+                    }, meningitis);
             return new BayesNet(meningitis);
         }
 
@@ -134,10 +129,9 @@
 				0.001,
 				// B=false, E=false, A=false
 				0.999 }, burglary, earthquake);
-            @SuppressWarnings("unused")
-    
-        FiniteNode johnCalls = new FullCPTNode(ExampleRV.JOHN_CALLS_RV,
-                new double[] {
+
+            FiniteNode johnCalls = new FullCPTNode(ExampleRV.JOHN_CALLS_RV,
+                    new double[] {
 						// A=true, J=true
 						0.90,
 						// A=true, J=false
@@ -146,10 +140,9 @@
 						0.05,
 						// A=false, J=false
 						0.95 }, alarm);
-            @SuppressWarnings("unused")
-    
-        FiniteNode maryCalls = new FullCPTNode(ExampleRV.MARY_CALLS_RV,
-                new double[] {
+
+            FiniteNode maryCalls = new FullCPTNode(ExampleRV.MARY_CALLS_RV,
+                    new double[] {
 						// A=true, M=true
 						0.70,
 						// A=true, M=false
@@ -185,10 +178,9 @@
 				0.2,
 				// Cloudy=false, Rain=false
 				0.8 }, cloudy);
-            @SuppressWarnings("unused")
-    
-        FiniteNode wetGrass = new FullCPTNode(ExampleRV.WET_GRASS_RV,
-                new double[] {
+
+            FiniteNode wetGrass = new FullCPTNode(ExampleRV.WET_GRASS_RV,
+                    new double[] {
 						// Sprinkler=true, Rain=true, WetGrass=true
 						.99,
 						// Sprinkler=true, Rain=true, WetGrass=false
@@ -208,6 +200,5 @@
 
             return new BayesNet(cloudy);
         }
-    }
-
+    } 
 }

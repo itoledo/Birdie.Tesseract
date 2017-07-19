@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference.otter
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.kb.data;
+
+namespace tvn.cosine.ai.logic.fol.inference.otter
 {
     /**
     * Heuristic for selecting lightest clause from SOS. To avoid recalculating the
@@ -10,8 +13,7 @@
     * 
     */
     public interface LightestClauseHeuristic
-    {
-
+    { 
         /**
          * Get the lightest clause from the SOS
          * 
@@ -26,10 +28,8 @@
          * 
          * @param clauses
          */
-        void initialSOS(Set<Clause> clauses);
-
-        void addedClauseToSOS(Clause clause);
-
+        void initialSOS(ISet<Clause> clauses); 
+        void addedClauseToSOS(Clause clause); 
         void removedClauseFromSOS(Clause clause);
     }
 }

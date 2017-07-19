@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.probability.hmm.exact
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.util.math;
+
+namespace tvn.cosine.ai.probability.hmm.exact
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 579.<br>
@@ -31,70 +35,61 @@
      */
     public class HMMForwardBackwardConstantSpace : HMMForwardBackward
     {
+        public HMMForwardBackwardConstantSpace(HiddenMarkovModel hmm)
+                : base(hmm)
+        { }
 
+        //
+        // START-ForwardBackwardInference
 
-    public HMMForwardBackwardConstantSpace(HiddenMarkovModel hmm)
-    {
-        base(hmm);
-    }
-
-    //
-    // START-ForwardBackwardInference
-     
-    public IQueue<CategoricalDistribution> forwardBackward(
-            IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
-    {
-        // local variables: f, the forward message <- prior
-        Matrix f = hmm.convert(prior);
-        // b, a representation of the backward message, initially all 1s
-        Matrix b = hmm.createUnitMessage();
-        // sv, a vector of smoothed estimates for steps 1,...,t
-        IQueue<Matrix> sv = Factory.CreateQueue<Matrix>(ev.size());
-
-        // for i = 1 to t do
-        for (int i = 0; i < ev.size(); i++)
+        public IQueue<CategoricalDistribution> forwardBackward(IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
         {
-            // fv[i] <- FORWARD(fv[i-1], ev[i])
-            f = forward(f, hmm.getEvidence(ev.Get(i)));
+            // local variables: f, the forward message <- prior
+            Matrix f = hmm.convert(prior);
+            // b, a representation of the backward message, initially all 1s
+            Matrix b = hmm.createUnitMessage();
+            // sv, a vector of smoothed estimates for steps 1,...,t
+            IQueue<Matrix> sv = Factory.CreateQueue<Matrix>();
+
+            // for i = 1 to t do
+            for (int i = 0; i < ev.Size(); i++)
+            {
+                // fv[i] <- FORWARD(fv[i-1], ev[i])
+                f = forward(f, hmm.getEvidence(ev.Get(i)));
+            }
+            // for i = t downto 1 do
+            for (int i = ev.Size() - 1; i >= 0; i--)
+            {
+                // sv[i] <- NORMALIZE(fv[i] * b)
+                sv.Insert(0, hmm.normalize(f.arrayTimes(b)));
+                Matrix e = hmm.getEvidence(ev.Get(i));
+                // b <- BACKWARD(b, ev[i])
+                b = backward(b, e);
+                // f1:t <-
+                // NORMALIZE((T<sup>T<sup>)<sup>-1</sup>O<sup>-1</sup><sub>t+1</sub>f<sub>1:t+1</sub>)
+                f = forwardRecover(e, f);
+            }
+
+            // return sv
+            return hmm.convert(sv);
         }
-        // for i = t downto 1 do
-        for (int i = ev.size() - 1; i >= 0; i--)
+
+        /**
+         * Calculate:
+         * 
+         * <pre>
+         * <b>f</b><sub>1:t</sub> = &alpha;<sup>'</sup>(<b>T</b><sup>T</sup>)<sup>-1</sup><b>O</b><sup>-1</sup><sub>t+1</sub><b>f</b><sub>1:t+1</sub>
+         * </pre>
+         * 
+         * @param O_tp1
+         *            <b>O</b><sub>t+1</sub>
+         * @param f1_tp1
+         *            <b>f</b><sub>1:t+1</sub>
+         * @return <b>f</b><sub>1:t</sub>
+         */
+        public Matrix forwardRecover(Matrix O_tp1, Matrix f1_tp1)
         {
-            // sv[i] <- NORMALIZE(fv[i] * b)
-            sv.Add(0, hmm.normalize(f.arrayTimes(b)));
-            Matrix e = hmm.getEvidence(ev.Get(i));
-            // b <- BACKWARD(b, ev[i])
-            b = backward(b, e);
-            // f1:t <-
-            // NORMALIZE((T<sup>T<sup>)<sup>-1</sup>O<sup>-1</sup><sub>t+1</sub>f<sub>1:t+1</sub>)
-            f = forwardRecover(e, f);
+            return hmm.normalize(hmm.getTransitionModel().transpose().inverse().times(O_tp1.inverse()).times(f1_tp1));
         }
-
-        // return sv
-        return hmm.convert(sv);
     }
-
-    // END-ForwardBackwardInference
-    //
-
-    /**
-	 * Calculate:
-	 * 
-	 * <pre>
-	 * <b>f</b><sub>1:t</sub> = &alpha;<sup>'</sup>(<b>T</b><sup>T</sup>)<sup>-1</sup><b>O</b><sup>-1</sup><sub>t+1</sub><b>f</b><sub>1:t+1</sub>
-	 * </pre>
-	 * 
-	 * @param O_tp1
-	 *            <b>O</b><sub>t+1</sub>
-	 * @param f1_tp1
-	 *            <b>f</b><sub>1:t+1</sub>
-	 * @return <b>f</b><sub>1:t</sub>
-	 */
-    public Matrix forwardRecover(Matrix O_tp1, Matrix f1_tp1)
-    {
-        return hmm.normalize(hmm.getTransitionModel().transpose().inverse()
-                .times(O_tp1.inverse()).times(f1_tp1));
-    }
-}
-
 }

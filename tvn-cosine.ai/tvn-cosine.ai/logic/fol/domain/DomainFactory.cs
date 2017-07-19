@@ -33,8 +33,7 @@
         }
 
         public static FOLDomain weaponsDomain()
-        {
-
+        { 
             FOLDomain domain = new FOLDomain();
             domain.addConstant("West");
             domain.addConstant("America");

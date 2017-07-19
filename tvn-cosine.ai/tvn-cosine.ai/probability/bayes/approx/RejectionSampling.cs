@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.probability.bayes.approx
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.util;
+
+namespace tvn.cosine.ai.probability.bayes.approx
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 533.<br>
@@ -30,90 +34,73 @@
      */
     public class RejectionSampling : BayesSampleInference
     {
+        private PriorSample ps = null;
 
+        public RejectionSampling()
+                : this(new PriorSample())
+        { }
 
-    private PriorSample ps = null;
-
-    public RejectionSampling()
-    {
-        this(new PriorSample());
-    }
-
-    public RejectionSampling(PriorSample ps)
-    {
-        this.ps = ps;
-    }
-
-    // function REJECTION-SAMPLING(X, e, bn, N) returns an estimate of
-    // <b>P</b>(X|e)
-    /**
-	 * The REJECTION-SAMPLING algorithm in Figure 14.14. For answering queries
-	 * given evidence in a Bayesian Network.
-	 * 
-	 * @param X
-	 *            the query variables
-	 * @param e
-	 *            observed values for variables E
-	 * @param bn
-	 *            a Bayesian network
-	 * @param Nsamples
-	 *            the total number of samples to be generated
-	 * @return an estimate of <b>P</b>(X|e)
-	 */
-    public CategoricalDistribution rejectionSampling(RandomVariable[] X,
-            AssignmentProposition[] e, BayesianNetwork bn, int Nsamples)
-    {
-        // local variables: <b>N</b>, a vector of counts for each value of X,
-        // initially zero
-        double[] N = new double[ProbUtil
-                .expectedSizeOfCategoricalDistribution(X)];
-
-        // for j = 1 to N do
-        for (int j = 0; j < Nsamples; j++)
+        public RejectionSampling(PriorSample ps)
         {
-            // <b>x</b> <- PRIOR-SAMPLE(bn)
-            Map<RandomVariable, object> x = ps.priorSample(bn);
-            // if <b>x</b> is consistent with e then
-            if (isConsistent(x, e))
-            {
-                // <b>N</b>[x] <- <b>N</b>[x] + 1
-                // where x is the value of X in <b>x</b>
-                N[ProbUtil.indexOf(X, x)] += 1.0;
-            }
+            this.ps = ps;
         }
-        // return NORMALIZE(<b>N</b>)
-        return new ProbabilityTable(N, X).normalize();
-    }
 
-    //
-    // START-BayesSampleInference
-     
-    public CategoricalDistribution ask(final RandomVariable[] X,
-            final AssignmentProposition[] observedEvidence,
-            final BayesianNetwork bn, int N)
-    {
-        return rejectionSampling(X, observedEvidence, bn, N);
-    }
-
-    // END-BayesSampleInference
-    //
-
-    //
-    // PRIVATE METHODS
-    //
-    private bool isConsistent(IMap<RandomVariable, object> x,
-            AssignmentProposition[] e)
-    {
-
-        for (AssignmentProposition ap : e)
+        // function REJECTION-SAMPLING(X, e, bn, N) returns an estimate of
+        // <b>P</b>(X|e)
+        /**
+         * The REJECTION-SAMPLING algorithm in Figure 14.14. For answering queries
+         * given evidence in a Bayesian Network.
+         * 
+         * @param X
+         *            the query variables
+         * @param e
+         *            observed values for variables E
+         * @param bn
+         *            a Bayesian network
+         * @param Nsamples
+         *            the total number of samples to be generated
+         * @return an estimate of <b>P</b>(X|e)
+         */
+        public CategoricalDistribution rejectionSampling(RandomVariable[] X, AssignmentProposition[] e, BayesianNetwork bn, int Nsamples)
         {
-            if (!ap.getValue().Equals(x.Get(ap.getTermVariable())))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-}
+            // local variables: <b>N</b>, a vector of counts for each value of X,
+            // initially zero
+            double[] N = new double[ProbUtil.expectedSizeOfCategoricalDistribution(X)];
 
+            // for j = 1 to N do
+            for (int j = 0; j < Nsamples; j++)
+            {
+                // <b>x</b> <- PRIOR-SAMPLE(bn)
+                IMap<RandomVariable, object> x = ps.priorSample(bn);
+                // if <b>x</b> is consistent with e then
+                if (isConsistent(x, e))
+                {
+                    // <b>N</b>[x] <- <b>N</b>[x] + 1
+                    // where x is the value of X in <b>x</b>
+                    N[ProbUtil.indexOf(X, x)] += 1.0;
+                }
+            }
+            // return NORMALIZE(<b>N</b>)
+            return new ProbabilityTable(N, X).normalize();
+        }
+         
+        public CategoricalDistribution ask(RandomVariable[] X,
+                AssignmentProposition[] observedEvidence,
+                BayesianNetwork bn, int N)
+        {
+            return rejectionSampling(X, observedEvidence, bn, N);
+        }
+         
+        private bool isConsistent(IMap<RandomVariable, object> x, AssignmentProposition[] e)
+        {
+            foreach (AssignmentProposition ap in e)
+            {
+                if (!ap.getValue().Equals(x.Get(ap.getTermVariable())))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    } 
 }

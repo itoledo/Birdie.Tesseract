@@ -77,6 +77,5 @@ namespace tvn.cosine.ai.probability.mdp
          * @return the reward associated with being in state s.
          */
         double reward(S s);
-    }
-
+    } 
 }

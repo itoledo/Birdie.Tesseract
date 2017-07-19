@@ -113,7 +113,7 @@ namespace tvn.cosine.ai.search.csp
                     resultCandidates.Add(value);
                 }
             }
-            return (!resultCandidates.IsEmpty()) ? Util.selectRandomlyFromIQueue<VAL>(resultCandidates) : default(VAL);
+            return (!resultCandidates.IsEmpty()) ? Util.selectRandomlyFromList<VAL>(resultCandidates) : default(VAL);
         }
 
         private int countConflicts(Assignment<VAR, VAL> assignment,

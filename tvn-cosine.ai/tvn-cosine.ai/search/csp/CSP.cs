@@ -59,7 +59,7 @@
      */
     protected void addVariable(VAR var)
     {
-        if (!varIndexHash.containsKey(var))
+        if (!varIndexHash.ContainsKey(var))
         {
             Domain<VAL> emptyDomain = new Domain<>(Collections.emptyList());
             variables.Add(var);
@@ -171,7 +171,7 @@
         {
             result = (CSP<VAR, VAL>)clone();
             result.domains = Factory.CreateQueue<>(domains.size());
-            result.domains.addAll(domains);
+            result.domains.AddAll(domains);
         }
         catch (CloneNotSupportedException e)
         {

@@ -1,8 +1,10 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference.proof
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofPrinter
-    {
-
+    { 
         /**
          * Utility method for outputting proofs in a formatted textual
          * representation.
@@ -20,25 +22,25 @@
 
             IQueue<ProofStep> steps = proof.getSteps();
 
-            int maxStepWidth = "Step".length();
-            int maxProofWidth = "Proof".length();
-            int maxJustificationWidth = "Justification".length();
+            int maxStepWidth = "Step".Length;
+            int maxProofWidth = "Proof".Length;
+            int maxJustificationWidth = "Justification".Length;
 
             // Calculate the maximum width for each column in the proof
-            for (ProofStep step : steps)
+            foreach (ProofStep step in steps)
             {
                 string sn = "" + step.getStepNumber();
-                if (sn.length() > maxStepWidth)
+                if (sn.Length > maxStepWidth)
                 {
-                    maxStepWidth = sn.length();
+                    maxStepWidth = sn.Length;
                 }
-                if (step.getProof().length() > maxProofWidth)
+                if (step.getProof().Length > maxProofWidth)
                 {
-                    maxProofWidth = step.getProof().length();
+                    maxProofWidth = step.getProof().Length;
                 }
-                if (step.getJustification().length() > maxJustificationWidth)
+                if (step.getJustification().Length > maxJustificationWidth)
                 {
-                    maxJustificationWidth = step.getJustification().length();
+                    maxJustificationWidth = step.getJustification().Length;
                 }
             }
 
@@ -47,8 +49,7 @@
             maxProofWidth += 1;
             maxJustificationWidth += 1;
 
-            string f = "|%-" + maxStepWidth + "s| %-" + maxProofWidth + "s|%-"
-                    + maxJustificationWidth + "s|\n";
+            string f = "|{0}-" + maxStepWidth + "s| {1}-" + maxProofWidth + "s|{2}-" + maxJustificationWidth + "s|\n";
 
             int barWidth = 5 + maxStepWidth + maxProofWidth + maxJustificationWidth;
             StringBuilder bar = new StringBuilder();
@@ -59,12 +60,11 @@
             bar.Append("\n");
 
             sb.Append(bar);
-            sb.Append(String.format(f, "Step", "Proof", "Justification"));
+            sb.Append(string.Format(f, "Step", "Proof", "Justification"));
             sb.Append(bar);
-            for (ProofStep step : steps)
+            foreach (ProofStep step in steps)
             {
-                sb.Append(String.format(f, "" + step.getStepNumber(),
-                        step.getProof(), step.getJustification()));
+                sb.Append(string.Format(f, "" + step.getStepNumber(), step.getProof(), step.getJustification()));
             }
             sb.Append(bar);
 

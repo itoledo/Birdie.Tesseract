@@ -1,84 +1,95 @@
-﻿namespace tvn.cosine.ai.logic.fol.parsing.ast
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     public class Constant : Term
     {
+        private string value;
+        private int hashCode = 0;
 
-    private string value;
-    private int hashCode = 0;
-
-    public Constant(string s)
-    {
-        value = s;
-    }
-
-    public string getValue()
-    {
-        return value;
-    }
-
-    //
-    // START-Term
-    public string getSymbolicName()
-    {
-        return getValue();
-    }
-
-    public bool isCompound()
-    {
-        return false;
-    }
-
-    public IQueue<Term> getArgs()
-    {
-        // Is not Compound, therefore should
-        // return null for its arguments
-        return null;
-    }
-
-    public object accept(FOLVisitor v, object arg)
-    {
-        return v.visitConstant(this, arg);
-    }
-
-    public Constant copy()
-    {
-        return new Constant(value);
-    }
-
-    // END-Term
-    //
-
-     
-    public override bool Equals(object o)
-    {
-
-        if (this == o)
+        public Constant(string s)
         {
-            return true;
+            value = s;
         }
-        if (!(o is Constant)) {
+
+        public string getValue()
+        {
+            return value;
+        }
+         
+        public string getSymbolicName()
+        {
+            return getValue();
+        }
+
+        public bool isCompound()
+        {
             return false;
         }
-        Constant c = (Constant)o;
-        return c.getValue().Equals(getValue());
 
-    }
-
-     
-    public override int GetHashCode()
-    {
-        if (0 == hashCode)
+        IQueue<FOLNode> FOLNode.getArgs()
         {
-            hashCode = 17;
-            hashCode = 37 * hashCode + value.GetHashCode();
+            // Is not Compound, therefore should
+            // return null for its arguments
+            return null;
         }
-        return hashCode;
-    }
 
-     
-    public override string ToString()
-    {
-        return value;
+        public IQueue<Term> getArgs()
+        {
+            // Is not Compound, therefore should
+            // return null for its arguments
+            return null;
+        }
+
+        public object accept(FOLVisitor v, object arg)
+        {
+            return v.visitConstant(this, arg);
+        }
+
+        FOLNode FOLNode.copy()
+        {
+            return copy();
+        }
+
+        Term Term.copy()
+        {
+            return copy();
+        }
+
+        public Constant copy()
+        {
+            return new Constant(value);
+        }
+         
+        public override bool Equals(object o)
+        {
+
+            if (this == o)
+            {
+                return true;
+            }
+            if (!(o is Constant))
+            {
+                return false;
+            }
+            Constant c = (Constant)o;
+            return c.getValue().Equals(getValue());
+
+        }
+         
+        public override int GetHashCode()
+        {
+            if (0 == hashCode)
+            {
+                hashCode = 17;
+                hashCode = 37 * hashCode + value.GetHashCode();
+            }
+            return hashCode;
+        }
+         
+        public override string ToString()
+        {
+            return value;
+        }
     }
-}
 }

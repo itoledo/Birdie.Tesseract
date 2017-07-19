@@ -32,7 +32,7 @@
             {
                 sentences.Add(aSentence);
                 asCNF = asCNF.extend(ConvertToConjunctionOfClauses.convert(aSentence).getClauses());
-                symbols.addAll(SymbolCollector.getSymbolsFrom(aSentence));
+                symbols.AddAll(SymbolCollector.getSymbolsFrom(aSentence));
             }
         }
 

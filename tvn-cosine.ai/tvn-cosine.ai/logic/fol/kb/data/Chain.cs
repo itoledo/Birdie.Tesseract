@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.logic.fol.kb.data
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.inference.proof;
+
+namespace tvn.cosine.ai.logic.fol.kb.data
 {
     /**
      * 
@@ -14,8 +18,7 @@
      */
     public class Chain
     {
-        private static IQueue<Literal> _emptyLiteralsList = Collections
-                .unmodifiableList(Factory.CreateQueue<Literal>());
+        private static IQueue<Literal> _emptyLiteralsList = Factory.CreateReadOnlyQueue<Literal>(Factory.CreateQueue<Literal>());
         //
         private IQueue<Literal> literals = Factory.CreateQueue<Literal>();
         private ProofStep proofStep = null;
@@ -27,12 +30,12 @@
 
         public Chain(IQueue<Literal> literals)
         {
-            this.literals.addAll(literals);
+            this.literals.AddAll(literals);
         }
 
         public Chain(Set<Literal> literals)
         {
-            this.literals.addAll(literals);
+            this.literals.AddAll(literals);
         }
 
         public ProofStep getProofStep()
@@ -52,7 +55,7 @@
 
         public bool isEmpty()
         {
-            return literals.size() == 0;
+            return literals.Size() == 0;
         }
 
         public void addLiteral(Literal literal)
@@ -62,7 +65,7 @@
 
         public Literal getHead()
         {
-            if (0 == literals.size())
+            if (0 == literals.Size())
             {
                 return null;
             }
@@ -71,22 +74,21 @@
 
         public IQueue<Literal> getTail()
         {
-            if (0 == literals.size())
+            if (0 == literals.Size())
             {
                 return _emptyLiteralsList;
             }
-            return Collections
-                    .unmodifiableList(literals.subList(1, literals.size()));
+            return Factory.CreateReadOnlyQueue<Literal>(literals.subList(1, literals.Size()));
         }
 
         public int getNumberLiterals()
         {
-            return literals.size();
+            return literals.Size();
         }
 
         public IQueue<Literal> getLiterals()
         {
-            return Factory.CreateReadOnlyQueue<>(literals);
+            return Factory.CreateReadOnlyQueue<Literal>(literals);
         }
 
         /**
@@ -101,12 +103,12 @@
             IQueue<Chain> contrapositives = Factory.CreateQueue<Chain>();
             IQueue<Literal> lits = Factory.CreateQueue<Literal>();
 
-            for (int i = 1; i < literals.size(); i++)
+            for (int i = 1; i < literals.Size(); i++)
             {
                 lits.Clear();
                 lits.Add(literals.Get(i));
-                lits.addAll(literals.subList(0, i));
-                lits.addAll(literals.subList(i + 1, literals.size()));
+                lits.AddAll(literals.subList(0, i));
+                lits.AddAll(literals.subList(i + 1, literals.Size()));
                 Chain cont = new Chain(lits);
                 cont.setProofStep(new ProofStepChainContrapositive(cont, this));
                 contrapositives.Add(cont);
@@ -114,14 +116,13 @@
 
             return contrapositives;
         }
-
          
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<");
 
-            for (int i = 0; i < literals.size(); i++)
+            for (int i = 0; i < literals.Size(); i++)
             {
                 if (i > 0)
                 {

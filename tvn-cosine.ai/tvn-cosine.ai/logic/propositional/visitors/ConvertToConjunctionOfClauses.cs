@@ -43,7 +43,7 @@
             Sentence cnfSentence = ConvertToCNF.convert(s);
 
             IQueue<Clause> clauses = Factory.CreateQueue<Clause>();
-            clauses.addAll(ClauseCollector.getClausesFrom(cnfSentence));
+            clauses.AddAll(ClauseCollector.getClausesFrom(cnfSentence));
 
             result = new ConjunctionOfClauses(clauses);
 

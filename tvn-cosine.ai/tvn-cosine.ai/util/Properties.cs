@@ -2,7 +2,7 @@
 
 namespace tvn.cosine.ai.util
 {
-    public class Properties : Map<object, object>
+    public class Properties : IMap<object, object>
     {
         protected Properties defaults;
 

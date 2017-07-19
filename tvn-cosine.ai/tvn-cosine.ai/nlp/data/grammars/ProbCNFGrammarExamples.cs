@@ -70,7 +70,7 @@
             // add terminal rules
             Lexicon trivLex = LexiconExamples.buildTrivialLexicon();
             ArrayList<Rule> terminalRules = Factory.CreateQueue<Rule>(trivLex.getAllTerminalRules());
-            rules.addAll(terminalRules);
+            rules.AddAll(terminalRules);
             // Add all these rules into the grammar
             if (!g.addRules(rules))
             {

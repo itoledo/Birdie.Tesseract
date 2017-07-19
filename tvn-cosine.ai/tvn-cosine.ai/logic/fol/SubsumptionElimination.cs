@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.fol
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.kb.data;
+
+namespace tvn.cosine.ai.logic.fol
 {
     /**
     * Artificial Intelligence A Modern Approach (3rd Edition): page 356.<br>
@@ -34,7 +37,7 @@
          * @return the clauses that are subsumed by (that is, more specific than) an
          *         existing clause in the specified set of clauses.
          */
-        public static ISet<Clause> findSubsumedClauses(Set<Clause> clauses)
+        public static ISet<Clause> findSubsumedClauses(ISet<Clause> clauses)
         {
             ISet<Clause> subsumed = Factory.CreateSet<Clause>();
 
@@ -42,8 +45,8 @@
             // Keep track of the min and max # of literals.
             int min = int.MaxValue;
             int max = 0;
-            Map<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateMap<int, ISet<Clause>>();
-            for (Clause c : clauses)
+            IMap<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateMap<int, ISet<Clause>>();
+            foreach (Clause c in clauses)
             {
                 int size = c.getNumberLiterals();
                 if (size < min)
@@ -76,15 +79,15 @@
                         // Ensure there are clauses with this # of literals
                         if (null != lcs)
                         {
-                            for (Clause sc : scs)
+                            foreach (Clause sc in scs)
                             {
                                 // Don't bother checking clauses
                                 // that are already subsumed.
-                                if (!subsumed.contains(sc))
+                                if (!subsumed.Contains(sc))
                                 {
-                                    for (Clause lc : lcs)
+                                    foreach (Clause lc in lcs)
                                     {
-                                        if (!subsumed.contains(lc))
+                                        if (!subsumed.Contains(lc))
                                         {
                                             if (sc.subsumes(lc))
                                             {

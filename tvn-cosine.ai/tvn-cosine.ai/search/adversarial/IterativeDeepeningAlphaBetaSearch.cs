@@ -82,7 +82,7 @@
     public A makeDecision(S state)
     {
         metrics = new Metrics();
-        StringBuffer logText = null;
+        StringBuilder logText = null;
         P player = game.getPlayer(state);
         IQueue<A> results = orderActions(state, game.getActions(state), player, 0);
         timer.start();
@@ -91,12 +91,12 @@
         {
             incrementDepthLimit();
             if (logEnabled)
-                logText = new StringBuffer("depth " + currDepthLimit + ": ");
+                logText = new StringBuilder("depth " + currDepthLimit + ": ");
             heuristicEvaluationUsed = false;
             ActionStore<A> newResults = new ActionStore<>();
             for (A action : results)
             {
-                double value = minValue(game.getResult(state, action), player, double.NEGATIVE_INFINITY,
+                double value = minValue(game.getResult(state, action), player, double.NegativeInfinity,
                         double.POSITIVE_INFINITY, 1);
                 if (timer.timeOutOccurred())
                     break; // exit from action loop
@@ -132,14 +132,14 @@
         }
         else
         {
-            double value = double.NEGATIVE_INFINITY;
+            double value = double.NegativeInfinity;
             for (A action : orderActions(state, game.getActions(state), player, depth))
             {
-                value = Math.max(value, minValue(game.getResult(state, action), //
+                value = System.Math.Max(value, minValue(game.getResult(state, action), //
                         player, alpha, beta, depth + 1));
                 if (value >= beta)
                     return value;
-                alpha = Math.max(alpha, value);
+                alpha = System.Math.Max(alpha, value);
             }
             return value;
         }
@@ -158,11 +158,11 @@
             double value = double.POSITIVE_INFINITY;
             for (A action : orderActions(state, game.getActions(state), player, depth))
             {
-                value = Math.min(value, maxValue(game.getResult(state, action), //
+                value = System.Math.Min(value, maxValue(game.getResult(state, action), //
                         player, alpha, beta, depth + 1));
                 if (value <= alpha)
                     return value;
-                beta = Math.min(beta, value);
+                beta = System.Math.Min(beta, value);
             }
             return value;
         }
@@ -171,7 +171,7 @@
     private void updateMetrics(int depth)
     {
         metrics.incrementInt(METRICS_NODES_EXPANDED);
-        metrics.set(METRICS_MAX_DEPTH, Math.max(metrics.getInt(METRICS_MAX_DEPTH), depth));
+        metrics.set(METRICS_MAX_DEPTH, System.Math.Max(metrics.getInt(METRICS_MAX_DEPTH), depth));
     }
 
     /**

@@ -13,7 +13,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
     private WumpusCave cave;
     private bool isWumpusAlive = true;
     private bool isGoldGrabbed;
-    private Map<Agent, AgentPosition> agentPositions = Factory.CreateMap<>();
+    private IMap<Agent, AgentPosition> agentPositions = Factory.CreateMap<>();
     private ISet<Agent> bumpedAgents = Factory.CreateSet<>();
     private ISet<Agent> agentsHavingArrow = Factory.CreateSet<>();
     private Agent agentJustKillingWumpus;

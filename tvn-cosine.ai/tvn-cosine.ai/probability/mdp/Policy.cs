@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability.mdp
+﻿using tvn.cosine.ai.agent;
+
+namespace tvn.cosine.ai.probability.mdp
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 647.<br>
@@ -20,7 +22,8 @@
      * @author Ravi Mohan
      * 
      */
-    public interface Policy<S, A : Action>
+    public interface Policy<S, A>
+        where A : Action
     {
         /**
          * &pi;(s) is the action recommended by the policy &pi; for state s.
@@ -30,6 +33,5 @@
          * @return the action recommended by the policy &pi; for state s.
          */
         A action(S s);
-    }
-
+    } 
 }

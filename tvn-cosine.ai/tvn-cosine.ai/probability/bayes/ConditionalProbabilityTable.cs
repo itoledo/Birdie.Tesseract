@@ -27,6 +27,5 @@ namespace tvn.cosine.ai.probability.bayes
          *         Probability Table that are not part of the evidence.
          */
         Factor getFactorFor(params AssignmentProposition[] evidence);
-    }
-
+    } 
 }

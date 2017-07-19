@@ -128,7 +128,7 @@ namespace tvn.cosine.ai.search.local
                 if (children.Size() > 0)
                 {
                     // next <- a randomly selected successor of current
-                    Node<S, A> next = Util.selectRandomlyFromIQueue(children);
+                    Node<S, A> next = Util.selectRandomlyFromList(children);
                     // /\E <- next.VALUE - current.value
                     double deltaE = getValue(next) - getValue(current);
 

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability.mdp
+﻿using tvn.cosine.ai.agent;
+
+namespace tvn.cosine.ai.probability.mdp
 {
     /**
      * An interface for MDP transition probability functions.
@@ -11,7 +13,8 @@
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public interface TransitionProbabilityFunction<S, A : Action>
+    public interface TransitionProbabilityFunction<S, A>
+        where A : Action
     {
 
         /**

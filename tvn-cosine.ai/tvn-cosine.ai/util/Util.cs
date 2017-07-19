@@ -64,7 +64,7 @@ namespace tvn.cosine.ai.util
         }
 
         /**
-         * Create a Map<K, V> with the passed in keys having their values
+         * Create a IMap<K, V> with the passed in keys having their values
          * initialized to the passed in value.
          * 
          * @param keys
@@ -111,7 +111,7 @@ namespace tvn.cosine.ai.util
          *            randomly.
          * @return a randomly selected element from l.
          */
-        public static T selectRandomlyFromIQueue<T>(IQueue<T> l)
+        public static T selectRandomlyFromList<T>(IQueue<T> l)
         {
             return l.Get(random.Next(l.Size()));
         }

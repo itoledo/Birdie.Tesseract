@@ -4,7 +4,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     public interface Term : FOLNode
     {
-        IQueue<Term> getArgs();
+        new IQueue<Term> getArgs();
 
         new Term copy();
     }

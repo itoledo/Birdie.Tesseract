@@ -24,9 +24,9 @@
          * @param conjunctionOfClauses
          *            a collection of clauses that represent a conjunction.
          */
-        public ConjunctionOfClauses(Collection<Clause> conjunctionOfClauses)
+        public ConjunctionOfClauses(IQueue<Clause> conjunctionOfClauses)
         {
-            this.clauses.addAll(conjunctionOfClauses);
+            this.clauses.AddAll(conjunctionOfClauses);
             // Make immutable
             this.clauses = Factory.CreateReadOnlySet<>(this.clauses);
         }
@@ -59,11 +59,11 @@
          * @return a new conjunction of clauses containing the existing and
          *         additional clauses passed in.
          */
-        public ConjunctionOfClauses extend(Collection<Clause> additionalClauses)
+        public ConjunctionOfClauses extend(IQueue<Clause> additionalClauses)
         {
             ISet<Clause> extendedClauses = Factory.CreateSet<Clause>();
-            extendedClauses.addAll(clauses);
-            extendedClauses.addAll(additionalClauses);
+            extendedClauses.AddAll(clauses);
+            extendedClauses.AddAll(additionalClauses);
 
             ConjunctionOfClauses result = new ConjunctionOfClauses(extendedClauses);
 

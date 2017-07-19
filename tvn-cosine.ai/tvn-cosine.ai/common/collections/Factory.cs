@@ -57,6 +57,11 @@
             return new Queue<T>(collection);
         }
 
+        public static IQueue<T> CreateQueue<T>(ISet<T> collection)
+        {
+            return new Queue<T>(collection);
+        }
+
         public static IQueue<T> CreateQueue<T>(T[] collection)
         {
             return new Queue<T>(collection);

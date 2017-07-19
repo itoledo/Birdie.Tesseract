@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.fol.kb.data
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.logic.fol.kb.data
 {
     /**
      * Conjunctive Normal Form (CNF) : a conjunction of clauses, where each clause
@@ -9,29 +12,27 @@
      */
     public class CNF
     {
-
         private IQueue<Clause> conjunctionOfClauses = Factory.CreateQueue<Clause>();
 
         public CNF(IQueue<Clause> conjunctionOfClauses)
         {
-            this.conjunctionOfClauses.addAll(conjunctionOfClauses);
+            this.conjunctionOfClauses.AddAll(conjunctionOfClauses);
         }
 
         public int getNumberOfClauses()
         {
-            return conjunctionOfClauses.size();
+            return conjunctionOfClauses.Size();
         }
 
         public IQueue<Clause> getConjunctionOfClauses()
         {
-            return Factory.CreateReadOnlyQueue<>(conjunctionOfClauses);
+            return Factory.CreateReadOnlyQueue<Clause>(conjunctionOfClauses);
         }
-
          
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < conjunctionOfClauses.size(); i++)
+            for (int i = 0; i < conjunctionOfClauses.Size(); i++)
             {
                 if (i > 0)
                 {

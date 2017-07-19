@@ -34,9 +34,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
         {
             return second;
         }
-
-        //
-        // START-Sentence
+         
         public string getSymbolicName()
         {
             return getConnector();
@@ -45,6 +43,17 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
         public bool isCompound()
         {
             return true;
+        }
+
+        IQueue<FOLNode> FOLNode.getArgs()
+        {
+            IQueue<FOLNode> obj = Factory.CreateQueue<FOLNode>();
+            foreach (Sentence sentence in args)
+            {
+                obj.Add(sentence);
+            }
+
+            return Factory.CreateReadOnlyQueue<FOLNode>(obj);
         }
 
         public IQueue<Sentence> getArgs()
@@ -57,15 +66,21 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return v.visitConnectedSentence(this, arg);
         }
 
+        FOLNode FOLNode.copy()
+        {
+            return copy();
+        }
+
+        Sentence Sentence.copy()
+        {
+            return copy();
+        }
+
         public ConnectedSentence copy()
         {
             return new ConnectedSentence(connector, first.copy(), second.copy());
         }
-
-        // END-Sentence
-        //
-
-
+         
         public override bool Equals(object o)
         {
 
@@ -82,8 +97,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
                     && cs.getFirst().Equals(getFirst())
                     && cs.getSecond().Equals(getSecond());
         }
-
-
+         
         public override int GetHashCode()
         {
             if (0 == hashCode)
@@ -95,8 +109,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             }
             return hashCode;
         }
-
-
+         
         public override string ToString()
         {
             if (null == stringRep)

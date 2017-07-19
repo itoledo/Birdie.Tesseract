@@ -1,66 +1,65 @@
-﻿namespace tvn.cosine.ai.probability.proposition
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+
+namespace tvn.cosine.ai.probability.proposition
 {
     public class EquivalentProposition : AbstractDerivedProposition
     {
-    //
-    private string toString = null;
+        private string toString = null;
 
-    public EquivalentProposition(string name, params RandomVariable[] equivs)
-    {
-        base(name);
-
-        if (null == equivs || 1 >= equivs.Length)
+        public EquivalentProposition(string name, params RandomVariable[] equivs)
+                : base(name)
         {
-            throw new IllegalArgumentException(
-                    "Equivalent variables must be specified.");
-        }
-        for (RandomVariable rv : equivs)
-        {
-            addScope(rv);
-        }
-    }
-
-    //
-    // START-Proposition
-    public bool holds(IMap<RandomVariable, object> possibleWorld)
-    {
-        bool holds = true;
-
-        Iterator<RandomVariable> i = getScope().iterator();
-        RandomVariable rvC, rvL = i.next();
-        while (i.hasNext())
-        {
-            rvC = i.next();
-            if (!possibleWorld.Get(rvL).Equals(possibleWorld.Get(rvC)))
+            if (null == equivs || 1 >= equivs.Length)
             {
-                holds = false;
-                break;
+                throw new IllegalArgumentException("Equivalent variables must be specified.");
             }
-            rvL = rvC;
-        }
-
-        return holds;
-    }
-
-    // END-Proposition
-    //
-
-     
-    public override string ToString()
-    {
-        if (null == toString)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(getDerivedName());
-            for (RandomVariable rv : getScope())
+            foreach (RandomVariable rv in equivs)
             {
-                sb.Append(" = ");
-                sb.Append(rv);
+                addScope(rv);
             }
-            toString = sb.ToString();
         }
-        return toString;
-    }
-}
 
+        public override bool holds(IMap<RandomVariable, object> possibleWorld)
+        {
+            bool holds = true;
+            bool first = true;
+
+            RandomVariable rvL = null;
+            foreach (RandomVariable rvC in getScope())
+            {
+                if (first)
+                {
+                    rvL = rvC;
+                    first = false;
+                    continue;
+                }
+                if (!possibleWorld.Get(rvL).Equals(possibleWorld.Get(rvC)))
+                {
+                    holds = false;
+                    break;
+                }
+                rvL = rvC;
+            }
+
+            return holds;
+        }
+
+        public override string ToString()
+        {
+            if (null == toString)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(getDerivedName());
+                foreach (RandomVariable rv in getScope())
+                {
+                    sb.Append(" = ");
+                    sb.Append(rv);
+                }
+                toString = sb.ToString();
+            }
+            return toString;
+        }
+    }
 }

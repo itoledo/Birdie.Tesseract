@@ -21,7 +21,7 @@
          * @param pageTable
          * @return
          */
-        IQueue<string> getInlinks(Page page, Map<string, Page> pageTable);
+        IQueue<string> getInlinks(Page page, IMap<string, Page> pageTable);
 
     }
 }

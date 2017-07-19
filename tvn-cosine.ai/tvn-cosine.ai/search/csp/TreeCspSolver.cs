@@ -51,7 +51,7 @@
         VAR root = useRandom ? Util.selectRandomlyFromList(csp.getVariables()) : csp.getVariables().Get(0);
         // Sort the variables in topological order
         IQueue<VAR> orderedVars = Factory.CreateQueue<>();
-        Map<VAR, Constraint<VAR, VAL>> parentConstraints = Factory.CreateMap<>();
+        IMap<VAR, Constraint<VAR, VAL>> parentConstraints = Factory.CreateMap<>();
         topologicalSort(csp, root, orderedVars, parentConstraints);
         if (csp.getDomain(root).isEmpty())
             return Optional.empty(); // CSP has no solution! (needed if orderedVars.size() == 1)
@@ -100,7 +100,7 @@
      *                          variable (initially empty)
      */
     private void topologicalSort(CSP<VAR, VAL> csp, VAR root, IQueue<VAR> orderedVars,
-                                 Map<VAR, Constraint<VAR, VAL>> parentConstraints)
+                                 IMap<VAR, Constraint<VAR, VAL>> parentConstraints)
     {
         orderedVars.Add(root);
         parentConstraints.Put(root, null);
@@ -115,7 +115,7 @@
                 VAR neighbor = csp.getNeighbor(currParent, constraint);
                 if (neighbor == null)
                     throw new IllegalArgumentException("Constraint " + constraint + " is not binary.");
-                if (parentConstraints.containsKey(neighbor))
+                if (parentConstraints.ContainsKey(neighbor))
                 { // faster than orderedVars.contains(neighbor)!
                     arcsPointingUpwards++;
                     if (arcsPointingUpwards > 1)

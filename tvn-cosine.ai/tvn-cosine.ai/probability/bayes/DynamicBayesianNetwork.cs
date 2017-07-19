@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability.bayes
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.probability.bayes
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 590.<br>
@@ -16,7 +18,6 @@
      */
     public interface DynamicBayesianNetwork : BayesianNetwork
     {
-
         /**
          * 
          * @return a Bayesian Network containing just the nodes representing the
@@ -50,14 +51,14 @@
          * @return a Map indicating equivalent variables between X<sub>0</sub> and
          *         X<sub>1</sub>.
          */
-        Map<RandomVariable, RandomVariable> getX_0_to_X_1();
+        IMap<RandomVariable, RandomVariable> getX_0_to_X_1();
 
         /**
          * 
          * @return a Map indicating equivalent variables between X<sub>1</sub> and
          *         X<sub>0</sub>.
          */
-        Map<RandomVariable, RandomVariable> getX_1_to_X_0();
+        IMap<RandomVariable, RandomVariable> getX_1_to_X_0();
 
         /**
          * 

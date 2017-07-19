@@ -1,10 +1,14 @@
-﻿namespace tvn.cosine.ai.logic.fol
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol
 {
     public class SubstVisitor : AbstractFOLVisitor
-    { 
+    {
         public SubstVisitor()
-        {
-        }
+        { }
 
         /**
          * Note: Refer to Artificial Intelligence A Modern Approach (3rd Edition):
@@ -39,58 +43,51 @@
                     .getAtomicSentence().accept(this, theta));
         }
 
-
-    @SuppressWarnings("unchecked")
-
-     
-    public object visitVariable(Variable variable, object arg)
+        public object visitVariable(Variable variable, object arg)
         {
-            Map<Variable, Term> substitution = (IMap<Variable, Term>)arg;
-            if (substitution.containsKey(variable))
+            IMap<Variable, Term> substitution = (IMap<Variable, Term>)arg;
+            if (substitution.ContainsKey(variable))
             {
                 return substitution.Get(variable).copy();
             }
             return variable.copy();
         }
 
-
-    @SuppressWarnings("unchecked")
-
-     
-    public object visitQuantifiedSentence(QuantifiedSentence sentence,
-            object arg)
+        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
-
-            Map<Variable, Term> substitution = (IMap<Variable, Term>)arg;
+            IMap<Variable, Term> substitution = (IMap<Variable, Term>)arg;
 
             Sentence quantified = sentence.getQuantified();
             Sentence quantifiedAfterSubs = (Sentence)quantified.accept(this, arg);
 
             IQueue<Variable> variables = Factory.CreateQueue<Variable>();
-            for (Variable v : sentence.getVariables())
+            foreach (Variable v in sentence.getVariables())
             {
                 Term st = substitution.Get(v);
                 if (null != st)
                 {
-                    if (st is Variable) {
-                // Only if it is a variable to I replace it, otherwise
-                // I drop it.
-                variables.Add((Variable)st.copy());
+                    if (st is Variable)
+                    {
+                        // Only if it is a variable to I replace it, otherwise
+                        // I drop it.
+                        variables.Add((Variable)st.copy());
+                    }
+                }
+                else
+                {
+                    // No substitution for the quantified variable, so
+                    // keep it.
+                    variables.Add(v.copy());
+                }
             }
-        } else {
-				// No substitution for the quantified variable, so
-				// keep it.
-				variables.Add(v.copy());
-			}
-}
 
-		// If not variables remaining on the quantifier, then drop it
-		if (variables.size() == 0) {
-			return quantifiedAfterSubs;
-		}
+            // If not variables remaining on the quantifier, then drop it
+            if (variables.Size() == 0)
+            {
+                return quantifiedAfterSubs;
+            }
 
-		return new QuantifiedSentence(sentence.getQuantifier(), variables,
-                quantifiedAfterSubs);
-	}
-}
+            return new QuantifiedSentence(sentence.getQuantifier(), variables, quantifiedAfterSubs);
+        }
+    }
 }

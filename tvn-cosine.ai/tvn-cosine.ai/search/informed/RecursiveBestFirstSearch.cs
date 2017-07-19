@@ -164,7 +164,7 @@
         for (int s = 0; s < size; s++)
         {
             // s.f <- max(s.g + s.h, node.f)
-            f[s] = Math.max(evalFn.applyAsDouble(successors.Get(s)), node_f);
+            f[s] = System.Math.Max(evalFn.applyAsDouble(successors.Get(s)), node_f);
         }
 
         // repeat
@@ -180,7 +180,7 @@
             // if best.f > f_limit then return failure, best.f
             int altIndex = getNextBestFValueIndex(f, bestIndex);
             // result, best.f <- RBFS(problem, best, min(f_limit, alternative))
-            SearchResult<S, A> sr = rbfs(p, successors.Get(bestIndex), f[bestIndex], Math.min(fLimit, f[altIndex]),
+            SearchResult<S, A> sr = rbfs(p, successors.Get(bestIndex), f[bestIndex], System.Math.Min(fLimit, f[altIndex]),
                     recursiveDepth + 1);
             f[bestIndex] = sr.getFCostLimit();
             // if result != failure then return result

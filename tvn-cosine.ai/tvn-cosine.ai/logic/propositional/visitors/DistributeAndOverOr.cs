@@ -11,7 +11,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class DistributeAndOverOr : AbstractPLVisitor<Object> {
+    public class DistributeAndOverOr : AbstractPLVisitor<object> {
 
     /**
 	 * Distribute and (&) over or (|).

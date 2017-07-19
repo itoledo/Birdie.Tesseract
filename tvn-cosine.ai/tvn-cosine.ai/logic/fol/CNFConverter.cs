@@ -28,7 +28,6 @@ namespace tvn.cosine.ai.logic.fol
         public CNFConverter(FOLParser parser)
         {
             this.parser = parser;
-
             this.substVisitor = new SubstVisitor();
         }
 
@@ -63,13 +62,11 @@ namespace tvn.cosine.ai.logic.fol
             // and dropping universals:
             // E)xistentials Out
             // A)lls Out:
-            Sentence andsAndOrs = (Sentence)saQuantifiers.accept(
-                    new RemoveQuantifiers(parser), Factory.CreateSet<Variable>());
+            Sentence andsAndOrs = (Sentence)saQuantifiers.accept(new RemoveQuantifiers(parser), Factory.CreateSet<Variable>());
 
             // D)istribution
             // V over ^:
-            Sentence orDistributedOverAnd = (Sentence)andsAndOrs.accept(
-                    new DistributeOrOverAnd(), null);
+            Sentence orDistributedOverAnd = (Sentence)andsAndOrs.accept(new DistributeOrOverAnd(), null);
 
             // O)perators Out
             return new CNFConstructor().construct(orDistributedOverAnd);
@@ -122,10 +119,8 @@ namespace tvn.cosine.ai.logic.fol
             // replace (alpha <=> beta) with (~alpha V beta) ^ (alpha V ~beta).
             if (Connectors.isBICOND(sentence.getConnector()))
             {
-                Sentence first = new ConnectedSentence(Connectors.OR,
-                        new NotSentence(alpha), beta);
-                Sentence second = new ConnectedSentence(Connectors.OR, alpha,
-                        new NotSentence(beta));
+                Sentence first = new ConnectedSentence(Connectors.OR, new NotSentence(alpha), beta);
+                Sentence second = new ConnectedSentence(Connectors.OR, alpha, new NotSentence(beta));
 
                 return new ConnectedSentence(Connectors.AND, first, second);
             }
@@ -134,30 +129,24 @@ namespace tvn.cosine.ai.logic.fol
             // replacing (alpha => beta) with (~alpha V beta)
             if (Connectors.isIMPLIES(sentence.getConnector()))
             {
-                return new ConnectedSentence(Connectors.OR, new NotSentence(alpha),
-                        beta);
+                return new ConnectedSentence(Connectors.OR, new NotSentence(alpha), beta);
             }
 
             return new ConnectedSentence(sentence.getConnector(), alpha, beta);
         }
 
-        public object visitQuantifiedSentence(QuantifiedSentence sentence,
-                object arg)
+        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
 
             return new QuantifiedSentence(sentence.getQuantifier(),
-                    sentence.getVariables(), (Sentence)sentence.getQuantified()
-                            .accept(this, arg));
+                    sentence.getVariables(), (Sentence)sentence.getQuantified().accept(this, arg));
         }
     }
 
     class NegationsIn : FOLVisitor
     {
-
         public NegationsIn()
-        {
-
-        }
+        { }
 
         public object visitPredicate(Predicate p, object arg)
         {
@@ -205,10 +194,8 @@ namespace tvn.cosine.ai.logic.fol
                 if (Connectors.isAND(negConnected.getConnector()))
                 {
                     // I need to ensure the ~s are moved in deeper
-                    Sentence notAlpha = (Sentence)(new NotSentence(alpha)).accept(
-                            this, arg);
-                    Sentence notBeta = (Sentence)(new NotSentence(beta)).accept(
-                            this, arg);
+                    Sentence notAlpha = (Sentence)(new NotSentence(alpha)).accept(this, arg);
+                    Sentence notBeta = (Sentence)(new NotSentence(beta)).accept(this, arg);
                     return new ConnectedSentence(Connectors.OR, notAlpha, notBeta);
                 }
 
@@ -216,10 +203,8 @@ namespace tvn.cosine.ai.logic.fol
                 if (Connectors.isOR(negConnected.getConnector()))
                 {
                     // I need to ensure the ~s are moved in deeper
-                    Sentence notAlpha = (Sentence)(new NotSentence(alpha)).accept(
-                            this, arg);
-                    Sentence notBeta = (Sentence)(new NotSentence(beta)).accept(
-                            this, arg);
+                    Sentence notAlpha = (Sentence)(new NotSentence(alpha)).accept(this, arg);
+                    Sentence notBeta = (Sentence)(new NotSentence(beta)).accept(this, arg);
                     return new ConnectedSentence(Connectors.AND, notAlpha, notBeta);
                 }
             }
@@ -229,21 +214,18 @@ namespace tvn.cosine.ai.logic.fol
             {
                 QuantifiedSentence negQuantified = (QuantifiedSentence)negated;
                 // I need to ensure the ~ is moved in deeper
-                Sentence notP = (Sentence)(new NotSentence(
-                        negQuantified.getQuantified())).accept(this, arg);
+                Sentence notP = (Sentence)(new NotSentence(negQuantified.getQuantified())).accept(this, arg);
 
                 // ~FORALL x p becomes EXISTS x ~p
                 if (Quantifiers.isFORALL(negQuantified.getQuantifier()))
                 {
-                    return new QuantifiedSentence(Quantifiers.EXISTS,
-                            negQuantified.getVariables(), notP);
+                    return new QuantifiedSentence(Quantifiers.EXISTS, negQuantified.getVariables(), notP);
                 }
 
                 // ~EXISTS x p becomes FORALL x ~p
                 if (Quantifiers.isEXISTS(negQuantified.getQuantifier()))
                 {
-                    return new QuantifiedSentence(Quantifiers.FORALL,
-                            negQuantified.getVariables(), notP);
+                    return new QuantifiedSentence(Quantifiers.FORALL, negQuantified.getVariables(), notP);
                 }
             }
 
@@ -257,13 +239,11 @@ namespace tvn.cosine.ai.logic.fol
                     (Sentence)sentence.getSecond().accept(this, arg));
         }
 
-        public object visitQuantifiedSentence(QuantifiedSentence sentence,
-                object arg)
+        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
 
             return new QuantifiedSentence(sentence.getQuantifier(),
-                    sentence.getVariables(), (Sentence)sentence.getQuantified()
-                            .accept(this, arg));
+                    sentence.getVariables(), (Sentence)sentence.getQuantified().accept(this, arg));
         }
     }
 
@@ -320,8 +300,7 @@ namespace tvn.cosine.ai.logic.fol
 
         public object visitNotSentence(NotSentence sentence, object arg)
         {
-            return new NotSentence((Sentence)sentence.getNegated().accept(this,
-                    arg));
+            return new NotSentence((Sentence)sentence.getNegated().accept(this, arg));
         }
 
         public object visitConnectedSentence(ConnectedSentence sentence, object arg)
@@ -331,23 +310,21 @@ namespace tvn.cosine.ai.logic.fol
                     (Sentence)sentence.getSecond().accept(this, arg));
         }
 
-        public object visitQuantifiedSentence(QuantifiedSentence sentence,
-                object arg)
+        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
             ISet<Variable> seenSoFar = (Set<Variable>)arg;
 
             // Keep track of what I have to subst locally and
             // what my renamed variables will be.
-            Map<Variable, Term> localSubst = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> localSubst = Factory.CreateMap<Variable, Term>();
             IQueue<Variable> replVariables = Factory.CreateQueue<Variable>();
-            for (Variable v : sentence.getVariables())
+            foreach (Variable v in sentence.getVariables())
             {
                 // If local variable has be renamed already
                 // then I need to come up with own name
-                if (seenSoFar.contains(v))
+                if (seenSoFar.Contains(v))
                 {
-                    Variable sV = new Variable(quantifiedIndexical.getPrefix()
-                            + quantifiedIndexical.getNextIndex());
+                    Variable sV = new Variable(quantifiedIndexical.getPrefix() + quantifiedIndexical.getNextIndex());
                     localSubst.Put(v, sV);
                     // Replacement variables should contain new name for variable
                     replVariables.Add(sV);
@@ -360,24 +337,20 @@ namespace tvn.cosine.ai.logic.fol
             }
 
             // Apply the local subst
-            Sentence subst = substVisitor.subst(localSubst,
-                    sentence.getQuantified());
+            Sentence subst = substVisitor.subst(localSubst, sentence.getQuantified());
 
             // Ensure all my existing and replaced variable
             // names are tracked
-            seenSoFar.addAll(replVariables);
+            seenSoFar.AddAll(replVariables);
 
             Sentence sQuantified = (Sentence)subst.accept(this, arg);
 
-            return new QuantifiedSentence(sentence.getQuantifier(), replVariables,
-                    sQuantified);
+            return new QuantifiedSentence(sentence.getQuantifier(), replVariables, sQuantified);
         }
     }
 
     class RemoveQuantifiers : FOLVisitor
     {
-
-
         private FOLParser parser = null;
         private SubstVisitor substVisitor = null;
 
@@ -415,8 +388,7 @@ namespace tvn.cosine.ai.logic.fol
 
         public object visitNotSentence(NotSentence sentence, object arg)
         {
-            return new NotSentence((Sentence)sentence.getNegated().accept(this,
-                    arg));
+            return new NotSentence((Sentence)sentence.getNegated().accept(this, arg));
         }
 
         public object visitConnectedSentence(ConnectedSentence sentence, object arg)
@@ -426,11 +398,7 @@ namespace tvn.cosine.ai.logic.fol
                     (Sentence)sentence.getSecond().accept(this, arg));
         }
 
-
-    @SuppressWarnings("unchecked")
-
-    public object visitQuantifiedSentence(QuantifiedSentence sentence,
-            object arg)
+        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
             Sentence quantified = sentence.getQuantified();
             ISet<Variable> universalScope = (Set<Variable>)arg;
@@ -442,22 +410,25 @@ namespace tvn.cosine.ai.logic.fol
             // scope the existential quantifier appears.
             if (Quantifiers.isEXISTS(sentence.getQuantifier()))
             {
-                Map<Variable, Term> skolemSubst = Factory.CreateMap<Variable, Term>();
-                for (Variable eVar : sentence.getVariables())
+                IMap<Variable, Term> skolemSubst = Factory.CreateMap<Variable, Term>();
+                foreach (Variable eVar in sentence.getVariables())
                 {
-                    if (universalScope.size() > 0)
+                    if (universalScope.Size() > 0)
                     {
                         // Replace with a Skolem Function
-                        string skolemFunctionName = parser.getFOLDomain()
-                                .addSkolemFunction();
-                        skolemSubst.Put(eVar, new Function(skolemFunctionName,
-                                Factory.CreateQueue<Term>(universalScope)));
+                        string skolemFunctionName = parser.getFOLDomain().addSkolemFunction();
+
+                        IQueue<Term> terms = Factory.CreateQueue<Term>();
+                        foreach (Variable v in universalScope)
+                        {
+                            terms.Add(v);
+                        }
+                        skolemSubst.Put(eVar, new Function(skolemFunctionName, terms));
                     }
                     else
                     {
                         // Replace with a Skolem Constant
-                        string skolemConstantName = parser.getFOLDomain()
-                                .addSkolemConstant();
+                        string skolemConstantName = parser.getFOLDomain().addSkolemConstant();
                         skolemSubst.Put(eVar, new Constant(skolemConstantName));
                     }
                 }
@@ -471,32 +442,27 @@ namespace tvn.cosine.ai.logic.fol
             {
                 // Add to the universal scope so that
                 // existential skolemization may be done correctly
-                universalScope.addAll(sentence.getVariables());
+                universalScope.AddAll(sentence.getVariables());
 
                 Sentence droppedUniversal = (Sentence)quantified.accept(this, arg);
 
                 // Enusre my scope is removed before moving back up
                 // the call stack when returning
-                universalScope.removeAll(sentence.getVariables());
+                universalScope.RemoveAll(sentence.getVariables());
 
                 return droppedUniversal;
             }
 
             // Should not reach here as have already
             // handled the two quantifiers.
-            throw new IllegalStateException("Unhandled Quantifier:"
-                    + sentence.getQuantifier());
+            throw new IllegalStateException("Unhandled Quantifier:" + sentence.getQuantifier());
         }
     }
 
     class DistributeOrOverAnd : FOLVisitor
     {
-
-
         public DistributeOrOverAnd()
-        {
-
-        }
+        { }
 
         public object visitPredicate(Predicate p, object arg)
         {
@@ -582,11 +548,9 @@ namespace tvn.cosine.ai.logic.fol
     }
 
     class CNFConstructor : FOLVisitor
-    { 
+    {
         public CNFConstructor()
-        {
-
-        }
+        { }
 
         public CNF construct(Sentence orDistributedOverAnd)
         {
@@ -670,8 +634,7 @@ namespace tvn.cosine.ai.logic.fol
             return sentence;
         }
 
-        public object visitQuantifiedSentence(QuantifiedSentence sentence,
-                object arg)
+        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
             // This should not be called as should have already
             // removed all of the quantifiers.
@@ -689,5 +652,4 @@ namespace tvn.cosine.ai.logic.fol
             }
         }
     }
-
 }

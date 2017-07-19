@@ -8,52 +8,35 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class FullCPTNode : AbstractNode : FiniteNode
+    public class FullCPTNode : AbstractNode, FiniteNode
     {
+        private ConditionalProbabilityTable cpt = null;
 
-    private ConditionalProbabilityTable cpt = null;
+        public FullCPTNode(RandomVariable var, double[] distribution)
+            : this(var, distribution, (Node[])null)
+        { }
 
-    public FullCPTNode(RandomVariable var, double[] distribution)
-    {
-        this(var, distribution, (Node[])null);
-    }
-
-    public FullCPTNode(RandomVariable var, double[] values, params Node[] parents)
-    {
-        base(var, parents);
-
-        RandomVariable[] conditionedOn = new RandomVariable[getParents().size()];
-        int i = 0;
-        for (Node p : getParents())
+        public FullCPTNode(RandomVariable var, double[] values, params Node[] parents)
+            : base(var, parents)
         {
-            conditionedOn[i++] = p.getRandomVariable();
+            RandomVariable[] conditionedOn = new RandomVariable[getParents().Size()];
+            int i = 0;
+            foreach (Node p in getParents())
+            {
+                conditionedOn[i++] = p.getRandomVariable();
+            }
+
+            cpt = new CPT(var, values, conditionedOn);
         }
 
-        cpt = new CPT(var, values, conditionedOn);
+        public override ConditionalProbabilityDistribution getCPD()
+        {
+            return getCPT();
+        }
+
+        public virtual ConditionalProbabilityTable getCPT()
+        {
+            return cpt;
+        }
     }
-
-    //
-    // START-Node
-     
-    public ConditionalProbabilityDistribution getCPD()
-    {
-        return getCPT();
-    }
-
-    // END-Node
-    //
-
-    //
-    // START-FiniteNode
-
-     
-    public ConditionalProbabilityTable getCPT()
-    {
-        return cpt;
-    }
-
-    // END-FiniteNode
-    //
-}
-
 }

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.logic.common
+﻿using System.IO;
+
+namespace tvn.cosine.ai.logic.common
 {
     /**
      * An abstract base class for constructing parsers for knowledge representation
@@ -45,9 +47,9 @@
          * @return the root node of an abstract syntax tree representation of the
          *         the concrete input syntax that was parsed.
          */
-        public S parse(Reader inputReader)
+        public S parse(TextReader inputReader)
         {
-            S result = null;
+            S result = default(S);
 
             try
             {

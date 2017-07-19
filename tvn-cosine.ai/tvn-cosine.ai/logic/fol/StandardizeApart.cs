@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.logic.fol
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.inference.proof;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol
 {
     public class StandardizeApart
     {
@@ -11,23 +16,20 @@
             substVisitor = new SubstVisitor();
         }
 
-        public StandardizeApart(VariableCollector variableCollector,
-                SubstVisitor substVisitor)
+        public StandardizeApart(VariableCollector variableCollector, SubstVisitor substVisitor)
         {
             this.variableCollector = variableCollector;
             this.substVisitor = substVisitor;
         }
 
         // Note: see page 327.
-        public StandardizeApartResult standardizeApart(Sentence sentence,
-                StandardizeApartIndexical standardizeApartIndexical)
+        public StandardizeApartResult standardizeApart(Sentence sentence, StandardizeApartIndexical standardizeApartIndexical)
         {
-            ISet<Variable> toRename = variableCollector
-                    .collectAllVariables(sentence);
-            Map<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
-            Map<Variable, Term> reverseSubstitution = Factory.CreateMap<Variable, Term>();
+            ISet<Variable> toRename = variableCollector.collectAllVariables(sentence);
+            IMap<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> reverseSubstitution = Factory.CreateMap<Variable, Term>();
 
-            for (Variable var : toRename)
+            foreach (Variable var in toRename)
             {
                 Variable v = null;
                 do
@@ -36,7 +38,7 @@
                             + standardizeApartIndexical.getNextIndex());
                     // Ensure the new variable name is not already
                     // accidentally used in the sentence
-                } while (toRename.contains(v));
+                } while (toRename.Contains(v));
 
                 renameSubstitution.Put(var, v);
                 reverseSubstitution.Put(v, var);
@@ -49,14 +51,12 @@
                     renameSubstitution, reverseSubstitution);
         }
 
-        public Clause standardizeApart(Clause clause,
-                StandardizeApartIndexical standardizeApartIndexical)
+        public Clause standardizeApart(Clause clause, StandardizeApartIndexical standardizeApartIndexical)
         {
-
             ISet<Variable> toRename = variableCollector.collectAllVariables(clause);
-            Map<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
 
-            for (Variable var : toRename)
+            foreach (Variable var in toRename)
             {
                 Variable v = null;
                 do
@@ -65,36 +65,33 @@
                             + standardizeApartIndexical.getNextIndex());
                     // Ensure the new variable name is not already
                     // accidentally used in the sentence
-                } while (toRename.contains(v));
+                } while (toRename.Contains(v));
 
                 renameSubstitution.Put(var, v);
             }
 
-            if (renameSubstitution.size() > 0)
+            if (renameSubstitution.Size() > 0)
             {
                 IQueue<Literal> literals = Factory.CreateQueue<Literal>();
 
-                for (Literal l : clause.getLiterals())
+                foreach (Literal l in clause.getLiterals())
                 {
                     literals.Add(substVisitor.subst(renameSubstitution, l));
                 }
                 Clause renamed = new Clause(literals);
-                renamed.setProofStep(new ProofStepRenaming(renamed, clause
-                        .getProofStep()));
+                renamed.setProofStep(new ProofStepRenaming(renamed, clause.getProofStep()));
                 return renamed;
             }
 
             return clause;
         }
 
-        public Chain standardizeApart(Chain chain,
-                StandardizeApartIndexical standardizeApartIndexical)
+        public Chain standardizeApart(Chain chain, StandardizeApartIndexical standardizeApartIndexical)
         {
-
             ISet<Variable> toRename = variableCollector.collectAllVariables(chain);
-            Map<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
 
-            for (Variable var : toRename)
+            foreach (Variable var in toRename)
             {
                 Variable v = null;
                 do
@@ -103,26 +100,24 @@
                             + standardizeApartIndexical.getNextIndex());
                     // Ensure the new variable name is not already
                     // accidentally used in the sentence
-                } while (toRename.contains(v));
+                } while (toRename.Contains(v));
 
                 renameSubstitution.Put(var, v);
             }
 
-            if (renameSubstitution.size() > 0)
+            if (renameSubstitution.Size() > 0)
             {
                 IQueue<Literal> lits = Factory.CreateQueue<Literal>();
 
-                for (Literal l : chain.getLiterals())
+                foreach (Literal l in chain.getLiterals())
                 {
-                    AtomicSentence atom = (AtomicSentence)substVisitor.subst(
-                            renameSubstitution, l.getAtomicSentence());
+                    AtomicSentence atom = (AtomicSentence)substVisitor.subst(renameSubstitution, l.getAtomicSentence());
                     lits.Add(l.newInstance(atom));
                 }
 
                 Chain renamed = new Chain(lits);
 
-                renamed.setProofStep(new ProofStepRenaming(renamed, chain
-                        .getProofStep()));
+                renamed.setProofStep(new ProofStepRenaming(renamed, chain.getProofStep()));
 
                 return renamed;
             }
@@ -130,26 +125,25 @@
             return chain;
         }
 
-        public Map<Variable, Term> standardizeApart(IQueue<Literal> l1Literals,
+        public IMap<Variable, Term> standardizeApart(IQueue<Literal> l1Literals,
                 IQueue<Literal> l2Literals,
                 StandardizeApartIndexical standardizeApartIndexical)
         {
             ISet<Variable> toRename = Factory.CreateSet<Variable>();
 
-            for (Literal pl : l1Literals)
+            foreach (Literal pl in l1Literals)
             {
-                toRename.addAll(variableCollector.collectAllVariables(pl
+                toRename.AddAll(variableCollector.collectAllVariables(pl
                         .getAtomicSentence()));
             }
-            for (Literal nl : l2Literals)
+            foreach (Literal nl in l2Literals)
             {
-                toRename.addAll(variableCollector.collectAllVariables(nl
-                        .getAtomicSentence()));
+                toRename.AddAll(variableCollector.collectAllVariables(nl.getAtomicSentence()));
             }
 
-            Map<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
 
-            for (Variable var : toRename)
+            foreach (Variable var in toRename)
             {
                 Variable v = null;
                 do
@@ -158,7 +152,7 @@
                             + standardizeApartIndexical.getNextIndex());
                     // Ensure the new variable name is not already
                     // accidentally used in the sentence
-                } while (toRename.contains(v));
+                } while (toRename.Contains(v));
 
                 renameSubstitution.Put(var, v);
             }
@@ -166,19 +160,19 @@
             IQueue<Literal> posLits = Factory.CreateQueue<Literal>();
             IQueue<Literal> negLits = Factory.CreateQueue<Literal>();
 
-            for (Literal pl : l1Literals)
+            foreach (Literal pl in l1Literals)
             {
                 posLits.Add(substVisitor.subst(renameSubstitution, pl));
             }
-            for (Literal nl : l2Literals)
+            foreach (Literal nl in l2Literals)
             {
                 negLits.Add(substVisitor.subst(renameSubstitution, nl));
             }
 
             l1Literals.Clear();
-            l1Literals.addAll(posLits);
+            l1Literals.AddAll(posLits);
             l2Literals.Clear();
-            l2Literals.addAll(negLits);
+            l2Literals.AddAll(negLits);
 
             return renameSubstitution;
         }

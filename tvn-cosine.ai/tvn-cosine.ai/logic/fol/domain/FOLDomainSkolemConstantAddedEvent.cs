@@ -14,8 +14,7 @@
         {
             return skolemConstantName;
         }
-
-
+         
         public override void notifyListener(FOLDomainListener listener)
         {
             listener.skolemConstantAdded(this);

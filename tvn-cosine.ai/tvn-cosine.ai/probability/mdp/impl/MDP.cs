@@ -35,40 +35,31 @@ namespace tvn.cosine.ai.probability.mdp.impl
             this.rewardFunction = rewardFunction;
         }
 
-        //
-        // START-MarkovDecisionProcess
-
-        public ISet<S> states()
+        public virtual ISet<S> states()
         {
             return _states;
         }
 
-
-        public S getInitialState()
+        public virtual S getInitialState()
         {
             return initialState;
         }
 
-
-        public ISet<A> actions(S s)
+        public virtual ISet<A> actions(S s)
         {
             return actionsFunction.actions(s);
         }
 
 
-        public double transitionProbability(S sDelta, S s, A a)
+        public virtual double transitionProbability(S sDelta, S s, A a)
         {
             return transitionProbabilityFunction.probability(sDelta, s, a);
         }
 
 
-        public double reward(S s)
+        public virtual double reward(S s)
         {
             return rewardFunction.reward(s);
-        }
-
-        // END-MarkovDecisionProcess
-        //
-    }
-
+        } 
+    } 
 }

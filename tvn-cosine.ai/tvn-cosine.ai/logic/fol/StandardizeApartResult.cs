@@ -1,15 +1,18 @@
-﻿namespace tvn.cosine.ai.logic.fol
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol
 {
     public class StandardizeApartResult
     {
         private Sentence originalSentence = null;
         private Sentence standardized = null;
-        private Map<Variable, Term> forwardSubstitution = null;
-        private Map<Variable, Term> reverseSubstitution = null;
+        private IMap<Variable, Term> forwardSubstitution = null;
+        private IMap<Variable, Term> reverseSubstitution = null;
 
         public StandardizeApartResult(Sentence originalSentence,
-                Sentence standardized, Map<Variable, Term> forwardSubstitution,
-                Map<Variable, Term> reverseSubstitution)
+                Sentence standardized, IMap<Variable, Term> forwardSubstitution,
+                IMap<Variable, Term> reverseSubstitution)
         {
             this.originalSentence = originalSentence;
             this.standardized = standardized;
@@ -27,12 +30,12 @@
             return standardized;
         }
 
-        public Map<Variable, Term> getForwardSubstitution()
+        public IMap<Variable, Term> getForwardSubstitution()
         {
             return forwardSubstitution;
         }
 
-        public Map<Variable, Term> getReverseSubstitution()
+        public IMap<Variable, Term> getReverseSubstitution()
         {
             return reverseSubstitution;
         }

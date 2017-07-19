@@ -6,7 +6,7 @@
      * 
      * @author Andrew Brown
      */
-    public class Path : LinkedList<Object> {
+    public class Path : LinkedList<object> {
 
 
     private static final long serialVersionUID = 1L;
@@ -23,8 +23,8 @@
     public Path append(params object[] states)
     {
         Path appendedPath = new Path();
-        appendedPath.addAll(this);
-        Collections.addAll(appendedPath, states);
+        appendedPath.AddAll(this);
+        Collections.AddAll(appendedPath, states);
         return appendedPath;
     }
 
@@ -41,7 +41,7 @@
     {
         Path prependedPath = new Path();
         prependedPath.Add(state);
-        prependedPath.addAll(this);
+        prependedPath.AddAll(this);
 
         return prependedPath;
     }

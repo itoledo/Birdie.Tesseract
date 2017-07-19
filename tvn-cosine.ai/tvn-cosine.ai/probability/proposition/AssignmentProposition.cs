@@ -29,14 +29,12 @@ namespace tvn.cosine.ai.probability.proposition
             }
             this.value = value;
         }
-
-
-        public bool holds(IMap<RandomVariable, object> possibleWorld)
+         
+        public override bool holds(IMap<RandomVariable, object> possibleWorld)
         {
             return value.Equals(possibleWorld.Get(getTermVariable()));
         }
-
-
+         
         public override string ToString()
         {
             if (null == toString)
@@ -50,6 +48,5 @@ namespace tvn.cosine.ai.probability.proposition
             }
             return toString;
         }
-    }
-
+    } 
 }

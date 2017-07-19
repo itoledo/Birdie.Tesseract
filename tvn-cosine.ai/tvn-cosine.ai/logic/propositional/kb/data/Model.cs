@@ -14,10 +14,10 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class Model : PLVisitor<Boolean, Boolean> {
+    public class Model : PLVisitor<Boolean, bool?> {
 
 
-    private HashMap<PropositionSymbol, Boolean> assignments = Factory.CreateMap<PropositionSymbol, Boolean>();
+    private HashMap<PropositionSymbol, bool?> assignments = Factory.CreateMap<PropositionSymbol, bool?>();
 
     /**
 	 * Default Constructor.
@@ -26,7 +26,7 @@
     {
     }
 
-    public Model(IMap<PropositionSymbol, Boolean> values)
+    public Model(IMap<PropositionSymbol, bool?> values)
     {
         assignments.putAll(values);
     }
@@ -38,12 +38,12 @@
 
     public bool isTrue(PropositionSymbol symbol)
     {
-        return Boolean.TRUE.Equals(assignments.Get(symbol));
+        return true.Equals(assignments.Get(symbol));
     }
 
     public bool isFalse(PropositionSymbol symbol)
     {
-        return Boolean.FALSE.Equals(assignments.Get(symbol));
+        return false.Equals(assignments.Get(symbol));
     }
 
     public Model union(PropositionSymbol symbol, bool b)
@@ -67,12 +67,12 @@
 
     public bool isTrue(Sentence s)
     {
-        return Boolean.TRUE.Equals(s.accept(this, null));
+        return true.Equals(s.accept(this, null));
     }
 
     public bool isFalse(Sentence s)
     {
-        return Boolean.FALSE.Equals(s.accept(this, null));
+        return false.Equals(s.accept(this, null));
     }
 
     public bool isUnknown(Sentence s)
@@ -110,7 +110,7 @@
         for (Clause c : clauses)
         {
             // All must to be true
-            if (!Boolean.TRUE.Equals(determineValue(c)))
+            if (!true.Equals(determineValue(c)))
             {
                 return false;
             }
@@ -135,12 +135,12 @@
 
         if (c.isTautology())
         { // Test independent of the model's assignments.
-            result = Boolean.TRUE;
+            result = true;
         }
         else if (c.isFalse())
         { // Test independent of the model's
           // assignments.
-            result = Boolean.FALSE;
+            result = false;
         }
         else
         {
@@ -151,9 +151,9 @@
                 value = assignments.Get(positive);
                 if (value != null)
                 {
-                    if (Boolean.TRUE.Equals(value))
+                    if (true.Equals(value))
                     {
-                        result = Boolean.TRUE;
+                        result = true;
                         break;
                     }
                 }
@@ -170,9 +170,9 @@
                     value = assignments.Get(negative);
                     if (value != null)
                     {
-                        if (Boolean.FALSE.Equals(value))
+                        if (false.Equals(value))
                         {
-                            result = Boolean.TRUE;
+                            result = true;
                             break;
                         }
                     }
@@ -190,7 +190,7 @@
                     // model)
                     if (!unassignedSymbols)
                     {
-                        result = Boolean.FALSE;
+                        result = false;
                     }
                 }
             }
@@ -201,7 +201,7 @@
 
     public void print()
     {
-        for (Map.Entry<PropositionSymbol, Boolean> e : assignments.entrySet())
+        for (Map.Entry<PropositionSymbol, bool?> e : assignments )
         {
             System.out.print(e.getKey() + " = " + e.getValue() + " ");
         }
@@ -221,11 +221,11 @@
     {
         if (s.isAlwaysTrue())
         {
-            return Boolean.TRUE;
+            return true;
         }
         if (s.isAlwaysFalse())
         {
-            return Boolean.FALSE;
+            return false;
         }
         return getValue(s);
     }

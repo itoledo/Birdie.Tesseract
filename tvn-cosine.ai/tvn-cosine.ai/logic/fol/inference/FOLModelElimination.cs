@@ -1,4 +1,13 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.fol.inference.proof;
+using tvn.cosine.ai.logic.fol.inference.trace;
+using tvn.cosine.ai.logic.fol.kb;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol.inference
 {
     /**
      * Based on lecture notes from:<br>
@@ -12,665 +21,637 @@
     public class FOLModelElimination : InferenceProcedure
     {
 
-    // Ten seconds is default maximum query time permitted
-    private long maxQueryTime = 10 * 1000;
-    //
-    private FOLModelEliminationTracer tracer = null;
-    //
-    private Unifier unifier = new Unifier();
-    private SubstVisitor substVisitor = new SubstVisitor();
-
-    public FOLModelElimination()
-    {
-
-    }
-
-    public FOLModelElimination(long maxQueryTime)
-    {
-        setMaxQueryTime(maxQueryTime);
-    }
-
-    public FOLModelElimination(FOLModelEliminationTracer tracer)
-    {
-        this.tracer = tracer;
-    }
-
-    public FOLModelElimination(FOLModelEliminationTracer tracer,
-            long maxQueryTime)
-    {
-        this.tracer = tracer;
-        setMaxQueryTime(maxQueryTime);
-    }
-
-    public long getMaxQueryTime()
-    {
-        return maxQueryTime;
-    }
-
-    public void setMaxQueryTime(long maxQueryTime)
-    {
-        this.maxQueryTime = maxQueryTime;
-    }
-
-    //
-    // START-InferenceProcedure
-
-    public InferenceResult ask(FOLKnowledgeBase kb, Sentence query)
-    {
+        // Ten seconds is default maximum query time permitted
+        private long maxQueryTime = 10 * 1000;
         //
-        // Get the background knowledge - are assuming this is satisfiable
-        // as using Set of Support strategy.
-        ISet<Clause> bgClauses = Factory.CreateSet<Clause>(kb.getAllClauses());
-        bgClauses.removeAll(SubsumptionElimination
-                .findSubsumedClauses(bgClauses));
-        IQueue<Chain> background = createChainsFromClauses(bgClauses);
+        private FOLModelEliminationTracer tracer = null;
+        //
+        private Unifier unifier = new Unifier();
+        private SubstVisitor substVisitor = new SubstVisitor();
 
-        // Collect the information necessary for constructing
-        // an answer (supports use of answer literals).
-        AnswerHandler ansHandler = new AnswerHandler(kb, query, maxQueryTime);
+        public FOLModelElimination()
+        { }
 
-        IndexedFarParents ifps = new IndexedFarParents(
-                ansHandler.getSetOfSupport(), background);
-
-        // Iterative deepening to be used
-        for (int maxDepth = 1; maxDepth < int.MaxValue; maxDepth++)
+        public FOLModelElimination(long maxQueryTime)
         {
-            // Track the depth actually reached
-            ansHandler.resetMaxDepthReached();
+            setMaxQueryTime(maxQueryTime);
+        }
 
-            if (null != tracer)
-            {
-                tracer.reset();
-            }
+        public FOLModelElimination(FOLModelEliminationTracer tracer)
+        {
+            this.tracer = tracer;
+        }
 
-            for (Chain nearParent : ansHandler.getSetOfSupport())
+        public FOLModelElimination(FOLModelEliminationTracer tracer, long maxQueryTime)
+        {
+            this.tracer = tracer;
+            setMaxQueryTime(maxQueryTime);
+        }
+
+        public long getMaxQueryTime()
+        {
+            return maxQueryTime;
+        }
+
+        public void setMaxQueryTime(long maxQueryTime)
+        {
+            this.maxQueryTime = maxQueryTime;
+        }
+
+        //
+        // START-InferenceProcedure
+
+        public InferenceResult ask(FOLKnowledgeBase kb, Sentence query)
+        {
+            //
+            // Get the background knowledge - are assuming this is satisfiable
+            // as using Set of Support strategy.
+            ISet<Clause> bgClauses = Factory.CreateSet<Clause>(kb.getAllClauses());
+            bgClauses.RemoveAll(SubsumptionElimination.findSubsumedClauses(bgClauses));
+            IQueue<Chain> background = createChainsFromClauses(bgClauses);
+
+            // Collect the information necessary for constructing
+            // an answer (supports use of answer literals).
+            AnswerHandler ansHandler = new AnswerHandler(kb, query, maxQueryTime, this);
+
+            IndexedFarParents ifps = new IndexedFarParents(ansHandler.getSetOfSupport(), background);
+
+            // Iterative deepening to be used
+            for (int maxDepth = 1; maxDepth < int.MaxValue; maxDepth++)
             {
-                recursiveDLS(maxDepth, 0, nearParent, ifps, ansHandler);
-                if (ansHandler.isComplete())
+                // Track the depth actually reached
+                ansHandler.resetMaxDepthReached();
+
+                if (null != tracer)
+                {
+                    tracer.reset();
+                }
+
+                foreach (Chain nearParent in ansHandler.getSetOfSupport())
+                {
+                    recursiveDLS(maxDepth, 0, nearParent, ifps, ansHandler);
+                    if (ansHandler.isComplete())
+                    {
+                        return ansHandler;
+                    }
+                }
+                // This means the search tree
+                // has bottomed out (i.e. finite).
+                // Return what I know based on exploring everything.
+                if (ansHandler.getMaxDepthReached() < maxDepth)
                 {
                     return ansHandler;
                 }
             }
-            // This means the search tree
-            // has bottomed out (i.e. finite).
-            // Return what I know based on exploring everything.
-            if (ansHandler.getMaxDepthReached() < maxDepth)
+
+            return ansHandler;
+        }
+
+        private IQueue<Chain> createChainsFromClauses(ISet<Clause> clauses)
+        {
+            IQueue<Chain> chains = Factory.CreateQueue<Chain>();
+
+            foreach (Clause c in clauses)
             {
-                return ansHandler;
-            }
-        }
-
-        return ansHandler;
-    }
-
-    // END-InferenceProcedure
-    //
-
-    //
-    // PRIVATE METHODS
-    //
-    private IQueue<Chain> createChainsFromClauses(Set<Clause> clauses)
-    {
-        IQueue<Chain> chains = Factory.CreateQueue<Chain>();
-
-        for (Clause c : clauses)
-        {
-            Chain chn = new Chain(c.getLiterals());
-            chn.setProofStep(new ProofStepChainFromClause(chn, c));
-            chains.Add(chn);
-            chains.addAll(chn.getContrapositives());
-        }
-
-        return chains;
-    }
-
-    // Recursive Depth Limited Search
-    private void recursiveDLS(int maxDepth, int currentDepth, Chain nearParent,
-            IndexedFarParents indexedFarParents, AnswerHandler ansHandler)
-    {
-
-        // Keep track of the maximum depth reached.
-        ansHandler.updateMaxDepthReached(currentDepth);
-
-        if (currentDepth == maxDepth)
-        {
-            return;
-        }
-
-        int noCandidateFarParents = indexedFarParents
-                .getNumberCandidateFarParents(nearParent);
-        if (null != tracer)
-        {
-            tracer.increment(currentDepth, noCandidateFarParents);
-        }
-        indexedFarParents.standardizeApart(nearParent);
-        for (int farParentIdx = 0; farParentIdx < noCandidateFarParents; farParentIdx++)
-        {
-            // If have a complete answer, don't keep
-            // checking candidate far parents
-            if (ansHandler.isComplete())
-            {
-                break;
+                Chain chn = new Chain(c.getLiterals());
+                chn.setProofStep(new ProofStepChainFromClause(chn, c));
+                chains.Add(chn);
+                chains.AddAll(chn.getContrapositives());
             }
 
-            // Reduction
-            Chain nextNearParent = indexedFarParents.attemptReduction(
-                    nearParent, farParentIdx);
+            return chains;
+        }
 
-            if (null == nextNearParent)
+        // Recursive Depth Limited Search
+        private void recursiveDLS(int maxDepth, int currentDepth, Chain nearParent, IndexedFarParents indexedFarParents, AnswerHandler ansHandler)
+        {
+            // Keep track of the maximum depth reached.
+            ansHandler.updateMaxDepthReached(currentDepth);
+
+            if (currentDepth == maxDepth)
             {
-                // Unable to remove the head via reduction
-                continue;
+                return;
             }
 
-            // Handle Canceling and Dropping
-            bool cancelled = false;
-            bool dropped = false;
-            do
+            int noCandidateFarParents = indexedFarParents.getNumberCandidateFarParents(nearParent);
+            if (null != tracer)
             {
-                cancelled = false;
-                Chain nextParent = null;
-                while (nextNearParent != (nextParent = tryCancellation(nextNearParent)))
+                tracer.increment(currentDepth, noCandidateFarParents);
+            }
+            indexedFarParents.standardizeApart(nearParent);
+            for (int farParentIdx = 0; farParentIdx < noCandidateFarParents; farParentIdx++)
+            {
+                // If have a complete answer, don't keep
+                // checking candidate far parents
+                if (ansHandler.isComplete())
                 {
-                    nextNearParent = nextParent;
-                    cancelled = true;
+                    break;
                 }
 
-                dropped = false;
-                while (nextNearParent != (nextParent = tryDropping(nextNearParent)))
+                // Reduction
+                Chain nextNearParent = indexedFarParents.attemptReduction(nearParent, farParentIdx);
+
+                if (null == nextNearParent)
                 {
-                    nextNearParent = nextParent;
-                    dropped = true;
+                    // Unable to remove the head via reduction
+                    continue;
                 }
-            } while (dropped || cancelled);
 
-            // Check if have answer before
-            // going to the next level
-            if (!ansHandler.isAnswer(nextNearParent))
-            {
-                // Keep track of the current # of
-                // far parents that are possible for the next near parent.
-                int noNextFarParents = indexedFarParents
-                        .getNumberFarParents(nextNearParent);
-                // Add to indexed far parents
-                nextNearParent = indexedFarParents.addToIndex(nextNearParent);
-
-                // Check the next level
-                recursiveDLS(maxDepth, currentDepth + 1, nextNearParent,
-                        indexedFarParents, ansHandler);
-
-                // Reset the number of far parents possible
-                // when recursing back up.
-                indexedFarParents.resetNumberFarParentsTo(nextNearParent,
-                        noNextFarParents);
-            }
-        }
-    }
-
-    // Returns c if no cancellation occurred
-    private Chain tryCancellation(Chain c)
-    {
-        Literal head = c.getHead();
-        if (null != head && !(head is ReducedLiteral)) {
-            for (Literal l : c.getTail())
-            {
-                if (l is ReducedLiteral) {
-                // if they can be resolved
-                if (head.isNegativeLiteral() != l.isNegativeLiteral())
+                // Handle Canceling and Dropping
+                bool cancelled = false;
+                bool dropped = false;
+                do
                 {
-                    Map<Variable, Term> subst = unifier
-                            .unify(head.getAtomicSentence(),
-                                    l.getAtomicSentence());
-                    if (null != subst)
+                    cancelled = false;
+                    Chain nextParent = null;
+                    while (nextNearParent != (nextParent = tryCancellation(nextNearParent)))
                     {
-                        // I have a cancellation
-                        // Need to apply subst to all of the
-                        // literals in the cancellation
-                        IQueue<Literal> cancLits = Factory.CreateQueue<Literal>();
-                        for (Literal lfc : c.getTail())
+                        nextNearParent = nextParent;
+                        cancelled = true;
+                    }
+
+                    dropped = false;
+                    while (nextNearParent != (nextParent = tryDropping(nextNearParent)))
+                    {
+                        nextNearParent = nextParent;
+                        dropped = true;
+                    }
+                } while (dropped || cancelled);
+
+                // Check if have answer before
+                // going to the next level
+                if (!ansHandler.isAnswer(nextNearParent))
+                {
+                    // Keep track of the current # of
+                    // far parents that are possible for the next near parent.
+                    int noNextFarParents = indexedFarParents.getNumberFarParents(nextNearParent);
+                    // Add to indexed far parents
+                    nextNearParent = indexedFarParents.addToIndex(nextNearParent);
+
+                    // Check the next level
+                    recursiveDLS(maxDepth, currentDepth + 1, nextNearParent, indexedFarParents, ansHandler);
+
+                    // Reset the number of far parents possible
+                    // when recursing back up.
+                    indexedFarParents.resetNumberFarParentsTo(nextNearParent, noNextFarParents);
+                }
+            }
+        }
+
+        // Returns c if no cancellation occurred
+        private Chain tryCancellation(Chain c)
+        {
+            Literal head = c.getHead();
+            if (null != head && !(head is ReducedLiteral))
+            {
+                foreach (Literal l in c.getTail())
+                {
+                    if (l is ReducedLiteral)
+                    {
+                        // if they can be resolved
+                        if (head.isNegativeLiteral() != l.isNegativeLiteral())
                         {
-                            AtomicSentence a = (AtomicSentence)substVisitor
-                                    .subst(subst, lfc.getAtomicSentence());
-                            cancLits.Add(lfc.newInstance(a));
+                            IMap<Variable, Term> subst = unifier
+                                    .unify(head.getAtomicSentence(),
+                                            l.getAtomicSentence());
+                            if (null != subst)
+                            {
+                                // I have a cancellation
+                                // Need to apply subst to all of the
+                                // literals in the cancellation
+                                IQueue<Literal> cancLits = Factory.CreateQueue<Literal>();
+                                foreach (Literal lfc in c.getTail())
+                                {
+                                    AtomicSentence a = (AtomicSentence)substVisitor
+                                            .subst(subst, lfc.getAtomicSentence());
+                                    cancLits.Add(lfc.newInstance(a));
+                                }
+                                Chain cancellation = new Chain(cancLits);
+                                cancellation.setProofStep(new ProofStepChainCancellation(cancellation, c, subst));
+                                return cancellation;
+                            }
                         }
-                        Chain cancellation = new Chain(cancLits);
-                        cancellation
-                                .setProofStep(new ProofStepChainCancellation(
-                                        cancellation, c, subst));
-                        return cancellation;
                     }
                 }
             }
+            return c;
         }
-    }
-		return c;
-	}
 
-// Returns c if no dropping occurred
-private Chain tryDropping(Chain c)
-{
-    Literal head = c.getHead();
-    if (null != head && (head is ReducedLiteral)) {
-        Chain dropped = new Chain(c.getTail());
-        dropped.setProofStep(new ProofStepChainDropped(dropped, c));
-        return dropped;
-    }
-
-    return c;
-}
-
-class AnswerHandler : InferenceResult
-{
-
-        private Chain answerChain = new Chain();
-private ISet<Variable> answerLiteralVariables;
-private IQueue<Chain> sos = null;
-private bool complete = false;
-private long finishTime = 0L;
-private int maxDepthReached = 0;
-private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
-private bool timedOut = false;
-
-public AnswerHandler(FOLKnowledgeBase kb, Sentence query,
-        long maxQueryTime)
-{
-
-    finishTime = System.currentTimeMillis() + maxQueryTime;
-
-    Sentence refutationQuery = new NotSentence(query);
-
-    // Want to use an answer literal to pull
-    // query variables where necessary
-    Literal answerLiteral = kb.createAnswerLiteral(refutationQuery);
-    answerLiteralVariables = kb.collectAllVariables(answerLiteral
-            .getAtomicSentence());
-
-    // Create the Set of Support based on the Query.
-    if (answerLiteralVariables.size() > 0)
-    {
-        Sentence refutationQueryWithAnswer = new ConnectedSentence(
-                Connectors.OR, refutationQuery, answerLiteral
-                        .getAtomicSentence().copy());
-
-        sos = createChainsFromClauses(kb
-                .convertToClauses(refutationQueryWithAnswer));
-
-        answerChain.addLiteral(answerLiteral);
-    }
-    else
-    {
-        sos = createChainsFromClauses(kb
-                .convertToClauses(refutationQuery));
-    }
-
-    for (Chain s : sos)
-    {
-        s.setProofStep(new ProofStepGoal(s));
-    }
-}
-
-//
-// START-InferenceResult
-public bool isPossiblyFalse()
-{
-    return !timedOut && proofs.size() == 0;
-}
-
-public bool isTrue()
-{
-    return proofs.size() > 0;
-}
-
-public bool isUnknownDueToTimeout()
-{
-    return timedOut && proofs.size() == 0;
-}
-
-public bool isPartialResultDueToTimeout()
-{
-    return timedOut && proofs.size() > 0;
-}
-
-public IQueue<Proof> getProofs()
-{
-    return proofs;
-}
-
-// END-InferenceResult
-//
-
-public IQueue<Chain> getSetOfSupport()
-{
-    return sos;
-}
-
-public bool isComplete()
-{
-    return complete;
-}
-
-public void resetMaxDepthReached()
-{
-    maxDepthReached = 0;
-}
-
-public int getMaxDepthReached()
-{
-    return maxDepthReached;
-}
-
-public void updateMaxDepthReached(int depth)
-{
-    if (depth > maxDepthReached)
-    {
-        maxDepthReached = depth;
-    }
-}
-
-public bool isAnswer(Chain nearParent)
-{
-    bool isAns = false;
-    if (answerChain.isEmpty())
-    {
-        if (nearParent.isEmpty())
+        // Returns c if no dropping occurred
+        private Chain tryDropping(Chain c)
         {
-            proofs.Add(new ProofFinal(nearParent.getProofStep(),
-                    Factory.CreateMap<Variable, Term>()));
-            complete = true;
-            isAns = true;
-        }
-    }
-    else
-    {
-        if (nearParent.isEmpty())
-        {
-            // This should not happen
-            // as added an answer literal to sos, which
-            // implies the database (i.e. premises) are
-            // unsatisfiable to begin with.
-            throw new IllegalStateException(
-                    "Generated an empty chain while looking for an answer, implies original KB is unsatisfiable");
-        }
-        if (1 == nearParent.getNumberLiterals()
-                && nearParent
-                        .getHead()
-                        .getAtomicSentence()
-                        .getSymbolicName()
-                        .Equals(answerChain.getHead()
-                                .getAtomicSentence().getSymbolicName()))
-        {
-            Map<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
-            IQueue<Term> answerTerms = nearParent.getHead()
-                    .getAtomicSentence().getArgs();
-            int idx = 0;
-            for (Variable v : answerLiteralVariables)
+            Literal head = c.getHead();
+            if (null != head && (head is ReducedLiteral))
             {
-                answerBindings.Put(v, answerTerms.Get(idx));
-                idx++;
+                Chain dropped = new Chain(c.getTail());
+                dropped.setProofStep(new ProofStepChainDropped(dropped, c));
+                return dropped;
             }
-            bool addNewAnswer = true;
-            for (Proof p : proofs)
+
+            return c;
+        }
+
+        class AnswerHandler : InferenceResult
+        {
+            private Chain answerChain = new Chain();
+            private ISet<Variable> answerLiteralVariables;
+            private IQueue<Chain> sos = null;
+            private bool complete = false;
+            private System.DateTime finishTime;
+            private int maxDepthReached = 0;
+            private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
+            private bool timedOut = false;
+            private FOLModelElimination fOLModelElimination;
+
+            public AnswerHandler(FOLKnowledgeBase kb, Sentence query, long maxQueryTime,
+                FOLModelElimination fOLModelElimination)
             {
-                if (p.getAnswerBindings().Equals(answerBindings))
+                this.fOLModelElimination = fOLModelElimination;
+                finishTime = System.DateTime.Now.AddMilliseconds(maxQueryTime);
+
+                Sentence refutationQuery = new NotSentence(query);
+
+                // Want to use an answer literal to pull
+                // query variables where necessary
+                Literal answerLiteral = kb.createAnswerLiteral(refutationQuery);
+                answerLiteralVariables = kb.collectAllVariables(answerLiteral.getAtomicSentence());
+
+                // Create the Set of Support based on the Query.
+                if (answerLiteralVariables.Size() > 0)
                 {
-                    addNewAnswer = false;
-                    break;
+                    Sentence refutationQueryWithAnswer = new ConnectedSentence(
+                            Connectors.OR, refutationQuery, answerLiteral
+                                    .getAtomicSentence().copy());
+
+                    sos = fOLModelElimination.createChainsFromClauses(kb.convertToClauses(refutationQueryWithAnswer));
+
+                    answerChain.addLiteral(answerLiteral);
                 }
-            }
-            if (addNewAnswer)
-            {
-                proofs.Add(new ProofFinal(nearParent.getProofStep(),
-                        answerBindings));
-            }
-            isAns = true;
-        }
-    }
-
-    if (System.currentTimeMillis() > finishTime)
-    {
-        complete = true;
-        // Indicate that I have run out of query time
-        timedOut = true;
-    }
-
-    return isAns;
-}
-
- 
-        public override string ToString()
-{
-    StringBuilder sb = new StringBuilder();
-    sb.Append("isComplete=" + complete);
-    sb.Append("\n");
-    sb.Append("result=" + proofs);
-    return sb.ToString();
-}
-	}
-}
-
-class IndexedFarParents
-{
-    //
-    private int saIdx = 0;
-    private Unifier unifier = new Unifier();
-    private SubstVisitor substVisitor = new SubstVisitor();
-    //
-    private Map<string, IQueue<Chain>> posHeads = Factory.CreateMap<string, IQueue<Chain>>();
-    private Map<string, IQueue<Chain>> negHeads = Factory.CreateMap<string, IQueue<Chain>>();
-
-    public IndexedFarParents(IQueue<Chain> sos, IQueue<Chain> background)
-    {
-        constructInternalDataStructures(sos, background);
-    }
-
-    public int getNumberFarParents(Chain farParent)
-    {
-        Literal head = farParent.getHead();
-
-        Map<string, IQueue<Chain>> heads = null;
-        if (head.isPositiveLiteral())
-        {
-            heads = posHeads;
-        }
-        else
-        {
-            heads = negHeads;
-        }
-        string headKey = head.getAtomicSentence().getSymbolicName();
-
-        IQueue<Chain> farParents = heads.Get(headKey);
-        if (null != farParents)
-        {
-            return farParents.size();
-        }
-        return 0;
-    }
-
-    public void resetNumberFarParentsTo(Chain farParent, int toSize)
-    {
-        Literal head = farParent.getHead();
-        Map<string, IQueue<Chain>> heads = null;
-        if (head.isPositiveLiteral())
-        {
-            heads = posHeads;
-        }
-        else
-        {
-            heads = negHeads;
-        }
-        string key = head.getAtomicSentence().getSymbolicName();
-        IQueue<Chain> farParents = heads.Get(key);
-        while (farParents.size() > toSize)
-        {
-            farParents.Remove(farParents.size() - 1);
-        }
-    }
-
-    public int getNumberCandidateFarParents(Chain nearParent)
-    {
-        Literal nearestHead = nearParent.getHead();
-
-        Map<string, IQueue<Chain>> candidateHeads = null;
-        if (nearestHead.isPositiveLiteral())
-        {
-            candidateHeads = negHeads;
-        }
-        else
-        {
-            candidateHeads = posHeads;
-        }
-
-        string nearestKey = nearestHead.getAtomicSentence().getSymbolicName();
-
-        IQueue<Chain> farParents = candidateHeads.Get(nearestKey);
-        if (null != farParents)
-        {
-            return farParents.size();
-        }
-        return 0;
-    }
-
-    public Chain attemptReduction(Chain nearParent, int farParentIndex)
-    {
-        Chain nnpc = null;
-
-        Literal nearLiteral = nearParent.getHead();
-
-        Map<string, IQueue<Chain>> candidateHeads = null;
-        if (nearLiteral.isPositiveLiteral())
-        {
-            candidateHeads = negHeads;
-        }
-        else
-        {
-            candidateHeads = posHeads;
-        }
-
-        AtomicSentence nearAtom = nearLiteral.getAtomicSentence();
-        string nearestKey = nearAtom.getSymbolicName();
-        IQueue<Chain> farParents = candidateHeads.Get(nearestKey);
-        if (null != farParents)
-        {
-            Chain farParent = farParents.Get(farParentIndex);
-            standardizeApart(farParent);
-            Literal farLiteral = farParent.getHead();
-            AtomicSentence farAtom = farLiteral.getAtomicSentence();
-            Map<Variable, Term> subst = unifier.unify(nearAtom, farAtom);
-
-            // If I was able to unify with one
-            // of the far heads
-            if (null != subst)
-            {
-                // Want to always apply reduction uniformly
-                Chain topChain = farParent;
-                Literal botLit = nearLiteral;
-                Chain botChain = nearParent;
-
-                // Need to apply subst to all of the
-                // literals in the reduction
-                IQueue<Literal> reduction = Factory.CreateQueue<Literal>();
-                for (Literal l : topChain.getTail())
+                else
                 {
-                    AtomicSentence atom = (AtomicSentence)substVisitor.subst(
-                            subst, l.getAtomicSentence());
-                    reduction.Add(l.newInstance(atom));
-                }
-                reduction.Add(new ReducedLiteral((AtomicSentence)substVisitor
-                        .subst(subst, botLit.getAtomicSentence()), botLit
-                        .isNegativeLiteral()));
-                for (Literal l : botChain.getTail())
-                {
-                    AtomicSentence atom = (AtomicSentence)substVisitor.subst(
-                            subst, l.getAtomicSentence());
-                    reduction.Add(l.newInstance(atom));
+                    sos = fOLModelElimination.createChainsFromClauses(kb.convertToClauses(refutationQuery));
                 }
 
-                nnpc = new Chain(reduction);
-                nnpc.setProofStep(new ProofStepChainReduction(nnpc, nearParent,
-                        farParent, subst));
+                foreach (Chain s in sos)
+                {
+                    s.setProofStep(new ProofStepGoal(s));
+                }
+            }
+
+            //
+            // START-InferenceResult
+            public bool isPossiblyFalse()
+            {
+                return !timedOut && proofs.Size() == 0;
+            }
+
+            public bool isTrue()
+            {
+                return proofs.Size() > 0;
+            }
+
+            public bool isUnknownDueToTimeout()
+            {
+                return timedOut && proofs.Size() == 0;
+            }
+
+            public bool isPartialResultDueToTimeout()
+            {
+                return timedOut && proofs.Size() > 0;
+            }
+
+            public IQueue<Proof> getProofs()
+            {
+                return proofs;
+            }
+
+            // END-InferenceResult
+            //
+
+            public IQueue<Chain> getSetOfSupport()
+            {
+                return sos;
+            }
+
+            public bool isComplete()
+            {
+                return complete;
+            }
+
+            public void resetMaxDepthReached()
+            {
+                maxDepthReached = 0;
+            }
+
+            public int getMaxDepthReached()
+            {
+                return maxDepthReached;
+            }
+
+            public void updateMaxDepthReached(int depth)
+            {
+                if (depth > maxDepthReached)
+                {
+                    maxDepthReached = depth;
+                }
+            }
+
+            public bool isAnswer(Chain nearParent)
+            {
+                bool isAns = false;
+                if (answerChain.isEmpty())
+                {
+                    if (nearParent.isEmpty())
+                    {
+                        proofs.Add(new ProofFinal(nearParent.getProofStep(),
+                                Factory.CreateMap<Variable, Term>()));
+                        complete = true;
+                        isAns = true;
+                    }
+                }
+                else
+                {
+                    if (nearParent.isEmpty())
+                    {
+                        // This should not happen
+                        // as added an answer literal to sos, which
+                        // implies the database (i.e. premises) are
+                        // unsatisfiable to begin with.
+                        throw new IllegalStateException("Generated an empty chain while looking for an answer, implies original KB is unsatisfiable");
+                    }
+                    if (1 == nearParent.getNumberLiterals()
+                            && nearParent
+                                    .getHead()
+                                    .getAtomicSentence()
+                                    .getSymbolicName()
+                                    .Equals(answerChain.getHead()
+                                            .getAtomicSentence().getSymbolicName()))
+                    {
+                        IMap<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
+                        IQueue<Term> answerTerms = nearParent.getHead()
+                                .getAtomicSentence().getArgs();
+                        int idx = 0;
+                        foreach (Variable v in answerLiteralVariables)
+                        {
+                            answerBindings.Put(v, answerTerms.Get(idx));
+                            idx++;
+                        }
+                        bool addNewAnswer = true;
+                        foreach (Proof p in proofs)
+                        {
+                            if (p.getAnswerBindings().Equals(answerBindings))
+                            {
+                                addNewAnswer = false;
+                                break;
+                            }
+                        }
+                        if (addNewAnswer)
+                        {
+                            proofs.Add(new ProofFinal(nearParent.getProofStep(),
+                                    answerBindings));
+                        }
+                        isAns = true;
+                    }
+                }
+
+                if (System.DateTime.Now > finishTime)
+                {
+                    complete = true;
+                    // Indicate that I have run out of query time
+                    timedOut = true;
+                }
+
+                return isAns;
+            }
+
+
+            public override string ToString()
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("isComplete=" + complete);
+                sb.Append("\n");
+                sb.Append("result=" + proofs);
+                return sb.ToString();
             }
         }
-
-        return nnpc;
     }
 
-    public Chain addToIndex(Chain c)
+    class IndexedFarParents
     {
-        Chain added = null;
-        Literal head = c.getHead();
-        if (null != head)
+        //
+        private int saIdx = 0;
+        private Unifier unifier = new Unifier();
+        private SubstVisitor substVisitor = new SubstVisitor();
+        //
+        private IMap<string, IQueue<Chain>> posHeads = Factory.CreateMap<string, IQueue<Chain>>();
+        private IMap<string, IQueue<Chain>> negHeads = Factory.CreateMap<string, IQueue<Chain>>();
+
+        public IndexedFarParents(IQueue<Chain> sos, IQueue<Chain> background)
         {
-            Map<string, IQueue<Chain>> toAddTo = null;
+            constructInternalDataStructures(sos, background);
+        }
+
+        public int getNumberFarParents(Chain farParent)
+        {
+            Literal head = farParent.getHead();
+
+            IMap<string, IQueue<Chain>> heads = null;
             if (head.isPositiveLiteral())
             {
-                toAddTo = posHeads;
+                heads = posHeads;
             }
             else
             {
-                toAddTo = negHeads;
+                heads = negHeads;
             }
+            string headKey = head.getAtomicSentence().getSymbolicName();
 
-            string key = head.getAtomicSentence().getSymbolicName();
-            IQueue<Chain> farParents = toAddTo.Get(key);
-            if (null == farParents)
+            IQueue<Chain> farParents = heads.Get(headKey);
+            if (null != farParents)
             {
-                farParents = Factory.CreateQueue<Chain>();
-                toAddTo.Put(key, farParents);
+                return farParents.Size();
+            }
+            return 0;
+        }
+
+        public void resetNumberFarParentsTo(Chain farParent, int toSize)
+        {
+            Literal head = farParent.getHead();
+            IMap<string, IQueue<Chain>> heads = null;
+            if (head.isPositiveLiteral())
+            {
+                heads = posHeads;
+            }
+            else
+            {
+                heads = negHeads;
+            }
+            string key = head.getAtomicSentence().getSymbolicName();
+            IQueue<Chain> farParents = heads.Get(key);
+            while (farParents.Size() > toSize)
+            {
+                farParents.RemoveAt(farParents.Size() - 1);
+            }
+        }
+
+        public int getNumberCandidateFarParents(Chain nearParent)
+        {
+            Literal nearestHead = nearParent.getHead();
+
+            IMap<string, IQueue<Chain>> candidateHeads = null;
+            if (nearestHead.isPositiveLiteral())
+            {
+                candidateHeads = negHeads;
+            }
+            else
+            {
+                candidateHeads = posHeads;
             }
 
-            added = c;
-            farParents.Add(added);
+            string nearestKey = nearestHead.getAtomicSentence().getSymbolicName();
+
+            IQueue<Chain> farParents = candidateHeads.Get(nearestKey);
+            if (null != farParents)
+            {
+                return farParents.Size();
+            }
+            return 0;
         }
-        return added;
-    }
 
-    public void standardizeApart(Chain c)
-    {
-        saIdx = StandardizeApartInPlace.standardizeApart(c, saIdx);
-    }
-
-     
-    public override string ToString()
-    {
-        StringBuilder sb = new StringBuilder();
-
-        sb.Append("#");
-        sb.Append(posHeads.size());
-        for (string key : posHeads.GetKeys())
+        public Chain attemptReduction(Chain nearParent, int farParentIndex)
         {
-            sb.Append(",");
-            sb.Append(posHeads.Get(key).size());
+            Chain nnpc = null;
+
+            Literal nearLiteral = nearParent.getHead();
+
+            IMap<string, IQueue<Chain>> candidateHeads = null;
+            if (nearLiteral.isPositiveLiteral())
+            {
+                candidateHeads = negHeads;
+            }
+            else
+            {
+                candidateHeads = posHeads;
+            }
+
+            AtomicSentence nearAtom = nearLiteral.getAtomicSentence();
+            string nearestKey = nearAtom.getSymbolicName();
+            IQueue<Chain> farParents = candidateHeads.Get(nearestKey);
+            if (null != farParents)
+            {
+                Chain farParent = farParents.Get(farParentIndex);
+                standardizeApart(farParent);
+                Literal farLiteral = farParent.getHead();
+                AtomicSentence farAtom = farLiteral.getAtomicSentence();
+                IMap<Variable, Term> subst = unifier.unify(nearAtom, farAtom);
+
+                // If I was able to unify with one
+                // of the far heads
+                if (null != subst)
+                {
+                    // Want to always apply reduction uniformly
+                    Chain topChain = farParent;
+                    Literal botLit = nearLiteral;
+                    Chain botChain = nearParent;
+
+                    // Need to apply subst to all of the
+                    // literals in the reduction
+                    IQueue<Literal> reduction = Factory.CreateQueue<Literal>();
+                    foreach (Literal l in topChain.getTail())
+                    {
+                        AtomicSentence atom = (AtomicSentence)substVisitor.subst(
+                                subst, l.getAtomicSentence());
+                        reduction.Add(l.newInstance(atom));
+                    }
+                    reduction.Add(new ReducedLiteral((AtomicSentence)substVisitor
+                            .subst(subst, botLit.getAtomicSentence()), botLit
+                            .isNegativeLiteral()));
+                    foreach (Literal l in botChain.getTail())
+                    {
+                        AtomicSentence atom = (AtomicSentence)substVisitor.subst(subst, l.getAtomicSentence());
+                        reduction.Add(l.newInstance(atom));
+                    }
+
+                    nnpc = new Chain(reduction);
+                    nnpc.setProofStep(new ProofStepChainReduction(nnpc, nearParent, farParent, subst));
+                }
+            }
+
+            return nnpc;
         }
-        sb.Append(" posHeads=");
-        sb.Append(posHeads.ToString());
-        sb.Append("\n");
-        sb.Append("#");
-        sb.Append(negHeads.size());
-        for (string key : negHeads.GetKeys())
+
+        public Chain addToIndex(Chain c)
         {
-            sb.Append(",");
-            sb.Append(negHeads.Get(key).size());
+            Chain added = null;
+            Literal head = c.getHead();
+            if (null != head)
+            {
+                IMap<string, IQueue<Chain>> toAddTo = null;
+                if (head.isPositiveLiteral())
+                {
+                    toAddTo = posHeads;
+                }
+                else
+                {
+                    toAddTo = negHeads;
+                }
+
+                string key = head.getAtomicSentence().getSymbolicName();
+                IQueue<Chain> farParents = toAddTo.Get(key);
+                if (null == farParents)
+                {
+                    farParents = Factory.CreateQueue<Chain>();
+                    toAddTo.Put(key, farParents);
+                }
+
+                added = c;
+                farParents.Add(added);
+            }
+            return added;
         }
-        sb.Append(" negHeads=");
-        sb.Append(negHeads.ToString());
 
-        return sb.ToString();
-    }
-
-    //
-    // PRIVATE METHODS
-    //
-    private void constructInternalDataStructures(IQueue<Chain> sos,
-            IQueue<Chain> background)
-    {
-        IQueue<Chain> toIndex = Factory.CreateQueue<Chain>();
-        toIndex.addAll(sos);
-        toIndex.addAll(background);
-
-        for (Chain c : toIndex)
+        public void standardizeApart(Chain c)
         {
-            addToIndex(c);
+            saIdx = StandardizeApartInPlace.standardizeApart(c, saIdx);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("#");
+            sb.Append(posHeads.Size());
+            foreach (string key in posHeads.GetKeys())
+            {
+                sb.Append(",");
+                sb.Append(posHeads.Get(key).Size());
+            }
+            sb.Append(" posHeads=");
+            sb.Append(posHeads.ToString());
+            sb.Append("\n");
+            sb.Append("#");
+            sb.Append(negHeads.Size());
+            foreach (string key in negHeads.GetKeys())
+            {
+                sb.Append(",");
+                sb.Append(negHeads.Get(key).Size());
+            }
+            sb.Append(" negHeads=");
+            sb.Append(negHeads.ToString());
+
+            return sb.ToString();
+        }
+
+        private void constructInternalDataStructures(IQueue<Chain> sos, IQueue<Chain> background)
+        {
+            IQueue<Chain> toIndex = Factory.CreateQueue<Chain>();
+            toIndex.AddAll(sos);
+            toIndex.AddAll(background);
+
+            foreach (Chain c in toIndex)
+            {
+                addToIndex(c);
+            }
         }
     }
-}
 }

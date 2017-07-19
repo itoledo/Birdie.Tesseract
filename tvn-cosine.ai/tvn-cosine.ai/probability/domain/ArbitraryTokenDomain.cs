@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability.domain
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.probability.domain
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 486.
@@ -11,82 +13,64 @@
      */
     public class ArbitraryTokenDomain : AbstractFiniteDomain
     {
+        private ISet<object> possibleValues = null;
+        private bool ordered = false;
 
+        public ArbitraryTokenDomain(params object[] pValues)
+                : this(false, pValues)
+        { }
 
-    private ISet<Object> possibleValues = null;
-    private bool ordered = false;
-
-    public ArbitraryTokenDomain(params object[] pValues)
-    {
-        this(false, pValues);
-    }
-
-    public ArbitraryTokenDomain(bool ordered, params object[] pValues)
-    {
-        this.ordered = ordered;
-        // Keep consistent order
-        possibleValues = Factory.CreateSet<Object>();
-        for (object v : pValues)
+        public ArbitraryTokenDomain(bool ordered, params object[] pValues)
         {
-            possibleValues.Add(v);
+            this.ordered = ordered;
+            // Keep consistent order
+            possibleValues = Factory.CreateSet<object>();
+            foreach (object v in pValues)
+            {
+                possibleValues.Add(v);
+            }
+            // Ensure cannot be modified
+            possibleValues = Factory.CreateReadOnlySet<object>(possibleValues);
+
+            indexPossibleValues(possibleValues);
         }
-        // Ensure cannot be modified
-        possibleValues = Factory.CreateReadOnlySet<>(possibleValues);
-
-        indexPossibleValues(possibleValues);
-    }
-
-    //
-    // START-Domain
-
-     
-    public int size()
-    {
-        return possibleValues.size();
-    }
-
-     
-    public bool isOrdered()
-    {
-        return ordered;
-    }
-
-    // END-Domain
-    //
-
-    //
-    // START-FiniteDomain
-     
-    public ISet<Object> getPossibleValues()
-    {
-        return possibleValues;
-    }
-
-    // END-finiteDomain
-    //
-
-     
-    public override bool Equals(object o)
-    {
-
-        if (this == o)
+        
+        public override int size()
         {
-            return true;
-        }
-        if (!(o is ArbitraryTokenDomain)) {
-            return false;
+            return possibleValues.Size();
         }
 
-        ArbitraryTokenDomain other = (ArbitraryTokenDomain)o;
 
-        return this.possibleValues.Equals(other.possibleValues);
-    }
+        public override bool isOrdered()
+        {
+            return ordered;
+        }
+         
+        public ISet<object> getPossibleValues()
+        {
+            return possibleValues;
+        }
+        
+        public override bool Equals(object o)
+        {
 
-     
-    public override int GetHashCode()
-    {
-        return possibleValues.GetHashCode();
-    }
-}
+            if (this == o)
+            {
+                return true;
+            }
+            if (!(o is ArbitraryTokenDomain))
+            {
+                return false;
+            }
 
+            ArbitraryTokenDomain other = (ArbitraryTokenDomain)o;
+
+            return this.possibleValues.Equals(other.possibleValues);
+        } 
+
+        public override int GetHashCode()
+        {
+            return possibleValues.GetHashCode();
+        }
+    } 
 }

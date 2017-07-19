@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.probability.mdp.impl
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.probability.mdp.impl
 {
     /**
      * Default implementation of the Policy interface using an underlying Map to
@@ -11,24 +14,19 @@
      * 
      * @author Ciaran O'Reilly
      */
-    public class LookupPolicy<S, A : Action> : Policy<S, A> {
-
-    private Map<S, A> policy = Factory.CreateMap<S, A>();
-
-    public LookupPolicy(IMap<S, A> aPolicy)
+    public class LookupPolicy<S, A> : Policy<S, A>
+        where A : Action
     {
-        policy.putAll(aPolicy);
-    }
+        private IMap<S, A> policy = Factory.CreateMap<S, A>();
 
-    //
-    // START-Policy
-     
-    public A action(S s)
-    {
-        return policy.Get(s);
-    }
+        public LookupPolicy(IMap<S, A> aPolicy)
+        {
+            policy.putAll(aPolicy);
+        }
 
-    // END-Policy
-    //
-}
+        public A action(S s)
+        {
+            return policy.Get(s);
+        }
+    }
 }

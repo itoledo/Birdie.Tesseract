@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace tvn.cosine.ai.common.collections
 {
@@ -38,6 +39,14 @@ namespace tvn.cosine.ai.common.collections
         }
 
 
+        public class Comparer : IComparer<T>
+        {
+            public int Compare(T x, T y)
+            {
+                return System.Collections.Generic.Comparer<T>.Default.Compare(x, y);
+            }
+        }
+         
         protected class ComparerAdaptor : System.Collections.Generic.Comparer<T>
         {
             private readonly IComparer<T> comparer;

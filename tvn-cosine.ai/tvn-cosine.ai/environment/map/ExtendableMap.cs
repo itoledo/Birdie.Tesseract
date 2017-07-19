@@ -110,7 +110,7 @@ namespace tvn.cosine.ai.environment.map
          */
         public string randomlyGenerateDestination()
         {
-            return Util.selectRandomlyFromIQueue(getLocations());
+            return Util.selectRandomlyFromList(getLocations());
         }
 
         /** Removes a one-way connection. */

@@ -61,15 +61,15 @@
         {
             // count <- a table, where count[c] is the number of symbols in c's
             // premise
-            Map<Clause, int> count = initializeCount(kb);
+            IMap<Clause, int> count = initializeCount(kb);
             // inferred <- a table, where inferred[s] is initially false for all
             // symbols
-            Map<PropositionSymbol, Boolean> inferred = initializeInferred(kb);
+            IMap<PropositionSymbol, bool?> inferred = initializeInferred(kb);
             // agenda <- a queue of symbols, initially symbols known to be true in
             // KB
             Queue<PropositionSymbol> agenda = initializeAgenda(count);
             // Note: an index for p to the clauses where p appears in the premise
-            Map<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = initializeIndex(
+            IMap<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = initializeIndex(
                     count, inferred);
 
             // while agenda is not empty do
@@ -83,7 +83,7 @@
                     return true;
                 }
                 // if inferred[p] = false then
-                if (inferred.Get(p).Equals(Boolean.FALSE))
+                if (inferred.Get(p).Equals(false))
                 {
                     // inferred[p] <- true
                     inferred.Put(p, true);
@@ -112,11 +112,11 @@
         //
         // PROTECTED
         //
-        protected Map<Clause, int> initializeCount(KnowledgeBase kb)
+        protected IMap<Clause, int> initializeCount(KnowledgeBase kb)
         {
             // count <- a table, where count[c] is the number of symbols in c's
             // premise
-            Map<Clause, int> count = Factory.CreateMap<Clause, int>();
+            IMap<Clause, int> count = Factory.CreateMap<Clause, int>();
 
             ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(
                     kb.asSentence()).getClauses();
@@ -135,11 +135,11 @@
             return count;
         }
 
-        protected Map<PropositionSymbol, Boolean> initializeInferred(KnowledgeBase kb)
+        protected IMap<PropositionSymbol, bool?> initializeInferred(KnowledgeBase kb)
         {
             // inferred <- a table, where inferred[s] is initially false for all
             // symbols
-            Map<PropositionSymbol, Boolean> inferred = Factory.CreateMap<PropositionSymbol, Boolean>();
+            IMap<PropositionSymbol, bool?> inferred = Factory.CreateMap<PropositionSymbol, bool?>();
             for (PropositionSymbol p : SymbolCollector.getSymbolsFrom(kb
                     .asSentence()))
             {
@@ -168,10 +168,10 @@
 
         // Note: at the point of calling this routine, count will contain all the
         // clauses in KB while inferred will contain all the proposition symbols.
-        protected Map<PropositionSymbol, ISet<Clause>> initializeIndex(
-                Map<Clause, int> count, Map<PropositionSymbol, Boolean> inferred)
+        protected IMap<PropositionSymbol, ISet<Clause>> initializeIndex(
+                IMap<Clause, int> count, IMap<PropositionSymbol, bool?> inferred)
         {
-            Map<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = Factory.CreateMap<PropositionSymbol, ISet<Clause>>();
+            IMap<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = Factory.CreateMap<PropositionSymbol, ISet<Clause>>();
             for (PropositionSymbol p : inferred.GetKeys())
             {
                 ISet<Clause> clausesWithPInPremise = Factory.CreateSet<Clause>();

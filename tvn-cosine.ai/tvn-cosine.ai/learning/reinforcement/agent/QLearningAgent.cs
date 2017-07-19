@@ -63,7 +63,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
     {
         // persistent: Q, a table of action values indexed by state and action,
         // initially zero
-        Map<Pair<S, A>, double> Q = Factory.CreateMap<Pair<S, A>, double>();
+        IMap<Pair<S, A>, double> Q = Factory.CreateMap<Pair<S, A>, double>();
         // N<sub>sa</sub>, a table of frequencies for state-action pairs, initially
         // zero
         private FrequencyCounter<Pair<S, A>> Nsa = new FrequencyCounter<Pair<S, A>>();
@@ -179,12 +179,12 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         }
 
 
-        public Map<S, double> getUtility()
+        public IMap<S, double> getUtility()
         {
             // Q-values are directly related to utility values as follows
             // (AIMA3e pg. 843 - 21.6) :
             // U(s) = max<sub>a</sub>Q(s,a).
-            Map<S, double> U = Factory.CreateMap<S, double>();
+            IMap<S, double> U = Factory.CreateMap<S, double>();
             foreach (Pair<S, A> sa in Q.GetKeys())
             {
                 double q = Q.Get(sa);
@@ -267,7 +267,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
 
         private double maxAPrime(S sPrime)
         {
-            double max = double.NEGATIVE_INFINITY;
+            double max = double.NegativeInfinity;
             if (actionsFunction.actions(sPrime).size() == 0)
             {
                 // a terminal state
@@ -284,7 +284,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
                     }
                 }
             }
-            if (max == double.NEGATIVE_INFINITY)
+            if (max == double.NegativeInfinity)
             {
                 // Assign 0 as the mimics Q being initialized to 0 up front.
                 max = 0.0;
@@ -296,7 +296,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         private A argmaxAPrime(S sPrime)
         {
             A a = null;
-            double max = double.NEGATIVE_INFINITY;
+            double max = double.NegativeInfinity;
             for (A aPrime : actionsFunction.actions(sPrime))
             {
                 Pair<S, A> sPrimeAPrime = new Pair<S, A>(sPrime, aPrime);

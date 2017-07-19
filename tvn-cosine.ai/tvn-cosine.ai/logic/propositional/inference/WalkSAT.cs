@@ -123,11 +123,11 @@
             ISet<PropositionSymbol> symbols = Factory.CreateSet<PropositionSymbol>();
             for (Clause c : clauses)
             {
-                symbols.addAll(c.getSymbols());
+                symbols.AddAll(c.getSymbols());
             }
 
             // Make initial set of assignments
-            Map<PropositionSymbol, Boolean> values = Factory.CreateMap<PropositionSymbol, Boolean>();
+            IMap<PropositionSymbol, bool?> values = Factory.CreateMap<PropositionSymbol, bool?>();
             for (PropositionSymbol symbol : symbols)
             {
                 // a random assignment of true/false to the symbols in clauses
@@ -145,7 +145,7 @@
             IQueue<Clause> falseClauses = Factory.CreateQueue<Clause>();
             for (Clause c : clauses)
             {
-                if (Boolean.FALSE.Equals(model.determineValue(c)))
+                if (false.Equals(model.determineValue(c)))
                 {
                     falseClauses.Add(c);
                 }
@@ -181,7 +181,7 @@
                 int numberClausesSatisfied = 0;
                 for (Clause c : clauses)
                 {
-                    if (Boolean.TRUE.Equals(flippedModel.determineValue(c)))
+                    if (true.Equals(flippedModel.determineValue(c)))
                     {
                         numberClausesSatisfied++;
                     }

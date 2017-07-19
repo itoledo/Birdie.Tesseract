@@ -43,10 +43,10 @@
     // persistent: result, a table, indexed by state and action, initially empty
     private final TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<>();
     // untried, a table that lists, for each state, the actions not yet tried
-    private final Map<S, IQueue<A>> untried = Factory.CreateMap<>();
+    private final IMap<S, IQueue<A>> untried = Factory.CreateMap<>();
     // unbacktracked, a table that lists,
     // for each state, the backtracks not yet tried
-    private final Map<S, IQueue<S>> unbacktracked = Factory.CreateMap<>();
+    private final IMap<S, IQueue<S>> unbacktracked = Factory.CreateMap<>();
     // s, a, the previous state and action, initially null
     private S s = null;
     private A a = null;
@@ -126,7 +126,7 @@
         {
             // if s' is a new state (not in untried) then untried[s'] <-
             // ACTIONS(s')
-            if (!untried.containsKey(sPrimed))
+            if (!untried.ContainsKey(sPrimed))
             {
                 untried.Put(sPrimed, problem.getActions(sPrimed));
             }
@@ -144,7 +144,7 @@
                     result.Put(s, a, sPrimed);
 
                     // Ensure the unbacktracked always has a list for s'
-                    if (!unbacktracked.containsKey(sPrimed))
+                    if (!unbacktracked.ContainsKey(sPrimed))
                     {
                         unbacktracked.Put(sPrimed, Factory.CreateQueue<>());
                     }

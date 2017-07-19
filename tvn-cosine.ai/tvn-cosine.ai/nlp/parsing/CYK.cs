@@ -73,7 +73,7 @@
                                 int x = grammar.vars.indexOf(r.lhs.Get(0));
                                 int y = grammar.vars.indexOf(r.rhs.Get(0));
                                 int z = grammar.vars.indexOf(r.rhs.Get(1));
-                                P[x][start - 1][length - 1] = Math.max(P[x][start - 1][length - 1],
+                                P[x][start - 1][length - 1] = System.Math.Max(P[x][start - 1][length - 1],
                                                                   P[y][start - 1][len1 - 1] *
                                                                   P[z][start + len1 - 1][len2 - 1] * r.PROB);
                             }

@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.probability.mdp.search
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.probability.mdp.search
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 653.<br>
@@ -37,7 +42,8 @@
      * @author Ravi Mohan
      * 
      */
-    public class ValueIteration<S, A : Action>
+    public class ValueIteration<S, A>
+        where A : Action
     {
         // discount &gamma; to be used.
         private double gamma = 0;
@@ -68,14 +74,13 @@
          *            the maximum error allowed in the utility of any state
          * @return a vector of utilities for states in S
          */
-        public Map<S, double> valueIteration(MarkovDecisionProcess<S, A> mdp,
-                double epsilon)
+        public IMap<S, double> valueIteration(MarkovDecisionProcess<S, A> mdp, double epsilon)
         {
             //
             // local variables: U, U', vectors of utilities for states in S,
             // initially zero
-            Map<S, double> U = Util.create(mdp.states(), new Double(0));
-            Map<S, double> Udelta = Util.create(mdp.states(), new Double(0));
+            IMap<S, double> U = Util.create(mdp.states(), 0D);
+            IMap<S, double> Udelta = Util.create(mdp.states(), 0D);
             // &delta; the maximum change in the utility of any state in an
             // iteration
             double delta = 0;
@@ -87,27 +92,26 @@
             do
             {
                 // U <- U'; &delta; <- 0
-                U.putAll(Udelta);
+                U.PutAll(Udelta);
                 delta = 0;
                 // for each state s in S do
-                for (S s : mdp.states())
+                foreach (S s in mdp.states())
                 {
                     // max<sub>a &isin; A(s)</sub>
                     ISet<A> actions = mdp.actions(s);
                     // Handle terminal states (i.e. no actions).
                     double aMax = 0;
-                    if (actions.size() > 0)
+                    if (actions.Size() > 0)
                     {
-                        aMax = double.NEGATIVE_INFINITY;
+                        aMax = double.NegativeInfinity;
                     }
-                    for (A a : actions)
+                    foreach (A a in actions)
                     {
                         // &Sigma;<sub>s'</sub>P(s' | s, a) U[s']
                         double aSum = 0;
-                        for (S sDelta : mdp.states())
+                        foreach (S sDelta in mdp.states())
                         {
-                            aSum += mdp.transitionProbability(sDelta, s, a)
-                                    * U.Get(sDelta);
+                            aSum += mdp.transitionProbability(sDelta, s, a) * U.Get(sDelta);
                         }
                         if (aSum > aMax)
                         {
@@ -130,6 +134,5 @@
             // return U
             return U;
         }
-    }
-
+    } 
 }

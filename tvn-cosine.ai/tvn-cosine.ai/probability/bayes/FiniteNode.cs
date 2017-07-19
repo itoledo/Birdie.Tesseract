@@ -7,14 +7,12 @@
      * 
      */
     public interface FiniteNode : DiscreteNode
-    {
-
+    { 
         /**
          * 
          * @return the Conditional Probability Table detailing the finite set of
          *         probabilities for this Node.
          */
         ConditionalProbabilityTable getCPT();
-    }
-
+    } 
 }

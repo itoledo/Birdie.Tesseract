@@ -174,7 +174,7 @@
 
     private Node<S, A> getHighestValuedNodeFrom(IQueue<Node<S, A>> children)
     {
-        double highestValue = double.NEGATIVE_INFINITY;
+        double highestValue = double.NegativeInfinity;
         Node<S, A> nodeWithHighestValue = null;
         for (Node<S, A> child : children)
         {

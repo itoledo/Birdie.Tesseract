@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.fol.kb.data
+﻿using System.Text;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol.kb.data
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 244.<br>
@@ -27,27 +30,27 @@
             this.negativeLiteral = negated;
         }
 
-        public Literal newInstance(AtomicSentence atom)
+        public virtual Literal newInstance(AtomicSentence atom)
         {
             return new Literal(atom, negativeLiteral);
         }
 
-        public bool isPositiveLiteral()
+        public virtual bool isPositiveLiteral()
         {
             return !negativeLiteral;
         }
 
-        public bool isNegativeLiteral()
+        public virtual bool isNegativeLiteral()
         {
             return negativeLiteral;
         }
 
-        public AtomicSentence getAtomicSentence()
+        public virtual AtomicSentence getAtomicSentence()
         {
             return atom;
         }
 
-         
+
         public override string ToString()
         {
             if (null == strRep)
@@ -64,7 +67,7 @@
             return strRep;
         }
 
-         
+
         public override bool Equals(object o)
         {
 
@@ -72,14 +75,15 @@
             {
                 return true;
             }
-            if (o.GetType() != getClass())
+            if (o.GetType() != GetType())
             {
                 // This prevents ReducedLiterals
                 // being treated as equivalent to
                 // normal Literals.
                 return false;
             }
-            if (!(o is Literal)) {
+            if (!(o is Literal))
+            {
                 return false;
             }
             Literal l = (Literal)o;
@@ -89,16 +93,16 @@
                     && l.getAtomicSentence().getArgs().Equals(atom.getArgs());
         }
 
-         
+
         public override int GetHashCode()
         {
             if (0 == hashCode)
             {
                 hashCode = 17;
-                hashCode = 37 * hashCode + (getClass().getSimpleName().GetHashCode())
+                hashCode = 37 * hashCode + (GetType().Name.GetHashCode())
                         + (isPositiveLiteral() ? "+".GetHashCode() : "-".GetHashCode())
                         + atom.getSymbolicName().GetHashCode();
-                for (Term t : atom.getArgs())
+                foreach (Term t in atom.getArgs())
                 {
                     hashCode = 37 * hashCode + t.GetHashCode();
                 }

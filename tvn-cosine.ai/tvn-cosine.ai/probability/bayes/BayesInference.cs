@@ -19,8 +19,8 @@ namespace tvn.cosine.ai.probability.bayes
          *            variables
          * @return a distribution over the query variables.
          */
-        CategoricalDistribution ask(  RandomVariable[] X,
+        CategoricalDistribution ask(RandomVariable[] X,
                  AssignmentProposition[] observedEvidence,
                  BayesianNetwork bn);
-    }         
+    }
 }

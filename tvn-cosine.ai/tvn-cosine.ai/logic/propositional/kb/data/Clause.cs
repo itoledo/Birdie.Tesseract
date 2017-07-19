@@ -53,7 +53,7 @@
          * 
          * @param literals
          */
-        public Clause(Collection<Literal> literals)
+        public Clause(IQueue<Literal> literals)
         {
             for (Literal l : literals)
             {
@@ -77,8 +77,8 @@
                 }
             }
 
-            cachedSymbols.addAll(cachedPositiveSymbols);
-            cachedSymbols.addAll(cachedNegativeSymbols);
+            cachedSymbols.AddAll(cachedPositiveSymbols);
+            cachedSymbols.AddAll(cachedNegativeSymbols);
 
             // Make immutable
             this.literals = Factory.CreateReadOnlySet<>(this.literals);

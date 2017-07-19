@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.probability.bayes.approx
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.util;
+
+namespace tvn.cosine.ai.probability.bayes.approx
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 531.<br>
@@ -23,15 +27,13 @@
      */
     public class PriorSample
     {
-
         private IRandom randomizer = null;
 
         public PriorSample()
-        {
-            this(new JavaRandomizer(new Random()));
-        }
+           : this(new DefaultRandom())
+        { }
 
-        public PriorSample(Randomizer r)
+        public PriorSample(IRandom r)
         {
             this.randomizer = r;
         }
@@ -49,12 +51,12 @@
          *            <b>P</b>(X<sub>1</sub>,...,X<sub>n</sub>)
          * @return an event sampled from the prior specified by bn
          */
-        public Map<RandomVariable, object> priorSample(BayesianNetwork bn)
+        public IMap<RandomVariable, object> priorSample(BayesianNetwork bn)
         {
             // x <- an event with n elements
-            Map<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
+            IMap<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
             // foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
-            for (RandomVariable Xi : bn.getVariablesInTopologicalOrder())
+            foreach (RandomVariable Xi in bn.getVariablesInTopologicalOrder())
             {
                 // x[i] <- a random sample from
                 // <b>P</b>(X<sub>i</sub> | parents(X<sub>i</sub>))
@@ -63,6 +65,5 @@
             // return x
             return x;
         }
-    }
-
+    } 
 }

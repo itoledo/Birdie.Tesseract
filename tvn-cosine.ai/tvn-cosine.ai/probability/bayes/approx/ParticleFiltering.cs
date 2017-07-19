@@ -1,4 +1,13 @@
-﻿namespace tvn.cosine.ai.probability.bayes.approx
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.bayes.exact;
+using tvn.cosine.ai.probability.bayes.model;
+using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.util;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.probability.bayes.approx
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 598.<br>
@@ -45,14 +54,13 @@
      */
     public class ParticleFiltering
     {
-
         private int N = 0;
         private DynamicBayesianNetwork dbn = null;
-        private AssignmentProposition[][] S = new AssignmentProposition[0][0];
+        private AssignmentProposition[][] S;
         //
         private IRandom randomizer = null;
         private PriorSample priorSampler = null;
-        private AssignmentProposition[][] S_tp1 = new AssignmentProposition[0][0];
+        private AssignmentProposition[][] S_tp1;
         private FiniteProbabilityModel sensorModel = null;
         private RandomVariable sampleIndexes = null;
 
@@ -68,9 +76,8 @@
          *            <b>X</b><sub>1</sub>)
          */
         public ParticleFiltering(int N, DynamicBayesianNetwork dbn)
-        {
-            this(N, dbn, new JavaRandomizer());
-        }
+            : this(N, dbn, new DefaultRandom())
+        { }
 
         /**
          * Construct a Particle Filtering instance.
@@ -85,8 +92,7 @@
          * @param randomizer
          *            a IRandom to be used for sampling purposes.
          */
-        public ParticleFiltering(int N, DynamicBayesianNetwork dbn,
-                IRandom randomizer)
+        public ParticleFiltering(int N, DynamicBayesianNetwork dbn, IRandom randomizer)
         {
             this.randomizer = randomizer;
             this.priorSampler = new PriorSample(this.randomizer);
@@ -117,8 +123,7 @@
                 sampleFromTransitionModel(i);
                 /* step 2 */
                 // W[i] <- <b>P</b>(<b>e</b> | <b>X</b><sub>1</sub> = S[i])
-                W[i] = sensorModel.posterior(ProbUtil.constructConjunction(e),
-                        S_tp1[i]);
+                W[i] = sensorModel.posterior(ProbUtil.constructConjunction(e), S_tp1[i]);
             }
             /* step 3 */
             // S <- WEIGHTED-SAMPLE-WITH-REPLACEMENT(N, S, W)
@@ -146,48 +151,41 @@
             this.dbn = dbn;
             // persistent: S, a vector of samples of size N, initially generated
             // from <b>P</b>(<b>X</b><sub>0</sub>)
-            S = new AssignmentProposition[N][this.dbn.getX_0().size()];
-            S_tp1 = new AssignmentProposition[N][this.dbn.getX_0().size()];
+            S = new AssignmentProposition[N][];
+            S_tp1 = new AssignmentProposition[N][];
             int[] indexes = new int[N];
             for (int i = 0; i < N; i++)
             {
+                S[i] = new AssignmentProposition[this.dbn.getX_0().Size()];
+                S_tp1[i] = new AssignmentProposition[this.dbn.getX_0().Size()];
                 indexes[i] = i;
-                Map<RandomVariable, object> sample = priorSampler
-                        .priorSample(this.dbn.getPriorNetwork());
+                IMap<RandomVariable, object> sample = priorSampler.priorSample(this.dbn.getPriorNetwork());
                 int idx = 0;
-                for (Map.Entry<RandomVariable, object> sa : sample.entrySet())
+                foreach (var sa in sample)
                 {
-                    S[i][idx] = new AssignmentProposition(this.dbn.getX_0_to_X_1()
-                            .Get(sa.getKey()), sa.getValue());
-                    S_tp1[i][idx] = new AssignmentProposition(this.dbn
-                            .getX_0_to_X_1().Get(sa.getKey()), sa.getValue());
+                    S[i][idx] = new AssignmentProposition(this.dbn.getX_0_to_X_1().Get(sa.GetKey()), sa.GetValue());
+                    S_tp1[i][idx] = new AssignmentProposition(this.dbn.getX_0_to_X_1().Get(sa.GetKey()), sa.GetValue());
                     idx++;
                 }
             }
 
-            sensorModel = new FiniteBayesModel(dbn, new EliminationAsk());
-
-            sampleIndexes = new RandVar("SAMPLE_INDEXES", new FiniteIntegerDomain(
-                    indexes));
+            sensorModel = new FiniteBayesModel(dbn, new EliminationAsk()); 
+            sampleIndexes = new RandVar("SAMPLE_INDEXES", new FiniteIntegerDomain(indexes));
         }
 
-        //
-        // PRIVATE METHODS
-        //
         private void sampleFromTransitionModel(int i)
         {
             // x <- an event initialized with S[i]
-            Map<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
+            IMap<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
             for (int n = 0; n < S[i].Length; n++)
             {
                 AssignmentProposition x1 = S[i][n];
-                x.Put(this.dbn.getX_1_to_X_0().Get(x1.getTermVariable()),
-                        x1.getValue());
+                x.Put(this.dbn.getX_1_to_X_0().Get(x1.getTermVariable()), x1.getValue());
             }
 
             // foreach variable X<sub>1<sub>i</sub></sub> in
             // X<sub>1<sub>1</sub></sub>,...,X<sub>1<sub>n<</sub>/sub> do
-            for (RandomVariable X1_i : dbn.getX_1_VariablesInTopologicalOrder())
+            foreach (RandomVariable X1_i in dbn.getX_1_VariablesInTopologicalOrder())
             {
                 // x1[i] <- a random sample from
                 // <b>P</b>(X<sub>1<sub>i</sub></sub> |
@@ -224,25 +222,22 @@
         private AssignmentProposition[][] weightedSampleWithReplacement(int N,
                 AssignmentProposition[][] S, double[] W)
         {
-            AssignmentProposition[][] newS = new AssignmentProposition[N][this.dbn
-                    .getX_0().size()];
+            AssignmentProposition[][] newS = new AssignmentProposition[N][];
 
             double[] normalizedW = Util.normalize(W);
 
             for (int i = 0; i < N; i++)
             {
-                int sample = (int)ProbUtil.sample(randomizer.NextDouble(),
-                        sampleIndexes, normalizedW);
+                newS[i] = new AssignmentProposition[this.dbn.getX_0().Size()];
+                int sample = (int)ProbUtil.sample(randomizer.NextDouble(), sampleIndexes, normalizedW);
                 for (int idx = 0; idx < S_tp1[i].Length; idx++)
                 {
                     AssignmentProposition ap = S_tp1[sample][idx];
-                    newS[i][idx] = new AssignmentProposition(ap.getTermVariable(),
-                            ap.getValue());
+                    newS[i][idx] = new AssignmentProposition(ap.getTermVariable(), ap.getValue());
                 }
             }
 
             return newS;
         }
-    }
-
+    } 
 }

@@ -81,7 +81,7 @@
                             return true;
                         }
                         // new <- new U resolvents
-                        newClauses.addAll(resolvents);
+                        newClauses.AddAll(resolvents);
                     }
                 }
                 // if new is subset of clauses then return false
@@ -91,7 +91,7 @@
                 }
 
                 // clauses <- clauses U new
-                clauses.addAll(newClauses);
+                clauses.AddAll(newClauses);
 
             } while (true);
         }

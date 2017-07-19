@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.probability.domain
          * @return a consistent ordered Set (e.g. LinkedHashSet) of the possible
          *         values this domain can take on.
          */
-        ISet<T> getPossibleValues<T>();
+        ISet<object> getPossibleValues();
 
         /**
          * The possible values for a finite domain are to have a consistent ordering

@@ -47,7 +47,7 @@
     public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp)
     {
         Queue<VAR> queue = QueueFactory.createFifoQueueNoDuplicates();
-        queue.addAll(csp.getVariables());
+        queue.AddAll(csp.getVariables());
         DomainLog<VAR, VAL> log = new DomainLog<>();
         reduceDomains(queue, csp, log);
         return log.compactify();

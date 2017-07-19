@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.logic.propositional.inference
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.inference
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 261.<br>
@@ -50,327 +55,326 @@
          *            a sentence in propositional logic.
          * @return true if the sentence is satisfiable, false otherwise.
          */
-         
 
-    public bool dpllSatisfiable(Sentence s)
-    {
-        // clauses <- the set of clauses in the CNF representation of s
-        ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(s)
-                .getClauses();
-        // symbols <- a list of the proposition symbols in s
-        IQueue<PropositionSymbol> symbols = getPropositionSymbolsInSentence(s);
 
-        // return DPLL(clauses, symbols, {})
-        return dpll(clauses, symbols, new Model());
-    }
-
-    /**
-	 * DPLL(clauses, symbols, model)<br>
-	 * 
-	 * @param clauses
-	 *            the set of clauses.
-	 * @param symbols
-	 *            a list of unassigned symbols.
-	 * @param model
-	 *            contains the values for assigned symbols.
-	 * @return true if the model is satisfiable under current assignments, false
-	 *         otherwise.
-	 */
-     
-    public bool dpll(Set<Clause> clauses, IQueue<PropositionSymbol> symbols,
-            Model model)
-    {
-        // if every clause in clauses is true in model then return true
-        if (everyClauseTrue(clauses, model))
-            return true;
-
-        // if some clause in clauses is false in model then return false
-        if (someClauseFalse(clauses, model) || Tasks.currIsCancelled())
-            return false;
-
-        // P, value <- FIND-PURE-SYMBOL(symbols, clauses, model)
-        Pair<PropositionSymbol, Boolean> pAndValue = findPureSymbol(symbols,
-                clauses, model);
-        // if P is non-null then
-        if (pAndValue != null)
+        public bool dpllSatisfiable(Sentence s)
         {
-            // return DPLL(clauses, symbols - P, model U {P = value})
-            return dpll(clauses, minus(symbols, pAndValue.getFirst()),
-                    model.union(pAndValue.getFirst(), pAndValue.getSecond()));
+            // clauses <- the set of clauses in the CNF representation of s
+            ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(s)
+                    .getClauses();
+            // symbols <- a list of the proposition symbols in s
+            IQueue<PropositionSymbol> symbols = getPropositionSymbolsInSentence(s);
+
+            // return DPLL(clauses, symbols, {})
+            return dpll(clauses, symbols, new Model());
         }
 
-        // P, value <- FIND-UNIT-CLAUSE(clauses, model)
-        pAndValue = findUnitClause(clauses, model);
-        // if P is non-null then
-        if (pAndValue != null)
+        /**
+         * DPLL(clauses, symbols, model)<br>
+         * 
+         * @param clauses
+         *            the set of clauses.
+         * @param symbols
+         *            a list of unassigned symbols.
+         * @param model
+         *            contains the values for assigned symbols.
+         * @return true if the model is satisfiable under current assignments, false
+         *         otherwise.
+         */
+
+        public bool dpll(Set<Clause> clauses, IQueue<PropositionSymbol> symbols,
+                Model model)
         {
-            // return DPLL(clauses, symbols - P, model U {P = value})
-            return dpll(clauses, minus(symbols, pAndValue.getFirst()),
-                    model.union(pAndValue.getFirst(), pAndValue.getSecond()));
-        }
+            // if every clause in clauses is true in model then return true
+            if (everyClauseTrue(clauses, model))
+                return true;
 
-        // P <- FIRST(symbols); rest <- REST(symbols)
-        PropositionSymbol p = Util.first(symbols);
-        IQueue<PropositionSymbol> rest = Util.rest(symbols);
-        // return DPLL(clauses, rest, model U {P = true}) or
-        // ...... DPLL(clauses, rest, model U {P = false})
-        return dpll(clauses, rest, model.union(p, true))
-                || dpll(clauses, rest, model.union(p, false));
-    }
+            // if some clause in clauses is false in model then return false
+            if (someClauseFalse(clauses, model) || Tasks.currIsCancelled())
+                return false;
 
-    //
-    // SUPPORTING CODE
-    //
-
-    /**
-	 * Determine if KB |= &alpha;, i.e. alpha is entailed by KB.
-	 * 
-	 * @param kb
-	 *            a Knowledge Base in propositional logic.
-	 * @param alpha
-	 *            a propositional sentence.
-	 * @return true, if &alpha; is entailed by KB, false otherwise.
-	 */
-     
-    public bool isEntailed(KnowledgeBase kb, Sentence alpha)
-    {
-        // AIMA3e p.g. 260: kb |= alpha, can be done by testing
-        // unsatisfiability of kb & ~alpha.
-        ISet<Clause> kbAndNotAlpha = Factory.CreateSet<Clause>();
-        Sentence notQuery = new ComplexSentence(Connective.NOT, alpha);
-        ISet<PropositionSymbol> symbols = Factory.CreateSet<PropositionSymbol>();
-        IQueue<PropositionSymbol> querySymbols = Factory.CreateQueue<PropositionSymbol>(SymbolCollector.getSymbolsFrom(notQuery));
-
-        kbAndNotAlpha.addAll(kb.asCNF());
-        kbAndNotAlpha.addAll(ConvertToConjunctionOfClauses.convert(notQuery).getClauses());
-        symbols.addAll(querySymbols);
-        symbols.addAll(kb.getSymbols());
-
-        return !dpll(kbAndNotAlpha, Factory.CreateQueue<PropositionSymbol>(symbols), new Model());
-    }
-
-    //
-    // PROTECTED:
-    //
-
-    // Note: Override this method if you wish to change the initial variable
-    // ordering when dpllSatisfiable is called.
-    protected IQueue<PropositionSymbol> getPropositionSymbolsInSentence(Sentence s)
-    {
-        IQueue<PropositionSymbol> result = Factory.CreateQueue<PropositionSymbol>(
-                SymbolCollector.getSymbolsFrom(s));
-
-        return result;
-    }
-
-    /**
-	 * AIMA3e p.g. 260:<br>
-	 * <quote><i>Pure symbol heuristic:</i> A <b>pure symbol</b> is a symbol
-	 * that always appears with the same "sign" in all clauses. For example, in
-	 * the three clauses (A | ~B), (~B | ~C), and (C | A), the symbol A is pure
-	 * because only the positive literal appears, B is pure because only the
-	 * negative literal appears, and C is impure. It is easy to see that if a
-	 * sentence has a model, then it has a model with the pure symbols assigned
-	 * so as to make their literals true, because doing so can never make a
-	 * clause false. Note that, in determining the purity of a symbol, the
-	 * algorithm can ignore clauses that are already known to be true in the
-	 * model constructed so far. For example, if the model contains B=false,
-	 * then the clause (~B | ~C) is already true, and in the remaining clauses C
-	 * appears only as a positive literal; therefore C becomes pure.</quote>
-	 * 
-	 * @param symbols
-	 *            a list of currently unassigned symbols in the model (to be
-	 *            checked if pure or not).
-	 * @param clauses
-	 * @param model
-	 * @return a proposition symbol and value pair identifying a pure symbol and
-	 *         a value to be assigned to it, otherwise null if no pure symbol
-	 *         can be identified.
-	 */
-    protected Pair<PropositionSymbol, Boolean> findPureSymbol(
-            IQueue<PropositionSymbol> symbols, ISet<Clause> clauses, Model model)
-    {
-        Pair<PropositionSymbol, Boolean> result = null;
-
-        ISet<PropositionSymbol> symbolsToKeep = Factory.CreateSet<PropositionSymbol>(symbols);
-        // Collect up possible positive and negative candidate sets of pure
-        // symbols
-        ISet<PropositionSymbol> candidatePurePositiveSymbols = Factory.CreateSet<PropositionSymbol>();
-        ISet<PropositionSymbol> candidatePureNegativeSymbols = Factory.CreateSet<PropositionSymbol>();
-        for (Clause c : clauses)
-        {
-            // Algorithm can ignore clauses that are already known to be true
-            if (Boolean.TRUE.Equals(model.determineValue(c)))
+            // P, value <- FIND-PURE-SYMBOL(symbols, clauses, model)
+            Pair<PropositionSymbol, bool?> pAndValue = findPureSymbol(symbols,
+                    clauses, model);
+            // if P is non-null then
+            if (pAndValue != null)
             {
-                continue;
+                // return DPLL(clauses, symbols - P, model U {P = value})
+                return dpll(clauses, minus(symbols, pAndValue.getFirst()),
+                        model.union(pAndValue.getFirst(), pAndValue.getSecond()));
             }
-            // Collect possible candidates, removing all candidates that are
-            // not part of the input list of symbols to be considered.
-            for (PropositionSymbol p : c.getPositiveSymbols())
+
+            // P, value <- FIND-UNIT-CLAUSE(clauses, model)
+            pAndValue = findUnitClause(clauses, model);
+            // if P is non-null then
+            if (pAndValue != null)
             {
-                if (symbolsToKeep.contains(p))
+                // return DPLL(clauses, symbols - P, model U {P = value})
+                return dpll(clauses, minus(symbols, pAndValue.getFirst()),
+                        model.union(pAndValue.getFirst(), pAndValue.getSecond()));
+            }
+
+            // P <- FIRST(symbols); rest <- REST(symbols)
+            PropositionSymbol p = Util.first(symbols);
+            IQueue<PropositionSymbol> rest = Util.rest(symbols);
+            // return DPLL(clauses, rest, model U {P = true}) or
+            // ...... DPLL(clauses, rest, model U {P = false})
+            return dpll(clauses, rest, model.union(p, true))
+                    || dpll(clauses, rest, model.union(p, false));
+        }
+
+        //
+        // SUPPORTING CODE
+        //
+
+        /**
+         * Determine if KB |= &alpha;, i.e. alpha is entailed by KB.
+         * 
+         * @param kb
+         *            a Knowledge Base in propositional logic.
+         * @param alpha
+         *            a propositional sentence.
+         * @return true, if &alpha; is entailed by KB, false otherwise.
+         */
+
+        public bool isEntailed(KnowledgeBase kb, Sentence alpha)
+        {
+            // AIMA3e p.g. 260: kb |= alpha, can be done by testing
+            // unsatisfiability of kb & ~alpha.
+            ISet<Clause> kbAndNotAlpha = Factory.CreateSet<Clause>();
+            Sentence notQuery = new ComplexSentence(Connective.NOT, alpha);
+            ISet<PropositionSymbol> symbols = Factory.CreateSet<PropositionSymbol>();
+            IQueue<PropositionSymbol> querySymbols = Factory.CreateQueue<PropositionSymbol>(SymbolCollector.getSymbolsFrom(notQuery));
+
+            kbAndNotAlpha.AddAll(kb.asCNF());
+            kbAndNotAlpha.AddAll(ConvertToConjunctionOfClauses.convert(notQuery).getClauses());
+            symbols.AddAll(querySymbols);
+            symbols.AddAll(kb.getSymbols());
+
+            return !dpll(kbAndNotAlpha, Factory.CreateQueue<PropositionSymbol>(symbols), new Model());
+        }
+
+        //
+        // PROTECTED:
+        //
+
+        // Note: Override this method if you wish to change the initial variable
+        // ordering when dpllSatisfiable is called.
+        protected IQueue<PropositionSymbol> getPropositionSymbolsInSentence(Sentence s)
+        {
+            IQueue<PropositionSymbol> result = Factory.CreateQueue<PropositionSymbol>(
+                    SymbolCollector.getSymbolsFrom(s));
+
+            return result;
+        }
+
+        /**
+         * AIMA3e p.g. 260:<br>
+         * <quote><i>Pure symbol heuristic:</i> A <b>pure symbol</b> is a symbol
+         * that always appears with the same "sign" in all clauses. For example, in
+         * the three clauses (A | ~B), (~B | ~C), and (C | A), the symbol A is pure
+         * because only the positive literal appears, B is pure because only the
+         * negative literal appears, and C is impure. It is easy to see that if a
+         * sentence has a model, then it has a model with the pure symbols assigned
+         * so as to make their literals true, because doing so can never make a
+         * clause false. Note that, in determining the purity of a symbol, the
+         * algorithm can ignore clauses that are already known to be true in the
+         * model constructed so far. For example, if the model contains B=false,
+         * then the clause (~B | ~C) is already true, and in the remaining clauses C
+         * appears only as a positive literal; therefore C becomes pure.</quote>
+         * 
+         * @param symbols
+         *            a list of currently unassigned symbols in the model (to be
+         *            checked if pure or not).
+         * @param clauses
+         * @param model
+         * @return a proposition symbol and value pair identifying a pure symbol and
+         *         a value to be assigned to it, otherwise null if no pure symbol
+         *         can be identified.
+         */
+        protected Pair<PropositionSymbol, bool?> findPureSymbol(IQueue<PropositionSymbol> symbols, ISet<Clause> clauses, Model model)
+        {
+            Pair<PropositionSymbol, bool?> result = null;
+
+            ISet<PropositionSymbol> symbolsToKeep = Factory.CreateSet<PropositionSymbol>(symbols);
+            // Collect up possible positive and negative candidate sets of pure
+            // symbols
+            ISet<PropositionSymbol> candidatePurePositiveSymbols = Factory.CreateSet<PropositionSymbol>();
+            ISet<PropositionSymbol> candidatePureNegativeSymbols = Factory.CreateSet<PropositionSymbol>();
+            for (Clause c : clauses)
+            {
+                // Algorithm can ignore clauses that are already known to be true
+                if (true.Equals(model.determineValue(c)))
                 {
-                    candidatePurePositiveSymbols.Add(p);
+                    continue;
                 }
-            }
-            for (PropositionSymbol n : c.getNegativeSymbols())
-            {
-                if (symbolsToKeep.contains(n))
+                // Collect possible candidates, removing all candidates that are
+                // not part of the input list of symbols to be considered.
+                for (PropositionSymbol p : c.getPositiveSymbols())
                 {
-                    candidatePureNegativeSymbols.Add(n);
-                }
-            }
-        }
-
-        // Determine the overlap/intersection between the positive and negative
-        // candidates
-        for (PropositionSymbol s : symbolsToKeep)
-        {
-            // Remove the non-pure symbols
-            if (candidatePurePositiveSymbols.contains(s) && candidatePureNegativeSymbols.contains(s))
-            {
-                candidatePurePositiveSymbols.Remove(s);
-                candidatePureNegativeSymbols.Remove(s);
-            }
-        }
-
-        // We have an implicit preference for positive pure symbols
-        if (candidatePurePositiveSymbols.size() > 0)
-        {
-            result = new Pair<PropositionSymbol, Boolean>(
-                    candidatePurePositiveSymbols.iterator().next(), true);
-        } // We have a negative pure symbol
-        else if (candidatePureNegativeSymbols.size() > 0)
-        {
-            result = new Pair<PropositionSymbol, Boolean>(
-                    candidatePureNegativeSymbols.iterator().next(), false);
-        }
-
-        return result;
-    }
-
-    /**
-	 * AIMA3e p.g. 260:<br>
-	 * <quote><i>Unit clause heuristic:</i> A <b>unit clause</b> was defined
-	 * earlier as a clause with just one literal. In the context of DPLL, it
-	 * also means clauses in which all literals but one are already assigned
-	 * false by the model. For example, if the model contains B = true, then (~B
-	 * | ~C) simplifies to ~C, which is a unit clause. Obviously, for this
-	 * clause to be true, C must be set to false. The unit clause heuristic
-	 * assigns all such symbols before branching on the remainder. One important
-	 * consequence of the heuristic is that any attempt to prove (by refutation)
-	 * a literal that is already in the knowledge base will succeed immediately.
-	 * Notice also that assigning one unit clause can create another unit clause
-	 * - for example, when C is set to false, (C | A) becomes a unit clause,
-	 * causing true to be assigned to A. This "cascade" of forced assignments is
-	 * called <b>unit propagation</b>. It resembles the process of forward
-	 * chaining with definite clauses, and indeed, if the CNF expression
-	 * contains only definite clauses then DPLL essentially replicates forward
-	 * chaining.</quote>
-	 * 
-	 * @param clauses
-	 * @param model
-	 * @return a proposition symbol and value pair identifying a unit clause and
-	 *         a value to be assigned to it, otherwise null if no unit clause
-	 *         can be identified.
-	 */
-    protected Pair<PropositionSymbol, Boolean> findUnitClause(
-            ISet<Clause> clauses, Model model)
-    {
-        Pair<PropositionSymbol, Boolean> result = null;
-
-        for (Clause c : clauses)
-        {
-            // if clauses value is currently unknown
-            // (i.e. means known literals are false)
-            if (model.determineValue(c) == null)
-            {
-                Literal unassigned = null;
-                // Default definition of a unit clause is a clause
-                // with just one literal
-                if (c.isUnitClause())
-                {
-                    unassigned = c.getLiterals().iterator().next();
-                }
-                else
-                {
-                    // Also, a unit clause in the context of DPLL, also means a
-                    // clauseF in which all literals but one are already
-                    // assigned false by the model.
-                    // Note: at this point we already know the clause is not
-                    // true, so just need to determine if the clause has a
-                    // single unassigned literal
-                    for (Literal l : c.getLiterals())
+                    if (symbolsToKeep.contains(p))
                     {
-                        Boolean value = model.getValue(l.getAtomicSentence());
-                        if (value == null)
+                        candidatePurePositiveSymbols.Add(p);
+                    }
+                }
+                for (PropositionSymbol n : c.getNegativeSymbols())
+                {
+                    if (symbolsToKeep.contains(n))
+                    {
+                        candidatePureNegativeSymbols.Add(n);
+                    }
+                }
+            }
+
+            // Determine the overlap/intersection between the positive and negative
+            // candidates
+            for (PropositionSymbol s : symbolsToKeep)
+            {
+                // Remove the non-pure symbols
+                if (candidatePurePositiveSymbols.contains(s) && candidatePureNegativeSymbols.contains(s))
+                {
+                    candidatePurePositiveSymbols.Remove(s);
+                    candidatePureNegativeSymbols.Remove(s);
+                }
+            }
+
+            // We have an implicit preference for positive pure symbols
+            if (candidatePurePositiveSymbols.size() > 0)
+            {
+                result = new Pair<PropositionSymbol, bool?>(
+                        candidatePurePositiveSymbols.iterator().next(), true);
+            } // We have a negative pure symbol
+            else if (candidatePureNegativeSymbols.size() > 0)
+            {
+                result = new Pair<PropositionSymbol, bool?>(
+                        candidatePureNegativeSymbols.iterator().next(), false);
+            }
+
+            return result;
+        }
+
+        /**
+         * AIMA3e p.g. 260:<br>
+         * <quote><i>Unit clause heuristic:</i> A <b>unit clause</b> was defined
+         * earlier as a clause with just one literal. In the context of DPLL, it
+         * also means clauses in which all literals but one are already assigned
+         * false by the model. For example, if the model contains B = true, then (~B
+         * | ~C) simplifies to ~C, which is a unit clause. Obviously, for this
+         * clause to be true, C must be set to false. The unit clause heuristic
+         * assigns all such symbols before branching on the remainder. One important
+         * consequence of the heuristic is that any attempt to prove (by refutation)
+         * a literal that is already in the knowledge base will succeed immediately.
+         * Notice also that assigning one unit clause can create another unit clause
+         * - for example, when C is set to false, (C | A) becomes a unit clause,
+         * causing true to be assigned to A. This "cascade" of forced assignments is
+         * called <b>unit propagation</b>. It resembles the process of forward
+         * chaining with definite clauses, and indeed, if the CNF expression
+         * contains only definite clauses then DPLL essentially replicates forward
+         * chaining.</quote>
+         * 
+         * @param clauses
+         * @param model
+         * @return a proposition symbol and value pair identifying a unit clause and
+         *         a value to be assigned to it, otherwise null if no unit clause
+         *         can be identified.
+         */
+        protected Pair<PropositionSymbol, bool?> findUnitClause(
+                ISet<Clause> clauses, Model model)
+        {
+            Pair<PropositionSymbol, bool?> result = null;
+
+            for (Clause c : clauses)
+            {
+                // if clauses value is currently unknown
+                // (i.e. means known literals are false)
+                if (model.determineValue(c) == null)
+                {
+                    Literal unassigned = null;
+                    // Default definition of a unit clause is a clause
+                    // with just one literal
+                    if (c.isUnitClause())
+                    {
+                        unassigned = c.getLiterals().iterator().next();
+                    }
+                    else
+                    {
+                        // Also, a unit clause in the context of DPLL, also means a
+                        // clauseF in which all literals but one are already
+                        // assigned false by the model.
+                        // Note: at this point we already know the clause is not
+                        // true, so just need to determine if the clause has a
+                        // single unassigned literal
+                        for (Literal l : c.getLiterals())
                         {
-                            // The first unassigned literal encountered.
-                            if (unassigned == null)
+                            Boolean value = model.getValue(l.getAtomicSentence());
+                            if (value == null)
                             {
-                                unassigned = l;
-                            }
-                            else
-                            {
-                                // This means we have more than 1 unassigned
-                                // literal so lets skip
-                                unassigned = null;
-                                break;
+                                // The first unassigned literal encountered.
+                                if (unassigned == null)
+                                {
+                                    unassigned = l;
+                                }
+                                else
+                                {
+                                    // This means we have more than 1 unassigned
+                                    // literal so lets skip
+                                    unassigned = null;
+                                    break;
+                                }
                             }
                         }
                     }
-                }
 
-                // if a value assigned it means we have a single
-                // unassigned literal and all the assigned literals
-                // are not true under the current model as we were
-                // unable to determine a value.
-                if (unassigned != null)
+                    // if a value assigned it means we have a single
+                    // unassigned literal and all the assigned literals
+                    // are not true under the current model as we were
+                    // unable to determine a value.
+                    if (unassigned != null)
+                    {
+                        result = new Pair<PropositionSymbol, bool?>(
+                                unassigned.getAtomicSentence(),
+                                unassigned.isPositiveLiteral());
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        protected bool everyClauseTrue(Set<Clause> clauses, Model model)
+        {
+            return model.satisfies(clauses);
+        }
+
+        protected bool someClauseFalse(Set<Clause> clauses, Model model)
+        {
+            for (Clause c : clauses)
+            {
+                // Only 1 needs to be false
+                if (false.Equals(model.determineValue(c)))
                 {
-                    result = new Pair<PropositionSymbol, Boolean>(
-                            unassigned.getAtomicSentence(),
-                            unassigned.isPositiveLiteral());
-                    break;
+                    return true;
                 }
             }
+            return false;
         }
 
-        return result;
-    }
-
-    protected bool everyClauseTrue(Set<Clause> clauses, Model model)
-    {
-        return model.satisfies(clauses);
-    }
-
-    protected bool someClauseFalse(Set<Clause> clauses, Model model)
-    {
-        for (Clause c : clauses)
+        // symbols - P
+        protected IQueue<PropositionSymbol> minus(IQueue<PropositionSymbol> symbols,
+                PropositionSymbol p)
         {
-            // Only 1 needs to be false
-            if (Boolean.FALSE.Equals(model.determineValue(c)))
+            IQueue<PropositionSymbol> result = Factory.CreateQueue<PropositionSymbol>(
+                    symbols.size());
+            for (PropositionSymbol s : symbols)
             {
-                return true;
+                // symbols - P
+                if (!p.Equals(s))
+                {
+                    result.Add(s);
+                }
             }
+            return result;
         }
-        return false;
     }
-
-    // symbols - P
-    protected IQueue<PropositionSymbol> minus(IQueue<PropositionSymbol> symbols,
-            PropositionSymbol p)
-    {
-        IQueue<PropositionSymbol> result = Factory.CreateQueue<PropositionSymbol>(
-                symbols.size());
-        for (PropositionSymbol s : symbols)
-        {
-            // symbols - P
-            if (!p.Equals(s))
-            {
-                result.Add(s);
-            }
-        }
-        return result;
-    }
-}
 }

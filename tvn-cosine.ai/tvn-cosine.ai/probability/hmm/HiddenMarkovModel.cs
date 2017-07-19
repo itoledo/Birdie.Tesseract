@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.probability.hmm
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.util.math;
+
+namespace tvn.cosine.ai.probability.hmm
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 578.<br>
@@ -14,8 +18,7 @@
      * 
      */
     public interface HiddenMarkovModel
-    {
-
+    { 
         /**
          * Return the single discrete random variable used to describe the process
          * state.
@@ -43,7 +46,7 @@
          * 
          * @return the sensor model in matrix form.
          */
-        Map<object, Matrix> getSensorModel();
+        IMap<object, Matrix> getSensorModel();
 
         /**
          * Return the prior distribution represented as a column vector in Matrix
@@ -111,6 +114,5 @@
          * @return a normalized column vector of the passed in column vector.
          */
         Matrix normalize(Matrix m);
-    }
-
+    } 
 }

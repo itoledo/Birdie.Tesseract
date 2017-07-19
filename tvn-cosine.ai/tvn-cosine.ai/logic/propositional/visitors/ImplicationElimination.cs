@@ -9,7 +9,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class ImplicationElimination : AbstractPLVisitor<Object> {
+    public class ImplicationElimination : AbstractPLVisitor<object> {
 
     /**
 	 * Eliminate the implications from a sentence.

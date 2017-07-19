@@ -172,7 +172,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 notifyViews("Ask not unsafe -> " + notUnsafe);
                 // plan <- PLAN-ROUTE(current, unvisited &cap; not_unsafe, safe)
                 // Correction: Last argument must be not_unsafe!
-                plan.addAll(planRouteToRooms(unvisited, notUnsafe));
+                plan.AddAll(planRouteToRooms(unvisited, notUnsafe));
             }
 
             // if plan is empty then

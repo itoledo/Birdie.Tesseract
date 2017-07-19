@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference.proof
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public interface Proof
     {
@@ -14,7 +17,7 @@
          *         query. Will be an empty Map if no variables existed in the
          *         original query.
          */
-        Map<Variable, Term> getAnswerBindings();
+        IMap<Variable, Term> getAnswerBindings();
 
         /**
          * 

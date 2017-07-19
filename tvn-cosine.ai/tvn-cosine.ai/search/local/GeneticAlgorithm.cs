@@ -83,7 +83,7 @@
          * Starts the genetic algorithm and stops after a specified number of
          * iterations.
          */
-        public Individual<A> geneticAlgorithm(Collection<Individual<A>> initPopulation,
+        public Individual<A> geneticAlgorithm(IQueue<Individual<A>> initPopulation,
                 FitnessFunction<A> fitnessFn, final int maxIterations)
         {
             GoalTest<Individual<A>> goalTest = state->getIterations() >= maxIterations;
@@ -112,7 +112,7 @@
         // function GENETIC-ALGORITHM(population, FITNESS-FN) returns an individual
         // inputs: population, a set of individuals
         // FITNESS-FN, a function that measures the fitness of an individual
-        public Individual<A> geneticAlgorithm(Collection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn,
+        public Individual<A> geneticAlgorithm(IQueue<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn,
                 GoalTest<Individual<A>> goalTest, long maxTimeMilliseconds)
         {
             Individual<A> bestIndividual = null;
@@ -146,10 +146,10 @@
             return bestIndividual;
         }
 
-        public Individual<A> retrieveBestIndividual(Collection<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        public Individual<A> retrieveBestIndividual(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
         {
             Individual<A> bestIndividual = null;
-            double bestSoFarFValue = double.NEGATIVE_INFINITY;
+            double bestSoFarFValue = double.NegativeInfinity;
 
             for (Individual<A> individual : population)
             {
@@ -219,7 +219,7 @@
          * @param time
          *            the time in milliseconds that the genetic algorithm took.
          */
-        protected void updateMetrics(Collection<Individual<A>> population, int itCount, long time)
+        protected void updateMetrics(IQueue<Individual<A>> population, int itCount, long time)
         {
             metrics.set(POPULATION_SIZE, population.size());
             metrics.set(ITERATIONS, itCount);
@@ -304,8 +304,8 @@
             int c = randomOffset(individualLength);
             // return APPEND(SUBSTRING(x, 1, c), SUBSTRING(y, c+1, n))
             IQueue<A> childRepresentation = Factory.CreateQueue<A>();
-            childRepresentation.addAll(x.getRepresentation().subList(0, c));
-            childRepresentation.addAll(y.getRepresentation().subList(c, individualLength));
+            childRepresentation.AddAll(x.getRepresentation().subList(0, c));
+            childRepresentation.AddAll(y.getRepresentation().subList(c, individualLength));
 
             return new Individual<A>(childRepresentation);
         }
@@ -327,7 +327,7 @@
             return random.nextInt(length);
         }
 
-        protected void validatePopulation(Collection<Individual<A>> population)
+        protected void validatePopulation(IQueue<Individual<A>> population)
         {
             // Require at least 1 individual in population in order
             // for algorithm to work

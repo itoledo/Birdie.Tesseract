@@ -11,8 +11,5 @@
      * @author Ciaran O'Reilly
      */
     public interface ProbabilityDensity : ProbabilityDistribution
-    {
-
-    }
-
+    { }
 }

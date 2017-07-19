@@ -43,10 +43,10 @@
         for (Clause c : clauses)
         {
             Boolean value = model.determineValue(c);
-            if (!Boolean.TRUE.Equals(value))
+            if (!true.Equals(value))
             {
                 allTrue = false;
-                if (Boolean.FALSE.Equals(value))
+                if (false.Equals(value))
                 {
                     return false;
                 }
@@ -68,7 +68,7 @@
         clauses = unknownClauses;
 
         // P, value <- FIND-PURE-SYMBOL(symbols, clauses, model)
-        Pair<PropositionSymbol, Boolean> pAndValue = findPureSymbol(symbols,
+        Pair<PropositionSymbol, bool?> pAndValue = findPureSymbol(symbols,
                 clauses, model);
         // if P is non-null then
         if (pAndValue != null)
@@ -116,10 +116,10 @@
         ISet<PropositionSymbol> symbols = Factory.CreateSet<>();
         IQueue<PropositionSymbol> querySymbols = Factory.CreateQueue<>(SymbolCollector.getSymbolsFrom(notQuery));
 
-        kbAndNotAlpha.addAll(kb.asCNF());
-        kbAndNotAlpha.addAll(ConvertToConjunctionOfClauses.convert(notQuery).getClauses());
-        symbols.addAll(querySymbols);
-        symbols.addAll(kb.getSymbols());
+        kbAndNotAlpha.AddAll(kb.asCNF());
+        kbAndNotAlpha.AddAll(ConvertToConjunctionOfClauses.convert(notQuery).getClauses());
+        symbols.AddAll(querySymbols);
+        symbols.AddAll(kb.getSymbols());
 
         return !dpll(kbAndNotAlpha, Factory.CreateQueue<>(symbols), new Model());
     }
@@ -173,10 +173,10 @@
 	 *         a value to be assigned to it, otherwise null if no pure symbol
 	 *         can be identified.
 	 */
-    protected Pair<PropositionSymbol, Boolean> findPureSymbol(
+    protected Pair<PropositionSymbol, bool?> findPureSymbol(
             IQueue<PropositionSymbol> symbols, ISet<Clause> clauses, Model model)
     {
-        Pair<PropositionSymbol, Boolean> result = null;
+        Pair<PropositionSymbol, bool?> result = null;
 
         ISet<PropositionSymbol> symbolsToKeep = Factory.CreateSet<>(symbols);
         // Collect up possible positive and negative candidate sets of pure
@@ -226,7 +226,7 @@
         } // We have a negative pure symbol
         else if (candidatePureNegativeSymbols.size() > 0)
         {
-            result = new Pair<PropositionSymbol, Boolean>(
+            result = new Pair<PropositionSymbol, bool?>(
                     candidatePureNegativeSymbols.iterator().next(), false);
         }
 
@@ -258,10 +258,10 @@
 	 *         a value to be assigned to it, otherwise null if no unit clause
 	 *         can be identified.
 	 */
-    protected Pair<PropositionSymbol, Boolean> findUnitClause(
+    protected Pair<PropositionSymbol, bool?> findUnitClause(
             ISet<Clause> clauses, Model model)
     {
-        Pair<PropositionSymbol, Boolean> result = null;
+        Pair<PropositionSymbol, bool?> result = null;
 
         for (Clause c : clauses)
         {

@@ -9,7 +9,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class BiconditionalElimination : AbstractPLVisitor<Object> {
+    public class BiconditionalElimination : AbstractPLVisitor<object> {
 
     /**
 	 * Eliminate the biconditionals from a sentence.

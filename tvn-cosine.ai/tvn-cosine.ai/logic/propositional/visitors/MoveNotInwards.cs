@@ -11,7 +11,7 @@
      * @author Ciaran O'Reilly
      * 
      */
-    public class MoveNotInwards : AbstractPLVisitor<Object> {
+    public class MoveNotInwards : AbstractPLVisitor<object> {
 
     /**
 	 * Move ~ inwards.

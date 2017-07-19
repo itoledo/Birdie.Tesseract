@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.inference.proof;
+
+namespace tvn.cosine.ai.logic.fol.inference
 {
     public interface InferenceResult
     {

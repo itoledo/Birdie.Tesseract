@@ -1,88 +1,83 @@
-﻿namespace tvn.cosine.ai.logic.fol.parsing
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol.parsing
 {
     public class AbstractFOLVisitor : FOLVisitor
     {
+        public AbstractFOLVisitor()
+        {  }
 
-
-    public AbstractFOLVisitor()
-    {
-    }
-
-    protected Sentence recreate(object ast)
-    {
-        return ((Sentence)ast).copy();
-    }
-
-    public object visitVariable(Variable variable, object arg)
-    {
-        return variable.copy();
-    }
-
-    public object visitQuantifiedSentence(QuantifiedSentence sentence,
-            object arg)
-    {
-        IQueue<Variable> variables = Factory.CreateQueue<Variable>();
-        for (Variable var : sentence.getVariables())
+        protected Sentence recreate(object ast)
         {
-            variables.Add((Variable)var.accept(this, arg));
+            return ((Sentence)ast).copy();
         }
 
-        return new QuantifiedSentence(sentence.getQuantifier(), variables,
-                (Sentence)sentence.getQuantified().accept(this, arg));
-    }
-
-    public object visitPredicate(Predicate predicate, object arg)
-    {
-        IQueue<Term> terms = predicate.getTerms();
-        IQueue<Term> newTerms = Factory.CreateQueue<Term>();
-        for (int i = 0; i < terms.size(); i++)
+        public object visitVariable(Variable variable, object arg)
         {
-            Term t = terms.Get(i);
-            Term subsTerm = (Term)t.accept(this, arg);
-            newTerms.Add(subsTerm);
+            return variable.copy();
         }
-        return new Predicate(predicate.getPredicateName(), newTerms);
 
-    }
-
-    public object visitTermEquality(TermEquality equality, object arg)
-    {
-        Term newTerm1 = (Term)equality.getTerm1().accept(this, arg);
-        Term newTerm2 = (Term)equality.getTerm2().accept(this, arg);
-        return new TermEquality(newTerm1, newTerm2);
-    }
-
-    public object visitConstant(Constant constant, object arg)
-    {
-        return constant;
-    }
-
-    public object visitFunction(Function function, object arg)
-    {
-        IQueue<Term> terms = function.getTerms();
-        IQueue<Term> newTerms = Factory.CreateQueue<Term>();
-        for (int i = 0; i < terms.size(); i++)
+        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
-            Term t = terms.Get(i);
-            Term subsTerm = (Term)t.accept(this, arg);
-            newTerms.Add(subsTerm);
+            IQueue<Variable> variables = Factory.CreateQueue<Variable>();
+            foreach (Variable var in sentence.getVariables())
+            {
+                variables.Add((Variable)var.accept(this, arg));
+            }
+
+            return new QuantifiedSentence(sentence.getQuantifier(), variables, (Sentence)sentence.getQuantified().accept(this, arg));
         }
-        return new Function(function.getFunctionName(), newTerms);
-    }
 
-    public object visitNotSentence(NotSentence sentence, object arg)
-    {
-        return new NotSentence((Sentence)sentence.getNegated().accept(this,
-                arg));
-    }
+        public object visitPredicate(Predicate predicate, object arg)
+        {
+            IQueue<Term> terms = predicate.getTerms();
+            IQueue<Term> newTerms = Factory.CreateQueue<Term>();
+            for (int i = 0; i < terms.Size(); i++)
+            {
+                Term t = terms.Get(i);
+                Term subsTerm = (Term)t.accept(this, arg);
+                newTerms.Add(subsTerm);
+            }
+            return new Predicate(predicate.getPredicateName(), newTerms);
 
-    public object visitConnectedSentence(ConnectedSentence sentence, object arg)
-    {
-        Sentence substFirst = (Sentence)sentence.getFirst().accept(this, arg);
-        Sentence substSecond = (Sentence)sentence.getSecond()
-                .accept(this, arg);
-        return new ConnectedSentence(sentence.getConnector(), substFirst,
-                substSecond);
+        }
+
+        public object visitTermEquality(TermEquality equality, object arg)
+        {
+            Term newTerm1 = (Term)equality.getTerm1().accept(this, arg);
+            Term newTerm2 = (Term)equality.getTerm2().accept(this, arg);
+            return new TermEquality(newTerm1, newTerm2);
+        }
+
+        public object visitConstant(Constant constant, object arg)
+        {
+            return constant;
+        }
+
+        public object visitFunction(Function function, object arg)
+        {
+            IQueue<Term> terms = function.getTerms();
+            IQueue<Term> newTerms = Factory.CreateQueue<Term>();
+            for (int i = 0; i < terms.Size(); i++)
+            {
+                Term t = terms.Get(i);
+                Term subsTerm = (Term)t.accept(this, arg);
+                newTerms.Add(subsTerm);
+            }
+            return new Function(function.getFunctionName(), newTerms);
+        }
+
+        public object visitNotSentence(NotSentence sentence, object arg)
+        {
+            return new NotSentence((Sentence)sentence.getNegated().accept(this, arg));
+        }
+
+        public object visitConnectedSentence(ConnectedSentence sentence, object arg)
+        {
+            Sentence substFirst = (Sentence)sentence.getFirst().accept(this, arg);
+            Sentence substSecond = (Sentence)sentence.getSecond().accept(this, arg);
+            return new ConnectedSentence(sentence.getConnector(), substFirst, substSecond);
+        }
     }
-}
 }

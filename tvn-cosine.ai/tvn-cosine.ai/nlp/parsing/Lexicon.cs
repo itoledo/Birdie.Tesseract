@@ -34,14 +34,14 @@
         final ISet<string> keys = this.GetKeys();
 
         for (string key : keys)
-            allRules.addAll(this.getTerminalRules(key));
+            allRules.AddAll(this.getTerminalRules(key));
 
         return allRules;
     }
 
     public bool addEntry(string category, string word, float prob)
     {
-        if (this.containsKey(category))
+        if (this.ContainsKey(category))
             this.Get(category).Add(new LexWord(word, prob));
         else
             this.Put(category, Factory.CreateQueue<>(Collections.singletonList(new LexWord(word, prob))));
@@ -58,7 +58,7 @@
             return false;
 
         string key = vargs[0].toUpperCase();
-        if (this.containsKey(key)) { containsKey = true; }
+        if (this.ContainsKey(key)) { containsKey = true; }
 
         for (int i = 1; i < vargs.Length; i++)
         {
@@ -88,12 +88,12 @@
 	 */
     public void addLexWords(Lexicon lexicon)
     {
-        for (Map.Entry<string, ArrayList<LexWord>> pair : lexicon.entrySet())
+        for (Map.Entry<string, ArrayList<LexWord>> pair : lexicon )
         {
             final string key = pair.getKey();
             final ArrayList<LexWord> lexWords = pair.getValue();
 
-            if (this.containsKey(key))
+            if (this.ContainsKey(key))
             {
                 for (LexWord word : lexWords)
                     this.Get(key).Add(word);

@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference.proof
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofStepClauseParamodulation : AbstractProofStep
     {
@@ -19,29 +23,21 @@
             this.predecessors.Add(equalityClause.getProofStep());
         }
 
-        //
-        // START-ProofStep
-         
-    public IQueue<ProofStep> getPredecessorSteps()
+        public override IQueue<ProofStep> getPredecessorSteps()
         {
-            return Factory.CreateReadOnlyQueue<>(predecessors);
+            return Factory.CreateReadOnlyQueue<ProofStep>(predecessors);
         }
-
          
-    public string getProof()
+        public override string getProof()
         {
             return paramodulated.ToString();
         }
-
          
-    public string getJustification()
+        public override string getJustification()
         {
             return "Paramodulation: " + topClause.getProofStep().getStepNumber()
                     + ", " + equalityClause.getProofStep().getStepNumber() + ", ["
-                    + assertion + "]";
-
-        }
-        // END-ProofStep
-        //
+                    + assertion + "]"; 
+        } 
     }
 }

@@ -104,9 +104,11 @@
     <Compile Include="common\EventObject.cs" />
     <Compile Include="common\exceptions\ArgumentNullException.cs" />
     <Compile Include="common\exceptions\ArgumentOutOfRangeException.cs" />
+    <Compile Include="common\exceptions\ArrayIndexOutOfBoundsException.cs" />
     <Compile Include="common\exceptions\Exception.cs" />
     <Compile Include="common\exceptions\IllegalArgumentException.cs" />
     <Compile Include="common\exceptions\IllegalStateException.cs" />
+    <Compile Include="common\exceptions\IOException.cs" />
     <Compile Include="common\exceptions\NotImplementedException.cs" />
     <Compile Include="common\exceptions\NotSupportedException.cs" />
     <Compile Include="common\exceptions\RuntimeException.cs" />

@@ -1,8 +1,12 @@
-﻿namespace tvn.cosine.ai.probability.example
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.bayes;
+using tvn.cosine.ai.probability.bayes.impl;
+using tvn.cosine.ai.probability.bayes.model;
+
+namespace tvn.cosine.ai.probability.example
 {
     public class GenericTemporalModelFactory
     {
-
         public static FiniteProbabilityModel getUmbrellaWorldTransitionModel()
         {
             return getUmbrellaWorldModel();
@@ -28,11 +32,9 @@
 				0.3,
 				// R_t-1 = false, R_t = false
 				0.7 }, rain_tm1);
-            // Sensor Model
-            @SuppressWarnings("unused")
-    
-        FiniteNode umbrealla_t = new FullCPTNode(ExampleRV.UMBREALLA_t_RV,
-                new double[] {
+            // Sensor Model 
+            FiniteNode umbrealla_t = new FullCPTNode(ExampleRV.UMBREALLA_t_RV,
+                    new double[] {
 						// R_t = true, U_t = true
 						0.9,
 						// R_t = true, U_t = false
@@ -45,13 +47,12 @@
             return new FiniteBayesModel(new BayesNet(rain_tm1));
         }
 
-        public static Map<RandomVariable, RandomVariable> getUmbrellaWorld_Xt_to_Xtm1_Map()
+        public static IMap<RandomVariable, RandomVariable> getUmbrellaWorld_Xt_to_Xtm1_Map()
         {
-            Map<RandomVariable, RandomVariable> tToTm1StateVarMap = Factory.CreateMap<RandomVariable, RandomVariable>();
+            IMap<RandomVariable, RandomVariable> tToTm1StateVarMap = Factory.CreateMap<RandomVariable, RandomVariable>();
             tToTm1StateVarMap.Put(ExampleRV.RAIN_t_RV, ExampleRV.RAIN_tm1_RV);
 
             return tToTm1StateVarMap;
         }
-    }
-
+    } 
 }

@@ -43,7 +43,7 @@
             // this case words.
             Lexicon wumpusLex = LexiconExamples.buildWumpusLex();
             ArrayList<Rule> terminalRules = Factory.CreateQueue<Rule>(wumpusLex.getAllTerminalRules());
-            rules.addAll(terminalRules);
+            rules.AddAll(terminalRules);
             // Add all these rules into the grammar
             if (!g.addRules(rules))
             {

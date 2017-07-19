@@ -90,7 +90,7 @@
         public WumpusCave setAllowed(Set<Room> allowedRooms)
         {
             this.allowedRooms.Clear();
-            this.allowedRooms.addAll(allowedRooms);
+            this.allowedRooms.AddAll(allowedRooms);
             return this;
         }
 

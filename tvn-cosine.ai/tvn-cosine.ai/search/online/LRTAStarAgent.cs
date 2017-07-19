@@ -153,7 +153,7 @@
         else
         {
             // if s' is a new state (not in H) then H[s'] <- h(s')
-            if (!H.containsKey(sPrimed))
+            if (!H.ContainsKey(sPrimed))
             {
                 H.Put(sPrimed, getHeuristicFunction().applyAsDouble(sPrimed));
             }

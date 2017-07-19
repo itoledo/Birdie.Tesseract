@@ -148,11 +148,7 @@ namespace tvn.cosine.ai.probability.full
             }
             return d;
         }
-
-        // END-FiniteProbabilityModel
-        //
-
-
+         
         class ProbabilityTableIteratorImpl2 : ProbabilityTable.ProbabilityTableIterator
         {
             private Proposition phi;
@@ -172,9 +168,7 @@ namespace tvn.cosine.ai.probability.full
                 }
             }
         }
-        //
-        // PRIVATE METHODS
-        //
+        
         private double probabilityOf(Proposition phi)
         {
             double[] probSum = new double[1];

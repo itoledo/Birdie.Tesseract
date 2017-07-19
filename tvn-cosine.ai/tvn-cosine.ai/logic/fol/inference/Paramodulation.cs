@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.logic.fol.inference
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.inference.proof;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.logic.fol.inference
 {
     /**
      * Artificial Intelligence A Modern Approach (3r Edition): page 354.<br>
@@ -20,186 +25,180 @@
      */
     public class Paramodulation : AbstractModulation
     {
+        private static StandardizeApartIndexical _saIndexical = StandardizeApartIndexicalFactory.newStandardizeApartIndexical('p');
+        private static IQueue<Literal> _emptyLiteralList = Factory.CreateQueue<Literal>();
+        //
+        private StandardizeApart sApart = new StandardizeApart();
 
-    private static StandardizeApartIndexical _saIndexical = StandardizeApartIndexicalFactory
-            .newStandardizeApartIndexical('p');
-    private static IQueue<Literal> _emptyLiteralList = Factory.CreateQueue<Literal>();
-    //
-    private StandardizeApart sApart = new StandardizeApart();
+        public Paramodulation()
+        { }
 
-    public Paramodulation()
-    {
-    }
-
-    public ISet<Clause> apply(Clause c1, Clause c2)
-    {
-        return apply(c1, c2, false);
-    }
-
-    public ISet<Clause> apply(Clause c1, Clause c2, bool standardizeApart)
-    {
-        ISet<Clause> paraExpressions = Factory.CreateSet<Clause>();
-
-        for (int i = 0; i < 2; i++)
+        public ISet<Clause> apply(Clause c1, Clause c2)
         {
-            Clause topClause, equalityClause;
-            if (i == 0)
-            {
-                topClause = c1;
-                equalityClause = c2;
-            }
-            else
-            {
-                topClause = c2;
-                equalityClause = c1;
-            }
+            return apply(c1, c2, false);
+        }
 
-            for (Literal possEqLit : equalityClause.getLiterals())
-            {
-                // Must be a positive term equality to be used
-                // for paramodulation.
-                if (possEqLit.isPositiveLiteral()
-                        && possEqLit.getAtomicSentence() is TermEquality) {
-            TermEquality assertion = (TermEquality)possEqLit
-                    .getAtomicSentence();
+        public ISet<Clause> apply(Clause c1, Clause c2, bool standardizeApart)
+        {
+            ISet<Clause> paraExpressions = Factory.CreateSet<Clause>();
 
-            // Test matching for both sides of the equality
-            for (int x = 0; x < 2; x++)
+            for (int i = 0; i < 2; i++)
             {
-                Term toMatch, toReplaceWith;
-                if (x == 0)
+                Clause topClause, equalityClause;
+                if (i == 0)
                 {
-                    toMatch = assertion.getTerm1();
-                    toReplaceWith = assertion.getTerm2();
+                    topClause = c1;
+                    equalityClause = c2;
                 }
                 else
                 {
-                    toMatch = assertion.getTerm2();
-                    toReplaceWith = assertion.getTerm1();
+                    topClause = c2;
+                    equalityClause = c1;
                 }
 
-                for (Literal l1 : topClause.getLiterals())
+                foreach (Literal possEqLit in equalityClause.getLiterals())
                 {
-                    IdentifyCandidateMatchingTerm icm = getMatchingSubstitution(
-                            toMatch, l1.getAtomicSentence());
-
-                    if (null != icm)
+                    // Must be a positive term equality to be used
+                    // for paramodulation.
+                    if (possEqLit.isPositiveLiteral()
+                            && possEqLit.getAtomicSentence() is TermEquality)
                     {
-                        Term replaceWith = substVisitor.subst(
-                                icm.getMatchingSubstitution(),
-                                toReplaceWith);
+                        TermEquality assertion = (TermEquality)possEqLit
+                                .getAtomicSentence();
 
-                        // Want to ignore reflexivity axiom situation,
-                        // i.e. x = x
-                        if (icm.getMatchingTerm().Equals(replaceWith))
+                        // Test matching for both sides of the equality
+                        for (int x = 0; x < 2; x++)
                         {
-                            continue;
-                        }
-
-                        ReplaceMatchingTerm rmt = new ReplaceMatchingTerm();
-
-                        AtomicSentence altExpression = rmt.replace(
-                                l1.getAtomicSentence(),
-                                icm.getMatchingTerm(), replaceWith);
-
-                        // I have an alternative, create a new clause
-                        // with the alternative and the substitution
-                        // applied to all the literals before returning
-                        IQueue<Literal> newLits = Factory.CreateQueue<Literal>();
-                        for (Literal l2 : topClause.getLiterals())
-                        {
-                            if (l1.Equals(l2))
+                            Term toMatch, toReplaceWith;
+                            if (x == 0)
                             {
-                                newLits.Add(l1
-                                        .newInstance((AtomicSentence)substVisitor.subst(
-                                                icm.getMatchingSubstitution(),
-                                                altExpression)));
+                                toMatch = assertion.getTerm1();
+                                toReplaceWith = assertion.getTerm2();
                             }
                             else
                             {
-                                newLits.Add(substVisitor.subst(
-                                        icm.getMatchingSubstitution(),
-                                        l2));
+                                toMatch = assertion.getTerm2();
+                                toReplaceWith = assertion.getTerm1();
                             }
-                        }
-                        // Assign the equality clause literals,
-                        // excluding
-                        // the term equality used.
-                        for (Literal l2 : equalityClause.getLiterals())
-                        {
-                            if (possEqLit.Equals(l2))
+
+                            foreach (Literal l1 in topClause.getLiterals())
                             {
-                                continue;
+                                IdentifyCandidateMatchingTerm icm = getMatchingSubstitution(toMatch, l1.getAtomicSentence());
+
+                                if (null != icm)
+                                {
+                                    Term replaceWith = substVisitor.subst(
+                                            icm.getMatchingSubstitution(),
+                                            toReplaceWith);
+
+                                    // Want to ignore reflexivity axiom situation,
+                                    // i.e. x = x
+                                    if (icm.getMatchingTerm().Equals(replaceWith))
+                                    {
+                                        continue;
+                                    }
+
+                                    ReplaceMatchingTerm rmt = new ReplaceMatchingTerm();
+
+                                    AtomicSentence altExpression = rmt.replace(
+                                            l1.getAtomicSentence(),
+                                            icm.getMatchingTerm(), replaceWith);
+
+                                    // I have an alternative, create a new clause
+                                    // with the alternative and the substitution
+                                    // applied to all the literals before returning
+                                    IQueue<Literal> newLits = Factory.CreateQueue<Literal>();
+                                    foreach (Literal l2 in topClause.getLiterals())
+                                    {
+                                        if (l1.Equals(l2))
+                                        {
+                                            newLits.Add(l1
+                                                    .newInstance((AtomicSentence)substVisitor.subst(
+                                                            icm.getMatchingSubstitution(),
+                                                            altExpression)));
+                                        }
+                                        else
+                                        {
+                                            newLits.Add(substVisitor.subst(
+                                                    icm.getMatchingSubstitution(),
+                                                    l2));
+                                        }
+                                    }
+                                    // Assign the equality clause literals,
+                                    // excluding
+                                    // the term equality used.
+                                    foreach (Literal l2 in equalityClause.getLiterals())
+                                    {
+                                        if (possEqLit.Equals(l2))
+                                        {
+                                            continue;
+                                        }
+                                        newLits.Add(substVisitor.subst(
+                                                icm.getMatchingSubstitution(), l2));
+                                    }
+
+                                    // Only apply paramodulation at most once
+                                    // for each term equality.
+                                    Clause nc = null;
+                                    if (standardizeApart)
+                                    {
+                                        sApart.standardizeApart(newLits,
+                                                _emptyLiteralList, _saIndexical);
+                                        nc = new Clause(newLits);
+
+                                    }
+                                    else
+                                    {
+                                        nc = new Clause(newLits);
+                                    }
+                                    nc.setProofStep(new ProofStepClauseParamodulation(
+                                            nc, topClause, equalityClause,
+                                            assertion));
+                                    if (c1.isImmutable())
+                                    {
+                                        nc.setImmutable();
+                                    }
+                                    if (!c1.isStandardizedApartCheckRequired())
+                                    {
+                                        c1.setStandardizedApartCheckNotRequired();
+                                    }
+                                    paraExpressions.Add(nc);
+                                    break;
+                                }
                             }
-                            newLits.Add(substVisitor.subst(
-                                    icm.getMatchingSubstitution(), l2));
                         }
-
-                        // Only apply paramodulation at most once
-                        // for each term equality.
-                        Clause nc = null;
-                        if (standardizeApart)
-                        {
-                            sApart.standardizeApart(newLits,
-                                    _emptyLiteralList, _saIndexical);
-                            nc = new Clause(newLits);
-
-                        }
-                        else
-                        {
-                            nc = new Clause(newLits);
-                        }
-                        nc.setProofStep(new ProofStepClauseParamodulation(
-                                nc, topClause, equalityClause,
-                                assertion));
-                        if (c1.isImmutable())
-                        {
-                            nc.setImmutable();
-                        }
-                        if (!c1.isStandardizedApartCheckRequired())
-                        {
-                            c1.setStandardizedApartCheckNotRequired();
-                        }
-                        paraExpressions.Add(nc);
-                        break;
                     }
                 }
             }
+
+            return paraExpressions;
+        }
+
+        protected override bool isValidMatch(Term toMatch,
+                ISet<Variable> toMatchVariables, Term possibleMatch,
+                IMap<Variable, Term> substitution)
+        {
+
+            if (possibleMatch != null && substitution != null)
+            {
+                // Note:
+                // [Brand 1975] showed that paramodulation into
+                // variables is unnecessary.
+                if (!(possibleMatch is Variable))
+                {
+                    // TODO: Find out whether the following statement from:
+                    // http://www.cs.miami.edu/~geoff/Courses/CSC648-07F/Content/
+                    // Paramodulation.shtml
+                    // is actually the case, as it was not positive but
+                    // intuitively makes sense:
+                    // "Similarly, depending on how paramodulation is used, it is
+                    // often unnecessary to paramodulate from variables."
+                    // if (!(toMatch is Variable)) {
+                    return true;
+                    // }
+                }
+            }
+            return false;
         }
     }
-}
-
-		return paraExpressions;
-	}
-
-	//
-	// PROTECTED METHODS
-	//
-	 
-    protected bool isValidMatch(Term toMatch,
-            ISet<Variable> toMatchVariables, Term possibleMatch,
-            Map<Variable, Term> substitution)
-{
-
-    if (possibleMatch != null && substitution != null)
-    {
-        // Note:
-        // [Brand 1975] showed that paramodulation into
-        // variables is unnecessary.
-        if (!(possibleMatch is Variable)) {
-            // TODO: Find out whether the following statement from:
-            // http://www.cs.miami.edu/~geoff/Courses/CSC648-07F/Content/
-            // Paramodulation.shtml
-            // is actually the case, as it was not positive but
-            // intuitively makes sense:
-            // "Similarly, depending on how paramodulation is used, it is
-            // often unnecessary to paramodulate from variables."
-            // if (!(toMatch is Variable)) {
-            return true;
-            // }
-        }
-    }
-    return false;
-}
-}
 }

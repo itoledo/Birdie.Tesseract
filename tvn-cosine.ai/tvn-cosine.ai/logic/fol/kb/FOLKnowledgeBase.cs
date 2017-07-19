@@ -1,4 +1,15 @@
-﻿namespace tvn.cosine.ai.logic.fol.kb
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.inference;
+using tvn.cosine.ai.logic.fol.inference.proof;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.logic.fol.kb
 {
     /**
      * A First Order Logic (FOL) Knowledge Base.
@@ -7,14 +18,13 @@
      * 
      */
     public class FOLKnowledgeBase
-    {
-
+    { 
         private FOLParser parser;
         private InferenceProcedure inferenceProcedure;
         private Unifier unifier;
         private SubstVisitor substVisitor;
         private VariableCollector variableCollector;
-        private StandardizeApart standardizeApart;
+        private StandardizeApart _standardizeApart;
         private CNFConverter cnfConverter;
         //
         // Persistent data structures
@@ -29,7 +39,7 @@
         private IQueue<Clause> allDefiniteClauses = Factory.CreateQueue<Clause>();
         private IQueue<Clause> implicationDefiniteClauses = Factory.CreateQueue<Clause>();
         // All the facts in the KB indexed by Atomic Sentence name (Note: pg. 279)
-        private Map<string, IQueue<Literal>> indexFacts = Factory.CreateMap<string, IQueue<Literal>>();
+        private IMap<string, IQueue<Literal>> indexFacts = Factory.CreateMap<string, IQueue<Literal>>();
         // Keep track of indexical keys for uniquely standardizing apart sentences
         private StandardizeApartIndexical variableIndexical = StandardizeApartIndexicalFactory
                 .newStandardizeApartIndexical('v');
@@ -40,19 +50,14 @@
         // PUBLIC METHODS
         //
         public FOLKnowledgeBase(FOLDomain domain)
-        {
-            // Default to Full Resolution if not set.
-            this(domain, new FOLOTTERLikeTheoremProver());
-        }
+            : this(domain, new FOLOTTERLikeTheoremProver())  // Default to Full Resolution if not set.
+        { }
 
-        public FOLKnowledgeBase(FOLDomain domain,
-                InferenceProcedure inferenceProcedure)
-        {
-            this(domain, inferenceProcedure, new Unifier());
-        }
+        public FOLKnowledgeBase(FOLDomain domain, InferenceProcedure inferenceProcedure)
+            : this(domain, inferenceProcedure, new Unifier())
+        { }
 
-        public FOLKnowledgeBase(FOLDomain domain,
-                InferenceProcedure inferenceProcedure, Unifier unifier)
+        public FOLKnowledgeBase(FOLDomain domain, InferenceProcedure inferenceProcedure, Unifier unifier)
         {
             this.parser = new FOLParser(new FOLDomain(domain));
             this.inferenceProcedure = inferenceProcedure;
@@ -60,8 +65,7 @@
             //
             this.substVisitor = new SubstVisitor();
             this.variableCollector = new VariableCollector();
-            this.standardizeApart = new StandardizeApart(variableCollector,
-                    substVisitor);
+            this._standardizeApart = new StandardizeApart(variableCollector, substVisitor);
             this.cnfConverter = new CNFConverter(parser);
         }
 
@@ -94,9 +98,9 @@
             return s;
         }
 
-        public void tell(IQueue<? : Sentence> sentences)
+        public void tell(IQueue<Sentence> sentences)
         {
-            for (Sentence s : sentences)
+            foreach (Sentence s in sentences)
             {
                 tell(s);
             }
@@ -122,22 +126,19 @@
             // Want to standardize apart the query to ensure
             // it does not clash with any of the sentences
             // in the database
-            StandardizeApartResult saResult = standardizeApart.standardizeApart(
-                    query, queryIndexical);
+            StandardizeApartResult saResult = _standardizeApart.standardizeApart(query, queryIndexical);
 
             // Need to map the result variables (as they are standardized apart)
             // to the original queries variables so that the caller can easily
             // understand and use the returned set of substitutions
-            InferenceResult infResult = getInferenceProcedure().ask(this,
-                    saResult.getStandardized());
-            for (Proof p : infResult.getProofs())
+            InferenceResult infResult = getInferenceProcedure().ask(this, saResult.getStandardized());
+            foreach (Proof p in infResult.getProofs())
             {
-                Map<Variable, Term> im = p.getAnswerBindings();
-                Map<Variable, Term> em = Factory.CreateMap<Variable, Term>();
-                for (Variable rev : saResult.getReverseSubstitution().GetKeys())
+                IMap<Variable, Term> im = p.getAnswerBindings();
+                IMap<Variable, Term> em = Factory.CreateMap<Variable, Term>();
+                foreach (Variable rev in saResult.getReverseSubstitution().GetKeys())
                 {
-                    em.Put((Variable)saResult.getReverseSubstitution().Get(rev),
-                            im.Get(rev));
+                    em.Put((Variable)saResult.getReverseSubstitution().Get(rev), im.Get(rev));
                 }
                 p.replaceAnswerBindings(em);
             }
@@ -147,46 +148,46 @@
 
         public int getNumberFacts()
         {
-            return allDefiniteClauses.size() - implicationDefiniteClauses.size();
+            return allDefiniteClauses.Size() - implicationDefiniteClauses.Size();
         }
 
         public int getNumberRules()
         {
-            return clauses.size() - getNumberFacts();
+            return clauses.Size() - getNumberFacts();
         }
 
         public IQueue<Sentence> getOriginalSentences()
         {
-            return Factory.CreateReadOnlyQueue<>(originalSentences);
+            return Factory.CreateReadOnlyQueue<Sentence>(originalSentences);
         }
 
         public IQueue<Clause> getAllDefiniteClauses()
         {
-            return Factory.CreateReadOnlyQueue<>(allDefiniteClauses);
+            return Factory.CreateReadOnlyQueue<Clause>(allDefiniteClauses);
         }
 
         public IQueue<Clause> getAllDefiniteClauseImplications()
         {
-            return Factory.CreateReadOnlyQueue<>(implicationDefiniteClauses);
+            return Factory.CreateReadOnlyQueue<Clause>(implicationDefiniteClauses);
         }
 
         public ISet<Clause> getAllClauses()
         {
-            return Factory.CreateReadOnlySet<>(clauses);
+            return Factory.CreateReadOnlySet<Clause>(clauses);
         }
 
         // Note: pg 278, FETCH(q) concept.
-        public synchronized ISet<IMap<Variable, Term>> fetch(Literal l) {
+        public ISet<IMap<Variable, Term>> fetch(Literal l)
+        {
             // Get all of the substitutions in the KB that p unifies with
             ISet<IMap<Variable, Term>> allUnifiers = Factory.CreateSet<IMap<Variable, Term>>();
 
             IQueue<Literal> matchingFacts = fetchMatchingFacts(l);
             if (null != matchingFacts)
             {
-                for (Literal fact : matchingFacts)
+                foreach (Literal fact in matchingFacts)
                 {
-                    Map<Variable, Term> substitution = unifier.unify(
-                            l.getAtomicSentence(), fact.getAtomicSentence());
+                    IMap<Variable, Term> substitution = unifier.unify(l.getAtomicSentence(), fact.getAtomicSentence());
                     if (null != substitution)
                     {
                         allUnifiers.Add(substitution);
@@ -202,19 +203,18 @@
         {
             ISet<IMap<Variable, Term>> possibleSubstitutions = Factory.CreateSet<IMap<Variable, Term>>();
 
-            if (literals.size() > 0)
+            if (literals.Size() > 0)
             {
                 Literal first = literals.Get(0);
-                IQueue<Literal> rest = literals.subList(1, literals.size());
+                IQueue<Literal> rest = literals.subList(1, literals.Size());
 
-                recursiveFetch(Factory.CreateMap<Variable, Term>(), first, rest,
-                        possibleSubstitutions);
+                recursiveFetch(Factory.CreateMap<Variable, Term>(), first, rest, possibleSubstitutions);
             }
 
             return possibleSubstitutions;
         }
 
-        public Map<Variable, Term> unify(FOLNode x, FOLNode y)
+        public IMap<Variable, Term> unify(FOLNode x, FOLNode y)
         {
             return unifier.unify(x, y);
         }
@@ -237,18 +237,17 @@
         // Note: see page 277.
         public Sentence standardizeApart(Sentence sentence)
         {
-            return standardizeApart.standardizeApart(sentence, variableIndexical)
-                    .getStandardized();
+            return _standardizeApart.standardizeApart(sentence, variableIndexical).getStandardized();
         }
 
         public Clause standardizeApart(Clause clause)
         {
-            return standardizeApart.standardizeApart(clause, variableIndexical);
+            return _standardizeApart.standardizeApart(clause, variableIndexical);
         }
 
         public Chain standardizeApart(Chain chain)
         {
-            return standardizeApart.standardizeApart(chain, variableIndexical);
+            return _standardizeApart.standardizeApart(chain, variableIndexical);
         }
 
         public ISet<Variable> collectAllVariables(Sentence sentence)
@@ -274,7 +273,7 @@
             IQueue<Term> terms = Factory.CreateQueue<Term>();
 
             ISet<Variable> vars = variableCollector.collectAllVariables(forQuery);
-            for (Variable v : vars)
+            foreach (Variable v in vars)
             {
                 // Ensure copies of the variables are used.
                 terms.Add(v.copy());
@@ -298,178 +297,177 @@
         // Note: see pg. 281
         public bool isRenaming(Literal l, IQueue<Literal> possibleMatches)
         {
-
-            for (Literal q : possibleMatches)
+            foreach (Literal q in possibleMatches)
             {
                 if (l.isPositiveLiteral() != q.isPositiveLiteral())
                 {
                     continue;
                 }
-                Map<Variable, Term> subst = unifier.unify(l.getAtomicSentence(),
+                IMap<Variable, Term> subst = unifier.unify(l.getAtomicSentence(),
                         q.getAtomicSentence());
                 if (null != subst)
                 {
                     int cntVarTerms = 0;
-                    for (Term t : subst.values())
+                    foreach (Term t in subst.GetValues())
                     {
-                        if (t is Variable) {
-                cntVarTerms++;
+                        if (t is Variable)
+                        {
+                            cntVarTerms++;
+                        }
+                    }
+                    // If all the substitutions, even if none, map to Variables
+                    // then this is a renaming
+                    if (subst.Size() == cntVarTerms)
+                    {
+                        return true;
+                    }
+                }
             }
-        }
-				// If all the substitutions, even if none, map to Variables
-				// then this is a renaming
-				if (subst.size() == cntVarTerms) {
-					return true;
-				}
-			}
-}
 
-		return false;
-	}
-
-	 
-    public override string ToString()
-{
-    StringBuilder sb = new StringBuilder();
-    for (Sentence s : originalSentences)
-    {
-        sb.Append(s.ToString());
-        sb.Append("\n");
-    }
-    return sb.ToString();
-}
-
-//
-// PROTECTED METHODS
-//
-
-protected FOLParser getParser()
-{
-    return parser;
-}
-
-//
-// PRIVATE METHODS
-//
-
-// Note: pg 278, STORE(s) concept.
-private synchronized void store(Sentence sentence)
-{
-    originalSentences.Add(sentence);
-
-    // Convert the sentence to CNF
-    CNF cnfOfOrig = cnfConverter.convertToCNF(sentence);
-    for (Clause c : cnfOfOrig.getConjunctionOfClauses())
-    {
-        c.setProofStep(new ProofStepClauseClausifySentence(c, sentence));
-        if (c.isEmpty())
-        {
-            // This should not happen, if so the user
-            // is trying to add an unsatisfiable sentence
-            // to the KB.
-            throw new IllegalArgumentException(
-                    "Attempted to add unsatisfiable sentence to KB, orig=["
-                            + sentence + "] CNF=" + cnfOfOrig);
+            return false;
         }
 
-        // Ensure all clauses added to the KB are Standardized Apart.
-        c = standardizeApart.standardizeApart(c, variableIndexical);
 
-        // Will make all clauses immutable
-        // so that they cannot be modified externally.
-        c.setImmutable();
-        if (clauses.Add(c))
+        public override string ToString()
         {
-            // If added keep track of special types of
-            // clauses, as useful for query purposes
-            if (c.isDefiniteClause())
+            StringBuilder sb = new StringBuilder();
+            foreach (Sentence s in originalSentences)
             {
-                allDefiniteClauses.Add(c);
+                sb.Append(s.ToString());
+                sb.Append("\n");
             }
-            if (c.isImplicationDefiniteClause())
-            {
-                implicationDefiniteClauses.Add(c);
-            }
-            if (c.isUnitClause())
-            {
-                indexFact(c.getLiterals().iterator().next());
-            }
+            return sb.ToString();
         }
-    }
-}
 
-// Only if it is a unit clause does it get indexed as a fact
-// see pg. 279 for general idea.
-private void indexFact(Literal fact)
-{
-    string factKey = getFactKey(fact);
-    if (!indexFacts.containsKey(factKey))
-    {
-        indexFacts.Put(factKey, Factory.CreateQueue<Literal>());
-    }
+        //
+        // PROTECTED METHODS
+        //
 
-    indexFacts.Get(factKey).Add(fact);
-}
-
-private void recursiveFetch(IMap<Variable, Term> theta, Literal l,
-        IQueue<Literal> remainingLiterals,
-        ISet<IMap<Variable, Term>> possibleSubstitutions)
-{
-
-    // Find all substitutions for current predicate based on the
-    // substitutions of prior predicates in the list (i.e. SUBST with
-    // theta).
-    ISet<IMap<Variable, Term>> pSubsts = fetch(subst(theta, l));
-
-    // No substitutions, therefore cannot continue
-    if (null == pSubsts)
-    {
-        return;
-    }
-
-    for (IMap<Variable, Term> psubst : pSubsts)
-    {
-        // Ensure all prior substitution information is maintained
-        // along the chain of predicates (i.e. for shared variables
-        // across the predicates).
-        psubst.putAll(theta);
-        if (remainingLiterals.size() == 0)
+        protected FOLParser getParser()
         {
-            // This means I am at the end of the chain of predicates
-            // and have found a valid substitution.
-            possibleSubstitutions.Add(psubst);
+            return parser;
         }
-        else
+
+        //
+        // PRIVATE METHODS
+        //
+
+        // Note: pg 278, STORE(s) concept.
+        private void store(Sentence sentence)
         {
-            // Need to move to the next link in the chain of substitutions
-            Literal first = remainingLiterals.Get(0);
-            IQueue<Literal> rest = remainingLiterals.subList(1,
-                    remainingLiterals.size());
+            originalSentences.Add(sentence);
 
-            recursiveFetch(psubst, first, rest, possibleSubstitutions);
+            // Convert the sentence to CNF
+            CNF cnfOfOrig = cnfConverter.convertToCNF(sentence);
+            foreach (Clause cIter in cnfOfOrig.getConjunctionOfClauses())
+            {
+                Clause c = cIter;
+                c.setProofStep(new ProofStepClauseClausifySentence(c, sentence));
+                if (c.isEmpty())
+                {
+                    // This should not happen, if so the user
+                    // is trying to add an unsatisfiable sentence
+                    // to the KB.
+                    throw new IllegalArgumentException("Attempted to add unsatisfiable sentence to KB, orig=["
+                                    + sentence + "] CNF=" + cnfOfOrig);
+                }
+
+                // Ensure all clauses added to the KB are Standardized Apart.
+                c = _standardizeApart.standardizeApart(c, variableIndexical);
+
+                // Will make all clauses immutable
+                // so that they cannot be modified externally.
+                c.setImmutable();
+                if (clauses.Add(c))
+                {
+                    // If added keep track of special types of
+                    // clauses, as useful for query purposes
+                    if (c.isDefiniteClause())
+                    {
+                        allDefiniteClauses.Add(c);
+                    }
+                    if (c.isImplicationDefiniteClause())
+                    {
+                        implicationDefiniteClauses.Add(c);
+                    }
+                    if (c.isUnitClause())
+                    {
+                        indexFact(Util.first(c.getLiterals()));
+                    }
+                }
+            }
+        }
+
+        // Only if it is a unit clause does it get indexed as a fact see pg. 279 for general idea.
+        private void indexFact(Literal fact)
+        {
+            string factKey = getFactKey(fact);
+            if (!indexFacts.ContainsKey(factKey))
+            {
+                indexFacts.Put(factKey, Factory.CreateQueue<Literal>());
+            }
+
+            indexFacts.Get(factKey).Add(fact);
+        }
+
+        private void recursiveFetch(IMap<Variable, Term> theta, Literal l,
+                IQueue<Literal> remainingLiterals,
+                ISet<IMap<Variable, Term>> possibleSubstitutions)
+        {
+
+            // Find all substitutions for current predicate based on the
+            // substitutions of prior predicates in the list (i.e. SUBST with
+            // theta).
+            ISet<IMap<Variable, Term>> pSubsts = fetch(subst(theta, l));
+
+            // No substitutions, therefore cannot continue
+            if (null == pSubsts)
+            {
+                return;
+            }
+
+            foreach (IMap<Variable, Term> psubst in pSubsts)
+            {
+                // Ensure all prior substitution information is maintained
+                // along the chain of predicates (i.e. for shared variables
+                // across the predicates).
+                psubst.PutAll(theta);
+                if (remainingLiterals.Size() == 0)
+                {
+                    // This means I am at the end of the chain of predicates
+                    // and have found a valid substitution.
+                    possibleSubstitutions.Add(psubst);
+                }
+                else
+                {
+                    // Need to move to the next link in the chain of substitutions
+                    Literal first = remainingLiterals.Get(0);
+                    IQueue<Literal> rest = remainingLiterals.subList(1, remainingLiterals.Size());
+
+                    recursiveFetch(psubst, first, rest, possibleSubstitutions);
+                }
+            }
+        }
+
+        private IQueue<Literal> fetchMatchingFacts(Literal l)
+        {
+            return indexFacts.Get(getFactKey(l));
+        }
+
+        private string getFactKey(Literal l)
+        {
+            StringBuilder key = new StringBuilder();
+            if (l.isPositiveLiteral())
+            {
+                key.Append("+");
+            }
+            else
+            {
+                key.Append("-");
+            }
+            key.Append(l.getAtomicSentence().getSymbolicName());
+
+            return key.ToString();
         }
     }
-}
-
-private IQueue<Literal> fetchMatchingFacts(Literal l)
-{
-    return indexFacts.Get(getFactKey(l));
-}
-
-private string getFactKey(Literal l)
-{
-    StringBuilder key = new StringBuilder();
-    if (l.isPositiveLiteral())
-    {
-        key.Append("+");
-    }
-    else
-    {
-        key.Append("-");
-    }
-    key.Append(l.getAtomicSentence().getSymbolicName());
-
-    return key.ToString();
-}
-}
 }

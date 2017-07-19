@@ -7,7 +7,7 @@
         {
             IQueue<Page> result;
             // build page table
-            Map<string, Page> pageTable = PagesDataset.loadDefaultPages();
+            IMap<string, Page> pageTable = PagesDataset.loadDefaultPages();
             // Create HITS Ranker
             HITS hits = new HITS(pageTable);
             // run hits

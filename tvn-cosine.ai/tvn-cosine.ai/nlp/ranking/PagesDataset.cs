@@ -8,12 +8,12 @@
 
         private static WikiLinkFinder wlf;
 
-        public static Map<string, Page> loadDefaultPages()
+        public static IMap<string, Page> loadDefaultPages()
         {
             return loadPages(wikiPagesFolderPath);
         }
 
-        public static Map<string, Page> loadTestPages()
+        public static IMap<string, Page> loadTestPages()
         {
             return loadPages(testFilesFolderPath);
         }
@@ -27,10 +27,10 @@
          * @return a hashtable of Page objects, accessed by article name (which is a
          *         location for wikipedia: \wiki\*article name*)
          */
-        public static Map<string, Page> loadPages(string folderPath)
+        public static IMap<string, Page> loadPages(string folderPath)
         {
 
-            Map<string, Page> pageTable = Factory.CreateMap<string, Page>();
+            IMap<string, Page> pageTable = Factory.CreateMap<string, Page>();
             Page currPage;
             File[] listOfFiles;
             wlf = new WikiLinkFinder();
@@ -70,12 +70,12 @@
             string content = loadFileText(folder, f); // get html source as string
             p = new Page(pageLocation); // create the page object
             p.setContent(content); // give the page its html source as a string
-            p.getOutlinks().addAll(wlf.getOutlinks(p)); // search html source for
+            p.getOutlinks().AddAll(wlf.getOutlinks(p)); // search html source for
                                                         // links
             return p;
         }
 
-        public static Map<string, Page> determineAllInlinks(IMap<string, Page> pageTable)
+        public static IMap<string, Page> determineAllInlinks(IMap<string, Page> pageTable)
         {
             Page currPage;
             ISet<string> keySet = pageTable.GetKeys();
@@ -84,7 +84,7 @@
             {
                 currPage = pageTable.Get(keySetIterator.next());
                 // add the inlinks to an currently empty IQueue<string> object
-                currPage.getInlinks().addAll(wlf.getInlinks(currPage, pageTable));
+                currPage.getInlinks().AddAll(wlf.getInlinks(currPage, pageTable));
             }
             return pageTable;
         }

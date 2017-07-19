@@ -1,13 +1,11 @@
-﻿namespace tvn.cosine.ai.probability.example
+﻿using tvn.cosine.ai.probability.full;
+
+namespace tvn.cosine.ai.probability.example
 {
-    public class FullJointDistributionBurglaryAlarmModel extends
-            FullJointDistributionModel
-    {
-
-
-    public FullJointDistributionBurglaryAlarmModel()
-    {
-        base(new double[] {
+    public class FullJointDistributionBurglaryAlarmModel : FullJointDistributionModel
+    { 
+        public FullJointDistributionBurglaryAlarmModel()
+            : base(new double[] {
 				// B = t, E = t, A = t, J = t, M = t
 				0.000001197,
 				// B = t, E = t, A = t, J = t, M = f
@@ -72,9 +70,8 @@
 				0.009462047481,
 				// B = f, E = f, A = f, J = f, M = f
 				0.936742700619 }, ExampleRV.BURGLARY_RV,
-                ExampleRV.EARTHQUAKE_RV, ExampleRV.ALARM_RV,
-                ExampleRV.JOHN_CALLS_RV, ExampleRV.MARY_CALLS_RV);
-    }
-}
-
+                    ExampleRV.EARTHQUAKE_RV, ExampleRV.ALARM_RV,
+                    ExampleRV.JOHN_CALLS_RV, ExampleRV.MARY_CALLS_RV)
+        { }
+    } 
 }

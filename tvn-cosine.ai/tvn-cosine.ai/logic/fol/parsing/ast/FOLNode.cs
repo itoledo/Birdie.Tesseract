@@ -5,14 +5,10 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     public interface FOLNode : ParseTreeNode
     {
-        string getSymbolicName();
-
-        bool isCompound();
-
-        IQueue<T> getArgs<T>() where T : FOLNode;
-
-        object accept(FOLVisitor v, object arg);
-
+        string getSymbolicName(); 
+        bool isCompound(); 
+        IQueue<FOLNode> getArgs(); 
+        object accept(FOLVisitor v, object arg); 
         FOLNode copy();
     }
 }
