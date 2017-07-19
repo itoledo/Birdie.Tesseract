@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.learning.neural
+﻿using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.math;
+
+namespace tvn.cosine.ai.learning.neural
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 729<br>
@@ -19,7 +22,7 @@
 
         private readonly ActivationFunction activationFunction;
 
-	    private Vector lastActivationValues, lastInducedField;
+        private Vector lastActivationValues, lastInducedField;
 
         private Matrix lastWeightUpdateMatrix;
 
@@ -75,7 +78,7 @@
             Vector inducedFieldVector = new Vector(numberOfNeurons());
             for (int i = 0; i < numberOfNeurons(); i++)
             {
-                inducedFieldVector.setValue(i, inducedField.Get(i, 0));
+                inducedFieldVector.setValue(i, inducedField.get(i, 0));
             }
 
             lastInducedField = inducedFieldVector.copyVector();
@@ -171,7 +174,7 @@
             Vector result = new Vector(biasMatrix.getRowDimension());
             for (int i = 0; i < biasMatrix.getRowDimension(); i++)
             {
-                result.setValue(i, biasMatrix.Get(i, 0));
+                result.setValue(i, biasMatrix.get(i, 0));
             }
             biasVector = result;
         }
@@ -220,8 +223,7 @@
             {
                 for (int j = 0; j < aMatrix.getColumnDimension(); j++)
                 {
-                    double random = Util.generateRandomDoubleBetween(lowerLimit,
-                            upperLimit);
+                    double random = Util.generateRandomDoubleBetween(lowerLimit, upperLimit);
                     aMatrix.set(i, j, random);
                 }
             }

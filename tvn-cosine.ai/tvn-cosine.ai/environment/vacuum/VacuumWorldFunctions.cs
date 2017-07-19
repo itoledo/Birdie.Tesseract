@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.nondeterministic;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
@@ -43,7 +44,7 @@ namespace tvn.cosine.ai.environment.vacuum
         {
             private Agent agent;
 
-            VacuumWorldResults(Agent agent)
+            public VacuumWorldResults(Agent agent)
             {
                 this.agent = agent;
             }

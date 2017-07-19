@@ -65,7 +65,7 @@ namespace tvn.cosine.ai.search.nondeterministic
         /**
          * Returns the description of the possible actions available to the agent.
          */
-        IQueue<A> getActions(S state)
+        public IQueue<A> getActions(S state)
         {
             return actionsFn(state);
         }

@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.search.framework.qsearch
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.search.framework.qsearch
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.7, page 77.
@@ -32,75 +35,72 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class GraphSearchBFS<S, A> : QueueSearch<S, A> {
+    public class GraphSearchBFS<S, A> : QueueSearch<S, A>
+    { 
+        private ISet<S> explored = Factory.CreateSet<S>();
+        private ISet<S> frontierStates = Factory.CreateSet<S>();
+
+        public GraphSearchBFS()
+            : this(new NodeExpander<S, A>())
+        {  }
+
+        public GraphSearchBFS(NodeExpander<S, A> nodeExpander)
+            : base(nodeExpander)
+        {  }
 
 
-    private ISet<S> explored = Factory.CreateSet<>();
-    private ISet<S> frontierStates = Factory.CreateSet<>();
+        /**
+         * Clears the set of explored states and calls the search implementation of
+         * <code>QueSearch</code>
+         */
 
-    public GraphSearchBFS()
-    {
-        this(new NodeExpander<>());
-    }
-
-    public GraphSearchBFS(NodeExpander<S, A> nodeExpander)
-    {
-        base(nodeExpander);
-    }
-
-
-    /**
-	 * Clears the set of explored states and calls the search implementation of
-	 * <code>QueSearch</code>
-	 */
-     
-    public Node<S,A> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
-    {
-        // Initialize the explored set to be empty
-        explored.Clear();
-        frontierStates.Clear();
-        return super.findNode(problem, frontier);
-    }
-
-    /**
-	 * Inserts the node at the tail of the frontier if the corresponding state
-	 * is not already a frontier state and was not yet explored.
-	 */
-     
-    protected void addToFrontier(Node<S, A> node)
-    {
-        if (!explored.contains(node.getState()) && !frontierStates.contains(node.getState()))
+        public override Node<S, A> findNode(Problem<S, A> problem, IQueue<Node<S, A>> frontier)
         {
-            frontier.Add(node);
-            frontierStates.Add(node.getState());
-            updateMetrics(frontier.size());
+            // Initialize the explored set to be empty
+            explored.Clear();
+            frontierStates.Clear();
+            return base.findNode(problem, frontier);
+        }
+
+        /**
+         * Inserts the node at the tail of the frontier if the corresponding state
+         * is not already a frontier state and was not yet explored.
+         */
+
+        protected override void addToFrontier(Node<S, A> node)
+        {
+            if (!explored.Contains(node.getState()) && !frontierStates.Contains(node.getState()))
+            {
+                frontier.Add(node);
+                frontierStates.Add(node.getState());
+                updateMetrics(frontier.Size());
+            }
+        }
+
+        /**
+         * Removes the node at the head of the frontier, adds the corresponding
+         * state to the explored set, and returns the node.
+         * 
+         * @return the node at the head of the frontier.
+         */
+
+        protected override Node<S, A> removeFromFrontier()
+        {
+            Node<S, A> result = frontier.Pop();
+            explored.Add(result.getState());
+            frontierStates.Remove(result.getState());
+            updateMetrics(frontier.Size());
+            return result;
+        }
+
+        /**
+         * Checks whether there are still some nodes left.
+         */
+
+        protected override bool isFrontierEmpty()
+        {
+            return frontier.IsEmpty();
         }
     }
-
-    /**
-	 * Removes the node at the head of the frontier, adds the corresponding
-	 * state to the explored set, and returns the node.
-	 * 
-	 * @return the node at the head of the frontier.
-	 */
-     
-    protected Node<S, A> removeFromFrontier()
-    {
-        Node<S, A> result = frontier.Remove();
-        explored.Add(result.getState());
-        frontierStates.Remove(result.getState());
-        updateMetrics(frontier.size());
-        return result;
-    }
-
-    /**
-	 * Checks whether there are still some nodes left.
-	 */
-     
-    protected bool isFrontierEmpty()
-    {
-        return frontier.isEmpty();
-    }
-}
 
 }

@@ -1,6 +1,9 @@
 ﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.impl;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.agent;
+using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.environment.map
 {
@@ -21,7 +24,7 @@ namespace tvn.cosine.ai.environment.map
 
         // possibly null...
         private EnvironmentViewNotifier notifier = null;
-        private SearchForActions<string, MoveToAction> search = null;
+        private SearchForActions<string, MoveToAction> _search = null;
         private string[] goals = null;
         private int goalTestPos = 0;
 
@@ -30,7 +33,7 @@ namespace tvn.cosine.ai.environment.map
         {
             this.map = map;
             this.notifier = notifier;
-            this.search = search;
+            this._search = search;
         }
 
         public SimpleMapAgent(Map map, EnvironmentViewNotifier notifier,
@@ -41,7 +44,7 @@ namespace tvn.cosine.ai.environment.map
 
             this.map = map;
             this.notifier = notifier;
-            this.search = search;
+            this._search = search;
         }
 
         public SimpleMapAgent(Map map, EnvironmentViewNotifier notifier,
@@ -58,7 +61,7 @@ namespace tvn.cosine.ai.environment.map
         {
 
             this.map = map;
-            this.search = search;
+            this._search = search;
             this.goals = new string[goals.Length];
             System.Array.Copy(goals, 0, this.goals, 0, goals.Length);
         }
@@ -97,16 +100,16 @@ namespace tvn.cosine.ai.environment.map
 
         protected override IQueue<MoveToAction> search(Problem<string, MoveToAction> problem)
         {
-            return search.findActions(problem);
+            return _search.findActions(problem);
         }
 
         protected override void notifyViewOfMetrics()
         {
             if (notifier != null)
             {
-                ISet<string> keys = search.getMetrics().GetKeys();
+                ISet<string> keys = _search.getMetrics().keySet();
                 foreach (string key in keys)
-                    notifier.notifyViews("METRIC[" + key + "]=" + search.getMetrics().Get(key));
+                    notifier.notifyViews("METRIC[" + key + "]=" + _search.getMetrics().get(key));
             }
         }
     }

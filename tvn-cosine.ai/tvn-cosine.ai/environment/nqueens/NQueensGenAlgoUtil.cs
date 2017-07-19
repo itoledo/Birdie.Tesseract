@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.local;
 
 namespace tvn.cosine.ai.environment.nqueens
 {
@@ -24,7 +26,7 @@ namespace tvn.cosine.ai.environment.nqueens
 
         public static GoalTest<Individual<int>> getGoalTest()
         {
-            return new NQueensGenAlgoGoalTest();
+            return new NQueensGenAlgoGoalTest().test;
         }
 
 
@@ -105,13 +107,13 @@ namespace tvn.cosine.ai.environment.nqueens
             }
         }
 
-        public class NQueensGenAlgoGoalTest : GoalTest<Individual<int>>
+        public class NQueensGenAlgoGoalTest  
         {
             private readonly GoalTest<NQueensBoard> goalTest = NQueensFunctions.testGoal;
 
-            public bool est(Individual<int> state)
+            public bool test(Individual<int> state)
             {
-                return goalTest.test(getBoardForIndividual(state));
+                return goalTest(getBoardForIndividual(state));
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.learning.neural
 {

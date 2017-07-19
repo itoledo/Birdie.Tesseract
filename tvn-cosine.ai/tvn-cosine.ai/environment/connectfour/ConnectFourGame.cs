@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.search.adversarial;
 
 namespace tvn.cosine.ai.environment.connectfour
 {
@@ -15,17 +16,17 @@ namespace tvn.cosine.ai.environment.connectfour
         private string[] players = new string[] { "red", "yellow" };
         private ConnectFourState initialState = new ConnectFourState(6, 7);
 
-        public override ConnectFourState getInitialState()
+        public   ConnectFourState getInitialState()
         {
             return initialState;
         }
 
-        public override string[] getPlayers()
+        public   string[] getPlayers()
         {
             return players;
         }
 
-        public override string getPlayer(ConnectFourState state)
+        public   string getPlayer(ConnectFourState state)
         {
             return getPlayer(state.getPlayerToMove());
         }
@@ -60,7 +61,7 @@ namespace tvn.cosine.ai.environment.connectfour
             throw new IllegalArgumentException("Wrong player number.");
         }
 
-        public override IQueue<int> getActions(ConnectFourState state)
+        public   IQueue<int> getActions(ConnectFourState state)
         {
             IQueue<int> result = Factory.CreateQueue<int>();
             for (int i = 0; i < state.getCols(); i++)
@@ -69,19 +70,19 @@ namespace tvn.cosine.ai.environment.connectfour
             return result;
         }
 
-        public override ConnectFourState getResult(ConnectFourState state, int action)
+        public   ConnectFourState getResult(ConnectFourState state, int action)
         {
             ConnectFourState result = state.clone();
             result.dropDisk(action);
             return result;
         }
 
-        public override bool isTerminal(ConnectFourState state)
+        public   bool isTerminal(ConnectFourState state)
         {
             return state.getUtility() != -1;
         }
 
-        public override double getUtility(ConnectFourState state, string player)
+        public   double getUtility(ConnectFourState state, string player)
         {
             double result = state.getUtility();
             if (result != -1)

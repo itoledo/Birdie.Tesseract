@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.util.math.geom.shapes;
 
 namespace tvn.cosine.ai.environment.map
 {

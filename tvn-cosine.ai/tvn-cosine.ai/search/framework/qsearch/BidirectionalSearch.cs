@@ -40,8 +40,8 @@ namespace tvn.cosine.ai.search.framework.qsearch
         private bool isReverseActionTestEnabled = true;
 
         // index 0: original problem, index 2: reverse problem
-        private IQueue<IMap<S, ExtendedNode<S, A>>> explored;
-        private ExtendedNode<S, A> goalStateNode;
+        private IQueue<IMap<S, ExtendedNode>> explored;
+        private ExtendedNode goalStateNode;
 
         public BidirectionalSearch()
             : this(new NodeExpander<S, A>())
@@ -50,9 +50,9 @@ namespace tvn.cosine.ai.search.framework.qsearch
         public BidirectionalSearch(NodeExpander<S, A> nodeExpander)
             : base(nodeExpander)
         {
-            explored = Factory.CreateQueue<IMap<S, ExtendedNode<S, A>>>();
-            explored.Add(Factory.CreateMap<S, ExtendedNode<S, A>>());
-            explored.Add(Factory.CreateMap<S, ExtendedNode<S, A>>());
+            explored = Factory.CreateQueue<IMap<S, ExtendedNode>>();
+            explored.Add(Factory.CreateMap<S, ExtendedNode>());
+            explored.Add(Factory.CreateMap<S, ExtendedNode>());
         }
 
         public bool GetIsCancelled()
@@ -85,7 +85,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          *         containing a single NoOp Action if already at the goal, or an
          *         empty list if the goal could not be found.
          */
-        public Node<S, A> findNode(Problem<S, A> problem, IQueue<Node<S, A>> frontier)
+        public override Node<S, A> findNode(Problem<S, A> problem, IQueue<Node<S, A>> frontier)
         {
             if (!(problem is BidirectionalProblem<S, A>))
             {
@@ -100,9 +100,9 @@ namespace tvn.cosine.ai.search.framework.qsearch
 
             Problem<S, A> orgP = ((BidirectionalProblem<S, A>)problem).getOriginalProblem();
             Problem<S, A> revP = ((BidirectionalProblem<S, A>)problem).getReverseProblem();
-            ExtendedNode<S, A> initStateNode;
-            initStateNode = new ExtendedNode<S, A>(nodeExpander.createRootNode(orgP.getInitialState()), ORG_P_IDX);
-            goalStateNode = new ExtendedNode<S, A>(nodeExpander.createRootNode(revP.getInitialState()), REV_P_IDX);
+            ExtendedNode initStateNode;
+            initStateNode = new ExtendedNode(nodeExpander.createRootNode(orgP.getInitialState()), ORG_P_IDX);
+            goalStateNode = new ExtendedNode(nodeExpander.createRootNode(revP.getInitialState()), REV_P_IDX);
 
             if (orgP.getInitialState().Equals(revP.getInitialState()))
                 return getSolution(orgP, initStateNode, goalStateNode);
@@ -114,8 +114,8 @@ namespace tvn.cosine.ai.search.framework.qsearch
             while (!isFrontierEmpty() && !this.isCancelled)
             {
                 // choose a leaf node and remove it from the frontier
-                ExtendedNode<S, A> nodeToExpand = (ExtendedNode<S, A>)removeFromFrontier();
-                ExtendedNode<S, A> nodeFromOtherProblem;
+                ExtendedNode nodeToExpand = (ExtendedNode)removeFromFrontier();
+                ExtendedNode nodeFromOtherProblem;
 
                 // if the node contains a goal state then return the
                 // corresponding solution
@@ -126,7 +126,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
                 // frontier
                 foreach (Node<S, A> s in nodeExpander.expand(nodeToExpand, problem))
                 {
-                    ExtendedNode<S, A> successor = new ExtendedNode<S, A>(s, nodeToExpand.getProblemIndex());
+                    ExtendedNode successor = new ExtendedNode(s, nodeToExpand.getProblemIndex());
                     if (!isReverseActionTestEnabled || nodeToExpand.getProblemIndex() == ORG_P_IDX
                             || getReverseAction(orgP, successor) != null)
                     {
@@ -216,7 +216,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * both nodes must be linked to the same state. Success is not guaranteed if
          * some actions cannot be reversed.
          */
-        private Node<S, A> getSolution(Problem<S, A> orgP, ExtendedNode<S, A> node1, ExtendedNode<S, A> node2)
+        private Node<S, A> getSolution(Problem<S, A> orgP, ExtendedNode node1, ExtendedNode node2)
         {
             if (!node1.getState().Equals(node2.getState()))
             {
@@ -267,20 +267,20 @@ namespace tvn.cosine.ai.search.framework.qsearch
 
         private bool isExplored(Node<S, A> node)
         {
-            ExtendedNode<S, A> eNode = (ExtendedNode<S, A>)node;
+            ExtendedNode eNode = (ExtendedNode)node;
             return explored.Get(eNode.getProblemIndex()).ContainsKey(eNode.getState());
         }
 
 
         private void setExplored(Node<S, A> node)
         {
-            ExtendedNode<S, A> eNode = (ExtendedNode<S, A>)node;
+            ExtendedNode eNode = (ExtendedNode)node;
             explored.Get(eNode.getProblemIndex()).Put(eNode.getState(), eNode);
         }
 
-        private ExtendedNode<S, A> getCorrespondingNodeFromOtherProblem(ExtendedNode<S, A> node)
+        private ExtendedNode getCorrespondingNodeFromOtherProblem(ExtendedNode node)
         {
-            ExtendedNode<S, A> result = explored.Get(1 - node.getProblemIndex()).Get(node.getState());
+            ExtendedNode result = explored.Get(1 - node.getProblemIndex()).Get(node.getState());
 
             // Caution: The goal test of the original problem should always include
             // the root node of the reverse problem as that node might not yet have
@@ -298,7 +298,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * @author Ruediger Lunde
          *
          */
-        class ExtendedNode<S, A> : Node<S, A>
+        class ExtendedNode : Node<S, A>
         {
             int problemIndex;
 

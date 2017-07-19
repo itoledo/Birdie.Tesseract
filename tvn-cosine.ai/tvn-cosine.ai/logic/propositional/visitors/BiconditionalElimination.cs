@@ -33,7 +33,7 @@ namespace tvn.cosine.ai.logic.propositional.visitors
         }
 
 
-        public Sentence visitBinarySentence(ComplexSentence s, object arg)
+        public override Sentence visitBinarySentence(ComplexSentence s, object arg)
         {
             Sentence result = null;
             if (s.isBiconditionalSentence())

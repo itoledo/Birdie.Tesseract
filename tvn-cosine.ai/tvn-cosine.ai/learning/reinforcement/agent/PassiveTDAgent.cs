@@ -1,4 +1,6 @@
 ﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.reinforcement.agent
 {
@@ -45,11 +47,11 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         // N<sub>s</sub>, a table of frequencies for states, initially zero
         private FrequencyCounter<S> Ns = new FrequencyCounter<S>();
         // s,a,r, the previous state, action, and reward, initially null
-        private S s = null;
-        private A a = null;
-        private double r = null;
+        private S s;
+        private A a;
+        private double? r;
         //
-        private double alpha = 0.0;
+        private double _alpha = 0.0;
         private double gamma = 0.0;
 
         /**
@@ -64,8 +66,8 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          */
         public PassiveTDAgent(IMap<S, A> fixedPolicy, double alpha, double gamma)
         {
-            this.pi.putAll(fixedPolicy);
-            this.alpha = alpha;
+            this.pi.PutAll(fixedPolicy);
+            this._alpha = alpha;
             this.gamma = gamma;
         }
 
@@ -78,8 +80,8 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          *            r'.
          * @return an action
          */
-         
-    public A execute(PerceptStateReward<S> percept)
+
+        public override A execute(PerceptStateReward<S> percept)
         {
             // if s' is new then U[s'] <- r'
             S sDelta = percept.state();
@@ -95,13 +97,13 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
                 Ns.incrementFor(s);
                 // U[s] <- U[s] + &alpha;(N<sub>s</sub>[s])(r + &gamma;U[s'] - U[s])
                 double U_s = U.Get(s);
-                U.Put(s, U_s + alpha(Ns, s) * (r + gamma * U.Get(sDelta) - U_s));
+                U.Put(s, U_s + alpha(Ns, s) * (r.Value + gamma * U.Get(sDelta) - U_s));
             }
             // if s'.TERMINAL? then s,a,r <- null else s,a,r <- s',&pi;[s'],r'
             if (isTerminal(sDelta))
             {
-                s = null;
-                a = null;
+                s = default(S);
+                a = default(A);
                 r = null;
             }
             else
@@ -115,19 +117,19 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             return a;
         }
 
-         
-    public IMap<S, double> getUtility()
+
+        public override IMap<S, double> getUtility()
         {
             return Factory.CreateMap<S, double>(U);
         }
 
-         
-    public void reset()
+
+        public override void reset()
         {
             U = Factory.CreateMap<S, double>();
-            Ns.Clear();
-            s = null;
-            a = null;
+            Ns.clear();
+            s = default(S);
+            a = default(A);
             r = null;
         }
 
@@ -152,7 +154,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         {
             // Default implementation is just to return a fixed parameter value
             // irrespective of the # of times a state has been encountered
-            return alpha;
+            return _alpha;
         }
 
         //

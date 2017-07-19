@@ -49,7 +49,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
         //
         // START-ForwardBackwardInference
 
-        public IQueue<CategoricalDistribution> forwardBackward(IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
+        public virtual IQueue<CategoricalDistribution> forwardBackward(IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
         {
             // local variables: fv, a vector of forward messages for steps 0,...,t
             IQueue<Matrix> fv = Factory.CreateQueue<Matrix>();
@@ -80,13 +80,13 @@ namespace tvn.cosine.ai.probability.hmm.exact
         }
 
 
-        public CategoricalDistribution forward(CategoricalDistribution f1_t, IQueue<AssignmentProposition> e_tp1)
+        public virtual CategoricalDistribution forward(CategoricalDistribution f1_t, IQueue<AssignmentProposition> e_tp1)
         {
             return hmm.convert(forward(hmm.convert(f1_t), hmm.getEvidence(e_tp1)));
         }
 
 
-        public CategoricalDistribution backward(CategoricalDistribution b_kp2t, IQueue<AssignmentProposition> e_kp1)
+        public virtual CategoricalDistribution backward(CategoricalDistribution b_kp2t, IQueue<AssignmentProposition> e_kp1)
         {
             return hmm.convert(backward(hmm.convert(b_kp2t), hmm.getEvidence(e_kp1)));
         }
@@ -107,7 +107,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
          *            <b>O</b><sub>t+1</sub>
          * @return <b>f</b><sub>1:t+1</sub>
          */
-        public Matrix forward(Matrix f1_t, Matrix O_tp1)
+        public virtual Matrix forward(Matrix f1_t, Matrix O_tp1)
         {
             return hmm.normalize(O_tp1.times(hmm.getTransitionModel().transpose().times(f1_t)));
         }
@@ -125,7 +125,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
          *            <b>O</b><sub>k+1</sub>
          * @return <b>b</b><sub>k+1:t</sub>
          */
-        public Matrix backward(Matrix b_kp2t, Matrix O_kp1)
+        public virtual Matrix backward(Matrix b_kp2t, Matrix O_kp1)
         {
             return hmm.getTransitionModel().times(O_kp1).times(b_kp2t);
         }

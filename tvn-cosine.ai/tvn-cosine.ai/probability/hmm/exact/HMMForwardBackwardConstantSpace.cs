@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
         //
         // START-ForwardBackwardInference
 
-        public IQueue<CategoricalDistribution> forwardBackward(IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
+        public override IQueue<CategoricalDistribution> forwardBackward(IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
         {
             // local variables: f, the forward message <- prior
             Matrix f = hmm.convert(prior);

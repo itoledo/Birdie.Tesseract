@@ -1,5 +1,10 @@
 ﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.qsearch;
+using tvn.cosine.ai.search.informed;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.environment.wumpusworld
@@ -104,11 +109,11 @@ namespace tvn.cosine.ai.environment.wumpusworld
             // Optimization: The agent is aware of it's position - the KB can profit from that!
             getKB().tellTemporalPhysicsSentences(t, currentPosition);
 
-            ISet<Room> safe ;
-            ISet<Room> unvisited;
+            ISet<Room> safe = null;
+            ISet<Room> unvisited = null;
 
             // Optimization: Do not ask anything during plan execution (different from pseudo-code)
-            if (plan.isEmpty())
+            if (plan.IsEmpty())
             {
                 notifyViews("Reasoning (t=" + t + ", Percept=" + percept + ", Pos=" + currentPosition + ") ...");
                 // safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
@@ -118,7 +123,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
 
             // if ASK(KB, Glitter<sup>t</sup>) = true then
             // Optimization: Use percept (condition can only be true if plan is empty).
-            if (plan.isEmpty() && ((WumpusPercept)percept).isGlitter())
+            if (plan.IsEmpty() && ((WumpusPercept)percept).isGlitter())
             {
                 // plan <- [Grab] + PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
                 ISet<Room> goals = Factory.CreateSet<Room>();
@@ -129,7 +134,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             }
 
             // if plan is empty then
-            if (plan.isEmpty())
+            if (plan.IsEmpty())
             {
                 // unvisited <- {[x, y] : ASK(KB, L<sup>t'</sup><sub>x,y</sub>) = false for all t' &le; t}
                 // Optimization: Agent remembers visited locations, no need to ask.
@@ -139,7 +144,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             }
 
             // if plan is empty and ASK(KB, HaveArrow<sup>t</sup>) = true then
-            if (plan.isEmpty() && getKB().askHaveArrow(t))
+            if (plan.IsEmpty() && getKB().askHaveArrow(t))
             {
                 // possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}
                 ISet<Room> possibleWumpus = getKB().askPossibleWumpusRooms(t);
@@ -149,7 +154,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             }
 
             // if plan is empty then //no choice but to take a risk
-            if (plan.isEmpty())
+            if (plan.IsEmpty())
             {
                 // not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}
                 // Optimization: Do not check visited rooms again.
@@ -161,17 +166,17 @@ namespace tvn.cosine.ai.environment.wumpusworld
             }
 
             // if plan is empty then
-            if (plan.isEmpty())
+            if (plan.IsEmpty())
             {
                 notifyViews("Going home.");
                 // plan PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
-                ISet<Room> goal = Factory.CreateSet<>();
+                ISet<Room> goal = Factory.CreateSet<Room>();
                 goal.Add(modelCave.getStart().getRoom());
                 plan.AddAll(planRouteToRooms(goal, safe));
                 plan.Add(WumpusAction.CLIMB);
             }
             // action <- POP(plan)
-            WumpusAction action = plan.Remove();
+            WumpusAction action = plan.Pop();
             // TELL(KB, MAKE-ACTION-SENTENCE(action, t))
             getKB().makeActionSentence(action, t);
             // t <- t+1
@@ -193,19 +198,20 @@ namespace tvn.cosine.ai.environment.wumpusworld
          * @return the best sequence of actions that the agent have to do to reach a
          *         goal from the current position.
          */
-        public IQueue<WumpusAction> planRoute(Set<AgentPosition> goals, ISet<Room> allowed)
+        public override IQueue<WumpusAction> planRoute(ISet<AgentPosition> goals, ISet<Room> allowed)
         {
             modelCave.setAllowed(allowed);
-            Problem<AgentPosition, WumpusAction> problem 
+            Problem<AgentPosition, WumpusAction> problem
                 = new GeneralProblem<AgentPosition, WumpusAction>(currentPosition,
                     WumpusFunctions.createActionsFunction(modelCave),
-                    WumpusFunctions.createResultFunction(modelCave), 
-                    goals.contains);
+                    WumpusFunctions.createResultFunction(modelCave),
+                    goals.Contains);
             SearchForActions<AgentPosition, WumpusAction> search =
-                    new AStarSearch<>(new GraphSearch<>(), new ManhattanHeuristicFunction(goals));
-            Optional<IQueue<WumpusAction>> actions = search.findActions(problem);
+                    new AStarSearch<AgentPosition, WumpusAction>(
+                        new GraphSearch<AgentPosition, WumpusAction>(), new ManhattanHeuristicFunction(goals));
+            IQueue<WumpusAction> actions = search.findActions(problem);
 
-            return actions.isPresent() ? actions.Get() : Collections.emptyList();
+            return actions;
         }
 
         /**
@@ -214,18 +220,19 @@ namespace tvn.cosine.ai.environment.wumpusworld
         private void updateAgentPosition(WumpusAction action)
         {
             modelCave.setAllowed(modelCave.getAllRooms());
-            switch (action)
+
+            if (action.Equals(WumpusAction.FORWARD))
             {
-                case FORWARD:
-                    currentPosition = modelCave.moveForward(currentPosition);
-                    break;
-                case TURN_LEFT:
-                    currentPosition = modelCave.turnLeft(currentPosition);
-                    break;
-                case TURN_RIGHT:
-                    currentPosition = modelCave.turnRight(currentPosition);
-                    break;
+                currentPosition = modelCave.moveForward(currentPosition);
+            }
+            else if (action.Equals(WumpusAction.TURN_LEFT))
+            {
+                currentPosition = modelCave.turnLeft(currentPosition);
+            }
+            else if (action.Equals(WumpusAction.TURN_RIGHT))
+            {
+                currentPosition = modelCave.turnRight(currentPosition);
             }
         }
     }
-}
+} 

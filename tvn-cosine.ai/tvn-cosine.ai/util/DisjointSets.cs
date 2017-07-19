@@ -225,7 +225,7 @@ namespace tvn.cosine.ai.util
         // the Set itself and not its elements
         // are used to determine its hashCode
         // and equality.
-        private class IdentityHashSet<H> : ISet<H>, IHashable, IEquatable
+        private class IdentityHashSet<H> : Set<H>, IHashable, IEquatable
         {
             public override int GetHashCode()
             {

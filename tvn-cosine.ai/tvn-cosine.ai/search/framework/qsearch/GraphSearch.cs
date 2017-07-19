@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.search.framework.qsearch
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.search.framework.qsearch
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.7, page 77.
@@ -34,86 +37,83 @@
      *
      * @author Ruediger Lunde
      */
-    public class GraphSearch<S, A> : QueueSearch<S, A> {
-
-
-    private ISet<S> explored = Factory.CreateSet<>();
-
-    public GraphSearch()
+    public class GraphSearch<S, A> : QueueSearch<S, A>
     {
-        this(new NodeExpander<>());
-    }
+        private ISet<S> explored = Factory.CreateSet<S>();
 
-    public GraphSearch(NodeExpander<S, A> nodeExpander)
-    {
-        base(nodeExpander);
-    }
+        public GraphSearch()
+            : this(new NodeExpander<S, A>())
+        { }
 
-    /**
-	 * Clears the set of explored states and calls the search implementation of
-	 * {@link QueueSearch}.
-	 */
-     
-    public Node<S,A> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
-    {
-        // initialize the explored set to be empty
-        explored.Clear();
-        return super.findNode(problem, frontier);
-    }
+        public GraphSearch(NodeExpander<S, A> nodeExpander)
+                : base(nodeExpander)
+        {  }
 
-    /**
-	 * Inserts the node at the tail of the frontier if the corresponding state
-	 * was not yet explored.
-	 */
-     
-    protected void addToFrontier(Node<S, A> node)
-    {
-        if (!explored.contains(node.getState()))
+        /**
+         * Clears the set of explored states and calls the search implementation of
+         * {@link QueueSearch}.
+         */
+
+        public override Node<S, A> findNode(Problem<S, A> problem, IQueue<Node<S, A>> frontier)
         {
-            frontier.Add(node);
-            updateMetrics(frontier.size());
+            // initialize the explored set to be empty
+            explored.Clear();
+            return base.findNode(problem, frontier);
+        }
+
+        /**
+         * Inserts the node at the tail of the frontier if the corresponding state
+         * was not yet explored.
+         */
+
+        protected override void addToFrontier(Node<S, A> node)
+        {
+            if (!explored.Contains(node.getState()))
+            {
+                frontier.Add(node);
+                updateMetrics(frontier.Size());
+            }
+        }
+
+        /**
+         * Removes the node at the head of the frontier, adds the corresponding
+         * state to the explored set, and returns the node. Leading nodes of already
+         * explored states are dropped. So the resulting node state will always be
+         * unexplored yet.
+         * 
+         * @return the node at the head of the frontier.
+         */
+
+        protected override Node<S, A> removeFromFrontier()
+        {
+            cleanUpFrontier(); // not really necessary because isFrontierEmpty
+                               // should be called before...
+            Node<S, A> result = frontier.Pop();
+            explored.Add(result.getState());
+            updateMetrics(frontier.Size());
+            return result;
+        }
+
+        /**
+         * Pops nodes of already explored states from the head of the frontier
+         * and checks whether there are still some nodes left.
+         */
+
+        protected override bool isFrontierEmpty()
+        {
+            cleanUpFrontier();
+            updateMetrics(frontier.Size());
+            return frontier.IsEmpty();
+        }
+
+        /**
+         * Helper method which removes nodes of already explored states from the head
+         * of the frontier.
+         */
+        private void cleanUpFrontier()
+        {
+            while (!frontier.IsEmpty() && explored.Contains(frontier.Peek().getState()))
+                frontier.Pop();
         }
     }
-
-    /**
-	 * Removes the node at the head of the frontier, adds the corresponding
-	 * state to the explored set, and returns the node. Leading nodes of already
-	 * explored states are dropped. So the resulting node state will always be
-	 * unexplored yet.
-	 * 
-	 * @return the node at the head of the frontier.
-	 */
-     
-    protected Node<S, A> removeFromFrontier()
-    {
-        cleanUpFrontier(); // not really necessary because isFrontierEmpty
-                           // should be called before...
-        Node<S, A> result = frontier.Remove();
-        explored.Add(result.getState());
-        updateMetrics(frontier.size());
-        return result;
-    }
-
-    /**
-	 * Pops nodes of already explored states from the head of the frontier
-	 * and checks whether there are still some nodes left.
-	 */
-     
-    protected bool isFrontierEmpty()
-    {
-        cleanUpFrontier();
-        updateMetrics(frontier.size());
-        return frontier.isEmpty();
-    }
-
-    /**
-	 * Helper method which removes nodes of already explored states from the head
-	 * of the frontier.
-	 */
-    private void cleanUpFrontier()
-    {
-        while (!frontier.isEmpty() && explored.contains(frontier.element().getState()))
-            frontier.Remove();
-    }
-}
 }

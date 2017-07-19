@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.environment.wumpusworld
+﻿using System.Text;
+using tvn.cosine.ai.agent;
+
+namespace tvn.cosine.ai.environment.wumpusworld
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 237.<br>

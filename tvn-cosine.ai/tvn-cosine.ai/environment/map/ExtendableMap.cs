@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.math.geom.shapes;
 
 namespace tvn.cosine.ai.environment.map
 {
@@ -36,14 +37,14 @@ namespace tvn.cosine.ai.environment.map
         /** Removes everything. */
         public void clear()
         {
-            links.Clear();
+            links.clear();
             locationPositions.Clear();
         }
 
         /** Clears all connections but keeps location position informations. */
         public void clearLinks()
         {
-            links.Clear();
+            links.clear();
         }
 
         /** Returns a list of all locations. */
@@ -65,7 +66,7 @@ namespace tvn.cosine.ai.environment.map
         public IQueue<string> getPossibleNextLocations(string location)
         {
             IQueue<string> result = links.getSuccessors(location);
-            result.Sort();
+            result.Sort(new Queue<string>.Comparer());
             return result;
         }
 
@@ -86,7 +87,7 @@ namespace tvn.cosine.ai.environment.map
          */
         public double getDistance(string  fromLocation, string toLocation)
         {
-            return links.Get(fromLocation, toLocation);
+            return links.get(fromLocation, toLocation);
         }
 
         /** Adds a one-way connection to the map. */
@@ -116,14 +117,14 @@ namespace tvn.cosine.ai.environment.map
         /** Removes a one-way connection. */
         public void removeUnidirectionalLink(string  fromLocation, string toLocation)
         {
-            links.Remove(fromLocation, toLocation);
+            links.remove(fromLocation, toLocation);
         }
 
         /** Removes the two corresponding one-way connections. */
         public void removeBidirectionalLink(string  fromLocation, string toLocation)
         {
-            links.Remove(fromLocation, toLocation);
-            links.Remove(toLocation, fromLocation);
+            links.remove(fromLocation, toLocation);
+            links.remove(toLocation, fromLocation);
         }
 
         /**

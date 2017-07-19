@@ -43,7 +43,7 @@ namespace tvn.cosine.ai.logic.fol
                     .getAtomicSentence().accept(this, theta));
         }
 
-        public object visitVariable(Variable variable, object arg)
+        public override object visitVariable(Variable variable, object arg)
         {
             IMap<Variable, Term> substitution = (IMap<Variable, Term>)arg;
             if (substitution.ContainsKey(variable))
@@ -53,7 +53,7 @@ namespace tvn.cosine.ai.logic.fol
             return variable.copy();
         }
 
-        public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
+        public override object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
             IMap<Variable, Term> substitution = (IMap<Variable, Term>)arg;
 

@@ -180,6 +180,10 @@
             return new Rect2D(start.getX(), start.getY(), end.getX(), end.getY());
         }
 
+        IGeometric2D IGeometric2D.transform(TransformMatrix2D matrix)
+        {
+            return transform(matrix);
+        }
 
         public Line2D transform(TransformMatrix2D matrix)
         {

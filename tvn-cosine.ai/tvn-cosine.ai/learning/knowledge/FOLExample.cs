@@ -1,6 +1,8 @@
 ﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.logic.fol;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.learning.knowledge
 {

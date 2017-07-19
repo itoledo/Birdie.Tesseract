@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.search.nondeterministic
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+
+namespace tvn.cosine.ai.search.nondeterministic
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.11, page
@@ -102,12 +105,12 @@
                 return new Plan();
             }
             // if state is on path then return failure
-            if (path.contains(state))
+            if (path.Contains(state))
             {
                 return null;
             }
             // for each action in problem.ACTIONS(state) do
-            for (A action : problem.getActions(state))
+            foreach (A action in problem.getActions(state))
             {
                 // plan <- AND-SEARCH(RESULTS(state, action), problem, [state|path])
                 Plan plan = andSearch(
@@ -147,7 +150,12 @@
         {
             // do metrics, setup
             this.expandedNodes++;
-            object[]  _states = states.toArray();
+
+            object[] _states = new object[states.Size()];
+            for (int i = 0; i < states.Size(); ++i)
+            {
+                _states[i] = states.Get(i);
+            }
             Plan[] plans = new Plan[_states.Length];
             // for each s_i in states do
             for (int i = 0; i < _states.Length; i++)
@@ -162,7 +170,7 @@
             }
             // return [if s_1 then plan_1 else ... if s_n-1 then plan_n-1 else
             // plan_n]
-            object[]  steps = new object[plans.Length];
+            object[] steps = new object[plans.Length];
             if (plans.Length > 0)
             {
                 for (int i = 0; i < plans.Length - 1; i++)

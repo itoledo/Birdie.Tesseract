@@ -27,49 +27,50 @@
      * @author Ruediger Lunde
      * @author Ravi Mohan
      */
-    public class TreeSearch<S, A> : QueueSearch<S, A> {
-
-
-    public TreeSearch()
+    public class TreeSearch<S, A> : QueueSearch<S, A>
     {
-        this(new NodeExpander<>());
-    }
+        public TreeSearch()
+            : this(new NodeExpander<S, A>())
+        {
 
-    public TreeSearch(NodeExpander<S, A> nodeExpander)
-    {
-        base(nodeExpander);
-    }
+        }
 
-    /**
-	 * Inserts the node at the tail of the frontier.
-	 */
-     
-    protected void addToFrontier(Node<S, A> node)
-    {
-        frontier.Add(node);
-        updateMetrics(frontier.size());
-    }
+        public TreeSearch(NodeExpander<S, A> nodeExpander)
+            : base(nodeExpander)
+        {
 
-    /**
-	 * Removes and returns the node at the head of the frontier.
-	 * 
-	 * @return the node at the head of the frontier.
-	 */
-     
-    protected Node<S, A> removeFromFrontier()
-    {
-        Node<S, A> result = frontier.Remove();
-        updateMetrics(frontier.size());
-        return result;
-    }
+        }
 
-    /**
-	 * Checks whether the frontier contains not yet expanded nodes.
-	 */
-     
-    protected bool isFrontierEmpty()
-    {
-        return frontier.isEmpty();
+        /**
+         * Inserts the node at the tail of the frontier.
+         */
+
+        protected override void addToFrontier(Node<S, A> node)
+        {
+            frontier.Add(node);
+            updateMetrics(frontier.Size());
+        }
+
+        /**
+         * Removes and returns the node at the head of the frontier.
+         * 
+         * @return the node at the head of the frontier.
+         */
+
+        protected override Node<S, A> removeFromFrontier()
+        {
+            Node<S, A> result = frontier.Pop();
+            updateMetrics(frontier.Size());
+            return result;
+        }
+
+        /**
+         * Checks whether the frontier contains not yet expanded nodes.
+         */
+
+        protected override bool isFrontierEmpty()
+        {
+            return frontier.IsEmpty();
+        }
     }
-}
 }

@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.search.uninformed
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.qsearch;
+
+namespace tvn.cosine.ai.search.uninformed
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.14, page
@@ -36,21 +41,29 @@
      * @author Ruediger Lunde
      * @author Ciaran O'Reilly
      */
-    public class UniformCostSearch<S, A> : QueueBasedSearch<S, A> {
-
-    /** Creates a UniformCostSearch instance using GraphSearch */
-    public UniformCostSearch()
+    public class UniformCostSearch<S, A> : QueueBasedSearch<S, A>
     {
-        this(new GraphSearch<>());
-    }
+        class UniformCostSearchComparer : IComparer<Node<S, A>>
+        {
+            private readonly System.Collections.Generic.Comparer<double> comparer = System.Collections.Generic.Comparer<double>.Default;
+            public int Compare(Node<S, A> x, Node<S, A> y)
+            {
+                return comparer.Compare(x.getPathCost(), y.getPathCost());
+            }
+        }
+        /** Creates a UniformCostSearch instance using GraphSearch */
+        public UniformCostSearch()
+                : this(new GraphSearch<S, A>())
+        {
 
-    /**
-	 * Combines UniformCostSearch queue definition with the specified
-	 * search space exploration strategy.
-	 */
-    public UniformCostSearch(QueueSearch<S, A> impl)
-    {
-        base(impl, QueueFactory.createPriorityQueue(Comparator.comparing(Node::getPathCost)));
+        }
+
+        /**
+         * Combines UniformCostSearch queue definition with the specified
+         * search space exploration strategy.
+         */
+        public UniformCostSearch(QueueSearch<S, A> impl)
+                : base(impl, Factory.CreatePriorityQueue<Node<S, A>>(new UniformCostSearchComparer()))
+        {  }
     }
-}
 }

@@ -1,6 +1,10 @@
 ﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.impl;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.agent;
+using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.informed;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.environment.map
@@ -23,13 +27,13 @@ namespace tvn.cosine.ai.environment.map
 
         // possibly null...
         protected EnvironmentViewNotifier notifier = null;
-        private SearchForActions<string, MoveToAction> search = null;
+        private SearchForActions<string, MoveToAction> _search = null;
         private Function<string, ToDoubleFunction<Node<string, MoveToAction>>> hFnFactory;
 
         public MapAgent(Map map, SearchForActions<string, MoveToAction> search, string goal)
         {
             this.map = map;
-            this.search = search;
+            this._search = search;
             goals.Add(goal);
         }
 
@@ -44,7 +48,7 @@ namespace tvn.cosine.ai.environment.map
             IQueue<string> goals)
         {
             this.map = map;
-            this.search = search;
+            this._search = search;
             this.goals.AddAll(goals);
         }
 
@@ -91,7 +95,7 @@ namespace tvn.cosine.ai.environment.map
             if (currGoalIdx < goals.Size() - 1)
             {
                 goal = goals.Get(++currGoalIdx);
-                if (hFnFactory != null && search is Informed)
+                if (hFnFactory != null && search is Informed<string, MoveToAction>)
                     ((Informed<string, MoveToAction>)search)
                         .setHeuristicFunction(hFnFactory(goal));
 
@@ -109,9 +113,9 @@ namespace tvn.cosine.ai.environment.map
                     (string)goal);
         }
          
-    protected IQueue<MoveToAction> search(Problem<string, MoveToAction> problem)
+    protected override IQueue<MoveToAction> search(Problem<string, MoveToAction> problem)
         {
-            IQueue<MoveToAction> result = search.findActions(problem);
+            IQueue<MoveToAction> result = _search.findActions(problem);
             notifyViewOfMetrics();
             return result;
         }
@@ -119,7 +123,7 @@ namespace tvn.cosine.ai.environment.map
         protected void notifyViewOfMetrics()
         {
             if (notifier != null)
-                notifier.notifyViews("Search metrics: " + search.getMetrics());
+                notifier.notifyViews("Search metrics: " + _search.getMetrics());
         }
     }
 }

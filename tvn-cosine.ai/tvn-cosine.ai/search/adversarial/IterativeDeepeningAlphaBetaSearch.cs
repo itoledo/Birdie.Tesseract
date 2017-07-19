@@ -70,7 +70,7 @@ namespace tvn.cosine.ai.search.adversarial
             this.timer = new Timer(time);
         }
 
-        public void setLogEnabled(bool b)
+        public virtual void setLogEnabled(bool b)
         {
             logEnabled = b;
         }
@@ -82,7 +82,7 @@ namespace tvn.cosine.ai.search.adversarial
          * subsequent depth-limited search runs.
          */
 
-        public A makeDecision(S state)
+        public virtual A makeDecision(S state)
         {
             metrics = new Metrics();
             StringBuilder logText = null;
@@ -126,7 +126,7 @@ namespace tvn.cosine.ai.search.adversarial
         }
 
         // returns an utility value
-        public double maxValue(S state, P player, double alpha, double beta, int depth)
+        public virtual double maxValue(S state, P player, double alpha, double beta, int depth)
         {
             updateMetrics(depth);
             if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred())
@@ -149,7 +149,7 @@ namespace tvn.cosine.ai.search.adversarial
         }
 
         // returns an utility value
-        public double minValue(S state, P player, double alpha, double beta, int depth)
+        public virtual double minValue(S state, P player, double alpha, double beta, int depth)
         {
             updateMetrics(depth);
             if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred())
@@ -181,7 +181,7 @@ namespace tvn.cosine.ai.search.adversarial
          * Returns some statistic data from the last search.
          */
 
-        public Metrics getMetrics()
+        public virtual Metrics getMetrics()
         {
             return metrics;
         }
@@ -191,7 +191,7 @@ namespace tvn.cosine.ai.search.adversarial
          * search step. This implementation increments the current depth limit by
          * one.
          */
-        protected void incrementDepthLimit()
+        protected virtual void incrementDepthLimit()
         {
             currDepthLimit++;
         }
@@ -201,7 +201,7 @@ namespace tvn.cosine.ai.search.adversarial
          * situations where a clear best action exists. This implementation returns
          * always false.
          */
-        protected bool isSignificantlyBetter(double newUtility, double utility)
+        protected virtual bool isSignificantlyBetter(double newUtility, double utility)
         {
             return false;
         }
@@ -212,7 +212,7 @@ namespace tvn.cosine.ai.search.adversarial
          * returns true if the given value (for the currently preferred action
          * result) is the highest or lowest utility value possible.
          */
-        protected bool hasSafeWinner(double resultUtility)
+        protected virtual bool hasSafeWinner(double resultUtility)
         {
             return resultUtility <= utilMin || resultUtility >= utilMax;
         }
@@ -223,7 +223,7 @@ namespace tvn.cosine.ai.search.adversarial
          * terminal states and <code>(utilMin + utilMax) / 2</code> for non-terminal
          * states. When overriding, first call the super implementation!
          */
-        protected double eval(S state, P player)
+        protected virtual double eval(S state, P player)
         {
             if (game.isTerminal(state))
             {
@@ -240,7 +240,7 @@ namespace tvn.cosine.ai.search.adversarial
          * Primitive operation for action ordering. This implementation preserves
          * the original order (provided by the game).
          */
-        public IQueue<A> orderActions(S state, IQueue<A> actions, P player, int depth)
+        public virtual IQueue<A> orderActions(S state, IQueue<A> actions, P player, int depth)
         {
             return actions;
         }

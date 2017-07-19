@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.nondeterministic
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.nondeterministic
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 136.<br>

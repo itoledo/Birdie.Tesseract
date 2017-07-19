@@ -13,8 +13,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
      * 
      */
     public class CPT : ConditionalProbabilityTable
-    {
-
+    { 
         private RandomVariable on = null;
         private ISet<RandomVariable> parents = Factory.CreateSet<RandomVariable>();
         private ProbabilityTable table = null;

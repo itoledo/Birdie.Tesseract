@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.search.uninformed
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.qsearch;
+
+namespace tvn.cosine.ai.search.uninformed
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 85.<br>
@@ -14,12 +18,12 @@
      * @author Ravi Mohan
      * 
      */
-    public class DepthFirstSearch<S, A> : QueueBasedSearch<S, A> {
-
-
-    public DepthFirstSearch(QueueSearch<S, A> impl)
+    public class DepthFirstSearch<S, A> : QueueBasedSearch<S, A>
     {
-        base(impl, QueueFactory.createLifoQueue());
+        public DepthFirstSearch(QueueSearch<S, A> impl)
+                : base(impl, Factory.CreateLifoQueue<Node<S, A>>())
+        {
+
+        }
     }
-}
 }

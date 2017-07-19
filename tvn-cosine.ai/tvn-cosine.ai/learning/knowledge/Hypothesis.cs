@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.learning.knowledge
+﻿using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.learning.knowledge
 {
     /**
      * @author Ciaran O'Reilly

@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.logic.propositional.visitors
+﻿using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn.cosine.ai.logic.propositional.visitors
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 249.<br>
@@ -34,7 +37,7 @@
     }
 
      
-    public Sentence visitBinarySentence(ComplexSentence s, object arg)
+    public override Sentence visitBinarySentence(ComplexSentence s, object arg)
     {
         Sentence result = null;
 
@@ -94,7 +97,7 @@
         }
         else
         {
-            result = super.visitBinarySentence(s, arg);
+            result = base.visitBinarySentence(s, arg);
         }
 
         return result;

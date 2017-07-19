@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.util.math.geom
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.util.math.geom.shapes;
+
+namespace tvn.cosine.ai.util.math.geom
 {
     /**
      * This interface defines a parser that creates {@code ArrayList}s for geometric shapes represented through {@link IGeometric2D}
@@ -19,6 +22,6 @@
          * @throws Exception if an error is found while parsing the input.
          * @return the constructed list of geometric shapes.
          */
-        ArrayList<IGeometric2D> parse(InputStream input, string groupID) throws Exception;
+        IQueue<IGeometric2D> parse(System.IO.StreamReader input, string groupID);
     }
 }

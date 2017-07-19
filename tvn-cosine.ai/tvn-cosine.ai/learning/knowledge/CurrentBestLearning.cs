@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.kb;
 
 namespace tvn.cosine.ai.learning.knowledge
 {

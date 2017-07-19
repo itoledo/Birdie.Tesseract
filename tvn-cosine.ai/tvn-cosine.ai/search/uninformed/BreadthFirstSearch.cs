@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.search.uninformed
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.qsearch;
+
+namespace tvn.cosine.ai.search.uninformed
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.11, page
@@ -31,20 +35,21 @@
      * @author Ruediger Lunde
      * @author Ciaran O'Reilly
      */
-    public class BreadthFirstSearch<S, A> : QueueBasedSearch<S, A> {
-
-
-    public BreadthFirstSearch()
+    public class BreadthFirstSearch<S, A> : QueueBasedSearch<S, A>
     {
-        this(new GraphSearch<>());
-    }
+        public BreadthFirstSearch()
+                : this(new GraphSearch<S, A>())
+        {
 
-    public BreadthFirstSearch(QueueSearch<S, A> impl)
-    {
-        base(impl, QueueFactory.createFifoQueue());
-        // Goal test is to be applied to each node when it is generated
-        // rather than when it is selected for expansion.
-        impl.setEarlyGoalTest(true);
+        }
+
+        public BreadthFirstSearch(QueueSearch<S, A> impl)
+                : base(impl, Factory.CreateFifoQueue<Node<S, A>>())
+        {
+
+            // Goal test is to be applied to each node when it is generated
+            // rather than when it is selected for expansion.
+            impl.setEarlyGoalTest(true);
+        }
     }
-}
 }

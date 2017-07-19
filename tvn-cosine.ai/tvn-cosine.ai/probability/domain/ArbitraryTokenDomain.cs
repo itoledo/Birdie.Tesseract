@@ -46,7 +46,7 @@ namespace tvn.cosine.ai.probability.domain
             return ordered;
         }
          
-        public ISet<object> getPossibleValues()
+        public override ISet<object> getPossibleValues()
         {
             return possibleValues;
         }

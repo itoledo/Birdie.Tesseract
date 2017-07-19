@@ -1,7 +1,10 @@
 ﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.impl;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.math.geom.shapes;
 
 namespace tvn.cosine.ai.environment.map
 {
@@ -37,7 +40,7 @@ namespace tvn.cosine.ai.environment.map
         /** Returns a heuristic function based on straight line distance computation. */
         public static ToDoubleFunction<Node<string, MoveToAction>> createSLDHeuristicFunction(string goal, Map map)
         {
-            return node->getSLD(node.getState(), goal, map);
+            return node => getSLD(node.getState(), goal, map);
         }
 
         public static double getSLD(string loc1, string loc2, Map map)

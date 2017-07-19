@@ -32,18 +32,14 @@ namespace tvn.cosine.ai.search.informed
          *             goal state.
          */
         public AStarSearch(QueueSearch<S, A> impl, ToDoubleFunction<Node<S, A>> h)
-            : base(impl, new EvalFunction<S, A>(h))
+            : base(impl, new EvalFunction(h))
         { }
 
-
-        public class EvalFunction : HeuristicEvaluationFunction<S, A>
+        public class EvalFunction : HeuristicEvaluationFunction<S, A>, ToDoubleFunction<Node<S, A>>
         {
-            private ToDoubleFunction<Node<S, A>> g;
-
             public EvalFunction(ToDoubleFunction<Node<S, A>> h)
             {
-                this.h = h;
-                this.g = Node<S, A>.getPathCost;
+                this.h = h; 
             }
 
             /**
@@ -57,7 +53,7 @@ namespace tvn.cosine.ai.search.informed
             public double applyAsDouble(Node<S, A> n)
             {
                 // f(n) = g(n) + h(n)
-                return g.applyAsDouble(n) + h.applyAsDouble(n);
+                return n.getPathCost() + h.applyAsDouble(n);
             }
         }
     }

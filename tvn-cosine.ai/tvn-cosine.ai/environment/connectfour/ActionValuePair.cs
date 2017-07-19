@@ -7,7 +7,7 @@ namespace tvn.cosine.ai.environment.connectfour
         private A action;
         private double value;
 
-        public static ActionValuePair<A> createFor<A>(A action, double utility)
+        public static ActionValuePair<A> createFor(A action, double utility)
         {
             return new ActionValuePair<A>(action, utility);
         }

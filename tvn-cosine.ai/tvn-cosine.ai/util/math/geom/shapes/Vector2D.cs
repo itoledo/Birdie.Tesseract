@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.util.math.geom.shapes
+﻿using tvn.cosine.ai.common;
+
+namespace tvn.cosine.ai.util.math.geom.shapes
 {
     /**
      * This class represents a vector in a two-dimensional Cartesian plot.<br/>
@@ -9,9 +11,12 @@
      * @author Andreas Walscheid
      *
      */
-    public class Vector2D
+    public class Vector2D : IEquatable<Vector2D>
     {
-
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
         /**
          * This is a vector that is parallel to the X axis.
          */
@@ -155,7 +160,7 @@
          * @param op2 the second vector.
          * @return true if the vectors are equal in direction and length.
          */
-        public bool equals(Vector2D op2)
+        public bool Equals(Vector2D op2)
         {
             if (op2 == null) return false;
             return Util.compareDoubles(this.x, op2.x) && Util.compareDoubles(this.y, op2.y);

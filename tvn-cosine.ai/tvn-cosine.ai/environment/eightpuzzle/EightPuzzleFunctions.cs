@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.environment.eightpuzzle

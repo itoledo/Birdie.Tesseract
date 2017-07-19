@@ -1,6 +1,11 @@
 ﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.impl;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.qsearch;
+using tvn.cosine.ai.search.informed;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.environment.wumpusworld
@@ -83,8 +88,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             : this(caveXDim, caveYDim, start, new DPLLSatisfiable(), null)
         { }
 
-        public HybridWumpusAgent(int caveXDim, int caveYDim, AgentPosition start, DPLL satSolver,
-                                 EnvironmentViewNotifier notifier)
+        public HybridWumpusAgent(int caveXDim, int caveYDim, AgentPosition start, DPLL satSolver, EnvironmentViewNotifier notifier)
             : this(caveXDim, caveYDim, start,
                 new WumpusKnowledgeBase(caveXDim, caveYDim, start, satSolver), notifier)
         { }
@@ -99,7 +103,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             this.notifier = notifier;
         }
 
-        public WumpusKnowledgeBase getKB()
+        public virtual WumpusKnowledgeBase getKB()
         {
             return kb;
         }
@@ -119,8 +123,8 @@ namespace tvn.cosine.ai.environment.wumpusworld
             // TELL the KB the temporal "physics" sentences for time t
             kb.tellTemporalPhysicsSentences(t);
 
-            ISet<Room> safe;
-            ISet<Room> unvisited;
+            ISet<Room> safe = null;
+            ISet<Room> unvisited = null;
 
             // Optimization: Do not ask anything during plan execution (different from pseudo-code)
             if (plan.IsEmpty())
@@ -155,7 +159,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             }
 
             // if plan is empty and ASK(KB, HaveArrow<sup>t</sup>) = true then
-            if (plan.isEmpty() && kb.askHaveArrow(t))
+            if (plan.IsEmpty() && kb.askHaveArrow(t))
             {
                 // possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}
                 ISet<Room> possibleWumpus = kb.askPossibleWumpusRooms(t);
@@ -186,7 +190,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 plan.Add(WumpusAction.CLIMB);
             }
             // action <- POP(plan)
-            WumpusAction action = plan.Remove();
+            WumpusAction action = plan.Pop();
             // TELL(KB, MAKE-ACTION-SENTENCE(action, t))
             kb.makeActionSentence(action, t);
             // t <- t+1
@@ -206,7 +210,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
          * @return the best sequence of actions that the agent have to do to reach a
          *         goal from the current position.
          */
-        public IQueue<WumpusAction> planRouteToRooms(ISet<Room> goals, ISet<Room> allowed)
+        public virtual IQueue<WumpusAction> planRouteToRooms(ISet<Room> goals, ISet<Room> allowed)
         {
             ISet<AgentPosition> goalPositions = Factory.CreateSet<AgentPosition>();
             foreach (Room goalRoom in goals)
@@ -230,7 +234,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
          * @return the best sequence of actions that the agent have to do to reach a
          *         goal from the current position.
          */
-        public IQueue<WumpusAction> planRoute(Set<AgentPosition> goals, ISet<Room> allowed)
+        public virtual IQueue<WumpusAction> planRoute(ISet<AgentPosition> goals, ISet<Room> allowed)
         {
 
             WumpusCave cave = new WumpusCave(kb.getCaveXDimension(), kb.getCaveYDimension()).setAllowed(allowed);
@@ -238,13 +242,14 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 = new GeneralProblem<AgentPosition, WumpusAction>(currentPosition,
                     WumpusFunctions.createActionsFunction(cave),
                     WumpusFunctions.createResultFunction(cave),
-                    goals.contains);
+                    goals.Contains);
             SearchForActions<AgentPosition, WumpusAction> search =
-                    new AStarSearch<>(new GraphSearch<>(),
+                    new AStarSearch<AgentPosition, WumpusAction>(
+                        new GraphSearch<AgentPosition, WumpusAction>(),
                     new ManhattanHeuristicFunction(goals));
-            Optional<IQueue<WumpusAction>> actions = search.findActions(problem);
+            IQueue<WumpusAction> actions = search.findActions(problem);
 
-            return actions.isPresent() ? actions.Get() : Collections.emptyList();
+            return actions;
         }
 
         /**
@@ -257,9 +262,8 @@ namespace tvn.cosine.ai.environment.wumpusworld
          * @return the sequence of actions to reach the nearest square that is in
          *         line with a possible wumpus position. The last action is a shot.
          */
-        public IQueue<WumpusAction> planShot(Set<Room> possibleWumpus, ISet<Room> allowed)
+        public virtual IQueue<WumpusAction> planShot(ISet<Room> possibleWumpus, ISet<Room> allowed)
         {
-
             ISet<AgentPosition> shootingPositions = Factory.CreateSet<AgentPosition>();
 
             foreach (Room p in possibleWumpus)
@@ -295,12 +299,12 @@ namespace tvn.cosine.ai.environment.wumpusworld
             return actions;
         }
 
-        public Metrics getMetrics()
+        public virtual Metrics getMetrics()
         {
             return kb.getMetrics();
         }
 
-        protected void notifyViews(string message)
+        protected virtual void notifyViews(string message)
         {
             if (notifier != null)
                 notifier.notifyViews(message);

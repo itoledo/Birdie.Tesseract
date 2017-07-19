@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.probability.domain
         {
             indexPossibleValues(_possibleValues);
         }
-         
+
         public override int size()
         {
             return 2;
@@ -37,20 +37,30 @@ namespace tvn.cosine.ai.probability.domain
         {
             return false;
         }
-         
-        public ISet<bool> getPossibleValues()
+
+        //ISet<bool> getPossibleValues()
+        //{ 
+        //    return _possibleValues;
+        //}
+
+        public override ISet<object> getPossibleValues()
         {
-            return _possibleValues;
+            ISet<object> obj = Factory.CreateSet<object>();
+            foreach (bool value in _possibleValues)
+            {
+                obj.Add(value);
+            }
+            return obj;
         }
-         
+
         public override bool Equals(object o)
         {
             return o is BooleanDomain;
         }
-         
+
         public override int GetHashCode()
         {
             return _possibleValues.GetHashCode();
         }
-    } 
+    }
 }

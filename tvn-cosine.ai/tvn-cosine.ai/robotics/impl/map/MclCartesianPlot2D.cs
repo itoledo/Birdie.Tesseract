@@ -126,7 +126,7 @@ namespace tvn.cosine.ai.robotics.impl.map
          * Returns an iterator over the obstacle polygons.
          * @return an iterator over the obstacle polygons.
          */
-        public Iterator<IGeometric2D> getObstacles()
+        public IEnumerator<IGeometric2D> getObstacles()
         {
             return obstacles.getShapes();
         }
@@ -135,7 +135,7 @@ namespace tvn.cosine.ai.robotics.impl.map
          * Returns an iterator over the boundaries of the obstacle polygons.
          * @return an iterator over the boundaries of the obstacle polygons.
          */
-        public Iterator<Rect2D> getObstacleBoundaries()
+        public IEnumerator<Rect2D> getObstacleBoundaries()
         {
             return obstacles.getBoundaries();
         }
@@ -144,7 +144,7 @@ namespace tvn.cosine.ai.robotics.impl.map
          * Returns an iterator over the area polygons.
          * @return an iterator over the area polygons.
          */
-        public Iterator<IGeometric2D> getAreas()
+        public IEnumerator<IGeometric2D> getAreas()
         {
             return areas.getShapes();
         }
@@ -153,7 +153,7 @@ namespace tvn.cosine.ai.robotics.impl.map
          * Returns an iterator over the boundaries of the area polygons.
          * @return an iterator over the boundaries of the area polygons.
          */
-        public Iterator<Rect2D> getAreaBoundaries()
+        public IEnumerator<Rect2D> getAreaBoundaries()
         {
             return areas.getBoundaries();
         }

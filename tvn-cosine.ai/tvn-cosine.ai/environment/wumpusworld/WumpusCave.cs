@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.environment.wumpusworld
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+
+namespace tvn.cosine.ai.environment.wumpusworld
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 236.<br>
@@ -14,14 +18,13 @@
      */
     public class WumpusCave
     {
-
         private int caveXDimension; // starts bottom left -> right
         private int caveYDimension; // starts bottom left ^ up
 
         private AgentPosition start = new AgentPosition(1, 1, AgentPosition.Orientation.FACING_NORTH);
         private Room wumpus;
         private Room gold;
-        private ISet<Room> pits = Factory.CreateSet<>();
+        private ISet<Room> pits = Factory.CreateSet<Room>();
 
         private ISet<Room> allowedRooms;
 
@@ -29,9 +32,8 @@
          * Default Constructor. Create a Wumpus Case of default dimensions 4x4.
          */
         public WumpusCave()
-        {
-            this(4, 4);
-        }
+            : this(4, 4)
+        { }
 
         /**
          * Create a grid of rooms of dimensions x and y, representing the wumpus's cave.
@@ -64,13 +66,14 @@
          *            first line first, then second line etc. Mapping: S=start, W=Wumpus, G=gold, P=pit.
          */
         public WumpusCave(int caveXDimension, int caveYDimension, string config)
+            : this(caveXDimension, caveYDimension)
         {
-            this(caveXDimension, caveYDimension);
-            if (config.length() != 2 * caveXDimension * caveYDimension)
+
+            if (config.Length != 2 * caveXDimension * caveYDimension)
                 throw new IllegalStateException("Wrong configuration length.");
-            for (int i = 0; i < config.length(); i++)
+            for (int i = 0; i < config.Length; i++)
             {
-                char c = config.charAt(i);
+                char c = config[i];
                 Room r = new Room(i / 2 % caveXDimension + 1, caveYDimension - i / 2 / caveXDimension);
                 switch (c)
                 {
@@ -87,7 +90,7 @@
          * @param allowedRooms
          *            the set of legal rooms that can be reached within the cave.
          */
-        public WumpusCave setAllowed(Set<Room> allowedRooms)
+        public WumpusCave setAllowed(ISet<Room> allowedRooms)
         {
             this.allowedRooms.Clear();
             this.allowedRooms.AddAll(allowedRooms);
@@ -139,33 +142,52 @@
 
         public bool isPit(Room room)
         {
-            return pits.contains(room);
+            return pits.Contains(room);
         }
 
         public AgentPosition moveForward(AgentPosition position)
         {
             int x = position.getX();
             int y = position.getY();
-            switch (position.getOrientation())
+            if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_NORTH))
             {
-                case FACING_NORTH: y++; break;
-                case FACING_SOUTH: y--; break;
-                case FACING_EAST: x++; break;
-                case FACING_WEST: x--; break;
+                y++; 
+            }
+            else if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_SOUTH))
+            {
+                y--; 
+            }
+            else if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_EAST))
+            {
+                x++; 
+            }
+            else if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_WEST))
+            {
+                x--;
             }
             Room room = new Room(x, y);
-            return allowedRooms.contains(room) ? new AgentPosition(x, y, position.getOrientation()) : position;
+            return allowedRooms.Contains(room) ? new AgentPosition(x, y, position.getOrientation()) : position;
         }
 
         public AgentPosition turnLeft(AgentPosition position)
         {
             AgentPosition.Orientation orientation = null;
-            switch (position.getOrientation())
+
+            if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_NORTH))
             {
-                case FACING_NORTH: orientation = AgentPosition.Orientation.FACING_WEST; break;
-                case FACING_SOUTH: orientation = AgentPosition.Orientation.FACING_EAST; break;
-                case FACING_EAST: orientation = AgentPosition.Orientation.FACING_NORTH; break;
-                case FACING_WEST: orientation = AgentPosition.Orientation.FACING_SOUTH; break;
+                orientation = AgentPosition.Orientation.FACING_WEST;
+            }
+            else if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_SOUTH))
+            {
+                orientation = AgentPosition.Orientation.FACING_EAST;
+            }
+            else if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_EAST))
+            {
+                orientation = AgentPosition.Orientation.FACING_NORTH;
+            }
+            else if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_WEST))
+            {
+                orientation = AgentPosition.Orientation.FACING_SOUTH;
             }
             return new AgentPosition(position.getX(), position.getY(), orientation);
         }
@@ -173,26 +195,36 @@
         public AgentPosition turnRight(AgentPosition position)
         {
             AgentPosition.Orientation orientation = null;
-            switch (position.getOrientation())
+            if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_NORTH))
             {
-                case FACING_NORTH: orientation = AgentPosition.Orientation.FACING_EAST; break;
-                case FACING_SOUTH: orientation = AgentPosition.Orientation.FACING_WEST; break;
-                case FACING_EAST: orientation = AgentPosition.Orientation.FACING_SOUTH; break;
-                case FACING_WEST: orientation = AgentPosition.Orientation.FACING_NORTH; break;
+                orientation = AgentPosition.Orientation.FACING_EAST;
             }
+            else if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_SOUTH))
+            {
+                orientation = AgentPosition.Orientation.FACING_WEST;
+            }
+            else if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_EAST))
+            {
+                orientation = AgentPosition.Orientation.FACING_SOUTH;
+            }
+            else if (position.getOrientation().Equals(AgentPosition.Orientation.FACING_WEST))
+            {
+                orientation = AgentPosition.Orientation.FACING_NORTH;
+            }
+
             return new AgentPosition(position.getX(), position.getY(), orientation);
         }
 
         public ISet<Room> getAllRooms()
         {
-            ISet<Room> allowedRooms = Factory.CreateSet<>();
+            ISet<Room> allowedRooms = Factory.CreateSet<Room>();
             for (int x = 1; x <= caveXDimension; x++)
                 for (int y = 1; y <= caveYDimension; y++)
                     allowedRooms.Add(new Room(x, y));
             return allowedRooms;
         }
 
-         
+
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
@@ -211,12 +243,12 @@
                     if (isPit(r))
                         txt += "P";
 
-                    if (txt.isEmpty())
+                    if (string.IsNullOrEmpty(txt))
                         txt = ". ";
-                    else if (txt.length() == 1)
+                    else if (txt.Length == 1)
                         txt += " ";
-                    else if (txt.length() > 2) // cannot represent...
-                        txt = txt.substring(0, 2);
+                    else if (txt.Length > 2) // cannot represent...
+                        txt = txt.Substring(0, 2);
                     builder.Append(txt);
                 }
                 builder.Append("\n");

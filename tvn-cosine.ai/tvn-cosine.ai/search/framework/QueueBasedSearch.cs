@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.qsearch;
 
 namespace tvn.cosine.ai.search.framework
 {
@@ -26,8 +27,7 @@ namespace tvn.cosine.ai.search.framework
             this.impl = impl;
             this.frontier = queue;
         }
-
-
+         
         public IQueue<A> findActions(Problem<S, A> p)
         {
             impl.getNodeExpander().useParentLinks(true);

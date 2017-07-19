@@ -1,26 +1,28 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.environment.map
 {
     public class BidirectionalMapProblem : GeneralProblem<string, MoveToAction>, BidirectionalProblem<string, MoveToAction>
-    { 
+    {
         private Problem<string, MoveToAction> reverseProblem;
 
-        public BidirectionalMapProblem(IMap map, string initialState, string goalState)
+        public BidirectionalMapProblem(Map map, string initialState, string goalState)
+            : this(map, initialState, goalState, goalState.Equals)
         {
-            this(map, initialState, goalState, GoalTest.isEqual(goalState));
+
         }
 
-        public BidirectionalMapProblem(IMap map, string initialState, string goalState, GoalTest<string> goalTest)
-            : base(initialState, 
-                  MapFunctions.createActionsFunction(map), 
+        public BidirectionalMapProblem(Map map, string initialState, string goalState, GoalTest<string> goalTest)
+            : base(initialState,
+                  MapFunctions.createActionsFunction(map),
                   MapFunctions.createResultFunction(),
-                  goalTest, 
+                  goalTest,
                   MapFunctions.createDistanceStepCostFunction(map))
         {
-           
 
-            reverseProblem = new GeneralProblem<string, MoveToAction>(goalState, 
+
+            reverseProblem = new GeneralProblem<string, MoveToAction>(goalState,
                 MapFunctions.createReverseActionsFunction(map),
                 initialState.Equals,
                 MapFunctions.createDistanceStepCostFunction(map));

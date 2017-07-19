@@ -15,7 +15,15 @@ namespace tvn.cosine.ai.search.informed
      */
     public abstract class HeuristicEvaluationFunction<S, A> : ToDoubleFunction<Node<S, A>>
     {
-        protected ToDoubleFunction<Node<S, A>> h = (node) => 0.0;
+        protected ToDoubleFunction<Node<S, A>> h;
+
+        public double applyAsDouble(Node<S, A> value)
+        {
+            if (null == h)
+                return 0;
+            else 
+                return h.applyAsDouble(value);
+        }
 
         public ToDoubleFunction<Node<S, A>> getHeuristicFunction()
         {
