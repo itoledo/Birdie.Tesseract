@@ -32,6 +32,11 @@ namespace tvn.cosine.ai.common.collections
             }
         }
 
+        public IComparer<T> GetComparer()
+        {
+            return comparer;
+        }
+
         public void Clear()
         {
             backingSortedList.Clear();

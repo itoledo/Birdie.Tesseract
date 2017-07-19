@@ -5,13 +5,13 @@
      *
      * @author Ruediger Lunde
      */
-    public interface InferenceStrategy<VAR : Variable, VAL>
-    {
-
+    public interface InferenceStrategy<VAR, VAL>
+        where VAR : Variable
+    { 
         /**
          * Inference method which is called before backtracking is started.
          */
-        InferenceLog apply(CSP<VAR, VAL> csp);
+        InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp);
 
         /**
          * Inference method which is called after the assignment has (recursively) been extended by a value assignment

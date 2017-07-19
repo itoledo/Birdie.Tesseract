@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.search.adversarial
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+
+namespace tvn.cosine.ai.search.adversarial
 {
     /**
      * Implements an iterative deepening Minimax search with alpha-beta pruning and
@@ -11,283 +15,282 @@
      * @param <P> Type which is used for players in the game.
      * @author Ruediger Lunde
      */
-    public class IterativeDeepeningAlphaBetaSearch<S, A, P> : AdversarialSearch<S, A> {
-
-    public final static string METRICS_NODES_EXPANDED = "nodesExpanded";
-    public final static string METRICS_MAX_DEPTH = "maxDepth";
-
-    protected Game<S, A, P> game;
-    protected double utilMax;
-    protected double utilMin;
-    protected int currDepthLimit;
-    private bool heuristicEvaluationUsed; // indicates that non-terminal
-    // nodes
-    // have been evaluated.
-    private Timer timer;
-    private bool logEnabled;
-
-    private Metrics metrics = new Metrics();
-
-    /**
-     * Creates a new search object for a given game.
-     *
-     * @param game    The game.
-     * @param utilMin Utility value of worst state for this player. Supports
-     *                evaluation of non-terminal states and early termination in
-     *                situations with a safe winner.
-     * @param utilMax Utility value of best state for this player. Supports
-     *                evaluation of non-terminal states and early termination in
-     *                situations with a safe winner.
-     * @param time    Maximal computation time in seconds.
-     */
-    public static <STATE, ACTION, PLAYER> IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> createFor(
-            Game<STATE, ACTION, PLAYER> game, double utilMin, double utilMax, int time)
+    public class IterativeDeepeningAlphaBetaSearch<S, A, P> : AdversarialSearch<S, A>
     {
-        return new IterativeDeepeningAlphaBetaSearch<>(game, utilMin, utilMax, time);
-    }
+        public const string METRICS_NODES_EXPANDED = "nodesExpanded";
+        public const string METRICS_MAX_DEPTH = "maxDepth";
 
-    /**
-     * Creates a new search object for a given game.
-     *
-     * @param game    The game.
-     * @param utilMin Utility value of worst state for this player. Supports
-     *                evaluation of non-terminal states and early termination in
-     *                situations with a safe winner.
-     * @param utilMax Utility value of best state for this player. Supports
-     *                evaluation of non-terminal states and early termination in
-     *                situations with a safe winner.
-     * @param time    Maximal computation time in seconds.
-     */
-    public IterativeDeepeningAlphaBetaSearch(Game<S, A, P> game, double utilMin, double utilMax,
-                                             int time)
-    {
-        this.game = game;
-        this.utilMin = utilMin;
-        this.utilMax = utilMax;
-        this.timer = new Timer(time);
-    }
+        protected Game<S, A, P> game;
+        protected double utilMax;
+        protected double utilMin;
+        protected int currDepthLimit;
+        private bool heuristicEvaluationUsed; // indicates that non-terminal
+                                              // nodes
+                                              // have been evaluated.
+        private Timer timer;
+        private bool logEnabled;
 
-    public void setLogEnabled(bool b)
-    {
-        logEnabled = b;
-    }
+        private Metrics metrics = new Metrics();
 
-    /**
-     * Template method controlling the search. It is based on iterative
-     * deepening and tries to make to a good decision in limited time. Credit
-     * goes to Behi Monsio who had the idea of ordering actions by utility in
-     * subsequent depth-limited search runs.
-     */
-     
-    public A makeDecision(S state)
-    {
-        metrics = new Metrics();
-        StringBuilder logText = null;
-        P player = game.getPlayer(state);
-        IQueue<A> results = orderActions(state, game.getActions(state), player, 0);
-        timer.start();
-        currDepthLimit = 0;
-        do
+        /**
+         * Creates a new search object for a given game.
+         *
+         * @param game    The game.
+         * @param utilMin Utility value of worst state for this player. Supports
+         *                evaluation of non-terminal states and early termination in
+         *                situations with a safe winner.
+         * @param utilMax Utility value of best state for this player. Supports
+         *                evaluation of non-terminal states and early termination in
+         *                situations with a safe winner.
+         * @param time    Maximal computation time in seconds.
+         */
+        public static IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> createFor<STATE, ACTION, PLAYER>(
+                Game<STATE, ACTION, PLAYER> game, double utilMin, double utilMax, int time)
         {
-            incrementDepthLimit();
-            if (logEnabled)
-                logText = new StringBuilder("depth " + currDepthLimit + ": ");
-            heuristicEvaluationUsed = false;
-            ActionStore<A> newResults = new ActionStore<>();
-            for (A action : results)
+            return new IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER>(game, utilMin, utilMax, time);
+        }
+
+        /**
+         * Creates a new search object for a given game.
+         *
+         * @param game    The game.
+         * @param utilMin Utility value of worst state for this player. Supports
+         *                evaluation of non-terminal states and early termination in
+         *                situations with a safe winner.
+         * @param utilMax Utility value of best state for this player. Supports
+         *                evaluation of non-terminal states and early termination in
+         *                situations with a safe winner.
+         * @param time    Maximal computation time in seconds.
+         */
+        public IterativeDeepeningAlphaBetaSearch(Game<S, A, P> game, double utilMin, double utilMax, int time)
+        {
+            this.game = game;
+            this.utilMin = utilMin;
+            this.utilMax = utilMax;
+            this.timer = new Timer(time);
+        }
+
+        public void setLogEnabled(bool b)
+        {
+            logEnabled = b;
+        }
+
+        /**
+         * Template method controlling the search. It is based on iterative
+         * deepening and tries to make to a good decision in limited time. Credit
+         * goes to Behi Monsio who had the idea of ordering actions by utility in
+         * subsequent depth-limited search runs.
+         */
+
+        public A makeDecision(S state)
+        {
+            metrics = new Metrics();
+            StringBuilder logText = null;
+            P player = game.getPlayer(state);
+            IQueue<A> results = orderActions(state, game.getActions(state), player, 0);
+            timer.start();
+            currDepthLimit = 0;
+            do
             {
-                double value = minValue(game.getResult(state, action), player, double.NegativeInfinity,
-                        double.POSITIVE_INFINITY, 1);
-                if (timer.timeOutOccurred())
-                    break; // exit from action loop
-                newResults.Add(action, value);
+                incrementDepthLimit();
                 if (logEnabled)
-                    logText.Append(action).Append("->").Append(value).Append(" ");
-            }
-            if (logEnabled)
-                System.Console.WriteLine(logText);
-            if (newResults.size() > 0)
-            {
-                results = newResults.actions;
-                if (!timer.timeOutOccurred())
+                    logText = new StringBuilder("depth " + currDepthLimit + ": ");
+                heuristicEvaluationUsed = false;
+                ActionStore newResults = new ActionStore();
+                foreach (A action in results)
                 {
-                    if (hasSafeWinner(newResults.utilValues.Get(0)))
-                        break; // exit from iterative deepening loop
-                    else if (newResults.size() > 1
-                            && isSignificantlyBetter(newResults.utilValues.Get(0), newResults.utilValues.Get(1)))
-                        break; // exit from iterative deepening loop
+                    double value = minValue(game.getResult(state, action), player, double.NegativeInfinity,
+                            double.PositiveInfinity, 1);
+                    if (timer.timeOutOccurred())
+                        break; // exit from action loop
+                    newResults.add(action, value);
+                    if (logEnabled)
+                        logText.Append(action).Append("->").Append(value).Append(" ");
                 }
-            }
-        } while (!timer.timeOutOccurred() && heuristicEvaluationUsed);
-        return results.Get(0);
-    }
-
-    // returns an utility value
-    public double maxValue(S state, P player, double alpha, double beta, int depth)
-    {
-        updateMetrics(depth);
-        if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred())
-        {
-            return eval(state, player);
+                if (logEnabled)
+                    System.Console.WriteLine(logText);
+                if (newResults.size() > 0)
+                {
+                    results = newResults.actions;
+                    if (!timer.timeOutOccurred())
+                    {
+                        if (hasSafeWinner(newResults.utilValues.Get(0)))
+                            break; // exit from iterative deepening loop
+                        else if (newResults.size() > 1
+                                && isSignificantlyBetter(newResults.utilValues.Get(0), newResults.utilValues.Get(1)))
+                            break; // exit from iterative deepening loop
+                    }
+                }
+            } while (!timer.timeOutOccurred() && heuristicEvaluationUsed);
+            return results.Get(0);
         }
-        else
+
+        // returns an utility value
+        public double maxValue(S state, P player, double alpha, double beta, int depth)
         {
-            double value = double.NegativeInfinity;
-            for (A action : orderActions(state, game.getActions(state), player, depth))
+            updateMetrics(depth);
+            if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred())
             {
-                value = System.Math.Max(value, minValue(game.getResult(state, action), //
-                        player, alpha, beta, depth + 1));
-                if (value >= beta)
-                    return value;
-                alpha = System.Math.Max(alpha, value);
+                return eval(state, player);
             }
-            return value;
-        }
-    }
-
-    // returns an utility value
-    public double minValue(S state, P player, double alpha, double beta, int depth)
-    {
-        updateMetrics(depth);
-        if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred())
-        {
-            return eval(state, player);
-        }
-        else
-        {
-            double value = double.POSITIVE_INFINITY;
-            for (A action : orderActions(state, game.getActions(state), player, depth))
+            else
             {
-                value = System.Math.Min(value, maxValue(game.getResult(state, action), //
-                        player, alpha, beta, depth + 1));
-                if (value <= alpha)
-                    return value;
-                beta = System.Math.Min(beta, value);
+                double value = double.NegativeInfinity;
+                foreach (A action in orderActions(state, game.getActions(state), player, depth))
+                {
+                    value = System.Math.Max(value, minValue(game.getResult(state, action), //
+                            player, alpha, beta, depth + 1));
+                    if (value >= beta)
+                        return value;
+                    alpha = System.Math.Max(alpha, value);
+                }
+                return value;
             }
-            return value;
         }
-    }
 
-    private void updateMetrics(int depth)
-    {
-        metrics.incrementInt(METRICS_NODES_EXPANDED);
-        metrics.set(METRICS_MAX_DEPTH, System.Math.Max(metrics.getInt(METRICS_MAX_DEPTH), depth));
-    }
-
-    /**
-     * Returns some statistic data from the last search.
-     */
-     
-    public Metrics getMetrics()
-    {
-        return metrics;
-    }
-
-    /**
-     * Primitive operation which is called at the beginning of one depth limited
-     * search step. This implementation increments the current depth limit by
-     * one.
-     */
-    protected void incrementDepthLimit()
-    {
-        currDepthLimit++;
-    }
-
-    /**
-     * Primitive operation which is used to stop iterative deepening search in
-     * situations where a clear best action exists. This implementation returns
-     * always false.
-     */
-    protected bool isSignificantlyBetter(double newUtility, double utility)
-    {
-        return false;
-    }
-
-    /**
-     * Primitive operation which is used to stop iterative deepening search in
-     * situations where a safe winner has been identified. This implementation
-     * returns true if the given value (for the currently preferred action
-     * result) is the highest or lowest utility value possible.
-     */
-    protected bool hasSafeWinner(double resultUtility)
-    {
-        return resultUtility <= utilMin || resultUtility >= utilMax;
-    }
-
-    /**
-     * Primitive operation, which estimates the value for (not necessarily
-     * terminal) states. This implementation returns the utility value for
-     * terminal states and <code>(utilMin + utilMax) / 2</code> for non-terminal
-     * states. When overriding, first call the super implementation!
-     */
-    protected double eval(S state, P player)
-    {
-        if (game.isTerminal(state))
+        // returns an utility value
+        public double minValue(S state, P player, double alpha, double beta, int depth)
         {
-            return game.getUtility(state, player);
+            updateMetrics(depth);
+            if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred())
+            {
+                return eval(state, player);
+            }
+            else
+            {
+                double value = double.PositiveInfinity;
+                foreach (A action in orderActions(state, game.getActions(state), player, depth))
+                {
+                    value = System.Math.Min(value, maxValue(game.getResult(state, action), //
+                            player, alpha, beta, depth + 1));
+                    if (value <= alpha)
+                        return value;
+                    beta = System.Math.Min(beta, value);
+                }
+                return value;
+            }
         }
-        else
+
+        private void updateMetrics(int depth)
         {
-            heuristicEvaluationUsed = true;
-            return (utilMin + utilMax) / 2;
+            metrics.incrementInt(METRICS_NODES_EXPANDED);
+            metrics.set(METRICS_MAX_DEPTH, System.Math.Max(metrics.getInt(METRICS_MAX_DEPTH), depth));
+        }
+
+        /**
+         * Returns some statistic data from the last search.
+         */
+
+        public Metrics getMetrics()
+        {
+            return metrics;
+        }
+
+        /**
+         * Primitive operation which is called at the beginning of one depth limited
+         * search step. This implementation increments the current depth limit by
+         * one.
+         */
+        protected void incrementDepthLimit()
+        {
+            currDepthLimit++;
+        }
+
+        /**
+         * Primitive operation which is used to stop iterative deepening search in
+         * situations where a clear best action exists. This implementation returns
+         * always false.
+         */
+        protected bool isSignificantlyBetter(double newUtility, double utility)
+        {
+            return false;
+        }
+
+        /**
+         * Primitive operation which is used to stop iterative deepening search in
+         * situations where a safe winner has been identified. This implementation
+         * returns true if the given value (for the currently preferred action
+         * result) is the highest or lowest utility value possible.
+         */
+        protected bool hasSafeWinner(double resultUtility)
+        {
+            return resultUtility <= utilMin || resultUtility >= utilMax;
+        }
+
+        /**
+         * Primitive operation, which estimates the value for (not necessarily
+         * terminal) states. This implementation returns the utility value for
+         * terminal states and <code>(utilMin + utilMax) / 2</code> for non-terminal
+         * states. When overriding, first call the super implementation!
+         */
+        protected double eval(S state, P player)
+        {
+            if (game.isTerminal(state))
+            {
+                return game.getUtility(state, player);
+            }
+            else
+            {
+                heuristicEvaluationUsed = true;
+                return (utilMin + utilMax) / 2;
+            }
+        }
+
+        /**
+         * Primitive operation for action ordering. This implementation preserves
+         * the original order (provided by the game).
+         */
+        public IQueue<A> orderActions(S state, IQueue<A> actions, P player, int depth)
+        {
+            return actions;
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        // nested helper classes
+
+        private class Timer
+        {
+            private System.DateTime endTime;
+            private long duration;
+
+            public Timer(int maxSeconds)
+            {
+                this.duration = 1000 * maxSeconds;
+            }
+
+            public void start()
+            {
+                endTime = System.DateTime.Now.AddMilliseconds(duration);
+            }
+
+            public bool timeOutOccurred()
+            {
+                return System.DateTime.Now > endTime;
+            }
+        }
+
+        /**
+         * Orders actions by utility.
+         */
+        private class ActionStore
+        {
+            public IQueue<A> actions = Factory.CreateQueue<A>();
+            public IQueue<double> utilValues = Factory.CreateQueue<double>();
+
+            public void add(A action, double utilValue)
+            {
+                int idx = 0;
+                while (idx < actions.Size() && utilValue <= utilValues.Get(idx))
+                    idx++;
+                actions.Insert(idx, action);
+                utilValues.Insert(idx, utilValue);
+            }
+
+            public int size()
+            {
+                return actions.Size();
+            }
         }
     }
-
-    /**
-     * Primitive operation for action ordering. This implementation preserves
-     * the original order (provided by the game).
-     */
-    public IQueue<A> orderActions(S state, IQueue<A> actions, P player, int depth)
-    {
-        return actions;
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    // nested helper classes
-
-    private static class Timer
-    {
-        private long duration;
-        private long startTime;
-
-        Timer(int maxSeconds)
-        {
-            this.duration = 1000 * maxSeconds;
-        }
-
-        void start()
-        {
-            startTime = System.currentTimeMillis();
-        }
-
-        bool timeOutOccurred()
-        {
-            return System.currentTimeMillis() > startTime + duration;
-        }
-    }
-
-    /**
-     * Orders actions by utility.
-     */
-    private static class ActionStore<A>
-    {
-        private IQueue<A> actions = Factory.CreateQueue<>();
-        private IQueue<double> utilValues = Factory.CreateQueue<>();
-
-        void add(A action, double utilValue)
-        {
-            int idx = 0;
-            while (idx < actions.size() && utilValue <= utilValues.Get(idx))
-                idx++;
-            actions.Add(idx, action);
-            utilValues.Add(idx, utilValue);
-        }
-
-        int size()
-        {
-            return actions.size();
-        }
-    }
-}
 
 }

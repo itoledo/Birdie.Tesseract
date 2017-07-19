@@ -9,24 +9,24 @@
      * @author Andreas Walscheid
      *
      */
-    public final class Vector2D
+    public class Vector2D
     {
 
         /**
          * This is a vector that is parallel to the X axis.
          */
-        public static final Vector2D X_VECTOR = new Vector2D(1.0d,0.0d);
+        public static readonly Vector2D X_VECTOR = new Vector2D(1.0d, 0.0d);
         /**
          * This is a vector that is parallel to the Y axis.
          */
-        public static final Vector2D Y_VECTOR = new Vector2D(0.0d,1.0d);
+        public static readonly Vector2D Y_VECTOR = new Vector2D(0.0d, 1.0d);
         /**
          * This is the zero vector. It does not have a direction neither a length.
          */
-        public static final Vector2D ZERO_VECTOR = new Vector2D(0.0d,0.0d);
+        public static readonly Vector2D ZERO_VECTOR = new Vector2D(0.0d, 0.0d);
 
-        private final double x;
-        private final double y;
+        private readonly double x;
+        private readonly double y;
 
         /**
          * @param x the X parameter of the vector.
@@ -46,8 +46,8 @@
          */
         public static Vector2D calculateFromPolar(double length, double heading)
         {
-            final double x = length * Math.cos(heading);
-            final double y = length * Math.sin(heading);
+            double x = length * System.Math.Cos(heading);
+            double y = length * System.Math.Sin(heading);
             return new Vector2D(x, y);
         }
 
@@ -125,8 +125,8 @@
          */
         public bool isParallel(Vector2D op2)
         {
-            final double angle = angleTo(op2);
-            return Util.compareDoubles(angle, 0.0d) || Util.compareDoubles(angle, Math.PI);
+              double angle = angleTo(op2);
+            return Util.compareDoubles(angle, 0.0d) || Util.compareDoubles(angle, System.Math.PI);
         }
 
         /**
@@ -137,8 +137,8 @@
          */
         public double angleTo(Vector2D op2)
         {
-            final double result = Math.atan2(op2.getY(), op2.getX()) - Math.atan2(this.y, this.x);
-            return result < 0 ? result + 2 * Math.PI : result;
+              double result = System.Math.Atan2(op2.getY(), op2.getX()) - System.Math.Atan2(this.y, this.x);
+            return result < 0 ? result + 2 * System.Math.PI : result;
         }
 
         /**
@@ -147,7 +147,7 @@
          */
         public double length()
         {
-            return Math.sqrt(this.x * this.x + this.y * this.y);
+            return System.Math.Sqrt(this.x * this.x + this.y * this.y);
         }
 
         /**
@@ -161,11 +161,11 @@
             return Util.compareDoubles(this.x, op2.x) && Util.compareDoubles(this.y, op2.y);
         }
 
-         
-         public override bool Equals(object o)
+
+        public override bool Equals(object o)
         {
             if (o is Vector2D)
-			 return this.Equals((Vector2D)o);
+                return this.Equals((Vector2D)o);
             return false;
         }
     }

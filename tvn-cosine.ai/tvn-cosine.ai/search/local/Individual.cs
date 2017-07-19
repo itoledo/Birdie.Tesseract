@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.local
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.local
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 127.<br>
@@ -15,7 +17,7 @@
      */
     public class Individual<A>
     {
-        private IQueue<A> representation = Factory.CreateQueue<>();
+        private IQueue<A> representation = Factory.CreateQueue<A>();
         private int descendants; // for debugging!
 
         /**
@@ -26,7 +28,7 @@
          */
         public Individual(IQueue<A> representation)
         {
-            this.representation = Factory.CreateReadOnlyQueue<>(representation);
+            this.representation = Factory.CreateReadOnlyQueue<A>(representation);
         }
 
         /**
@@ -44,7 +46,7 @@
          */
         public int length()
         {
-            return representation.size();
+            return representation.Size();
         }
 
         /**
@@ -62,7 +64,7 @@
             return descendants;
         }
 
-         
+
         public override string ToString()
         {
             return representation.ToString() + descendants;

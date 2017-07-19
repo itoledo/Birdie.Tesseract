@@ -49,7 +49,7 @@ namespace tvn.cosine.ai.search.framework
         public long getLong(string name)
         {
             string value = hash.Get(name);
-            return value != null ? long.Parse(value) : 0l;
+            return value != null ? long.Parse(value) : 0L;
         }
 
         public string get(string name)
@@ -59,7 +59,7 @@ namespace tvn.cosine.ai.search.framework
 
         public ISet<string> keySet()
         {
-            return hash.GetKeys();
+            return Factory.CreateSet<string>(hash.GetKeys());
         }
 
         /** Sorts the key-value pairs by key names and formats them as equations. */

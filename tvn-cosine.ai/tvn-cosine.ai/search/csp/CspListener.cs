@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.csp
+﻿using tvn.cosine.ai.search.framework;
+
+namespace tvn.cosine.ai.search.csp
 {
     /**
      * Interface which allows interested clients to register at a CSP solver
@@ -6,7 +8,8 @@
      *
      * @author Ruediger Lunde
      */
-    public interface CspListener<VAR : Variable, VAL>
+    public interface CspListener<VAR, VAL>
+        where VAR : Variable
     {
         /**
          * Informs about changed assignments and inference steps.
@@ -17,17 +20,21 @@
          */
         void stateChanged(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR variable);
 
-        /**
-         * A simple CSP listener implementation which counts assignment changes and changes caused by
-         * inference steps and provides some metrics.
-         * @author Ruediger Lunde
-         */
-        class StepCounter<VAR : Variable, VAL> : CspListener<VAR, VAL> {
+    }
+
+    /**
+     * A simple CSP listener implementation which counts assignment changes and changes caused by
+     * inference steps and provides some metrics.
+     * @author Ruediger Lunde
+     */
+    public class CspListenerStepCounter<VAR, VAL> : CspListener<VAR, VAL>
+        where VAR : Variable
+    {
         private int assignmentCount = 0;
         private int inferenceCount = 0;
 
-         
-            public void stateChanged(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR variable)
+
+        public void stateChanged(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR variable)
         {
             if (assignment != null)
                 ++assignmentCount;
@@ -50,6 +57,4 @@
             return result;
         }
     }
-}
-
 }

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.adversarial
+﻿using tvn.cosine.ai.search.framework;
+
+namespace tvn.cosine.ai.search.adversarial
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 169.<br>
@@ -37,76 +39,76 @@
      * @param <P> Type which is used for players in the game.
      * @author Ruediger Lunde
      */
-    public class MinimaxSearch<S, A, P> : AdversarialSearch<S, A> {
-
-    public final static string METRICS_NODES_EXPANDED = "nodesExpanded";
-
-    private Game<S, A, P> game;
-    private Metrics metrics = new Metrics();
-
-    /**
-     * Creates a new search object for a given game.
-     */
-    public static <S, A, P> MinimaxSearch<S, A, P> createFor(Game<S, A, P> game)
+    public class MinimaxSearch<S, A, P> : AdversarialSearch<S, A>
     {
-        return new MinimaxSearch<>(game);
-    }
+        public const string METRICS_NODES_EXPANDED = "nodesExpanded";
 
-    public MinimaxSearch(Game<S, A, P> game)
-    {
-        this.game = game;
-    }
+        private Game<S, A, P> game;
+        private Metrics metrics = new Metrics();
 
-     
-    public A makeDecision(S state)
-    {
-        metrics = new Metrics();
-        A result = null;
-        double resultValue = double.NegativeInfinity;
-        P player = game.getPlayer(state);
-        for (A action : game.getActions(state))
+        /**
+         * Creates a new search object for a given game.
+         */
+        public static MinimaxSearch<S, A, P> createFor(Game<S, A, P> game)
         {
-            double value = minValue(game.getResult(state, action), player);
-            if (value > resultValue)
-            {
-                result = action;
-                resultValue = value;
-            }
+            return new MinimaxSearch<S, A, P>(game);
         }
-        return result;
-    }
 
-    public double maxValue(S state, P player)
-    { // returns an utility
-        // value
-        metrics.incrementInt(METRICS_NODES_EXPANDED);
-        if (game.isTerminal(state))
-            return game.getUtility(state, player);
-        double value = double.NegativeInfinity;
-        for (A action : game.getActions(state))
-            value = System.Math.Max(value,
-                    minValue(game.getResult(state, action), player));
-        return value;
-    }
+        public MinimaxSearch(Game<S, A, P> game)
+        {
+            this.game = game;
+        }
 
-    public double minValue(S state, P player)
-    { // returns an utility
-        // value
-        metrics.incrementInt(METRICS_NODES_EXPANDED);
-        if (game.isTerminal(state))
-            return game.getUtility(state, player);
-        double value = double.POSITIVE_INFINITY;
-        for (A action : game.getActions(state))
-            value = System.Math.Min(value,
-                    maxValue(game.getResult(state, action), player));
-        return value;
-    }
 
-     
-    public Metrics getMetrics()
-    {
-        return metrics;
+        public A makeDecision(S state)
+        {
+            metrics = new Metrics();
+            A result = default(A);
+            double resultValue = double.NegativeInfinity;
+            P player = game.getPlayer(state);
+            foreach (A action in game.getActions(state))
+            {
+                double value = minValue(game.getResult(state, action), player);
+                if (value > resultValue)
+                {
+                    result = action;
+                    resultValue = value;
+                }
+            }
+            return result;
+        }
+
+        public double maxValue(S state, P player)
+        { // returns an utility
+          // value
+            metrics.incrementInt(METRICS_NODES_EXPANDED);
+            if (game.isTerminal(state))
+                return game.getUtility(state, player);
+            double value = double.NegativeInfinity;
+            foreach (A action in game.getActions(state))
+                value = System.Math.Max(value,
+                        minValue(game.getResult(state, action), player));
+            return value;
+        }
+
+        public double minValue(S state, P player)
+        { // returns an utility
+          // value
+            metrics.incrementInt(METRICS_NODES_EXPANDED);
+            if (game.isTerminal(state))
+                return game.getUtility(state, player);
+            double value = double.PositiveInfinity;
+            foreach (A action in game.getActions(state))
+                value = System.Math.Min(value,
+                        maxValue(game.getResult(state, action), player));
+            return value;
+        }
+
+
+        public Metrics getMetrics()
+        {
+            return metrics;
+        }
     }
-}
 
 }

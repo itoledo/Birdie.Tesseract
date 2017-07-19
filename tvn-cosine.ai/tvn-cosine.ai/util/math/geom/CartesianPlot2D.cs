@@ -25,9 +25,9 @@
         }
 
         /**
-         * Sets the maximum length of a rayCast after which {@code double.POSITIVE_INFINITY} may be returned.
+         * Sets the maximum length of a rayCast after which {@code double.PositiveInfinity} may be returned.
          * @param rayRange the maximum non zero positive length, that the ray can reliably have. This parameter is used to speed up {@code rayCast}.
-         * Set this to {@code double.POSITIVE_INFINITY} if you like waiting.
+         * Set this to {@code double.PositiveInfinity} if you like waiting.
          */
         public void setRayRange(double rayRange)
         {
@@ -102,13 +102,13 @@ public Point2D randomPoint()
 /**
  * Calculates the length of a ray until it intersects with a shape.<br/>
  * As this class uses the set maximum ray range to speed up this ray casting,<br/>
- * this function may return {@code double.POSITIVE_INFINITY} for a ray that intersects with an obstacle that is further away than the rayRange from the given starting point.
+ * this function may return {@code double.PositiveInfinity} for a ray that intersects with an obstacle that is further away than the rayRange from the given starting point.
  * @param ray the ray to be used for ray casting.
  * @return the length of the ray.
  */
 public double rayCast(Ray2D ray)
 {
-    double result = double.POSITIVE_INFINITY;
+    double result = double.PositiveInfinity;
     Rect2D rayBounding = new Rect2D(ray.getStart().getX() - rayRange, ray.getStart().getY() - rayRange, ray.getStart().getX() + rayRange, ray.getStart().getY() + rayRange);
     for (int i = 0; i < shapes.size(); i++)
     {

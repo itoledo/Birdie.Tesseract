@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.adversarial
+﻿using tvn.cosine.ai.search.framework;
+
+namespace tvn.cosine.ai.search.adversarial
 {
     /**
      * Variant of the search interface. Since players can only control the next

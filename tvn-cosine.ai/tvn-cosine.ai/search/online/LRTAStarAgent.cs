@@ -1,4 +1,11 @@
-﻿namespace tvn.cosine.ai.search.online
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.search.online
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.24, page
@@ -38,197 +45,195 @@
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class LRTAStarAgent<S, A : Action> : AbstractAgent
+    public class LRTAStarAgent<S, A> : AbstractAgent
+        where A : Action
     {
+        private OnlineSearchProblem<S, A> problem;
+        private Function<Percept, S> ptsFn;
+        private ToDoubleFunction<S> h;
+        // persistent: result, a table, indexed by state and action, initially empty
+        private TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<S, A, S>();
+        // H, a table of cost estimates indexed by state, initially empty
+        private IMap<S, double> H = Factory.CreateMap<S, double>();
+        // s, a, the previous state and action, initially null
+        private S s = default(S);
+        private A a = default(A);
 
-
-    private OnlineSearchProblem<S, A> problem;
-    private Function<Percept, S> ptsFn;
-    private ToDoubleFunction<S> h;
-    // persistent: result, a table, indexed by state and action, initially empty
-    private final TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<>();
-    // H, a table of cost estimates indexed by state, initially empty
-    private final HashMap<S, double> H = Factory.CreateMap<>();
-    // s, a, the previous state and action, initially null
-    private S s = null;
-    private A a = null;
-
-    /**
-	 * Constructs a LRTA* agent with the specified search problem, percept to
-	 * state function, and heuristic function.
-	 * 
-	 * @param problem
-	 *            an online search problem for this agent to solve.
-	 * @param ptsFn
-	 *            a function which returns the problem state associated with a
-	 *            given Percept.
-	 * @param h
-	 *            heuristic function <em>h(n)</em>, which estimates the cost of
-	 *            the cheapest path from the state at node <em>n</em> to a goal
-	 *            state.
-	 */
-    public LRTAStarAgent(OnlineSearchProblem<S, A> problem, Function<Percept, S> ptsFn, ToDoubleFunction<S> h)
-    {
-        setProblem(problem);
-        setPerceptToStateFunction(ptsFn);
-        setHeuristicFunction(h);
-    }
-
-    /**
-	 * Returns the search problem of this agent.
-	 * 
-	 * @return the search problem of this agent.
-	 */
-    public OnlineSearchProblem<S, A> getProblem()
-    {
-        return problem;
-    }
-
-    /**
-	 * Sets the search problem for this agent to solve.
-	 * 
-	 * @param problem
-	 *            the search problem for this agent to solve.
-	 */
-    public void setProblem(OnlineSearchProblem<S, A> problem)
-    {
-        this.problem = problem;
-        init();
-    }
-
-    /**
-	 * Returns the percept to state function of this agent.
-	 * 
-	 * @return the percept to state function of this agent.
-	 */
-    public Function<Percept, S> getPerceptToStateFunction()
-    {
-        return ptsFn;
-    }
-
-    /**
-	 * Sets the percept to state function of this agent.
-	 * 
-	 * @param ptsFn
-	 *            a function which returns the problem state associated with a
-	 *            given Percept.
-	 */
-    public void setPerceptToStateFunction(Function<Percept, S> ptsFn)
-    {
-        this.ptsFn = ptsFn;
-    }
-
-    /**
-	 * Returns the heuristic function of this agent.
-	 */
-    public ToDoubleFunction<S> getHeuristicFunction()
-    {
-        return h;
-    }
-
-    /**
-	 * Sets the heuristic function of this agent.
-	 * 
-	 * @param h
-	 *            heuristic function <em>h(n)</em>, which estimates the cost of
-	 *            the cheapest path from the state at node <em>n</em> to a goal
-	 *            state.
-	 */
-    public void setHeuristicFunction(ToDoubleFunction<S> h)
-    {
-        this.h = h;
-    }
-
-    // function LRTA*-AGENT(s') returns an action
-    // inputs: s', a percept that identifies the current state
-     
-    public Action execute(Percept psPrimed)
-    {
-        S sPrimed = ptsFn.apply(psPrimed);
-        // if GOAL-TEST(s') then return stop
-        if (problem.testGoal(sPrimed))
+        /**
+         * Constructs a LRTA* agent with the specified search problem, percept to
+         * state function, and heuristic function.
+         * 
+         * @param problem
+         *            an online search problem for this agent to solve.
+         * @param ptsFn
+         *            a function which returns the problem state associated with a
+         *            given Percept.
+         * @param h
+         *            heuristic function <em>h(n)</em>, which estimates the cost of
+         *            the cheapest path from the state at node <em>n</em> to a goal
+         *            state.
+         */
+        public LRTAStarAgent(OnlineSearchProblem<S, A> problem, Function<Percept, S> ptsFn, ToDoubleFunction<S> h)
         {
-            a = null;
+            setProblem(problem);
+            setPerceptToStateFunction(ptsFn);
+            setHeuristicFunction(h);
         }
-        else
-        {
-            // if s' is a new state (not in H) then H[s'] <- h(s')
-            if (!H.ContainsKey(sPrimed))
-            {
-                H.Put(sPrimed, getHeuristicFunction().applyAsDouble(sPrimed));
-            }
-            // if s is not null
-            if (null != s)
-            {
-                // result[s, a] <- s'
-                result.Put(s, a, sPrimed);
 
-                // H[s] <- min LRTA*-COST(s, b, result[s, b], H)
-                // b (element of) ACTIONS(s)
-                double min = double.MAX_VALUE;
-                for (A b : problem.getActions(s))
+        /**
+         * Returns the search problem of this agent.
+         * 
+         * @return the search problem of this agent.
+         */
+        public OnlineSearchProblem<S, A> getProblem()
+        {
+            return problem;
+        }
+
+        /**
+         * Sets the search problem for this agent to solve.
+         * 
+         * @param problem
+         *            the search problem for this agent to solve.
+         */
+        public void setProblem(OnlineSearchProblem<S, A> problem)
+        {
+            this.problem = problem;
+            init();
+        }
+
+        /**
+         * Returns the percept to state function of this agent.
+         * 
+         * @return the percept to state function of this agent.
+         */
+        public Function<Percept, S> getPerceptToStateFunction()
+        {
+            return ptsFn;
+        }
+
+        /**
+         * Sets the percept to state function of this agent.
+         * 
+         * @param ptsFn
+         *            a function which returns the problem state associated with a
+         *            given Percept.
+         */
+        public void setPerceptToStateFunction(Function<Percept, S> ptsFn)
+        {
+            this.ptsFn = ptsFn;
+        }
+
+        /**
+         * Returns the heuristic function of this agent.
+         */
+        public ToDoubleFunction<S> getHeuristicFunction()
+        {
+            return h;
+        }
+
+        /**
+         * Sets the heuristic function of this agent.
+         * 
+         * @param h
+         *            heuristic function <em>h(n)</em>, which estimates the cost of
+         *            the cheapest path from the state at node <em>n</em> to a goal
+         *            state.
+         */
+        public void setHeuristicFunction(ToDoubleFunction<S> h)
+        {
+            this.h = h;
+        }
+
+        // function LRTA*-AGENT(s') returns an action
+        // inputs: s', a percept that identifies the current state
+
+        public override Action execute(Percept psPrimed)
+        {
+            S sPrimed = ptsFn(psPrimed);
+            // if GOAL-TEST(s') then return stop
+            if (problem.testGoal(sPrimed))
+            {
+                a = default(A);
+            }
+            else
+            {
+                // if s' is a new state (not in H) then H[s'] <- h(s')
+                if (!H.ContainsKey(sPrimed))
                 {
-                    double cost = lrtaCost(s, b, result.Get(s, b));
+                    H.Put(sPrimed, getHeuristicFunction().applyAsDouble(sPrimed));
+                }
+                // if s is not null
+                double min = double.MaxValue;
+                if (null != s)
+                {
+                    // result[s, a] <- s'
+                    result.Put(s, a, sPrimed);
+
+                    // H[s] <- min LRTA*-COST(s, b, result[s, b], H)
+                    // b (element of) ACTIONS(s)
+                    min = double.MaxValue;
+                    foreach (A b in problem.getActions(s))
+                    {
+                        double cost = lrtaCost(s, b, result.Get(s, b));
+                        if (cost < min)
+                        {
+                            min = cost;
+                        }
+                    }
+                    H.Put(s, min);
+                }
+                // a <- an action b in ACTIONS(s') that minimizes LRTA*-COST(s', b,
+                // result[s', b], H)
+                // Just in case no actions
+                a = default(A);
+                foreach (A b in problem.getActions(sPrimed))
+                {
+                    double cost = lrtaCost(sPrimed, b, result.Get(sPrimed, b));
                     if (cost < min)
                     {
                         min = cost;
+                        a = b;
                     }
                 }
-                H.Put(s, min);
             }
-            // a <- an action b in ACTIONS(s') that minimizes LRTA*-COST(s', b,
-            // result[s', b], H)
-            double min = double.MAX_VALUE;
-            // Just in case no actions
-            a = null;
-            for (A b : problem.getActions(sPrimed))
+
+            // s <- s'
+            s = sPrimed;
+
+            if (a == null)
             {
-                double cost = lrtaCost(sPrimed, b, result.Get(sPrimed, b));
-                if (cost < min)
-                {
-                    min = cost;
-                    a = b;
-                }
+                // I'm either at the Goal or can't get to it,
+                // which in either case I'm finished so just die.
+                setAlive(false);
             }
+            // return a
+            return a;
         }
 
-        // s <- s'
-        s = sPrimed;
-
-        if (a == null)
+        //
+        // PRIVATE METHODS
+        //
+        private void init()
         {
-            // I'm either at the Goal or can't get to it,
-            // which in either case I'm finished so just die.
-            setAlive(false);
+            setAlive(true);
+            result.Clear();
+            H.Clear();
+            s = default(S);
+            a = default(A);
         }
-        // return a
-        return a != null ? a : NoOpAction.NO_OP;
-    }
 
-    //
-    // PRIVATE METHODS
-    //
-    private void init()
-    {
-        setAlive(true);
-        result.Clear();
-        H.Clear();
-        s = null;
-        a = null;
-    }
-
-    // function LRTA*-COST(s, a, s', H) returns a cost estimate
-    private double lrtaCost(S s, A action, S sDelta)
-    {
-        // if s' is undefined then return h(s)
-        if (null == sDelta)
+        // function LRTA*-COST(s, a, s', H) returns a cost estimate
+        private double lrtaCost(S s, A action, S sDelta)
         {
-            return getHeuristicFunction().applyAsDouble(s);
+            // if s' is undefined then return h(s)
+            if (null == sDelta)
+            {
+                return getHeuristicFunction().applyAsDouble(s);
+            }
+            // else return c(s, a, s') + H[s']
+            return problem.getStepCosts(s, action, sDelta) + H.Get(sDelta);
         }
-        // else return c(s, a, s') + H[s']
-        return problem.getStepCosts(s, action, sDelta)
-                + H.Get(sDelta);
     }
-}
 
 }

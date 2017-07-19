@@ -74,7 +74,7 @@ namespace tvn.cosine.ai.nlp.parsing
                         lexWords.Add(new LexWord(vargs[i], float.Parse(vargs[i + 1])));
                     i++;
                 }
-                catch (NumberFormatException e)
+                catch (NumberFormatException)
                 {
                     System.Console.WriteLine("Supplied args have incorrect format.");
                     return false;

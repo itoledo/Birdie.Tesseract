@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.search.uninformed
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.search.uninformed
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 3.18, page
@@ -21,102 +26,113 @@
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class IterativeDeepeningSearch<S, A> : SearchForActions<S, A>, SearchForStates<S, A> {
-
-    public static final string METRIC_NODES_EXPANDED = "nodesExpanded";
-	public static final string METRIC_PATH_COST = "pathCost";
-
-	private final NodeExpander<S, A> nodeExpander;
-    private final Metrics metrics;
-
-	public IterativeDeepeningSearch()
+    public class IterativeDeepeningSearch<S, A> : SearchForActions<S, A>, SearchForStates<S, A>
     {
-        this(new NodeExpander<>());
-    }
+        public const string METRIC_NODES_EXPANDED = "nodesExpanded";
+        public const string METRIC_PATH_COST = "pathCost";
 
-    public IterativeDeepeningSearch(NodeExpander<S, A> nodeExpander)
-    {
-        this.nodeExpander = nodeExpander;
-        this.metrics = new Metrics();
-    }
+        private readonly NodeExpander<S, A> nodeExpander;
+        private readonly Metrics metrics;
 
+        public IterativeDeepeningSearch()
+            : this(new NodeExpander<S, A>())
+        { }
 
-    // function ITERATIVE-DEEPENING-SEARCH(problem) returns a solution, or
-    // failure
-     
-    public IQueue<A> findActions(Problem<S, A> p)
-    {
-        nodeExpander.useParentLinks(true);
-        return SearchUtils.toActions(findNode(p));
-    }
-
-     
-    public S findState(Problem<S, A> p)
-    {
-        nodeExpander.useParentLinks(false);
-        return SearchUtils.toState(findNode(p));
-    }
-
-    /**
-	 * Returns a solution node if a solution was found, empty if no solution is reachable or the task was cancelled
-	 * by the user.
-	 * @param p
-	 * @return
-	 */
-    private Node<S,A> findNode(Problem<S, A> p)
-    {
-        clearMetrics();
-        // for depth = 0 to infinity do
-        for (int i = 0; !Tasks.currIsCancelled(); i++)
+        public IterativeDeepeningSearch(NodeExpander<S, A> nodeExpander)
         {
-            // result <- DEPTH-LIMITED-SEARCH(problem, depth)
-            DepthLimitedSearch<S, A> dls = new DepthLimitedSearch<>(i, nodeExpander);
-            Node<S,A> result = dls.findNode(p);
-            updateMetrics(dls.getMetrics());
-            // if result != cutoff then return result
-            if (!dls.isCutoffResult(result))
-                return result;
+            this.nodeExpander = nodeExpander;
+            this.metrics = new Metrics();
         }
-        return Optional.empty();
+
+
+        // function ITERATIVE-DEEPENING-SEARCH(problem) returns a solution, or
+        // failure
+
+        public IQueue<A> findActions(Problem<S, A> p)
+        {
+            nodeExpander.useParentLinks(true);
+            return SearchUtils.toActions(findNode(p));
+        }
+
+
+        public S findState(Problem<S, A> p)
+        {
+            nodeExpander.useParentLinks(false);
+            return SearchUtils.toState(findNode(p));
+        }
+
+        private bool currIsCancelled;
+
+        public void SetCurrIsCancelled(bool value)
+        {
+            currIsCancelled = value;
+        }
+
+        public bool GetCurrIsCancelled()
+        {
+            return currIsCancelled;
+        }
+
+        /**
+         * Returns a solution node if a solution was found, empty if no solution is reachable or the task was cancelled
+         * by the user.
+         * @param p
+         * @return
+         */
+        private Node<S, A> findNode(Problem<S, A> p)
+        {
+            clearMetrics();
+            // for depth = 0 to infinity do
+            for (int i = 0; !currIsCancelled; i++)
+            {
+                // result <- DEPTH-LIMITED-SEARCH(problem, depth)
+                DepthLimitedSearch<S, A> dls = new DepthLimitedSearch<S, A>(i, nodeExpander);
+                Node<S, A> result = dls.findNode(p);
+                updateMetrics(dls.getMetrics());
+                // if result != cutoff then return result
+                if (!dls.isCutoffResult(result))
+                    return result;
+            }
+            return null;
+        }
+
+
+        public Metrics getMetrics()
+        {
+            return metrics;
+        }
+
+
+        public void addNodeListener(Consumer<Node<S, A>> listener)
+        {
+            nodeExpander.addNodeListener(listener);
+        }
+
+
+        public bool removeNodeListener(Consumer<Node<S, A>> listener)
+        {
+            return nodeExpander.removeNodeListener(listener);
+        }
+
+
+        //
+        // PRIVATE METHODS
+        //
+
+        /**
+         * Sets the nodes expanded and path cost metrics to zero.
+         */
+        private void clearMetrics()
+        {
+            metrics.set(METRIC_NODES_EXPANDED, 0);
+            metrics.set(METRIC_PATH_COST, 0);
+        }
+
+        private void updateMetrics(Metrics dlsMetrics)
+        {
+            metrics.set(METRIC_NODES_EXPANDED,
+                    metrics.getInt(METRIC_NODES_EXPANDED) + dlsMetrics.getInt(METRIC_NODES_EXPANDED));
+            metrics.set(METRIC_PATH_COST, dlsMetrics.getDouble(METRIC_PATH_COST));
+        }
     }
-
-     
-    public Metrics getMetrics()
-    {
-        return metrics;
-    }
-
-     
-    public void addNodeListener(Consumer<Node<S, A>> listener)
-    {
-        nodeExpander.addNodeListener(listener);
-    }
-
-     
-    public bool removeNodeListener(Consumer<Node<S, A>> listener)
-    {
-        return nodeExpander.removeNodeListener(listener);
-    }
-
-
-    //
-    // PRIVATE METHODS
-    //
-
-    /**
-	 * Sets the nodes expanded and path cost metrics to zero.
-	 */
-    private void clearMetrics()
-    {
-        metrics.set(METRIC_NODES_EXPANDED, 0);
-        metrics.set(METRIC_PATH_COST, 0);
-    }
-
-    private void updateMetrics(Metrics dlsMetrics)
-    {
-        metrics.set(METRIC_NODES_EXPANDED,
-                metrics.getInt(METRIC_NODES_EXPANDED) + dlsMetrics.getInt(METRIC_NODES_EXPANDED));
-        metrics.set(METRIC_PATH_COST, dlsMetrics.getDouble(METRIC_PATH_COST));
-    }
-}
 }

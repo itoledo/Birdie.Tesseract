@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.search.csp
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.csp
 {
     /**
      * A domain Di consists of a set of allowable values {v1, ... , vk} for the
@@ -9,104 +12,143 @@
      * 
      * @author Ruediger Lunde
      */
-    public class Domain<VAL> : Iterable<VAL> {
-
-
-    private final object[]  values;
-
-	public Domain(IQueue<VAL> values)
+    public class Domain<VAL> : IEnumerable<VAL>
     {
-        this.values = values.toArray();
-    }
+        private readonly object[] values;
 
-    @SafeVarargs
-    public Domain(VAL...values)
-    {
-        this.values = values;
-    }
-
-    public int size()
-    {
-        return values.Length;
-    }
-
-
-    @SuppressWarnings("unchecked")
-
-    public VAL get(int index)
-    {
-        return (VAL)values[index];
-    }
-
-    public bool isEmpty()
-    {
-        return values.Length == 0;
-    }
-
-    public bool contains(VAL value)
-    {
-        for (object v : values)
-            if (value.Equals(v))
-                return true;
-        return false;
-    }
-
-     
-    @SuppressWarnings("unchecked")
-
-    public Iterator<VAL> iterator()
-    {
-        return new ArrayIterator<>((VAL[])values);
-    }
-
-    /** Not very efficient... */
-    @SuppressWarnings("unchecked")
-
-    public IQueue<VAL> asList()
-    {
-        return Arrays.asList((VAL[])values);
-    }
-
-     
-    public bool equals(object obj)
-    {
-        if (obj != null && getClass() == obj.GetType())
+        public Domain(IQueue<VAL> values)
         {
-            Domain d = (Domain)obj;
-            if (d.values.Length != values.Length)
-                return false;
-            for (int i = 0; i < values.Length; i++)
-                if (!values[i].Equals(d.values[i]))
+            this.values = new object[values.Size()];
+            for (int i = 0; i < values.Size(); ++i)
+            {
+                this.values[i] = values.Get(i);
+            }
+        }
+
+        public Domain(params VAL[] values)
+        {
+            this.values = new object[values.Length];
+            for (int i = 0; i < values.Length; ++i)
+            {
+                this.values[i] = values[i];
+            }
+        }
+
+        public int size()
+        {
+            return values.Length;
+        }
+
+        public VAL get(int index)
+        {
+            return (VAL)values[index];
+        }
+
+        public bool isEmpty()
+        {
+            return values.Length == 0;
+        }
+
+        public bool contains(VAL value)
+        {
+            foreach (object v in values)
+                if (value.Equals(v))
+                    return true;
+            return false;
+        }
+
+        public IEnumerator<VAL> GetEnumerator()
+        {
+            return new Enumerator(values);
+        }
+
+        public IQueue<VAL> asList()
+        {
+            IQueue<VAL> obj = Factory.CreateQueue<VAL>();
+            foreach (var o in values)
+            {
+                obj.Add((VAL)o);
+            }
+            return obj;
+        }
+         
+        public override bool Equals(object obj)
+        {
+            if (obj != null && GetType() == obj.GetType())
+            {
+                Domain<VAL> d = (Domain<VAL>)obj;
+                if (d.values.Length != values.Length)
                     return false;
-            return true;
+                for (int i = 0; i < values.Length; i++)
+                    if (!values[i].Equals(d.values[i]))
+                        return false;
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
-
-     
-    public override int GetHashCode()
-    {
-        int hash = 9; // arbitrary seed value
-        int multiplier = 13; // arbitrary multiplier value
-        for (object value : values)
-            hash = hash * multiplier + value.GetHashCode();
-        return hash;
-    }
-
-     
-    public override string ToString()
-    {
-        StringBuilder result = new StringBuilder("{");
-        bool comma = false;
-        for (object value : values)
+         
+        public override int GetHashCode()
         {
-            if (comma)
-                result.Append(", ");
-            result.Append(value.ToString());
-            comma = true;
+            int hash = 9; // arbitrary seed value
+            int multiplier = 13; // arbitrary multiplier value
+            foreach (object value in values)
+                hash = hash * multiplier + value.GetHashCode();
+            return hash;
         }
-        result.Append("}");
-        return result.ToString();
+
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder("{");
+            bool comma = false;
+            foreach (object value in values)
+            {
+                if (comma)
+                    result.Append(", ");
+                result.Append(value.ToString());
+                comma = true;
+            }
+            result.Append("}");
+            return result.ToString();
+        }
+
+        class Enumerator : IEnumerator<VAL>
+        {
+            private readonly object[] values;
+
+            private int position = -1;
+
+            public VAL Current
+            {
+                get
+                {
+                    return GetCurrent();
+                }
+            }
+
+            public Enumerator(object[] values)
+            {
+                this.values = values;
+            }
+
+            public VAL GetCurrent()
+            {
+                return (VAL)values[position];
+            }
+
+            public void Dispose()
+            { }
+
+            public bool MoveNext()
+            {
+                ++position;
+                return (position < values.Length);
+            }
+
+            public void Reset()
+            {
+                position = -1;
+            }
+        }
     }
-}
 }

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.csp.examples
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.csp.examples
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.1, Page 204.<br>
@@ -10,41 +12,41 @@
      * @author Ruediger Lunde
      * @author Mike Stampone
      */
-    public class MapCSP : CSP<Variable, string> {
-
-    public static final Variable NSW = new Variable("NSW");
-    public static final Variable NT = new Variable("NT");
-    public static final Variable Q = new Variable("Q");
-    public static final Variable SA = new Variable("SA");
-    public static final Variable T = new Variable("T");
-    public static final Variable V = new Variable("V");
-    public static final Variable WA = new Variable("WA");
-
-    public static final string RED = "RED";
-	public static final string GREEN = "GREEN";
-	public static final string BLUE = "BLUE";
-
-	/**
-	 * Constructs a map CSP for the principal states and territories of
-	 * Australia, with the colors Red, Green, and Blue.
-	 */
-	public MapCSP()
+    public class MapCSP : CSP<Variable, string>
     {
-        base(Arrays.asList(NSW, WA, NT, Q, SA, V, T));
 
-        Domain<string> colors = new Domain<>(RED, GREEN, BLUE);
-        for (Variable var : getVariables())
-            setDomain(var, colors);
+        public static readonly Variable NSW = new Variable("NSW");
+        public static readonly Variable NT = new Variable("NT");
+        public static readonly Variable Q = new Variable("Q");
+        public static readonly Variable SA = new Variable("SA");
+        public static readonly Variable T = new Variable("T");
+        public static readonly Variable V = new Variable("V");
+        public static readonly Variable WA = new Variable("WA");
 
-        addConstraint(new NotEqualConstraint<>(WA, NT));
-        addConstraint(new NotEqualConstraint<>(WA, SA));
-        addConstraint(new NotEqualConstraint<>(NT, SA));
-        addConstraint(new NotEqualConstraint<>(NT, Q));
-        addConstraint(new NotEqualConstraint<>(SA, Q));
-        addConstraint(new NotEqualConstraint<>(SA, NSW));
-        addConstraint(new NotEqualConstraint<>(SA, V));
-        addConstraint(new NotEqualConstraint<>(Q, NSW));
-        addConstraint(new NotEqualConstraint<>(NSW, V));
+        public static readonly string RED = "RED";
+        public static readonly string GREEN = "GREEN";
+        public static readonly string BLUE = "BLUE";
+
+        /**
+         * Constructs a map CSP for the principal states and territories of
+         * Australia, with the colors Red, Green, and Blue.
+         */
+        public MapCSP()
+                : base(Factory.CreateQueue<Variable>(new[] { NSW, WA, NT, Q, SA, V, T }))
+        {
+            Domain<string> colors = new Domain<string>(RED, GREEN, BLUE);
+            foreach (Variable var in getVariables())
+                setDomain(var, colors);
+
+            addConstraint(new NotEqualConstraint<Variable, string>(WA, NT));
+            addConstraint(new NotEqualConstraint<Variable, string>(WA, SA));
+            addConstraint(new NotEqualConstraint<Variable, string>(NT, SA));
+            addConstraint(new NotEqualConstraint<Variable, string>(NT, Q));
+            addConstraint(new NotEqualConstraint<Variable, string>(SA, Q));
+            addConstraint(new NotEqualConstraint<Variable, string>(SA, NSW));
+            addConstraint(new NotEqualConstraint<Variable, string>(SA, V));
+            addConstraint(new NotEqualConstraint<Variable, string>(Q, NSW));
+            addConstraint(new NotEqualConstraint<Variable, string>(NSW, V));
+        }
     }
-}
 }

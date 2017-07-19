@@ -58,7 +58,7 @@
         // Distance Between Y Coordinates
         final double y_distance = (pt.getY() - y) * (pt.getY() - y);
         // Distance Between 2d Points
-        return Math.sqrt(x_distance + y_distance);
+        return System.Math.Sqrt(x_distance + y_distance);
     }
 
     /**

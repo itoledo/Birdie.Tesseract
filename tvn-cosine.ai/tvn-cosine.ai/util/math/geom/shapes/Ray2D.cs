@@ -9,17 +9,16 @@
      * @author Andreas Walscheid
      *
      */
-    public final class Ray2D
-    {
+    public class Ray2D
+    { 
+        private readonly Point2D start;
+        private readonly Vector2D direction;
 
-        private final Point2D start;
-	private final Vector2D direction;
-	
-	/**
-	 * @param start the initial point from that the ray originates.
-	 * @param direction the direction in which the ray beams.
-	 */
-	public Ray2D(Point2D start, Vector2D direction)
+        /**
+         * @param start the initial point from that the ray originates.
+         * @param direction the direction in which the ray beams.
+         */
+        public Ray2D(Point2D start, Vector2D direction)
         {
             this.start = start;
             this.direction = direction;
@@ -62,7 +61,7 @@
         public Ray2D transform(TransformMatrix2D matrix)
         {
             Point2D startNew = matrix.multiply(start);
-            Vector2D directionNew = startNew.vec(matrix.multiply(start.Add(direction)));
+            Vector2D directionNew = startNew.vec(matrix.multiply(start.add(direction)));
             return new Ray2D(startNew, directionNew);
         }
     }

@@ -1,4 +1,8 @@
-﻿namespace tvn.cosine.ai.search.csp
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.search.csp
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Ed.): Figure 6.11, Page
@@ -32,135 +36,134 @@
      * @author Ruediger Lunde
      * @author Anurag Rai
      */
-    public class TreeCspSolver<VAR : Variable, VAL> : CspSolver<VAR, VAL> {
-
-    private bool useRandom;
-
-    public TreeCspSolver<VAR, VAL> useRandom(bool b)
+    public class TreeCspSolver<VAR, VAL> : CspSolver<VAR, VAL>
+        where VAR : Variable
     {
-        useRandom = b;
-        return this;
-    }
+        private bool _useRandom;
 
-     
-    public Optional<Assignment<VAR, VAL>> solve(CSP<VAR, VAL> csp)
-    {
-
-        Assignment<VAR, VAL> assignment = new Assignment<>();
-        // Select a root from the List of Variables
-        VAR root = useRandom ? Util.selectRandomlyFromList(csp.getVariables()) : csp.getVariables().Get(0);
-        // Sort the variables in topological order
-        IQueue<VAR> orderedVars = Factory.CreateQueue<>();
-        IMap<VAR, Constraint<VAR, VAL>> parentConstraints = Factory.CreateMap<>();
-        topologicalSort(csp, root, orderedVars, parentConstraints);
-        if (csp.getDomain(root).isEmpty())
-            return Optional.empty(); // CSP has no solution! (needed if orderedVars.size() == 1)
-
-        // Establish arc consistency from top to bottom (starting at the bottom).
-        csp = csp.copyDomains(); // do not change the original CSP!
-        for (int i = orderedVars.size() - 1; i > 0; i--)
+        public TreeCspSolver<VAR, VAL> useRandom(bool b)
         {
-            VAR var = orderedVars.Get(i);
-            Constraint<VAR, VAL> constraint = parentConstraints.Get(var);
-            VAR parent = csp.getNeighbor(var, constraint);
-            if (makeArcConsistent(parent, var, constraint, csp))
-            {
-                fireStateChanged(csp, null, parent);
-                if (csp.getDomain(parent).isEmpty())
-                    return Optional.empty(); // CSP has no solution!
-            }
+            _useRandom = b;
+            return this;
         }
 
-        // Assign values to variables from top to bottom.
-        for (int i = 0; i < orderedVars.size(); i++)
+
+        public override Assignment<VAR, VAL> solve(CSP<VAR, VAL> csp)
         {
-            VAR var = orderedVars.Get(i);
-            for (VAL value : csp.getDomain(var))
+            Assignment<VAR, VAL> assignment = new Assignment<VAR, VAL>();
+            // Select a root from the List of Variables
+            VAR root = _useRandom ? Util.selectRandomlyFromList(csp.getVariables()) : csp.getVariables().Get(0);
+            // Sort the variables in topological order
+            IQueue<VAR> orderedVars = Factory.CreateQueue<VAR>();
+            IMap<VAR, Constraint<VAR, VAL>> parentConstraints = Factory.CreateMap<VAR, Constraint<VAR, VAL>>();
+            topologicalSort(csp, root, orderedVars, parentConstraints);
+            if (csp.getDomain(root).isEmpty())
+                return null; // CSP has no solution! (needed if orderedVars.size() == 1)
+
+            // Establish arc consistency from top to bottom (starting at the bottom).
+            csp = csp.copyDomains(); // do not change the original CSP!
+            for (int i = orderedVars.Size() - 1; i > 0; i--)
             {
-                assignment.Add(var, value);
-                if (assignment.isConsistent(csp.getConstraints(var)))
+                VAR var = orderedVars.Get(i);
+                Constraint<VAR, VAL> constraint = parentConstraints.Get(var);
+                VAR parent = csp.getNeighbor(var, constraint);
+                if (makeArcConsistent(parent, var, constraint, csp))
                 {
-                    fireStateChanged(csp, assignment, var);
-                    break;
+                    fireStateChanged(csp, null, parent);
+                    if (csp.getDomain(parent).isEmpty())
+                        return null; // CSP has no solution!
                 }
             }
-        }
-        return Optional.of(assignment);
-    }
 
-    /**
-     * Computes an explicit representation of the tree structure and a total order which is consistent with the
-     * parent-child relations. If the provided CSP has not the required properties (CSP contains only binary
-     * constraints, constraint graph is tree-structured and connected), an exception is thrown.
-     *
-     * @param csp               A CSP
-     * @param root              A root variable
-     * @param orderedVars       The computed total order (initially empty)
-     * @param parentConstraints The tree structure, maps a variable to the constraint representing the arc to the parent
-     *                          variable (initially empty)
-     */
-    private void topologicalSort(CSP<VAR, VAL> csp, VAR root, IQueue<VAR> orderedVars,
-                                 IMap<VAR, Constraint<VAR, VAL>> parentConstraints)
-    {
-        orderedVars.Add(root);
-        parentConstraints.Put(root, null);
-        int currParentIdx = -1;
-        while (currParentIdx < orderedVars.size() - 1)
-        {
-            currParentIdx++;
-            VAR currParent = orderedVars.Get(currParentIdx);
-            int arcsPointingUpwards = 0;
-            for (Constraint<VAR, VAL> constraint : csp.getConstraints(currParent))
+            // Assign values to variables from top to bottom.
+            for (int i = 0; i < orderedVars.Size(); i++)
             {
-                VAR neighbor = csp.getNeighbor(currParent, constraint);
-                if (neighbor == null)
-                    throw new IllegalArgumentException("Constraint " + constraint + " is not binary.");
-                if (parentConstraints.ContainsKey(neighbor))
-                { // faster than orderedVars.contains(neighbor)!
-                    arcsPointingUpwards++;
-                    if (arcsPointingUpwards > 1)
-                        throw new IllegalArgumentException("CSP is not tree-structured.");
-                }
-                else
+                VAR var = orderedVars.Get(i);
+                foreach (VAL value in csp.getDomain(var))
                 {
-                    orderedVars.Add(neighbor);
-                    parentConstraints.Put(neighbor, constraint);
+                    assignment.add(var, value);
+                    if (assignment.isConsistent(csp.getConstraints(var)))
+                    {
+                        fireStateChanged(csp, assignment, var);
+                        break;
+                    }
                 }
             }
+            return assignment;
         }
-        if (orderedVars.size() < csp.getVariables().size())
-            throw new IllegalArgumentException("Constraint graph is not connected.");
-    }
 
-    /**
-     * Establishes arc-consistency for (xi, xj).
-     * @return value true if the domain of xi was reduced.
-     */
-    private bool makeArcConsistent(VAR xi, VAR xj, Constraint<VAR, VAL> constraint, CSP<VAR, VAL> csp)
-    {
-        Domain<VAL> currDomain = csp.getDomain(xi);
-        IQueue<VAL> newValues = Factory.CreateQueue<>(currDomain.size());
-        Assignment<VAR, VAL> assignment = new Assignment<>();
-        for (VAL vi : currDomain)
+        /**
+         * Computes an explicit representation of the tree structure and a total order which is consistent with the
+         * parent-child relations. If the provided CSP has not the required properties (CSP contains only binary
+         * constraints, constraint graph is tree-structured and connected), an exception is thrown.
+         *
+         * @param csp               A CSP
+         * @param root              A root variable
+         * @param orderedVars       The computed total order (initially empty)
+         * @param parentConstraints The tree structure, maps a variable to the constraint representing the arc to the parent
+         *                          variable (initially empty)
+         */
+        private void topologicalSort(CSP<VAR, VAL> csp, VAR root, IQueue<VAR> orderedVars,
+                                     IMap<VAR, Constraint<VAR, VAL>> parentConstraints)
         {
-            assignment.Add(xi, vi);
-            for (VAL vj : csp.getDomain(xj))
+            orderedVars.Add(root);
+            parentConstraints.Put(root, null);
+            int currParentIdx = -1;
+            while (currParentIdx < orderedVars.Size() - 1)
             {
-                assignment.Add(xj, vj);
-                if (constraint.isSatisfiedWith(assignment))
+                currParentIdx++;
+                VAR currParent = orderedVars.Get(currParentIdx);
+                int arcsPointingUpwards = 0;
+                foreach (Constraint<VAR, VAL> constraint in csp.getConstraints(currParent))
                 {
-                    newValues.Add(vi);
-                    break;
+                    VAR neighbor = csp.getNeighbor(currParent, constraint);
+                    if (neighbor == null)
+                        throw new IllegalArgumentException("Constraint " + constraint + " is not binary.");
+                    if (parentConstraints.ContainsKey(neighbor))
+                    { // faster than orderedVars.contains(neighbor)!
+                        arcsPointingUpwards++;
+                        if (arcsPointingUpwards > 1)
+                            throw new IllegalArgumentException("CSP is not tree-structured.");
+                    }
+                    else
+                    {
+                        orderedVars.Add(neighbor);
+                        parentConstraints.Put(neighbor, constraint);
+                    }
                 }
             }
+            if (orderedVars.Size() < csp.getVariables().Size())
+                throw new IllegalArgumentException("Constraint graph is not connected.");
         }
-        if (newValues.size() < currDomain.size())
-        {
-            csp.setDomain(xi, new Domain<>(newValues));
-            return true;
-        }
-        return false;
-    }
-}
 
+        /**
+         * Establishes arc-consistency for (xi, xj).
+         * @return value true if the domain of xi was reduced.
+         */
+        private bool makeArcConsistent(VAR xi, VAR xj, Constraint<VAR, VAL> constraint, CSP<VAR, VAL> csp)
+        {
+            Domain<VAL> currDomain = csp.getDomain(xi);
+            IQueue<VAL> newValues = Factory.CreateQueue<VAL>();
+            Assignment<VAR, VAL> assignment = new Assignment<VAR, VAL>();
+            foreach (VAL vi in currDomain)
+            {
+                assignment.add(xi, vi);
+                foreach (VAL vj in csp.getDomain(xj))
+                {
+                    assignment.add(xj, vj);
+                    if (constraint.isSatisfiedWith(assignment))
+                    {
+                        newValues.Add(vi);
+                        break;
+                    }
+                }
+            }
+            if (newValues.Size() < currDomain.size())
+            {
+                csp.setDomain(xi, new Domain<VAL>(newValues));
+                return true;
+            }
+            return false;
+        }
+    } 
 }

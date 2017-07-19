@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.search.csp
@@ -23,7 +24,7 @@ namespace tvn.cosine.ai.search.csp
 
         public static VariableSelection<VAR, VAL> mrv<VAR, VAL>() where VAR : Variable
         {
-            return new MrvHeuristic<VAR>();
+            return new MrvHeuristic<VAR, VAL>();
         }
 
         public static VariableSelection<VAR, VAL> deg<VAR, VAL>() where VAR : Variable
@@ -34,13 +35,22 @@ namespace tvn.cosine.ai.search.csp
         public static VariableSelection<VAR, VAL> mrvDeg<VAR, VAL>()
             where VAR : Variable
         {
-            return (csp, vars) => new DegHeuristic<VAR, VAL>().apply(csp, new MrvHeuristic<VAR, VAL>().apply(csp, vars));
+            return new MrvDegHeuristic<VAR, VAL>(); ;
         }
 
         public static ValueSelection<VAR, VAL> lcv<VAR, VAL>()
             where VAR : Variable
         {
-            return new LcvHeuristic<VAR>();
+            return new LcvHeuristic<VAR, VAL>();
+        }
+
+        public class MrvDegHeuristic<VAR, VAL> : VariableSelection<VAR, VAL>
+            where VAR : Variable
+        {
+            public IQueue<VAR> apply(CSP<VAR, VAL> csp, IQueue<VAR> vars)
+            {
+                return new DegHeuristic<VAR, VAL>().apply(csp, new MrvHeuristic<VAR, VAL>().apply(csp, vars));
+            }
         }
 
         /**
@@ -86,7 +96,7 @@ namespace tvn.cosine.ai.search.csp
                 int maxDegree = -1;
                 foreach (VAR var in vars)
                 {
-                    int degree = csp.getConstraints(var).size();
+                    int degree = csp.getConstraints(var).Size();
                     if (degree >= maxDegree)
                     {
                         if (degree > maxDegree)
@@ -98,6 +108,16 @@ namespace tvn.cosine.ai.search.csp
                     }
                 }
                 return result;
+            }
+        }
+
+        class PairComparer<VAL> : IComparer<Pair<VAL, int>>
+        {
+            private readonly System.Collections.Generic.Comparer<int> comparer = System.Collections.Generic.Comparer<int>.Default;
+
+            public int Compare(Pair<VAL, int> x, Pair<VAL, int> y)
+            {
+                return comparer.Compare(x.getSecond(), y.getSecond());
             }
         }
 
@@ -117,8 +137,15 @@ namespace tvn.cosine.ai.search.csp
                     int num = countLostValues(csp, assignment, var, value);
                     pairs.Add(new Pair<VAL, int>(value, num));
                 }
-                return pairs.stream().sorted(Comparator.comparing(Pair.getSecond)).map(Pair.getFirst)
-                        .collect(Collectors.toList());
+
+                pairs.Sort(new PairComparer<VAL>());
+                IQueue<VAL> obj = Factory.CreateQueue<VAL>();
+
+                foreach (Pair<VAL, int> val in pairs)
+                {
+                    obj.Add(val.getFirst());
+                }
+                return obj;
             }
 
             /**
@@ -131,7 +158,7 @@ namespace tvn.cosine.ai.search.csp
                 assign.add(var, value);
                 foreach (Constraint<VAR, VAL> constraint in csp.getConstraints(var))
                 {
-                    if (constraint.getScope().size() == 2)
+                    if (constraint.getScope().Size() == 2)
                     {
                         VAR neighbor = csp.getNeighbor(var, constraint);
                         if (!assignment.contains(neighbor))
@@ -149,5 +176,4 @@ namespace tvn.cosine.ai.search.csp
             }
         }
     }
-
 }

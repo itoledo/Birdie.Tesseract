@@ -1,4 +1,9 @@
-﻿namespace tvn.cosine.ai.search.framework.agent
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.search.framework.agent
 {
     /**
      * Modified copy of class
@@ -37,104 +42,105 @@
      *
      * @author Ruediger Lunde
      */
-    public abstract class ProblemSolvingAgent<S, A : Action> : AbstractAgent
+    public abstract class ProblemSolvingAgent<S, A> : AbstractAgent
+        where A : Action
     {
 
-    /** Plan, an action sequence, initially empty. */
-    protected Queue<A> plan = Factory.CreateQueue<>();
+        /** Plan, an action sequence, initially empty. */
+        protected IQueue<A> plan = Factory.CreateQueue<A>();
 
 
-    /**
-	 * Template method, which corresponds to pseudo code function
-	 * <code>PROBLEM-SOLVING-AGENT(percept)</code>.
-	 * 
-	 * @return an action
-	 */
-    public Action execute(Percept p)
-    {
-        Action action = NoOpAction.NO_OP;
-        // state <- UPDATE-STATE(state, percept)
-        updateState(p);
-        // if plan is empty then do
-        while (plan.isEmpty())
+        /**
+         * Template method, which corresponds to pseudo code function
+         * <code>PROBLEM-SOLVING-AGENT(percept)</code>.
+         * 
+         * @return an action
+         */
+        public override Action execute(Percept p)
         {
-            // state.goal <- FORMULATE-GOAL(state)
-            Optional<object> goal = formulateGoal();
-            if (goal.isPresent())
+            Action action = NoOpAction.NO_OP;
+            // state <- UPDATE-STATE(state, percept)
+            updateState(p);
+            // if plan is empty then do
+            while (plan.IsEmpty())
             {
-                // problem <- FORMULATE-PROBLEM(state, goal)
-                Problem<S, A> problem = formulateProblem(goal.Get());
-                // state.plan <- SEARCH(problem)
-                IQueue<A> actions = search(problem);
-                if (actions.isPresent())
-                    plan.AddAll(actions.Get());
-                else if (!tryWithAnotherGoal())
+                // state.goal <- FORMULATE-GOAL(state)
+                object goal = formulateGoal();
+                if (null != goal)
                 {
-                    // unable to identify a path
+                    // problem <- FORMULATE-PROBLEM(state, goal)
+                    Problem<S, A> problem = formulateProblem(goal);
+                    // state.plan <- SEARCH(problem)
+                    IQueue<A> actions = search(problem);
+                    if (null != actions)
+                        plan.AddAll(actions);
+                    else if (!tryWithAnotherGoal())
+                    {
+                        // unable to identify a path
+                        setAlive(false);
+                        break;
+                    }
+                }
+                else
+                {
+                    // no further goal to achieve
                     setAlive(false);
                     break;
                 }
             }
-            else
+            if (!plan.IsEmpty())
             {
-                // no further goal to achieve
-                setAlive(false);
-                break;
+                // action <- FIRST(plan)
+                // plan <- REST(plan)
+                action = plan.Pop();
             }
+            return action;
         }
-        if (!plan.isEmpty())
+
+        /**
+         * Primitive operation, which decides after a search for a plan failed,
+         * whether to stop the whole task with a failure, or to go on with
+         * formulating another goal. This implementation always returns false. If
+         * the agent defines local goals to reach an externally specified global
+         * goal, it might be interesting, not to stop when the first local goal
+         * turns out to be unreachable.
+         */
+        protected bool tryWithAnotherGoal()
         {
-            // action <- FIRST(plan)
-            // plan <- REST(plan)
-            action = plan.Remove();
+            return false;
         }
-        return action;
+
+        //
+        // ABSTRACT METHODS
+        //
+        /**
+         * Primitive operation, responsible for updating the state of the agent with
+         * respect to latest feedback from the world. In this version,
+         * implementations have access to the agent's current goal and plan, so they
+         * can modify them if needed. For example, if the plan didn't work because
+         * the model of the world proved to be wrong, implementations could update
+         * the model and also clear the plan.
+         */
+        protected abstract void updateState(Percept p);
+
+        /**
+         * Primitive operation, responsible for goal generation. In this version,
+         * implementations are allowed to return empty to indicate that the agent has
+         * finished the job an should die. Implementations can access the current
+         * goal (which is a possibly modified version of the last formulated goal).
+         * This might be useful in situations in which plan execution has failed.
+         */
+        protected abstract object formulateGoal();
+
+        /**
+         * Primitive operation, responsible for search problem generation.
+         */
+        protected abstract Problem<S, A> formulateProblem(object goal);
+
+        /**
+         * Primitive operation, responsible for the generation of an action list
+         * (plan) for the given search problem.
+         */
+        protected abstract IQueue<A> search(Problem<S, A> problem);
     }
-
-    /**
-	 * Primitive operation, which decides after a search for a plan failed,
-	 * whether to stop the whole task with a failure, or to go on with
-	 * formulating another goal. This implementation always returns false. If
-	 * the agent defines local goals to reach an externally specified global
-	 * goal, it might be interesting, not to stop when the first local goal
-	 * turns out to be unreachable.
-	 */
-    protected bool tryWithAnotherGoal()
-    {
-        return false;
-    }
-
-    //
-    // ABSTRACT METHODS
-    //
-    /**
-	 * Primitive operation, responsible for updating the state of the agent with
-	 * respect to latest feedback from the world. In this version,
-	 * implementations have access to the agent's current goal and plan, so they
-	 * can modify them if needed. For example, if the plan didn't work because
-	 * the model of the world proved to be wrong, implementations could update
-	 * the model and also clear the plan.
-	 */
-    protected abstract void updateState(Percept p);
-
-    /**
-	 * Primitive operation, responsible for goal generation. In this version,
-	 * implementations are allowed to return empty to indicate that the agent has
-	 * finished the job an should die. Implementations can access the current
-	 * goal (which is a possibly modified version of the last formulated goal).
-	 * This might be useful in situations in which plan execution has failed.
-	 */
-    protected abstract Optional<object> formulateGoal();
-
-    /**
-	 * Primitive operation, responsible for search problem generation.
-	 */
-    protected abstract Problem<S, A> formulateProblem(object goal);
-
-    /**
-	 * Primitive operation, responsible for the generation of an action list
-	 * (plan) for the given search problem.
-	 */
-    protected abstract IQueue<A> search(Problem<S, A> problem);
-}
 }

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.csp
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.csp
 {
     /**
      * A constraint specifies the allowable combinations of values for a set of
@@ -11,7 +13,8 @@
      * 
      * @author Ruediger Lunde
      */
-    public interface Constraint<VAR : Variable, VAL>
+    public interface Constraint<VAR, VAL>
+        where VAR : Variable
     {
         /** Returns a tuple of variables that participate in the constraint. */
         IQueue<VAR> getScope();

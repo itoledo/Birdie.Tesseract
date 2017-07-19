@@ -1,4 +1,12 @@
-﻿namespace tvn.cosine.ai.environment.wumpusworld
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.search.framework;
+
+namespace tvn.cosine.ai.environment.wumpusworld
 {
     /**
      * A Knowledge base tailored to the Wumpus World environment.
@@ -37,18 +45,16 @@
         private int caveYDimension;
         private AgentPosition start;
         private DPLL dpll;
-        private bool disableNavSentences;
+        private bool _disableNavSentences;
         private long reasoningTime; // in milliseconds
 
         public WumpusKnowledgeBase(int caveXDim, int caveYDim)
-        {
-            this(caveXDim, caveYDim, new OptimizedDPLL());
-        }
+            : this(caveXDim, caveYDim, new OptimizedDPLL())
+        { }
 
         public WumpusKnowledgeBase(int caveXDim, int caveYDim, DPLL dpll)
-        {
-            this(caveXDim, caveYDim, new AgentPosition(1, 1, AgentPosition.Orientation.FACING_NORTH), dpll);
-        }
+            : this(caveXDim, caveYDim, new AgentPosition(1, 1, AgentPosition.Orientation.FACING_NORTH), dpll)
+        { }
 
         /**
          * Create a Knowledge Base that contains the atemporal "wumpus physics".
@@ -81,7 +87,7 @@
          */
         public void disableNavSentences()
         {
-            disableNavSentences = true;
+            _disableNavSentences = true;
         }
 
         public AgentPosition askCurrentPosition(int t)
@@ -116,9 +122,9 @@
         }
 
         // safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
-        public Set<Room> askSafeRooms(int t)
+        public ISet<Room> askSafeRooms(int t)
         {
-            Set<Room> safe = Factory.CreateSet<>();
+            ISet<Room> safe = Factory.CreateSet<Room>();
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
                 for (int y = 1; y <= getCaveYDimension(); y++)
@@ -139,15 +145,15 @@
         // safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
         // Optimization: In this version, the agent can provide information about already visited rooms.
         // There is no need to check again.
-        public Set<Room> askSafeRooms(int t, Set<Room> visited)
+        public ISet<Room> askSafeRooms(int t, ISet<Room> visited)
         {
-            Set<Room> safe = Factory.CreateSet<>();
+            ISet<Room> safe = Factory.CreateSet<Room>();
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
                 for (int y = 1; y <= getCaveYDimension(); y++)
                 {
                     Room r = new Room(x, y);
-                    if (visited.contains(r) || ask(newSymbol(OK_TO_MOVE_INTO, t, x, y)))
+                    if (visited.Contains(r) || ask(newSymbol(OK_TO_MOVE_INTO, t, x, y)))
                         safe.Add(new Room(x, y));
                 }
             }
@@ -155,23 +161,23 @@
         }
 
         // not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}
-        public Set<Room> askNotUnsafeRooms(int t)
+        public ISet<Room> askNotUnsafeRooms(int t)
         {
-            return askNotUnsafeRooms(t, Collections.emptySet());
+            return askNotUnsafeRooms(t, Factory.CreateSet<Room>());
         }
 
         // not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}
         // Optimization: In this version, the agent can provide information about already visited rooms.
         // There is no need to check again.
-        public Set<Room> askNotUnsafeRooms(int t, Set<Room> visited)
+        public ISet<Room> askNotUnsafeRooms(int t, ISet<Room> visited)
         {
-            Set<Room> notUnsafe = Factory.CreateSet<>();
+            ISet<Room> notUnsafe = Factory.CreateSet<Room>();
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
                 for (int y = 1; y <= getCaveYDimension(); y++)
                 {
                     Room r = new Room(x, y);
-                    if (visited.contains(r) || !ask(new ComplexSentence
+                    if (visited.Contains(r) || !ask(new ComplexSentence
                             (Connective.NOT, newSymbol(OK_TO_MOVE_INTO, t, x, y))))
                         notUnsafe.Add(r);
                 }
@@ -190,9 +196,9 @@
         }
 
         // possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}
-        public Set<Room> askPossibleWumpusRooms(int t)
+        public ISet<Room> askPossibleWumpusRooms(int t)
         {
-            Set<Room> possible = Factory.CreateSet<>();
+            ISet<Room> possible = Factory.CreateSet<Room>();
             for (int x = 1; x <= getCaveXDimension(); x++)
                 for (int y = 1; y <= getCaveYDimension(); y++)
                     if (!ask(new ComplexSentence(Connective.NOT, newSymbol(WUMPUS, x, y))))
@@ -201,9 +207,9 @@
         }
 
         // unvisited <- {[x, y] : ASK(KB, L<sup>t'</sup><sub>x,y</sub>) = false for all t' &le; t}
-        public Set<Room> askUnvisitedRooms(int t)
+        public ISet<Room> askUnvisitedRooms(int t)
         {
-            Set<Room> unvisited = Factory.CreateSet<>();
+            ISet<Room> unvisited = Factory.CreateSet<Room>();
 
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
@@ -226,9 +232,11 @@
 
         public bool ask(Sentence query)
         {
-            long tStart = System.currentTimeMillis();
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
             bool result = dpll.isEntailed(this, query);
-            reasoningTime += System.currentTimeMillis() - tStart;
+            sw.Stop();
+            reasoningTime += sw.ElapsedMilliseconds;
             return result;
         }
 
@@ -305,8 +313,8 @@
                 for (int x = 1; x <= caveXDimension; x++)
                 {
 
-                    IQueue<PropositionSymbol> pitsIn = Factory.CreateQueue<>();
-                    IQueue<PropositionSymbol> wumpsIn = Factory.CreateQueue<>();
+                    IQueue<PropositionSymbol> pitsIn = Factory.CreateQueue<PropositionSymbol>();
+                    IQueue<PropositionSymbol> wumpsIn = Factory.CreateQueue<PropositionSymbol>();
 
                     if (x > 1)
                     { // West room exists
@@ -330,20 +338,20 @@
                     }
 
                     tell(new ComplexSentence
-                            (newSymbol(BREEZE, x, y), Connective.BICONDITIONAL, Sentence.newDisjunction(pitsIn)));
+                            (newSymbol(BREEZE, x, y), Connective.BICONDITIONAL, Sentence.newDisjunction(pitsIn.ToArray())));
                     tell(new ComplexSentence
-                            (newSymbol(STENCH, x, y), Connective.BICONDITIONAL, Sentence.newDisjunction(wumpsIn)));
+                            (newSymbol(STENCH, x, y), Connective.BICONDITIONAL, Sentence.newDisjunction(wumpsIn.ToArray())));
                 }
             }
 
             // The agent also knows there is exactly one wumpus. This is represented
             // in two parts. First, we have to say that there is at least one wumpus
-            IQueue<PropositionSymbol> wumpsAtLeast = Factory.CreateQueue<>();
+            IQueue<PropositionSymbol> wumpsAtLeast = Factory.CreateQueue<PropositionSymbol>();
             for (int x = 1; x <= caveXDimension; x++)
                 for (int y = 1; y <= caveYDimension; y++)
                     wumpsAtLeast.Add(newSymbol(WUMPUS, x, y));
 
-            tell(Sentence.newDisjunction(wumpsAtLeast));
+            tell(Sentence.newDisjunction(wumpsAtLeast.ToArray()));
 
             // Then, we have to say that there is at most one wumpus.
             // For each pair of locations, we add a sentence saying
@@ -457,7 +465,7 @@
                             newSymbol(STENCH, agentPosition.getX(), agentPosition.getY()))));
 
             tellCommonTemporalPhysicsSentences(t);
-            if (!disableNavSentences)
+            if (!_disableNavSentences)
             {
                 tellSuccessorStateLocationAxiom(t, agentPosition.getX(), agentPosition.getY());
                 tellSuccessorStateOrientationAxioms(t);
@@ -512,7 +520,7 @@
         {
             // Successor state axiom for square [x, y]
             // Rules about current location
-            IQueue<Sentence> locDisjuncts = Factory.CreateQueue<>();
+            IQueue<Sentence> locDisjuncts = Factory.CreateQueue<Sentence>();
             locDisjuncts.Add(new ComplexSentence(
                     newSymbol(LOCATION, t, x, y),
                     Connective.AND,
@@ -630,11 +638,11 @@
                     )));
         }
 
-         
-    public override string ToString()
+
+        public override string ToString()
         {
             IQueue<Sentence> sentences = getSentences();
-            if (sentences.size() == 0)
+            if (sentences.Size() == 0)
             {
                 return "";
             }
@@ -642,7 +650,7 @@
             {
                 bool first = true;
                 StringBuilder sb = new StringBuilder();
-                for (Sentence s : sentences)
+                foreach (Sentence s in sentences)
                 {
                     if (!first)
                     {
@@ -674,8 +682,8 @@
         {
             Metrics result = new Metrics();
             result.set("kb.size", size());
-            result.set("kb.sym.size", getSymbols().size());
-            result.set("kb.cnf.size", asCNF().size());
+            result.set("kb.sym.size", getSymbols().Size());
+            result.set("kb.cnf.size", asCNF().Size());
             result.set("reasoning.time[s]", reasoningTime / 1000);
             return result;
         }

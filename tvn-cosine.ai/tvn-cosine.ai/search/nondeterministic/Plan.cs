@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.search.nondeterministic
+﻿using System.Text;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.nondeterministic
 {
     /**
      * Represents a solution plan for an AND-OR search; according to page 135
@@ -11,65 +14,62 @@
      * 
      * @author Andrew Brown
      */
-    public class Plan : LinkedList<object> {
-
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-	 * Empty constructor
-	 */
-    public Plan()
+    public class Plan : Queue<object>
     {
-    }
 
-    /**
-	 * Construct a plan based on a sequence of steps (IfStateThenPlan or a
-	 * Plan).
-	 */
-    public Plan(params object[] steps)
-    {
-        for (object step : steps)
-            add(step);
-    }
-
-    /**
-	 * Prepend an action to the plan and return itself.
-	 * 
-	 * @param action
-	 *            the action to be prepended to this plan.
-	 * @return this plan with action prepended to it.
-	 */
-    public Plan prepend(object action)
-    {
-        offerFirst(action);
-        return this;
-    }
-
-    /**
-	 * Returns the string representation of this plan
-	 * 
-	 * @return a string representation of this plan.
-	 */
-     
-    public override string ToString()
-    {
-        StringBuilder s = new StringBuilder();
-        s.Append("[");
-        int count = 0;
-        int size = this.size();
-        for (object step : this)
+        /**
+         * Empty constructor
+         */
+        public Plan()
         {
-            s.Append(step);
-            if (count < size - 1)
-            {
-                s.Append(", ");
-            }
-            count++;
         }
-        s.Append("]");
-        return s.ToString();
-    }
-}
 
+        /**
+         * Construct a plan based on a sequence of steps (IfStateThenPlan or a
+         * Plan).
+         */
+        public Plan(params object[] steps)
+        {
+            foreach (object step in steps)
+                Add(step);
+        }
+
+        /**
+         * Prepend an action to the plan and return itself.
+         * 
+         * @param action
+         *            the action to be prepended to this plan.
+         * @return this plan with action prepended to it.
+         */
+        public Plan prepend(object action)
+        {
+            Insert(0, action);
+            return this;
+        }
+
+        /**
+         * Returns the string representation of this plan
+         * 
+         * @return a string representation of this plan.
+         */
+
+        public override string ToString()
+        {
+            StringBuilder s = new StringBuilder();
+            s.Append("[");
+            int count = 0;
+            int size = this.Size();
+            foreach (object step in this)
+            {
+                s.Append(step);
+                if (count < size - 1)
+                {
+                    s.Append(", ");
+                }
+                count++;
+            }
+            s.Append("]");
+            return s.ToString();
+        }
+    }
 }

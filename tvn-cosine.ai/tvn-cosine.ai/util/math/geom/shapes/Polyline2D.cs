@@ -10,196 +10,197 @@
      * @author Andreas Walscheid
      *
      */
-    public final class Polyline2D : IGeometric2D
+    public class Polyline2D : IGeometric2D
     {
+        private readonly Point2D[] vertexes;
+        private readonly Vector2D[] edges;
+        private readonly bool _isClosed;
+        private readonly Rect2D boundingRect;
 
-
-    private final Point2D[] vertexes;
-	private final Vector2D[] edges;
-	private final bool isClosed;
-	private final Rect2D boundingRect;
-	
-	/**
-	 * @param vertexes the vertexes of the polyline or polygon.
-	 * @param isClosed true if the sum of the edges is the zero vector.
-	 */
-	public Polyline2D(Point2D[] vertexes, bool isClosed)
-    {
-        this.vertexes = vertexes;
-        this.isClosed = isClosed;
-        final int length = isClosed ? vertexes.Length : vertexes.Length - 1;
-        this.edges = new Vector2D[length];
-        Point2D previousPoint = vertexes[0];
-        for (int i = 1; i < vertexes.Length; i++)
+        /**
+         * @param vertexes the vertexes of the polyline or polygon.
+         * @param isClosed true if the sum of the edges is the zero vector.
+         */
+        public Polyline2D(Point2D[] vertexes, bool isClosed)
         {
-            Point2D targetPoint = vertexes[i];
-            edges[i - 1] = previousPoint.vec(targetPoint);
-            previousPoint = targetPoint;
-        }
-        if (isClosed)
-        {
-            edges[vertexes.Length - 1] = previousPoint.vec(vertexes[0]);
-        }
-        //Calculate the bounding rectangle:
-        double minX = vertexes[0].getX(),
-                minY = vertexes[0].getY(),
-                maxX = vertexes[0].getX(),
-                maxY = vertexes[0].getY();
-        for (int i = 1; i < vertexes.Length; i++)
-        {
-            minX = minX > vertexes[i].getX() ? vertexes[i].getX() : minX;
-            minY = minY > vertexes[i].getY() ? vertexes[i].getY() : minY;
-            maxX = maxX < vertexes[i].getX() ? vertexes[i].getX() : maxX;
-            maxY = maxY < vertexes[i].getY() ? vertexes[i].getY() : maxY;
-        }
-        boundingRect = new Rect2D(minX, minY, maxX, maxY);
-    }
-
-    /**
-	 * @return the starting point of the polyline.
-	 */
-    public Point2D[] getVertexes()
-    {
-        return vertexes;
-    }
-
-    /**
-	 * @return the edges of the polyline.
-	 */
-    public Vector2D[] getEdges()
-    {
-        return edges;
-    }
-
-    /**
-	 * @return true if this polyline is a polygon.
-	 */
-    public bool isClosed()
-    {
-        return isClosed;
-    }
-
-     
-    public Point2D randomPoint()
-    {
-        if (isClosed)
-        {
-            //Generate random points within the bounding rectangle...
-            final double minX = boundingRect.getUpperLeft().getX();
-            final double maxX = boundingRect.getLowerRight().getX();
-            final double minY = boundingRect.getUpperLeft().getY();
-            final double maxY = boundingRect.getLowerRight().getY();
-
-            Point2D randPoint = new Point2D(Util.generateRandomDoubleBetween(minX, maxX), Util.generateRandomDoubleBetween(minY, maxY));
-
-            //...until one is inside the polygon.
-            while (!isInsideBorder(randPoint))
+            this.vertexes = vertexes;
+            this._isClosed = isClosed;
+            int length = isClosed ? vertexes.Length : vertexes.Length - 1;
+            this.edges = new Vector2D[length];
+            Point2D previousPoint = vertexes[0];
+            for (int i = 1; i < vertexes.Length; i++)
             {
-                randPoint = new Point2D(Util.generateRandomDoubleBetween(minX, maxX), Util.generateRandomDoubleBetween(minY, maxY));
+                Point2D targetPoint = vertexes[i];
+                edges[i - 1] = previousPoint.vec(targetPoint);
+                previousPoint = targetPoint;
             }
-
-            return randPoint;
-        }
-        else
-        {
-            final int index = Util.randomNumberBetween(0, vertexes.Length - 2);
-            final Line2D line = new Line2D(vertexes[index], edges[index]);
-            return line.randomPoint();
-        }
-    }
-
-     
-    public bool isInside(Point2D point)
-    {
-        if (!isClosed) return false;
-        int intersections = 0;
-        Ray2D pointRay = new Ray2D(point, Vector2D.X_VECTOR);
-        for (int i = 0; i < edges.Length; i++)
-        {
-            if (vertexes[i].Equals(point))
+            if (isClosed)
             {
-                return false;
+                edges[vertexes.Length - 1] = previousPoint.vec(vertexes[0]);
             }
-            final double result = new Line2D(vertexes[i], edges[i]).rayCast(pointRay);
-            if (!Util.compareDoubles(result, double.POSITIVE_INFINITY) && !Util.compareDoubles(result, 0.0d))
+            //Calculate the bounding rectangle:
+            double minX = vertexes[0].getX(),
+                    minY = vertexes[0].getY(),
+                    maxX = vertexes[0].getX(),
+                    maxY = vertexes[0].getY();
+            for (int i = 1; i < vertexes.Length; i++)
             {
-                if (!Util.compareDoubles(edges[i].angleTo(Vector2D.X_VECTOR), 0.0d)) intersections++;
+                minX = minX > vertexes[i].getX() ? vertexes[i].getX() : minX;
+                minY = minY > vertexes[i].getY() ? vertexes[i].getY() : minY;
+                maxX = maxX < vertexes[i].getX() ? vertexes[i].getX() : maxX;
+                maxY = maxY < vertexes[i].getY() ? vertexes[i].getY() : maxY;
             }
+            boundingRect = new Rect2D(minX, minY, maxX, maxY);
         }
-        return intersections % 2 == 1;
-    }
 
-     
-    public bool isInsideBorder(Point2D point)
-    {
-        int intersections = 0;
-        Ray2D pointRay = new Ray2D(point, Vector2D.X_VECTOR);
-        for (int i = 0; i < edges.Length; i++)
+        /**
+         * @return the starting point of the polyline.
+         */
+        public Point2D[] getVertexes()
         {
-            final Line2D line = new Line2D(vertexes[i], edges[i]);
-            if (line.isInsideBorder(point)) return true;
-            final double result = line.rayCast(pointRay);
-            if (!Util.compareDoubles(result, double.POSITIVE_INFINITY) && isClosed)
-            {
-                if (!Util.compareDoubles(edges[i].angleTo(Vector2D.X_VECTOR), 0.0d)) intersections++;
-            }
+            return vertexes;
         }
-        return intersections % 2 == 1;
-    }
 
-     
-    public double rayCast(Ray2D ray)
-    {
-        double result = double.POSITIVE_INFINITY;
-        for (int i = 0; i < edges.Length; i++)
+        /**
+         * @return the edges of the polyline.
+         */
+        public Vector2D[] getEdges()
         {
-            if (!ray.getDirection().isParallel(edges[i]))
+            return edges;
+        }
+
+        /**
+         * @return true if this polyline is a polygon.
+         */
+        public bool isClosed()
+        {
+            return _isClosed;
+        }
+
+
+        public Point2D randomPoint()
+        {
+            if (_isClosed)
             {
-                final double divisor = (ray.getDirection().getX() * edges[i].getX() - ray.getDirection().getX() * edges[i].getY());
-                final double len1 = (vertexes[i].getY() * edges[i].getX() - ray.getStart().getY() * edges[i].getX() - vertexes[i].getX() * edges[i].getY() + ray.getStart().getX() * edges[i].getY()) / divisor;
-                if (len1 > 0)
+                //Generate random points within the bounding rectangle...
+                double minX = boundingRect.getUpperLeft().getX();
+                double maxX = boundingRect.getLowerRight().getX();
+                double minY = boundingRect.getUpperLeft().getY();
+                double maxY = boundingRect.getLowerRight().getY();
+
+                Point2D randPoint = new Point2D(Util.generateRandomDoubleBetween(minX, maxX), Util.generateRandomDoubleBetween(minY, maxY));
+
+                //...until one is inside the polygon.
+                while (!isInsideBorder(randPoint))
                 {
-                    final double len2 = (ray.getDirection().getY() * ray.getStart().getX() - ray.getDirection().getY() * vertexes[i].getX() - ray.getDirection().getX() * ray.getStart().getY() + ray.getDirection().getX() * vertexes[i].getY()) / divisor;
-                    if (len2 >= 0 && len2 <= 1) result = result > len1 ? len1 : result;
+                    randPoint = new Point2D(Util.generateRandomDoubleBetween(minX, maxX), Util.generateRandomDoubleBetween(minY, maxY));
                 }
+
+                return randPoint;
             }
             else
             {
-                final Vector2D startVec = ray.getStart().vec(vertexes[i]);
-                if (ray.getDirection().isAbsoluteParallel(startVec))
+                int index = Util.randomNumberBetween(0, vertexes.Length - 2);
+                Line2D line = new Line2D(vertexes[index], edges[index]);
+                return line.randomPoint();
+            }
+        }
+
+
+        public bool isInside(Point2D point)
+        {
+            if (!_isClosed) return false;
+            int intersections = 0;
+            Ray2D pointRay = new Ray2D(point, Vector2D.X_VECTOR);
+            for (int i = 0; i < edges.Length; i++)
+            {
+                if (vertexes[i].Equals(point))
                 {
-                    return startVec.length();
+                    return false;
+                }
+                double result = new Line2D(vertexes[i], edges[i]).rayCast(pointRay);
+                if (!Util.compareDoubles(result, double.PositiveInfinity) && !Util.compareDoubles(result, 0.0d))
+                {
+                    if (!Util.compareDoubles(edges[i].angleTo(Vector2D.X_VECTOR), 0.0d)) intersections++;
+                }
+            }
+            return intersections % 2 == 1;
+        }
+
+
+        public bool isInsideBorder(Point2D point)
+        {
+            int intersections = 0;
+            Ray2D pointRay = new Ray2D(point, Vector2D.X_VECTOR);
+            for (int i = 0; i < edges.Length; i++)
+            {
+                Line2D line = new Line2D(vertexes[i], edges[i]);
+                if (line.isInsideBorder(point)) return true;
+                double result = line.rayCast(pointRay);
+                if (!Util.compareDoubles(result, double.PositiveInfinity) && _isClosed)
+                {
+                    if (!Util.compareDoubles(edges[i].angleTo(Vector2D.X_VECTOR), 0.0d)) intersections++;
+                }
+            }
+            return intersections % 2 == 1;
+        }
+
+
+        public double rayCast(Ray2D ray)
+        {
+            double result = double.PositiveInfinity;
+            for (int i = 0; i < edges.Length; i++)
+            {
+                if (!ray.getDirection().isParallel(edges[i]))
+                {
+                    double divisor = (ray.getDirection().getX() * edges[i].getX() - ray.getDirection().getX() * edges[i].getY());
+                    double len1 = (vertexes[i].getY() * edges[i].getX() - ray.getStart().getY() * edges[i].getX() - vertexes[i].getX() * edges[i].getY() + ray.getStart().getX() * edges[i].getY()) / divisor;
+                    if (len1 > 0)
+                    {
+                          double len2 = (ray.getDirection().getY() * ray.getStart().getX() - ray.getDirection().getY() * vertexes[i].getX() - ray.getDirection().getX() * ray.getStart().getY() + ray.getDirection().getX() * vertexes[i].getY()) / divisor;
+                        if (len2 >= 0 && len2 <= 1) result = result > len1 ? len1 : result;
+                    }
                 }
                 else
                 {
-                    final Point2D endVertex = isClosed && i == edges.Length - 1 ? vertexes[0] : vertexes[i + 1];
-                    final Vector2D endVec = ray.getStart().vec(endVertex);
-                    if (ray.getDirection().isAbsoluteParallel(endVec))
+                      Vector2D startVec = ray.getStart().vec(vertexes[i]);
+                    if (ray.getDirection().isAbsoluteParallel(startVec))
                     {
-                        return endVec.length();
+                        return startVec.length();
+                    }
+                    else
+                    {
+                          Point2D endVertex = _isClosed && i == edges.Length - 1 ? vertexes[0] : vertexes[i + 1];
+                          Vector2D endVec = ray.getStart().vec(endVertex);
+                        if (ray.getDirection().isAbsoluteParallel(endVec))
+                        {
+                            return endVec.length();
+                        }
                     }
                 }
             }
+            return result * ray.getDirection().length();
         }
-        return result * ray.getDirection().length();
-    }
 
-     
-    public Rect2D getBounds()
-    {
-        return boundingRect;
-    }
 
-     
-    public Polyline2D transform(TransformMatrix2D matrix)
-    {
-        Point2D[] vertexesNew = new Point2D[vertexes.Length];
-        for (int i = 0; i < vertexes.Length; i++)
+        public Rect2D getBounds()
         {
-            vertexesNew[i] = matrix.multiply(vertexes[i]);
+            return boundingRect;
         }
-        return new Polyline2D(vertexesNew, isClosed || (Util.compareDoubles(vertexesNew[0].getX(), vertexesNew[vertexes.Length - 1].getX()) && Util.compareDoubles(vertexesNew[0].getY(), vertexesNew[vertexes.Length - 1].getY())));
-    }
-}
 
+        IGeometric2D IGeometric2D.transform(TransformMatrix2D matrix)
+        {
+            return transform(matrix);
+        }
+
+        public Polyline2D transform(TransformMatrix2D matrix)
+        {
+            Point2D[] vertexesNew = new Point2D[vertexes.Length];
+            for (int i = 0; i < vertexes.Length; i++)
+            {
+                vertexesNew[i] = matrix.multiply(vertexes[i]);
+            }
+            return new Polyline2D(vertexesNew, _isClosed || (Util.compareDoubles(vertexesNew[0].getX(), vertexesNew[vertexes.Length - 1].getX()) && Util.compareDoubles(vertexesNew[0].getY(), vertexesNew[vertexes.Length - 1].getY())));
+        }
+    } 
 }

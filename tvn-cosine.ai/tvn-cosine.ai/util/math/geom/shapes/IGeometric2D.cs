@@ -33,7 +33,7 @@
         /**
          * Intersects this geometric shape with a ray.
          * @param ray the ray to intersect.
-         * @return the length of the ray until it intersects with this shape. {@code double.POSITIVE_INFINITY} if it does not intersect this shape.
+         * @return the length of the ray until it intersects with this shape. {@code double.PositiveInfinity} if it does not intersect this shape.
          */
         double rayCast(Ray2D ray);
         /**

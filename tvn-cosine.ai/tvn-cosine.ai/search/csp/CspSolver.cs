@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.csp
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.csp
 {
     /**
      * Base class for CSP solver implementations. Solving a CSP means finding an
@@ -12,10 +14,11 @@
      * @author Ruediger Lunde
      * @author Mike Stampone
      */
-    public abstract class CspSolver<VAR : Variable, VAL>
+    public abstract class CspSolver<VAR, VAL>
+        where VAR : Variable
     {
 
-        private IQueue<CspListener<VAR, VAL>> listeners = Factory.CreateQueue<>();
+        private IQueue<CspListener<VAR, VAL>> listeners = Factory.CreateQueue<CspListener<VAR, VAL>>();
 
         /**
          * Computes a solution to the given CSP, which specifies values for all
@@ -24,7 +27,7 @@
          * @param csp a CSP to be solved.
          * @return the computed solution or empty if no solution was found.
          */
-        public abstract Optional<Assignment<VAR, VAL>> solve(CSP<VAR, VAL> csp);
+        public abstract Assignment<VAR, VAL> solve(CSP<VAR, VAL> csp);
 
         /**
          * Adds a CSP listener to the solution strategy.
@@ -51,9 +54,8 @@
         /** Informs all registered listeners about a state change. */
         protected void fireStateChanged(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR variable)
         {
-            for (CspListener<VAR, VAL> listener : listeners)
+            foreach (CspListener<VAR, VAL> listener in listeners)
                 listener.stateChanged(csp, assignment, variable);
         }
-    }
-
+    } 
 }

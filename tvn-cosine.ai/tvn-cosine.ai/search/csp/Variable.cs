@@ -7,14 +7,14 @@
      */
     public class Variable
     {
-        private final string name;
+        private readonly string name;
 
-    public Variable(string name)
+        public Variable(string name)
         {
             this.name = name;
         }
 
-        public final string getName()
+        public string getName()
         {
             return name;
         }
@@ -25,17 +25,16 @@
         }
 
         /** Variables with equal names are equal. */
-         
-        public final bool equals(object obj)
+
+        public override bool Equals(object obj)
         {
             return obj is Variable && this.name.Equals(((Variable)obj).name);
         }
 
-         
-        public final int hashCode()
+
+        public override int GetHashCode()
         {
             return name.GetHashCode();
         }
-    }
-
+    } 
 }

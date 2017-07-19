@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.adversarial
+﻿using tvn.cosine.ai.search.framework;
+
+namespace tvn.cosine.ai.search.adversarial
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Ed.): Page 173.<br>
@@ -39,87 +41,82 @@
      * @param <P> Type which is used for players in the game.
      * @author Ruediger Lunde
      */
-    public class AlphaBetaSearch<S, A, P> implements
-            AdversarialSearch<S, A> {
-
-    public final static string METRICS_NODES_EXPANDED = "nodesExpanded";
-
-    Game<S, A, P> game;
-    private Metrics metrics = new Metrics();
-
-    /**
-     * Creates a new search object for a given game.
-     */
-    public static <STATE, ACTION, PLAYER> AlphaBetaSearch<STATE, ACTION, PLAYER> createFor(
-            Game<STATE, ACTION, PLAYER> game)
+    public class AlphaBetaSearch<S, A, P> : AdversarialSearch<S, A>
     {
-        return new AlphaBetaSearch<STATE, ACTION, PLAYER>(game);
-    }
+        public const string METRICS_NODES_EXPANDED = "nodesExpanded";
 
-    public AlphaBetaSearch(Game<S, A, P> game)
-    {
-        this.game = game;
-    }
+        Game<S, A, P> game;
+        private Metrics metrics = new Metrics();
 
-     
-    public A makeDecision(S state)
-    {
-        metrics = new Metrics();
-        A result = null;
-        double resultValue = double.NegativeInfinity;
-        P player = game.getPlayer(state);
-        for (A action : game.getActions(state))
+        /**
+         * Creates a new search object for a given game.
+         */
+        public static AlphaBetaSearch<STATE, ACTION, PLAYER> createFor<STATE, ACTION, PLAYER>(Game<STATE, ACTION, PLAYER> game)
         {
-            double value = minValue(game.getResult(state, action), player,
-                    double.NegativeInfinity, double.POSITIVE_INFINITY);
-            if (value > resultValue)
+            return new AlphaBetaSearch<STATE, ACTION, PLAYER>(game);
+        }
+
+        public AlphaBetaSearch(Game<S, A, P> game)
+        {
+            this.game = game;
+        }
+         
+        public A makeDecision(S state)
+        {
+            metrics = new Metrics();
+            A result = default(A);
+            double resultValue = double.NegativeInfinity;
+            P player = game.getPlayer(state);
+            foreach (A action in game.getActions(state))
             {
-                result = action;
-                resultValue = value;
+                double value = minValue(game.getResult(state, action), player,
+                        double.NegativeInfinity, double.PositiveInfinity);
+                if (value > resultValue)
+                {
+                    result = action;
+                    resultValue = value;
+                }
             }
+            return result;
         }
-        return result;
-    }
 
-    public double maxValue(S state, P player, double alpha, double beta)
-    {
-        metrics.incrementInt(METRICS_NODES_EXPANDED);
-        if (game.isTerminal(state))
-            return game.getUtility(state, player);
-        double value = double.NegativeInfinity;
-        for (A action : game.getActions(state))
+        public double maxValue(S state, P player, double alpha, double beta)
         {
-            value = System.Math.Max(value, minValue( //
-                    game.getResult(state, action), player, alpha, beta));
-            if (value >= beta)
-                return value;
-            alpha = System.Math.Max(alpha, value);
+            metrics.incrementInt(METRICS_NODES_EXPANDED);
+            if (game.isTerminal(state))
+                return game.getUtility(state, player);
+            double value = double.NegativeInfinity;
+            foreach (A action in game.getActions(state))
+            {
+                value = System.Math.Max(value, minValue( //
+                        game.getResult(state, action), player, alpha, beta));
+                if (value >= beta)
+                    return value;
+                alpha = System.Math.Max(alpha, value);
+            }
+            return value;
         }
-        return value;
-    }
 
-    public double minValue(S state, P player, double alpha, double beta)
-    {
-        metrics.incrementInt(METRICS_NODES_EXPANDED);
-        if (game.isTerminal(state))
-            return game.getUtility(state, player);
-        double value = double.POSITIVE_INFINITY;
-        for (A action : game.getActions(state))
+        public double minValue(S state, P player, double alpha, double beta)
         {
-            value = System.Math.Min(value, maxValue( //
-                    game.getResult(state, action), player, alpha, beta));
-            if (value <= alpha)
-                return value;
-            beta = System.Math.Min(beta, value);
+            metrics.incrementInt(METRICS_NODES_EXPANDED);
+            if (game.isTerminal(state))
+                return game.getUtility(state, player);
+            double value = double.PositiveInfinity;
+            foreach (A action in game.getActions(state))
+            {
+                value = System.Math.Min(value, maxValue( //
+                        game.getResult(state, action), player, alpha, beta));
+                if (value <= alpha)
+                    return value;
+                beta = System.Math.Min(beta, value);
+            }
+            return value;
         }
-        return value;
-    }
-
-     
-    public Metrics getMetrics()
-    {
-        return metrics;
-    }
-}
-
+         
+        public Metrics getMetrics()
+        {
+            return metrics;
+        }
+    } 
 }

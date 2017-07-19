@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.search.csp.inference
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+
+namespace tvn.cosine.ai.search.csp.inference
 {
     /**
      * 
@@ -36,104 +39,108 @@
      * 
      * @author Ruediger Lunde
      */
-    public class AC3Strategy<VAR : Variable, VAL> : InferenceStrategy<VAR, VAL> {
-
-    /**
-	 * Makes a CSP consisting of binary constraints arc-consistent.
-	 * 
-	 * @return An object which indicates success/failure and contains data to
-	 *         undo the operation.
-	 */
-    public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp)
+    public class AC3Strategy<VAR, VAL> : InferenceStrategy<VAR, VAL>
+    where VAR : Variable
     {
-        Queue<VAR> queue = QueueFactory.createFifoQueueNoDuplicates();
-        queue.AddAll(csp.getVariables());
-        DomainLog<VAR, VAL> log = new DomainLog<>();
-        reduceDomains(queue, csp, log);
-        return log.compactify();
-    }
 
-    /**
-	 * Reduces the domain of the specified variable to the specified value and
-	 * reestablishes arc-consistency. It is assumed that the provided CSP was
-	 * arc-consistent before the call.
-	 * 
-	 * @return An object which indicates success/failure and contains data to
-	 *         undo the operation.
-	 */
-    public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
-    {
-        Domain<VAL> domain = csp.getDomain(var);
-        VAL value = assignment.getValue(var);
-        assert domain.contains(value);
-        DomainLog<VAR, VAL> log = new DomainLog<>();
-        if (domain.size() > 1)
+        /**
+         * Makes a CSP consisting of binary constraints arc-consistent.
+         * 
+         * @return An object which indicates success/failure and contains data to
+         *         undo the operation.
+         */
+        public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp)
         {
-            Queue<VAR> queue = QueueFactory.createFifoQueue();
-            queue.Add(var);
-            log.storeDomainFor(var, domain);
-            csp.setDomain(var, new Domain<>(value));
+            IQueue<VAR> queue = Factory.CreateFifoQueueNoDuplicates<VAR>();
+            queue.AddAll(csp.getVariables());
+            DomainLog<VAR, VAL> log = new DomainLog<VAR, VAL>();
             reduceDomains(queue, csp, log);
+            return log.compactify();
         }
-        return log.compactify();
-    }
 
-    /**
-	 * For efficiency reasons the queue manages updated variables vj whereas the original AC3
-	 * manages neighbor arcs (vi, vj). Constraints which are not binary are ignored.
-	 */
-    private void reduceDomains(Queue<VAR> queue, CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
-    {
-        while (!queue.isEmpty())
+        /**
+         * Reduces the domain of the specified variable to the specified value and
+         * reestablishes arc-consistency. It is assumed that the provided CSP was
+         * arc-consistent before the call.
+         * 
+         * @return An object which indicates success/failure and contains data to
+         *         undo the operation.
+         */
+        public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
         {
-            VAR var = queue.Remove();
-            for (Constraint<VAR, VAL> constraint : csp.getConstraints(var))
+            Domain<VAL> domain = csp.getDomain(var);
+            VAL value = assignment.getValue(var);
+            if (!domain.contains(value))
             {
-                VAR neighbor = csp.getNeighbor(var, constraint);
-                if (neighbor != null && revise(neighbor, var, constraint, csp, log))
+                throw new Exception("domain does not contain value");
+            }
+
+            DomainLog<VAR, VAL> log = new DomainLog<VAR, VAL>();
+            if (domain.size() > 1)
+            {
+                IQueue<VAR> queue = Factory.CreateFifoQueue<VAR>();
+                queue.Add(var);
+                log.storeDomainFor(var, domain);
+                csp.setDomain(var, new Domain<VAL>(value));
+                reduceDomains(queue, csp, log);
+            }
+            return log.compactify();
+        }
+
+        /**
+         * For efficiency reasons the queue manages updated variables vj whereas the original AC3
+         * manages neighbor arcs (vi, vj). Constraints which are not binary are ignored.
+         */
+        private void reduceDomains(IQueue<VAR> queue, CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
+        {
+            while (!queue.IsEmpty())
+            {
+                VAR var = queue.Pop();
+                foreach (Constraint<VAR, VAL> constraint in csp.getConstraints(var))
                 {
-                    if (csp.getDomain(neighbor).isEmpty())
+                    VAR neighbor = csp.getNeighbor(var, constraint);
+                    if (neighbor != null && revise(neighbor, var, constraint, csp, log))
                     {
-                        log.setEmptyDomainFound(true);
-                        return;
+                        if (csp.getDomain(neighbor).isEmpty())
+                        {
+                            log.setEmptyDomainFound(true);
+                            return;
+                        }
+                        queue.Add(neighbor);
                     }
-                    queue.Add(neighbor);
                 }
             }
         }
-    }
 
-    /**
-	 * Establishes arc-consistency for (xi, xj).
-	 * @return value true if the domain of xi was reduced.
-	 */
-    private bool revise(VAR xi, VAR xj, Constraint<VAR, VAL> constraint,
-            CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
-    {
-        Domain<VAL> currDomain = csp.getDomain(xi);
-        IQueue<VAL> newValues = Factory.CreateQueue<>(currDomain.size());
-        Assignment<VAR, VAL> assignment = new Assignment<>();
-        for (VAL vi : currDomain)
+        /**
+         * Establishes arc-consistency for (xi, xj).
+         * @return value true if the domain of xi was reduced.
+         */
+        private bool revise(VAR xi, VAR xj, Constraint<VAR, VAL> constraint, CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
         {
-            assignment.Add(xi, vi);
-            for (VAL vj : csp.getDomain(xj))
+            Domain<VAL> currDomain = csp.getDomain(xi);
+            IQueue<VAL> newValues = Factory.CreateQueue<VAL>();
+            Assignment<VAR, VAL> assignment = new Assignment<VAR, VAL>();
+            foreach (VAL vi in currDomain)
             {
-                assignment.Add(xj, vj);
-                if (constraint.isSatisfiedWith(assignment))
+                assignment.add(xi, vi);
+                foreach (VAL vj in csp.getDomain(xj))
                 {
-                    newValues.Add(vi);
-                    break;
+                    assignment.add(xj, vj);
+                    if (constraint.isSatisfiedWith(assignment))
+                    {
+                        newValues.Add(vi);
+                        break;
+                    }
                 }
             }
+            if (newValues.Size() < currDomain.size())
+            {
+                log.storeDomainFor(xi, csp.getDomain(xi));
+                csp.setDomain(xi, new Domain<VAL>(newValues));
+                return true;
+            }
+            return false;
         }
-        if (newValues.size() < currDomain.size())
-        {
-            log.storeDomainFor(xi, csp.getDomain(xi));
-            csp.setDomain(xi, new Domain<>(newValues));
-            return true;
-        }
-        return false;
     }
-}
-
 }

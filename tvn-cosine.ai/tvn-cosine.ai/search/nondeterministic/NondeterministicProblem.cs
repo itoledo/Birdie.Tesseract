@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.search.nondeterministic
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
+
+namespace tvn.cosine.ai.search.nondeterministic
 {
     /**
      * Non-deterministic problems may have multiple results for a given state and
@@ -9,8 +12,7 @@
      * @author Ruediger Lunde
      */
     public class NondeterministicProblem<S, A>
-    {
-
+    { 
         protected S initialState;
         protected ActionsFunction<S, A> actionsFn;
         protected GoalTest<S> goalTest;
@@ -23,9 +25,8 @@
         public NondeterministicProblem(S initialState,
                 ActionsFunction<S, A> actionsFn, ResultsFunction<S, A> resultsFn,
                 GoalTest<S> goalTest)
-        {
-            this(initialState, actionsFn, resultsFn, goalTest, (s, a, sPrimed) -> 1.0);
-        }
+            : this(initialState, actionsFn, resultsFn, goalTest, (s, a, sPrimed) => 1.0)
+        {  }
 
         /**
          * Constructor
@@ -58,7 +59,7 @@
          */
         public bool testGoal(S state)
         {
-            return goalTest.test(state);
+            return goalTest(state);
         }
 
         /**
@@ -66,7 +67,7 @@
          */
         IQueue<A> getActions(S state)
         {
-            return actionsFn.apply(state);
+            return actionsFn(state);
         }
 
         /**
@@ -85,8 +86,7 @@
          */
         double getStepCosts(S state, A action, S stateDelta)
         {
-            return stepCostFn.applyAsDouble(state, action, stateDelta);
+            return stepCostFn(state, action, stateDelta);
         }
-    }
-
+    } 
 }

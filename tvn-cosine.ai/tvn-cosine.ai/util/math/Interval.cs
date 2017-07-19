@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.util.math
+﻿using tvn.cosine.ai.common;
+
+namespace tvn.cosine.ai.util.math
 {
     /**
      * Basic supports for Intervals.
@@ -11,15 +13,13 @@
      */
     public class Interval<C>
     {
-        private Comparable<C> lower = null;
+        private IComparable<C> lower = null;
         private bool lowerInclusive = true;
-        private Comparable<C> upper = null;
+        private IComparable<C> upper = null;
         private bool upperInclusive = true;
 
         public Interval()
-        {
-
-        }
+        { }
 
         /**
          * Constructs a closed interval from the two specified end points.
@@ -29,7 +29,7 @@
          * @param upper
          *            the upper end point of the interval
          */
-        public Interval(Comparable<C> lower, Comparable<C> upper)
+        public Interval(IComparable<C> lower, IComparable<C> upper)
         {
             setLower(lower);
             setUpper(upper);
@@ -49,8 +49,8 @@
          *            whether or not the upper end of the interval is inclusive of
          *            its value.
          */
-        public Interval(Comparable<C> lower, bool lowerInclusive,
-                Comparable<C> upper, bool upperInclusive)
+        public Interval(IComparable<C> lower, bool lowerInclusive,
+                IComparable<C> upper, bool upperInclusive)
         {
             setLower(lower);
             setLowerInclusive(lowerInclusive);
@@ -72,29 +72,30 @@
                 return false;
             }
 
-            bool in = true;
+            bool _in = true;
 
             if (isLowerInclusive())
             {
-			in = lower.compareTo(o) <= 0;
+                _in = lower.compareTo(o) <= 0;
             }
             else
             {
-			in = lower.compareTo(o) < 0;
+                _in = lower.compareTo(o) < 0;
             }
 
-            if (in) {
+            if (_in)
+            {
                 if (isUpperInclusive())
                 {
-				in = upper.compareTo(o) >= 0;
+                    _in = upper.compareTo(o) >= 0;
                 }
                 else
                 {
-				in = upper.compareTo(o) > 0;
+                    _in = upper.compareTo(o) > 0;
                 }
             }
 
-            return in;
+            return _in;
         }
 
         /**
@@ -146,7 +147,7 @@
          * 
          * @return the lower end point of the interval.
          */
-        public Comparable<C> getLower()
+        public IComparable<C> getLower()
         {
             return lower;
         }
@@ -157,7 +158,7 @@
          * @param lower
          *            the lower end point of the interval
          */
-        public void setLower(Comparable<C> lower)
+        public void setLower(IComparable<C> lower)
         {
             this.lower = lower;
         }
@@ -211,7 +212,7 @@
          * 
          * @return the upper end point of the interval.
          */
-        public Comparable<C> getUpper()
+        public IComparable<C> getUpper()
         {
             return upper;
         }
@@ -222,7 +223,7 @@
          * @param upper
          *            the upper end point of the interval.
          */
-        public void setUpper(Comparable<C> upper)
+        public void setUpper(IComparable<C> upper)
         {
             this.upper = upper;
         }

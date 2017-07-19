@@ -1,4 +1,12 @@
-﻿namespace tvn.cosine.ai.search.local
+﻿using System.Diagnostics;
+using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.util;
+
+namespace tvn.cosine.ai.search.local
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.8, page
@@ -44,37 +52,38 @@
      */
     public class GeneticAlgorithm<A>
     {
-        protected static final string POPULATION_SIZE = "populationSize";
-	protected static final string ITERATIONS = "iterations";
-	protected static final string TIME_IN_MILLISECONDS = "timeInMSec";
-	//
-	protected Metrics metrics = new Metrics();
+        protected const string POPULATION_SIZE = "populationSize";
+        protected const string ITERATIONS = "iterations";
+        protected const string TIME_IN_MILLISECONDS = "timeInMSec";
+        //
+        protected Metrics metrics = new Metrics();
         //
         protected int individualLength;
         protected IQueue<A> finiteAlphabet;
         protected double mutationProbability;
 
-        protected Random random;
-        private IQueue<ProgressTracker<A>> progressTrackers = Factory.CreateQueue<ProgressTracker<A>>();
+        protected IRandom random;
+        private IQueue<ProgressTracker> progressTrackers = Factory.CreateQueue<ProgressTracker>();
 
-        public GeneticAlgorithm(int individualLength, Collection<A> finiteAlphabet, double mutationProbability)
-        {
-            this(individualLength, finiteAlphabet, mutationProbability, new Random());
-        }
+        public GeneticAlgorithm(int individualLength, IQueue<A> finiteAlphabet, double mutationProbability)
+            : this(individualLength, finiteAlphabet, mutationProbability, new DefaultRandom())
+        { }
 
-        public GeneticAlgorithm(int individualLength, Collection<A> finiteAlphabet, double mutationProbability,
-                Random random)
+        public GeneticAlgorithm(int individualLength, IQueue<A> finiteAlphabet, double mutationProbability, IRandom random)
         {
             this.individualLength = individualLength;
             this.finiteAlphabet = Factory.CreateQueue<A>(finiteAlphabet);
             this.mutationProbability = mutationProbability;
             this.random = random;
 
-            assert(this.mutationProbability >= 0.0 && this.mutationProbability <= 1.0);
+            if (!(this.mutationProbability >= 0.0 && this.mutationProbability <= 1.0))
+            {
+                throw new Exception("");
+            }
         }
 
         /** Progress tracers can be used to display progress information. */
-        public void addProgressTracer(ProgressTracker<A> pTracer)
+        public virtual void addProgressTracer(ProgressTracker pTracer)
         {
             progressTrackers.Add(pTracer);
         }
@@ -83,13 +92,23 @@
          * Starts the genetic algorithm and stops after a specified number of
          * iterations.
          */
-        public Individual<A> geneticAlgorithm(IQueue<Individual<A>> initPopulation,
-                FitnessFunction<A> fitnessFn, final int maxIterations)
+        public virtual Individual<A> geneticAlgorithm(IQueue<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn, int maxIterations)
         {
-            GoalTest<Individual<A>> goalTest = state->getIterations() >= maxIterations;
+            GoalTest<Individual<A>> goalTest = (state) => getIterations() >= maxIterations;
             return geneticAlgorithm(initPopulation, fitnessFn, goalTest, 0L);
         }
 
+        private bool currIsCancelled;
+
+        public void SetCurrIsCancelled(bool value)
+        {
+            currIsCancelled = value;
+        }
+
+        public bool GetCurrIsCancelled()
+        {
+            return currIsCancelled;
+        }
         /**
          * Template method controlling search. It returns the best individual in the
          * specified population, according to the specified FITNESS-FN and goal
@@ -112,18 +131,18 @@
         // function GENETIC-ALGORITHM(population, FITNESS-FN) returns an individual
         // inputs: population, a set of individuals
         // FITNESS-FN, a function that measures the fitness of an individual
-        public Individual<A> geneticAlgorithm(IQueue<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn,
+        public virtual Individual<A> geneticAlgorithm(IQueue<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn,
                 GoalTest<Individual<A>> goalTest, long maxTimeMilliseconds)
         {
             Individual<A> bestIndividual = null;
 
             // Create a local copy of the population to work with
-            IQueue<Individual<A>> population = Factory.CreateQueue<>(initPopulation);
+            IQueue<Individual<A>> population = Factory.CreateQueue<Individual<A>>(initPopulation);
             // Validate the population and setup the instrumentation
             validatePopulation(population);
             updateMetrics(population, 0, 0L);
 
-            long startTime = System.currentTimeMillis();
+            Stopwatch sw = new Stopwatch();
 
             // repeat
             int itCount = 0;
@@ -132,26 +151,26 @@
                 population = nextGeneration(population, fitnessFn);
                 bestIndividual = retrieveBestIndividual(population, fitnessFn);
 
-                updateMetrics(population, ++itCount, System.currentTimeMillis() - startTime);
+                updateMetrics(population, ++itCount, sw.ElapsedMilliseconds);
 
                 // until some individual is fit enough, or enough time has elapsed
-                if (maxTimeMilliseconds > 0L && (System.currentTimeMillis() - startTime) > maxTimeMilliseconds)
+                if (maxTimeMilliseconds > 0L && sw.ElapsedMilliseconds > maxTimeMilliseconds)
                     break;
-                if (Tasks.currIsCancelled())
+                if (currIsCancelled)
                     break;
-            } while (!goalTest.test(bestIndividual));
+            } while (!goalTest(bestIndividual));
 
             notifyProgressTrackers(itCount, population);
             // return the best individual in population, according to FITNESS-FN
             return bestIndividual;
         }
 
-        public Individual<A> retrieveBestIndividual(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        public virtual Individual<A> retrieveBestIndividual(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
         {
             Individual<A> bestIndividual = null;
             double bestSoFarFValue = double.NegativeInfinity;
 
-            for (Individual<A> individual : population)
+            foreach (Individual<A> individual in population)
             {
                 double fValue = fitnessFn.apply(individual);
                 if (fValue > bestSoFarFValue)
@@ -167,7 +186,7 @@
         /**
          * Sets the population size and number of iterations to zero.
          */
-        public void clearInstrumentation()
+        public virtual void clearInstrumentation()
         {
             updateMetrics(Factory.CreateQueue<Individual<A>>(), 0, 0L);
         }
@@ -177,7 +196,7 @@
          * 
          * @return all the metrics of the genetic algorithm.
          */
-        public Metrics getMetrics()
+        public virtual Metrics getMetrics()
         {
             return metrics;
         }
@@ -187,7 +206,7 @@
          * 
          * @return the population size.
          */
-        public int getPopulationSize()
+        public virtual int getPopulationSize()
         {
             return metrics.getInt(POPULATION_SIZE);
         }
@@ -197,7 +216,7 @@
          * 
          * @return the number of iterations of the genetic algorithm.
          */
-        public int getIterations()
+        public virtual int getIterations()
         {
             return metrics.getInt(ITERATIONS);
         }
@@ -206,7 +225,7 @@
          * 
          * @return the time in milliseconds that the genetic algorithm took.
          */
-        public long getTimeInMilliseconds()
+        public virtual long getTimeInMilliseconds()
         {
             return metrics.getLong(TIME_IN_MILLISECONDS);
         }
@@ -219,9 +238,9 @@
          * @param time
          *            the time in milliseconds that the genetic algorithm took.
          */
-        protected void updateMetrics(IQueue<Individual<A>> population, int itCount, long time)
+        protected virtual void updateMetrics(IQueue<Individual<A>> population, int itCount, long time)
         {
-            metrics.set(POPULATION_SIZE, population.size());
+            metrics.set(POPULATION_SIZE, population.Size());
             metrics.set(ITERATIONS, itCount);
             metrics.set(TIME_IN_MILLISECONDS, time);
         }
@@ -236,12 +255,12 @@
          * Primitive operation which is responsible for creating the next
          * generation. Override to get progress information!
          */
-        protected IQueue<Individual<A>> nextGeneration(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        protected virtual IQueue<Individual<A>> nextGeneration(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
         {
             // new_population <- empty set
-            IQueue<Individual<A>> newPopulation = Factory.CreateQueue<Individual<A>>(population.size());
+            IQueue<Individual<A>> newPopulation = Factory.CreateQueue<Individual<A>>();
             // for i = 1 to SIZE(population) do
-            for (int i = 0; i < population.size(); i++)
+            for (int i = 0; i < population.Size(); i++)
             {
                 // x <- RANDOM-SELECTION(population, FITNESS-FN)
                 Individual<A> x = randomSelection(population, fitnessFn);
@@ -262,15 +281,15 @@
         }
 
         // RANDOM-SELECTION(population, FITNESS-FN)
-        protected Individual<A> randomSelection(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        protected virtual Individual<A> randomSelection(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
         {
             // Default result is last individual
             // (just to avoid problems with rounding errors)
-            Individual<A> selected = population.Get(population.size() - 1);
+            Individual<A> selected = population.Get(population.Size() - 1);
 
             // Determine all of the fitness values
-            double[] fValues = new double[population.size()];
-            for (int i = 0; i < population.size(); i++)
+            double[] fValues = new double[population.Size()];
+            for (int i = 0; i < population.Size(); i++)
             {
                 fValues[i] = fitnessFn.apply(population.Get(i));
             }
@@ -296,7 +315,7 @@
 
         // function REPRODUCE(x, y) returns an individual
         // inputs: x, y, parent individuals
-        protected Individual<A> reproduce(Individual<A> x, Individual<A> y)
+        protected virtual Individual<A> reproduce(Individual<A> x, Individual<A> y)
         {
             // n <- LENGTH(x);
             // Note: this is = this.individualLength
@@ -310,34 +329,34 @@
             return new Individual<A>(childRepresentation);
         }
 
-        protected Individual<A> mutate(Individual<A> child)
+        protected virtual Individual<A> mutate(Individual<A> child)
         {
             int mutateOffset = randomOffset(individualLength);
-            int alphaOffset = randomOffset(finiteAlphabet.size());
+            int alphaOffset = randomOffset(finiteAlphabet.Size());
 
             IQueue<A> mutatedRepresentation = Factory.CreateQueue<A>(child.getRepresentation());
 
-            mutatedRepresentation.set(mutateOffset, finiteAlphabet.Get(alphaOffset));
+            mutatedRepresentation.Set(mutateOffset, finiteAlphabet.Get(alphaOffset));
 
             return new Individual<A>(mutatedRepresentation);
         }
 
-        protected int randomOffset(int length)
+        protected virtual int randomOffset(int length)
         {
-            return random.nextInt(length);
+            return random.Next(length);
         }
 
-        protected void validatePopulation(IQueue<Individual<A>> population)
+        protected virtual void validatePopulation(IQueue<Individual<A>> population)
         {
             // Require at least 1 individual in population in order
             // for algorithm to work
-            if (population.size() < 1)
+            if (population.Size() < 1)
             {
                 throw new IllegalArgumentException("Must start with at least a population of size 1");
             }
             // string lengths are assumed to be of fixed size,
             // therefore ensure initial populations lengths correspond to this
-            for (Individual<A> individual : population)
+            foreach (Individual<A> individual in population)
             {
                 if (individual.length() != this.individualLength)
                 {
@@ -347,9 +366,9 @@
             }
         }
 
-        private void notifyProgressTrackers(int itCount, Collection<Individual<A>> generation)
+        private void notifyProgressTrackers(int itCount, IQueue<Individual<A>> generation)
         {
-            for (ProgressTracker<A> tracer : progressTrackers)
+            foreach (ProgressTracker tracer in progressTrackers)
                 tracer.trackProgress(getIterations(), generation);
         }
 
@@ -358,9 +377,9 @@
          * 
          * @author Ruediger Lunde
          */
-        public interface ProgressTracker<A>
+        public interface ProgressTracker 
         {
-            void trackProgress(int itCount, Collection<Individual<A>> population);
+            void trackProgress(int itCount, IQueue<Individual<A>> population);
         }
     }
 }

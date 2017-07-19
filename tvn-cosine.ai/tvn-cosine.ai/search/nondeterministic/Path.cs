@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.nondeterministic
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.nondeterministic
 {
     /**
      * Represents the path the agent travels through the AND-OR tree (see figure
@@ -6,45 +8,43 @@
      * 
      * @author Andrew Brown
      */
-    public class Path : LinkedList<object> {
-
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-	 * Creating a new path based on this path and the passed in appended states.
-	 * 
-	 * @param states
-	 *            the states to append to a new copy of this path.
-	 * 
-	 * @return a new Path that contains this path's states along with the passed
-	 *         in argument states appended to the end.
-	 */
-    public Path append(params object[] states)
+    public class Path : Queue<object>
     {
-        Path appendedPath = new Path();
-        appendedPath.AddAll(this);
-        Collections.AddAll(appendedPath, states);
-        return appendedPath;
-    }
+        /**
+         * Creating a new path based on this path and the passed in appended states.
+         * 
+         * @param states
+         *            the states to append to a new copy of this path.
+         * 
+         * @return a new Path that contains this path's states along with the passed
+         *         in argument states appended to the end.
+         */
+        public Path append(params object[] states)
+        {
+            Path appendedPath = new Path();
+            appendedPath.AddAll(this);
+            foreach (object obj in states)
+                appendedPath.Add(obj);
+            return appendedPath;
+        }
 
-    /**
-	 * Create a new path based on the passed in prepended state and this path's
-	 * current states.
-	 * 
-	 * @param state
-	 *            the state to be prepended.
-	 * @return a new Path that contains the passed in state along with this
-	 *         path's current states.
-	 */
-    public Path prepend(object state)
-    {
-        Path prependedPath = new Path();
-        prependedPath.Add(state);
-        prependedPath.AddAll(this);
+        /**
+         * Create a new path based on the passed in prepended state and this path's
+         * current states.
+         * 
+         * @param state
+         *            the state to be prepended.
+         * @return a new Path that contains the passed in state along with this
+         *         path's current states.
+         */
+        public Path prepend(object state)
+        {
+            Path prependedPath = new Path();
+            prependedPath.Add(state);
+            prependedPath.AddAll(this);
 
-        return prependedPath;
+            return prependedPath;
+        }
     }
-}
 
 }

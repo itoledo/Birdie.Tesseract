@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.search.adversarial
+﻿using tvn.cosine.ai.common.collections;
+
+namespace tvn.cosine.ai.search.adversarial
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 165.<br>
@@ -32,21 +34,13 @@
      * @author Ruediger Lunde
      */
     public interface Game<S, A, P>
-    {
-
-        S getInitialState();
-
-        P[] getPlayers();
-
-        P getPlayer(S state);
-
-        IQueue<A> getActions(S state);
-
-        S getResult(S state, A action);
-
-        bool isTerminal(S state);
-
+    { 
+        S getInitialState(); 
+        P[] getPlayers(); 
+        P getPlayer(S state); 
+        IQueue<A> getActions(S state); 
+        S getResult(S state, A action); 
+        bool isTerminal(S state); 
         double getUtility(S state, P player);
-    }
-
+    } 
 }

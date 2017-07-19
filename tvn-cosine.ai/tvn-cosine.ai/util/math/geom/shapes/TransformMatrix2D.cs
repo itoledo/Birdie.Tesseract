@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.util.math.geom.shapes
+﻿using tvn.cosine.ai.common;
+
+namespace tvn.cosine.ai.util.math.geom.shapes
 {
     /**
      * Implements a transformation matrix for two-dimensional geometry.<br/>
@@ -10,28 +12,25 @@
      * @author Andreas Walscheid
      * 
      */
-    public class TransformMatrix2D
+    public class TransformMatrix2D : IEquatable<TransformMatrix2D>, IEquatable
     {
-
         /**
          * This is the unity/identity matrix:<br/>
          * <code>[ 1 0 0 ]</code><br/>
          * <code>[ 0 0 0 ]</code><br/>
          * <code>[ 0 0 1 ]</code><br/>
          */
-        public static final TransformMatrix2D UNITY_MATRIX = new TransformMatrix2D(1.0d,0.0d,0.0d,1.0d,0.0d,0.0d);
+        public static readonly TransformMatrix2D UNITY_MATRIX = new TransformMatrix2D(1.0d, 0.0d, 0.0d, 1.0d, 0.0d, 0.0d);
 
-        private final double a, b, c, d, e, f;
+        private readonly double a, b, c, d, e, f;
 
-    /**
-	 * Creates a new transformation matrix according to the delivered parameters in the form:<br/>
-	 * <code>[ a c e ]</code><br/>
-	 * <code>[ b d f ]</code><br/>
-	 * <code>[ 0 0 1 ]</code><br/>
-	 */
-    @SuppressWarnings("javadoc")
-    
-    private TransformMatrix2D(double a, double b, double c, double d, double e, double f)
+        /**
+         * Creates a new transformation matrix according to the delivered parameters in the form:<br/>
+         * <code>[ a c e ]</code><br/>
+         * <code>[ b d f ]</code><br/>
+         * <code>[ 0 0 1 ]</code><br/>
+         */
+        private TransformMatrix2D(double a, double b, double c, double d, double e, double f)
         {
             this.a = a;
             this.b = b;
@@ -70,8 +69,8 @@
          */
         public static TransformMatrix2D rotate(double alpha)
         {
-            final double sin = Math.sin(alpha);
-            final double cos = Math.cos(alpha);
+            double sin = System.Math.Sin(alpha);
+            double cos = System.Math.Cos(alpha);
             return new TransformMatrix2D(cos, sin, -sin, cos, 0.0d, 0.0d);
         }
 
@@ -102,9 +101,9 @@
         public TransformMatrix2D inverse()
         {
             if (this == UNITY_MATRIX) return UNITY_MATRIX;
-            final double determinant = determinant();
-            if (determinant == 0.0d) return null;
-            return new TransformMatrix2D(d / determinant, -b / determinant, -c / determinant, a / determinant, (c * f - d * e) / determinant, (b * e - a * f) / determinant);
+            double _determinant = determinant();
+            if (_determinant == 0.0d) return null;
+            return new TransformMatrix2D(d / _determinant, -b / _determinant, -c / _determinant, a / _determinant, (c * f - d * e) / _determinant, (b * e - a * f) / _determinant);
         }
 
         /**
@@ -118,8 +117,7 @@
          */
         public Point2D multiply(Point2D point)
         {
-            final double xNew = point.getX() * a + point.getY() * c + e,
-                         yNew = point.getX() * b + point.getY() * d + f;
+            double xNew = point.getX() * a + point.getY() * c + e, yNew = point.getX() * b + point.getY() * d + f;
             return new Point2D(xNew, yNew);
         }
 
@@ -129,7 +127,7 @@
          * @param op2 the {@link TransformMatrix2D} to be compared to this matrix.
          * @return true if both matrices are identical.
          */
-        public bool equals(TransformMatrix2D op2)
+        public bool Equals(TransformMatrix2D op2)
         {
             if (op2 == null) return false;
             return Util.compareDoubles(this.a, op2.a) && Util.compareDoubles(this.b, op2.b) && Util.compareDoubles(this.c, op2.c) && Util.compareDoubles(this.d, op2.d) && Util.compareDoubles(this.e, op2.e) && Util.compareDoubles(this.f, op2.f);
@@ -141,13 +139,17 @@
          * @param o the object to be compared to this matrix.
          * @return true if the object is identical to this matrix.
          */
-         
+
         public override bool Equals(object o)
         {
             if (o is TransformMatrix2D)
-			return this.Equals((TransformMatrix2D)o);
+                return this.Equals((TransformMatrix2D)o);
             return false;
         }
-    }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    } 
 }

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.search.framework.qsearch
 {
@@ -35,7 +36,19 @@ namespace tvn.cosine.ai.search.framework.qsearch
         protected QueueSearch(NodeExpander<S, A> nodeExpander)
         {
             this.nodeExpander = nodeExpander;
-            nodeExpander.addNodeListener((node)->metrics.incrementInt(METRIC_NODES_EXPANDED));
+            nodeExpander.addNodeListener((node) => metrics.incrementInt(METRIC_NODES_EXPANDED));
+        }
+
+        private bool currIsCancelled;
+
+        public bool GetCurrIsCancelled()
+        {
+            return currIsCancelled;
+        }
+
+        public void SetCurrIsCancelled(bool currIsCancelled)
+        {
+            this.currIsCancelled = currIsCancelled;
         }
 
         /**
@@ -53,8 +66,9 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * 
          * @return a node referencing a goal state, if the goal was found, otherwise empty;
          */
-        public Node<S,A> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier)
+        public virtual Node<S, A> findNode(Problem<S, A> problem, IQueue<Node<S, A>> frontier)
         {
+            currIsCancelled = false;
             this.frontier = frontier;
             clearMetrics();
             // initialize the frontier using the initial state of the problem
@@ -63,7 +77,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
             if (earlyGoalTest && problem.testSolution(root))
                 return getSolution(root);
 
-            while (!isFrontierEmpty() && !Tasks.currIsCancelled())
+            while (!isFrontierEmpty() && !currIsCancelled)
             {
                 // choose a leaf node and remove it from the frontier
                 Node<S, A> nodeToExpand = removeFromFrontier();
@@ -76,7 +90,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
 
                 // expand the chosen node, adding the resulting nodes to the
                 // frontier
-                for (Node<S, A> successor : nodeExpander.expand(nodeToExpand, problem))
+                foreach (Node<S, A> successor in nodeExpander.expand(nodeToExpand, problem))
                 {
                     addToFrontier(successor);
                     if (earlyGoalTest && problem.testSolution(successor))
@@ -84,7 +98,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
                 }
             }
             // if the frontier is empty then return failure
-            return Optional.empty();
+            return null;
         }
 
         /**
@@ -149,10 +163,10 @@ namespace tvn.cosine.ai.search.framework.qsearch
             }
         }
 
-        private Node<S,A> getSolution(Node<S, A> node)
+        private Node<S, A> getSolution(Node<S, A> node)
         {
             metrics.set(METRIC_PATH_COST, node.getPathCost());
-            return Optional.of(node);
+            return node;
         }
     }
 }
