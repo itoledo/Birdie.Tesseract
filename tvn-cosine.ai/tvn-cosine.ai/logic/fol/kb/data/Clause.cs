@@ -667,7 +667,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             if (radices.Size() > 0)
             {
                 permutation = new MixedRadixNumber(0, radices);
-                numPermutations = permutation.getMaxAllowedValue() + 1;
+                numPermutations = permutation.GetMaxAllowedValue() + 1;
             }
             // Want to ensure none of the othCVariables are
             // part of the key set of a unification as
@@ -698,7 +698,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                             {
                                 // If not a 1 to 1 mapping then you need
                                 // to use the correct permuation
-                                int numPos = permutation.getCurrentNumeralValue(radixIdx);
+                                int numPos = permutation.GetCurrentNumeralValue(radixIdx);
                                 Literal lit = literalPermuations.Get(numPos);
                                 literalPermuations.Remove(lit);
                                 othCTerms.AddAll(lit.getAtomicSentence().getArgs());
@@ -750,7 +750,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 // possible number of mapping permutations.
                 if (null != permutation)
                 {
-                    permutation.increment();
+                    permutation.Increment();
                 }
             }
 

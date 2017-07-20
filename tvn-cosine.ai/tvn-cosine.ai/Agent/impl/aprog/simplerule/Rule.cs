@@ -5,25 +5,19 @@ using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /**
-     * A simple implementation of a "condition-action rule".
-     * 
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     */
+    /// <summary>
+    /// A simple implementation of a "condition-action rule".
+    /// </summary>
     public class Rule : IEquatable, IHashable, IStringable
     {
         private Condition con;
         private IAction action;
-
-        /**
-         * Constructs a condition-action rule.
-         * 
-         * @param con
-         *            a condition
-         * @param action
-         *            an action
-         */
+         
+            /// <summary>
+            /// Constructs a condition-action rule.
+            /// </summary>
+            /// <param name="con">a condition</param>
+            /// <param name="action">an action</param>
         public Rule(Condition con, IAction action)
         {
             if (null == con ||
@@ -41,11 +35,10 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
             return (con.evaluate(p));
         }
 
-        /**
-         * Returns the action of this condition-action rule.
-         * 
-         * @return the action of this condition-action rule.
-         */
+        /// <summary>
+        /// Returns the action of this condition-action rule.
+        /// </summary>
+        /// <returns></returns>
         public IAction getAction()
         {
             return action;

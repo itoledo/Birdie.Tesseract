@@ -4,17 +4,11 @@ using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.util.math
 {
-    /**
-     * For details on <a
-     * href="http://demonstrations.wolfram.com/MixedRadixNumberRepresentations/"
-     * >Mixed Radix Number Representations.</a>
-     * 
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     */
+    /// <summary>
+    /// For details on Mixed Radix Number Representations see <see cref="http://demonstrations.wolfram.com/MixedRadixNumberRepresentations/" /> 
+    /// </summary>
     public class MixedRadixNumber
-    {
-        //
+    { 
         private long value = 0L;
         private long maxValue = 0L;
         private int[] radices = null;
@@ -22,8 +16,7 @@ namespace tvn.cosine.ai.util.math
         private bool recalculate = true;
 
         /**
-         * Constructs a mixed radix number with a specified value and a specified
-         * array of radices.
+         * Constructs a mixed radix number with a specified value and a specified array of radices.
          * 
          * @param value
          *            the value of the mixed radix number
@@ -40,8 +33,7 @@ namespace tvn.cosine.ai.util.math
         }
 
         /**
-         * Constructs a mixed radix number with a specified value and a specified
-         * list of radices.
+         * Constructs a mixed radix number with a specified value and a specified list of radices.
          * 
          * @param value
          *            the value of the mixed radix number
@@ -72,7 +64,7 @@ namespace tvn.cosine.ai.util.math
         public MixedRadixNumber(int[] radixValues, int[] radices)
             : this(0, radices)
         {
-            setCurrentValueFor(radixValues);
+            SetCurrentValueFor(radixValues);
         }
 
         /**
@@ -86,7 +78,7 @@ namespace tvn.cosine.ai.util.math
          *             of the specified numerals is greater than it's corresponding
          *             radix.
          */
-        public long getCurrentValueFor(int[] radixValues)
+        public long GetCurrentValueFor(int[] radixValues)
         {
             if (radixValues.Length != radices.Length)
             {
@@ -117,9 +109,9 @@ namespace tvn.cosine.ai.util.math
          * @param radixValues
          *            the numerals of the mixed radix number
          */
-        public void setCurrentValueFor(int[] radixValues)
+        public void SetCurrentValueFor(int[] radixValues)
         {
-            this.value = getCurrentValueFor(radixValues);
+            this.value = GetCurrentValueFor(radixValues);
             System.Array.Copy(radixValues, 0, this.currentNumeralValue, 0, radixValues.Length);
             recalculate = false;
         }
@@ -131,7 +123,7 @@ namespace tvn.cosine.ai.util.math
          * @return the maximum value which can be represented by the current array
          *         of radices.
          */
-        public long getMaxAllowedValue()
+        public long GetMaxAllowedValue()
         {
             return maxValue;
         }
@@ -143,7 +135,7 @@ namespace tvn.cosine.ai.util.math
          * 
          * @return <code>true</code> if the increment was successful.
          */
-        public bool increment()
+        public bool Increment()
         {
             if (value < maxValue)
             {
@@ -161,7 +153,7 @@ namespace tvn.cosine.ai.util.math
          * 
          * @return <code>true</code> if the decrement was successful.
          */
-        public bool decrement()
+        public bool Decrement()
         {
             if (value > 0)
             {
@@ -179,7 +171,7 @@ namespace tvn.cosine.ai.util.math
          *            the position of the numeral to return
          * @return the numeral at the specified position.
          */
-        public int getCurrentNumeralValue(int atPosition)
+        public int GetCurrentNumeralValue(int atPosition)
         {
             if (atPosition >= 0 && atPosition < radices.Length)
             {
@@ -205,31 +197,25 @@ namespace tvn.cosine.ai.util.math
             }
             throw new IllegalArgumentException("Argument atPosition must be >=0 and < " + radices.Length);
         }
-
-        //
-        // START-Number
-
-        public int intValue()
+         
+        public int IntValue()
         {
-            return (int)longValue();
+            return (int)LongValue();
         }
-
-
-        public long longValue()
+         
+        public long LongValue()
         {
             return value;
         }
-
-
-        public float floatValue()
+         
+        public float FloatValue()
         {
-            return longValue();
+            return LongValue();
         }
-
-
-        public double doubleValue()
+         
+        public double DoubleValue()
         {
-            return longValue();
+            return LongValue();
         }
 
         public override string ToString()
@@ -239,7 +225,7 @@ namespace tvn.cosine.ai.util.math
             for (int i = 0; i < radices.Length;++i)
             {
                 sb.Append("[");
-                sb.Append(this.getCurrentNumeralValue(i));
+                sb.Append(this.GetCurrentNumeralValue(i));
                 sb.Append("]");
             }
 

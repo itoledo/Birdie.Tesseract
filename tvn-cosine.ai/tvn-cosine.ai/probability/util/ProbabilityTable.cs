@@ -136,7 +136,7 @@ namespace tvn.cosine.ai.probability.util
                 radixValues[rvInfo.getRadixIdx()] = rvInfo.getIdxForDomain(ap
                         .getValue());
             }
-            return values[(int)queryMRN.getCurrentValueFor(radixValues)];
+            return values[(int)queryMRN.GetCurrentValueFor(radixValues)];
         }
 
         // END-ProbabilityDistribution
@@ -206,7 +206,7 @@ namespace tvn.cosine.ai.probability.util
                ++i;
             }
 
-            return (int)queryMRN.getCurrentValueFor(radixValues);
+            return (int)queryMRN.GetCurrentValueFor(radixValues);
         }
 
         Factor Factor.sumOut(params RandomVariable[] vars)
@@ -364,12 +364,12 @@ namespace tvn.cosine.ai.probability.util
                 foreach (RVInfo rvInfo in randomVarInfo.GetValues())
                 {
                     possibleWorld.Put(rvInfo.getVariable(), rvInfo
-                            .getDomainValueAt(mrn.getCurrentNumeralValue(rvInfo
+                            .getDomainValueAt(mrn.GetCurrentNumeralValue(rvInfo
                                     .getRadixIdx())));
                 }
-                pti.iterate(possibleWorld, values[mrn.intValue()]);
+                pti.iterate(possibleWorld, values[mrn.IntValue()]);
 
-            } while (mrn.increment());
+            } while (mrn.Increment());
         }
 
         /**
@@ -435,16 +435,16 @@ namespace tvn.cosine.ai.probability.util
                     foreach (RVInfo freeRVI in freeVarInfo.GetValues())
                     {
                         fval = freeRVI.getDomainValueAt(freeMRN
-                                .getCurrentNumeralValue(freeRVI.getRadixIdx()));
+                                .GetCurrentNumeralValue(freeRVI.getRadixIdx()));
                         possibleWorld.Put(freeRVI.getVariable(), fval);
 
                         tableRadixValues[randomVarInfo.Get(freeRVI.getVariable())
                                 .getRadixIdx()] = freeRVI.getIdxForDomain(fval);
                     }
                     pti.iterate(possibleWorld, values[(int)tableMRN
-                            .getCurrentValueFor(tableRadixValues)]);
+                            .GetCurrentValueFor(tableRadixValues)]);
 
-                } while (freeMRN.increment());
+                } while (freeMRN.Increment());
             }
         }
 
@@ -478,7 +478,7 @@ namespace tvn.cosine.ai.probability.util
                 if (null != diff)
                 {
                     // Start from 0 off the diff
-                    dMRN.setCurrentValueFor(new int[diff.Size()]);
+                    dMRN.SetCurrentValueFor(new int[diff.Size()]);
                     do
                     {
                         foreach (RandomVariable rv in diff.GetKeys())
@@ -486,11 +486,11 @@ namespace tvn.cosine.ai.probability.util
                             RVInfo drvInfo = diff.Get(rv);
                             RVInfo qrvInfo = quotient.randomVarInfo.Get(rv);
                             qRVs[qrvInfo.getRadixIdx()] = dMRN
-                                    .getCurrentNumeralValue(drvInfo
+                                    .GetCurrentNumeralValue(drvInfo
                                             .getRadixIdx());
                         }
                         updateQuotient(probability);
-                    } while (dMRN.increment());
+                    } while (dMRN.Increment());
                 }
                 else
                 {
@@ -502,7 +502,7 @@ namespace tvn.cosine.ai.probability.util
             //
             private void updateQuotient(double probability)
             {
-                int offset = (int)qMRN.getCurrentValueFor(qRVs);
+                int offset = (int)qMRN.GetCurrentValueFor(qRVs);
                 if (0 == probability)
                 {
                     quotient.getValues()[offset] = 0;

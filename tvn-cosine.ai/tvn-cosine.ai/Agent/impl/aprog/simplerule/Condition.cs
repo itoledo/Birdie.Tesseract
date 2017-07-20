@@ -3,12 +3,9 @@ using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /**
-     * Base abstract class for describing conditions.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary>
+    /// Base abstract class for describing conditions.
+    /// </summary>
     public abstract class Condition : IEquatable, IHashable, IStringable
     {
         public abstract bool evaluate(ObjectWithDynamicAttributes p); 

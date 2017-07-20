@@ -4,12 +4,9 @@ using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /**
-     * Implementation of an OR condition.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary>
+    /// Implementation of an OR condition.
+    /// </summary>
     public class ORCondition : Condition
     {
         private Condition left;

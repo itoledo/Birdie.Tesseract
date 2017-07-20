@@ -2,15 +2,11 @@
 
 namespace tvn.cosine.ai.util.math
 {
-    /**
-     * Basic supports for Intervals.
-     * 
-     * @see <a href="http://en.wikipedia.org/wiki/Interval_%28mathematics%29"
-     *      >Interval</a>
-     * 
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     */
+    /// <summary>
+    /// Basic supports for Intervals. <para />
+    /// See <see href="http://en.wikipedia.org/wiki/Interval_%28mathematics%29" />Interval
+    /// </summary>
+    /// <typeparam name="C">The object type</typeparam>
     public class Interval<C>
     {
         private IComparable<C> lower = null;
@@ -21,51 +17,39 @@ namespace tvn.cosine.ai.util.math
         public Interval()
         { }
 
-        /**
-         * Constructs a closed interval from the two specified end points.
-         * 
-         * @param lower
-         *            the lower end point of the interval
-         * @param upper
-         *            the upper end point of the interval
-         */
+        /// <summary>
+        /// Constructs a closed interval from the two specified end points.
+        /// </summary>
+        /// <param name="lower">the lower end point of the interval</param>
+        /// <param name="upper">the upper end point of the interval</param>
         public Interval(IComparable<C> lower, IComparable<C> upper)
         {
-            setLower(lower);
-            setUpper(upper);
+            SetLower(lower);
+            SetUpper(upper);
         }
 
-        /**
-         * Constructs an interval from the two specified end points.
-         * 
-         * @param lower
-         *            the lower end point of the interval
-         * @param lowerInclusive
-         *            wether or not the lower end of the interval is inclusive of
-         *            its value.
-         * @param upper
-         *            the upper end point of the interval
-         * @param upperInclusive
-         *            whether or not the upper end of the interval is inclusive of
-         *            its value.
-         */
+        /// <summary>
+        /// Constructs an interval from the two specified end points.
+        /// </summary>
+        /// <param name="lower">the lower end point of the interval</param>
+        /// <param name="lowerInclusive">wether or not the lower end of the interval is inclusive of its value.</param>
+        /// <param name="upper">the upper end point of the interval</param>
+        /// <param name="upperInclusive">whether or not the upper end of the interval is inclusive of its value.</param>
         public Interval(IComparable<C> lower, bool lowerInclusive,
-                IComparable<C> upper, bool upperInclusive)
+                        IComparable<C> upper, bool upperInclusive)
         {
-            setLower(lower);
-            setLowerInclusive(lowerInclusive);
-            setUpper(upper);
-            setUpperInclusive(upperInclusive);
+            SetLower(lower);
+            SetLowerInclusive(lowerInclusive);
+            SetUpper(upper);
+            SetUpperInclusive(upperInclusive);
         }
 
-        /**
-         * Returns <code>true</code> if the specified object is between the end
-         * points of this interval.
-         * 
-         * @return <code>true</code> if the specified value is between the end
-         *         points of this interval.
-         */
-        public bool isInInterval(C o)
+        /// <summary>
+        /// Returns true if the specified object is between the end points of this interval.
+        /// </summary>
+        /// <param name="o">the specified object</param>
+        /// <returns>true if the specified object is between the end points of this interval.</returns>
+        public bool IsInInterval(C o)
         {
             if (null == lower || null == upper)
             {
@@ -74,7 +58,7 @@ namespace tvn.cosine.ai.util.math
 
             bool _in = true;
 
-            if (isLowerInclusive())
+            if (IsLowerInclusive())
             {
                 _in = lower.CompareTo(o) <= 0;
             }
@@ -85,7 +69,7 @@ namespace tvn.cosine.ai.util.math
 
             if (_in)
             {
-                if (isUpperInclusive())
+                if (IsUpperInclusive())
                 {
                     _in = upper.CompareTo(o) >= 0;
                 }
@@ -98,141 +82,118 @@ namespace tvn.cosine.ai.util.math
             return _in;
         }
 
-        /**
-         * Returns <code>true</code> if this interval is lower inclusive.
-         * 
-         * @return <code>true</code> if this interval is lower inclusive.
-         */
-        public bool isLowerInclusive()
+        /// <summary>
+        /// Returns true if this interval is lower inclusive.
+        /// </summary>
+        /// <returns>true if this interval is lower inclusive.</returns>
+        public bool IsLowerInclusive()
         {
             return lowerInclusive;
         }
 
-        /**
-         * Returns <code>true</code> if this interval is not lower inclusive.
-         * 
-         * @return <code>true</code> if this interval is not lower inclusive.
-         */
-        public bool isLowerExclusive()
+        /// <summary>
+        /// Returns true if this interval is not lower inclusive.
+        /// </summary>
+        /// <returns>true if this interval is not lower inclusive.</returns>
+        public bool IsLowerExclusive()
         {
             return !lowerInclusive;
         }
 
-        /**
-         * Sets the interval to lower inclusive or lower exclusive.
-         * 
-         * @param inclusive
-         *            <code>true</code> represents lower inclusive and
-         *            <code>false</code> represents lower exclusive.
-         */
-        public void setLowerInclusive(bool inclusive)
+        /// <summary>
+        /// Sets the interval to lower inclusive or lower exclusive.
+        /// </summary>
+        /// <param name="inclusive">true represents lower inclusive and false represents lower exclusive.</param>
+        public void SetLowerInclusive(bool inclusive)
         {
             this.lowerInclusive = inclusive;
         }
 
-        /**
-         * Sets the interval to lower exclusive or lower inclusive.
-         * 
-         * @param exclusive
-         *            <code>true</code> represents lower exclusive and
-         *            <code>false</code> represents lower inclusive.
-         */
-        public void setLowerExclusive(bool exclusive)
+        /// <summary>
+        /// Sets the interval to lower exclusive or lower inclusive.
+        /// </summary>
+        /// <param name="exclusive">true represents lower exclusive and false represents lower inclusive.</param>
+        public void SetLowerExclusive(bool exclusive)
         {
             this.lowerInclusive = !exclusive;
         }
-
-        /**
-         * Returns the lower end point of the interval.
-         * 
-         * @return the lower end point of the interval.
-         */
-        public IComparable<C> getLower()
+         
+        /// <summary>
+        /// Returns the lower end point of the interval.
+        /// </summary>
+        /// <returns>the lower end point of the interval.</returns>
+        public IComparable<C> GetLower()
         {
             return lower;
         }
 
-        /**
-         * Sets the lower end point of the interval.
-         * 
-         * @param lower
-         *            the lower end point of the interval
-         */
-        public void setLower(IComparable<C> lower)
+
+        /// <summary>
+        /// Sets the lower end point of the interval.
+        /// </summary>
+        /// <param name="lower">the lower end point of the interval.</param>
+        public void SetLower(IComparable<C> lower)
         {
             this.lower = lower;
         }
 
-        /**
-         * Returns <code>true</code> if this interval is upper inclusive.
-         * 
-         * @return <code>true</code> if this interval is upper inclusive.
-         */
-        public bool isUpperInclusive()
+        /// <summary>
+        /// Returns true if this interval is upper inclusive.
+        /// </summary>
+        /// <returns>true if this interval is upper inclusive.</returns>
+        public bool IsUpperInclusive()
         {
             return upperInclusive;
         }
 
-        /**
-         * Returns <code>true</code> if this interval is upper exclusive.
-         * 
-         * @return <code>true</code> if this interval is upper exclusive.
-         */
-        public bool isUpperExclusive()
+        /// <summary>
+        /// Returns true if this interval is upper exclusive.
+        /// </summary>
+        /// <returns>true if this interval is upper exclusive.</returns>
+        public bool IsUpperExclusive()
         {
             return !upperInclusive;
         }
 
-        /**
-         * Sets the interval to upper inclusive or upper exclusive.
-         * 
-         * @param inclusive
-         *            <code>true</code> represents upper inclusive and
-         *            <code>false</code> represents upper exclusive.
-         */
-        public void setUpperInclusive(bool inclusive)
+        /// <summary>
+        /// Sets the interval to upper inclusive or upper exclusive.
+        /// </summary>
+        /// <param name="inclusive">true represents upper inclusive and false represents upper exclusive.</param>
+        public void SetUpperInclusive(bool inclusive)
         {
             this.upperInclusive = inclusive;
         }
 
-        /**
-         * Sets the interval to upper exclusive or upper inclusive.
-         * 
-         * @param exclusive
-         *            <code>true</code> represents upper exclusive and
-         *            <code>false</code> represents upper inclusive.
-         */
-        public void setUpperExclusive(bool exclusive)
+        /// <summary>
+        /// Sets the interval to upper exclusive or upper inclusive.
+        /// </summary>
+        /// <param name="exclusive">true represents upper exclusive and false represents upper inclusive.</param>
+        public void SetUpperExclusive(bool exclusive)
         {
             this.upperInclusive = !exclusive;
         }
 
-        /**
-         * Returns the upper end point of the interval.
-         * 
-         * @return the upper end point of the interval.
-         */
-        public IComparable<C> getUpper()
+        /// <summary>
+        /// Returns the upper end point of the interval.
+        /// </summary>
+        /// <returns>the upper end point of the interval.</returns>
+        public IComparable<C> GetUpper()
         {
             return upper;
         }
 
-        /**
-         * Sets the upper end point of the interval.
-         * 
-         * @param upper
-         *            the upper end point of the interval.
-         */
-        public void setUpper(IComparable<C> upper)
+        /// <summary>
+        /// Sets the upper end point of the interval.
+        /// </summary>
+        /// <param name="upper">the upper end point of the interval.</param>
+        public void SetUpper(IComparable<C> upper)
         {
             this.upper = upper;
         }
 
         public override string ToString()
         {
-            return (lowerInclusive ? "[" : "(") + lower + ", " + upper
-                    + (upperInclusive ? "]" : ")");
+            return (lowerInclusive ? "[" : "(") + lower + ", " + upper  + (upperInclusive ? "]" : ")");
         }
-    }
-
+    } 
 }

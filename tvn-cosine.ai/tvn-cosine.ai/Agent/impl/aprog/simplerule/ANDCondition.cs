@@ -4,12 +4,9 @@ using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /**
-     * Implementation of an AND condition.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary>
+    /// Implementation of an AND condition.
+    /// </summary>
     public class ANDCondition : Condition
     {
         private Condition left;

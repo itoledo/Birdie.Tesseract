@@ -104,7 +104,7 @@ namespace tvn.cosine.ai.common.collections
 
         T IQueue<T>.Get(int index)
         {
-           if (index >= backingSet.Count 
+           if (index > backingSet.Count 
             || index < 0)
             {
                 throw new NotSupportedException("Not supported");

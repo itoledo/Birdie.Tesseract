@@ -4,12 +4,9 @@ using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /**
-     * Implementation of a NOT condition.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary>
+    /// Implementation of a NOT condition.
+    /// </summary>
     public class NOTCondition : Condition
     {
         private Condition con;

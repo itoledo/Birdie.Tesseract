@@ -1078,7 +1078,7 @@ namespace tvn.cosine.ai.util.math
         public Matrix solve(Matrix B)
         {
             // assumed m == n
-            return new LUDecomposition(this).solve(B);
+            return new LUDecomposition(this).Solve(B);
 
         }
 
@@ -1114,7 +1114,7 @@ namespace tvn.cosine.ai.util.math
 
         public double det()
         {
-            return new LUDecomposition(this).det();
+            return new LUDecomposition(this).Det();
         }
 
         /**

@@ -53,13 +53,11 @@ namespace tvn.cosine.ai.search.informed
          */
         public BestFirstSearch(QueueSearch<S, A> impl, ToDoubleFunction<Node<S, A>> evalFn)
             : base(impl, Factory.CreatePriorityQueue<Node<S, A>>(new BestFirstSearchComparer(evalFn)))
-        {
-
+        { 
             this.evalFn = evalFn;
         }
 
-        /** Modifies the evaluation function if it is a {@link HeuristicEvaluationFunction}. */
-
+        /** Modifies the evaluation function if it is a {@link HeuristicEvaluationFunction}. */ 
         public void setHeuristicFunction(ToDoubleFunction<Node<S, A>> h)
         {
             if (evalFn is HeuristicEvaluationFunction<S, A>)

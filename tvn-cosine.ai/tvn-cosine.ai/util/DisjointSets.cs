@@ -32,14 +32,13 @@ namespace tvn.cosine.ai.util
      *            the type of elements to be contained by the disjoint sets.
      */
     public class DisjointSets<E>
-    {
-
+    { 
         private IMap<E, ISet<E>> elementToSet = Factory.CreateMap<E, ISet<E>>();
         private ISet<ISet<E>> disjointSets = Factory.CreateSet<ISet<E>>();
 
-        /**
-         * Default Constructor.
-         */
+        /// <summary>
+        /// Default Constructor.
+        /// </summary>
         public DisjointSets()
         {
 

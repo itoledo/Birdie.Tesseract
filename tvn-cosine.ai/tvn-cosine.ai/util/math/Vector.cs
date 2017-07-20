@@ -3,13 +3,11 @@ using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.util.math
 {
-    /**
-     * @author Ravi Mohan
-     * @author Mike Stampone
-     */
+    /// <summary>
+    /// Vector is modelled as a matrix with a single column;
+    /// </summary>
     public class Vector : Matrix
-    {
-        // Vector is modelled as a matrix with a single column;
+    { 
         /**
          * Constructs a vector with the specified size.
          * 
@@ -18,9 +16,7 @@ namespace tvn.cosine.ai.util.math
          */
         public Vector(int size)
             : base(size, 1)
-        {
-
-        }
+        { }
 
         /**
          * Constructs a vector with the specified list of values.

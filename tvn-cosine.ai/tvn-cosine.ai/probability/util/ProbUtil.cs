@@ -385,7 +385,7 @@ namespace tvn.cosine.ai.probability.util
                 j--;
             }
 
-            return new MixedRadixNumber(radixValues, radices).intValue();
+            return new MixedRadixNumber(radixValues, radices).IntValue();
         }
 
         /**

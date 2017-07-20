@@ -4,12 +4,9 @@ using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {
-    /**
-     * Implementation of an EQUALity condition.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary>
+    /// Implementation of an EQUALity condition.
+    /// </summary>
     public class EQUALCondition : Condition
     {
         private object key;

@@ -50,20 +50,20 @@ namespace tvn_cosine.ai.test.unit.util.math
         public void testAllowedMaxValue()
         {
             Assert.AreEqual(15, (new MixedRadixNumber(0,
-                    new int[] { 2, 2, 2, 2 }).getMaxAllowedValue()));
+                    new int[] { 2, 2, 2, 2 }).GetMaxAllowedValue()));
             Assert.AreEqual(80, (new MixedRadixNumber(0,
-                    new int[] { 3, 3, 3, 3 }).getMaxAllowedValue()));
+                    new int[] { 3, 3, 3, 3 }).GetMaxAllowedValue()));
             Assert.AreEqual(5, (new MixedRadixNumber(0, new int[] { 3, 2 })
-                    .getMaxAllowedValue()));
+                    .GetMaxAllowedValue()));
             Assert.AreEqual(35, (new MixedRadixNumber(0,
-                    new int[] { 3, 3, 2, 2 }).getMaxAllowedValue()));
+                    new int[] { 3, 3, 2, 2 }).GetMaxAllowedValue()));
             Assert.AreEqual(359, (new MixedRadixNumber(0, new int[] { 3, 4, 5,
-                6 }).getMaxAllowedValue()));
+                6 }).GetMaxAllowedValue()));
             Assert.AreEqual(359, (new MixedRadixNumber(0, new int[] { 6, 5, 4,
-                3 }).getMaxAllowedValue()));
+                3 }).GetMaxAllowedValue()));
             Assert.AreEqual(359,
                     (new MixedRadixNumber(new int[] { 5, 4, 3, 2 }, new int[] { 6,
-                        5, 4, 3 }).getMaxAllowedValue()));
+                        5, 4, 3 }).GetMaxAllowedValue()));
         }
 
         [TestMethod]
@@ -71,11 +71,11 @@ namespace tvn_cosine.ai.test.unit.util.math
         {
             MixedRadixNumber mrn = new MixedRadixNumber(0, new int[] { 3, 2 });
             int i = 0;
-            while (mrn.increment())
+            while (mrn.Increment())
             {
                ++i;
             }
-            Assert.AreEqual(i, mrn.getMaxAllowedValue());
+            Assert.AreEqual(i, mrn.GetMaxAllowedValue());
         }
 
         [TestMethod]
@@ -83,21 +83,21 @@ namespace tvn_cosine.ai.test.unit.util.math
         {
             MixedRadixNumber mrn = new MixedRadixNumber(5, new int[] { 3, 2 });
             int i = 0;
-            while (mrn.decrement())
+            while (mrn.Decrement())
             {
                ++i;
             }
-            Assert.AreEqual(i, mrn.getMaxAllowedValue());
+            Assert.AreEqual(i, mrn.GetMaxAllowedValue());
             i = 0;
-            while (mrn.increment())
+            while (mrn.Increment())
             {
                ++i;
             }
-            while (mrn.decrement())
+            while (mrn.Decrement())
             {
                 i--;
             }
-            Assert.AreEqual(i, mrn.intValue());
+            Assert.AreEqual(i, mrn.IntValue());
         }
 
         [TestMethod]
@@ -106,46 +106,46 @@ namespace tvn_cosine.ai.test.unit.util.math
             MixedRadixNumber mrn;
             //
             mrn = new MixedRadixNumber(0, new int[] { 3, 3, 2, 2 });
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(3));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(35, new int[] { 3, 3, 2, 2 });
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(1, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(1, mrn.getCurrentNumeralValue(3));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(1, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(1, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(25, new int[] { 3, 3, 2, 2 });
-            Assert.AreEqual(1, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(1, mrn.getCurrentNumeralValue(3));
+            Assert.AreEqual(1, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(1, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(17, new int[] { 3, 3, 2, 2 });
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(1, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(3));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(1, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(8, new int[] { 3, 3, 2, 2 });
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(3));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(359, new int[] { 3, 4, 5, 6 });
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(3, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(4, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(5, mrn.getCurrentNumeralValue(3));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(3, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(4, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(5, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(359, new int[] { 6, 5, 4, 3 });
-            Assert.AreEqual(5, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(4, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(3, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(3));
+            Assert.AreEqual(5, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(4, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(3, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(3));
         }
 
         [TestMethod]
@@ -154,30 +154,30 @@ namespace tvn_cosine.ai.test.unit.util.math
             MixedRadixNumber mrn;
             //
             mrn = new MixedRadixNumber(0, new int[] { 3, 3, 2, 2 });
-            Assert.AreEqual(0, mrn.getCurrentValueFor(new int[] { 0, 0, 0, 0 }));
+            Assert.AreEqual(0, mrn.GetCurrentValueFor(new int[] { 0, 0, 0, 0 }));
             //
             mrn = new MixedRadixNumber(35, new int[] { 3, 3, 2, 2 });
             Assert.AreEqual(35,
-                    mrn.getCurrentValueFor(new int[] { 2, 2, 1, 1 }));
+                    mrn.GetCurrentValueFor(new int[] { 2, 2, 1, 1 }));
             //
             mrn = new MixedRadixNumber(25, new int[] { 3, 3, 2, 2 });
             Assert.AreEqual(25,
-                    mrn.getCurrentValueFor(new int[] { 1, 2, 0, 1 }));
+                    mrn.GetCurrentValueFor(new int[] { 1, 2, 0, 1 }));
             //
             mrn = new MixedRadixNumber(17, new int[] { 3, 3, 2, 2 });
             Assert.AreEqual(17,
-                    mrn.getCurrentValueFor(new int[] { 2, 2, 1, 0 }));
+                    mrn.GetCurrentValueFor(new int[] { 2, 2, 1, 0 }));
             //
             mrn = new MixedRadixNumber(8, new int[] { 3, 3, 2, 2 });
-            Assert.AreEqual(8, mrn.getCurrentValueFor(new int[] { 2, 2, 0, 0 }));
+            Assert.AreEqual(8, mrn.GetCurrentValueFor(new int[] { 2, 2, 0, 0 }));
             //
             mrn = new MixedRadixNumber(359, new int[] { 3, 4, 5, 6 });
             Assert.AreEqual(359,
-                    mrn.getCurrentValueFor(new int[] { 2, 3, 4, 5 }));
+                    mrn.GetCurrentValueFor(new int[] { 2, 3, 4, 5 }));
             //
             mrn = new MixedRadixNumber(359, new int[] { 6, 5, 4, 3 });
             Assert.AreEqual(359,
-                    mrn.getCurrentValueFor(new int[] { 5, 4, 3, 2 }));
+                    mrn.GetCurrentValueFor(new int[] { 5, 4, 3, 2 }));
         }
 
         [TestMethod]
@@ -186,60 +186,60 @@ namespace tvn_cosine.ai.test.unit.util.math
             MixedRadixNumber mrn;
             //
             mrn = new MixedRadixNumber(0, new int[] { 3, 3, 2, 2 });
-            mrn.setCurrentValueFor(new int[] { 0, 0, 0, 0 });
-            Assert.AreEqual(0, mrn.intValue());
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(3));
+            mrn.SetCurrentValueFor(new int[] { 0, 0, 0, 0 });
+            Assert.AreEqual(0, mrn.IntValue());
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(0, new int[] { 3, 3, 2, 2 });
-            mrn.setCurrentValueFor(new int[] { 2, 2, 1, 1 });
-            Assert.AreEqual(35, mrn.intValue());
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(1, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(1, mrn.getCurrentNumeralValue(3));
+            mrn.SetCurrentValueFor(new int[] { 2, 2, 1, 1 });
+            Assert.AreEqual(35, mrn.IntValue());
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(1, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(1, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(0, new int[] { 3, 3, 2, 2 });
-            mrn.setCurrentValueFor(new int[] { 1, 2, 0, 1 });
-            Assert.AreEqual(25, mrn.intValue());
-            Assert.AreEqual(1, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(1, mrn.getCurrentNumeralValue(3));
+            mrn.SetCurrentValueFor(new int[] { 1, 2, 0, 1 });
+            Assert.AreEqual(25, mrn.IntValue());
+            Assert.AreEqual(1, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(1, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(0, new int[] { 3, 3, 2, 2 });
-            mrn.setCurrentValueFor(new int[] { 2, 2, 1, 0 });
-            Assert.AreEqual(17, mrn.intValue());
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(1, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(3));
+            mrn.SetCurrentValueFor(new int[] { 2, 2, 1, 0 });
+            Assert.AreEqual(17, mrn.IntValue());
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(1, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(0, new int[] { 3, 3, 2, 2 });
-            mrn.setCurrentValueFor(new int[] { 2, 2, 0, 0 });
-            Assert.AreEqual(8, mrn.intValue());
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(0, mrn.getCurrentNumeralValue(3));
+            mrn.SetCurrentValueFor(new int[] { 2, 2, 0, 0 });
+            Assert.AreEqual(8, mrn.IntValue());
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(0, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(0, new int[] { 3, 4, 5, 6 });
-            mrn.setCurrentValueFor(new int[] { 2, 3, 4, 5 });
-            Assert.AreEqual(359, mrn.intValue());
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(3, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(4, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(5, mrn.getCurrentNumeralValue(3));
+            mrn.SetCurrentValueFor(new int[] { 2, 3, 4, 5 });
+            Assert.AreEqual(359, mrn.IntValue());
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(3, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(4, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(5, mrn.GetCurrentNumeralValue(3));
             //
             mrn = new MixedRadixNumber(0, new int[] { 6, 5, 4, 3 });
-            mrn.setCurrentValueFor(new int[] { 5, 4, 3, 2 });
-            Assert.AreEqual(359, mrn.intValue());
-            Assert.AreEqual(5, mrn.getCurrentNumeralValue(0));
-            Assert.AreEqual(4, mrn.getCurrentNumeralValue(1));
-            Assert.AreEqual(3, mrn.getCurrentNumeralValue(2));
-            Assert.AreEqual(2, mrn.getCurrentNumeralValue(3));
+            mrn.SetCurrentValueFor(new int[] { 5, 4, 3, 2 });
+            Assert.AreEqual(359, mrn.IntValue());
+            Assert.AreEqual(5, mrn.GetCurrentNumeralValue(0));
+            Assert.AreEqual(4, mrn.GetCurrentNumeralValue(1));
+            Assert.AreEqual(3, mrn.GetCurrentNumeralValue(2));
+            Assert.AreEqual(2, mrn.GetCurrentNumeralValue(3));
         }
     }
 
