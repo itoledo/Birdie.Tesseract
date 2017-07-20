@@ -1,15 +1,18 @@
-﻿namespace tvn_cosine.ai.demo.search
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.environment.eightpuzzle;
+
+namespace tvn_cosine.ai.demo.search
 {
     public class GenerateRandomEightPuzzleDemo
     {
-        public static void main(String[] args)
+        public static void Main(params string[] args)
         {
-            Random r = new Random();
+            IRandom r = new DefaultRandom();
             EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 0, 1, 2, 3,
                 4, 5, 6, 7, 8 });
             for (int i = 0; i < 50; i++)
             {
-                int th = r.nextInt(4);
+                int th = r.Next(4);
                 if (th == 0)
                 {
                     board.moveGapUp();
@@ -27,7 +30,7 @@
                     board.moveGapRight();
                 }
             }
-            System.out.println(board);
+            System.Console.WriteLine(board);
         }
 
     }

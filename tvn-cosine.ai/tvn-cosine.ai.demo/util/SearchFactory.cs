@@ -1,4 +1,11 @@
-﻿namespace tvn_cosine.ai.demo.util
+﻿using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.qsearch;
+using tvn.cosine.ai.search.informed;
+using tvn.cosine.ai.search.local;
+using tvn.cosine.ai.search.uninformed;
+using tvn.cosine.ai.util;
+
+namespace tvn_cosine.ai.demo.util
 {
     /**
      * Useful factory for configuring search objects. Implemented as a singleton.
@@ -8,34 +15,34 @@
     {
 
         /** Search strategy: Depth first search. */
-        public final static int DF_SEARCH = 0;
+        public const int DF_SEARCH = 0;
         /** Search strategy: Depth first search. */
-        public final static int BF_SEARCH = 1;
+        public const int BF_SEARCH = 1;
         /** Search strategy: Iterative deepening search. */
-        public final static int ID_SEARCH = 2;
+        public const int ID_SEARCH = 2;
         /** Search strategy: Uniform cost search. */
-        public final static int UC_SEARCH = 3;
+        public const int UC_SEARCH = 3;
         /** Search strategy: Greedy best first search. */
-        public final static int GBF_SEARCH = 4;
+        public const int GBF_SEARCH = 4;
         /** Search strategy: A* search. */
-        public final static int ASTAR_SEARCH = 5;
+        public const int ASTAR_SEARCH = 5;
         /** Search strategy: Recursive best first search. */
-        public final static int RBF_SEARCH = 6;
+        public const int RBF_SEARCH = 6;
         /** Search strategy: Recursive best first search avoiding loops. */
-        public final static int RBF_AL_SEARCH = 7;
+        public const int RBF_AL_SEARCH = 7;
         /** Search strategy: Hill climbing search. */
-        public final static int HILL_SEARCH = 8;
+        public const int HILL_SEARCH = 8;
 
         /** Queue search implementation: tree search. */
-        public final static int TREE_SEARCH = 0;
+        public const int TREE_SEARCH = 0;
         /** Queue search implementation: graph search. */
-        public final static int GRAPH_SEARCH = 1;
+        public const int GRAPH_SEARCH = 1;
         /** Queue search implementation: graph search with reduced frontier. */
-        public final static int GRAPH_SEARCH_RED_FRONTIER = 2;
+        public const int GRAPH_SEARCH_RED_FRONTIER = 2;
         /** Queue search implementation: graph search for breadth first search. */
-        public final static int GRAPH_SEARCH_BFS = 3;
+        public const int GRAPH_SEARCH_BFS = 3;
         /** Queue search implementation: bidirectional search. */
-        public final static int BIDIRECTIONAL_SEARCH = 4;
+        public const int BIDIRECTIONAL_SEARCH = 4;
 
         /** Contains the only existing instance. */
         private static SearchFactory instance;
@@ -56,9 +63,9 @@
          * factory. The indices correspond to the parameter values of method
          * {@link #createSearch(int, int, ToDoubleFunction)}.
          */
-        public String[] getSearchStrategyNames()
+        public string[] getSearchStrategyNames()
         {
-            return new String[] { "Depth First", "Breadth First",
+            return new string[] { "Depth First", "Breadth First",
                 "Iterative Deepening", "Uniform Cost", "Greedy Best First",
                 "A*", "Recursive Best First", "Recursive Best First No Loops", "Hill Climbing" };
         }
@@ -68,9 +75,9 @@
          * factory. The indices correspond to the parameter values of method
          * {@link #createSearch(int, int, ToDoubleFunction)}.
          */
-        public String[] getQSearchImplNames()
+        public string[] getQSearchImplNames()
         {
-            return new String[] { "Tree Search", "Graph Search", "Graph Search red Fr.",
+            return new string[] { "Tree Search", "Graph Search", "Graph Search red Fr.",
                 "Graph Search BFS", "Bidirectional Search" };
         }
 
@@ -83,55 +90,56 @@
          *            queue search implementation: e.g. {@link #TREE_SEARCH}, {@link #GRAPH_SEARCH}
          * 
          */
-        public <S, A> SearchForActions<S, A> createSearch(int strategy, int qSearchImpl, ToDoubleFunction<Node<S, A>> h)
+        public SearchForActions<S, A> createSearch<S, A>(int strategy, int qSearchImpl, ToDoubleFunction<Node<S, A>> h)
         {
             QueueSearch<S, A> qs = null;
             SearchForActions<S, A> result = null;
             switch (qSearchImpl)
             {
                 case TREE_SEARCH:
-                    qs = new TreeSearch<>();
+                    qs = new TreeSearch<S, A>();
                     break;
                 case GRAPH_SEARCH:
-                    qs = new GraphSearch<>();
+                    qs = new GraphSearch<S, A>();
                     break;
                 case GRAPH_SEARCH_RED_FRONTIER:
-                    qs = new GraphSearchReducedFrontier<>();
+                    qs = new GraphSearchReducedFrontier<S, A>();
                     break;
                 case GRAPH_SEARCH_BFS:
-                    qs = new GraphSearchBFS<>();
+                    qs = new GraphSearchBFS<S, A>();
                     break;
                 case BIDIRECTIONAL_SEARCH:
-                    qs = new BidirectionalSearch<>();
+                    qs = new BidirectionalSearch<S, A>();
+                    break;
             }
             switch (strategy)
             {
                 case DF_SEARCH:
-                    result = new DepthFirstSearch<>(qs);
+                    result = new DepthFirstSearch<S, A>(qs);
                     break;
                 case BF_SEARCH:
-                    result = new BreadthFirstSearch<>(qs);
+                    result = new BreadthFirstSearch<S, A>(qs);
                     break;
                 case ID_SEARCH:
-                    result = new IterativeDeepeningSearch<>();
+                    result = new IterativeDeepeningSearch<S, A>();
                     break;
                 case UC_SEARCH:
-                    result = new UniformCostSearch<>(qs);
+                    result = new UniformCostSearch<S, A>(qs);
                     break;
                 case GBF_SEARCH:
-                    result = new GreedyBestFirstSearch<>(qs, h);
+                    result = new GreedyBestFirstSearch<S, A>(qs, h);
                     break;
                 case ASTAR_SEARCH:
-                    result = new AStarSearch<>(qs, h);
+                    result = new AStarSearch<S, A>(qs, h);
                     break;
                 case RBF_SEARCH:
-                    result = new RecursiveBestFirstSearch<>(new AStarSearch.EvalFunction<>(h));
+                    result = new RecursiveBestFirstSearch<S, A>(new AStarSearch<S, A>.EvalFunction(h));
                     break;
                 case RBF_AL_SEARCH:
-                    result = new RecursiveBestFirstSearch<>(new AStarSearch.EvalFunction<>(h), true);
+                    result = new RecursiveBestFirstSearch<S, A>(new AStarSearch<S, A>.EvalFunction(h), true);
                     break;
                 case HILL_SEARCH:
-                    result = new HillClimbingSearch<>(h);
+                    result = new HillClimbingSearch<S, A>(h);
                     break;
             }
             return result;

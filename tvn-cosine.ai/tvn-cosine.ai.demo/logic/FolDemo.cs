@@ -1,8 +1,18 @@
-﻿namespace tvn_cosine.ai.demo.logic
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol;
+using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.inference;
+using tvn.cosine.ai.logic.fol.inference.proof;
+using tvn.cosine.ai.logic.fol.kb;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn_cosine.ai.demo.logic
 {
     public class FolDemo
     {
-        public static void main(String[] args)
+        public static void Main(params string[] args)
         {
             // unifierDemo();
             //  fOL_fcAskDemo();
@@ -23,56 +33,56 @@
         {
             FOLParser parser = new FOLParser(DomainFactory.knowsDomain());
             Unifier unifier = new Unifier();
-            Map<Variable, Term> theta = new Hashtable<Variable, Term>();
+            IMap<Variable, Term> theta = Factory.CreateMap<Variable, Term>();
 
             Sentence query = parser.parse("Knows(John,x)");
             Sentence johnKnowsJane = parser.parse("Knows(y,Mother(y))");
 
-            System.out.println("------------");
-            System.out.println("Unifier Demo");
-            System.out.println("------------");
-            Map<Variable, Term> subst = unifier.unify(query, johnKnowsJane, theta);
-            System.out.println("Unify '" + query + "' with '" + johnKnowsJane + "' to get the substitution " + subst + ".");
-            System.out.println("");
+            System.Console.WriteLine("------------");
+            System.Console.WriteLine("Unifier Demo");
+            System.Console.WriteLine("------------");
+            IMap<Variable, Term> subst = unifier.unify(query, johnKnowsJane, theta);
+            System.Console.WriteLine("Unify '" + query + "' with '" + johnKnowsJane + "' to get the substitution " + subst + ".");
+            System.Console.WriteLine("");
         }
 
         private static void fOL_fcAskDemo()
         {
-            System.out.println("---------------------------");
-            System.out.println("Forward Chain, Kings Demo 1");
-            System.out.println("---------------------------");
+            System.Console.WriteLine("---------------------------");
+            System.Console.WriteLine("Forward Chain, Kings Demo 1");
+            System.Console.WriteLine("---------------------------");
             kingsDemo1(new FOLFCAsk());
-            System.out.println("---------------------------");
-            System.out.println("Forward Chain, Kings Demo 2");
-            System.out.println("---------------------------");
+            System.Console.WriteLine("---------------------------");
+            System.Console.WriteLine("Forward Chain, Kings Demo 2");
+            System.Console.WriteLine("---------------------------");
             kingsDemo2(new FOLFCAsk());
-            System.out.println("---------------------------");
-            System.out.println("Forward Chain, Weapons Demo");
-            System.out.println("---------------------------");
+            System.Console.WriteLine("---------------------------");
+            System.Console.WriteLine("Forward Chain, Weapons Demo");
+            System.Console.WriteLine("---------------------------");
             weaponsDemo(new FOLFCAsk());
         }
 
         private static void fOL_bcAskDemo()
         {
-            System.out.println("----------------------------");
-            System.out.println("Backward Chain, Kings Demo 1");
-            System.out.println("----------------------------");
+            System.Console.WriteLine("----------------------------");
+            System.Console.WriteLine("Backward Chain, Kings Demo 1");
+            System.Console.WriteLine("----------------------------");
             kingsDemo1(new FOLBCAsk());
-            System.out.println("----------------------------");
-            System.out.println("Backward Chain, Kings Demo 2");
-            System.out.println("----------------------------");
+            System.Console.WriteLine("----------------------------");
+            System.Console.WriteLine("Backward Chain, Kings Demo 2");
+            System.Console.WriteLine("----------------------------");
             kingsDemo2(new FOLBCAsk());
-            System.out.println("----------------------------");
-            System.out.println("Backward Chain, Weapons Demo");
-            System.out.println("----------------------------");
+            System.Console.WriteLine("----------------------------");
+            System.Console.WriteLine("Backward Chain, Weapons Demo");
+            System.Console.WriteLine("----------------------------");
             weaponsDemo(new FOLBCAsk());
         }
 
         private static void fOL_CNFConversion()
         {
-            System.out.println("-------------------------------------------------");
-            System.out.println("Conjuctive Normal Form for First Order Logic Demo");
-            System.out.println("-------------------------------------------------");
+            System.Console.WriteLine("-------------------------------------------------");
+            System.Console.WriteLine("Conjuctive Normal Form for First Order Logic Demo");
+            System.Console.WriteLine("-------------------------------------------------");
             FOLDomain domain = DomainFactory.lovesAnimalDomain();
             FOLParser parser = new FOLParser(domain);
 
@@ -82,40 +92,40 @@
 
             CNF cnf = cnfConv.convertToCNF(origSentence);
 
-            System.out.println("Convert '" + origSentence + "' to CNF.");
-            System.out.println("CNF=" + cnf.toString());
-            System.out.println("");
+            System.Console.WriteLine("Convert '" + origSentence + "' to CNF.");
+            System.Console.WriteLine("CNF=" + cnf.ToString());
+            System.Console.WriteLine("");
         }
 
         private static void fOL_TFMResolutionDemo()
         {
-            System.out.println("----------------------------");
-            System.out.println("TFM Resolution, Kings Demo 1");
-            System.out.println("----------------------------");
+            System.Console.WriteLine("----------------------------");
+            System.Console.WriteLine("TFM Resolution, Kings Demo 1");
+            System.Console.WriteLine("----------------------------");
             kingsDemo1(new FOLTFMResolution());
-            System.out.println("----------------------------");
-            System.out.println("TFM Resolution, Kings Demo 2");
-            System.out.println("----------------------------");
+            System.Console.WriteLine("----------------------------");
+            System.Console.WriteLine("TFM Resolution, Kings Demo 2");
+            System.Console.WriteLine("----------------------------");
             kingsDemo2(new FOLTFMResolution());
-            System.out.println("----------------------------");
-            System.out.println("TFM Resolution, Weapons Demo");
-            System.out.println("----------------------------");
+            System.Console.WriteLine("----------------------------");
+            System.Console.WriteLine("TFM Resolution, Weapons Demo");
+            System.Console.WriteLine("----------------------------");
             weaponsDemo(new FOLTFMResolution());
-            System.out.println("---------------------------------");
-            System.out.println("TFM Resolution, Loves Animal Demo");
-            System.out.println("---------------------------------");
+            System.Console.WriteLine("---------------------------------");
+            System.Console.WriteLine("TFM Resolution, Loves Animal Demo");
+            System.Console.WriteLine("---------------------------------");
             lovesAnimalDemo(new FOLTFMResolution());
-            System.out.println("---------------------------------------");
-            System.out.println("TFM Resolution, ABC Equality Axiom Demo");
-            System.out.println("---------------------------------------");
+            System.Console.WriteLine("---------------------------------------");
+            System.Console.WriteLine("TFM Resolution, ABC Equality Axiom Demo");
+            System.Console.WriteLine("---------------------------------------");
             abcEqualityAxiomDemo(new FOLTFMResolution());
         }
 
         private static void fOL_Demodulation()
         {
-            System.out.println("-----------------");
-            System.out.println("Demodulation Demo");
-            System.out.println("-----------------");
+            System.Console.WriteLine("-----------------");
+            System.Console.WriteLine("Demodulation Demo");
+            System.Console.WriteLine("-----------------");
             FOLDomain domain = new FOLDomain();
             domain.addConstant("A");
             domain.addConstant("B");
@@ -138,20 +148,20 @@
             Predicate altExpression = (Predicate)demodulation.apply(assertion,
                     expression);
 
-            System.out.println("Demodulate '" + expression + "' with '" + assertion
+            System.Console.WriteLine("Demodulate '" + expression + "' with '" + assertion
                     + "' to give");
-            System.out.println(altExpression.toString());
-            System.out.println("and again to give");
-            System.out.println(demodulation.apply(assertion, altExpression)
-                    .toString());
-            System.out.println("");
+            System.Console.WriteLine(altExpression.ToString());
+            System.Console.WriteLine("and again to give");
+            System.Console.WriteLine(demodulation.apply(assertion, altExpression)
+                    .ToString());
+            System.Console.WriteLine("");
         }
 
         private static void fOL_Paramodulation()
         {
-            System.out.println("-------------------");
-            System.out.println("Paramodulation Demo");
-            System.out.println("-------------------");
+            System.Console.WriteLine("-------------------");
+            System.Console.WriteLine("Paramodulation Demo");
+            System.Console.WriteLine("-------------------");
 
             FOLDomain domain = new FOLDomain();
             domain.addConstant("A");
@@ -163,86 +173,85 @@
 
             FOLParser parser = new FOLParser(domain);
 
-            List<Literal> lits = new ArrayList<Literal>();
+            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
             AtomicSentence a1 = (AtomicSentence)parser.parse("P(F(x,B),x)");
             AtomicSentence a2 = (AtomicSentence)parser.parse("Q(x)");
-            lits.add(new Literal(a1));
-            lits.add(new Literal(a2));
+            lits.Add(new Literal(a1));
+            lits.Add(new Literal(a2));
 
             Clause c1 = new Clause(lits);
 
-            lits.clear();
+            lits.Clear();
             a1 = (AtomicSentence)parser.parse("F(A,y) = y");
             a2 = (AtomicSentence)parser.parse("R(y)");
-            lits.add(new Literal(a1));
-            lits.add(new Literal(a2));
+            lits.Add(new Literal(a1));
+            lits.Add(new Literal(a2));
 
             Clause c2 = new Clause(lits);
 
             Paramodulation paramodulation = new Paramodulation();
-            Set<Clause> paras = paramodulation.apply(c1, c2);
+            ISet<Clause> paras = paramodulation.apply(c1, c2);
 
-            System.out.println("Paramodulate '" + c1 + "' with '" + c2
-                    + "' to give");
-            System.out.println(paras.toString());
-            System.out.println("");
+            System.Console.WriteLine("Paramodulate '" + c1 + "' with '" + c2 + "' to give");
+            System.Console.WriteLine(paras.ToString());
+            System.Console.WriteLine("");
         }
 
         private static void fOL_OTTERDemo()
         {
-            System.out.println("---------------------------------------");
-            System.out.println("OTTER Like Theorem Prover, Kings Demo 1");
-            System.out.println("---------------------------------------");
+            System.Console.WriteLine("---------------------------------------");
+            System.Console.WriteLine("OTTER Like Theorem Prover, Kings Demo 1");
+            System.Console.WriteLine("---------------------------------------");
             kingsDemo1(new FOLOTTERLikeTheoremProver());
-            System.out.println("---------------------------------------");
-            System.out.println("OTTER Like Theorem Prover, Kings Demo 2");
-            System.out.println("---------------------------------------");
+            System.Console.WriteLine("---------------------------------------");
+            System.Console.WriteLine("OTTER Like Theorem Prover, Kings Demo 2");
+            System.Console.WriteLine("---------------------------------------");
             kingsDemo2(new FOLOTTERLikeTheoremProver());
-            System.out.println("---------------------------------------");
-            System.out.println("OTTER Like Theorem Prover, Weapons Demo");
-            System.out.println("---------------------------------------");
+            System.Console.WriteLine("---------------------------------------");
+            System.Console.WriteLine("OTTER Like Theorem Prover, Weapons Demo");
+            System.Console.WriteLine("---------------------------------------");
             weaponsDemo(new FOLOTTERLikeTheoremProver());
-            System.out.println("--------------------------------------------");
-            System.out.println("OTTER Like Theorem Prover, Loves Animal Demo");
-            System.out.println("--------------------------------------------");
+            System.Console.WriteLine("--------------------------------------------");
+            System.Console.WriteLine("OTTER Like Theorem Prover, Loves Animal Demo");
+            System.Console.WriteLine("--------------------------------------------");
             lovesAnimalDemo(new FOLOTTERLikeTheoremProver());
-            System.out
-				.println("--------------------------------------------------");
-            System.out
-				.println("OTTER Like Theorem Prover, ABC Equality Axiom Demo");
-            System.out
-				.println("--------------------------------------------------");
+            System.Console
+                .WriteLine("--------------------------------------------------");
+            System.Console
+                .WriteLine("OTTER Like Theorem Prover, ABC Equality Axiom Demo");
+            System.Console
+                .WriteLine("--------------------------------------------------");
             abcEqualityAxiomDemo(new FOLOTTERLikeTheoremProver(false));
-            System.out
-				.println("-----------------------------------------------------");
-            System.out
-				.println("OTTER Like Theorem Prover, ABC Equality No Axiom Demo");
-            System.out
-				.println("-----------------------------------------------------");
+            System.Console
+                .WriteLine("-----------------------------------------------------");
+            System.Console
+                .WriteLine("OTTER Like Theorem Prover, ABC Equality No Axiom Demo");
+            System.Console
+                .WriteLine("-----------------------------------------------------");
             abcEqualityNoAxiomDemo(new FOLOTTERLikeTheoremProver(true));
         }
 
         private static void fOL_ModelEliminationDemo()
         {
-            System.out.println("-------------------------------");
-            System.out.println("Model Elimination, Kings Demo 1");
-            System.out.println("-------------------------------");
+            System.Console.WriteLine("-------------------------------");
+            System.Console.WriteLine("Model Elimination, Kings Demo 1");
+            System.Console.WriteLine("-------------------------------");
             kingsDemo1(new FOLModelElimination());
-            System.out.println("-------------------------------");
-            System.out.println("Model Elimination, Kings Demo 2");
-            System.out.println("-------------------------------");
+            System.Console.WriteLine("-------------------------------");
+            System.Console.WriteLine("Model Elimination, Kings Demo 2");
+            System.Console.WriteLine("-------------------------------");
             kingsDemo2(new FOLModelElimination());
-            System.out.println("-------------------------------");
-            System.out.println("Model Elimination, Weapons Demo");
-            System.out.println("-------------------------------");
+            System.Console.WriteLine("-------------------------------");
+            System.Console.WriteLine("Model Elimination, Weapons Demo");
+            System.Console.WriteLine("-------------------------------");
             weaponsDemo(new FOLModelElimination());
-            System.out.println("------------------------------------");
-            System.out.println("Model Elimination, Loves Animal Demo");
-            System.out.println("------------------------------------");
+            System.Console.WriteLine("------------------------------------");
+            System.Console.WriteLine("Model Elimination, Loves Animal Demo");
+            System.Console.WriteLine("------------------------------------");
             lovesAnimalDemo(new FOLModelElimination());
-            System.out.println("------------------------------------------");
-            System.out.println("Model Elimination, ABC Equality Axiom Demo");
-            System.out.println("-------------------------------------------");
+            System.Console.WriteLine("------------------------------------------");
+            System.Console.WriteLine("Model Elimination, ABC Equality Axiom Demo");
+            System.Console.WriteLine("-------------------------------------------");
             abcEqualityAxiomDemo(new FOLModelElimination());
         }
 
@@ -250,24 +259,23 @@
         {
             StandardizeApartIndexicalFactory.flush();
 
-            FOLKnowledgeBase kb = FOLKnowledgeBaseFactory
-                    .createKingsKnowledgeBase(ip);
+            FOLKnowledgeBase kb = FOLKnowledgeBaseFactory.createKingsKnowledgeBase(ip);
 
-            String kbStr = kb.toString();
+            string kbStr = kb.ToString();
 
-            List<Term> terms = new ArrayList<Term>();
-            terms.add(new Constant("John"));
+            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            terms.Add(new Constant("John"));
             Predicate query = new Predicate("Evil", terms);
 
             InferenceResult answer = kb.ask(query);
 
-            System.out.println("Kings Knowledge Base:");
-            System.out.println(kbStr);
-            System.out.println("Query: " + query);
-            for (Proof p : answer.getProofs())
+            System.Console.WriteLine("Kings Knowledge Base:");
+            System.Console.WriteLine(kbStr);
+            System.Console.WriteLine("Query: " + query);
+            foreach (Proof p in answer.getProofs())
             {
-                System.out.print(ProofPrinter.printProof(p));
-                System.out.println("");
+                System.Console.Write(ProofPrinter.printProof(p));
+                System.Console.WriteLine("");
             }
         }
 
@@ -278,20 +286,20 @@
             FOLKnowledgeBase kb = FOLKnowledgeBaseFactory
                     .createKingsKnowledgeBase(ip);
 
-            String kbStr = kb.toString();
+            string kbStr = kb.ToString();
 
-            List<Term> terms = new ArrayList<Term>();
-            terms.add(new Variable("x"));
+            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            terms.Add(new Variable("x"));
             Predicate query = new Predicate("King", terms);
 
             InferenceResult answer = kb.ask(query);
 
-            System.out.println("Kings Knowledge Base:");
-            System.out.println(kbStr);
-            System.out.println("Query: " + query);
-            for (Proof p : answer.getProofs())
+            System.Console.WriteLine("Kings Knowledge Base:");
+            System.Console.WriteLine(kbStr);
+            System.Console.WriteLine("Query: " + query);
+            foreach (Proof p in answer.getProofs())
             {
-                System.out.print(ProofPrinter.printProof(p));
+                System.Console.Write(ProofPrinter.printProof(p));
             }
         }
 
@@ -302,21 +310,21 @@
             FOLKnowledgeBase kb = FOLKnowledgeBaseFactory
                     .createWeaponsKnowledgeBase(ip);
 
-            String kbStr = kb.toString();
+            string kbStr = kb.ToString();
 
-            List<Term> terms = new ArrayList<Term>();
-            terms.add(new Variable("x"));
+            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            terms.Add(new Variable("x"));
             Predicate query = new Predicate("Criminal", terms);
 
             InferenceResult answer = kb.ask(query);
 
-            System.out.println("Weapons Knowledge Base:");
-            System.out.println(kbStr);
-            System.out.println("Query: " + query);
-            for (Proof p : answer.getProofs())
+            System.Console.WriteLine("Weapons Knowledge Base:");
+            System.Console.WriteLine(kbStr);
+            System.Console.WriteLine("Query: " + query);
+            foreach (Proof p in answer.getProofs())
             {
-                System.out.print(ProofPrinter.printProof(p));
-                System.out.println("");
+                System.Console.Write(ProofPrinter.printProof(p));
+                System.Console.WriteLine("");
             }
         }
 
@@ -327,22 +335,22 @@
             FOLKnowledgeBase kb = FOLKnowledgeBaseFactory
                     .createLovesAnimalKnowledgeBase(ip);
 
-            String kbStr = kb.toString();
+            string kbStr = kb.ToString();
 
-            List<Term> terms = new ArrayList<Term>();
-            terms.add(new Constant("Curiosity"));
-            terms.add(new Constant("Tuna"));
+            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            terms.Add(new Constant("Curiosity"));
+            terms.Add(new Constant("Tuna"));
             Predicate query = new Predicate("Kills", terms);
 
             InferenceResult answer = kb.ask(query);
 
-            System.out.println("Loves Animal Knowledge Base:");
-            System.out.println(kbStr);
-            System.out.println("Query: " + query);
-            for (Proof p : answer.getProofs())
+            System.Console.WriteLine("Loves Animal Knowledge Base:");
+            System.Console.WriteLine(kbStr);
+            System.Console.WriteLine("Query: " + query);
+            foreach (Proof p in answer.getProofs())
             {
-                System.out.print(ProofPrinter.printProof(p));
-                System.out.println("");
+                System.Console.Write(ProofPrinter.printProof(p));
+                System.Console.WriteLine("");
             }
         }
 
@@ -353,20 +361,20 @@
             FOLKnowledgeBase kb = FOLKnowledgeBaseFactory
                     .createABCEqualityKnowledgeBase(ip, true);
 
-            String kbStr = kb.toString();
+            string kbStr = kb.ToString();
 
             TermEquality query = new TermEquality(new Constant("A"), new Constant(
                     "C"));
 
             InferenceResult answer = kb.ask(query);
 
-            System.out.println("ABC Equality Axiom Knowledge Base:");
-            System.out.println(kbStr);
-            System.out.println("Query: " + query);
-            for (Proof p : answer.getProofs())
+            System.Console.WriteLine("ABC Equality Axiom Knowledge Base:");
+            System.Console.WriteLine(kbStr);
+            System.Console.WriteLine("Query: " + query);
+            foreach (Proof p in answer.getProofs())
             {
-                System.out.print(ProofPrinter.printProof(p));
-                System.out.println("");
+                System.Console.Write(ProofPrinter.printProof(p));
+                System.Console.WriteLine("");
             }
         }
 
@@ -377,20 +385,20 @@
             FOLKnowledgeBase kb = FOLKnowledgeBaseFactory
                     .createABCEqualityKnowledgeBase(ip, false);
 
-            String kbStr = kb.toString();
+            string kbStr = kb.ToString();
 
             TermEquality query = new TermEquality(new Constant("A"), new Constant(
                     "C"));
 
             InferenceResult answer = kb.ask(query);
 
-            System.out.println("ABC Equality No Axiom Knowledge Base:");
-            System.out.println(kbStr);
-            System.out.println("Query: " + query);
-            for (Proof p : answer.getProofs())
+            System.Console.WriteLine("ABC Equality No Axiom Knowledge Base:");
+            System.Console.WriteLine(kbStr);
+            System.Console.WriteLine("Query: " + query);
+            foreach (Proof p in answer.getProofs())
             {
-                System.out.print(ProofPrinter.printProof(p));
-                System.out.println("");
+                System.Console.Write(ProofPrinter.printProof(p));
+                System.Console.WriteLine("");
             }
         }
     }

@@ -27,7 +27,7 @@ namespace tvn.cosine.ai.util
             return obj;
         }
 
-        public object getProperty(string key)
+        public object getProperty(object key)
         {
             if (ContainsKey(key))
             {

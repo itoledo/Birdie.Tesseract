@@ -28,7 +28,7 @@ namespace tvn.cosine.ai.environment.vacuum
         /**
          * Specifies the actions available to the agent at state s
          */
-        public static IQueue<Action> getActions(VacuumEnvironmentState state)
+        public static IQueue<Action> getActions(object state)
         {
             IQueue<Action> actions = Factory.CreateQueue<Action>();
             actions.Add(VacuumEnvironment.ACTION_SUCK);

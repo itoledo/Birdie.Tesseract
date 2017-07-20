@@ -1,4 +1,8 @@
-﻿namespace tvn_cosine.ai.demo.agent
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.environment.vacuum;
+
+namespace tvn_cosine.ai.demo.agent
 {
     /**
      * Demonstrates, how to set up a simple environment, place an agent in it,
@@ -8,7 +12,7 @@
      */
     public class TrivialVacuumDemo
     {
-        public static void main(String[] args)
+        public static void Main(params string[] args)
         {
             // create environment with random state of cleaning.
             Environment env = new VacuumEnvironment();

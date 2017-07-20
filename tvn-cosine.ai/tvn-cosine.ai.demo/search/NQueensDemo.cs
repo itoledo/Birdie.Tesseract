@@ -1,11 +1,24 @@
-﻿namespace tvn_cosine.ai.demo.search
+﻿using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.environment.nqueens;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.agent;
+using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.qsearch;
+using tvn.cosine.ai.search.local;
+using tvn.cosine.ai.search.uninformed;
+using tvn.cosine.ai.util;
+using static tvn.cosine.ai.environment.nqueens.NQueensBoard;
+
+namespace tvn_cosine.ai.demo.search
 {
     public class NQueensDemo
     {
 
-        private static final int boardSize = 8;
+        private static readonly int boardSize = 8;
 
-        public static void main(String[] args)
+        public static void Main(params string[] args)
         {
 
             newNQueensDemo();
@@ -25,19 +38,19 @@
 
         private static void nQueensWithRecursiveDLS()
         {
-            System.out.println("\nNQueensDemo recursive DLS -->");
+            System.Console.WriteLine("\nNQueensDemo recursive DLS -->");
             try
             {
                 Problem<NQueensBoard, QueenAction> problem =
                         NQueensFunctions.createIncrementalFormulationProblem(boardSize);
-                SearchForActions<NQueensBoard, QueenAction> search = new DepthLimitedSearch<>(boardSize);
-                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<>(problem, search);
+                SearchForActions<NQueensBoard, QueenAction> search = new DepthLimitedSearch<NQueensBoard, QueenAction>(boardSize);
+                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<NQueensBoard, QueenAction>(problem, search);
                 printActions(agent.getActions());
                 printInstrumentation(agent.getInstrumentation());
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                throw e;
             }
 
         }
@@ -46,173 +59,173 @@
         {
             try
             {
-                System.out.println("\nNQueensDemo BFS -->");
+                System.Console.WriteLine("\nNQueensDemo BFS -->");
                 Problem<NQueensBoard, QueenAction> problem =
                         NQueensFunctions.createIncrementalFormulationProblem(boardSize);
-                SearchForActions<NQueensBoard, QueenAction> search = new BreadthFirstSearch<>(new TreeSearch<>());
-                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<>(problem, search);
+                SearchForActions<NQueensBoard, QueenAction> search = new BreadthFirstSearch<NQueensBoard, QueenAction>(new TreeSearch<NQueensBoard, QueenAction>());
+                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<NQueensBoard, QueenAction>(problem, search);
                 printActions(agent.getActions());
                 printInstrumentation(agent.getInstrumentation());
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                throw e;
             }
         }
 
         private static void nQueensWithDepthFirstSearch()
         {
-            System.out.println("\nNQueensDemo DFS -->");
+            System.Console.WriteLine("\nNQueensDemo DFS -->");
             try
             {
                 Problem<NQueensBoard, QueenAction> problem =
                         NQueensFunctions.createIncrementalFormulationProblem(boardSize);
-                SearchForActions<NQueensBoard, QueenAction> search = new DepthFirstSearch<>(new GraphSearch<>());
-                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<>(problem, search);
+                SearchForActions<NQueensBoard, QueenAction> search = new DepthFirstSearch<NQueensBoard, QueenAction>(new GraphSearch<NQueensBoard, QueenAction>());
+                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<NQueensBoard, QueenAction>(problem, search);
                 printActions(agent.getActions());
                 printInstrumentation(agent.getInstrumentation());
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                throw e;
             }
         }
 
         private static void nQueensWithIterativeDeepeningSearch()
         {
-            System.out.println("\nNQueensDemo Iterative DS  -->");
+            System.Console.WriteLine("\nNQueensDemo Iterative DS  -->");
             try
             {
                 Problem<NQueensBoard, QueenAction> problem =
                         NQueensFunctions.createIncrementalFormulationProblem(boardSize);
-                SearchForActions<NQueensBoard, QueenAction> search = new IterativeDeepeningSearch<>();
-                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<>(problem, search);
+                SearchForActions<NQueensBoard, QueenAction> search = new IterativeDeepeningSearch<NQueensBoard, QueenAction>();
+                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<NQueensBoard, QueenAction>(problem, search);
 
-                System.out.println();
+                System.Console.WriteLine();
                 printActions(agent.getActions());
                 printInstrumentation(agent.getInstrumentation());
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                throw e;
             }
         }
 
         private static void nQueensSimulatedAnnealingSearch()
         {
-            System.out.println("\nNQueensDemo Simulated Annealing  -->");
+            System.Console.WriteLine("\nNQueensDemo Simulated Annealing  -->");
             try
             {
                 Problem<NQueensBoard, QueenAction> problem =
                         NQueensFunctions.createCompleteStateFormulationProblem(boardSize, Config.QUEENS_IN_FIRST_ROW);
 
                 SimulatedAnnealingSearch<NQueensBoard, QueenAction> search =
-                        new SimulatedAnnealingSearch<>(NQueensFunctions.createAttackingPairsHeuristicFunction(),
+                        new SimulatedAnnealingSearch<NQueensBoard, QueenAction>(NQueensFunctions.createAttackingPairsHeuristicFunction(),
                         new Scheduler(20, 0.045, 100));
-                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<>(problem, search);
+                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<NQueensBoard, QueenAction>(problem, search);
 
-                System.out.println();
+                System.Console.WriteLine();
                 printActions(agent.getActions());
-                System.out.println("Search Outcome=" + search.getOutcome());
-                System.out.println("Final State=\n" + search.getLastSearchState());
+                System.Console.WriteLine("Search Outcome=" + search.getOutcome());
+                System.Console.WriteLine("Final State=\n" + search.getLastSearchState());
                 printInstrumentation(agent.getInstrumentation());
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                throw e;
             }
         }
 
         private static void nQueensHillClimbingSearch()
         {
-            System.out.println("\nNQueensDemo HillClimbing  -->");
+            System.Console.WriteLine("\nNQueensDemo HillClimbing  -->");
             try
             {
                 Problem<NQueensBoard, QueenAction> problem =
                         NQueensFunctions.createCompleteStateFormulationProblem(boardSize, Config.QUEENS_IN_FIRST_ROW);
-                HillClimbingSearch<NQueensBoard, QueenAction> search = new HillClimbingSearch<>
+                HillClimbingSearch<NQueensBoard, QueenAction> search = new HillClimbingSearch<NQueensBoard, QueenAction>
                         (NQueensFunctions.createAttackingPairsHeuristicFunction());
-                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<>(problem, search);
+                SearchAgent<NQueensBoard, QueenAction> agent = new SearchAgent<NQueensBoard, QueenAction>(problem, search);
 
-                System.out.println();
+                System.Console.WriteLine();
                 printActions(agent.getActions());
-                System.out.println("Search Outcome=" + search.getOutcome());
-                System.out.println("Final State=\n" + search.getLastSearchState());
+                System.Console.WriteLine("Search Outcome=" + search.getOutcome());
+                System.Console.WriteLine("Final State=\n" + search.getLastSearchState());
                 printInstrumentation(agent.getInstrumentation());
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                throw e;
             }
         }
 
         private static void nQueensGeneticAlgorithmSearch()
         {
-            System.out.println("\nNQueensDemo GeneticAlgorithm  -->");
+            System.Console.WriteLine("\nNQueensDemo GeneticAlgorithm  -->");
             try
             {
-                FitnessFunction<Integer> fitnessFunction = NQueensGenAlgoUtil.getFitnessFunction();
-                GoalTest<Individual<Integer>> goalTest = NQueensGenAlgoUtil.getGoalTest();
+                FitnessFunction<int> fitnessFunction = NQueensGenAlgoUtil.getFitnessFunction();
+                GoalTest<Individual<int>> goalTest = NQueensGenAlgoUtil.getGoalTest();
                 // Generate an initial population
-                Set<Individual<Integer>> population = new HashSet<>();
+                ISet<Individual<int>> population = Factory.CreateSet<Individual<int>>();
                 for (int i = 0; i < 50; i++)
                 {
-                    population.add(NQueensGenAlgoUtil.generateRandomIndividual(boardSize));
+                    population.Add(NQueensGenAlgoUtil.generateRandomIndividual(boardSize));
                 }
 
-                GeneticAlgorithm<Integer> ga = new GeneticAlgorithm<>(boardSize,
+                GeneticAlgorithm<int> ga = new GeneticAlgorithm<int>(boardSize,
                         NQueensGenAlgoUtil.getFiniteAlphabetForBoardOfSize(boardSize), 0.15);
 
                 // Run for a set amount of time
-                Individual<Integer> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, goalTest, 1000L);
+                Individual<int> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, goalTest, 1000L);
 
-                System.out.println("Max Time (1 second) Best Individual=\n"
+                System.Console.WriteLine("Max Time (1 second) Best Individual=\n"
                         + NQueensGenAlgoUtil.getBoardForIndividual(bestIndividual));
-                System.out.println("Board Size      = " + boardSize);
-                System.out.println("# Board Layouts = " + (new BigDecimal(boardSize)).pow(boardSize));
-                System.out.println("Fitness         = " + fitnessFunction.apply(bestIndividual));
-                System.out.println("Is Goal         = " + goalTest.test(bestIndividual));
-                System.out.println("Population Size = " + ga.getPopulationSize());
-                System.out.println("Iterations      = " + ga.getIterations());
-                System.out.println("Took            = " + ga.getTimeInMilliseconds() + "ms.");
+                System.Console.WriteLine("Board Size      = " + boardSize);
+                //System.Console.WriteLine("# Board Layouts = " + (new BigDecimal(boardSize)).pow(boardSize)/*);*/
+                System.Console.WriteLine("Fitness         = " + fitnessFunction.apply(bestIndividual));
+                System.Console.WriteLine("Is Goal         = " + goalTest(bestIndividual));
+                System.Console.WriteLine("Population Size = " + ga.getPopulationSize());
+                System.Console.WriteLine("Iterations      = " + ga.getIterations());
+                System.Console.WriteLine("Took            = " + ga.getTimeInMilliseconds() + "ms.");
 
                 // Run till goal is achieved
                 bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, goalTest, 0L);
 
-                System.out.println("");
-                System.out
-					.println("Goal Test Best Individual=\n" + NQueensGenAlgoUtil.getBoardForIndividual(bestIndividual));
-                System.out.println("Board Size      = " + boardSize);
-                System.out.println("# Board Layouts = " + (new BigDecimal(boardSize)).pow(boardSize));
-                System.out.println("Fitness         = " + fitnessFunction.apply(bestIndividual));
-                System.out.println("Is Goal         = " + goalTest.test(bestIndividual));
-                System.out.println("Population Size = " + ga.getPopulationSize());
-                System.out.println("Itertions       = " + ga.getIterations());
-                System.out.println("Took            = " + ga.getTimeInMilliseconds() + "ms.");
+                System.Console.WriteLine("");
+                System.Console
+                    .WriteLine("Goal Test Best Individual=\n" + NQueensGenAlgoUtil.getBoardForIndividual(bestIndividual));
+                System.Console.WriteLine("Board Size      = " + boardSize);
+                //System.Console.WriteLine("# Board Layouts = " + (new BigDecimal(boardSize)).pow(boardSize)/*);*/
+                System.Console.WriteLine("Fitness         = " + fitnessFunction.apply(bestIndividual));
+                System.Console.WriteLine("Is Goal         = " + goalTest(bestIndividual));
+                System.Console.WriteLine("Population Size = " + ga.getPopulationSize());
+                System.Console.WriteLine("Itertions       = " + ga.getIterations());
+                System.Console.WriteLine("Took            = " + ga.getTimeInMilliseconds() + "ms.");
 
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                throw e;
             }
         }
 
         private static void printInstrumentation(Properties properties)
         {
-            for (Object o : properties.keySet())
+            foreach (object o in properties.GetKeys())
             {
-                String key = (String)o;
-                String property = properties.getProperty(key);
-                System.out.println(key + " : " + property);
+                string key = (string)o;
+                string property = (string)properties.getProperty(key);
+                System.Console.WriteLine(key + " : " + property);
             }
 
         }
 
-        private static void printActions(List<Action> actions)
+        private static void printActions(IQueue<QueenAction> actions)
         {
-            for (Action action : actions)
+            foreach (Action action in actions)
             {
-                System.out.println(action.toString());
+                System.Console.WriteLine(action.ToString());
             }
         }
 

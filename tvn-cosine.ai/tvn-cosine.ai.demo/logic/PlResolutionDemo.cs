@@ -1,23 +1,27 @@
-﻿namespace tvn_cosine.ai.demo.logic
+﻿using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.parsing;
+
+namespace tvn_cosine.ai.demo.logic
 {
     public class PlResolutionDemo
     {
         private static PLResolution plr = new PLResolution();
 
-        public static void main(String[] args)
+        public static void Main(params string[] args)
         {
             KnowledgeBase kb = new KnowledgeBase();
-            String fact = "(B11 => ~P11) & B11)";
+            string fact = "(B11 => ~P11) & B11)";
             kb.tell(fact);
-            System.out.println("\nPlResolutionDemo\n");
-            System.out.println("adding " + fact + "to knowldegebase");
+            System.Console.WriteLine("\nPlResolutionDemo\n");
+            System.Console.WriteLine("adding " + fact + "to knowldegebase");
             displayResolutionResults(kb, "~B11");
         }
 
-        private static void displayResolutionResults(KnowledgeBase kb, String query)
+        private static void displayResolutionResults(KnowledgeBase kb, string query)
         {
             PLParser parser = new PLParser();
-            System.out.println("Running plResolution of query " + query
+            System.Console.WriteLine("Running plResolution of query " + query
                     + " on knowledgeBase  gives " + plr.plResolution(kb, parser.parse(query)));
         }
     }

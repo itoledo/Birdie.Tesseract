@@ -1,4 +1,9 @@
-﻿namespace tvn_cosine.ai.demo.agent
+﻿using System.Text;
+using tvn.cosine.ai.agent;
+using tvn.cosine.ai.environment.vacuum;
+using tvn.cosine.ai.search.nondeterministic;
+
+namespace tvn_cosine.ai.demo.agent
 {
     /**
      * Applies AND-OR-GRAPH-SEARCH to a non-deterministic version of the Vacuum World.
@@ -8,46 +13,45 @@
      */
     public class NondeterministicVacuumEnvironmentDemo
     {
-        public static void main(String[] args)
+        public static void Main(params string[] args)
         {
-            System.out.println("NON-DETERMINISTIC-VACUUM-ENVIRONMENT DEMO");
-            System.out.println("");
+            System.Console.WriteLine("NON-DETERMINISTIC-VACUUM-ENVIRONMENT DEMO");
+            System.Console.WriteLine("");
             startAndOrSearch();
         }
 
         private static void startAndOrSearch()
         {
-            System.out.println("AND-OR-GRAPH-SEARCH");
+            System.Console.WriteLine("AND-OR-GRAPH-SEARCH");
 
-            NondeterministicVacuumAgent agent = new NondeterministicVacuumAgent(new FullyObservableVacuumEnvironmentPerceptToStateFunction());
+            NondeterministicVacuumAgent agent = new NondeterministicVacuumAgent(VacuumWorldFunctions.FullyObservableVacuumEnvironmentPerceptToStateFunction);
             // create state: both rooms are dirty and the vacuum is in room A
             VacuumEnvironmentState state = new VacuumEnvironmentState();
             state.setLocationState(VacuumEnvironment.LOCATION_A, VacuumEnvironment.LocationState.Dirty);
             state.setLocationState(VacuumEnvironment.LOCATION_B, VacuumEnvironment.LocationState.Dirty);
             state.setAgentLocation(agent, VacuumEnvironment.LOCATION_A);
             // create problem
-            NondeterministicProblem<VacuumEnvironmentState, Action> problem = new NondeterministicProblem<>(
+            NondeterministicProblem<VacuumEnvironmentState, Action> problem = new NondeterministicProblem<VacuumEnvironmentState, Action>(
                     state,
-                    VacuumWorldFunctions::getActions,
+                    VacuumWorldFunctions.getActions,
                     VacuumWorldFunctions.createResultsFunction(agent),
-                    VacuumWorldFunctions::testGoal,
-                    (s, a, sPrimed) -> 1.0);
+                    VacuumWorldFunctions.testGoal,
+                    (s, a, sPrimed) => 1.0);
             // set the problem and agent
-            agent.setProblem(problem);
+         //   agent.setProblem(problem);
 
             // create world
             NondeterministicVacuumEnvironment world = new NondeterministicVacuumEnvironment(VacuumEnvironment.LocationState.Dirty, VacuumEnvironment.LocationState.Dirty);
             world.addAgent(agent, VacuumEnvironment.LOCATION_A);
 
             // execute and show plan
-            System.out.println("Initial Plan: " + agent.getContingencyPlan());
+            System.Console.WriteLine("Initial Plan: " + agent.getContingencyPlan());
             StringBuilder sb = new StringBuilder();
             world.addEnvironmentView(new VacuumEnvironmentViewActionTracker(sb));
             world.stepUntilDone();
-            System.out.println("Remaining Plan: " + agent.getContingencyPlan());
-            System.out.println("Actions Taken: " + sb);
-            System.out.println("Final State: " + world.getCurrentState());
+            System.Console.WriteLine("Remaining Plan: " + agent.getContingencyPlan());
+            System.Console.WriteLine("Actions Taken: " + sb);
+            System.Console.WriteLine("Final State: " + world.getCurrentState());
         }
     }
-
 }

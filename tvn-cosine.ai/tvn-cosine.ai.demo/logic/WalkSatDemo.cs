@@ -1,10 +1,15 @@
-﻿namespace tvn_cosine.ai.demo.logic
+﻿using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.visitors;
+
+namespace tvn_cosine.ai.demo.logic
 {
     public class WalkSatDemo
     {
-        public static void main(String[] args)
+        public static void Main(params string[] args)
         {
-            System.out.println("\nWalkSatDemo\n");
+            System.Console.WriteLine("\nWalkSatDemo\n");
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("P => Q");
             kb.tell("L & M => P");
@@ -14,15 +19,15 @@
             kb.tell("A");
             kb.tell("B");
 
-            System.out.println("Example from  page 220 of AIMA 2nd Edition");
-            System.out.println("KnowledgeBsse consists of sentences");
-            System.out.println(kb.toString());
+            System.Console.WriteLine("Example from  page 220 of AIMA 2nd Edition");
+            System.Console.WriteLine("KnowledgeBsse consists of sentences");
+            System.Console.WriteLine(kb.ToString());
 
             WalkSAT walkSAT = new WalkSAT();
             Model m = walkSAT.walkSAT(ConvertToConjunctionOfClauses.convert(kb.asSentence()).getClauses(), 0.5, 1000);
             if (m == null)
             {
-                System.out.println("failure");
+                System.Console.WriteLine("failure");
             }
             else
             {

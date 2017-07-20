@@ -1,13 +1,17 @@
-﻿namespace tvn_cosine.ai.demo.logic
+﻿using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn_cosine.ai.demo.logic
 {
     public class PlFcEntailsDemo
     {
         private static PLFCEntails plfce = new PLFCEntails();
 
-        public static void main(String[] args)
+        public static void Main(params string[] args)
         {
 
-            System.out.println("\nPlFcEntailsDemo\n");
+            System.Console.WriteLine("\nPlFcEntailsDemo\n");
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("P => Q");
             kb.tell("L & M => P");
@@ -17,22 +21,22 @@
             kb.tell("A");
             kb.tell("B");
 
-            System.out.println("Example from  page 220 of AIMA 2nd Edition");
-            System.out.println("KnowledgeBsse consists of sentences");
-            System.out.println("P => Q");
-            System.out.println("L & M => P");
-            System.out.println("B & L => M");
-            System.out.println("A & P => L");
-            System.out.println("A & B => L");
-            System.out.println("A");
-            System.out.println("B");
+            System.Console.WriteLine("Example from  page 220 of AIMA 2nd Edition");
+            System.Console.WriteLine("KnowledgeBsse consists of sentences");
+            System.Console.WriteLine("P => Q");
+            System.Console.WriteLine("L & M => P");
+            System.Console.WriteLine("B & L => M");
+            System.Console.WriteLine("A & P => L");
+            System.Console.WriteLine("A & B => L");
+            System.Console.WriteLine("A");
+            System.Console.WriteLine("B");
 
             displayPLFCEntailment(kb, "Q");
         }
 
-        private static void displayPLFCEntailment(KnowledgeBase kb, String q)
+        private static void displayPLFCEntailment(KnowledgeBase kb, string q)
         {
-            System.out.println("Running PLFCEntailment on knowledge base"
+            System.Console.WriteLine("Running PLFCEntailment on knowledge base"
                     + " with query " + q + " gives " + plfce.plfcEntails(kb, new PropositionSymbol(q)));
         }
     }

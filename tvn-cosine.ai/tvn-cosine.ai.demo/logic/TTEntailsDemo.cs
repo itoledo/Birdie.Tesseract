@@ -1,8 +1,10 @@
-﻿namespace tvn_cosine.ai.demo.logic
+﻿using tvn.cosine.ai.logic.propositional.kb;
+
+namespace tvn_cosine.ai.demo.logic
 {
     public class TTEntailsDemo
     {
-        public static void main(String[] args)
+        public static void Main(params string[] args)
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("B12 <=> P11 | P13 | P22 | P02");
@@ -14,16 +16,16 @@
             kb.tell("B10");
             kb.tell("B01");
 
-            System.out.println("\nTTEntailsDemo\n");
-            System.out.println(kb.toString());
+            System.Console.WriteLine("\nTTEntailsDemo\n");
+            System.Console.WriteLine(kb.ToString());
 
             displayTTEntails(kb, "P00");
             displayTTEntails(kb, "~P00");
         }
 
-        private static void displayTTEntails(KnowledgeBase kb, String s)
+        private static void displayTTEntails(KnowledgeBase kb, string s)
         {
-            System.out.println(" ttentails (\"" + s + "\" ) returns "
+            System.Console.WriteLine(" ttentails (\"" + s + "\" ) returns "
                     + kb.askWithTTEntails(s));
         }
     }

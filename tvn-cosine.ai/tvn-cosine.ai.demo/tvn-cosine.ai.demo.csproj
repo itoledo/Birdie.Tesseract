@@ -65,6 +65,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\tvn-cosine.ai\tvn-cosine.ai.csproj">
+      <Project>{463B77F0-C009-4EBA-9B9A-24866C73E2D7}</Project>
+      <Name>tvn-cosine.ai</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
