@@ -1,43 +1,47 @@
-﻿namespace tvn_cosine.ai.test.unit.nlp.parse
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.nlp.parsing.grammars;
+
+namespace tvn_cosine.ai.test.unit.nlp.parse
 {
+    [TestClass]
     public class RuleTest
-    { 
+    {
         Rule testR;
 
-        @Test
+        [TestMethod]
         public void testStringSplitConstructor()
         {
             testR = new Rule("A,B", "a,bb,c", (float)0.50);
-            assertEquals(testR.lhs.size(), 2);
-            assertEquals(testR.rhs.size(), 3);
-            assertEquals(testR.lhs.get(1), "B");
-            assertEquals(testR.rhs.get(2), "c");
+            Assert.AreEqual(testR.lhs.Size(), 2);
+            Assert.AreEqual(testR.rhs.Size(), 3);
+            Assert.AreEqual(testR.lhs.Get(1), "B");
+            Assert.AreEqual(testR.rhs.Get(2), "c");
         }
 
-        @Test
+        [TestMethod]
         public void testStringSplitConstructorOnEmptyStrings()
         {
             testR = new Rule("", "", (float)0.50);
-            assertEquals(testR.lhs.size(), 0);
-            assertEquals(testR.rhs.size(), 0);
+            Assert.AreEqual(testR.lhs.Size(), 0);
+            Assert.AreEqual(testR.rhs.Size(), 0);
         }
 
-        @Test
+        [TestMethod]
         public void testStringSplitConstructorOnCommas()
         {
             testR = new Rule(",", ",", (float)0.50);
-            assertEquals(testR.lhs.size(), 0);
-            assertEquals(testR.rhs.size(), 0);
+            Assert.AreEqual(testR.lhs.Size(), 0);
+            Assert.AreEqual(testR.rhs.Size(), 0);
         }
 
 
-    @Test(expected= IndexOutOfBoundsException.class)
-	public void testStringSplitConstructorElementAccess()
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void testStringSplitConstructorElementAccess()
         {
             testR = new Rule(",", "", (float)0.50);
-            testR.lhs.get(0);
+            testR.lhs.Get(0);
         }
-
     }
-
 }

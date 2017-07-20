@@ -155,14 +155,17 @@
     <Compile Include="environment\nqueens\QueenAction.cs" />
     <Compile Include="environment\tictactoe\TicTacToeGame.cs" />
     <Compile Include="environment\tictactoe\TicTacToeState.cs" />
+    <Compile Include="environment\vacuum\FullyObservableVacuumEnvironmentPercept.cs" />
     <Compile Include="environment\vacuum\LocalVacuumEnvironmentPercept.cs" />
     <Compile Include="environment\vacuum\ModelBasedReflexVacuumAgent.cs" />
+    <Compile Include="environment\vacuum\NondeterministicVacuumAgent.cs" />
     <Compile Include="environment\vacuum\NondeterministicVacuumEnvironment.cs" />
     <Compile Include="environment\vacuum\ReflexVacuumAgent.cs" />
     <Compile Include="environment\vacuum\SimpleReflexVacuumAgent.cs" />
     <Compile Include="environment\vacuum\TableDrivenVacuumAgent.cs" />
     <Compile Include="environment\vacuum\VacuumEnvironment.cs" />
     <Compile Include="environment\vacuum\VacuumEnvironmentState.cs" />
+    <Compile Include="environment\vacuum\VacuumEnvironmentViewActionTracker.cs" />
     <Compile Include="environment\vacuum\VacuumWorldFunctions.cs" />
     <Compile Include="environment\wumpusworld\AgentPosition.cs" />
     <Compile Include="environment\wumpusworld\EfficientHybridWumpusAgent.cs" />
@@ -582,6 +585,7 @@
     <Compile Include="util\math\Matrix.cs" />
     <Compile Include="util\math\MixedRadixNumber.cs" />
     <Compile Include="util\math\Vector.cs" />
+    <Compile Include="util\MockRandomizer.cs" />
     <Compile Include="util\Properties.cs" />
     <Compile Include="util\SetOps.cs" />
     <Compile Include="util\ToDoubleFunction.cs" />

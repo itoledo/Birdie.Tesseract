@@ -1,147 +1,154 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.fol
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol;
+using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn_cosine.ai.test.unit.logic.fol
 {
-    public class UnifierTest
+    [TestClass] public class UnifierTest
     {
 
         private FOLParser parser;
         private Unifier unifier;
-        private Map<Variable, Term> theta;
+        private IMap<Variable, Term> theta;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             parser = new FOLParser(DomainFactory.knowsDomain());
             unifier = new Unifier();
-            theta = new Hashtable<Variable, Term>();
+            theta = Factory.CreateMap<Variable, Term>();
         }
 
-        @Test
+        [TestMethod]
         public void testFailureIfThetaisNull()
         {
             Variable var = new Variable("x");
             Sentence sentence = parser.parse("Knows(x)");
             theta = null;
-            Map<Variable, Term> result = unifier.unify(var, sentence, theta);
-            Assert.assertNull(result);
+            IMap<Variable, Term> result = unifier.unify(var, sentence, theta);
+            Assert.IsNull(result);
         }
 
-        @Test
+        [TestMethod]
         public void testUnificationFailure()
         {
             Variable var = new Variable("x");
             Sentence sentence = parser.parse("Knows(y)");
             theta = null;
-            Map<Variable, Term> result = unifier.unify(var, sentence, theta);
-            Assert.assertNull(result);
+            IMap<Variable, Term> result = unifier.unify(var, sentence, theta);
+            Assert.IsNull(result);
         }
 
-        @Test
+        [TestMethod]
         public void testThetaPassedBackIfXEqualsYBothVariables()
         {
             Variable var1 = new Variable("x");
             Variable var2 = new Variable("x");
 
-            theta.put(new Variable("dummy"), new Variable("dummy"));
-            Map<Variable, Term> result = unifier.unify(var1, var2, theta);
-            Assert.assertEquals(theta, result);
-            Assert.assertEquals(1, theta.keySet().size());
-            Assert.assertTrue(theta.containsKey(new Variable("dummy")));
+            theta.Put(new Variable("dummy"), new Variable("dummy"));
+            IMap<Variable, Term> result = unifier.unify(var1, var2, theta);
+            Assert.AreEqual(theta, result);
+            Assert.AreEqual(1, theta.GetKeys().Size());
+            Assert.IsTrue(theta.ContainsKey(new Variable("dummy")));
         }
 
-        @Test
+        [TestMethod]
         public void testVariableEqualsConstant()
         {
             Variable var1 = new Variable("x");
             Constant constant = new Constant("John");
 
-            Map<Variable, Term> result = unifier.unify(var1, constant, theta);
-            Assert.assertEquals(theta, result);
-            Assert.assertEquals(1, theta.keySet().size());
-            Assert.assertTrue(theta.keySet().contains(var1));
-            Assert.assertEquals(constant, theta.get(var1));
+            IMap<Variable, Term> result = unifier.unify(var1, constant, theta);
+            Assert.AreEqual(theta, result);
+            Assert.AreEqual(1, theta.GetKeys().Size());
+            Assert.IsTrue(theta.GetKeys().Contains(var1));
+            Assert.AreEqual(constant, theta.Get(var1));
         }
 
-        @Test
+        [TestMethod]
         public void testSimpleVariableUnification()
         {
             Variable var1 = new Variable("x");
-            List<Term> terms1 = new ArrayList<Term>();
-            terms1.add(var1);
+         IQueue<Term> terms1 = Factory.CreateQueue<Term>();
+            terms1.Add(var1);
             Predicate p1 = new Predicate("King", terms1); // King(x)
 
-            List<Term> terms2 = new ArrayList<Term>();
-            terms2.add(new Constant("John"));
+         IQueue<Term> terms2 = Factory.CreateQueue<Term>();
+            terms2.Add(new Constant("John"));
             Predicate p2 = new Predicate("King", terms2); // King(John)
 
-            Map<Variable, Term> result = unifier.unify(p1, p2, theta);
-            Assert.assertEquals(theta, result);
-            Assert.assertEquals(1, theta.keySet().size());
-            Assert.assertTrue(theta.keySet().contains(new Variable("x"))); // x =
-            Assert.assertEquals(new Constant("John"), theta.get(var1)); // John
+            IMap<Variable, Term> result = unifier.unify(p1, p2, theta);
+            Assert.AreEqual(theta, result);
+            Assert.AreEqual(1, theta.GetKeys().Size());
+            Assert.IsTrue(theta.GetKeys().Contains(new Variable("x"))); // x =
+            Assert.AreEqual(new Constant("John"), theta.Get(var1)); // John
         }
 
-        @Test
+        [TestMethod]
         public void testKnows1()
         {
             Sentence query = parser.parse("Knows(John,x)");
             Sentence johnKnowsJane = parser.parse("Knows(John,Jane)");
-            Map<Variable, Term> result = unifier.unify(query, johnKnowsJane, theta);
-            Assert.assertEquals(theta, result);
-            Assert.assertTrue(theta.keySet().contains(new Variable("x"))); // x =
-            Assert.assertEquals(new Constant("Jane"), theta.get(new Variable("x"))); // Jane
+            IMap<Variable, Term> result = unifier.unify(query, johnKnowsJane, theta);
+            Assert.AreEqual(theta, result);
+            Assert.IsTrue(theta.GetKeys().Contains(new Variable("x"))); // x =
+            Assert.AreEqual(new Constant("Jane"), theta.Get(new Variable("x"))); // Jane
         }
 
-        @Test
+        [TestMethod]
         public void testKnows2()
         {
             Sentence query = parser.parse("Knows(John,x)");
             Sentence johnKnowsJane = parser.parse("Knows(y,Bill)");
-            Map<Variable, Term> result = unifier.unify(query, johnKnowsJane, theta);
+            IMap<Variable, Term> result = unifier.unify(query, johnKnowsJane, theta);
 
-            Assert.assertEquals(2, result.size());
+            Assert.AreEqual(2, result.Size());
 
-            Assert.assertEquals(new Constant("Bill"), theta.get(new Variable("x"))); // x
+            Assert.AreEqual(new Constant("Bill"), theta.Get(new Variable("x"))); // x
                                                                                      // =
                                                                                      // Bill
-            Assert.assertEquals(new Constant("John"), theta.get(new Variable("y"))); // y
+            Assert.AreEqual(new Constant("John"), theta.Get(new Variable("y"))); // y
                                                                                      // =
                                                                                      // John
         }
 
-        @Test
+        [TestMethod]
         public void testKnows3()
         {
             Sentence query = parser.parse("Knows(John,x)");
             Sentence johnKnowsJane = parser.parse("Knows(y,Mother(y))");
-            Map<Variable, Term> result = unifier.unify(query, johnKnowsJane, theta);
+            IMap<Variable, Term> result = unifier.unify(query, johnKnowsJane, theta);
 
-            Assert.assertEquals(2, result.size());
+            Assert.AreEqual(2, result.Size());
 
-            List<Term> terms = new ArrayList<Term>();
-            terms.add(new Constant("John"));
+         IQueue<Term> terms = Factory.CreateQueue<Term>();
+            terms.Add(new Constant("John"));
             Function mother = new Function("Mother", terms);
-            Assert.assertEquals(mother, theta.get(new Variable("x")));
-            Assert.assertEquals(new Constant("John"), theta.get(new Variable("y")));
+            Assert.AreEqual(mother, theta.Get(new Variable("x")));
+            Assert.AreEqual(new Constant("John"), theta.Get(new Variable("y")));
         }
 
-        @Test
+        [TestMethod]
         public void testKnows5()
         {
             Sentence query = parser.parse("Knows(John,x)");
             Sentence johnKnowsJane = parser.parse("Knows(y,z)");
-            Map<Variable, Term> result = unifier.unify(query, johnKnowsJane, theta);
+            IMap<Variable, Term> result = unifier.unify(query, johnKnowsJane, theta);
 
-            Assert.assertEquals(2, result.size());
+            Assert.AreEqual(2, result.Size());
 
-            Assert.assertEquals(new Variable("z"), theta.get(new Variable("x"))); // x
+            Assert.AreEqual(new Variable("z"), theta.Get(new Variable("x"))); // x
                                                                                   // =
                                                                                   // z
-            Assert.assertEquals(new Constant("John"), theta.get(new Variable("y"))); // y
+            Assert.AreEqual(new Constant("John"), theta.Get(new Variable("y"))); // y
                                                                                      // =
                                                                                      // John
         }
 
-        @Test
+        [TestMethod]
         public void testCascadedOccursCheck()
         {
             FOLDomain domain = new FOLDomain();
@@ -153,15 +160,15 @@
 
             Sentence s1 = parser.parse("P(SF1(v2),v2)");
             Sentence s2 = parser.parse("P(v3,SF0(v3))");
-            Map<Variable, Term> result = unifier.unify(s1, s2);
+            IMap<Variable, Term> result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("P(v1,SF0(v1),SF0(v1),SF0(v1),SF0(v1))");
             s2 = parser.parse("P(v2,SF0(v2),v2,     v3,     v2)");
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser
                     .parse("P(v1,   F(v2),F(v2),F(v2),v1,      F(F(v1)),F(F(F(v1))),v2)");
@@ -169,7 +176,7 @@
                     .parse("P(F(v3),v4,   v5,   v6,   F(F(v5)),v4,      F(v3),      F(F(v5)))");
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
         }
 
         /**
@@ -186,7 +193,7 @@
          * which is incorrect as c1743 in the first function term needs to be c1751
          * as this is the second substitution.
          */
-        @Test
+        [TestMethod]
         public void testBadCascadeSubstitution_LCL418_1()
         {
             FOLDomain domain = new FOLDomain();
@@ -198,14 +205,14 @@
                     .parse("ISATHEOREM(EQUIVALENT(EQUIVALENT(c1744,c1743),EQUIVALENT(c1742,c1743)))");
             Sentence s2 = parser
                     .parse("ISATHEOREM(EQUIVALENT(EQUIVALENT(c1752,c1751),c1752))");
-            Map<Variable, Term> result = unifier.unify(s1, s2);
+            IMap<Variable, Term> result = unifier.unify(s1, s2);
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "{c1744=EQUIVALENT(c1742,c1751), c1743=c1751, c1752=EQUIVALENT(c1742,c1751)}",
-                    result.toString());
+                    result.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testAdditionalVariableMixtures()
         {
             FOLDomain domain = new FOLDomain();
@@ -221,50 +228,50 @@
             // Test Cascade Substitutions handled correctly
             Sentence s1 = parser.parse("P(z, x)");
             Sentence s2 = parser.parse("P(x, a)");
-            Map<Variable, Term> result = unifier.unify(s1, s2);
+            IMap<Variable, Term> result = unifier.unify(s1, s2);
 
-            Assert.assertEquals("{z=a, x=a}", result.toString());
+            Assert.AreEqual("{z=a, x=a}", result.ToString());
 
             s1 = parser.parse("P(x, z)");
             s2 = parser.parse("P(a, x)");
             result = unifier.unify(s1, s2);
 
-            Assert.assertEquals("{x=a, z=a}", result.toString());
+            Assert.AreEqual("{x=a, z=a}", result.ToString());
 
             s1 = parser.parse("P(w, w, w)");
             s2 = parser.parse("P(x, y, z)");
             result = unifier.unify(s1, s2);
 
-            Assert.assertEquals("{w=z, x=z, y=z}", result.toString());
+            Assert.AreEqual("{w=z, x=z, y=z}", result.ToString());
 
             s1 = parser.parse("P(x, y, z)");
             s2 = parser.parse("P(w, w, w)");
             result = unifier.unify(s1, s2);
 
-            Assert.assertEquals("{x=w, y=w, z=w}", result.toString());
+            Assert.AreEqual("{x=w, y=w, z=w}", result.ToString());
 
             s1 = parser.parse("P(x, B, F(y))");
             s2 = parser.parse("P(A, y, F(z))");
             result = unifier.unify(s1, s2);
 
-            Assert.assertEquals("{x=A, y=B, z=B}", result.toString());
+            Assert.AreEqual("{x=A, y=B, z=B}", result.ToString());
 
             s1 = parser.parse("P(F(x,B), G(y),         F(z,A))");
             s2 = parser.parse("P(y,      G(F(G(w),w)), F(w,z))");
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("P(F(G(A)), x,    F(H(z,z)), H(y,    G(w)))");
             s2 = parser.parse("P(y,       G(z), F(v     ), H(F(w), x   ))");
             result = unifier.unify(s1, s2);
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "{y=F(G(A)), x=G(G(A)), v=H(G(A),G(A)), w=G(A), z=G(A)}",
-                    result.toString());
+                    result.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testTermEquality()
         {
             FOLDomain domain = new FOLDomain();
@@ -279,10 +286,10 @@
 
             // Both term equalities the same,
             // should unify but no substitutions.
-            Map<Variable, Term> result = unifier.unify(te1, te2);
+            IMap<Variable, Term> result = unifier.unify(te1, te2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(0, result.size());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Size());
 
             // Different variable names but should unify.
             te1 = (TermEquality)parser.parse("x1 = x1");
@@ -290,9 +297,9 @@
 
             result = unifier.unify(te1, te2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(1, result.size());
-            Assert.assertEquals("{x1=x2}", result.toString());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Size());
+            Assert.AreEqual("{x1=x2}", result.ToString());
 
             // Test simple unification with reflexivity axiom
             te1 = (TermEquality)parser.parse("x1 = x1");
@@ -300,10 +307,10 @@
 
             result = unifier.unify(te1, te2);
 
-            Assert.assertNotNull(result);
+            Assert.IsNotNull(result);
 
-            Assert.assertEquals(1, result.size());
-            Assert.assertEquals("{x1=Plus(A,B)}", result.toString());
+            Assert.AreEqual(1, result.Size());
+            Assert.AreEqual("{x1=Plus(A,B)}", result.ToString());
 
             // Test more complex unification with reflexivity axiom
             te1 = (TermEquality)parser.parse("x1 = x1");
@@ -311,10 +318,10 @@
 
             result = unifier.unify(te1, te2);
 
-            Assert.assertNotNull(result);
+            Assert.IsNotNull(result);
 
-            Assert.assertEquals(2, result.size());
-            Assert.assertEquals("{x1=Plus(A,B), z1=B}", result.toString());
+            Assert.AreEqual(2, result.Size());
+            Assert.AreEqual("{x1=Plus(A,B), z1=B}", result.ToString());
 
             // Test reverse of previous unification with reflexivity axiom
             // Should still be the same.
@@ -323,10 +330,10 @@
 
             result = unifier.unify(te1, te2);
 
-            Assert.assertNotNull(result);
+            Assert.IsNotNull(result);
 
-            Assert.assertEquals(2, result.size());
-            Assert.assertEquals("{x1=Plus(A,B), z1=B}", result.toString());
+            Assert.AreEqual(2, result.Size());
+            Assert.AreEqual("{x1=Plus(A,B), z1=B}", result.ToString());
 
             // Test with nested terms
             te1 = (TermEquality)parser
@@ -336,9 +343,9 @@
 
             result = unifier.unify(te1, te2);
 
-            Assert.assertNotNull(result);
+            Assert.IsNotNull(result);
 
-            Assert.assertEquals(0, result.size());
+            Assert.AreEqual(0, result.Size());
 
             // Simple term equality unification fails
             te1 = (TermEquality)parser.parse("Plus(A,B) = Plus(B,A)");
@@ -346,10 +353,10 @@
 
             result = unifier.unify(te1, te2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
         }
 
-        @Test
+        [TestMethod]
         public void testNOTSentence()
         {
             FOLDomain domain = new FOLDomain();
@@ -364,29 +371,29 @@
             Sentence s1 = parser.parse("NOT(P(A))");
             Sentence s2 = parser.parse("NOT(P(A))");
 
-            Map<Variable, Term> result = unifier.unify(s1, s2);
+            IMap<Variable, Term> result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(0, result.size());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Size());
 
             s1 = parser.parse("NOT(P(A))");
             s2 = parser.parse("NOT(P(B))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("NOT(P(A))");
             s2 = parser.parse("NOT(P(x))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(1, result.size());
-            Assert.assertEquals(new Constant("A"), result.get(new Variable("x")));
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Size());
+            Assert.AreEqual(new Constant("A"), result.Get(new Variable("x")));
         }
 
-        @Test
+        [TestMethod]
         public void testConnectedSentence()
         {
             FOLDomain domain = new FOLDomain();
@@ -401,125 +408,125 @@
             Sentence s1 = parser.parse("(P(A) AND P(B))");
             Sentence s2 = parser.parse("(P(A) AND P(B))");
 
-            Map<Variable, Term> result = unifier.unify(s1, s2);
+            IMap<Variable, Term> result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(0, result.size());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Size());
 
             s1 = parser.parse("(P(A) AND P(B))");
             s2 = parser.parse("(P(A) AND P(C))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("(P(A) AND P(B))");
             s2 = parser.parse("(P(A) AND P(x))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(1, result.size());
-            Assert.assertEquals(new Constant("B"), result.get(new Variable("x")));
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Size());
+            Assert.AreEqual(new Constant("B"), result.Get(new Variable("x")));
 
             s1 = parser.parse("(P(A) OR P(B))");
             s2 = parser.parse("(P(A) OR P(B))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(0, result.size());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Size());
 
             s1 = parser.parse("(P(A) OR P(B))");
             s2 = parser.parse("(P(A) OR P(C))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("(P(A) OR P(B))");
             s2 = parser.parse("(P(A) OR P(x))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(1, result.size());
-            Assert.assertEquals(new Constant("B"), result.get(new Variable("x")));
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Size());
+            Assert.AreEqual(new Constant("B"), result.Get(new Variable("x")));
 
             s1 = parser.parse("(P(A) => P(B))");
             s2 = parser.parse("(P(A) => P(B))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(0, result.size());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Size());
 
             s1 = parser.parse("(P(A) => P(B))");
             s2 = parser.parse("(P(A) => P(C))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("(P(A) => P(B))");
             s2 = parser.parse("(P(A) => P(x))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(1, result.size());
-            Assert.assertEquals(new Constant("B"), result.get(new Variable("x")));
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Size());
+            Assert.AreEqual(new Constant("B"), result.Get(new Variable("x")));
 
             s1 = parser.parse("(P(A) <=> P(B))");
             s2 = parser.parse("(P(A) <=> P(B))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(0, result.size());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Size());
 
             s1 = parser.parse("(P(A) <=> P(B))");
             s2 = parser.parse("(P(A) <=> P(C))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("(P(A) <=> P(B))");
             s2 = parser.parse("(P(A) <=> P(x))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(1, result.size());
-            Assert.assertEquals(new Constant("B"), result.get(new Variable("x")));
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Size());
+            Assert.AreEqual(new Constant("B"), result.Get(new Variable("x")));
 
             s1 = parser.parse("((P(A) AND P(B)) OR (P(C) => (P(A) <=> P(C))))");
             s2 = parser.parse("((P(A) AND P(B)) OR (P(C) => (P(A) <=> P(C))))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(0, result.size());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Size());
 
             s1 = parser.parse("((P(A) AND P(B)) OR (P(C) => (P(A) <=> P(C))))");
             s2 = parser.parse("((P(A) AND P(B)) OR (P(C) => (P(A) <=> P(A))))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("((P(A) AND P(B)) OR (P(C) => (P(A) <=> P(C))))");
             s2 = parser.parse("((P(A) AND P(B)) OR (P(C) => (P(A) <=> P(x))))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(1, result.size());
-            Assert.assertEquals(new Constant("C"), result.get(new Variable("x")));
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Size());
+            Assert.AreEqual(new Constant("C"), result.Get(new Variable("x")));
         }
 
-        @Test
+        [TestMethod]
         public void testQuantifiedSentence()
         {
             FOLDomain domain = new FOLDomain();
@@ -536,33 +543,33 @@
             Sentence s2 = parser
                     .parse("FORALL x,y ((P(x) AND P(A)) OR (P(A) => P(y)))");
 
-            Map<Variable, Term> result = unifier.unify(s1, s2);
+            IMap<Variable, Term> result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(0, result.size());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Size());
 
             s1 = parser.parse("FORALL x,y ((P(x) AND P(A)) OR (P(A) => P(y)))");
             s2 = parser.parse("FORALL x   ((P(x) AND P(A)) OR (P(A) => P(y)))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("FORALL x,y ((P(x) AND P(A)) OR (P(A) => P(y)))");
             s2 = parser.parse("FORALL x,y ((P(x) AND P(A)) OR (P(B) => P(y)))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("FORALL x,y ((P(x) AND P(A)) OR (P(A) => P(y)))");
             s2 = parser.parse("FORALL x,y ((P(A) AND P(A)) OR (P(A) => P(y)))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(1, result.size());
-            Assert.assertEquals(new Constant("A"), result.get(new Variable("x")));
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Size());
+            Assert.AreEqual(new Constant("A"), result.Get(new Variable("x")));
 
             //
             s1 = parser.parse("EXISTS x,y ((P(x) AND P(A)) OR (P(A) => P(y)))");
@@ -570,31 +577,31 @@
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(0, result.size());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Size());
 
             s1 = parser.parse("EXISTS x,y ((P(x) AND P(A)) OR (P(A) => P(y)))");
             s2 = parser.parse("EXISTS x   ((P(x) AND P(A)) OR (P(A) => P(y)))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("EXISTS x,y ((P(x) AND P(A)) OR (P(A) => P(y)))");
             s2 = parser.parse("EXISTS x,y ((P(x) AND P(A)) OR (P(B) => P(y)))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNull(result);
+            Assert.IsNull(result);
 
             s1 = parser.parse("EXISTS x,y ((P(x) AND P(A)) OR (P(A) => P(y)))");
             s2 = parser.parse("EXISTS x,y ((P(A) AND P(A)) OR (P(A) => P(y)))");
 
             result = unifier.unify(s1, s2);
 
-            Assert.assertNotNull(result);
-            Assert.assertEquals(1, result.size());
-            Assert.assertEquals(new Constant("A"), result.get(new Variable("x")));
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Size());
+            Assert.AreEqual(new Constant("A"), result.Get(new Variable("x")));
         }
     }
 

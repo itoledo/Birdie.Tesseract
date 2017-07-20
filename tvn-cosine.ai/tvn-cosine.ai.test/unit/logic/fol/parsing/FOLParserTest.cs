@@ -1,12 +1,20 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.fol.parsing
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn_cosine.ai.test.unit.logic.fol.parsing
 {
+    [TestClass]
     public class FOLParserTest
     {
         FOLLexer lexer;
 
         FOLParser parser;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             FOLDomain domain = DomainFactory.crusadesDomain();
@@ -15,201 +23,202 @@
             parser = new FOLParser(lexer);
         }
 
-        @Test
+        [TestMethod]
         public void testParseSimpleVariable()
         {
             parser.setUpToParse("x");
             Term v = parser.parseVariable();
-            Assert.assertEquals(v, new Variable("x"));
+            Assert.AreEqual(v, new Variable("x"));
         }
 
-        @Test
+        [TestMethod]
         public void testParseIndexedVariable()
         {
             parser.setUpToParse("x1");
             Term v = parser.parseVariable();
-            Assert.assertEquals(v, new Variable("x1"));
+            Assert.AreEqual(v, new Variable("x1"));
         }
 
 
-    @Test(expected = RuntimeException.class)
-	public void testNotAllowedParseLeadingIndexedVariable()
+        [TestMethod]
+        [ExpectedException(typeof(RuntimeException))]
+        public void testNotAllowedParseLeadingIndexedVariable()
         {
             parser.setUpToParse("1x");
             parser.parseVariable();
         }
 
-        @Test
+        [TestMethod]
         public void testParseSimpleConstant()
         {
             parser.setUpToParse("John");
             Term c = parser.parseConstant();
-            Assert.assertEquals(c, new Constant("John"));
+            Assert.AreEqual(c, new Constant("John"));
         }
 
-        @Test
+        [TestMethod]
         public void testParseFunction()
         {
             parser.setUpToParse("BrotherOf(John)");
             Term f = parser.parseFunction();
-            Assert.assertEquals(f, getBrotherOfFunction(new Constant("John")));
+            Assert.AreEqual(f, getBrotherOfFunction(new Constant("John")));
         }
 
-        @Test
+        [TestMethod]
         public void testParseMultiArityFunction()
         {
             parser.setUpToParse("LegsOf(John,Saladin,Richard)");
             Term f = parser.parseFunction();
-            Assert.assertEquals(f, getLegsOfFunction());
-            Assert.assertEquals(3, ((Function)f).getTerms().size());
+            Assert.AreEqual(f, getLegsOfFunction());
+            Assert.AreEqual(3, ((Function)f).getTerms().Size());
         }
 
-        @Test
+        [TestMethod]
         public void testPredicate()
         {
             // parser.setUpToParse("King(John)");
             Predicate p = (Predicate)parser.parse("King(John)");
-            Assert.assertEquals(p, getKingPredicate(new Constant("John")));
+            Assert.AreEqual(p, getKingPredicate(new Constant("John")));
         }
 
-        @Test
+        [TestMethod]
         public void testTermEquality()
         {
             try
             {
                 TermEquality te = (TermEquality)parser
                         .parse("BrotherOf(John) = EnemyOf(Saladin)");
-                Assert.assertEquals(te, new TermEquality(
+                Assert.AreEqual(te, new TermEquality(
                         getBrotherOfFunction(new Constant("John")),
                         getEnemyOfFunction()));
             }
-            catch (RuntimeException e)
+            catch (RuntimeException )
             {
-                Assert.fail("RuntimeException thrown");
+                Assert.Fail("RuntimeException thrown");
             }
         }
 
-        @Test
+        [TestMethod]
         public void testTermEquality2()
         {
             try
             {
                 TermEquality te = (TermEquality)parser
                         .parse("BrotherOf(John) = x)");
-                Assert.assertEquals(te, new TermEquality(
+                Assert.AreEqual(te, new TermEquality(
                         getBrotherOfFunction(new Constant("John")), new Variable(
                                 "x")));
             }
-            catch (RuntimeException e)
+            catch (RuntimeException )
             {
-                Assert.fail("RuntimeException thrown");
+                Assert.Fail("RuntimeException thrown");
             }
         }
 
-        @Test
+        [TestMethod]
         public void testNotSentence()
         {
             NotSentence ns = (NotSentence)parser
                     .parse("NOT BrotherOf(John) = EnemyOf(Saladin)");
-            Assert.assertEquals(ns.getNegated(), new TermEquality(
+            Assert.AreEqual(ns.getNegated(), new TermEquality(
                     getBrotherOfFunction(new Constant("John")),
                     getEnemyOfFunction()));
         }
 
-        @Test
+        [TestMethod]
         public void testSimpleParanthizedSentence()
         {
             Sentence ps = parser.parse("(NOT King(John))");
-            Assert.assertEquals(ps, new NotSentence(getKingPredicate(new Constant(
+            Assert.AreEqual(ps, new NotSentence(getKingPredicate(new Constant(
                     "John"))));
         }
 
-        @Test
+        [TestMethod]
         public void testExtraParanthizedSentence()
         {
             Sentence ps = parser.parse("(((NOT King(John))))");
-            Assert.assertEquals(ps, new NotSentence(getKingPredicate(new Constant(
+            Assert.AreEqual(ps, new NotSentence(getKingPredicate(new Constant(
                     "John"))));
         }
 
-        @Test
+        [TestMethod]
         public void testParseComplexParanthizedSentence()
         {
             Sentence ps = parser.parse("(NOT BrotherOf(John) = EnemyOf(Saladin))");
-            Assert.assertEquals(ps, new NotSentence(new TermEquality(
+            Assert.AreEqual(ps, new NotSentence(new TermEquality(
                     getBrotherOfFunction(new Constant("John")),
                     getEnemyOfFunction())));
         }
 
-        @Test
+        [TestMethod]
         public void testParseSimpleConnectedSentence()
         {
             Sentence ps = parser.parse("(King(John) AND NOT King(Richard))");
 
-            Assert.assertEquals(ps, new ConnectedSentence("AND",
+            Assert.AreEqual(ps, new ConnectedSentence("AND",
                     getKingPredicate(new Constant("John")), new NotSentence(
                             getKingPredicate(new Constant("Richard")))));
 
             ps = parser.parse("(King(John) AND King(Saladin))");
-            Assert.assertEquals(ps, new ConnectedSentence("AND",
+            Assert.AreEqual(ps, new ConnectedSentence("AND",
                     getKingPredicate(new Constant("John")),
                     getKingPredicate(new Constant("Saladin"))));
         }
 
-        @Test
+        [TestMethod]
         public void testComplexConnectedSentence1()
         {
             Sentence ps = parser
                     .parse("((King(John) AND NOT King(Richard)) OR King(Saladin))");
 
-            Assert.assertEquals(ps, new ConnectedSentence("OR",
+            Assert.AreEqual(ps, new ConnectedSentence("OR",
                     new ConnectedSentence("AND", getKingPredicate(new Constant(
                             "John")), new NotSentence(
                             getKingPredicate(new Constant("Richard")))),
                     getKingPredicate(new Constant("Saladin"))));
         }
 
-        @Test
+        [TestMethod]
         public void testQuantifiedSentenceWithSingleVariable()
         {
             Sentence qs = parser.parse("FORALL x  King(x)");
-            List<Variable> vars = new ArrayList<Variable>();
-            vars.add(new Variable("x"));
-            Assert.assertEquals(qs, new QuantifiedSentence("FORALL", vars,
+            IQueue<Variable> vars = Factory.CreateQueue<Variable>();
+            vars.Add(new Variable("x"));
+            Assert.AreEqual(qs, new QuantifiedSentence("FORALL", vars,
                     getKingPredicate(new Variable("x"))));
         }
 
-        @Test
+        [TestMethod]
         public void testQuantifiedSentenceWithTwoVariables()
         {
             Sentence qs = parser
                     .parse("EXISTS x,y  (King(x) AND BrotherOf(x) = y)");
-            List<Variable> vars = new ArrayList<Variable>();
-            vars.add(new Variable("x"));
-            vars.add(new Variable("y"));
+            IQueue<Variable> vars = Factory.CreateQueue<Variable>();
+            vars.Add(new Variable("x"));
+            vars.Add(new Variable("y"));
             ConnectedSentence cse = new ConnectedSentence("AND",
                     getKingPredicate(new Variable("x")), new TermEquality(
                             getBrotherOfFunction(new Variable("x")), new Variable(
                                     "y")));
-            Assert.assertEquals(qs, new QuantifiedSentence("EXISTS", vars, cse));
+            Assert.AreEqual(qs, new QuantifiedSentence("EXISTS", vars, cse));
         }
 
-        @Test
+        [TestMethod]
         public void testQuantifiedSentenceWithPathologicalParanthising()
         {
             Sentence qs = parser
                     .parse("(( (EXISTS x,y  (King(x) AND (BrotherOf(x) = y)) ) ))");
-            List<Variable> vars = new ArrayList<Variable>();
-            vars.add(new Variable("x"));
-            vars.add(new Variable("y"));
+            IQueue<Variable> vars = Factory.CreateQueue<Variable>();
+            vars.Add(new Variable("x"));
+            vars.Add(new Variable("y"));
             ConnectedSentence cse = new ConnectedSentence("AND",
                     getKingPredicate(new Variable("x")), new TermEquality(
                             getBrotherOfFunction(new Variable("x")), new Variable(
                                     "y")));
-            Assert.assertEquals(qs, new QuantifiedSentence("EXISTS", vars, cse));
+            Assert.AreEqual(qs, new QuantifiedSentence("EXISTS", vars, cse));
         }
 
-        @Test
+        [TestMethod]
         public void testParseMultiArityFunctionEquality()
         {
             parser.setUpToParse("LegsOf(John,Saladin,Richard)");
@@ -217,11 +226,11 @@
 
             parser.setUpToParse("LegsOf(John,Saladin,Richard)");
             Term f2 = parser.parseFunction();
-            Assert.assertEquals(f, f2);
-            Assert.assertEquals(3, ((Function)f).getTerms().size());
+            Assert.AreEqual(f, f2);
+            Assert.AreEqual(3, ((Function)f).getTerms().Size());
         }
 
-        @Test
+        [TestMethod]
         public void testConnectedImplication()
         {
             parser = new FOLParser(DomainFactory.weaponsDomain());
@@ -233,31 +242,31 @@
         //
         private Function getBrotherOfFunction(Term t)
         {
-            List<Term> l = new ArrayList<Term>();
-            l.add(t);
+            IQueue<Term> l = Factory.CreateQueue<Term>();
+            l.Add(t);
             return new Function("BrotherOf", l);
         }
 
         private Function getEnemyOfFunction()
         {
-            List<Term> l = new ArrayList<Term>();
-            l.add(new Constant("Saladin"));
+            IQueue<Term> l = Factory.CreateQueue<Term>();
+            l.Add(new Constant("Saladin"));
             return new Function("EnemyOf", l);
         }
 
         private Function getLegsOfFunction()
         {
-            List<Term> l = new ArrayList<Term>();
-            l.add(new Constant("John"));
-            l.add(new Constant("Saladin"));
-            l.add(new Constant("Richard"));
+            IQueue<Term> l = Factory.CreateQueue<Term>();
+            l.Add(new Constant("John"));
+            l.Add(new Constant("Saladin"));
+            l.Add(new Constant("Richard"));
             return new Function("LegsOf", l);
         }
 
         private Predicate getKingPredicate(Term t)
         {
-            List<Term> l = new ArrayList<Term>();
-            l.add(t);
+            IQueue<Term> l = Factory.CreateQueue<Term>();
+            l.Add(t);
             return new Predicate("King", l);
         }
     }

@@ -81,7 +81,7 @@ namespace tvn.cosine.ai.environment.map
         /** Returns a heuristic function based on straight line distance computation. */
         public static ToDoubleFunction<Node<string, MoveToAction>> createSLDHeuristicFunction(string goal, Map map)
         {
-            return new SLDHeuristicFunction();
+            return new SLDHeuristicFunction(goal,map);
         }
 
         public static double getSLD(string loc1, string loc2, Map map)
@@ -96,6 +96,15 @@ namespace tvn.cosine.ai.environment.map
 
         class SLDHeuristicFunction : ToDoubleFunction<Node<string, MoveToAction>>
         {
+            private string goal;
+            private Map map;
+
+            public SLDHeuristicFunction(string goal, Map map)
+            {
+                this.goal = goal;
+                this.map = map;
+            }
+
             public double applyAsDouble(Node<string, MoveToAction> node)
             {
                 return getSLD(node.getState(), goal, map); 

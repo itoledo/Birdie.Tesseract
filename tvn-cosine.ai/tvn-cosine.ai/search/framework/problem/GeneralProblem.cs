@@ -75,29 +75,29 @@ namespace tvn.cosine.ai.search.framework.problem
             : this(initialState, actionsFn, resultFn, goalTest, (s, a, sPrimed) => 1.0)
         { }
 
-        public override S getInitialState()
+        public S getInitialState()
         {
             return initialState;
         }
 
-        public override IQueue<A> getActions(S state)
+        public IQueue<A> getActions(S state)
         {
             return actionsFn(state);
         }
 
-        public override S getResult(S state, A action)
+        public S getResult(S state, A action)
         {
             return resultFn(state, action);
         }
 
-        public override bool testGoal(S state)
+        public bool testGoal(S state)
         {
             return goalTest(state);
         }
 
-        public override double getStepCosts(S state, A action, S statePrimed)
+        public double getStepCosts(S state, A action, S statePrimed)
         {
             return stepCostFn(state, action, statePrimed);
         }
-    } 
+    }
 }

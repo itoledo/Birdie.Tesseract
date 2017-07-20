@@ -1,19 +1,20 @@
-﻿namespace tvn_cosine.ai.test.unit.learning.framework
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.learning.framework;
+
+namespace tvn_cosine.ai.test.unit.learning.framework
 {
-    public class MockDataSetSpecification extends DataSetSpecification
-    {
+    [TestClass]
+    public class MockDataSetSpecification : DataSetSpecification
+    { 
+        public MockDataSetSpecification(string targetAttributeName)
+        {
+            setTarget(targetAttributeName);
+        }
 
-
-    public MockDataSetSpecification(String targetAttributeName)
-    {
-        setTarget(targetAttributeName);
-    }
-
-    @Override
-    public List<String> getAttributeNames()
-    {
-        return new ArrayList<String>();
-    }
-}
-
+        public override IQueue<string> getAttributeNames()
+        {
+            return Factory.CreateQueue<string>();
+        }
+    } 
 }

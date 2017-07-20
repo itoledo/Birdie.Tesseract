@@ -1,13 +1,21 @@
-﻿namespace tvn_cosine.ai.test.unit.environment.map
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text;
+using tvn.cosine.ai.agent;
+using tvn.cosine.ai.environment.map;
+using tvn.cosine.ai.search.framework.qsearch;
+using tvn.cosine.ai.search.uninformed;
+
+namespace tvn_cosine.ai.test.unit.environment.map
 {
+    [TestClass]
     public class MapAgentTest
     {
 
         private ExtendableMap aMap;
 
-        private StringBuffer envChanges;
+        private StringBuilder envChanges;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             aMap = new ExtendableMap();
@@ -17,86 +25,92 @@
             aMap.addBidirectionalLink("C", "D", 7.0);
             aMap.addUnidirectionalLink("B", "E", 14.0);
 
-            envChanges = new StringBuffer();
+            envChanges = new StringBuilder();
         }
 
-        @Test
+        [TestMethod]
         public void testAlreadyAtGoal()
         {
             MapEnvironment me = new MapEnvironment(aMap);
-            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<>(), new String[] { "A" });
+            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<string, MoveToAction>(), new string[] { "A" });
             me.addAgent(ma, "A");
-            me.addEnvironmentView(new TestEnvironmentView());
+            me.addEnvironmentView(new TestEnvironmentView(envChanges));
             me.stepUntilDone();
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "CurrentLocation=In(A), Goal=In(A):Action[name==NoOp]:METRIC[pathCost]=0.0:METRIC[maxQueueSize]=1:METRIC[queueSize]=0:METRIC[nodesExpanded]=0:Action[name==NoOp]:",
-                    envChanges.toString());
+                    envChanges.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testNormalSearch()
         {
             MapEnvironment me = new MapEnvironment(aMap);
-            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<>(), new String[] { "D" });
+            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<string, MoveToAction>(), new string[] { "D" });
             me.addAgent(ma, "A");
-            me.addEnvironmentView(new TestEnvironmentView());
+            me.addEnvironmentView(new TestEnvironmentView(envChanges));
             me.stepUntilDone();
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "CurrentLocation=In(A), Goal=In(D):Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:METRIC[pathCost]=13.0:METRIC[maxQueueSize]=3:METRIC[queueSize]=1:METRIC[nodesExpanded]=3:Action[name==NoOp]:",
-                    envChanges.toString());
+                    envChanges.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testNormalSearchGraphSearchMinFrontier()
         {
             MapEnvironment me = new MapEnvironment(aMap);
-            UniformCostSearch<String, MoveToAction> ucSearch = new UniformCostSearch<>(new GraphSearchReducedFrontier<>());
+            UniformCostSearch<string, MoveToAction> ucSearch = new UniformCostSearch<string, MoveToAction>(new GraphSearchReducedFrontier<string, MoveToAction>());
 
-            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, ucSearch, new String[] { "D" });
+            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, ucSearch, new string[] { "D" });
 
             me.addAgent(ma, "A");
-            me.addEnvironmentView(new TestEnvironmentView());
+            me.addEnvironmentView(new TestEnvironmentView(envChanges));
             me.stepUntilDone();
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "CurrentLocation=In(A), Goal=In(D):Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:METRIC[pathCost]=13.0:METRIC[maxQueueSize]=2:METRIC[queueSize]=1:METRIC[nodesExpanded]=3:Action[name==NoOp]:",
-                    envChanges.toString());
+                    envChanges.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testNoPath()
         {
             MapEnvironment me = new MapEnvironment(aMap);
-            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<>(), new String[] { "A" });
+            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<string, MoveToAction>(), new string[] { "A" });
             me.addAgent(ma, "E");
-            me.addEnvironmentView(new TestEnvironmentView());
+            me.addEnvironmentView(new TestEnvironmentView(envChanges));
             me.stepUntilDone();
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "CurrentLocation=In(E), Goal=In(A):Action[name==NoOp]:METRIC[pathCost]=0:METRIC[maxQueueSize]=1:METRIC[queueSize]=0:METRIC[nodesExpanded]=1:Action[name==NoOp]:",
-                    envChanges.toString());
+                    envChanges.ToString());
         }
 
-        private class TestEnvironmentView implements EnvironmentView
+        private class TestEnvironmentView : EnvironmentView
         {
+            private StringBuilder envChanges;
 
-        public void notify(String msg)
-        {
-            envChanges.append(msg).append(":");
-        }
+            public TestEnvironmentView(StringBuilder envChanges)
+            {
+                this.envChanges = envChanges;
+            }
 
-        public void agentAdded(Agent agent, Environment source)
-        {
-            // Nothing
-        }
+            public void notify(string msg)
+            {
+                envChanges.Append(msg).Append(":");
+            }
 
-        public void agentActed(Agent agent, Percept percept, Action action, Environment source)
-        {
-            envChanges.append(action).append(":");
+            public void agentAdded(Agent agent, Environment source)
+            {
+                // Nothing
+            }
+
+            public void agentActed(Agent agent, Percept percept, Action action, Environment source)
+            {
+                envChanges.Append(action).Append(":");
+            }
         }
     }
-}
 
 }

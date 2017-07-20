@@ -114,7 +114,7 @@ namespace tvn.cosine.ai.environment.vacuum
 
         public override Percept getPerceptSeenBy(Agent anAgent)
         {
-            if (anAgent is NondeterministicSearchAgent)
+            if (anAgent is NondeterministicVacuumAgent)
             {
                 // This agent expects a fully observable environment. It gets a clone of the environment state.
                 return envState.clone();

@@ -25,6 +25,15 @@ namespace tvn.cosine.ai.util
 
             Put(key, value);
             return obj;
-        } 
-    } 
+        }
+
+        public object getProperty(string key)
+        {
+            if (ContainsKey(key))
+            {
+               return Get(key);
+            }
+            return null;
+        }
+    }
 }

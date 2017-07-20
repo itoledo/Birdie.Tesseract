@@ -1,46 +1,48 @@
-﻿namespace tvn_cosine.ai.test.unit.nlp.parse
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.nlp.parsing.grammars;
+
+namespace tvn_cosine.ai.test.unit.nlp.parse
 {
     /**
      * Test the class representing the Chomsky Normal Form grammar
      * @author Jonathon
      *
      */
+    [TestClass]
     public class ProbCNFGrammarTest
     {
 
         ProbCNFGrammar gEmpty;
         Rule validR; Rule invalidR;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             gEmpty = new ProbCNFGrammar();
-            validR = new Rule(new ArrayList<String>(Arrays.asList("A")),
-                    new ArrayList<String>(Arrays.asList("Y", "X")), (float)0.50);
-            invalidR = new Rule(new ArrayList<String>(Arrays.asList("A")),
-                      new ArrayList<String>(Arrays.asList("Y", "X", "Z")), (float)0.50); // too many RHS variables
+            validR = new Rule(Factory.CreateQueue<string>(new[] { "A" }),
+                    Factory.CreateQueue<string>(new[] { "Y", "X" }), (float)0.50);
+            invalidR = new Rule(Factory.CreateQueue<string>(new[] { "A" }),
+                      Factory.CreateQueue<string>(new[] { "Y", "X", "Z" }), (float)0.50); // too many RHS variables
         }
 
-        @Test
+        [TestMethod]
         public void testAddValidRule()
         {
-            assertTrue(gEmpty.addRule(validR));
+            Assert.IsTrue(gEmpty.addRule(validR));
         }
 
-        @Test
+        [TestMethod]
         public void testAddInvalidRule()
         {
-            assertFalse(gEmpty.addRule(invalidR));
+            Assert.IsFalse(gEmpty.addRule(invalidR));
         }
 
-        @Test
+        [TestMethod]
         public void testValidRule()
         {
-            assertTrue(gEmpty.validRule(validR));
-            assertFalse(gEmpty.validRule(invalidR));
-        }
-
-
-    }
-
+            Assert.IsTrue(gEmpty.validRule(validR));
+            Assert.IsFalse(gEmpty.validRule(invalidR));
+        } 
+    } 
 }

@@ -1,30 +1,39 @@
-﻿namespace tvn_cosine.ai.test.unit.probability.bayes.approx
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common;
+using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.bayes;
+using tvn.cosine.ai.probability.bayes.approx;
+using tvn.cosine.ai.probability.example;
+using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.util;
+
+namespace tvn_cosine.ai.test.unit.probability.bayes.approx
 {
+    [TestClass]
     public class RejectionSamplingTest
     {
 
-        public static final double DELTA_THRESHOLD = ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD;
+        public static readonly double DELTA_THRESHOLD = ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
 
-        @Test
+        [TestMethod]
         public void testPriorSample_basic()
         {
 
             BayesianNetwork bn = BayesNetExampleFactory
                     .constructCloudySprinklerRainWetGrassNetwork();
             AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(
-                ExampleRV.SPRINKLER_RV, Boolean.TRUE) };
-            MockRandomizer r = new MockRandomizer(new double[] { 0.1 });
+                ExampleRV.SPRINKLER_RV, true) };
+            IRandom r = new MockRandomizer(new double[] { 0.1 });
             RejectionSampling rs = new RejectionSampling(new PriorSample(r));
 
             double[] estimate = rs.rejectionSampling(
                     new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 100)
                     .getValues();
 
-            Assert.assertArrayEquals(new double[] { 1.0, 0.0 }, estimate,
-                    DELTA_THRESHOLD);
+            Assert.AreEqual(new double[] { 1.0, 0.0 }, estimate);
         }
 
-        @Test
+        [TestMethod]
         public void testRejectionSampling_AIMA3e_pg532()
         {
             // AIMA3e pg. 532
@@ -32,11 +41,11 @@
             BayesianNetwork bn = BayesNetExampleFactory
                     .constructCloudySprinklerRainWetGrassNetwork();
             AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(
-                ExampleRV.SPRINKLER_RV, Boolean.TRUE) };
+                ExampleRV.SPRINKLER_RV, true) };
 
             // 400 required as 4 variables and 100 samples planned
             double[] ma = new double[400];
-            for (int i = 0; i < ma.length; i += 4)
+            for (int i = 0; i < ma.Length; i += 4)
             {
                 // Of the 100 that we generate, suppose
                 // that 73 have Sprinkler = false and are rejected,
@@ -66,15 +75,15 @@
                     ma[i + 3] = 0.1; // i.e. WetGrass=true
                 }
             }
-            MockRandomizer r = new MockRandomizer(ma);
+            IRandom r = new MockRandomizer(ma);
             RejectionSampling rs = new RejectionSampling(new PriorSample(r));
 
             double[] estimate = rs.rejectionSampling(
                     new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 100)
                     .getValues();
 
-            Assert.assertArrayEquals(new double[] { 0.2962962962962963,
-                0.7037037037037037 }, estimate, DELTA_THRESHOLD);
+            Assert.AreEqual(new double[] { 0.2962962962962963,
+                0.7037037037037037 }, estimate);
         }
     }
 

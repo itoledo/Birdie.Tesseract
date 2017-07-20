@@ -1,11 +1,19 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.fol.inference
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.inference;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn_cosine.ai.test.unit.logic.fol.inference
 {
+    [TestClass]
     public class DemodulationTest
     {
-
         private Demodulation demodulation = null;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             demodulation = new Demodulation();
@@ -14,7 +22,7 @@
         // Note: Based on:
         // http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf
         // Slide 22.
-        @Test
+        [TestMethod]
         public void testSimpleAtomicExamples()
         {
             FOLDomain domain = new FOLDomain();
@@ -31,32 +39,31 @@
 
             FOLParser parser = new FOLParser(domain);
 
-            Predicate expression = (Predicate)parser
-                    .parse("P(A,F(B,G(A,H(B)),C),D)");
+            Predicate expression = (Predicate)parser.parse("P(A,F(B,G(A,H(B)),C),D)");
             TermEquality assertion = (TermEquality)parser.parse("B = E");
 
             Predicate altExpression = (Predicate)demodulation.apply(assertion,
                     expression);
 
-            Assert.assertFalse(expression.equals(altExpression));
-            Assert.assertEquals("P(A,F(E,G(A,H(B)),C),D)", altExpression.toString());
+            Assert.IsFalse(expression.Equals(altExpression));
+            Assert.AreEqual("P(A,F(E,G(A,H(B)),C),D)", altExpression.ToString());
 
             altExpression = (Predicate)demodulation
                     .apply(assertion, altExpression);
 
-            Assert.assertEquals("P(A,F(E,G(A,H(E)),C),D)", altExpression.toString());
+            Assert.AreEqual("P(A,F(E,G(A,H(E)),C),D)", altExpression.ToString());
 
             assertion = (TermEquality)parser.parse("G(x,y) = J(x)");
 
             altExpression = (Predicate)demodulation.apply(assertion, expression);
 
-            Assert.assertEquals("P(A,F(B,J(A),C),D)", altExpression.toString());
+            Assert.AreEqual("P(A,F(B,J(A),C),D)", altExpression.ToString());
         }
 
         // Note: Based on:
         // http://logic.stanford.edu/classes/cs157/2008/lectures/lecture15.pdf
         // Slide 23.
-        @Test
+        [TestMethod]
         public void testSimpleAtomicNonExample()
         {
             FOLDomain domain = new FOLDomain();
@@ -79,10 +86,10 @@
             Predicate altExpression = (Predicate)demodulation.apply(assertion,
                     expression);
 
-            Assert.assertNull(altExpression);
+            Assert.IsNull(altExpression);
         }
 
-        @Test
+        [TestMethod]
         public void testSimpleClauseExamples()
         {
             FOLDomain domain = new FOLDomain();
@@ -101,13 +108,13 @@
 
             FOLParser parser = new FOLParser(domain);
 
-            List<Literal> lits = new ArrayList<Literal>();
+            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
             Predicate p1 = (Predicate)parser.parse("Q(z, G(D,B))");
             Predicate p2 = (Predicate)parser.parse("P(x, G(A,C))");
             Predicate p3 = (Predicate)parser.parse("W(z,x,u,w,y)");
-            lits.add(new Literal(p1));
-            lits.add(new Literal(p2));
-            lits.add(new Literal(p3));
+            lits.Add(new Literal(p1));
+            lits.Add(new Literal(p2));
+            lits.Add(new Literal(p3));
 
             Clause clExpression = new Clause(lits);
 
@@ -115,16 +122,16 @@
 
             Clause altClExpression = demodulation.apply(assertion, clExpression);
 
-            Assert.assertEquals("[P(x,G(A,C)), Q(z,D), W(z,x,u,w,y)]",
-                    altClExpression.toString());
+            Assert.AreEqual("[P(x,G(A,C)), Q(z,D), W(z,x,u,w,y)]",
+                    altClExpression.ToString());
 
             altClExpression = demodulation.apply(assertion, altClExpression);
 
-            Assert.assertEquals("[P(x,A), Q(z,D), W(z,x,u,w,y)]",
-                    altClExpression.toString());
+            Assert.AreEqual("[P(x,A), Q(z,D), W(z,x,u,w,y)]",
+                    altClExpression.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testSimpleClauseNonExample()
         {
             FOLDomain domain = new FOLDomain();
@@ -136,9 +143,9 @@
 
             FOLParser parser = new FOLParser(domain);
 
-            List<Literal> lits = new ArrayList<Literal>();
+            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
             Predicate p1 = (Predicate)parser.parse("P(y, F(A,y))");
-            lits.add(new Literal(p1));
+            lits.Add(new Literal(p1));
 
             Clause clExpression = new Clause(lits);
 
@@ -146,10 +153,10 @@
 
             Clause altClExpression = demodulation.apply(assertion, clExpression);
 
-            Assert.assertNull(altClExpression);
+            Assert.IsNull(altClExpression);
         }
 
-        @Test
+        [TestMethod]
         public void testBypassReflexivityAxiom()
         {
             FOLDomain domain = new FOLDomain();
@@ -161,9 +168,9 @@
 
             FOLParser parser = new FOLParser(domain);
 
-            List<Literal> lits = new ArrayList<Literal>();
+            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
             Predicate p1 = (Predicate)parser.parse("P(y, F(A,y))");
-            lits.add(new Literal(p1));
+            lits.Add(new Literal(p1));
 
             Clause clExpression = new Clause(lits);
 
@@ -171,7 +178,7 @@
 
             Clause altClExpression = demodulation.apply(assertion, clExpression);
 
-            Assert.assertNull(altClExpression);
+            Assert.IsNull(altClExpression);
         }
     }
 

@@ -91,6 +91,17 @@ namespace tvn.cosine.ai.search.uninformed
         // function RECURSIVE-DLS(node, problem, limit) returns a solution, or
         // failure/cutoff
 
+        private bool currIsCancelled;
+
+        public void SetCurrIsCancelled(bool value)
+        {
+            currIsCancelled = value;
+        }
+
+        public bool GetCurrIsCancelled()
+        {
+            return currIsCancelled;
+        }
         /**
          * Returns a solution node, the {@link #cutoffNode}, or null (failure).
          */
@@ -102,7 +113,7 @@ namespace tvn.cosine.ai.search.uninformed
                 metrics.set(METRIC_PATH_COST, node.getPathCost());
                 return node;
             }
-            else if (0 == limit || Tasks.currIsCancelled())
+            else if (0 == limit || currIsCancelled)
             {
                 // else if limit = 0 then return cutoff
                 return cutoffNode;

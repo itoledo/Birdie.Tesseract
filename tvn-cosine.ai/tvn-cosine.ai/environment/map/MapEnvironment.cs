@@ -46,12 +46,12 @@ namespace tvn.cosine.ai.environment.map
 
                 string currLoc = getAgentLocation(agent);
                 double distance = map.getDistance(currLoc, act.getToLocation());
-                if (distance != null)
-                {
-                    double currTD = getAgentTravelDistance(agent);
-                    state.setAgentLocationAndTravelDistance(agent,
-                            act.getToLocation(), currTD + distance);
-                }
+                //if (distance != null)
+                //{
+                double currTD = getAgentTravelDistance(agent);
+                state.setAgentLocationAndTravelDistance(agent,
+                        act.getToLocation(), currTD + distance);
+                //}
             }
         }
 

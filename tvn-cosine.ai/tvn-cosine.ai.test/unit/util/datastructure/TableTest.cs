@@ -1,48 +1,51 @@
-﻿namespace tvn_cosine.ai.test.unit.util.datastructure
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.datastructures;
+
+namespace tvn_cosine.ai.test.unit.util.datastructure
 {
+    [TestClass]
     public class TableTest
     {
-        private Table<String, String, Integer> table;
+        private Table<string, string, int> table;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
-            List<String> rowHeaders = new ArrayList<String>();
-            List<String> columnHeaders = new ArrayList<String>();
+            IQueue<string> rowHeaders = Factory.CreateQueue<string>();
+            IQueue<string> columnHeaders = Factory.CreateQueue<string>();
 
-            rowHeaders.add("row1");
-            rowHeaders.add("ravi");
-            rowHeaders.add("peter");
+            rowHeaders.Add("row1");
+            rowHeaders.Add("ravi");
+            rowHeaders.Add("peter");
 
-            columnHeaders.add("col1");
-            columnHeaders.add("iq");
-            columnHeaders.add("age");
-            table = new Table<String, String, Integer>(rowHeaders, columnHeaders);
+            columnHeaders.Add("col1");
+            columnHeaders.Add("iq");
+            columnHeaders.Add("age");
+            table = new Table<string, string, int>(rowHeaders, columnHeaders);
 
         }
 
-        @Test
+        [TestMethod]
         public void testTableInitialization()
         {
-            Assert.assertNull(table.get("ravi", "iq"));
+            Assert.IsNull(table.get("ravi", "iq"));
             table.set("ravi", "iq", 50);
             int i = table.get("ravi", "iq");
-            Assert.assertEquals(50, i);
+            Assert.AreEqual(50, i);
         }
 
-        @Test
+        [TestMethod]
         public void testNullAccess()
         {
             // No value yet assigned
-            Assert.assertNull(table.get("row1", "col2"));
+            Assert.IsNull(table.get("row1", "col2"));
             table.set("row1", "col1", 1);
-            Assert.assertEquals(1, (int)table.get("row1", "col1"));
+            Assert.AreEqual(1, (int)table.get("row1", "col1"));
             // Check null returned if column does not exist
-            Assert.assertNull(table.get("row1", "col2"));
+            Assert.IsNull(table.get("row1", "col2"));
             // Check null returned if row does not exist
-            Assert.assertNull(table.get("row2", "col1"));
-        }
-
-    }
-
+            Assert.IsNull(table.get("row2", "col1"));
+        } 
+    } 
 }

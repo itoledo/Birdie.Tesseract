@@ -1,40 +1,43 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.fol.inference
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.logic.fol.inference;
+
+namespace tvn_cosine.ai.test.unit.logic.fol.inference
 {
-    public class FOLFCAskTest extends CommonFOLInferenceProcedureTests
+    [TestClass] public class FOLFCAskTest :  CommonFOLInferenceProcedureTests
     {
 
-        @Test
+        [TestMethod]
 
     public void testDefiniteClauseKBKingsQueryCriminalXFalse()
     {
         testDefiniteClauseKBKingsQueryCriminalXFalse(new FOLFCAsk());
     }
 
-    @Test
+    [TestMethod]
     public void testDefiniteClauseKBKingsQueryRichardEvilFalse()
     {
         testDefiniteClauseKBKingsQueryRichardEvilFalse(new FOLFCAsk());
     }
 
-    @Test
+    [TestMethod]
     public void testDefiniteClauseKBKingsQueryJohnEvilSucceeds()
     {
         testDefiniteClauseKBKingsQueryJohnEvilSucceeds(new FOLFCAsk());
     }
 
-    @Test
+    [TestMethod]
     public void testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds()
     {
         testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds(new FOLFCAsk());
     }
 
-    @Test
+    [TestMethod]
     public void testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds()
     {
         testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds(new FOLFCAsk());
     }
 
-    @Test
+    [TestMethod]
     public void testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds()
     {
         testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(new FOLFCAsk());

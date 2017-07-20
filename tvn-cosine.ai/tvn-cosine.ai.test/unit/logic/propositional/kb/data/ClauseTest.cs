@@ -1,403 +1,413 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
-{
-    public class ClauseTest
-    {
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.util;
 
-        private final Literal LITERAL_P     = new Literal(new PropositionSymbol("P"));
-	private final Literal LITERAL_NOT_P = new Literal(new PropositionSymbol("P"), false);
-	private final Literal LITERAL_Q     = new Literal(new PropositionSymbol("Q"));
-	private final Literal LITERAL_NOT_Q = new Literal(new PropositionSymbol("Q"), false);
-	private final Literal LITERAL_R     = new Literal(new PropositionSymbol("R"));
-	
-	@Test
+namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
+{
+    [TestClass]
+    public class ClauseTest
+    { 
+        private readonly Literal LITERAL_P = new Literal(new PropositionSymbol("P"));
+        private readonly Literal LITERAL_NOT_P = new Literal(new PropositionSymbol("P"), false);
+        private readonly Literal LITERAL_Q = new Literal(new PropositionSymbol("Q"));
+        private readonly Literal LITERAL_NOT_Q = new Literal(new PropositionSymbol("Q"), false);
+        private readonly Literal LITERAL_R = new Literal(new PropositionSymbol("R"));
+
+        [TestMethod]
         public void testAlwaysFalseLiteralsExcludedOnConstruction()
         {
             Clause clause = new Clause();
-            Assert.assertEquals(0, clause.getNumberLiterals());
+            Assert.AreEqual(0, clause.getNumberLiterals());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertEquals(1, clause.getNumberLiterals());
+            Assert.AreEqual(1, clause.getNumberLiterals());
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.FALSE));
-            Assert.assertEquals(1, clause.getNumberLiterals());
-            Assert.assertEquals(Util.createSet(LITERAL_P), clause.getLiterals());
+            Assert.AreEqual(1, clause.getNumberLiterals());
+            Assert.AreEqual(Util.createSet(LITERAL_P), clause.getLiterals());
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.TRUE, false));
-            Assert.assertEquals(1, clause.getNumberLiterals());
-            Assert.assertEquals(Util.createSet(LITERAL_P), clause.getLiterals());
+            Assert.AreEqual(1, clause.getNumberLiterals());
+            Assert.AreEqual(Util.createSet(LITERAL_P), clause.getLiterals());
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.FALSE, false));
-            Assert.assertEquals(2, clause.getNumberLiterals());
-            Assert.assertEquals(Util.createSet(LITERAL_P, new Literal(PropositionSymbol.FALSE, false)), clause.getLiterals());
+            Assert.AreEqual(2, clause.getNumberLiterals());
+            Assert.AreEqual(Util.createSet(LITERAL_P, new Literal(PropositionSymbol.FALSE, false)), clause.getLiterals());
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.TRUE));
-            Assert.assertEquals(2, clause.getNumberLiterals());
-            Assert.assertEquals(Util.createSet(LITERAL_P, new Literal(PropositionSymbol.TRUE)), clause.getLiterals());
+            Assert.AreEqual(2, clause.getNumberLiterals());
+            Assert.AreEqual(Util.createSet(LITERAL_P, new Literal(PropositionSymbol.TRUE)), clause.getLiterals());
         }
 
-        @Test
+        [TestMethod]
         public void testIsFalse()
         {
             Clause clause = new Clause();
-            Assert.assertTrue(clause.isFalse());
+            Assert.IsTrue(clause.isFalse());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertFalse(clause.isFalse());
+            Assert.IsFalse(clause.isFalse());
         }
 
-        @Test
+        [TestMethod]
         public void testIsEmpty()
         {
             Clause clause = new Clause();
-            Assert.assertTrue(clause.isEmpty());
+            Assert.IsTrue(clause.isEmpty());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertFalse(clause.isEmpty());
+            Assert.IsFalse(clause.isEmpty());
         }
 
-        @Test
+        [TestMethod]
         public void testIsUnitClause()
         {
             Clause clause = new Clause();
-            Assert.assertFalse(clause.isUnitClause());
+            Assert.IsFalse(clause.isUnitClause());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertTrue(clause.isUnitClause());
+            Assert.IsTrue(clause.isUnitClause());
 
             clause = new Clause(LITERAL_P, LITERAL_Q);
-            Assert.assertFalse(clause.isUnitClause());
+            Assert.IsFalse(clause.isUnitClause());
         }
 
-        @Test
+        [TestMethod]
         public void testIsDefiniteClause()
         {
             Clause clause = new Clause();
-            Assert.assertFalse(clause.isDefiniteClause());
+            Assert.IsFalse(clause.isDefiniteClause());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertTrue(clause.isDefiniteClause());
+            Assert.IsTrue(clause.isDefiniteClause());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_Q);
-            Assert.assertTrue(clause.isDefiniteClause());
+            Assert.IsTrue(clause.isDefiniteClause());
 
             clause = new Clause(LITERAL_P, LITERAL_Q);
-            Assert.assertFalse(clause.isDefiniteClause());
+            Assert.IsFalse(clause.isDefiniteClause());
         }
 
-        @Test
+        [TestMethod]
         public void testIsImplicationDefiniteClause()
         {
             Clause clause = new Clause();
-            Assert.assertFalse(clause.isImplicationDefiniteClause());
+            Assert.IsFalse(clause.isImplicationDefiniteClause());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertFalse(clause.isImplicationDefiniteClause());
+            Assert.IsFalse(clause.isImplicationDefiniteClause());
 
             clause = new Clause(LITERAL_NOT_P);
-            Assert.assertFalse(clause.isImplicationDefiniteClause());
+            Assert.IsFalse(clause.isImplicationDefiniteClause());
 
             clause = new Clause(LITERAL_P, LITERAL_Q);
-            Assert.assertFalse(clause.isImplicationDefiniteClause());
+            Assert.IsFalse(clause.isImplicationDefiniteClause());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_Q);
-            Assert.assertTrue(clause.isImplicationDefiniteClause());
+            Assert.IsTrue(clause.isImplicationDefiniteClause());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_P, LITERAL_NOT_Q);
-            Assert.assertTrue(clause.isImplicationDefiniteClause());
+            Assert.IsTrue(clause.isImplicationDefiniteClause());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_P, LITERAL_Q, LITERAL_NOT_Q);
-            Assert.assertFalse(clause.isImplicationDefiniteClause());
+            Assert.IsFalse(clause.isImplicationDefiniteClause());
         }
 
-        @Test
+        [TestMethod]
         public void testIsHornClause()
         {
             Clause clause = new Clause();
-            Assert.assertFalse(clause.isHornClause());
+            Assert.IsFalse(clause.isHornClause());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertTrue(clause.isHornClause());
+            Assert.IsTrue(clause.isHornClause());
 
             clause = new Clause(LITERAL_NOT_P);
-            Assert.assertTrue(clause.isHornClause());
+            Assert.IsTrue(clause.isHornClause());
 
             clause = new Clause(LITERAL_P, LITERAL_Q);
-            Assert.assertFalse(clause.isHornClause());
+            Assert.IsFalse(clause.isHornClause());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_Q);
-            Assert.assertTrue(clause.isHornClause());
+            Assert.IsTrue(clause.isHornClause());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_P, LITERAL_NOT_Q);
-            Assert.assertTrue(clause.isHornClause());
+            Assert.IsTrue(clause.isHornClause());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_P, LITERAL_Q, LITERAL_NOT_Q);
-            Assert.assertFalse(clause.isHornClause());
+            Assert.IsFalse(clause.isHornClause());
         }
 
-        @Test
+        [TestMethod]
         public void testIsGoalClause()
         {
             Clause clause = new Clause();
-            Assert.assertFalse(clause.isGoalClause());
+            Assert.IsFalse(clause.isGoalClause());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertFalse(clause.isGoalClause());
+            Assert.IsFalse(clause.isGoalClause());
 
             clause = new Clause(LITERAL_NOT_P);
-            Assert.assertTrue(clause.isGoalClause());
+            Assert.IsTrue(clause.isGoalClause());
 
             clause = new Clause(LITERAL_P, LITERAL_Q);
-            Assert.assertFalse(clause.isGoalClause());
+            Assert.IsFalse(clause.isGoalClause());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_Q);
-            Assert.assertFalse(clause.isGoalClause());
+            Assert.IsFalse(clause.isGoalClause());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_P, LITERAL_NOT_Q);
-            Assert.assertFalse(clause.isGoalClause());
+            Assert.IsFalse(clause.isGoalClause());
 
             clause = new Clause(LITERAL_NOT_P, LITERAL_NOT_Q);
-            Assert.assertTrue(clause.isGoalClause());
+            Assert.IsTrue(clause.isGoalClause());
         }
 
-        @Test
+        [TestMethod]
         public void testIsTautology()
         {
             Clause clause = new Clause();
-            Assert.assertFalse(clause.isTautology());
+            Assert.IsFalse(clause.isTautology().Value);
 
             clause = new Clause(LITERAL_P);
-            Assert.assertFalse(clause.isTautology());
+            Assert.IsFalse(clause.isTautology().Value);
 
             clause = new Clause(LITERAL_NOT_P);
-            Assert.assertFalse(clause.isTautology());
+            Assert.IsFalse(clause.isTautology().Value);
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.TRUE), LITERAL_R);
-            Assert.assertTrue(clause.isTautology());
+            Assert.IsTrue(clause.isTautology().Value);
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.FALSE, false), LITERAL_R);
-            Assert.assertTrue(clause.isTautology());
+            Assert.IsTrue(clause.isTautology().Value);
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.TRUE, false), LITERAL_R);
-            Assert.assertFalse(clause.isTautology());
+            Assert.IsFalse(clause.isTautology().Value);
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.FALSE), LITERAL_R);
-            Assert.assertFalse(clause.isTautology());
+            Assert.IsFalse(clause.isTautology().Value);
 
             clause = new Clause(LITERAL_P, LITERAL_Q, LITERAL_R, LITERAL_NOT_Q);
-            Assert.assertTrue(clause.isTautology());
+            Assert.IsTrue(clause.isTautology().Value);
 
             clause = new Clause(LITERAL_P, LITERAL_Q, LITERAL_R);
-            Assert.assertFalse(clause.isTautology());
+            Assert.IsFalse(clause.isTautology().Value);
         }
 
-        @Test
+        [TestMethod]
         public void testGetNumberLiterals()
         {
             Clause clause = new Clause();
-            Assert.assertEquals(0, clause.getNumberLiterals());
+            Assert.AreEqual(0, clause.getNumberLiterals());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertEquals(1, clause.getNumberLiterals());
+            Assert.AreEqual(1, clause.getNumberLiterals());
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.FALSE));
-            Assert.assertEquals(1, clause.getNumberLiterals());
+            Assert.AreEqual(1, clause.getNumberLiterals());
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.TRUE, false));
-            Assert.assertEquals(1, clause.getNumberLiterals());
+            Assert.AreEqual(1, clause.getNumberLiterals());
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.FALSE, false));
-            Assert.assertEquals(2, clause.getNumberLiterals());
+            Assert.AreEqual(2, clause.getNumberLiterals());
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.TRUE));
-            Assert.assertEquals(2, clause.getNumberLiterals());
+            Assert.AreEqual(2, clause.getNumberLiterals());
 
             clause = new Clause(LITERAL_P, LITERAL_P);
-            Assert.assertEquals(1, clause.getNumberLiterals());
+            Assert.AreEqual(1, clause.getNumberLiterals());
 
             clause = new Clause(LITERAL_P, LITERAL_Q);
-            Assert.assertEquals(2, clause.getNumberLiterals());
+            Assert.AreEqual(2, clause.getNumberLiterals());
 
             clause = new Clause(LITERAL_P, LITERAL_Q, LITERAL_R);
-            Assert.assertEquals(3, clause.getNumberLiterals());
+            Assert.AreEqual(3, clause.getNumberLiterals());
         }
 
-        @Test
+        [TestMethod]
         public void testGetNumberPositiveLiterals()
         {
             Clause clause = new Clause();
-            Assert.assertEquals(0, clause.getNumberPositiveLiterals());
+            Assert.AreEqual(0, clause.getNumberPositiveLiterals());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertEquals(1, clause.getNumberPositiveLiterals());
+            Assert.AreEqual(1, clause.getNumberPositiveLiterals());
 
             clause = new Clause(LITERAL_NOT_P);
-            Assert.assertEquals(0, clause.getNumberPositiveLiterals());
+            Assert.AreEqual(0, clause.getNumberPositiveLiterals());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_P, LITERAL_Q);
-            Assert.assertEquals(2, clause.getNumberPositiveLiterals());
+            Assert.AreEqual(2, clause.getNumberPositiveLiterals());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_Q, LITERAL_R);
-            Assert.assertEquals(2, clause.getNumberPositiveLiterals());
+            Assert.AreEqual(2, clause.getNumberPositiveLiterals());
         }
 
-        @Test
+        [TestMethod]
         public void testGetNumberNegativeLiterals()
         {
             Clause clause = new Clause();
-            Assert.assertEquals(0, clause.getNumberNegativeLiterals());
+            Assert.AreEqual(0, clause.getNumberNegativeLiterals());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertEquals(0, clause.getNumberNegativeLiterals());
+            Assert.AreEqual(0, clause.getNumberNegativeLiterals());
 
             clause = new Clause(LITERAL_NOT_P);
-            Assert.assertEquals(1, clause.getNumberNegativeLiterals());
+            Assert.AreEqual(1, clause.getNumberNegativeLiterals());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_P, LITERAL_Q);
-            Assert.assertEquals(1, clause.getNumberNegativeLiterals());
+            Assert.AreEqual(1, clause.getNumberNegativeLiterals());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_Q, LITERAL_R);
-            Assert.assertEquals(1, clause.getNumberNegativeLiterals());
+            Assert.AreEqual(1, clause.getNumberNegativeLiterals());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_P, LITERAL_NOT_Q);
-            Assert.assertEquals(2, clause.getNumberNegativeLiterals());
+            Assert.AreEqual(2, clause.getNumberNegativeLiterals());
         }
 
-        @Test
+        [TestMethod]
         public void testGetLiterals()
         {
             Clause clause = new Clause();
-            Assert.assertEquals(new HashSet<Literal>(), clause.getLiterals());
+            Assert.AreEqual(Factory.CreateSet<Literal>(), clause.getLiterals());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertEquals(Util.createSet(LITERAL_P), clause.getLiterals());
+            Assert.AreEqual(Util.createSet(LITERAL_P), clause.getLiterals());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_Q, LITERAL_R);
-            Assert.assertEquals(Util.createSet(LITERAL_P, LITERAL_NOT_Q, LITERAL_R), clause.getLiterals());
+            Assert.AreEqual(Util.createSet(LITERAL_P, LITERAL_NOT_Q, LITERAL_R), clause.getLiterals());
         }
 
-        @Test
+        [TestMethod]
         public void testGetPositiveSymbols()
         {
             Clause clause = new Clause();
-            Assert.assertEquals(new HashSet<PropositionSymbol>(), clause.getPositiveSymbols());
+            Assert.AreEqual(Factory.CreateSet<PropositionSymbol>(), clause.getPositiveSymbols());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertEquals(Util.createSet(new PropositionSymbol("P")), clause.getPositiveSymbols());
+            Assert.AreEqual(Util.createSet(new PropositionSymbol("P")), clause.getPositiveSymbols());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_Q, LITERAL_R);
-            Assert.assertEquals(Util.createSet(new PropositionSymbol("P"), new PropositionSymbol("R")), clause.getPositiveSymbols());
+            Assert.AreEqual(Util.createSet(new PropositionSymbol("P"), new PropositionSymbol("R")), clause.getPositiveSymbols());
         }
 
-        @Test
+        [TestMethod]
         public void testGetNegativeSymbols()
         {
             Clause clause = new Clause();
-            Assert.assertEquals(new HashSet<PropositionSymbol>(), clause.getNegativeSymbols());
+            Assert.AreEqual(Factory.CreateSet<PropositionSymbol>(), clause.getNegativeSymbols());
 
             clause = new Clause(LITERAL_NOT_P);
-            Assert.assertEquals(Util.createSet(new PropositionSymbol("P")), clause.getNegativeSymbols());
+            Assert.AreEqual(Util.createSet(new PropositionSymbol("P")), clause.getNegativeSymbols());
 
             clause = new Clause(LITERAL_NOT_P, LITERAL_NOT_Q, LITERAL_R);
-            Assert.assertEquals(Util.createSet(new PropositionSymbol("P"), new PropositionSymbol("Q")), clause.getNegativeSymbols());
+            Assert.AreEqual(Util.createSet(new PropositionSymbol("P"), new PropositionSymbol("Q")), clause.getNegativeSymbols());
         }
 
-        @Test
+        [TestMethod]
         public void testToString()
         {
             Clause clause = new Clause();
-            Assert.assertEquals("{}", clause.toString());
+            Assert.AreEqual("{}", clause.ToString());
 
             clause = new Clause(LITERAL_P);
-            Assert.assertEquals("{P}", clause.toString());
+            Assert.AreEqual("{P}", clause.ToString());
 
             clause = new Clause(LITERAL_P, LITERAL_Q, LITERAL_R);
-            Assert.assertEquals("{P, Q, R}", clause.toString());
+            Assert.AreEqual("{P, Q, R}", clause.ToString());
 
             clause = new Clause(LITERAL_NOT_P, LITERAL_NOT_Q, LITERAL_R);
-            Assert.assertEquals("{~P, ~Q, R}", clause.toString());
+            Assert.AreEqual("{~P, ~Q, R}", clause.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testEquals()
         {
             Clause clause1 = new Clause();
             Clause clause2 = new Clause();
-            Assert.assertTrue(clause1.equals(clause2));
+            Assert.IsTrue(clause1.Equals(clause2));
 
             clause1 = new Clause(LITERAL_P);
             clause2 = new Clause(LITERAL_P);
-            Assert.assertTrue(clause1.equals(clause2));
+            Assert.IsTrue(clause1.Equals(clause2));
 
             clause1 = new Clause(LITERAL_P, LITERAL_Q);
             clause2 = new Clause(LITERAL_P, LITERAL_Q);
-            Assert.assertTrue(clause1.equals(clause2));
+            Assert.IsTrue(clause1.Equals(clause2));
 
             clause1 = new Clause(LITERAL_R, LITERAL_P, LITERAL_Q);
             clause2 = new Clause(LITERAL_P, LITERAL_Q, LITERAL_R);
-            Assert.assertTrue(clause1.equals(clause2));
+            Assert.IsTrue(clause1.Equals(clause2));
 
             clause1 = new Clause(LITERAL_P);
             clause2 = new Clause(LITERAL_Q);
-            Assert.assertFalse(clause1.equals(clause2));
+            Assert.IsFalse(clause1.Equals(clause2));
 
             clause1 = new Clause(LITERAL_P, LITERAL_Q);
             clause2 = new Clause(LITERAL_P, LITERAL_R);
-            Assert.assertFalse(clause1.equals(clause2));
+            Assert.IsFalse(clause1.Equals(clause2));
 
             clause1 = new Clause(LITERAL_P);
-            Assert.assertFalse(clause1.equals(LITERAL_P));
+            Assert.IsFalse(clause1.Equals(LITERAL_P));
         }
 
-        @Test
+        [TestMethod]
         public void testHashCode()
         {
             Clause clause1 = new Clause();
             Clause clause2 = new Clause();
-            Assert.assertTrue(clause1.hashCode() == clause2.hashCode());
+            Assert.IsTrue(clause1.GetHashCode() == clause2.GetHashCode());
 
             clause1 = new Clause(LITERAL_P);
             clause2 = new Clause(LITERAL_P);
-            Assert.assertTrue(clause1.hashCode() == clause2.hashCode());
+            Assert.IsTrue(clause1.GetHashCode() == clause2.GetHashCode());
 
             clause1 = new Clause(LITERAL_P, LITERAL_Q);
             clause2 = new Clause(LITERAL_P, LITERAL_Q);
-            Assert.assertTrue(clause1.hashCode() == clause2.hashCode());
+            Assert.IsTrue(clause1.GetHashCode() == clause2.GetHashCode());
 
             clause1 = new Clause(LITERAL_R, LITERAL_P, LITERAL_Q);
             clause2 = new Clause(LITERAL_P, LITERAL_Q, LITERAL_R);
-            Assert.assertTrue(clause1.hashCode() == clause2.hashCode());
+            Assert.IsTrue(clause1.GetHashCode() == clause2.GetHashCode());
 
             clause1 = new Clause(LITERAL_P);
             clause2 = new Clause(LITERAL_Q);
-            Assert.assertFalse(clause1.hashCode() == clause2.hashCode());
+            Assert.IsFalse(clause1.GetHashCode() == clause2.GetHashCode());
 
             clause1 = new Clause(LITERAL_P, LITERAL_Q);
             clause2 = new Clause(LITERAL_P, LITERAL_R);
-            Assert.assertFalse(clause1.hashCode() == clause2.hashCode());
+            Assert.IsFalse(clause1.GetHashCode() == clause2.GetHashCode());
         }
 
 
-    @Test(expected= UnsupportedOperationException.class)
-	public void testLiteralsImmutable()
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void testLiteralsImmutable()
         {
             Clause clause = new Clause(LITERAL_P);
-            clause.getLiterals().add(LITERAL_Q);
+            clause.getLiterals().Add(LITERAL_Q);
         }
 
 
-    @Test(expected= UnsupportedOperationException.class)
-	public void testPostivieSymbolsImmutable()
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void testPostivieSymbolsImmutable()
         {
             Clause clause = new Clause(LITERAL_P);
-            clause.getPositiveSymbols().add(new PropositionSymbol("Q"));
+            clause.getPositiveSymbols().Add(new PropositionSymbol("Q"));
         }
 
 
-    @Test(expected= UnsupportedOperationException.class)
-	public void testNegativeSymbolsImmutable()
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void testNegativeSymbolsImmutable()
         {
             Clause clause = new Clause(LITERAL_P);
-            clause.getNegativeSymbols().add(new PropositionSymbol("Q"));
+            clause.getNegativeSymbols().Add(new PropositionSymbol("Q"));
         }
     }
 

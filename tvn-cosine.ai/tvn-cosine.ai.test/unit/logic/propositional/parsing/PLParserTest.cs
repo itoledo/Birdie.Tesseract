@@ -1,221 +1,227 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.propositional.parsing
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.logic.common;
+using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn_cosine.ai.test.unit.logic.propositional.parsing
 {
+    [TestClass]
     public class PLParserTest
     {
         private PLParser parser = null;
         private Sentence sentence = null;
-        private String expected = null;
+        private string expected = null;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             parser = new PLParser();
         }
 
-        @Test
+        [TestMethod]
         public void testAtomicSentenceTrueParse()
         {
             sentence = parser.parse("true");
             expected = prettyPrintF("True");
-            Assert.assertTrue(sentence.isPropositionSymbol());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isPropositionSymbol());
+            Assert.AreEqual(expected, sentence.ToString());
 
             sentence = parser.parse("(true)");
             expected = prettyPrintF("True");
-            Assert.assertTrue(sentence.isPropositionSymbol());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isPropositionSymbol());
+            Assert.AreEqual(expected, sentence.ToString());
 
             sentence = parser.parse("((true))");
             expected = prettyPrintF("True");
-            Assert.assertTrue(sentence.isPropositionSymbol());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isPropositionSymbol());
+            Assert.AreEqual(expected, sentence.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testAtomicSentenceFalseParse()
         {
             sentence = parser.parse("faLse");
             expected = prettyPrintF("False");
-            Assert.assertTrue(sentence.isPropositionSymbol());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isPropositionSymbol());
+            Assert.AreEqual(expected, sentence.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testAtomicSentenceSymbolParse()
         {
             sentence = parser.parse("AIMA");
             expected = prettyPrintF("AIMA");
-            Assert.assertTrue(sentence.isPropositionSymbol());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isPropositionSymbol());
+            Assert.AreEqual(expected, sentence.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testNotSentenceParse()
         {
             sentence = parser.parse("~ AIMA");
             expected = prettyPrintF("~AIMA");
-            Assert.assertTrue(sentence.isNotSentence());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isNotSentence());
+            Assert.AreEqual(expected, sentence.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testDoubleNegation()
         {
             sentence = parser.parse("~~AIMA");
             expected = prettyPrintF("~~AIMA");
-            Assert.assertTrue(sentence.isNotSentence());
-            Assert.assertTrue(sentence.getSimplerSentence(0).isNotSentence());
-            Assert.assertTrue(sentence.getSimplerSentence(0).getSimplerSentence(0).isPropositionSymbol());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isNotSentence());
+            Assert.IsTrue(sentence.getSimplerSentence(0).isNotSentence());
+            Assert.IsTrue(sentence.getSimplerSentence(0).getSimplerSentence(0).isPropositionSymbol());
+            Assert.AreEqual(expected, sentence.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testBinarySentenceParse()
         {
             sentence = parser.parse("PETER  &  NORVIG");
             expected = prettyPrintF("PETER & NORVIG");
-            Assert.assertTrue(sentence.isAndSentence());
-            Assert.assertTrue(sentence.getSimplerSentence(0).isPropositionSymbol());
-            Assert.assertTrue(sentence.getSimplerSentence(1).isPropositionSymbol());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isAndSentence());
+            Assert.IsTrue(sentence.getSimplerSentence(0).isPropositionSymbol());
+            Assert.IsTrue(sentence.getSimplerSentence(1).isPropositionSymbol());
+            Assert.AreEqual(expected, sentence.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testComplexSentenceParse()
         {
             sentence = parser.parse("(NORVIG | AIMA | LISP) & TRUE");
             expected = prettyPrintF("(NORVIG | AIMA | LISP) & True");
-            Assert.assertTrue(sentence.isAndSentence());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isAndSentence());
+            Assert.AreEqual(expected, sentence.ToString());
 
             sentence = parser.parse("((NORVIG | AIMA | LISP) & (((LISP => COOL))))");
             expected = prettyPrintF("(NORVIG | AIMA | LISP) & (LISP => COOL)");
-            Assert.assertTrue(sentence.isAndSentence());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isAndSentence());
+            Assert.AreEqual(expected, sentence.ToString());
 
             sentence = parser.parse("((~ (P & Q ))  & ((~ (R & S))))");
             expected = prettyPrintF("~(P & Q) & ~(R & S)");
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.AreEqual(expected, sentence.ToString());
 
             sentence = parser.parse("((P & Q) | (S & T))");
             expected = prettyPrintF("P & Q | S & T");
-            Assert.assertTrue(sentence.isOrSentence());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isOrSentence());
+            Assert.AreEqual(expected, sentence.ToString());
 
             sentence = parser.parse("(~ ((P & Q) => (S & T)))");
             expected = prettyPrintF("~(P & Q => S & T)");
-            Assert.assertTrue(sentence.isNotSentence());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isNotSentence());
+            Assert.AreEqual(expected, sentence.ToString());
 
             sentence = parser.parse("(~ (P <=> (S & T)))");
             expected = prettyPrintF("~(P <=> S & T)");
-            Assert.assertTrue(sentence.isNotSentence());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isNotSentence());
+            Assert.AreEqual(expected, sentence.ToString());
 
             sentence = parser.parse("(P <=> (S & T))");
             expected = prettyPrintF("P <=> S & T");
-            Assert.assertTrue(sentence.isBiconditionalSentence());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isBiconditionalSentence());
+            Assert.AreEqual(expected, sentence.ToString());
 
             sentence = parser.parse("(P => Q)");
             expected = prettyPrintF("P => Q");
-            Assert.assertTrue(sentence.isImplicationSentence());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isImplicationSentence());
+            Assert.AreEqual(expected, sentence.ToString());
 
             sentence = parser.parse("((P & Q) => R)");
             expected = prettyPrintF("P & Q => R");
-            Assert.assertTrue(sentence.isImplicationSentence());
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.IsTrue(sentence.isImplicationSentence());
+            Assert.AreEqual(expected, sentence.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testSquareBracketsParse()
         {
             // Instead of
             sentence = parser.parse("[NORVIG | AIMA | LISP] & TRUE");
             expected = prettyPrintF("(NORVIG | AIMA | LISP) & True");
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.AreEqual(expected, sentence.ToString());
 
             // Alternating
             sentence = parser.parse("[A | B | C] & D & [C | D & (F | G | H & [I | J])]");
             expected = prettyPrintF("(A | B | C) & D & (C | D & (F | G | H & (I | J)))");
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.AreEqual(expected, sentence.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testParserException()
         {
             try
             {
                 sentence = parser.parse("");
-                Assert.fail("A Parser Exception should have been thrown.");
+                Assert.Fail("A Parser Exception should have been thrown.");
             }
             catch (ParserException pex)
             {
-                Assert.assertEquals(0, pex.getProblematicTokens().size());
+                Assert.AreEqual(0, pex.getProblematicTokens().Size());
             }
 
             try
             {
                 sentence = parser.parse("A A1.2");
-                Assert.fail("A Parser Exception should have been thrown.");
+                Assert.Fail("A Parser Exception should have been thrown.");
             }
             catch (ParserException pex)
             {
-                Assert.assertEquals(0, pex.getProblematicTokens().size());
-                Assert.assertTrue(pex.getCause() instanceof LexerException);
-                Assert.assertEquals(4, ((LexerException)pex.getCause()).getCurrentPositionInInputExceptionThrown());
+                Assert.AreEqual(0, pex.getProblematicTokens().Size());
+                Assert.IsTrue(pex.InnerException is LexerException);
+                Assert.AreEqual(4, ((LexerException)pex.InnerException).getCurrentPositionInInputExceptionThrown());
             }
 
             try
             {
                 sentence = parser.parse("A & & B");
-                Assert.fail("A Parser Exception should have been thrown.");
+                Assert.Fail("A Parser Exception should have been thrown.");
             }
             catch (ParserException pex)
             {
-                Assert.assertEquals(1, pex.getProblematicTokens().size());
-                Assert.assertTrue(pex.getProblematicTokens().get(0).getType() == LogicTokenTypes.CONNECTIVE);
-                Assert.assertEquals(4, pex.getProblematicTokens().get(0).getStartCharPositionInInput());
+                Assert.AreEqual(1, pex.getProblematicTokens().Size());
+                Assert.IsTrue(pex.getProblematicTokens().Get(0).getType() == LogicTokenTypes.CONNECTIVE);
+                Assert.AreEqual(4, pex.getProblematicTokens().Get(0).getStartCharPositionInInput());
             }
 
             try
             {
                 sentence = parser.parse("A & (B & C &)");
-                Assert.fail("A Parser Exception should have been thrown.");
+                Assert.Fail("A Parser Exception should have been thrown.");
             }
             catch (ParserException pex)
             {
-                Assert.assertEquals(1, pex.getProblematicTokens().size());
-                Assert.assertTrue(pex.getProblematicTokens().get(0).getType() == LogicTokenTypes.CONNECTIVE);
-                Assert.assertEquals(11, pex.getProblematicTokens().get(0).getStartCharPositionInInput());
+                Assert.AreEqual(1, pex.getProblematicTokens().Size());
+                Assert.IsTrue(pex.getProblematicTokens().Get(0).getType() == LogicTokenTypes.CONNECTIVE);
+                Assert.AreEqual(11, pex.getProblematicTokens().Get(0).getStartCharPositionInInput());
             }
         }
 
-        @Test
+        [TestMethod]
         public void testIssue72()
         {
             // filter1 AND filter2 AND filter3 AND filter4
             sentence = parser.parse("filter1 & filter2 & filter3 & filter4");
             expected = prettyPrintF("filter1 & filter2 & filter3 & filter4");
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.AreEqual(expected, sentence.ToString());
 
             // (filter1 AND filter2) AND (filter3 AND filter4)
             sentence = parser.parse("(filter1 & filter2) & (filter3 & filter4)");
             expected = prettyPrintF("filter1 & filter2 & filter3 & filter4");
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.AreEqual(expected, sentence.ToString());
 
             // ((filter1 AND filter2) AND (filter3 AND filter4))
             sentence = parser.parse("((filter1 & filter2) & (filter3 & filter4))");
             expected = prettyPrintF("filter1 & filter2 & filter3 & filter4");
-            Assert.assertEquals(expected, sentence.toString());
+            Assert.AreEqual(expected, sentence.ToString());
         }
 
-        private String prettyPrintF(String prettyPrintedFormula)
+        private string prettyPrintF(string prettyPrintedFormula)
         {
             Sentence s = parser.parse(prettyPrintedFormula);
 
-            Assert.assertEquals("The pretty print formula should parse and print the same.", prettyPrintedFormula, "" + s);
+            Assert.AreEqual("The pretty print formula should parse and print the same.", prettyPrintedFormula, "" + s);
 
             return prettyPrintedFormula;
         }

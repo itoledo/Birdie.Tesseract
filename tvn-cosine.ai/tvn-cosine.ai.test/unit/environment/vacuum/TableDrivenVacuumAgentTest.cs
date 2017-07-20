@@ -1,19 +1,24 @@
-﻿namespace tvn_cosine.ai.test.unit.environment.vacuum
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text;
+using tvn.cosine.ai.environment.vacuum;
+
+namespace tvn_cosine.ai.test.unit.environment.vacuum
 {
+    [TestClass]
     public class TableDrivenVacuumAgentTest
     {
         private TableDrivenVacuumAgent agent;
 
         private StringBuilder envChanges;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             agent = new TableDrivenVacuumAgent();
             envChanges = new StringBuilder();
         }
 
-        @Test
+        [TestMethod]
         public void testCleanClean()
         {
             VacuumEnvironment tve = new VacuumEnvironment(
@@ -25,12 +30,12 @@
 
             tve.stepUntilDone();
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "Action[name==Right]Action[name==Left]Action[name==Right]Action[name==NoOp]",
-                    envChanges.toString());
+                    envChanges.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testCleanDirty()
         {
             VacuumEnvironment tve = new VacuumEnvironment(
@@ -42,12 +47,12 @@
 
             tve.stepUntilDone();
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "Action[name==Right]Action[name==Suck]Action[name==Left]Action[name==NoOp]",
-                    envChanges.toString());
+                    envChanges.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testDirtyClean()
         {
             VacuumEnvironment tve = new VacuumEnvironment(
@@ -59,12 +64,12 @@
 
             tve.stepUntilDone();
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "Action[name==Suck]Action[name==Right]Action[name==Left]Action[name==NoOp]",
-                    envChanges.toString());
+                    envChanges.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testDirtyDirty()
         {
             VacuumEnvironment tve = new VacuumEnvironment(
@@ -76,9 +81,9 @@
 
             tve.stepUntilDone();
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "Action[name==Suck]Action[name==Right]Action[name==Suck]Action[name==NoOp]",
-                    envChanges.toString());
+                    envChanges.ToString());
         }
     }
 

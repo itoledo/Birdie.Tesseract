@@ -1,29 +1,33 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.propositional.parsing
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn_cosine.ai.test.unit.logic.propositional.parsing
 {
-    public class ListTest
+    [TestClass] public class ListTest
     {
 
-        @Test
+        [TestMethod]
         public void testListOfSymbolsClone()
         {
-            ArrayList<PropositionSymbol> l = new ArrayList<PropositionSymbol>();
-            l.add(new PropositionSymbol("A"));
-            l.add(new PropositionSymbol("B"));
-            l.add(new PropositionSymbol("C"));
-            List<PropositionSymbol> l2 = new ArrayList<PropositionSymbol>(l);
-            l2.remove(new PropositionSymbol("B"));
-            Assert.assertEquals(3, l.size());
-            Assert.assertEquals(2, l2.size());
+          IQueue<PropositionSymbol> l = Factory.CreateQueue<PropositionSymbol>();
+            l.Add(new PropositionSymbol("A"));
+            l.Add(new PropositionSymbol("B"));
+            l.Add(new PropositionSymbol("C"));
+         IQueue<PropositionSymbol> l2 = Factory.CreateQueue<PropositionSymbol>(l);
+            l2.Remove(new PropositionSymbol("B"));
+            Assert.AreEqual(3, l.Size());
+            Assert.AreEqual(2, l2.Size());
         }
 
-        @Test
+        [TestMethod]
         public void testListRemove()
         {
-            List<Integer> one = new ArrayList<Integer>();
-            one.add(new Integer(1));
-            Assert.assertEquals(1, one.size());
-            one.remove(0);
-            Assert.assertEquals(0, one.size());
+         IQueue<int> one = Factory.CreateQueue<int>();
+            one.Add(1);
+            Assert.AreEqual(1, one.Size());
+            one.Remove(0);
+            Assert.AreEqual(0, one.Size());
         }
     }
 

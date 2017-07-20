@@ -1,57 +1,63 @@
-﻿namespace tvn_cosine.ai.test.unit.learning.framework
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.util;
+
+namespace tvn_cosine.ai.test.unit.learning.framework
 {
+    [TestClass]
     public class InformationAndGainTest
     {
 
-        @Test
+        [TestMethod]
         public void testInformationCalculation()
         {
             double[] fairCoinProbabilities = new double[] { 0.5, 0.5 };
             double[] loadedCoinProbabilities = new double[] { 0.01, 0.99 };
 
-            Assert.assertEquals(1.0, Util.information(fairCoinProbabilities), 0.001);
-            Assert.assertEquals(0.08079313589591118,
+            Assert.AreEqual(1.0, Util.information(fairCoinProbabilities), 0.001);
+            Assert.AreEqual(0.08079313589591118,
                     Util.information(loadedCoinProbabilities), 0.000000000000000001);
         }
 
-        @Test
-        public void testBasicDataSetInformationCalculation() throws Exception
+        [TestMethod]
+        public void testBasicDataSetInformationCalculation()
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
 
-        double infoForTargetAttribute = ds.getInformationFor();// this should
-                                                               // be the
-                                                               // generic
-                                                               // distribution
-        Assert.assertEquals(1.0, infoForTargetAttribute, 0.001);
-	}
-
-    @Test
-    public void testDataSetSplit() throws Exception
-    {
-        DataSet ds = DataSetFactory.getRestaurantDataSet();
-        Hashtable<String, DataSet> hash = ds.splitByAttribute("patrons");// this
-                                                                         // should
-                                                                         // be
-                                                                         // the
-                                                                         // generic
-                                                                         // distribution
-        Assert.assertEquals(3, hash.keySet().size());
-        Assert.assertEquals(6, hash.get("Full").size());
-        Assert.assertEquals(2, hash.get("None").size());
-        Assert.assertEquals(4, hash.get("Some").size());
+            double infoForTargetAttribute = ds.getInformationFor();// this should
+                                                                   // be the
+                                                                   // generic
+                                                                   // distribution
+            Assert.AreEqual(1.0, infoForTargetAttribute, 0.001);
         }
 
-        @Test
+        [TestMethod]
+        public void testDataSetSplit()
+        {
+            DataSet ds = DataSetFactory.getRestaurantDataSet();
+            IMap<string, DataSet> hash = ds.splitByAttribute("patrons");// this
+                                                                        // should
+                                                                        // be
+                                                                        // the
+                                                                        // generic
+                                                                        // distribution
+            Assert.AreEqual(3, hash.GetKeys().Size());
+            Assert.AreEqual(6, hash.Get("Full").size());
+            Assert.AreEqual(2, hash.Get("None").size());
+            Assert.AreEqual(4, hash.Get("Some").size());
+        }
 
-    public void testGainCalculation() throws Exception
-    {
-        DataSet ds = DataSetFactory.getRestaurantDataSet();
-		double gain = ds.calculateGainFor("patrons");
-        Assert.assertEquals(0.541, gain, 0.001);
-        gain = ds.calculateGainFor("type");
-        Assert.assertEquals(0.0, gain, 0.001);
+        [TestMethod]
+
+        public void testGainCalculation()
+        {
+            DataSet ds = DataSetFactory.getRestaurantDataSet();
+            double gain = ds.calculateGainFor("patrons");
+            Assert.AreEqual(0.541, gain, 0.001);
+            gain = ds.calculateGainFor("type");
+            Assert.AreEqual(0.0, gain, 0.001);
+        }
     }
-}
 
 }

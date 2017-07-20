@@ -1,171 +1,183 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.fol;
+using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.kb;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+using tvn.cosine.ai.util;
+
+namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
 {
+    [TestClass]
     public class ClauseTest
     {
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             StandardizeApartIndexicalFactory.flush();
         }
 
-        @Test
+        [TestMethod]
         public void testImmutable()
         {
             Clause c = new Clause();
 
-            Assert.assertFalse(c.isImmutable());
+            Assert.IsFalse(c.isImmutable());
 
-            c.addNegativeLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            c.addPositiveLiteral(new Predicate("Pred2", new ArrayList<Term>()));
+            c.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
 
             c.setImmutable();
 
-            Assert.assertTrue(c.isImmutable());
+            Assert.IsTrue(c.isImmutable());
 
             try
             {
-                c.addNegativeLiteral(new Predicate("Pred3", new ArrayList<Term>()));
+                c.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
 
-                Assert.fail("Should have thrown an IllegalStateException");
+                Assert.Fail("Should have thrown an IllegalStateException");
             }
-            catch (IllegalStateException ise)
+            catch (IllegalStateException)
             {
                 // Ok, Expected
             }
 
             try
             {
-                c.addPositiveLiteral(new Predicate("Pred3", new ArrayList<Term>()));
+                c.addPositiveLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
 
-                Assert.fail("Should have thrown an IllegalStateException");
+                Assert.Fail("Should have thrown an IllegalStateException");
             }
-            catch (IllegalStateException ise)
+            catch (IllegalStateException)
             {
                 // Ok, Expected
             }
         }
 
-        @Test
+        [TestMethod]
         public void testIsEmpty()
         {
             Clause c1 = new Clause();
-            Assert.assertTrue(c1.isEmpty());
+            Assert.IsTrue(c1.isEmpty());
 
-            c1.addNegativeLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            Assert.assertFalse(c1.isEmpty());
+            c1.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            Assert.IsFalse(c1.isEmpty());
 
             Clause c2 = new Clause();
-            Assert.assertTrue(c2.isEmpty());
+            Assert.IsTrue(c2.isEmpty());
 
-            c2.addPositiveLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            Assert.assertFalse(c2.isEmpty());
+            c2.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            Assert.IsFalse(c2.isEmpty());
 
             Clause c3 = new Clause();
-            Assert.assertTrue(c3.isEmpty());
+            Assert.IsTrue(c3.isEmpty());
 
-            c3.addNegativeLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            c3.addPositiveLiteral(new Predicate("Pred1", new ArrayList<Term>()));
+            c3.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c3.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
             // Should be empty as they resolved with each other
-            Assert.assertFalse(c3.isEmpty());
+            Assert.IsFalse(c3.isEmpty());
 
-            c3.addNegativeLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            c3.addPositiveLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            Assert.assertFalse(c3.isEmpty());
+            c3.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c3.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            Assert.IsFalse(c3.isEmpty());
         }
 
-        @Test
+        [TestMethod]
         public void testIsHornClause()
         {
             Clause c1 = new Clause();
-            Assert.assertFalse(c1.isHornClause());
+            Assert.IsFalse(c1.isHornClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isHornClause());
+            c1.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isHornClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isHornClause());
+            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isHornClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred3", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isHornClause());
-            c1.addNegativeLiteral(new Predicate("Pred4", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isHornClause());
+            c1.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isHornClause());
+            c1.addNegativeLiteral(new Predicate("Pred4", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isHornClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred5", new ArrayList<Term>()));
-            Assert.assertFalse(c1.isHornClause());
+            c1.addPositiveLiteral(new Predicate("Pred5", Factory.CreateQueue<Term>()));
+            Assert.IsFalse(c1.isHornClause());
         }
 
-        @Test
+        [TestMethod]
         public void testIsDefiniteClause()
         {
             Clause c1 = new Clause();
-            Assert.assertFalse(c1.isDefiniteClause());
+            Assert.IsFalse(c1.isDefiniteClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            Assert.assertFalse(c1.isDefiniteClause());
+            c1.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            Assert.IsFalse(c1.isDefiniteClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isDefiniteClause());
+            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isDefiniteClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred3", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isDefiniteClause());
-            c1.addNegativeLiteral(new Predicate("Pred4", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isDefiniteClause());
+            c1.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isDefiniteClause());
+            c1.addNegativeLiteral(new Predicate("Pred4", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isDefiniteClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred5", new ArrayList<Term>()));
-            Assert.assertFalse(c1.isDefiniteClause());
+            c1.addPositiveLiteral(new Predicate("Pred5", Factory.CreateQueue<Term>()));
+            Assert.IsFalse(c1.isDefiniteClause());
         }
 
-        @Test
+        [TestMethod]
         public void testIsUnitClause()
         {
             Clause c1 = new Clause();
-            Assert.assertFalse(c1.isUnitClause());
+            Assert.IsFalse(c1.isUnitClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isUnitClause());
+            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isUnitClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            Assert.assertFalse(c1.isUnitClause());
-
-            c1 = new Clause();
-            Assert.assertFalse(c1.isUnitClause());
-
-            c1.addPositiveLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isUnitClause());
-
-            c1.addNegativeLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            Assert.assertFalse(c1.isUnitClause());
+            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            Assert.IsFalse(c1.isUnitClause());
 
             c1 = new Clause();
-            Assert.assertFalse(c1.isUnitClause());
+            Assert.IsFalse(c1.isUnitClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isUnitClause());
+            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isUnitClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            Assert.assertFalse(c1.isUnitClause());
+            c1.addNegativeLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            Assert.IsFalse(c1.isUnitClause());
+
+            c1 = new Clause();
+            Assert.IsFalse(c1.isUnitClause());
+
+            c1.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isUnitClause());
+
+            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            Assert.IsFalse(c1.isUnitClause());
         }
 
-        @Test
+        [TestMethod]
         public void testIsImplicationDefiniteClause()
         {
             Clause c1 = new Clause();
-            Assert.assertFalse(c1.isImplicationDefiniteClause());
+            Assert.IsFalse(c1.isImplicationDefiniteClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            Assert.assertFalse(c1.isImplicationDefiniteClause());
+            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            Assert.IsFalse(c1.isImplicationDefiniteClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isImplicationDefiniteClause());
-            c1.addNegativeLiteral(new Predicate("Pred3", new ArrayList<Term>()));
-            Assert.assertTrue(c1.isImplicationDefiniteClause());
+            c1.addNegativeLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isImplicationDefiniteClause());
+            c1.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
+            Assert.IsTrue(c1.isImplicationDefiniteClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred4", new ArrayList<Term>()));
-            Assert.assertFalse(c1.isImplicationDefiniteClause());
+            c1.addPositiveLiteral(new Predicate("Pred4", Factory.CreateQueue<Term>()));
+            Assert.IsFalse(c1.isImplicationDefiniteClause());
         }
 
-        @Test
+        [TestMethod]
         public void testBinaryResolvents()
         {
             FOLDomain domain = new FOLDomain();
@@ -177,92 +189,91 @@
             Clause c1 = new Clause();
 
             // Ensure that resolving to self when empty returns an empty clause
-            Assert.assertNotNull(c1.binaryResolvents(c1));
-            Assert.assertEquals(1, c1.binaryResolvents(c1).size());
-            Assert.assertTrue(c1.binaryResolvents(c1).iterator().next().isEmpty());
+            Assert.IsNotNull(c1.binaryResolvents(c1));
+            Assert.AreEqual(1, c1.binaryResolvents(c1).Size());
+            Assert.IsTrue(Util.first(c1.binaryResolvents(c1)).isEmpty());
 
             // Check if resolve with self to an empty clause
-            c1.addPositiveLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            c1.addNegativeLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            Assert.assertNotNull(c1.binaryResolvents(c1));
-            Assert.assertEquals(1, c1.binaryResolvents(c1).size());
+            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            Assert.IsNotNull(c1.binaryResolvents(c1));
+            Assert.AreEqual(1, c1.binaryResolvents(c1).Size());
             // i.e. resolving a tautology with a tautology gives you
             // back a tautology.
-            Assert.assertEquals("[~Pred1(), Pred1()]", c1.binaryResolvents(c1)
-                    .iterator().next().toString());
+            Assert.AreEqual("[~Pred1(), Pred1()]", Util.first(c1.binaryResolvents(c1)).ToString());
 
             // Check if try to resolve with self and no resolvents
             c1 = new Clause();
-            c1.addPositiveLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            Assert.assertEquals(0, c1.binaryResolvents(c1).size());
+            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            Assert.AreEqual(0, c1.binaryResolvents(c1).Size());
 
             c1 = new Clause();
             Clause c2 = new Clause();
             // Ensure that two empty clauses resolve to an empty clause
-            Assert.assertNotNull(c1.binaryResolvents(c2));
-            Assert.assertEquals(1, c1.binaryResolvents(c2).size());
-            Assert.assertTrue(c1.binaryResolvents(c2).iterator().next().isEmpty());
-            Assert.assertNotNull(c2.binaryResolvents(c1));
-            Assert.assertEquals(1, c2.binaryResolvents(c1).size());
-            Assert.assertTrue(c2.binaryResolvents(c1).iterator().next().isEmpty());
+            Assert.IsNotNull(c1.binaryResolvents(c2));
+            Assert.AreEqual(1, c1.binaryResolvents(c2).Size());
+            Assert.IsTrue(Util.first(c1.binaryResolvents(c2)).isEmpty());
+            Assert.IsNotNull(c2.binaryResolvents(c1));
+            Assert.AreEqual(1, c2.binaryResolvents(c1).Size());
+            Assert.IsTrue(Util.first(c2.binaryResolvents(c1)).isEmpty());
 
             // Enusre the two complementary clauses resolve
             // to the empty clause
-            c1.addPositiveLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            c2.addNegativeLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            Assert.assertNotNull(c1.binaryResolvents(c2));
-            Assert.assertEquals(1, c1.binaryResolvents(c2).size());
-            Assert.assertTrue(c1.binaryResolvents(c2).iterator().next().isEmpty());
-            Assert.assertNotNull(c2.binaryResolvents(c1));
-            Assert.assertEquals(1, c2.binaryResolvents(c1).size());
-            Assert.assertTrue(c2.binaryResolvents(c1).iterator().next().isEmpty());
+            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c2.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            Assert.IsNotNull(c1.binaryResolvents(c2));
+            Assert.AreEqual(1, c1.binaryResolvents(c2).Size());
+            Assert.IsTrue(Util.first(c1.binaryResolvents(c2)).isEmpty());
+            Assert.IsNotNull(c2.binaryResolvents(c1));
+            Assert.AreEqual(1, c2.binaryResolvents(c1).Size());
+            Assert.IsTrue(Util.first(c2.binaryResolvents(c1)).isEmpty());
 
             // Ensure that two clauses that have two complementaries
             // resolve with two resolvents
-            c1.addPositiveLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            c2.addNegativeLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            c1.addPositiveLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            c2.addNegativeLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            Assert.assertNotNull(c1.binaryResolvents(c2));
-            Assert.assertEquals(2, c1.binaryResolvents(c2).size());
-            Assert.assertNotNull(c2.binaryResolvents(c1));
-            Assert.assertEquals(2, c2.binaryResolvents(c1).size());
+            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c2.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c2.addNegativeLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            Assert.IsNotNull(c1.binaryResolvents(c2));
+            Assert.AreEqual(2, c1.binaryResolvents(c2).Size());
+            Assert.IsNotNull(c2.binaryResolvents(c1));
+            Assert.AreEqual(2, c2.binaryResolvents(c1).Size());
 
             // Ensure two clauses that factor are not
             // considered resolved
             c1 = new Clause();
             c2 = new Clause();
-            c1.addPositiveLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            c1.addPositiveLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            c1.addNegativeLiteral(new Predicate("Pred3", new ArrayList<Term>()));
-            c1.addNegativeLiteral(new Predicate("Pred4", new ArrayList<Term>()));
-            c2.addPositiveLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            c2.addNegativeLiteral(new Predicate("Pred4", new ArrayList<Term>()));
-            Assert.assertNotNull(c1.binaryResolvents(c2));
-            Assert.assertEquals(0, c1.binaryResolvents(c2).size());
-            Assert.assertNotNull(c2.binaryResolvents(c1));
-            Assert.assertEquals(0, c2.binaryResolvents(c1).size());
+            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred4", Factory.CreateQueue<Term>()));
+            c2.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c2.addNegativeLiteral(new Predicate("Pred4", Factory.CreateQueue<Term>()));
+            Assert.IsNotNull(c1.binaryResolvents(c2));
+            Assert.AreEqual(0, c1.binaryResolvents(c2).Size());
+            Assert.IsNotNull(c2.binaryResolvents(c1));
+            Assert.AreEqual(0, c2.binaryResolvents(c1).Size());
 
             // Ensure the resolvent is a subset of the originals
             c1 = new Clause();
             c2 = new Clause();
-            c1.addPositiveLiteral(new Predicate("Pred1", new ArrayList<Term>()));
-            c1.addNegativeLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            c1.addNegativeLiteral(new Predicate("Pred3", new ArrayList<Term>()));
-            c2.addPositiveLiteral(new Predicate("Pred2", new ArrayList<Term>()));
-            Assert.assertNotNull(c1.binaryResolvents(c2));
-            Assert.assertNotNull(c2.binaryResolvents(c1));
-            Assert.assertEquals(1, c1.binaryResolvents(c2).iterator().next()
+            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
+            c2.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            Assert.IsNotNull(c1.binaryResolvents(c2));
+            Assert.IsNotNull(c2.binaryResolvents(c1));
+            Assert.AreEqual(1, Util.first(c1.binaryResolvents(c2))
                     .getNumberPositiveLiterals());
-            Assert.assertEquals(1, c1.binaryResolvents(c2).iterator().next()
+            Assert.AreEqual(1, Util.first(c1.binaryResolvents(c2))
                     .getNumberNegativeLiterals());
-            Assert.assertEquals(1, c2.binaryResolvents(c1).iterator().next()
+            Assert.AreEqual(1, Util.first(c2.binaryResolvents(c1))
                     .getNumberPositiveLiterals());
-            Assert.assertEquals(1, c2.binaryResolvents(c1).iterator().next()
+            Assert.AreEqual(1, Util.first(c2.binaryResolvents(c1))
                     .getNumberNegativeLiterals());
         }
 
-        @Test
+        [TestMethod]
         public void testBinaryResolventsOrderDoesNotMatter()
         {
             // This is a regression test, to ensure
@@ -285,58 +296,57 @@
             kb.tell("Cat(Tuna)");
             kb.tell("FORALL x (Cat(x) => Animal(x))");
 
-            Set<Clause> clauses = new LinkedHashSet<Clause>();
-            clauses.addAll(kb.getAllClauses());
+            ISet<Clause> clauses = Factory.CreateSet<Clause>();
+            clauses.AddAll(kb.getAllClauses());
 
-            Set<Clause> newClauses = new LinkedHashSet<Clause>();
+            ISet<Clause> newClauses = Factory.CreateSet<Clause>();
             long maxRunTime = 30 * 1000; // 30 seconds
-            long finishTime = System.currentTimeMillis() + maxRunTime;
+            System.DateTime finishTime = System.DateTime.Now.AddMilliseconds(maxRunTime);
             do
             {
-                clauses.addAll(newClauses);
-                newClauses.clear();
-                Clause[] clausesA = new Clause[clauses.size()];
-                clauses.toArray(clausesA);
-                for (int i = 0; i < clausesA.length; i++)
+                clauses.AddAll(newClauses);
+                newClauses.Clear();
+                Clause[] clausesA = clauses.ToArray();
+                for (int i = 0; i < clausesA.Length; i++)
                 {
                     Clause cI = clausesA[i];
-                    for (int j = 0; j < clausesA.length; j++)
+                    for (int j = 0; j < clausesA.Length; j++)
                     {
                         Clause cJ = clausesA[j];
 
-                        newClauses.addAll(cI.getFactors());
-                        newClauses.addAll(cJ.getFactors());
+                        newClauses.AddAll(cI.getFactors());
+                        newClauses.AddAll(cJ.getFactors());
 
-                        Set<Clause> cIresolvents = cI.binaryResolvents(cJ);
-                        Set<Clause> cJresolvents = cJ.binaryResolvents(cI);
-                        if (!cIresolvents.equals(cJresolvents))
+                        ISet<Clause> cIresolvents = cI.binaryResolvents(cJ);
+                        ISet<Clause> cJresolvents = cJ.binaryResolvents(cI);
+                        if (!cIresolvents.Equals(cJresolvents))
                         {
-                            System.err.println("cI=" + cI);
-                            System.err.println("cJ=" + cJ);
-                            System.err.println("cIR=" + cIresolvents);
-                            System.err.println("cJR=" + cJresolvents);
-                            Assert.fail("Ordering of binary resolvents has become important, which should not be the case");
+                            System.Console.WriteLine("cI=" + cI);
+                            System.Console.WriteLine("cJ=" + cJ);
+                            System.Console.WriteLine("cIR=" + cIresolvents);
+                            System.Console.WriteLine("cJR=" + cJresolvents);
+                            Assert.Fail("Ordering of binary resolvents has become important, which should not be the case");
                         }
 
-                        for (Clause r : cIresolvents)
+                        foreach (Clause r in cIresolvents)
                         {
-                            newClauses.addAll(r.getFactors());
+                            newClauses.AddAll(r.getFactors());
                         }
 
-                        if (System.currentTimeMillis() > finishTime)
+                        if (System.DateTime.Now > finishTime)
                         {
                             break;
                         }
                     }
-                    if (System.currentTimeMillis() > finishTime)
+                    if (System.DateTime.Now > finishTime)
                     {
                         break;
                     }
                 }
-            } while (System.currentTimeMillis() < finishTime);
+            } while (System.DateTime.Now < finishTime);
         }
 
-        @Test
+        [TestMethod]
         public void testEqualityBinaryResolvents()
         {
             FOLDomain domain = new FOLDomain();
@@ -353,122 +363,122 @@
             c2.addNegativeLiteral((AtomicSentence)parser.parse("B = A"));
             c2.addPositiveLiteral((AtomicSentence)parser.parse("B = A"));
 
-            Set<Clause> resolvents = c1.binaryResolvents(c2);
+            ISet<Clause> resolvents = c1.binaryResolvents(c2);
 
-            Assert.assertEquals(1, resolvents.size());
-            Assert.assertEquals("[[B = A]]", resolvents.toString());
+            Assert.AreEqual(1, resolvents.Size());
+            Assert.AreEqual("[[B = A]]", resolvents.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testHashCode()
         {
             Term cons1 = new Constant("C1");
             Term cons2 = new Constant("C2");
             Term var1 = new Variable("v1");
-            List<Term> pts1 = new ArrayList<Term>();
-            List<Term> pts2 = new ArrayList<Term>();
-            pts1.add(cons1);
-            pts1.add(cons2);
-            pts1.add(var1);
-            pts2.add(cons2);
-            pts2.add(cons1);
-            pts2.add(var1);
+            IQueue<Term> pts1 = Factory.CreateQueue<Term>();
+            IQueue<Term> pts2 = Factory.CreateQueue<Term>();
+            pts1.Add(cons1);
+            pts1.Add(cons2);
+            pts1.Add(var1);
+            pts2.Add(cons2);
+            pts2.Add(cons1);
+            pts2.Add(var1);
 
             Clause c1 = new Clause();
             Clause c2 = new Clause();
-            Assert.assertEquals(c1.hashCode(), c2.hashCode());
+            Assert.AreEqual(c1.GetHashCode(), c2.GetHashCode());
 
             c1.addNegativeLiteral(new Predicate("Pred1", pts1));
-            Assert.assertNotSame(c1.hashCode(), c2.hashCode());
+            Assert.AreNotEqual(c1.GetHashCode(), c2.GetHashCode());
             c2.addNegativeLiteral(new Predicate("Pred1", pts1));
-            Assert.assertEquals(c1.hashCode(), c2.hashCode());
+            Assert.AreEqual(c1.GetHashCode(), c2.GetHashCode());
 
             c1.addPositiveLiteral(new Predicate("Pred1", pts1));
-            Assert.assertNotSame(c1.hashCode(), c2.hashCode());
+            Assert.AreNotEqual(c1.GetHashCode(), c2.GetHashCode());
             c2.addPositiveLiteral(new Predicate("Pred1", pts1));
-            Assert.assertEquals(c1.hashCode(), c2.hashCode());
+            Assert.AreEqual(c1.GetHashCode(), c2.GetHashCode());
         }
 
-        @Test
+        [TestMethod]
         public void testSimpleEquals()
         {
             Term cons1 = new Constant("C1");
             Term cons2 = new Constant("C2");
             Term var1 = new Variable("v1");
-            List<Term> pts1 = new ArrayList<Term>();
-            List<Term> pts2 = new ArrayList<Term>();
-            pts1.add(cons1);
-            pts1.add(cons2);
-            pts1.add(var1);
-            pts2.add(cons2);
-            pts2.add(cons1);
-            pts2.add(var1);
+            IQueue<Term> pts1 = Factory.CreateQueue<Term>();
+            IQueue<Term> pts2 = Factory.CreateQueue<Term>();
+            pts1.Add(cons1);
+            pts1.Add(cons2);
+            pts1.Add(var1);
+            pts2.Add(cons2);
+            pts2.Add(cons1);
+            pts2.Add(var1);
 
             Clause c1 = new Clause();
             Clause c2 = new Clause();
-            Assert.assertTrue(c1.equals(c1));
-            Assert.assertTrue(c2.equals(c2));
-            Assert.assertTrue(c1.equals(c2));
-            Assert.assertTrue(c2.equals(c1));
+            Assert.IsTrue(c1.Equals(c1));
+            Assert.IsTrue(c2.Equals(c2));
+            Assert.IsTrue(c1.Equals(c2));
+            Assert.IsTrue(c2.Equals(c1));
 
             // Check negatives
             c1.addNegativeLiteral(new Predicate("Pred1", pts1));
-            Assert.assertFalse(c1.equals(c2));
-            Assert.assertFalse(c2.equals(c1));
+            Assert.IsFalse(c1.Equals(c2));
+            Assert.IsFalse(c2.Equals(c1));
             c2.addNegativeLiteral(new Predicate("Pred1", pts1));
-            Assert.assertTrue(c1.equals(c2));
-            Assert.assertTrue(c2.equals(c1));
+            Assert.IsTrue(c1.Equals(c2));
+            Assert.IsTrue(c2.Equals(c1));
 
             c1.addNegativeLiteral(new Predicate("Pred2", pts2));
-            Assert.assertFalse(c1.equals(c2));
-            Assert.assertFalse(c2.equals(c1));
+            Assert.IsFalse(c1.Equals(c2));
+            Assert.IsFalse(c2.Equals(c1));
             c2.addNegativeLiteral(new Predicate("Pred2", pts2));
-            Assert.assertTrue(c1.equals(c2));
-            Assert.assertTrue(c2.equals(c1));
+            Assert.IsTrue(c1.Equals(c2));
+            Assert.IsTrue(c2.Equals(c1));
             // Check same but added in different order
             c1.addNegativeLiteral(new Predicate("Pred3", pts1));
-            Assert.assertFalse(c1.equals(c2));
-            Assert.assertFalse(c2.equals(c1));
+            Assert.IsFalse(c1.Equals(c2));
+            Assert.IsFalse(c2.Equals(c1));
             c1.addNegativeLiteral(new Predicate("Pred4", pts1));
-            Assert.assertFalse(c1.equals(c2));
-            Assert.assertFalse(c2.equals(c1));
+            Assert.IsFalse(c1.Equals(c2));
+            Assert.IsFalse(c2.Equals(c1));
             c2.addNegativeLiteral(new Predicate("Pred4", pts1));
-            Assert.assertFalse(c1.equals(c2));
-            Assert.assertFalse(c2.equals(c1));
+            Assert.IsFalse(c1.Equals(c2));
+            Assert.IsFalse(c2.Equals(c1));
             c2.addNegativeLiteral(new Predicate("Pred3", pts1));
-            Assert.assertTrue(c1.equals(c2));
-            Assert.assertTrue(c2.equals(c1));
+            Assert.IsTrue(c1.Equals(c2));
+            Assert.IsTrue(c2.Equals(c1));
 
             // Check positives
             c1.addPositiveLiteral(new Predicate("Pred1", pts1));
-            Assert.assertFalse(c1.equals(c2));
-            Assert.assertFalse(c2.equals(c1));
+            Assert.IsFalse(c1.Equals(c2));
+            Assert.IsFalse(c2.Equals(c1));
             c2.addPositiveLiteral(new Predicate("Pred1", pts1));
-            Assert.assertTrue(c1.equals(c2));
-            Assert.assertTrue(c2.equals(c1));
+            Assert.IsTrue(c1.Equals(c2));
+            Assert.IsTrue(c2.Equals(c1));
 
             c1.addPositiveLiteral(new Predicate("Pred2", pts2));
-            Assert.assertFalse(c1.equals(c2));
-            Assert.assertFalse(c2.equals(c1));
+            Assert.IsFalse(c1.Equals(c2));
+            Assert.IsFalse(c2.Equals(c1));
             c2.addPositiveLiteral(new Predicate("Pred2", pts2));
-            Assert.assertTrue(c1.equals(c2));
-            Assert.assertTrue(c2.equals(c1));
+            Assert.IsTrue(c1.Equals(c2));
+            Assert.IsTrue(c2.Equals(c1));
             // Check same but added in different order
             c1.addPositiveLiteral(new Predicate("Pred3", pts1));
-            Assert.assertFalse(c1.equals(c2));
-            Assert.assertFalse(c2.equals(c1));
+            Assert.IsFalse(c1.Equals(c2));
+            Assert.IsFalse(c2.Equals(c1));
             c1.addPositiveLiteral(new Predicate("Pred4", pts1));
-            Assert.assertFalse(c1.equals(c2));
-            Assert.assertFalse(c2.equals(c1));
+            Assert.IsFalse(c1.Equals(c2));
+            Assert.IsFalse(c2.Equals(c1));
             c2.addPositiveLiteral(new Predicate("Pred4", pts1));
-            Assert.assertFalse(c1.equals(c2));
-            Assert.assertFalse(c2.equals(c1));
+            Assert.IsFalse(c1.Equals(c2));
+            Assert.IsFalse(c2.Equals(c1));
             c2.addPositiveLiteral(new Predicate("Pred3", pts1));
-            Assert.assertTrue(c1.equals(c2));
-            Assert.assertTrue(c2.equals(c1));
+            Assert.IsTrue(c1.Equals(c2));
+            Assert.IsTrue(c2.Equals(c1));
         }
 
-        @Test
+        [TestMethod]
         public void testComplexEquals()
         {
             FOLDomain domain = new FOLDomain();
@@ -490,60 +500,60 @@
             CNF cnf1 = cnfConverter.convertToCNF(s1);
             CNF cnf2 = cnfConverter.convertToCNF(s2);
 
-            Clause c1 = cnf1.getConjunctionOfClauses().get(0);
-            Clause c2 = cnf2.getConjunctionOfClauses().get(0);
+            Clause c1 = cnf1.getConjunctionOfClauses().Get(0);
+            Clause c2 = cnf2.getConjunctionOfClauses().Get(0);
 
-            Assert.assertFalse(c1.equals(c2));
+            Assert.IsFalse(c1.Equals(c2));
 
             s1 = parser.parse("((x1 = y1 AND y1 = z1) => x1 = z1)");
             s2 = parser.parse("((x2 = y2 AND y2 = z2) => x2 = z2)");
             cnf1 = cnfConverter.convertToCNF(s1);
             cnf2 = cnfConverter.convertToCNF(s2);
 
-            c1 = cnf1.getConjunctionOfClauses().get(0);
-            c2 = cnf2.getConjunctionOfClauses().get(0);
+            c1 = cnf1.getConjunctionOfClauses().Get(0);
+            c2 = cnf2.getConjunctionOfClauses().Get(0);
 
-            Assert.assertTrue(c1.equals(c2));
+            Assert.IsTrue(c1.Equals(c2));
 
             s1 = parser.parse("((x1 = y1 AND y1 = z1) => x1 = z1)");
             s2 = parser.parse("((y2 = z2 AND x2 = y2) => x2 = z2)");
             cnf1 = cnfConverter.convertToCNF(s1);
             cnf2 = cnfConverter.convertToCNF(s2);
 
-            c1 = cnf1.getConjunctionOfClauses().get(0);
-            c2 = cnf2.getConjunctionOfClauses().get(0);
+            c1 = cnf1.getConjunctionOfClauses().Get(0);
+            c2 = cnf2.getConjunctionOfClauses().Get(0);
 
-            Assert.assertTrue(c1.equals(c2));
+            Assert.IsTrue(c1.Equals(c2));
 
             s1 = parser.parse("(((x1 = y1 AND y1 = z1) AND z1 = r1) => x1 = r1)");
             s2 = parser.parse("(((x2 = y2 AND y2 = z2) AND z2 = r2) => x2 = r2)");
             cnf1 = cnfConverter.convertToCNF(s1);
             cnf2 = cnfConverter.convertToCNF(s2);
 
-            c1 = cnf1.getConjunctionOfClauses().get(0);
-            c2 = cnf2.getConjunctionOfClauses().get(0);
+            c1 = cnf1.getConjunctionOfClauses().Get(0);
+            c2 = cnf2.getConjunctionOfClauses().Get(0);
 
-            Assert.assertTrue(c1.equals(c2));
+            Assert.IsTrue(c1.Equals(c2));
 
             s1 = parser.parse("(((x1 = y1 AND y1 = z1) AND z1 = r1) => x1 = r1)");
             s2 = parser.parse("(((z2 = r2 AND y2 = z2) AND x2 = y2) => x2 = r2)");
             cnf1 = cnfConverter.convertToCNF(s1);
             cnf2 = cnfConverter.convertToCNF(s2);
 
-            c1 = cnf1.getConjunctionOfClauses().get(0);
-            c2 = cnf2.getConjunctionOfClauses().get(0);
+            c1 = cnf1.getConjunctionOfClauses().Get(0);
+            c2 = cnf2.getConjunctionOfClauses().Get(0);
 
-            Assert.assertTrue(c1.equals(c2));
+            Assert.IsTrue(c1.Equals(c2));
 
             s1 = parser.parse("(((x1 = y1 AND y1 = z1) AND z1 = r1) => x1 = r1)");
             s2 = parser.parse("(((x2 = y2 AND y2 = z2) AND z2 = y2) => x2 = r2)");
             cnf1 = cnfConverter.convertToCNF(s1);
             cnf2 = cnfConverter.convertToCNF(s2);
 
-            c1 = cnf1.getConjunctionOfClauses().get(0);
-            c2 = cnf2.getConjunctionOfClauses().get(0);
+            c1 = cnf1.getConjunctionOfClauses().Get(0);
+            c2 = cnf2.getConjunctionOfClauses().Get(0);
 
-            Assert.assertFalse(c1.equals(c2));
+            Assert.IsFalse(c1.Equals(c2));
 
             s1 = parser
                     .parse("(((((x1 = y1 AND y1 = z1) AND z1 = r1) AND r1 = q1) AND q1 = s1) => x1 = r1)");
@@ -552,10 +562,10 @@
             cnf1 = cnfConverter.convertToCNF(s1);
             cnf2 = cnfConverter.convertToCNF(s2);
 
-            c1 = cnf1.getConjunctionOfClauses().get(0);
-            c2 = cnf2.getConjunctionOfClauses().get(0);
+            c1 = cnf1.getConjunctionOfClauses().Get(0);
+            c2 = cnf2.getConjunctionOfClauses().Get(0);
 
-            Assert.assertTrue(c1.equals(c2));
+            Assert.IsTrue(c1.Equals(c2));
 
             s1 = parser
                     .parse("((((NOT(Animal(c1920)) OR NOT(Animal(c1921))) OR NOT(Kills(c1922,c1920))) OR NOT(Kills(c1919,c1921))) OR NOT(Kills(SF0(c1922),SF0(c1919))))");
@@ -564,13 +574,13 @@
             cnf1 = cnfConverter.convertToCNF(s1);
             cnf2 = cnfConverter.convertToCNF(s2);
 
-            c1 = cnf1.getConjunctionOfClauses().get(0);
-            c2 = cnf2.getConjunctionOfClauses().get(0);
+            c1 = cnf1.getConjunctionOfClauses().Get(0);
+            c2 = cnf2.getConjunctionOfClauses().Get(0);
 
-            Assert.assertTrue(c1.equals(c2));
+            Assert.IsTrue(c1.Equals(c2));
         }
 
-        @Test
+        [TestMethod]
         public void testNonTrivialFactors()
         {
             FOLDomain domain = new FOLDomain();
@@ -591,8 +601,8 @@
             c.addNegativeLiteral((Predicate)parser.parse("P(B,A)"));
             c.addPositiveLiteral((Predicate)parser.parse("Q(y,x)"));
 
-            Assert.assertEquals("[[~P(B,A), P(B,A), Q(A,B)]]", c
-                    .getNonTrivialFactors().toString());
+            Assert.AreEqual("[[~P(B,A), P(B,A), Q(A,B)]]", c
+                    .getNonTrivialFactors().ToString());
 
             // p(x,y), q(a,b), p(b,a), q(y,x)
             c = new Clause();
@@ -601,7 +611,7 @@
             c.addNegativeLiteral((Predicate)parser.parse("P(B,A)"));
             c.addNegativeLiteral((Predicate)parser.parse("Q(y,x)"));
 
-            Assert.assertEquals("[]", c.getNonTrivialFactors().toString());
+            Assert.AreEqual("[]", c.getNonTrivialFactors().ToString());
 
             // p(x,f(y)), p(g(u),x), p(f(y),u)
             c = new Clause();
@@ -610,26 +620,26 @@
             c.addPositiveLiteral((Predicate)parser.parse("P(F(y),u)"));
 
             // Should be: [{P(F(c#),F(c#)),P(G(F(c#)),F(c#))}]
-            c = c.getNonTrivialFactors().iterator().next();
-            Literal p = c.getPositiveLiterals().get(0);
-            Assert.assertEquals("P", p.getAtomicSentence().getSymbolicName());
-            Function f = (Function)p.getAtomicSentence().getArgs().get(0);
-            Assert.assertEquals("F", f.getFunctionName());
-            Variable v = (Variable)f.getTerms().get(0);
-            f = (Function)p.getAtomicSentence().getArgs().get(1);
-            Assert.assertEquals("F", f.getFunctionName());
-            Assert.assertEquals(v, f.getTerms().get(0));
+            c = Util.first(c.getNonTrivialFactors());
+            Literal p = c.getPositiveLiterals().Get(0);
+            Assert.AreEqual("P", p.getAtomicSentence().getSymbolicName());
+            Function f = (Function)p.getAtomicSentence().getArgs().Get(0);
+            Assert.AreEqual("F", f.getFunctionName());
+            Variable v = (Variable)f.getTerms().Get(0);
+            f = (Function)p.getAtomicSentence().getArgs().Get(1);
+            Assert.AreEqual("F", f.getFunctionName());
+            Assert.AreEqual(v, f.getTerms().Get(0));
 
             //
-            p = c.getPositiveLiterals().get(1);
-            f = (Function)p.getAtomicSentence().getArgs().get(0);
-            Assert.assertEquals("G", f.getFunctionName());
-            f = (Function)f.getTerms().get(0);
-            Assert.assertEquals("F", f.getFunctionName());
-            Assert.assertEquals(v, f.getTerms().get(0));
-            f = (Function)p.getAtomicSentence().getArgs().get(1);
-            Assert.assertEquals("F", f.getFunctionName());
-            Assert.assertEquals(v, f.getTerms().get(0));
+            p = c.getPositiveLiterals().Get(1);
+            f = (Function)p.getAtomicSentence().getArgs().Get(0);
+            Assert.AreEqual("G", f.getFunctionName());
+            f = (Function)f.getTerms().Get(0);
+            Assert.AreEqual("F", f.getFunctionName());
+            Assert.AreEqual(v, f.getTerms().Get(0));
+            f = (Function)p.getAtomicSentence().getArgs().Get(1);
+            Assert.AreEqual("F", f.getFunctionName());
+            Assert.AreEqual(v, f.getTerms().Get(0));
 
             // p(g(x)), q(x), p(f(a)), p(x), p(g(f(x))), q(f(a))
             c = new Clause();
@@ -640,14 +650,14 @@
             c.addPositiveLiteral((Predicate)parser.parse("P(G(F(x)))"));
             c.addPositiveLiteral((Predicate)parser.parse("Q(F(A))"));
 
-            Assert.assertEquals("[[P(F(A)), P(G(F(F(A)))), P(G(F(A))), Q(F(A))]]",
-                    c.getNonTrivialFactors().toString());
+            Assert.AreEqual("[[P(F(A)), P(G(F(F(A)))), P(G(F(A))), Q(F(A))]]",
+                    c.getNonTrivialFactors().ToString());
         }
 
         // Note: Tests derived from:
         // http://logic.stanford.edu/classes/cs157/2008/notes/chap09.pdf
         // page 16.
-        @Test
+        [TestMethod]
         public void testIsTautology()
         {
             FOLDomain domain = new FOLDomain();
@@ -662,33 +672,33 @@
             // {p(f(a)),~p(f(a))}
             Clause c = new Clause();
             c.addPositiveLiteral((Predicate)parser.parse("P(F(A))"));
-            Assert.assertFalse(c.isTautology());
+            Assert.IsFalse(c.isTautology());
             c.addNegativeLiteral((Predicate)parser.parse("P(F(A))"));
-            Assert.assertTrue(c.isTautology());
+            Assert.IsTrue(c.isTautology());
 
             // {p(x),q(y),~q(y),r(z)}
             c = new Clause();
             c.addPositiveLiteral((Predicate)parser.parse("P(x)"));
-            Assert.assertFalse(c.isTautology());
+            Assert.IsFalse(c.isTautology());
             c.addPositiveLiteral((Predicate)parser.parse("Q(y)"));
-            Assert.assertFalse(c.isTautology());
+            Assert.IsFalse(c.isTautology());
             c.addNegativeLiteral((Predicate)parser.parse("Q(y)"));
-            Assert.assertTrue(c.isTautology());
+            Assert.IsTrue(c.isTautology());
             c.addPositiveLiteral((Predicate)parser.parse("R(z)"));
-            Assert.assertTrue(c.isTautology());
+            Assert.IsTrue(c.isTautology());
 
             // {~p(a),p(x)}
             c = new Clause();
             c.addNegativeLiteral((Predicate)parser.parse("P(A)"));
-            Assert.assertFalse(c.isTautology());
+            Assert.IsFalse(c.isTautology());
             c.addPositiveLiteral((Predicate)parser.parse("P(x)"));
-            Assert.assertFalse(c.isTautology());
+            Assert.IsFalse(c.isTautology());
         }
 
         // Note: Tests derived from:
         // http://logic.stanford.edu/classes/cs157/2008/lectures/lecture12.pdf
         // slides 17 and 18.
-        @Test
+        [TestMethod]
         public void testSubsumes()
         {
             FOLDomain domain = new FOLDomain();
@@ -716,7 +726,7 @@
             Clause phi = new Clause();
             phi.addNegativeLiteral((Predicate)parser.parse("P(x,y)"));
 
-            Assert.assertTrue(phi.subsumes(psi));
+            Assert.IsTrue(phi.subsumes(psi));
             // Non-Example
             // {~p(x,b),q(x)}
             psi = new Clause();
@@ -728,7 +738,7 @@
             // Reason for Non-Example:
             // {p(b,b)}
             // {~q(b)}
-            Assert.assertFalse(phi.subsumes(psi));
+            Assert.IsFalse(phi.subsumes(psi));
 
             //
             // Additional Examples
@@ -742,7 +752,7 @@
             phi = new Clause();
             phi.addNegativeLiteral((Predicate)parser.parse("P(A,y)"));
 
-            Assert.assertFalse(phi.subsumes(psi));
+            Assert.IsFalse(phi.subsumes(psi));
 
             // Example
             // {~p(a,b),~p(w,z),q(c)}
@@ -755,7 +765,7 @@
             phi.addNegativeLiteral((Predicate)parser.parse("P(x,y)"));
             phi.addNegativeLiteral((Predicate)parser.parse("P(A,B)"));
 
-            Assert.assertTrue(phi.subsumes(psi));
+            Assert.IsTrue(phi.subsumes(psi));
 
             // Non-Example
             // {~p(v,b),~p(w,z),q(c)}
@@ -768,7 +778,7 @@
             phi.addNegativeLiteral((Predicate)parser.parse("P(x,y)"));
             phi.addNegativeLiteral((Predicate)parser.parse("P(A,B)"));
 
-            Assert.assertFalse(phi.subsumes(psi));
+            Assert.IsFalse(phi.subsumes(psi));
 
             // Example
             // {~p(a,b),~p(c,d),~p(e,f),~p(g,h),~p(i,j),q(c)}
@@ -783,7 +793,7 @@
             phi = new Clause();
             phi.addNegativeLiteral((Predicate)parser.parse("P(I,J)"));
 
-            Assert.assertTrue(phi.subsumes(psi));
+            Assert.IsTrue(phi.subsumes(psi));
 
             // Example
             // {~p(a,b),~p(c,d),~p(e,f),q(c)}
@@ -798,7 +808,7 @@
             phi.addNegativeLiteral((Predicate)parser.parse("P(A,B)"));
             phi.addNegativeLiteral((Predicate)parser.parse("P(C,D)"));
 
-            Assert.assertTrue(phi.subsumes(psi));
+            Assert.IsTrue(phi.subsumes(psi));
 
             // Example
             // {~p(a,b),~p(c,d),~p(e,f),~p(g,h),~p(i,j),q(c)}
@@ -814,7 +824,7 @@
             phi.addNegativeLiteral((Predicate)parser.parse("P(I,J)"));
             phi.addNegativeLiteral((Predicate)parser.parse("P(C,D)"));
 
-            Assert.assertTrue(phi.subsumes(psi));
+            Assert.IsTrue(phi.subsumes(psi));
 
             // Non-Example
             // {~p(a,b),~p(x,d),~p(e,f),~p(g,h),~p(i,j),q(c)}
@@ -830,7 +840,7 @@
             phi.addNegativeLiteral((Predicate)parser.parse("P(I,J)"));
             phi.addNegativeLiteral((Predicate)parser.parse("P(C,D)"));
 
-            Assert.assertFalse(phi.subsumes(psi));
+            Assert.IsFalse(phi.subsumes(psi));
 
             // Example
             // {~p(a,b),~p(c,d),~p(e,f),~p(g,h),~p(i,j),q(c)}
@@ -846,7 +856,7 @@
             phi.addNegativeLiteral((Predicate)parser.parse("P(I,J)"));
             phi.addNegativeLiteral((Predicate)parser.parse("P(A,x)"));
 
-            Assert.assertTrue(phi.subsumes(psi));
+            Assert.IsTrue(phi.subsumes(psi));
 
             // Example
             // {~p(a,b),~p(c,d),~p(e,f),~p(g,h),~p(i,j),q(a,b),q(c,d),q(e,f)}
@@ -866,7 +876,7 @@
             phi.addPositiveLiteral((Predicate)parser.parse("Q(E,F)"));
             phi.addPositiveLiteral((Predicate)parser.parse("Q(A,B)"));
 
-            Assert.assertTrue(phi.subsumes(psi));
+            Assert.IsTrue(phi.subsumes(psi));
 
             // Non-Example
             // {~p(a,b),~p(c,d),~p(e,f),~p(g,h),~p(i,j),q(a,b),q(c,d),q(e,f)}
@@ -886,7 +896,7 @@
             phi.addPositiveLiteral((Predicate)parser.parse("Q(E,A)"));
             phi.addPositiveLiteral((Predicate)parser.parse("Q(A,B)"));
 
-            Assert.assertFalse(phi.subsumes(psi));
+            Assert.IsFalse(phi.subsumes(psi));
         }
     }
 

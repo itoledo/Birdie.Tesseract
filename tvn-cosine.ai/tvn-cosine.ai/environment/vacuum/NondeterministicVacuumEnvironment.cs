@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.environment.vacuum
      */
     public class NondeterministicVacuumEnvironment : VacuumEnvironment
     {
-
+        IRandom random = new DefaultRandom();
         /**
          * Construct a vacuum environment with two locations, in which dirt is
          * placed at random.
@@ -37,13 +37,13 @@ namespace tvn.cosine.ai.environment.vacuum
         public NondeterministicVacuumEnvironment(LocationState locAState, LocationState locBState)
             : base(locAState, locBState)
         {
-           
+
         }
 
         /**
          * Execute the agent action
-         */ 
-    public override void executeAction(Agent a, Action action)
+         */
+        public override void executeAction(Agent a, Action action)
         {
             if (ACTION_MOVE_RIGHT == action)
             {
@@ -60,8 +60,8 @@ namespace tvn.cosine.ai.environment.vacuum
                 // case: square is dirty
                 if (VacuumEnvironment.LocationState.Dirty == envState.getLocationState(envState.getAgentLocation(a)))
                 {
-                   string currentLocation = envState.getAgentLocation(a);
-                   string adjacentLocation = (currentLocation.Equals("A")) ? "B" : "A";
+                    string currentLocation = envState.getAgentLocation(a);
+                    string adjacentLocation = (currentLocation.Equals("A")) ? "B" : "A";
                     // always clean current square
                     envState.setLocationState(currentLocation, VacuumEnvironment.LocationState.Clean);
                     // possibly clean adjacent square
@@ -73,7 +73,7 @@ namespace tvn.cosine.ai.environment.vacuum
                 else if (VacuumEnvironment.LocationState.Clean == envState.getLocationState(envState.getAgentLocation(a)))
                 {
                     // possibly dirty current square
-                    if (Math.random() > 0.5)
+                    if (random.NextBoolean())
                     {
                         envState.setLocationState(envState.getAgentLocation(a), VacuumEnvironment.LocationState.Dirty);
                     }
@@ -81,7 +81,7 @@ namespace tvn.cosine.ai.environment.vacuum
             }
             else if (action.isNoOp())
             {
-                isDone = true;
+                _isDone = true;
             }
         }
     }

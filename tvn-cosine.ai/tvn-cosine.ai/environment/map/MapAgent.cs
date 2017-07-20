@@ -95,8 +95,8 @@ namespace tvn.cosine.ai.environment.map
             if (currGoalIdx < goals.Size() - 1)
             {
                 goal = goals.Get(++currGoalIdx);
-                if (hFnFactory != null && search is Informed<string, MoveToAction>)
-                    ((Informed<string, MoveToAction>)search)
+                if (hFnFactory != null && _search is Informed<string, MoveToAction>)
+                    ((Informed<string, MoveToAction>)_search)
                         .setHeuristicFunction(hFnFactory(goal));
 
                 if (notifier != null)

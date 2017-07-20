@@ -1,8 +1,16 @@
-﻿namespace tvn_cosine.ai.test.unit.probability.temporal
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.example;
+using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.temporal;
+using tvn.cosine.ai.probability.util;
+
+namespace tvn_cosine.ai.test.unit.probability.temporal
 {
     public abstract class CommonForwardBackwardTest
     {
-        public static final double DELTA_THRESHOLD = 1e-3;
+        public static readonly  double DELTA_THRESHOLD = 1e-3;
 
         //
         // PROTECTED METHODS
@@ -17,23 +25,21 @@
 
             // Day 1, the umbrella appears, so U<sub>1</sub> = true.
             // &asymp; <0.818, 0.182>
-            List<AssignmentProposition> e1 = new ArrayList<AssignmentProposition>();
+         IQueue<AssignmentProposition> e1 = Factory.CreateQueue<AssignmentProposition>();
             e1
-                    .add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                            Boolean.TRUE));
+                    .Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                            true));
             CategoricalDistribution f1 = uw.forward(prior, e1);
-            Assert.assertArrayEquals(new double[] { 0.818, 0.182 }, f1.getValues(),
-                    DELTA_THRESHOLD);
+            Assert.AreEqual(new double[] { 0.818, 0.182 }, f1.getValues() );
 
             // Day 2, the umbrella appears, so U<sub>2</sub> = true.
             // &asymp; <0.883, 0.117>
-            List<AssignmentProposition> e2 = new ArrayList<AssignmentProposition>();
+         IQueue<AssignmentProposition> e2 = Factory.CreateQueue<AssignmentProposition>();
             e2
-                    .add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                            Boolean.TRUE));
+                    .Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                            true));
             CategoricalDistribution f2 = uw.forward(f1, e2);
-            Assert.assertArrayEquals(new double[] { 0.883, 0.117 }, f2.getValues(),
-                    DELTA_THRESHOLD);
+            Assert.AreEqual(new double[] { 0.883, 0.117 }, f2.getValues() );
         }
 
         protected void testBackwardStep_UmbrellaWorld(BackwardStepInference uw)
@@ -41,13 +47,12 @@
             // AIMA3e pg. 575
             CategoricalDistribution b_kp2t = new ProbabilityTable(new double[] {
                 1.0, 1.0 }, ExampleRV.RAIN_t_RV);
-            List<AssignmentProposition> e2 = new ArrayList<AssignmentProposition>();
+         IQueue<AssignmentProposition> e2 = Factory.CreateQueue<AssignmentProposition>();
             e2
-                    .add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                            Boolean.TRUE));
+                    .Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                            true));
             CategoricalDistribution b1 = uw.backward(b_kp2t, e2);
-            Assert.assertArrayEquals(new double[] { 0.69, 0.41 }, b1.getValues(),
-                    DELTA_THRESHOLD);
+            Assert.AreEqual(new double[] { 0.69, 0.41 }, b1.getValues() );
         }
 
         protected void testForwardBackward_UmbrellaWorld(ForwardBackwardInference uw)
@@ -59,50 +64,50 @@
                 0.5, 0.5 }, ExampleRV.RAIN_t_RV);
 
             // Day 1
-            List<List<AssignmentProposition>> evidence = new ArrayList<List<AssignmentProposition>>();
-            List<AssignmentProposition> e1 = new ArrayList<AssignmentProposition>();
+         IQueue<IQueue<AssignmentProposition>> evidence = Factory.CreateQueue<IQueue<AssignmentProposition>>();
+         IQueue<AssignmentProposition> e1 = Factory.CreateQueue<AssignmentProposition>();
             e1
-                    .add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                            Boolean.TRUE));
-            evidence.add(e1);
+                    .Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                            true));
+            evidence.Add(e1);
 
-            List<CategoricalDistribution> smoothed = uw.forwardBackward(evidence,
+         IQueue<CategoricalDistribution> smoothed = uw.forwardBackward(evidence,
                     prior);
 
-            Assert.assertEquals(1, smoothed.size());
-            Assert.assertArrayEquals(new double[] { 0.818, 0.182 }, smoothed.get(0)
-                    .getValues(), DELTA_THRESHOLD);
+            Assert.AreEqual(1, smoothed.Size());
+            Assert.AreEqual(new double[] { 0.818, 0.182 }, smoothed.Get(0)
+                    .getValues() );
 
             // Day 2
-            List<AssignmentProposition> e2 = new ArrayList<AssignmentProposition>();
+         IQueue<AssignmentProposition> e2 = Factory.CreateQueue<AssignmentProposition>();
             e2
-                    .add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                            Boolean.TRUE));
-            evidence.add(e2);
+                    .Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                            true));
+            evidence.Add(e2);
 
             smoothed = uw.forwardBackward(evidence, prior);
 
-            Assert.assertEquals(2, smoothed.size());
-            Assert.assertArrayEquals(new double[] { 0.883, 0.117 }, smoothed.get(0)
-                    .getValues(), DELTA_THRESHOLD);
-            Assert.assertArrayEquals(new double[] { 0.883, 0.117 }, smoothed.get(1)
-                    .getValues(), DELTA_THRESHOLD);
+            Assert.AreEqual(2, smoothed.Size());
+            Assert.AreEqual(new double[] { 0.883, 0.117 }, smoothed.Get(0)
+                    .getValues() );
+            Assert.AreEqual(new double[] { 0.883, 0.117 }, smoothed.Get(1)
+                    .getValues() );
 
             // Day 3
-            List<AssignmentProposition> e3 = new ArrayList<AssignmentProposition>();
-            e3.add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                    Boolean.FALSE));
-            evidence.add(e3);
+         IQueue<AssignmentProposition> e3 = Factory.CreateQueue<AssignmentProposition>();
+            e3.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                    false));
+            evidence.Add(e3);
 
             smoothed = uw.forwardBackward(evidence, prior);
 
-            Assert.assertEquals(3, smoothed.size());
-            Assert.assertArrayEquals(new double[] { 0.861, 0.138 }, smoothed.get(0)
-                    .getValues(), DELTA_THRESHOLD);
-            Assert.assertArrayEquals(new double[] { 0.799, 0.201 }, smoothed.get(1)
-                    .getValues(), DELTA_THRESHOLD);
-            Assert.assertArrayEquals(new double[] { 0.190, 0.810 }, smoothed.get(2)
-                    .getValues(), DELTA_THRESHOLD);
+            Assert.AreEqual(3, smoothed.Size());
+            Assert.AreEqual(new double[] { 0.861, 0.138 }, smoothed.Get(0)
+                    .getValues() );
+            Assert.AreEqual(new double[] { 0.799, 0.201 }, smoothed.Get(1)
+                    .getValues() );
+            Assert.AreEqual(new double[] { 0.190, 0.810 }, smoothed.Get(2)
+                    .getValues() );
         }
     }
 

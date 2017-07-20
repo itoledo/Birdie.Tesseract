@@ -1,13 +1,15 @@
-﻿namespace tvn_cosine.ai.test.unit.probability.bayes.exact
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.probability.bayes.exact;
+
+namespace tvn_cosine.ai.test.unit.probability.bayes.exact
 {
-    public class EliminationAskTest extends BayesianInferenceTest
-    {
-
-        @Before
-
-    public void setUp()
-    {
-        bayesInference = new EliminationAsk();
+    [TestClass]
+    public class EliminationAskTest : BayesianInferenceTest
+    { 
+        [TestInitialize] 
+        public override void setUp()
+        {
+            bayesInference = new EliminationAsk();
+        }
     }
-}
 }

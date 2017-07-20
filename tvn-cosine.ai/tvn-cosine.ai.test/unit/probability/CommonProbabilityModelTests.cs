@@ -1,15 +1,21 @@
-﻿namespace tvn_cosine.ai.test.unit.probability
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.example;
+using tvn.cosine.ai.probability.proposition;
+
+namespace tvn_cosine.ai.test.unit.probability
 {
     public abstract class CommonProbabilityModelTests
     {
-        public static final double DELTA_THRESHOLD = ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD;
+        public static readonly  double DELTA_THRESHOLD = ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
 
         //
         // PROTECTED METHODS
         //
         protected void test_RollingPairFairDiceModel(ProbabilityModel model)
         {
-            Assert.assertTrue(model.isValid());
+            Assert.IsTrue(model.isValid());
 
             // Ensure each dice has 1/6 probability
             for (int d = 1; d <= 6; d++)
@@ -19,8 +25,8 @@
                 AssignmentProposition ad2 = new AssignmentProposition(
                         ExampleRV.DICE_2_RV, d);
 
-                Assert.assertEquals(1.0 / 6.0, model.prior(ad1), DELTA_THRESHOLD);
-                Assert.assertEquals(1.0 / 6.0, model.prior(ad2), DELTA_THRESHOLD);
+                Assert.AreEqual(1.0 / 6.0, model.prior(ad1) );
+                Assert.AreEqual(1.0 / 6.0, model.prior(ad2) );
             }
 
             // Ensure each combination is 1/36
@@ -35,20 +41,20 @@
                     ConjunctiveProposition d1AndD2 = new ConjunctiveProposition(
                             ad1, ad2);
 
-                    Assert.assertEquals(1.0 / 6.0, model.prior(ad1),
+                    Assert.AreEqual(1.0 / 6.0, model.prior(ad1),
                             DELTA_THRESHOLD);
-                    Assert.assertEquals(1.0 / 6.0, model.prior(ad2),
+                    Assert.AreEqual(1.0 / 6.0, model.prior(ad2),
                             DELTA_THRESHOLD);
 
                     // pg. 485 AIMA3e
-                    Assert.assertEquals(1.0 / 36.0, model.prior(ad1, ad2),
+                    Assert.AreEqual(1.0 / 36.0, model.prior(ad1, ad2),
                             DELTA_THRESHOLD);
-                    Assert.assertEquals(1.0 / 36.0, model.prior(d1AndD2),
+                    Assert.AreEqual(1.0 / 36.0, model.prior(d1AndD2),
                             DELTA_THRESHOLD);
 
-                    Assert.assertEquals(1.0 / 6.0, model.posterior(ad1, ad2),
+                    Assert.AreEqual(1.0 / 6.0, model.posterior(ad1, ad2),
                             DELTA_THRESHOLD);
-                    Assert.assertEquals(1.0 / 6.0, model.posterior(ad2, ad1),
+                    Assert.AreEqual(1.0 / 6.0, model.posterior(ad2, ad1),
                             DELTA_THRESHOLD);
                 }
             }
@@ -57,31 +63,31 @@
             IntegerSumProposition total11 = new IntegerSumProposition("Total11",
                     new FiniteIntegerDomain(11), ExampleRV.DICE_1_RV,
                     ExampleRV.DICE_2_RV);
-            Assert.assertEquals(2.0 / 36.0, model.prior(total11), DELTA_THRESHOLD);
+            Assert.AreEqual(2.0 / 36.0, model.prior(total11) );
             EquivalentProposition doubles = new EquivalentProposition("Doubles",
                     ExampleRV.DICE_1_RV, ExampleRV.DICE_2_RV);
-            Assert.assertEquals(1.0 / 6.0, model.prior(doubles), DELTA_THRESHOLD);
+            Assert.AreEqual(1.0 / 6.0, model.prior(doubles) );
             SubsetProposition evenDice1 = new SubsetProposition("EvenDice1",
                     new FiniteIntegerDomain(2, 4, 6), ExampleRV.DICE_1_RV);
-            Assert.assertEquals(0.5, model.prior(evenDice1), DELTA_THRESHOLD);
+            Assert.AreEqual(0.5, model.prior(evenDice1) );
             SubsetProposition oddDice2 = new SubsetProposition("OddDice2",
                     new FiniteIntegerDomain(1, 3, 5), ExampleRV.DICE_2_RV);
-            Assert.assertEquals(0.5, model.prior(oddDice2), DELTA_THRESHOLD);
+            Assert.AreEqual(0.5, model.prior(oddDice2) );
 
             // pg. 485 AIMA3e
             AssignmentProposition dice1Is5 = new AssignmentProposition(
                     ExampleRV.DICE_1_RV, 5);
-            Assert.assertEquals(1.0 / 6.0, model.posterior(doubles, dice1Is5),
+            Assert.AreEqual(1.0 / 6.0, model.posterior(doubles, dice1Is5),
                     DELTA_THRESHOLD);
 
-            Assert.assertEquals(1.0, model.prior(ExampleRV.DICE_1_RV),
+            Assert.AreEqual(1.0, model.prior(ExampleRV.DICE_1_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0, model.prior(ExampleRV.DICE_2_RV),
+            Assert.AreEqual(1.0, model.prior(ExampleRV.DICE_2_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0,
+            Assert.AreEqual(1.0,
                     model.posterior(ExampleRV.DICE_1_RV, ExampleRV.DICE_2_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0,
+            Assert.AreEqual(1.0,
                     model.posterior(ExampleRV.DICE_2_RV, ExampleRV.DICE_1_RV),
                     DELTA_THRESHOLD);
 
@@ -92,111 +98,111 @@
                     ExampleRV.DICE_2_RV, 5);
             DisjunctiveProposition dice1Is5OrDice2Is5 = new DisjunctiveProposition(
                     dice1Is5, dice2Is5);
-            Assert.assertEquals(1.0 / 6.0 + 1.0 / 6.0 - 1.0 / 36.0,
-                    model.prior(dice1Is5OrDice2Is5), DELTA_THRESHOLD);
+            Assert.AreEqual(1.0 / 6.0 + 1.0 / 6.0 - 1.0 / 36.0,
+                    model.prior(dice1Is5OrDice2Is5) );
         }
 
         protected void test_ToothacheCavityCatchModel(ProbabilityModel model)
         {
-            Assert.assertTrue(model.isValid());
+            Assert.IsTrue(model.isValid());
 
             AssignmentProposition atoothache = new AssignmentProposition(
-                    ExampleRV.TOOTHACHE_RV, Boolean.TRUE);
+                    ExampleRV.TOOTHACHE_RV, true);
             AssignmentProposition anottoothache = new AssignmentProposition(
-                    ExampleRV.TOOTHACHE_RV, Boolean.FALSE);
+                    ExampleRV.TOOTHACHE_RV, false);
             AssignmentProposition acavity = new AssignmentProposition(
-                    ExampleRV.CAVITY_RV, Boolean.TRUE);
+                    ExampleRV.CAVITY_RV, true);
             AssignmentProposition anotcavity = new AssignmentProposition(
-                    ExampleRV.CAVITY_RV, Boolean.FALSE);
+                    ExampleRV.CAVITY_RV, false);
             AssignmentProposition acatch = new AssignmentProposition(
-                    ExampleRV.CATCH_RV, Boolean.TRUE);
+                    ExampleRV.CATCH_RV, true);
             AssignmentProposition anotcatch = new AssignmentProposition(
-                    ExampleRV.CATCH_RV, Boolean.FALSE);
+                    ExampleRV.CATCH_RV, false);
 
             // AIMA3e pg. 485
-            Assert.assertEquals(0.2, model.prior(acavity), DELTA_THRESHOLD);
-            Assert.assertEquals(0.6, model.posterior(acavity, atoothache),
+            Assert.AreEqual(0.2, model.prior(acavity) );
+            Assert.AreEqual(0.6, model.posterior(acavity, atoothache),
                     DELTA_THRESHOLD);
             ConjunctiveProposition toothacheAndNotCavity = new ConjunctiveProposition(
                     atoothache, anotcavity);
-            Assert.assertEquals(0.0,
+            Assert.AreEqual(0.0,
                     model.posterior(acavity, toothacheAndNotCavity),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(0.0,
+            Assert.AreEqual(0.0,
                     model.posterior(acavity, atoothache, anotcavity),
                     DELTA_THRESHOLD);
 
             // AIMA3e pg. 492
             DisjunctiveProposition cavityOrToothache = new DisjunctiveProposition(
                     acavity, atoothache);
-            Assert.assertEquals(0.28, model.prior(cavityOrToothache),
+            Assert.AreEqual(0.28, model.prior(cavityOrToothache),
                     DELTA_THRESHOLD);
 
             // AIMA3e pg. 493
-            Assert.assertEquals(0.4, model.posterior(anotcavity, atoothache),
+            Assert.AreEqual(0.4, model.posterior(anotcavity, atoothache),
                     DELTA_THRESHOLD);
 
-            Assert.assertEquals(1.0, model.prior(ExampleRV.TOOTHACHE_RV),
+            Assert.AreEqual(1.0, model.prior(ExampleRV.TOOTHACHE_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0, model.prior(ExampleRV.CAVITY_RV),
+            Assert.AreEqual(1.0, model.prior(ExampleRV.CAVITY_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0, model.prior(ExampleRV.CATCH_RV),
+            Assert.AreEqual(1.0, model.prior(ExampleRV.CATCH_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0,
+            Assert.AreEqual(1.0,
                     model.posterior(ExampleRV.TOOTHACHE_RV, ExampleRV.CAVITY_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0,
+            Assert.AreEqual(1.0,
                     model.posterior(ExampleRV.TOOTHACHE_RV, ExampleRV.CATCH_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0, model.posterior(ExampleRV.TOOTHACHE_RV,
-                    ExampleRV.CAVITY_RV, ExampleRV.CATCH_RV), DELTA_THRESHOLD);
-            Assert.assertEquals(1.0,
+            Assert.AreEqual(1.0, model.posterior(ExampleRV.TOOTHACHE_RV,
+                    ExampleRV.CAVITY_RV, ExampleRV.CATCH_RV) );
+            Assert.AreEqual(1.0,
                     model.posterior(ExampleRV.CAVITY_RV, ExampleRV.TOOTHACHE_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0,
+            Assert.AreEqual(1.0,
                     model.posterior(ExampleRV.CAVITY_RV, ExampleRV.CATCH_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0, model.posterior(ExampleRV.CAVITY_RV,
-                    ExampleRV.TOOTHACHE_RV, ExampleRV.CATCH_RV), DELTA_THRESHOLD);
-            Assert.assertEquals(1.0,
+            Assert.AreEqual(1.0, model.posterior(ExampleRV.CAVITY_RV,
+                    ExampleRV.TOOTHACHE_RV, ExampleRV.CATCH_RV) );
+            Assert.AreEqual(1.0,
                     model.posterior(ExampleRV.CATCH_RV, ExampleRV.CAVITY_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0,
+            Assert.AreEqual(1.0,
                     model.posterior(ExampleRV.CATCH_RV, ExampleRV.TOOTHACHE_RV),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(1.0, model.posterior(ExampleRV.CATCH_RV,
-                    ExampleRV.CAVITY_RV, ExampleRV.TOOTHACHE_RV), DELTA_THRESHOLD);
+            Assert.AreEqual(1.0, model.posterior(ExampleRV.CATCH_RV,
+                    ExampleRV.CAVITY_RV, ExampleRV.TOOTHACHE_RV) );
 
             // AIMA3e pg. 495 - Bayes' Rule
             // P(b|a) = P(a|b)P(b)/P(a)
-            Assert.assertEquals(model.posterior(acavity, atoothache),
+            Assert.AreEqual(model.posterior(acavity, atoothache),
                     (model.posterior(atoothache, acavity) * model.prior(acavity))
-                            / model.prior(atoothache), DELTA_THRESHOLD);
-            Assert.assertEquals(
+                            / model.prior(atoothache) );
+            Assert.AreEqual(
                     model.posterior(acavity, anottoothache),
                     (model.posterior(anottoothache, acavity) * model.prior(acavity))
-                            / model.prior(anottoothache), DELTA_THRESHOLD);
-            Assert.assertEquals(
+                            / model.prior(anottoothache) );
+            Assert.AreEqual(
                     model.posterior(anotcavity, atoothache),
                     (model.posterior(atoothache, anotcavity) * model
                             .prior(anotcavity)) / model.prior(atoothache),
                     DELTA_THRESHOLD);
-            Assert.assertEquals(
+            Assert.AreEqual(
                     model.posterior(anotcavity, anottoothache),
                     (model.posterior(anottoothache, anotcavity) * model
                             .prior(anotcavity)) / model.prior(anottoothache),
                     DELTA_THRESHOLD);
             //
-            Assert.assertEquals(model.posterior(acavity, acatch),
+            Assert.AreEqual(model.posterior(acavity, acatch),
                     (model.posterior(acatch, acavity) * model.prior(acavity))
-                            / model.prior(acatch), DELTA_THRESHOLD);
-            Assert.assertEquals(model.posterior(acavity, anotcatch),
+                            / model.prior(acatch) );
+            Assert.AreEqual(model.posterior(acavity, anotcatch),
                     (model.posterior(anotcatch, acavity) * model.prior(acavity))
-                            / model.prior(anotcatch), DELTA_THRESHOLD);
-            Assert.assertEquals(model.posterior(anotcavity, acatch),
+                            / model.prior(anotcatch) );
+            Assert.AreEqual(model.posterior(anotcavity, acatch),
                     (model.posterior(acatch, anotcavity) * model.prior(anotcavity))
-                            / model.prior(acatch), DELTA_THRESHOLD);
-            Assert.assertEquals(
+                            / model.prior(acatch) );
+            Assert.AreEqual(
                     model.posterior(anotcavity, anotcatch),
                     (model.posterior(anotcatch, anotcavity) * model
                             .prior(anotcavity)) / model.prior(anotcatch),
@@ -221,31 +227,31 @@
             AssignmentProposition asnow = new AssignmentProposition(
                     ExampleRV.WEATHER_RV, "snow");
 
-            Assert.assertEquals(0.6, model.prior(asunny), DELTA_THRESHOLD);
-            Assert.assertEquals(0.1, model.prior(arain), DELTA_THRESHOLD);
-            Assert.assertEquals(0.29, model.prior(acloudy), DELTA_THRESHOLD);
-            Assert.assertEquals(0.01, model.prior(asnow), DELTA_THRESHOLD);
+            Assert.AreEqual(0.6, model.prior(asunny) );
+            Assert.AreEqual(0.1, model.prior(arain) );
+            Assert.AreEqual(0.29, model.prior(acloudy) );
+            Assert.AreEqual(0.01, model.prior(asnow) );
 
             // AIMA3e pg. 488
             // P(sunny, cavity)
             // P(sunny AND cavity)
             AssignmentProposition atoothache = new AssignmentProposition(
-                    ExampleRV.TOOTHACHE_RV, Boolean.TRUE);
+                    ExampleRV.TOOTHACHE_RV, true);
             AssignmentProposition acatch = new AssignmentProposition(
-                    ExampleRV.CATCH_RV, Boolean.TRUE);
+                    ExampleRV.CATCH_RV, true);
             AssignmentProposition acavity = new AssignmentProposition(
-                    ExampleRV.CAVITY_RV, Boolean.TRUE);
+                    ExampleRV.CAVITY_RV, true);
             ConjunctiveProposition sunnyAndCavity = new ConjunctiveProposition(
                     asunny, acavity);
 
             // 0.6 (sunny) * 0.2 (cavity) = 0.12
-            Assert.assertEquals(0.12, model.prior(asunny, acavity), DELTA_THRESHOLD);
-            Assert.assertEquals(0.12, model.prior(sunnyAndCavity), DELTA_THRESHOLD);
+            Assert.AreEqual(0.12, model.prior(asunny, acavity) );
+            Assert.AreEqual(0.12, model.prior(sunnyAndCavity) );
 
             // AIMA3e pg. 494
             // P(toothache, catch, cavity, cloudy) =
             // P(cloudy | toothache, catch, cavity)P(toothache, catch, cavity)
-            Assert.assertEquals(
+            Assert.AreEqual(
                     model.prior(atoothache, acatch, acavity, acloudy),
                     model.posterior(acloudy, atoothache, acatch, acavity)
                             * model.prior(atoothache, acatch, acavity),
@@ -255,7 +261,7 @@
                     new ConjunctiveProposition(acavity, acloudy));
             ConjunctiveProposition toothacheAndCatchAndCavity = new ConjunctiveProposition(
                     new ConjunctiveProposition(atoothache, acatch), acavity);
-            Assert.assertEquals(
+            Assert.AreEqual(
                     model.prior(toothacheAndCatchAndCavityAndCloudy),
                     model.posterior(acloudy, atoothache, acatch, acavity)
                             * model.prior(toothacheAndCatchAndCavity),
@@ -263,37 +269,37 @@
 
             // P(cloudy | toothache, catch, cavity) = P(cloudy)
             // (13.10)
-            Assert.assertEquals(
+            Assert.AreEqual(
                     model.posterior(acloudy, atoothache, acatch, acavity),
-                    model.prior(acloudy), DELTA_THRESHOLD);
+                    model.prior(acloudy) );
 
             // P(toothache, catch, cavity, cloudy) =
             // P(cloudy)P(tootache, catch, cavity)
-            Assert.assertEquals(
+            Assert.AreEqual(
                     model.prior(atoothache, acatch, acavity, acloudy),
                     model.prior(acloudy) * model.prior(atoothache, acatch, acavity),
                     DELTA_THRESHOLD);
 
             // P(a | b) = P(a)
-            Assert.assertEquals(model.posterior(acavity, acloudy),
-                    model.prior(acavity), DELTA_THRESHOLD);
+            Assert.AreEqual(model.posterior(acavity, acloudy),
+                    model.prior(acavity) );
             // P(b | a) = P(b)
-            Assert.assertEquals(model.posterior(acloudy, acavity),
-                    model.prior(acloudy), DELTA_THRESHOLD);
+            Assert.AreEqual(model.posterior(acloudy, acavity),
+                    model.prior(acloudy) );
             // P(a AND b) = P(a)P(b)
-            Assert.assertEquals(model.prior(acavity, acloudy), model.prior(acavity)
-                    * model.prior(acloudy), DELTA_THRESHOLD);
+            Assert.AreEqual(model.prior(acavity, acloudy), model.prior(acavity)
+                    * model.prior(acloudy) );
             ConjunctiveProposition acavityAndacloudy = new ConjunctiveProposition(
                     acavity, acloudy);
-            Assert.assertEquals(model.prior(acavityAndacloudy),
-                    model.prior(acavity) * model.prior(acloudy), DELTA_THRESHOLD);
+            Assert.AreEqual(model.prior(acavityAndacloudy),
+                    model.prior(acavity) * model.prior(acloudy) );
         }
 
         // AIMA3e pg. 496
         protected void test_MeningitisStiffNeckModel(ProbabilityModel model)
         {
 
-            Assert.assertTrue(model.isValid());
+            Assert.IsTrue(model.isValid());
 
             AssignmentProposition ameningitis = new AssignmentProposition(
                     ExampleRV.MENINGITIS_RV, true);
@@ -305,22 +311,22 @@
                     ExampleRV.STIFF_NECK_RV, false);
 
             // P(stiffNeck | meningitis) = 0.7
-            Assert.assertEquals(0.7, model.posterior(astiffNeck, ameningitis),
+            Assert.AreEqual(0.7, model.posterior(astiffNeck, ameningitis),
                     DELTA_THRESHOLD);
             // P(meningitis) = 1/50000
-            Assert.assertEquals(0.00002, model.prior(ameningitis), DELTA_THRESHOLD);
+            Assert.AreEqual(0.00002, model.prior(ameningitis) );
             // P(~meningitis) = 1-1/50000
-            Assert.assertEquals(0.99998, model.prior(anotmeningitis),
+            Assert.AreEqual(0.99998, model.prior(anotmeningitis),
                     DELTA_THRESHOLD);
             // P(stiffNeck) = 0.01
-            Assert.assertEquals(0.01, model.prior(astiffNeck), DELTA_THRESHOLD);
+            Assert.AreEqual(0.01, model.prior(astiffNeck) );
             // P(~stiffNeck) = 0.99
-            Assert.assertEquals(0.99, model.prior(anotstiffNeck), DELTA_THRESHOLD);
+            Assert.AreEqual(0.99, model.prior(anotstiffNeck) );
             // P(meningitis | stiffneck)
             // = P(stiffneck | meningitis)P(meningitis)/P(stiffneck)
             // = (0.7 * 0.00002)/0.01
             // = 0.0014 (13.4)
-            Assert.assertEquals(0.0014, model.posterior(ameningitis, astiffNeck),
+            Assert.AreEqual(0.0014, model.posterior(ameningitis, astiffNeck),
                     DELTA_THRESHOLD);
 
             // Assuming P(~stiffneck | meningitis) = 0.3 (pg. 497), i.e. CPT (row
@@ -330,42 +336,42 @@
             // = P(~stiffneck | meningitis)P(meningitis)/P(~stiffneck)
             // = (0.3 * 0.00002)/0.99
             // = 0.000006060606
-            Assert.assertEquals(0.000006060606,
-                    model.posterior(ameningitis, anotstiffNeck), DELTA_THRESHOLD);
+            Assert.AreEqual(0.000006060606,
+                    model.posterior(ameningitis, anotstiffNeck) );
         }
 
         // AIMA3e pg. 512
         protected void test_BurglaryAlarmModel(ProbabilityModel model)
         {
-            Assert.assertTrue(model.isValid());
+            Assert.IsTrue(model.isValid());
 
             AssignmentProposition aburglary = new AssignmentProposition(
-                    ExampleRV.BURGLARY_RV, Boolean.TRUE);
+                    ExampleRV.BURGLARY_RV, true);
             AssignmentProposition anotburglary = new AssignmentProposition(
-                    ExampleRV.BURGLARY_RV, Boolean.FALSE);
+                    ExampleRV.BURGLARY_RV, false);
             AssignmentProposition anotearthquake = new AssignmentProposition(
-                    ExampleRV.EARTHQUAKE_RV, Boolean.FALSE);
+                    ExampleRV.EARTHQUAKE_RV, false);
             AssignmentProposition aalarm = new AssignmentProposition(
-                    ExampleRV.ALARM_RV, Boolean.TRUE);
+                    ExampleRV.ALARM_RV, true);
             AssignmentProposition anotalarm = new AssignmentProposition(
-                    ExampleRV.ALARM_RV, Boolean.FALSE);
+                    ExampleRV.ALARM_RV, false);
             AssignmentProposition ajohnCalls = new AssignmentProposition(
-                    ExampleRV.JOHN_CALLS_RV, Boolean.TRUE);
+                    ExampleRV.JOHN_CALLS_RV, true);
             AssignmentProposition amaryCalls = new AssignmentProposition(
-                    ExampleRV.MARY_CALLS_RV, Boolean.TRUE);
+                    ExampleRV.MARY_CALLS_RV, true);
 
             // AIMA3e pg. 514
-            Assert.assertEquals(0.00062811126, model.prior(ajohnCalls, amaryCalls,
-                    aalarm, anotburglary, anotearthquake), DELTA_THRESHOLD);
-            Assert.assertEquals(0.00049800249, model.prior(ajohnCalls, amaryCalls,
-                    anotalarm, anotburglary, anotearthquake), DELTA_THRESHOLD);
+            Assert.AreEqual(0.00062811126, model.prior(ajohnCalls, amaryCalls,
+                    aalarm, anotburglary, anotearthquake) );
+            Assert.AreEqual(0.00049800249, model.prior(ajohnCalls, amaryCalls,
+                    anotalarm, anotburglary, anotearthquake) );
 
             // AIMA3e pg. 524
             // P(Burglary = true | JohnCalls = true, MaryCalls = true) = 0.00059224
-            Assert.assertEquals(0.00059224,
-                    model.prior(aburglary, ajohnCalls, amaryCalls), DELTA_THRESHOLD);
+            Assert.AreEqual(0.00059224,
+                    model.prior(aburglary, ajohnCalls, amaryCalls) );
             // P(Burglary = false | JohnCalls = true, MaryCalls = true) = 0.0014919
-            Assert.assertEquals(0.00149185764899,
+            Assert.AreEqual(0.00149185764899,
                     model.prior(anotburglary, ajohnCalls, amaryCalls),
                     DELTA_THRESHOLD);
         }

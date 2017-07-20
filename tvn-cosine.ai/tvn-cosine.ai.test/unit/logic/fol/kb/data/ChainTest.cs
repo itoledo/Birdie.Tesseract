@@ -1,57 +1,62 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
 {
+    [TestClass]
     public class ChainTest
     {
-
-        @Test
+        [TestMethod]
         public void testIsEmpty()
         {
             Chain c = new Chain();
 
-            Assert.assertTrue(c.isEmpty());
+            Assert.IsTrue(c.isEmpty());
 
-            c.addLiteral(new Literal(new Predicate("P", new ArrayList<Term>())));
+            c.addLiteral(new Literal(new Predicate("P", Factory.CreateQueue<Term>())));
 
-            Assert.assertFalse(c.isEmpty());
+            Assert.IsFalse(c.isEmpty());
 
-            List<Literal> lits = new ArrayList<Literal>();
+            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
 
-            lits.add(new Literal(new Predicate("P", new ArrayList<Term>())));
+            lits.Add(new Literal(new Predicate("P", Factory.CreateQueue<Term>())));
 
             c = new Chain(lits);
 
-            Assert.assertFalse(c.isEmpty());
+            Assert.IsFalse(c.isEmpty());
         }
 
-        @Test
+        [TestMethod]
         public void testContrapositives()
         {
-            List<Chain> conts;
-            Literal p = new Literal(new Predicate("P", new ArrayList<Term>()));
-            Literal notq = new Literal(new Predicate("Q", new ArrayList<Term>()),
+            IQueue<Chain> conts;
+            Literal p = new Literal(new Predicate("P", Factory.CreateQueue<Term>()));
+            Literal notq = new Literal(new Predicate("Q", Factory.CreateQueue<Term>()),
                     true);
-            Literal notr = new Literal(new Predicate("R", new ArrayList<Term>()),
+            Literal notr = new Literal(new Predicate("R", Factory.CreateQueue<Term>()),
                     true);
 
             Chain c = new Chain();
 
             conts = c.getContrapositives();
-            Assert.assertEquals(0, conts.size());
+            Assert.AreEqual(0, conts.Size());
 
             c.addLiteral(p);
             conts = c.getContrapositives();
-            Assert.assertEquals(0, conts.size());
+            Assert.AreEqual(0, conts.Size());
 
             c.addLiteral(notq);
             conts = c.getContrapositives();
-            Assert.assertEquals(1, conts.size());
-            Assert.assertEquals("<~Q(),P()>", conts.get(0).toString());
+            Assert.AreEqual(1, conts.Size());
+            Assert.AreEqual("<~Q(),P()>", conts.Get(0).ToString());
 
             c.addLiteral(notr);
             conts = c.getContrapositives();
-            Assert.assertEquals(2, conts.size());
-            Assert.assertEquals("<~Q(),P(),~R()>", conts.get(0).toString());
-            Assert.assertEquals("<~R(),P(),~Q()>", conts.get(1).toString());
+            Assert.AreEqual(2, conts.Size());
+            Assert.AreEqual("<~Q(),P(),~R()>", conts.Get(0).ToString());
+            Assert.AreEqual("<~R(),P(),~Q()>", conts.Get(1).ToString());
         }
     }
 

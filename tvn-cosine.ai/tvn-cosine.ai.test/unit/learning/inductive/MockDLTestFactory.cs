@@ -1,21 +1,23 @@
-﻿namespace tvn_cosine.ai.test.unit.learning.inductive
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.inductive;
+
+namespace tvn_cosine.ai.test.unit.learning.inductive
 {
-    public class MockDLTestFactory extends DLTestFactory
+    [TestClass]
+    public class MockDLTestFactory : DLTestFactory
     {
+        private IQueue<DLTest> tests;
 
+        public MockDLTestFactory(IQueue<DLTest> tests)
+        {
+            this.tests = tests;
+        }
 
-    private List<DLTest> tests;
-
-    public MockDLTestFactory(List<DLTest> tests)
-    {
-        this.tests = tests;
-    }
-
-    @Override
-    public List<DLTest> createDLTestsWithAttributeCount(DataSet ds, int i)
-    {
-        return tests;
-    }
-}
-
+        public override IQueue<DLTest> createDLTestsWithAttributeCount(DataSet ds, int i)
+        {
+            return tests;
+        }
+    } 
 }

@@ -1,9 +1,16 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.fol
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.logic.fol;
+using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn_cosine.ai.test.unit.logic.fol
 {
-    public class CNFConverterTest
+    [TestClass] public class CNFConverterTest
     {
 
-        @Test
+        [TestMethod]
         public void testExamplePg295AIMA2e()
         {
             FOLDomain domain = DomainFactory.weaponsDomain();
@@ -16,12 +23,12 @@
 
             CNF cnf = cnfConv.convertToCNF(origSentence);
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~American(x), ~Hostile(z), ~Sells(x,y,z), ~Weapon(y), Criminal(x)]",
-                    cnf.toString());
+                    cnf.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testExamplePg296AIMA2e()
         {
             FOLDomain domain = DomainFactory.lovesAnimalDomain();
@@ -34,12 +41,12 @@
 
             CNF cnf = cnfConv.convertToCNF(origSentence);
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[Animal(SF0(x)), Loves(SF1(x),x)],[~Loves(x,SF0(x)), Loves(SF1(x),x)]",
-                    cnf.toString());
+                    cnf.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testExamplesPg299AIMA2e()
         {
             FOLDomain domain = DomainFactory.lovesAnimalDomain();
@@ -54,9 +61,9 @@
             CNF cnf = cnfConv.convertToCNF(origSentence);
 
             // CNF A1. and A2.
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[Animal(SF0(x)), Loves(SF1(x),x)],[~Loves(x,SF0(x)), Loves(SF1(x),x)]",
-                    cnf.toString());
+                    cnf.ToString());
 
             // FOL B.
             origSentence = parser
@@ -65,8 +72,8 @@
             cnf = cnfConv.convertToCNF(origSentence);
 
             // CNF B.
-            Assert.assertEquals("[~Animal(y), ~Kills(x,y), ~Loves(z,x)]",
-                    cnf.toString());
+            Assert.AreEqual("[~Animal(y), ~Kills(x,y), ~Loves(z,x)]",
+                    cnf.ToString());
 
             // FOL C.
             origSentence = parser.parse("FORALL x (Animal(x) => Loves(Jack, x))");
@@ -74,7 +81,7 @@
             cnf = cnfConv.convertToCNF(origSentence);
 
             // CNF C.
-            Assert.assertEquals("[~Animal(x), Loves(Jack,x)]", cnf.toString());
+            Assert.AreEqual("[~Animal(x), Loves(Jack,x)]", cnf.ToString());
 
             // FOL D.
             origSentence = parser
@@ -83,8 +90,8 @@
             cnf = cnfConv.convertToCNF(origSentence);
 
             // CNF D.
-            Assert.assertEquals("[Kills(Curiosity,Tuna), Kills(Jack,Tuna)]",
-                    cnf.toString());
+            Assert.AreEqual("[Kills(Curiosity,Tuna), Kills(Jack,Tuna)]",
+                    cnf.ToString());
 
             // FOL E.
             origSentence = parser.parse("Cat(Tuna)");
@@ -92,7 +99,7 @@
             cnf = cnfConv.convertToCNF(origSentence);
 
             // CNF E.
-            Assert.assertEquals("[Cat(Tuna)]", cnf.toString());
+            Assert.AreEqual("[Cat(Tuna)]", cnf.ToString());
 
             // FOL F.
             origSentence = parser.parse("FORALL x (Cat(x) => Animal(x))");
@@ -100,7 +107,7 @@
             cnf = cnfConv.convertToCNF(origSentence);
 
             // CNF F.
-            Assert.assertEquals("[~Cat(x), Animal(x)]", cnf.toString());
+            Assert.AreEqual("[~Cat(x), Animal(x)]", cnf.ToString());
 
             // FOL G.
             origSentence = parser.parse("NOT(Kills(Curiosity, Tuna))");
@@ -108,10 +115,10 @@
             cnf = cnfConv.convertToCNF(origSentence);
 
             // CNF G.
-            Assert.assertEquals("[~Kills(Curiosity,Tuna)]", cnf.toString());
+            Assert.AreEqual("[~Kills(Curiosity,Tuna)]", cnf.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testNestedExistsAndOrs()
         {
             FOLDomain domain = new FOLDomain();
@@ -128,8 +135,8 @@
 
             CNF cnf = cnfConv.convertToCNF(origSentence);
 
-            Assert.assertEquals("[~P(x,SF0(x)), ~Q(SC0,z)],[~Q(SC0,z), R(SF0(x))]",
-                    cnf.toString());
+            Assert.AreEqual("[~P(x,SF0(x)), ~Q(SC0,z)],[~Q(SC0,z), R(SF0(x))]",
+                    cnf.ToString());
 
             // Ax.Ay.(p(x,y) => Ez.(q(x,y,z)))
             origSentence = parser
@@ -137,7 +144,7 @@
 
             cnf = cnfConv.convertToCNF(origSentence);
 
-            Assert.assertEquals("[~P(x1,y1), Q(x1,y1,SF1(x1,y1))]", cnf.toString());
+            Assert.AreEqual("[~P(x1,y1), Q(x1,y1,SF1(x1,y1))]", cnf.ToString());
 
             // Ex.Ay.Az.(r(y,z) <=> q(x,y,z))
             origSentence = parser
@@ -145,9 +152,9 @@
 
             cnf = cnfConv.convertToCNF(origSentence);
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~R(y2,z2), Q(SC1,y2,z2)],[~Q(SC1,y2,z2), R(y2,z2)]",
-                    cnf.toString());
+                    cnf.ToString());
 
             // Ax.Ey.(~p(x,y) => Az.(q(x,y,z)))
             origSentence = parser
@@ -155,7 +162,7 @@
 
             cnf = cnfConv.convertToCNF(origSentence);
 
-            Assert.assertEquals("[P(x3,SF2(x3)), Q(x3,SF2(x3),z3)]", cnf.toString());
+            Assert.AreEqual("[P(x3,SF2(x3)), Q(x3,SF2(x3),z3)]", cnf.ToString());
 
             // Ew.Ex.Ey.Ez.(r(x,y) & q(x,w,z))
             origSentence = parser
@@ -163,10 +170,10 @@
 
             cnf = cnfConv.convertToCNF(origSentence);
 
-            Assert.assertEquals("[~Q(x4,w4,z4), ~R(x4,y4)]", cnf.toString());
+            Assert.AreEqual("[~Q(x4,w4,z4), ~R(x4,y4)]", cnf.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testImplicationsAndExtendedAndsOrs()
         {
             FOLDomain domain = new FOLDomain();
@@ -186,43 +193,43 @@
             Sentence def1 = parser.parse("(Cheat(x,y) => F(x,y))");
             CNF cnfDef1 = cnfConv.convertToCNF(def1);
 
-            Assert.assertEquals("[~Cheat(x,y), F(x,y)]", cnfDef1.toString());
+            Assert.AreEqual("[~Cheat(x,y), F(x,y)]", cnfDef1.ToString());
 
             // extra(x,y) | knows(x) => a(x,y)
             Sentence def2 = parser.parse("((Extra(x,y) OR Knows(x)) => A(x,y))");
             CNF cnfDef2 = cnfConv.convertToCNF(def2);
 
-            Assert.assertEquals("[~Extra(x,y), A(x,y)],[~Knows(x), A(x,y)]",
-                    cnfDef2.toString());
+            Assert.AreEqual("[~Extra(x,y), A(x,y)],[~Knows(x), A(x,y)]",
+                    cnfDef2.ToString());
 
             // f(x,y) & f(x,z) & diff(y,z) <=> probation(x)
             Sentence def3 = parser
                     .parse("(((NOT(((F(x,y) AND F(x,z)) AND Diff(y,z)))) OR Probation(x)) AND (((F(x,y) AND F(x,z)) AND Diff(y,z)) OR NOT(Probation(x))))");
             CNF cnfDef3 = cnfConv.convertToCNF(def3);
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~Diff(y,z), ~F(x,y), ~F(x,z), Probation(x)],[~Probation(x), F(x,y)],[~Probation(x), F(x,z)],[~Probation(x), Diff(y,z)]",
-                    cnfDef3.toString());
+                    cnfDef3.ToString());
 
             // a(x,y) & a(x,z) & diff(y,z) <=> award(x)
             Sentence def4 = parser
                     .parse("(((NOT(((A(x,y) AND A(x,z)) AND Diff(y,z)))) OR Award(x)) AND (((A(x,y) AND A(x,z)) AND Diff(y,z)) OR NOT(Award(x))))");
             CNF cnfDef4 = cnfConv.convertToCNF(def4);
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~A(x,y), ~A(x,z), ~Diff(y,z), Award(x)],[~Award(x), A(x,y)],[~Award(x), A(x,z)],[~Award(x), Diff(y,z)]",
-                    cnfDef4.toString());
+                    cnfDef4.ToString());
 
             // f(x,y) <=> ~a(x,y)
             Sentence def5 = parser
                     .parse("( ( NOT(F(x,y)) OR NOT(A(x,y))) AND ( F(x,y) OR NOT(NOT(A(x,y))) ) )");
             CNF cnfDef5 = cnfConv.convertToCNF(def5);
 
-            Assert.assertEquals("[~A(x,y), ~F(x,y)],[A(x,y), F(x,y)]",
-                    cnfDef5.toString());
+            Assert.AreEqual("[~A(x,y), ~F(x,y)],[A(x,y), F(x,y)]",
+                    cnfDef5.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testNegationsAndNestedImplications()
         {
             FOLDomain domain = new FOLDomain();
@@ -239,12 +246,12 @@
                     .parse("NOT(((((NOT(P(A)) OR NOT(Q(A)))) => NOT((P(A) OR Q(A)))) => R(A)))");
             CNF cnf = cnfConv.convertToCNF(sent);
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~P(A), P(A)],[~P(A), Q(A)],[~Q(A), P(A)],[~Q(A), Q(A)],[~R(A)]",
-                    cnf.toString());
+                    cnf.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testInductionAxiomSchema()
         {
             FOLDomain domain = new FOLDomain();
@@ -263,9 +270,9 @@
             Sentence sent = parser
                     .parse("NOT(FORALL x (FORALL y (Equal(Plus(Plus(x,y),ZERO), Plus(x,Plus(y,ZERO))))))");
             CNF cnf = cnfConv.convertToCNF(sent);
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~Equal(Plus(Plus(SC0,SC1),ZERO),Plus(SC0,Plus(SC1,ZERO)))]",
-                    cnf.toString());
+                    cnf.ToString());
 
             // Instance of Induction Axion Scmema
             sent = parser
@@ -281,20 +288,20 @@
                             + "Equal(Plus(Plus(x,y),z), Plus(x,Plus(y,z)))"
                             + "))))");
             cnf = cnfConv.convertToCNF(sent);
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~Equal(Plus(Plus(A,B),ZERO),Plus(A,Plus(B,ZERO))), Equal(Plus(Plus(q0,q1),q2),Plus(q0,Plus(q1,q2))), Equal(Plus(Plus(SC2,SC3),SC4),Plus(SC2,Plus(SC3,SC4)))],[~Equal(Plus(Plus(A,B),ZERO),Plus(A,Plus(B,ZERO))), ~Equal(Plus(Plus(SC2,SC3),Plus(SC4,ONE)),Plus(SC2,Plus(SC3,Plus(SC4,ONE)))), Equal(Plus(Plus(q0,q1),q2),Plus(q0,Plus(q1,q2)))]",
-                    cnf.toString());
+                    cnf.ToString());
 
             // Goal
             sent = parser
                     .parse("NOT(FORALL x (FORALL y (FORALL z (Equal(Plus(Plus(x,y),z), Plus(x,Plus(y,z)))))))");
             cnf = cnfConv.convertToCNF(sent);
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~Equal(Plus(Plus(SC5,SC6),SC7),Plus(SC5,Plus(SC6,SC7)))]",
-                    cnf.toString());
+                    cnf.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testTermEquality()
         {
             FOLDomain domain = new FOLDomain();
@@ -316,34 +323,34 @@
             Sentence sent = parser.parse("x = y");
             CNF cnf = cnfConv.convertToCNF(sent);
 
-            Assert.assertEquals("[x = y]", cnf.toString());
+            Assert.AreEqual("[x = y]", cnf.ToString());
 
             // x!=y
             sent = parser.parse("NOT(x = y)");
             cnf = cnfConv.convertToCNF(sent);
 
-            Assert.assertEquals("[~x = y]", cnf.toString());
+            Assert.AreEqual("[~x = y]", cnf.ToString());
 
             // A=B
             sent = parser.parse("A = B");
             cnf = cnfConv.convertToCNF(sent);
 
-            Assert.assertEquals("[A = B]", cnf.toString());
+            Assert.AreEqual("[A = B]", cnf.ToString());
 
             // A!=B
             sent = parser.parse("NOT(A = B)");
             cnf = cnfConv.convertToCNF(sent);
 
-            Assert.assertEquals("[~A = B]", cnf.toString());
+            Assert.AreEqual("[~A = B]", cnf.ToString());
 
             // ~(((~A=B or ~D=C) => ~(A=B or D=C)) => A=D)
             sent = parser
                     .parse("NOT(((((NOT(A = B) OR NOT(D = C))) => NOT((A = B OR D = C))) => A = D))");
             cnf = cnfConv.convertToCNF(sent);
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~A = B, A = B],[~A = B, D = C],[~D = C, A = B],[~D = C, D = C],[~A = D]",
-                    cnf.toString());
+                    cnf.ToString());
 
             //
             // Induction Axiom Schema using Term Equality
@@ -352,9 +359,9 @@
             sent = parser
                     .parse("NOT(FORALL x (FORALL y (Plus(Plus(x,y),ZERO) = Plus(x,Plus(y,ZERO)))))");
             cnf = cnfConv.convertToCNF(sent);
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~Plus(Plus(SC0,SC1),ZERO) = Plus(SC0,Plus(SC1,ZERO))]",
-                    cnf.toString());
+                    cnf.ToString());
 
             // Instance of Induction Axion Scmema
             sent = parser.parse("(("
@@ -365,17 +372,17 @@
                     + "))))" + ")" + " => " + "FORALL x (FORALL y (FORALL z("
                     + "Plus(Plus(x,y),z) = Plus(x,Plus(y,z))" + "))))");
             cnf = cnfConv.convertToCNF(sent);
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~Plus(Plus(A,B),ZERO) = Plus(A,Plus(B,ZERO)), Plus(Plus(q0,q1),q2) = Plus(q0,Plus(q1,q2)), Plus(Plus(SC2,SC3),SC4) = Plus(SC2,Plus(SC3,SC4))],[~Plus(Plus(A,B),ZERO) = Plus(A,Plus(B,ZERO)), ~Plus(Plus(SC2,SC3),Plus(SC4,ONE)) = Plus(SC2,Plus(SC3,Plus(SC4,ONE))), Plus(Plus(q0,q1),q2) = Plus(q0,Plus(q1,q2))]",
-                    cnf.toString());
+                    cnf.ToString());
 
             // Goal
             sent = parser
                     .parse("NOT(FORALL x (FORALL y (FORALL z (Plus(Plus(x,y),z) = Plus(x,Plus(y,z))))))");
             cnf = cnfConv.convertToCNF(sent);
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[~Plus(Plus(SC5,SC6),SC7) = Plus(SC5,Plus(SC6,SC7))]",
-                    cnf.toString());
+                    cnf.ToString());
         }
     }
 

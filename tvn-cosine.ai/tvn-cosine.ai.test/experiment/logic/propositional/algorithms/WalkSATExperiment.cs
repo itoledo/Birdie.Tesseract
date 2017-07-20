@@ -1,12 +1,19 @@
-﻿namespace tvn_cosine.ai.test.experiment.logic.propositional.algorithms
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.visitors;
+
+namespace tvn_cosine.ai.test.experiment.logic.propositional.algorithms
 {
+    [TestClass]
     public class WalkSATExperiment
     {
-
         private PLParser parser = new PLParser();
 
         // NOT REALLY A JUNIT TESTCASE BUT written as one to allow easy execution
-        @Test
+        [TestMethod]
         public void testWalkSat()
         {
             WalkSAT walkSAT = new WalkSAT();
@@ -14,7 +21,7 @@
                     .getClauses(), 0.5, 1000);
             if (m == null)
             {
-                System.out.println("failure");
+                System.Console.WriteLine("failure");
             }
             else
             {
@@ -22,7 +29,7 @@
             }
         }
 
-        @Test
+        [TestMethod]
         public void testWalkSat2()
         {
             WalkSAT walkSAT = new WalkSAT();
@@ -30,7 +37,7 @@
                     .getClauses(), 0.5, 1000);
             if (m == null)
             {
-                System.out.println("failure");
+                System.Console.WriteLine("failure");
             }
             else
             {
@@ -38,7 +45,7 @@
             }
         }
 
-        @Test
+        [TestMethod]
         public void testAIMAExample()
         {
             KnowledgeBase kb = new KnowledgeBase();
@@ -54,7 +61,7 @@
                     .getClauses(), 0.5, 1000);
             if (m == null)
             {
-                System.out.println("failure");
+                System.Console.WriteLine("failure");
             }
             else
             {

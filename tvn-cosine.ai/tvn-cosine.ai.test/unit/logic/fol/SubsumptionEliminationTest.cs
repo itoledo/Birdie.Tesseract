@@ -1,9 +1,16 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.fol
-{
-    public class SubsumptionEliminationTest
-    {
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol;
+using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.kb.data;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
-        @Test
+namespace tvn_cosine.ai.test.unit.logic.fol
+{
+    [TestClass] public class SubsumptionEliminationTest
+    { 
+        [TestMethod]
         public void testFindSubsumedClauses()
         {
             // Taken from AIMA2e pg 679
@@ -20,11 +27,11 @@
             domain.addConstant("Burger");
             FOLParser parser = new FOLParser(domain);
 
-            String c1 = "patrons(v,Some)";
-            String c2 = "patrons(v,Full) AND (hungry(v) AND type(v,French))";
-            String c3 = "patrons(v,Full) AND (hungry(v) AND (type(v,Thai) AND fri_sat(v)))";
-            String c4 = "patrons(v,Full) AND (hungry(v) AND type(v,Burger))";
-            String sh = "FORALL v (will_wait(v) <=> (" + c1 + " OR (" + c2
+            string c1 = "patrons(v,Some)";
+            string c2 = "patrons(v,Full) AND (hungry(v) AND type(v,French))";
+            string c3 = "patrons(v,Full) AND (hungry(v) AND (type(v,Thai) AND fri_sat(v)))";
+            string c4 = "patrons(v,Full) AND (hungry(v) AND type(v,Burger))";
+            string sh = "FORALL v (will_wait(v) <=> (" + c1 + " OR (" + c2
                     + " OR (" + c3 + " OR (" + c4 + ")))))";
 
             Sentence s = parser.parse(sh);
@@ -34,60 +41,60 @@
             CNF cnf = cnfConv.convertToCNF(s);
 
             // Contains 9 duplicates
-            Assert.assertEquals(40, cnf.getNumberOfClauses());
+            Assert.AreEqual(40, cnf.getNumberOfClauses());
 
-            Set<Clause> clauses = new HashSet<Clause>(cnf.getConjunctionOfClauses());
+            ISet<Clause> clauses = Factory.CreateSet<Clause>(cnf.getConjunctionOfClauses());
 
             // duplicates removed
-            Assert.assertEquals(31, clauses.size());
+            Assert.AreEqual(31, clauses.Size());
 
-            clauses.removeAll(SubsumptionElimination.findSubsumedClauses(clauses));
+            clauses.RemoveAll(SubsumptionElimination.findSubsumedClauses(clauses));
 
             // subsumed clauses removed
-            Assert.assertEquals(8, clauses.size());
+            Assert.AreEqual(8, clauses.Size());
 
             // Ensure only the 8 correct/expected clauses remain
             Clause cl1 = cnfConv
                     .convertToCNF(
                             parser.parse("(NOT(will_wait(v)) OR (patrons(v,Full) OR patrons(v,Some)))"))
-                    .getConjunctionOfClauses().get(0);
+                    .getConjunctionOfClauses().Get(0);
             Clause cl2 = cnfConv
                     .convertToCNF(
                             parser.parse("(NOT(will_wait(v)) OR (hungry(v) OR patrons(v,Some)))"))
-                    .getConjunctionOfClauses().get(0);
+                    .getConjunctionOfClauses().Get(0);
             Clause cl3 = cnfConv
                     .convertToCNF(
                             parser.parse("(NOT(will_wait(v)) OR (patrons(v,Some) OR (type(v,Burger) OR (type(v,French) OR type(v,Thai)))))"))
-                    .getConjunctionOfClauses().get(0);
+                    .getConjunctionOfClauses().Get(0);
             Clause cl4 = cnfConv
                     .convertToCNF(
                             parser.parse("(NOT(will_wait(v)) OR (fri_sat(v) OR (patrons(v,Some) OR (type(v,Burger) OR type(v,French)))))"))
-                    .getConjunctionOfClauses().get(0);
+                    .getConjunctionOfClauses().Get(0);
             Clause cl5 = cnfConv
                     .convertToCNF(
                             parser.parse("(NOT(patrons(v,Some)) OR will_wait(v))"))
-                    .getConjunctionOfClauses().get(0);
+                    .getConjunctionOfClauses().Get(0);
             Clause cl6 = cnfConv
                     .convertToCNF(
                             parser.parse("(NOT(hungry(v)) OR (NOT(patrons(v,Full)) OR (NOT(type(v,French)) OR will_wait(v))))"))
-                    .getConjunctionOfClauses().get(0);
+                    .getConjunctionOfClauses().Get(0);
             Clause cl7 = cnfConv
                     .convertToCNF(
                             parser.parse("(NOT(fri_sat(v)) OR (NOT(hungry(v)) OR (NOT(patrons(v,Full)) OR (NOT(type(v,Thai)) OR will_wait(v)))))"))
-                    .getConjunctionOfClauses().get(0);
+                    .getConjunctionOfClauses().Get(0);
             Clause cl8 = cnfConv
                     .convertToCNF(
                             parser.parse("(NOT(hungry(v)) OR (NOT(patrons(v,Full)) OR (NOT(type(v,Burger)) OR will_wait(v))))"))
-                    .getConjunctionOfClauses().get(0);
+                    .getConjunctionOfClauses().Get(0);
 
-            Assert.assertTrue(clauses.contains(cl1));
-            Assert.assertTrue(clauses.contains(cl2));
-            Assert.assertTrue(clauses.contains(cl3));
-            Assert.assertTrue(clauses.contains(cl4));
-            Assert.assertTrue(clauses.contains(cl5));
-            Assert.assertTrue(clauses.contains(cl6));
-            Assert.assertTrue(clauses.contains(cl7));
-            Assert.assertTrue(clauses.contains(cl8));
+            Assert.IsTrue(clauses.Contains(cl1));
+            Assert.IsTrue(clauses.Contains(cl2));
+            Assert.IsTrue(clauses.Contains(cl3));
+            Assert.IsTrue(clauses.Contains(cl4));
+            Assert.IsTrue(clauses.Contains(cl5));
+            Assert.IsTrue(clauses.Contains(cl6));
+            Assert.IsTrue(clauses.Contains(cl7));
+            Assert.IsTrue(clauses.Contains(cl8));
         }
     }
 

@@ -1,19 +1,25 @@
-﻿namespace tvn_cosine.ai.test.unit.agent.impl
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.impl;
+
+namespace tvn_cosine.ai.test.unit.agent.impl
 {
     /**
      * @author Ravi Mohan
      * 
      */
-    public class MockAgent extends AbstractAgent
+    [TestClass]
+    public class MockAgent : AbstractAgent
     {
 
-    public MockAgent()
-    {
-    }
+        public MockAgent()
+        {
+        }
 
-    public MockAgent(AgentProgram agent)
-    {
-        super(agent);
+        public MockAgent(AgentProgram agent)
+            : base(agent)
+        {
+
+        }
     }
-}
 }

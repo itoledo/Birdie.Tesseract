@@ -1,188 +1,189 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.fol;
+using tvn.cosine.ai.logic.fol.domain;
+using tvn.cosine.ai.logic.fol.parsing;
+using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn_cosine.ai.test.unit.logic.fol
 {
-    public class SubstVisitorTest
+    [TestClass] public class SubstVisitorTest
     {
 
         private FOLParser parser;
         private SubstVisitor sv;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             parser = new FOLParser(DomainFactory.crusadesDomain());
             sv = new SubstVisitor();
         }
 
-        @Test
+        [TestMethod]
         public void testSubstSingleVariableSucceedsWithPredicate()
         {
             Sentence beforeSubst = parser.parse("King(x)");
             Sentence expectedAfterSubst = parser.parse(" King(John) ");
             Sentence expectedAfterSubstCopy = expectedAfterSubst.copy();
 
-            Assert.assertEquals(expectedAfterSubst, expectedAfterSubstCopy);
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("x"), new Constant("John"));
+            Assert.AreEqual(expectedAfterSubst, expectedAfterSubstCopy);
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("x"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(beforeSubst, parser.parse("King(x)"));
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(beforeSubst, parser.parse("King(x)"));
         }
 
-        @Test
+        [TestMethod]
         public void testSubstSingleVariableFailsWithPredicate()
         {
             Sentence beforeSubst = parser.parse("King(x)");
             Sentence expectedAfterSubst = parser.parse(" King(x) ");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("y"), new Constant("John"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("y"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(beforeSubst, parser.parse("King(x)"));
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(beforeSubst, parser.parse("King(x)"));
         }
 
-        @Test
+        [TestMethod]
         public void testMultipleVariableSubstitutionWithPredicate()
         {
             Sentence beforeSubst = parser.parse("King(x,y)");
             Sentence expectedAfterSubst = parser.parse(" King(John ,England) ");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("x"), new Constant("John"));
-            p.put(new Variable("y"), new Constant("England"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("x"), new Constant("John"));
+            p.Put(new Variable("y"), new Constant("England"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(beforeSubst, parser.parse("King(x,y)"));
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(beforeSubst, parser.parse("King(x,y)"));
         }
 
-        @Test
+        [TestMethod]
         public void testMultipleVariablePartiallySucceedsWithPredicate()
         {
             Sentence beforeSubst = parser.parse("King(x,y)");
             Sentence expectedAfterSubst = parser.parse(" King(John ,y) ");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("x"), new Constant("John"));
-            p.put(new Variable("z"), new Constant("England"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("x"), new Constant("John"));
+            p.Put(new Variable("z"), new Constant("England"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(beforeSubst, parser.parse("King(x,y)"));
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(beforeSubst, parser.parse("King(x,y)"));
         }
 
-        @Test
+        [TestMethod]
         public void testSubstSingleVariableSucceedsWithTermEquality()
         {
             Sentence beforeSubst = parser.parse("BrotherOf(x) = EnemyOf(y)");
             Sentence expectedAfterSubst = parser
                     .parse("BrotherOf(John) = EnemyOf(Saladin)");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("x"), new Constant("John"));
-            p.put(new Variable("y"), new Constant("Saladin"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("x"), new Constant("John"));
+            p.Put(new Variable("y"), new Constant("Saladin"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(beforeSubst,
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(beforeSubst,
                     parser.parse("BrotherOf(x) = EnemyOf(y)"));
         }
 
-        @Test
+        [TestMethod]
         public void testSubstSingleVariableSucceedsWithTermEquality2()
         {
             Sentence beforeSubst = parser.parse("BrotherOf(John) = x)");
             Sentence expectedAfterSubst = parser.parse("BrotherOf(John) = Richard");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("x"), new Constant("Richard"));
-            p.put(new Variable("y"), new Constant("Saladin"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("x"), new Constant("Richard"));
+            p.Put(new Variable("y"), new Constant("Saladin"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(parser.parse("BrotherOf(John) = x)"), beforeSubst);
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(parser.parse("BrotherOf(John) = x)"), beforeSubst);
         }
 
-        @Test
+        [TestMethod]
         public void testSubstWithUniversalQuantifierAndSngleVariable()
         {
             Sentence beforeSubst = parser.parse("FORALL x King(x))");
             Sentence expectedAfterSubst = parser.parse("King(John)");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("x"), new Constant("John"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("x"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(parser.parse("FORALL x King(x))"), beforeSubst);
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(parser.parse("FORALL x King(x))"), beforeSubst);
         }
 
-        @Test
+        [TestMethod]
         public void testSubstWithUniversalQuantifierAndZeroVariablesMatched()
         {
             Sentence beforeSubst = parser.parse("FORALL x King(x))");
             Sentence expectedAfterSubst = parser.parse("FORALL x King(x)");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("y"), new Constant("John"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("y"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(parser.parse("FORALL x King(x))"), beforeSubst);
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(parser.parse("FORALL x King(x))"), beforeSubst);
         }
 
-        @Test
+        [TestMethod]
         public void testSubstWithUniversalQuantifierAndOneOfTwoVariablesMatched()
         {
             Sentence beforeSubst = parser.parse("FORALL x,y King(x,y))");
             Sentence expectedAfterSubst = parser.parse("FORALL x King(x,John)");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("y"), new Constant("John"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("y"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(parser.parse("FORALL x,y King(x,y))"), beforeSubst);
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(parser.parse("FORALL x,y King(x,y))"), beforeSubst);
         }
 
-        @Test
+        [TestMethod]
         public void testSubstWithExistentialQuantifierAndSngleVariable()
         {
             Sentence beforeSubst = parser.parse("EXISTS x King(x))");
             Sentence expectedAfterSubst = parser.parse("King(John)");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("x"), new Constant("John"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("x"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
 
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(parser.parse("EXISTS x King(x)"), beforeSubst);
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(parser.parse("EXISTS x King(x)"), beforeSubst);
         }
 
-        @Test
+        [TestMethod]
         public void testSubstWithNOTSentenceAndSngleVariable()
         {
             Sentence beforeSubst = parser.parse("NOT King(x))");
             Sentence expectedAfterSubst = parser.parse("NOT King(John)");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("x"), new Constant("John"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("x"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(parser.parse("NOT King(x))"), beforeSubst);
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(parser.parse("NOT King(x))"), beforeSubst);
         }
 
-        @Test
+        [TestMethod]
         public void testConnectiveANDSentenceAndSngleVariable()
         {
             Sentence beforeSubst = parser
@@ -190,29 +191,29 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence expectedAfterSubst = parser
                     .parse("( King(John) AND BrotherOf(John) = EnemyOf(Saladin) )");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("x"), new Constant("John"));
-            p.put(new Variable("y"), new Constant("Saladin"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("x"), new Constant("John"));
+            p.Put(new Variable("y"), new Constant("Saladin"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(parser
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(parser
                     .parse("EXISTS x ( King(x) AND BrotherOf(x) = EnemyOf(y) )"),
                     beforeSubst);
         }
 
-        @Test
+        [TestMethod]
         public void testParanthisedSingleVariable()
         {
             Sentence beforeSubst = parser.parse("((( King(x))))");
             Sentence expectedAfterSubst = parser.parse("King(John) ");
 
-            Map<Variable, Term> p = new LinkedHashMap<Variable, Term>();
-            p.put(new Variable("x"), new Constant("John"));
+            IMap<Variable, Term> p = Factory.CreateMap<Variable, Term>();
+            p.Put(new Variable("x"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
-            Assert.assertEquals(expectedAfterSubst, afterSubst);
-            Assert.assertEquals(parser.parse("((( King(x))))"), beforeSubst);
+            Assert.AreEqual(expectedAfterSubst, afterSubst);
+            Assert.AreEqual(parser.parse("((( King(x))))"), beforeSubst);
         }
     }
 }

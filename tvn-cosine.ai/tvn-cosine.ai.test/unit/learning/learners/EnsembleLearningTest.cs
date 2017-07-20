@@ -1,28 +1,36 @@
-﻿namespace tvn_cosine.ai.test.unit.learning.learners
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.inductive;
+using tvn.cosine.ai.learning.learners;
+
+namespace tvn_cosine.ai.test.unit.learning.learners
 {
+    [TestClass]
     public class EnsembleLearningTest
     {
 
-        private static final String YES = "Yes";
+        private static readonly string YES = "Yes";
 
-	@Test
+        [TestMethod]
         public void testAdaBoostEnablesCollectionOfStumpsToClassifyDataSetAccurately()
-    
-            throws Exception
+
+
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
-            List<DecisionTree> stumps = DecisionTree.getStumpsFor(ds, YES, "No");
-            List<Learner> learners = new ArrayList<Learner>();
-		for (Object stump : stumps) {
-			DecisionTree sl = (DecisionTree)stump;
-        StumpLearner stumpLearner = new StumpLearner(sl, "No");
-        learners.add(stumpLearner);
-		}
-    AdaBoostLearner learner = new AdaBoostLearner(learners, ds);
-    learner.train(ds);
-		int[] result = learner.test(ds);
-    Assert.assertEquals(12, result[0]);
-		Assert.assertEquals(0, result[1]);
-	}
-}
+            IQueue<DecisionTree> stumps = DecisionTree.getStumpsFor(ds, YES, "No");
+            IQueue<Learner> learners = Factory.CreateQueue<Learner>();
+            foreach (object stump in stumps)
+            {
+                DecisionTree sl = (DecisionTree)stump;
+                StumpLearner stumpLearner = new StumpLearner(sl, "No");
+                learners.Add(stumpLearner);
+            }
+            AdaBoostLearner learner = new AdaBoostLearner(learners, ds);
+            learner.train(ds);
+            int[] result = learner.test(ds);
+            Assert.AreEqual(12, result[0]);
+            Assert.AreEqual(0, result[1]);
+        }
+    }
 }

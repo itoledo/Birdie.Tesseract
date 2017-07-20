@@ -1,68 +1,75 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.propositional.inference
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn_cosine.ai.test.unit.logic.propositional.inference
 {
+    [TestClass]
     public class TTEntailsTest
     {
         TTEntails tte;
 
         KnowledgeBase kb;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             tte = new TTEntails();
             kb = new KnowledgeBase();
         }
 
-        @Test
+        [TestMethod]
         public void testSimpleSentence1()
         {
             kb.tell("A & B");
-            Assert.assertEquals(true, kb.askWithTTEntails("A"));
+            Assert.AreEqual(true, kb.askWithTTEntails("A"));
         }
 
-        @Test
+        [TestMethod]
         public void testSimpleSentence2()
         {
             kb.tell("A | B");
-            Assert.assertEquals(false, kb.askWithTTEntails("A"));
+            Assert.AreEqual(false, kb.askWithTTEntails("A"));
         }
 
-        @Test
+        [TestMethod]
         public void testSimpleSentence3()
         {
             kb.tell("(A => B) & A");
-            Assert.assertEquals(true, kb.askWithTTEntails("B"));
+            Assert.AreEqual(true, kb.askWithTTEntails("B"));
         }
 
-        @Test
+        [TestMethod]
         public void testSimpleSentence4()
         {
             kb.tell("(A => B) & B");
-            Assert.assertEquals(false, kb.askWithTTEntails("A"));
+            Assert.AreEqual(false, kb.askWithTTEntails("A"));
         }
 
-        @Test
+        [TestMethod]
         public void testSimpleSentence5()
         {
             kb.tell("A");
-            Assert.assertEquals(false, kb.askWithTTEntails("~A"));
+            Assert.AreEqual(false, kb.askWithTTEntails("~A"));
         }
 
-        @Test
+        [TestMethod]
         public void testSUnkownSymbol()
         {
             kb.tell("(A => B) & B");
-            Assert.assertEquals(false, kb.askWithTTEntails("X"));
+            Assert.AreEqual(false, kb.askWithTTEntails("X"));
         }
 
-        @Test
+        [TestMethod]
         public void testSimpleSentence6()
         {
             kb.tell("~A");
-            Assert.assertEquals(false, kb.askWithTTEntails("A"));
+            Assert.AreEqual(false, kb.askWithTTEntails("A"));
         }
 
-        @Test
+        [TestMethod]
         public void testNewAIMAExample()
         {
             kb.tell("~P11");
@@ -71,11 +78,11 @@
             kb.tell("~B11");
             kb.tell("B21");
 
-            Assert.assertEquals(true, kb.askWithTTEntails("~P12"));
-            Assert.assertEquals(false, kb.askWithTTEntails("P22"));
+            Assert.AreEqual(true, kb.askWithTTEntails("~P12"));
+            Assert.AreEqual(false, kb.askWithTTEntails("P22"));
         }
 
-        @Test
+        [TestMethod]
         public void testTTEntailsSucceedsWithChadCarffsBugReport()
         {
             KnowledgeBase kb = new KnowledgeBase();
@@ -88,27 +95,27 @@
             kb.tell("B10");
             kb.tell("B01");
 
-            Assert.assertTrue(kb.askWithTTEntails("P00"));
-            Assert.assertFalse(kb.askWithTTEntails("~P00"));
+            Assert.IsTrue(kb.askWithTTEntails("P00"));
+            Assert.IsFalse(kb.askWithTTEntails("~P00"));
         }
 
-        @Test
+        [TestMethod]
         public void testDoesNotKnow()
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("A");
-            Assert.assertFalse(kb.askWithTTEntails("B"));
-            Assert.assertFalse(kb.askWithTTEntails("~B"));
+            Assert.IsFalse(kb.askWithTTEntails("B"));
+            Assert.IsFalse(kb.askWithTTEntails("~B"));
         }
 
         public void testTTEntailsSucceedsWithCStackOverFlowBugReport()
         {
             KnowledgeBase kb = new KnowledgeBase();
 
-            Assert.assertTrue(kb.askWithTTEntails("((A | (~ A)) & (A | B))"));
+            Assert.IsTrue(kb.askWithTTEntails("((A | (~ A)) & (A | B))"));
         }
 
-        @Test
+        [TestMethod]
         public void testModelEvaluation()
         {
             kb.tell("~P11");
@@ -127,7 +134,7 @@
             model = model.union(new PropositionSymbol("P31"), true);
 
             Sentence kbs = kb.asSentence();
-            Assert.assertEquals(true, model.isTrue(kbs));
+            Assert.AreEqual(true, model.isTrue(kbs));
         }
     }
 }

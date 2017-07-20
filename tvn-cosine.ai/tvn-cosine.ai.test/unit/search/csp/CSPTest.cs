@@ -1,83 +1,88 @@
-﻿namespace tvn_cosine.ai.test.unit.search.csp
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections; 
+using tvn.cosine.ai.search.csp;
+using tvn.cosine.ai.search.csp.examples;
+
+namespace tvn_cosine.ai.test.unit.search.csp
 {
-    public class CSPTest
+    [TestClass] public class CSPTest
     {
-        private static final Variable X = new Variable("x");
-        private static final Variable Y = new Variable("y");
-        private static final Variable Z = new Variable("z");
+        private static readonly Variable X = new Variable("x");
+        private static readonly Variable Y = new Variable("y");
+        private static readonly Variable Z = new Variable("z");
 
-        private static final Constraint C1 = new NotEqualConstraint(X, Y);
-        private static final Constraint C2 = new NotEqualConstraint(X, Y);
+        private static readonly Constraint<Variable, string> C1 = new NotEqualConstraint<Variable, string>(X, Y);
+        private static readonly Constraint<Variable, string> C2 = new NotEqualConstraint<Variable, string>(X, Y);
 
-        private Domain colors;
-        private Domain animals;
+        private Domain<string> colors;
+        private Domain<string> animals;
 
-        private List<Variable> variables;
+        private IQueue<Variable> variables;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
-            variables = new ArrayList<Variable>();
-            variables.add(X);
-            variables.add(Y);
-            variables.add(Z);
-            colors = new Domain("red", "green", "blue");
-            animals = new Domain("cat", "dog");
+            variables = Factory.CreateQueue<Variable>();
+            variables.Add(X);
+            variables.Add(Y);
+            variables.Add(Z);
+            colors = new Domain<string>("red", "green", "blue");
+            animals = new Domain<string>("cat", "dog");
         }
 
-        @Test
+        [TestMethod]
         public void testConstraintNetwork()
         {
-            CSP csp = new CSP(variables);
+            CSP<Variable, string> csp = new CSP<Variable, string>(variables);
             csp.addConstraint(C1);
             csp.addConstraint(C2);
-            Assert.assertNotNull(csp.getConstraints());
-            Assert.assertEquals(2, csp.getConstraints().size());
-            Assert.assertNotNull(csp.getConstraints(X));
-            Assert.assertEquals(2, csp.getConstraints(X).size());
-            Assert.assertNotNull(csp.getConstraints(Y));
-            Assert.assertEquals(2, csp.getConstraints(Y).size());
-            Assert.assertNotNull(csp.getConstraints(Z));
-            Assert.assertEquals(0, csp.getConstraints(Z).size());
+            Assert.IsNotNull(csp.getConstraints());
+            Assert.AreEqual(2, csp.getConstraints().Size());
+            Assert.IsNotNull(csp.getConstraints(X));
+            Assert.AreEqual(2, csp.getConstraints(X).Size());
+            Assert.IsNotNull(csp.getConstraints(Y));
+            Assert.AreEqual(2, csp.getConstraints(Y).Size());
+            Assert.IsNotNull(csp.getConstraints(Z));
+            Assert.AreEqual(0, csp.getConstraints(Z).Size());
         }
 
-        @Test
+        [TestMethod]
         public void testDomainChanges()
         {
-            Domain colors2 = new Domain(colors.asList());
-            Assert.assertEquals(colors, colors2);
+            Domain<string> colors2 = new Domain<string>(colors.asList());
+            Assert.AreEqual(colors, colors2);
 
-            CSP csp = new CSP(variables);
+            CSP<Variable, string> csp = new CSP<Variable, string>(variables);
             csp.addConstraint(C1);
-            Assert.assertNotNull(csp.getDomain(X));
-            Assert.assertEquals(0, csp.getDomain(X).size());
-            Assert.assertNotNull(csp.getConstraints(X));
+            Assert.IsNotNull(csp.getDomain(X));
+            Assert.AreEqual(0, csp.getDomain(X).size());
+            Assert.IsNotNull(csp.getConstraints(X));
 
             csp.setDomain(X, colors);
-            Assert.assertEquals(colors, csp.getDomain(X));
-            Assert.assertEquals(3, csp.getDomain(X).size());
-            Assert.assertEquals("red", csp.getDomain(X).get(0));
+            Assert.AreEqual(colors, csp.getDomain(X));
+            Assert.AreEqual(3, csp.getDomain(X).size());
+            Assert.AreEqual("red", csp.getDomain(X).get(0));
 
-            CSP cspCopy = csp.copyDomains();
-            Assert.assertNotNull(cspCopy.getDomain(X));
-            Assert.assertEquals(3, cspCopy.getDomain(X).size());
-            Assert.assertEquals("red", cspCopy.getDomain(X).get(0));
-            Assert.assertNotNull(cspCopy.getDomain(Y));
-            Assert.assertEquals(0, cspCopy.getDomain(Y).size());
-            Assert.assertNotNull(cspCopy.getConstraints(X));
-            Assert.assertEquals(C1, cspCopy.getConstraints(X).get(0));
+            CSP<Variable, string> cspCopy = csp.copyDomains();
+            Assert.IsNotNull(cspCopy.getDomain(X));
+            Assert.AreEqual(3, cspCopy.getDomain(X).size());
+            Assert.AreEqual("red", cspCopy.getDomain(X).get(0));
+            Assert.IsNotNull(cspCopy.getDomain(Y));
+            Assert.AreEqual(0, cspCopy.getDomain(Y).size());
+            Assert.IsNotNull(cspCopy.getConstraints(X));
+            Assert.AreEqual(C1, cspCopy.getConstraints(X).Get(0));
 
             cspCopy.removeValueFromDomain(X, "red");
-            Assert.assertEquals(2, cspCopy.getDomain(X).size());
-            Assert.assertEquals("green", cspCopy.getDomain(X).get(0));
-            Assert.assertEquals(3, csp.getDomain(X).size());
-            Assert.assertEquals("red", csp.getDomain(X).get(0));
+            Assert.AreEqual(2, cspCopy.getDomain(X).size());
+            Assert.AreEqual("green", cspCopy.getDomain(X).get(0));
+            Assert.AreEqual(3, csp.getDomain(X).size());
+            Assert.AreEqual("red", csp.getDomain(X).get(0));
 
             cspCopy.setDomain(X, animals);
-            Assert.assertEquals(2, cspCopy.getDomain(X).size());
-            Assert.assertEquals("cat", cspCopy.getDomain(X).get(0));
-            Assert.assertEquals(3, csp.getDomain(X).size());
-            Assert.assertEquals("red", csp.getDomain(X).get(0));
+            Assert.AreEqual(2, cspCopy.getDomain(X).size());
+            Assert.AreEqual("cat", cspCopy.getDomain(X).get(0));
+            Assert.AreEqual(3, csp.getDomain(X).size());
+            Assert.AreEqual("red", csp.getDomain(X).get(0));
         }
     }
 

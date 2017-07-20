@@ -1,38 +1,44 @@
-﻿namespace tvn_cosine.ai.test.unit.agent.impl
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.common.collections;
+
+namespace tvn_cosine.ai.test.unit.agent.impl
 {
+    [TestClass]
     public class PerceptSequenceTest
     {
 
-        @Test
+        [TestMethod]
         public void testToString()
         {
-            List<Percept> ps = new ArrayList<Percept>();
-            ps.add(new DynamicPercept("key1", "value1"));
+            IQueue<Percept> ps = Factory.CreateQueue<Percept>();
+            ps.Add(new DynamicPercept("key1", "value1"));
 
-            Assert.assertEquals("[Percept[key1==value1]]", ps.toString());
+            Assert.AreEqual("[Percept[key1==value1]]", ps.ToString());
 
-            ps.add(new DynamicPercept("key1", "value1", "key2", "value2"));
+            ps.Add(new DynamicPercept("key1", "value1", "key2", "value2"));
 
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "[Percept[key1==value1], Percept[key1==value1, key2==value2]]",
-                    ps.toString());
+                    ps.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testEquals()
         {
-            List<Percept> ps1 = new ArrayList<Percept>();
-            List<Percept> ps2 = new ArrayList<Percept>();
+            IQueue<Percept> ps1 = Factory.CreateQueue<Percept>();
+            IQueue<Percept> ps2 = Factory.CreateQueue<Percept>();
 
-            Assert.assertEquals(ps1, ps2);
+            Assert.AreEqual(ps1, ps2);
 
-            ps1.add(new DynamicPercept("key1", "value1"));
+            ps1.Add(new DynamicPercept("key1", "value1"));
 
-            Assert.assertNotSame(ps1, ps2);
+            Assert.AreNotEqual(ps1, ps2);
 
-            ps2.add(new DynamicPercept("key1", "value1"));
+            ps2.Add(new DynamicPercept("key1", "value1"));
 
-            Assert.assertEquals(ps1, ps2);
+            Assert.AreEqual(ps1, ps2);
         }
     }
 

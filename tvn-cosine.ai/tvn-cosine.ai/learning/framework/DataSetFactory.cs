@@ -23,7 +23,7 @@ namespace tvn.cosine.ai.learning.framework
 
                 while (!reader.EndOfStream)
                 {
-                    ds.Add(exampleFromString(line, spec, separator));
+                    ds.add(exampleFromString(line, spec, separator));
                 }
 
             }

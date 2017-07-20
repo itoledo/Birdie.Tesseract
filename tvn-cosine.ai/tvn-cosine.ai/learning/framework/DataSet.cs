@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.learning.framework
             {
                 if (!(e.Equals(eg)))
                 {
-                    ds.Add(eg);
+                    ds.add(eg);
                 }
             }
             return ds;
@@ -85,12 +85,12 @@ namespace tvn.cosine.ai.learning.framework
                 string val = e.getAttributeValueAsString(attributeName);
                 if (results.ContainsKey(val))
                 {
-                    results.Get(val).Add(e);
+                    results.Get(val).add(e);
                 }
                 else
                 {
                     DataSet ds = new DataSet(specification);
-                    ds.Add(e);
+                    ds.add(e);
                     results.Put(val, ds);
                 }
             }
@@ -135,7 +135,7 @@ namespace tvn.cosine.ai.learning.framework
             DataSet ds = new DataSet(specification);
             foreach (Example e in examples)
             {
-                ds.Add(e);
+                ds.add(e);
             }
             return ds;
         }
@@ -177,7 +177,7 @@ namespace tvn.cosine.ai.learning.framework
             {
                 if (e.getAttributeValueAsString(attributeName).Equals(attributeValue))
                 {
-                    ds.Add(e);
+                    ds.add(e);
                 }
             }
             return ds;

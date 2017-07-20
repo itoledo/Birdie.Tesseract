@@ -113,8 +113,8 @@ namespace tvn.cosine.ai.environment.nqueens
         public void moveQueenTo(XYLocation l)
         {
             for (int i = 0; i < getSize(); i++)
-                squares[l.getXCoOrdinate()][i] = 0;
-            squares[l.getXCoOrdinate()][l.getYCoOrdinate()] = 1;
+                squares[l.getXCoOrdinate(), i] = 0;
+            squares[l.getXCoOrdinate(), l.getYCoOrdinate()] = 1;
         }
 
         public void moveQueen(XYLocation from, XYLocation to)

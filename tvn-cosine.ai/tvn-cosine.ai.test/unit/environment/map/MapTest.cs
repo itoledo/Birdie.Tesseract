@@ -1,11 +1,15 @@
-﻿namespace tvn_cosine.ai.test.unit.environment.map
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.environment.map;
+
+namespace tvn_cosine.ai.test.unit.environment.map
 {
+    [TestClass]
     public class MapTest
     {
-
         ExtendableMap aMap;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             aMap = new ExtendableMap();
@@ -16,84 +20,78 @@
             aMap.addUnidirectionalLink("B", "E", 14.0);
         }
 
-        @Test
+        [TestMethod]
         public void testLocationsLinkedTo()
         {
-            ArrayList<String> locations = new ArrayList<String>();
-            List<String> linkedTo;
+            IQueue<string> locations = Factory.CreateQueue<string>();
+            IQueue<string> linkedTo;
 
             linkedTo = aMap.getPossibleNextLocations("A");
-            locations.clear();
-            locations.add("B");
-            locations.add("C");
-            Assert.assertTrue(locations.containsAll(linkedTo)
-                    && linkedTo.size() == 2);
+            locations.Clear();
+            locations.Add("B");
+            locations.Add("C");
+            Assert.IsTrue(locations.ContainsAll(linkedTo) && linkedTo.Size() == 2);
 
             linkedTo = aMap.getPossibleNextLocations("B");
-            locations.clear();
-            locations.add("A");
-            locations.add("C");
-            locations.add("E");
-            Assert.assertTrue(locations.containsAll(linkedTo)
-                    && linkedTo.size() == 3);
+            locations.Clear();
+            locations.Add("A");
+            locations.Add("C");
+            locations.Add("E");
+            Assert.IsTrue(locations.ContainsAll(linkedTo) && linkedTo.Size() == 3);
 
             linkedTo = aMap.getPossibleNextLocations("C");
-            locations.clear();
-            locations.add("A");
-            locations.add("B");
-            locations.add("D");
-            Assert.assertTrue(locations.containsAll(linkedTo)
-                    && linkedTo.size() == 3);
+            locations.Clear();
+            locations.Add("A");
+            locations.Add("B");
+            locations.Add("D");
+            Assert.IsTrue(locations.ContainsAll(linkedTo) && linkedTo.Size() == 3);
 
             linkedTo = aMap.getPossibleNextLocations("D");
-            locations.clear();
-            locations.add("C");
-            Assert.assertTrue(locations.containsAll(linkedTo)
-                    && linkedTo.size() == 1);
+            locations.Clear();
+            locations.Add("C");
+            Assert.IsTrue(locations.ContainsAll(linkedTo) && linkedTo.Size() == 1);
 
             linkedTo = aMap.getPossibleNextLocations("E");
-            Assert.assertTrue(linkedTo.size() == 0);
+            Assert.IsTrue(linkedTo.Size() == 0);
         }
 
-        @Test
+        [TestMethod]
         public void testDistances()
         {
-            Assert.assertEquals(new Double(5), aMap.getDistance("A", "B"));
-            Assert.assertEquals(new Double(6), aMap.getDistance("A", "C"));
-            Assert.assertEquals(new Double(4), aMap.getDistance("B", "C"));
-            Assert.assertEquals(new Double(7), aMap.getDistance("C", "D"));
-            Assert.assertEquals(new Double(14), aMap.getDistance("B", "E"));
+            Assert.AreEqual(5D, aMap.getDistance("A", "B"));
+            Assert.AreEqual(6D, aMap.getDistance("A", "C"));
+            Assert.AreEqual(4D, aMap.getDistance("B", "C"));
+            Assert.AreEqual(7D, aMap.getDistance("C", "D"));
+            Assert.AreEqual(14D, aMap.getDistance("B", "E"));
             //
-            Assert.assertEquals(new Double(5), aMap.getDistance("B", "A"));
-            Assert.assertEquals(new Double(6), aMap.getDistance("C", "A"));
-            Assert.assertEquals(new Double(4), aMap.getDistance("C", "B"));
-            Assert.assertEquals(new Double(7), aMap.getDistance("D", "C"));
+            Assert.AreEqual(5D, aMap.getDistance("B", "A"));
+            Assert.AreEqual(6D, aMap.getDistance("C", "A"));
+            Assert.AreEqual(4D, aMap.getDistance("C", "B"));
+            Assert.AreEqual(7D, aMap.getDistance("D", "C"));
 
             // No distances should be returned if links not established or locations
             // do not exist
-            Assert.assertNull(aMap.getDistance("X", "Z"));
-            Assert.assertNull(aMap.getDistance("A", "Z"));
-            Assert.assertNull(aMap.getDistance("A", "E"));
+            Assert.IsNull(aMap.getDistance("X", "Z"));
+            Assert.IsNull(aMap.getDistance("A", "Z"));
+            Assert.IsNull(aMap.getDistance("A", "E"));
             // B->E is unidirectional so should not have opposite direction
-            Assert.assertNull(aMap.getDistance("E", "B"));
+            Assert.IsNull(aMap.getDistance("E", "B"));
         }
 
-        @Test
+        [TestMethod]
         public void testRandomGeneration()
         {
-            ArrayList<String> locations = new ArrayList<String>();
-            locations.add("A");
-            locations.add("B");
-            locations.add("C");
-            locations.add("D");
-            locations.add("E");
+            IQueue<string> locations = Factory.CreateQueue<string>();
+            locations.Add("A");
+            locations.Add("B");
+            locations.Add("C");
+            locations.Add("D");
+            locations.Add("E");
 
-            for (int i = 0; i < locations.size(); i++)
+            for (int i = 0; i < locations.Size(); i++)
             {
-                Assert.assertTrue(locations.contains(aMap
-                        .randomlyGenerateDestination()));
+                Assert.IsTrue(locations.Contains(aMap.randomlyGenerateDestination()));
             }
         }
-    }
-
+    } 
 }

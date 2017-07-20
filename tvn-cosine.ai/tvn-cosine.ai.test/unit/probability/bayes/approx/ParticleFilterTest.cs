@@ -1,12 +1,19 @@
-﻿namespace tvn_cosine.ai.test.unit.probability.bayes.approx
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common;
+using tvn.cosine.ai.probability.bayes.approx;
+using tvn.cosine.ai.probability.example;
+using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.util;
+
+namespace tvn_cosine.ai.test.unit.probability.bayes.approx
 {
+    [TestClass]
     public class ParticleFilterTest
     {
-
-        @Test
+        [TestMethod]
         public void test_AIMA3e_Fig15_18()
         {
-            MockRandomizer mr = new MockRandomizer(new double[] {
+            IRandom mr = new MockRandomizer(new double[] {
 				// Prior Sample:
 				// 8 with Rain_t-1=true from prior distribution
 				0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
@@ -47,41 +54,40 @@
 
             AssignmentProposition[][] S = pf.particleFiltering(e);
 
-            Assert.assertEquals(N, S.length);
+            Assert.AreEqual(N, S.Length);
             for (int i = 0; i < N; i++)
             {
-                Assert.assertEquals(1, S[i].length);
+                Assert.AreEqual(1, S[i].Length);
                 AssignmentProposition ap = S[i][0];
-                Assert.assertEquals(ExampleRV.RAIN_t_RV, ap.getTermVariable());
+                Assert.AreEqual(ExampleRV.RAIN_t_RV, ap.getTermVariable());
                 if (i < 2)
                 {
-                    Assert.assertEquals(true, ap.getValue());
+                    Assert.AreEqual(true, ap.getValue());
                 }
                 else
                 {
-                    Assert.assertEquals(false, ap.getValue());
+                    Assert.AreEqual(false, ap.getValue());
                 }
             }
 
             // Generate next sample to ensure everything roles forward ok
             // in this case with prefixed probabilities only expect 1 Rain_t=true
             S = pf.particleFiltering(e);
-            Assert.assertEquals(N, S.length);
+            Assert.AreEqual(N, S.Length);
             for (int i = 0; i < N; i++)
             {
-                Assert.assertEquals(1, S[i].length);
+                Assert.AreEqual(1, S[i].Length);
                 AssignmentProposition ap = S[i][0];
-                Assert.assertEquals(ExampleRV.RAIN_t_RV, ap.getTermVariable());
+                Assert.AreEqual(ExampleRV.RAIN_t_RV, ap.getTermVariable());
                 if (i < 1)
                 {
-                    Assert.assertEquals(true, ap.getValue());
+                    Assert.AreEqual(true, ap.getValue());
                 }
                 else
                 {
-                    Assert.assertEquals(false, ap.getValue());
+                    Assert.AreEqual(false, ap.getValue());
                 }
             }
         }
-    }
-
+    } 
 }

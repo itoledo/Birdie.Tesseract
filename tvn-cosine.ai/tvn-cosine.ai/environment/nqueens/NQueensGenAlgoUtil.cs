@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.local;
 

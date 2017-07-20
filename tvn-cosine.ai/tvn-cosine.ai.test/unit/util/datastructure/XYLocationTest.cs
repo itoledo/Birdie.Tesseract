@@ -1,22 +1,25 @@
-﻿namespace tvn_cosine.ai.test.unit.util.datastructure
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.datastructures;
+
+namespace tvn_cosine.ai.test.unit.util.datastructure
 {
-    public class XYLocationTest
+    [TestClass] public class XYLocationTest
     {
 
-        @Test
+        [TestMethod]
         public void testXYLocationAtributeSettingOnConstruction()
         {
             XYLocation loc = new XYLocation(3, 4);
-            Assert.assertEquals(3, loc.getXCoOrdinate());
-            Assert.assertEquals(4, loc.getYCoOrdinate());
+            Assert.AreEqual(3, loc.getXCoOrdinate());
+            Assert.AreEqual(4, loc.getYCoOrdinate());
         }
 
-        @Test
+        [TestMethod]
         public void testEquality()
         {
             XYLocation loc1 = new XYLocation(3, 4);
             XYLocation loc2 = new XYLocation(3, 4);
-            Assert.assertEquals(loc1, loc2);
+            Assert.AreEqual(loc1, loc2);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.learning.inductive
             {
                 if (matches(e))
                 {
-                    matched.Add(e);
+                    matched.add(e);
                 }
             }
             return matched;
@@ -54,7 +54,7 @@ namespace tvn.cosine.ai.learning.inductive
             {
                 if (!(matches(e)))
                 {
-                    unmatched.Add(e);
+                    unmatched.add(e);
                 }
             }
             return unmatched;

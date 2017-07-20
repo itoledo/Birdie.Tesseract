@@ -61,7 +61,7 @@ namespace tvn.cosine.ai.probability.hmm.impl
                 throw new IllegalArgumentException("Transition Model Matrix does not map correctly to the HMM's State Variable.");
             }
             this.transitionModel = transitionModel;
-            foreach (Matrix smVal in sensorModel.values())
+            foreach (Matrix smVal in sensorModel.GetValues())
             {
                 if (smVal.getRowDimension() != smVal.getColumnDimension())
                 {

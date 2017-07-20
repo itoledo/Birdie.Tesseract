@@ -1,89 +1,93 @@
-﻿namespace tvn_cosine.ai.test.unit.nlp.parse
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.nlp.data.lexicons;
+using tvn.cosine.ai.nlp.parsing;
+using tvn.cosine.ai.nlp.parsing.grammars;
+
+namespace tvn_cosine.ai.test.unit.nlp.parse
 {
+    [TestClass]
     public class LexiconTest
     {
 
         Lexicon l;
         Lexicon wumpusLex;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             l = new Lexicon();
             wumpusLex = LexiconExamples.buildWumpusLex();
         }
 
-        @Test
+        [TestMethod]
         public void testAddEntry()
         {
             l.addEntry("EXAMPLE", "word", (float)0.10);
-            assertTrue(l.containsKey("EXAMPLE"));
-            assertEquals(l.get("EXAMPLE").size(), 1);
+            Assert.IsTrue(l.ContainsKey("EXAMPLE"));
+            Assert.AreEqual(l.Get("EXAMPLE").Size(), 1);
         }
 
-        @Test
+        [TestMethod]
         public void testAddEntryExistingCategory()
         {
             l.addEntry("EXAMPLE", "word", (float)0.10);
             l.addEntry("EXAMPLE", "second", (float)0.90);
-            assertTrue(l.containsKey("EXAMPLE"));
-            assertTrue(l.keySet().size() == 1);
-            assertTrue(l.get("EXAMPLE").get(1).getWord().equals("second"));
+            Assert.IsTrue(l.ContainsKey("EXAMPLE"));
+            Assert.IsTrue(l.GetKeys().Size() == 1);
+            Assert.IsTrue(l.Get("EXAMPLE").Get(1).getWord().Equals("second"));
 
         }
 
-        @Test
+        [TestMethod]
         public void testAddLexWords()
         {
-            String key = "EXAMPLE";
+            string key = "EXAMPLE";
             l.addLexWords(key, "stench", "0.05", "breeze", "0.10", "wumpus", "0.15");
-            assertTrue(l.get(key).size() == 3);
-            assertTrue(l.get(key).get(0).getWord().equals("stench"));
+            Assert.IsTrue(l.Get(key).Size() == 3);
+            Assert.IsTrue(l.Get(key).Get(0).getWord().Equals("stench"));
 
         }
 
-        @Test
+        [TestMethod]
         public void testAddLexWordsWithInvalidArgs()
         {
-            String key = "EXAMPLE";
-            assertFalse(l.addLexWords(key, "stench", "0.05", "breeze"));
-            assertFalse(l.containsKey(key));
+            string key = "EXAMPLE";
+            Assert.IsFalse(l.addLexWords(key, "stench", "0.05", "breeze"));
+            Assert.IsFalse(l.ContainsKey(key));
         }
 
-        @Test
+        [TestMethod]
         public void testGetTerminalRules()
         {
-            String key1 = "A"; String key2 = "B"; String key3 = "C";
+            string key1 = "A"; string key2 = "B"; string key3 = "C";
             l.addLexWords(key1, "apple", "0.25", "alpha", "0.5", "arrow", "0.25");
             l.addLexWords(key2, "ball", "0.25", "bench", "0.25", "blue", "0.25", "bell", "0.25");
             l.addLexWords(key3, "carrot", "0.25", "canary", "0.5", "caper", "0.25");
-            ArrayList<Rule> rules1 = l.getTerminalRules(key1);
-            ArrayList<Rule> rules2 = l.getTerminalRules(key2);
-            ArrayList<Rule> rules3 = l.getTerminalRules(key3);
-            assertEquals(rules1.size(), 3);
-            assertEquals(rules1.get(0).rhs.get(0), "apple");
-            assertEquals(rules2.size(), 4);
-            assertEquals(rules2.get(3).rhs.get(0), "bell");
-            assertEquals(rules3.size(), 3);
-            assertEquals(rules3.get(1).lhs.get(0), "C");
+            IQueue<Rule> rules1 = l.getTerminalRules(key1);
+            IQueue<Rule> rules2 = l.getTerminalRules(key2);
+            IQueue<Rule> rules3 = l.getTerminalRules(key3);
+            Assert.AreEqual(rules1.Size(), 3);
+            Assert.AreEqual(rules1.Get(0).rhs.Get(0), "apple");
+            Assert.AreEqual(rules2.Size(), 4);
+            Assert.AreEqual(rules2.Get(3).rhs.Get(0), "bell");
+            Assert.AreEqual(rules3.Size(), 3);
+            Assert.AreEqual(rules3.Get(1).lhs.Get(0), "C");
         }
 
-        @Test
+        [TestMethod]
         public void testGetAllTerminalRules()
         {
-            String key1 = "A"; String key2 = "B"; String key3 = "C";
+            string key1 = "A"; string key2 = "B"; string key3 = "C";
             l.addLexWords(key1, "apple", "0.25", "alpha", "0.5", "arrow", "0.25");
             l.addLexWords(key2, "ball", "0.25", "bench", "0.25", "blue", "0.25", "bell", "0.25");
             l.addLexWords(key3, "carrot", "0.25", "canary", "0.5", "caper", "0.25");
-            ArrayList<Rule> allRules = l.getAllTerminalRules();
-            assertEquals(allRules.size(), 10);
-            assertTrue(allRules.get(0).rhs.get(0).equals("apple") ||
-                        allRules.get(0).rhs.get(0).equals("ball") ||
-                        allRules.get(0).rhs.get(0).equals("carrot"));
-        }
-
-
-
+            IQueue<Rule> allRules = l.getAllTerminalRules();
+            Assert.AreEqual(allRules.Size(), 10);
+            Assert.IsTrue(allRules.Get(0).rhs.Get(0).Equals("apple") ||
+                        allRules.Get(0).rhs.Get(0).Equals("ball") ||
+                        allRules.Get(0).rhs.Get(0).Equals("carrot"));
+        } 
     }
 
 }

@@ -47,7 +47,7 @@ namespace tvn.cosine.ai.environment.connectfour
          * Orders actions with respect to the number of potential win positions
          * which profit from the action.
          */
-        public IQueue<int> orderActions(ConnectFourState state,
+        public override IQueue<int> orderActions(ConnectFourState state,
                IQueue<int> actions, string player, int depth)
         {
             IQueue<int> result = actions;
@@ -58,7 +58,7 @@ namespace tvn.cosine.ai.environment.connectfour
                 foreach (int action in actions)
                     actionEstimates.Add(ActionValuePair<int>.createFor(action,
                             state.analyzePotentialWinPositions(action)));
-                actionEstimates.Sort();
+                actionEstimates.Sort(new Queue<ActionValuePair<int>>.Comparer());
                 result = Factory.CreateQueue<int>();
                 foreach (ActionValuePair<int> pair in actionEstimates)
                     result.Add(pair.getAction());

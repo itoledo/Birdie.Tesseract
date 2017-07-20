@@ -36,10 +36,10 @@ namespace tvn.cosine.ai.search.informed
         { }
 
         public class EvalFunction : HeuristicEvaluationFunction<S, A>, ToDoubleFunction<Node<S, A>>
-        {
+        { 
             public EvalFunction(ToDoubleFunction<Node<S, A>> h)
             {
-                this.h = h; 
+                this.h = h;
             }
 
             /**
@@ -50,7 +50,7 @@ namespace tvn.cosine.ai.search.informed
              * @return g(n) + h(n)
              */
 
-            public double applyAsDouble(Node<S, A> n)
+            public override double applyAsDouble(Node<S, A> n)
             {
                 // f(n) = g(n) + h(n)
                 return n.getPathCost() + h.applyAsDouble(n);

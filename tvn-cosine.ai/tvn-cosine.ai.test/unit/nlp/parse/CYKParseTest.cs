@@ -1,36 +1,43 @@
-﻿namespace tvn_cosine.ai.test.unit.nlp.parse
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.nlp.data.grammars;
+using tvn.cosine.ai.nlp.parsing;
+using tvn.cosine.ai.nlp.parsing.grammars;
+
+namespace tvn_cosine.ai.test.unit.nlp.parse
 {
+    [TestClass]
     public class CYKParseTest
     {
 
         CYK parser;
-        ArrayList<String> words1; ArrayList<String> words2;
+        IQueue<string> words1;
+     //   IQueue<string> words2;
         ProbCNFGrammar trivGrammar = ProbCNFGrammarExamples.buildTrivialGrammar();
         // Get Example Grammar 2
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             parser = new CYK();
-            words1 = new ArrayList<String>(Arrays.asList("the", "man", "liked", "a", "woman"));
+            words1 = Factory.CreateQueue<string>(new[] { "the", "man", "liked", "a", "woman" });
 
         } // end setUp()
 
-        @Test
+        [TestMethod]
         public void testParseReturn()
         {
-            float[][][] probTable = null;
+            float[,,] probTable = null;
             probTable = parser.parse(words1, trivGrammar);
-            assertNotNull(probTable);
+            Assert.IsNotNull(probTable);
         }
 
-        @Test
+        [TestMethod]
         public void testParse()
         {
-            float[][][] probTable;
+            float[,,] probTable;
             probTable = parser.parse(words1, trivGrammar);
-            assertTrue(probTable[5][0][4] > 0); // probTable[5,0,4] = [S][Start=0][Length=5] 
+            Assert.IsTrue(probTable[5,0,4] > 0); // probTable[5,0,4] = [S][Start=0][Length=5] 
         }
-    }
-
+    } 
 }

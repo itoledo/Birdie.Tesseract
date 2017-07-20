@@ -18,7 +18,7 @@ namespace tvn.cosine.ai.learning.framework
             this.attributeSpecifications = Factory.CreateQueue<AttributeSpecification>();
         }
 
-        public bool isValid(IQueue<string> uncheckedAttributes)
+        public virtual bool isValid(IQueue<string> uncheckedAttributes)
         {
             if (attributeSpecifications.Size() != uncheckedAttributes.Size())
             {
@@ -40,12 +40,12 @@ namespace tvn.cosine.ai.learning.framework
         /**
          * @return Returns the targetAttribute.
          */
-        public string getTarget()
+        public virtual string getTarget()
         {
             return targetAttribute;
         }
 
-        public IQueue<string> getPossibleAttributeValues(string attributeName)
+        public virtual IQueue<string> getPossibleAttributeValues(string attributeName)
         {
             foreach (AttributeSpecification _as in attributeSpecifications)
             {
@@ -57,7 +57,7 @@ namespace tvn.cosine.ai.learning.framework
             throw new RuntimeException("No such attribute" + attributeName);
         }
 
-        public IQueue<string> getAttributeNames()
+        public virtual IQueue<string> getAttributeNames()
         {
             IQueue<string> names = Factory.CreateQueue<string>();
             foreach (AttributeSpecification _as in attributeSpecifications)
@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.learning.framework
             return names;
         }
 
-        public void defineStringAttribute(string name, string[] attributeValues)
+        public virtual void defineStringAttribute(string name, string[] attributeValues)
         {
             attributeSpecifications.Add(new StringAttributeSpecification(name, attributeValues));
             setTarget(name);// target defaults to last column added
@@ -77,12 +77,12 @@ namespace tvn.cosine.ai.learning.framework
          * @param target
          *            The targetAttribute to set.
          */
-        public void setTarget(string target)
+        public virtual void setTarget(string target)
         {
             this.targetAttribute = target;
         }
 
-        public AttributeSpecification getAttributeSpecFor(string name)
+        public virtual AttributeSpecification getAttributeSpecFor(string name)
         {
             foreach (AttributeSpecification spec in attributeSpecifications)
             {
@@ -94,12 +94,12 @@ namespace tvn.cosine.ai.learning.framework
             throw new RuntimeException("no attribute spec for  " + name);
         }
 
-        public void defineNumericAttribute(string name)
+        public virtual void defineNumericAttribute(string name)
         {
             attributeSpecifications.Add(new NumericAttributeSpecification(name));
         }
 
-        public IQueue<string> getNamesOfStringAttributes()
+        public virtual IQueue<string> getNamesOfStringAttributes()
         {
             IQueue<string> names = Factory.CreateQueue<string>();
             foreach (AttributeSpecification spec in attributeSpecifications)

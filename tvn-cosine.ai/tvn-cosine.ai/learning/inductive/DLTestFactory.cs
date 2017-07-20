@@ -6,7 +6,7 @@ namespace tvn.cosine.ai.learning.inductive
 {
     public class DLTestFactory
     {
-        public IQueue<DLTest> createDLTestsWithAttributeCount(DataSet ds, int i)
+        public virtual IQueue<DLTest> createDLTestsWithAttributeCount(DataSet ds, int i)
         {
             if (i != 1)
             {
@@ -18,13 +18,13 @@ namespace tvn.cosine.ai.learning.inductive
             {
                 IQueue<string> ntaValues = ds.getPossibleAttributeValues(ntAttribute);
                 foreach (string ntaValue in ntaValues)
-                { 
+                {
                     DLTest test = new DLTest();
-                    test.Add(ntAttribute, ntaValue);
-                    tests.Add(test); 
+                    test.add(ntAttribute, ntaValue);
+                    tests.Add(test);
                 }
             }
             return tests;
         }
-    } 
+    }
 }

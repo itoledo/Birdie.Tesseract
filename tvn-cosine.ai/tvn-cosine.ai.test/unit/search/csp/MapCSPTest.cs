@@ -1,34 +1,38 @@
-﻿namespace tvn_cosine.ai.test.unit.search.csp
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.search.csp;
+using tvn.cosine.ai.search.csp.examples;
+
+namespace tvn_cosine.ai.test.unit.search.csp
 {
+    [TestClass]
     public class MapCSPTest
     {
-        private CSP<Variable, String> csp;
+        private CSP<Variable, string> csp;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             csp = new MapCSP();
         }
 
-        @Test
+        [TestMethod]
         public void testBackTrackingSearch()
         {
-            Optional<Assignment<Variable, String>> results = new FlexibleBacktrackingSolver<Variable, String>().solve(csp);
-            Assert.assertTrue(results.isPresent());
-            Assert.assertEquals(MapCSP.GREEN, results.get().getValue(MapCSP.WA));
-            Assert.assertEquals(MapCSP.RED, results.get().getValue(MapCSP.NT));
-            Assert.assertEquals(MapCSP.BLUE, results.get().getValue(MapCSP.SA));
-            Assert.assertEquals(MapCSP.GREEN, results.get().getValue(MapCSP.Q));
-            Assert.assertEquals(MapCSP.RED, results.get().getValue(MapCSP.NSW));
-            Assert.assertEquals(MapCSP.GREEN, results.get().getValue(MapCSP.V));
-            Assert.assertEquals(MapCSP.RED, results.get().getValue(MapCSP.T));
+            Assignment<Variable, string> results = new FlexibleBacktrackingSolver<Variable, string>().solve(csp);
+            Assert.IsTrue(results != null);
+            Assert.AreEqual(MapCSP.GREEN, results.getValue(MapCSP.WA));
+            Assert.AreEqual(MapCSP.RED, results.getValue(MapCSP.NT));
+            Assert.AreEqual(MapCSP.BLUE, results.getValue(MapCSP.SA));
+            Assert.AreEqual(MapCSP.GREEN, results.getValue(MapCSP.Q));
+            Assert.AreEqual(MapCSP.RED, results.getValue(MapCSP.NSW));
+            Assert.AreEqual(MapCSP.GREEN, results.getValue(MapCSP.V));
+            Assert.AreEqual(MapCSP.RED, results.getValue(MapCSP.T));
         }
 
-        @Test
+        [TestMethod]
         public void testMCSearch()
         {
-            new MinConflictsSolver<Variable, String>(100).solve(csp);
+            new MinConflictsSolver<Variable, string>(100).solve(csp);
         }
-    }
-
+    } 
 }

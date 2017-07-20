@@ -52,7 +52,7 @@ namespace tvn.cosine.ai.learning.learners
             if (null != currentBestHypothesis)
             {
                 FOLExample etp = new FOLExample(folDSDomain, e, 0);
-                kb.Clear();
+                kb.clear();
                 kb.tell(etp.getDescription());
                 kb.tell(currentBestHypothesis.getHypothesis());
                 InferenceResult ir = kb.ask(etp.getClassification());

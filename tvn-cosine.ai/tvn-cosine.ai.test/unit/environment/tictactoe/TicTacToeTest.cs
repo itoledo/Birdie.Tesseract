@@ -1,118 +1,122 @@
-﻿namespace tvn_cosine.ai.test.unit.environment.tictactoe
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.environment.tictactoe;
+using tvn.cosine.ai.search.adversarial;
+
+namespace tvn_cosine.ai.test.unit.environment.tictactoe
 {
+    [TestClass]
     public class TicTacToeTest
     {
-
         private TicTacToeGame game;
         private TicTacToeState state;
         private double epsilon = 0.0001;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             game = new TicTacToeGame();
             state = game.getInitialState();
         }
 
-        @Test
+        [TestMethod]
         public void testCreation()
         {
             game = new TicTacToeGame();
             state = game.getInitialState();
-            Assert.assertEquals(9, game.getActions(state).size());
-            Assert.assertEquals(TicTacToeState.X, game.getPlayer(state));
+            Assert.AreEqual(9, game.getActions(state).Size());
+            Assert.AreEqual(TicTacToeState.X, game.getPlayer(state));
         }
 
-        @Test
+        [TestMethod]
         public void testHashCode()
         {
             TicTacToeState initialState1 = game.getInitialState();
             TicTacToeState initialState2 = game.getInitialState();
-            Assert.assertEquals(initialState1.hashCode(), initialState2.hashCode());
+            Assert.AreEqual(initialState1.GetHashCode(), initialState2.GetHashCode());
             TicTacToeState state1 = game.getResult(initialState1, new XYLocation(0, 0));
-            Assert.assertNotSame(state1.hashCode(), initialState2.hashCode());
+            Assert.AreNotEqual(state1.GetHashCode(), initialState2.GetHashCode());
             TicTacToeState state2 = game.getResult(initialState2, new XYLocation(0, 0));
-            Assert.assertEquals(state1.hashCode(), state2.hashCode());
+            Assert.AreEqual(state1.GetHashCode(), state2.GetHashCode());
 
         }
 
-        @Test
+        [TestMethod]
         public void testOnCreationBoardIsEmpty()
         {
-            Assert.assertEquals(TicTacToeState.EMPTY, state.getValue(0, 0));
-            Assert.assertEquals(TicTacToeState.EMPTY, state.getValue(0, 2));
-            Assert.assertEquals(TicTacToeState.EMPTY, state.getValue(2, 0));
-            Assert.assertEquals(TicTacToeState.EMPTY, state.getValue(2, 2));
-            Assert.assertEquals(true, state.isEmpty(0, 0));
-            Assert.assertEquals(true, state.isEmpty(2, 2));
+            Assert.AreEqual(TicTacToeState.EMPTY, state.getValue(0, 0));
+            Assert.AreEqual(TicTacToeState.EMPTY, state.getValue(0, 2));
+            Assert.AreEqual(TicTacToeState.EMPTY, state.getValue(2, 0));
+            Assert.AreEqual(TicTacToeState.EMPTY, state.getValue(2, 2));
+            Assert.AreEqual(true, state.isEmpty(0, 0));
+            Assert.AreEqual(true, state.isEmpty(2, 2));
         }
 
-        @Test
+        [TestMethod]
         public void testMakingOneMoveChangesState()
         {
             state = game.getResult(state, new XYLocation(0, 0));
-            Assert.assertEquals(TicTacToeState.X, state.getValue(0, 0));
-            Assert.assertEquals(false, state.isEmpty(0, 0));
-            Assert.assertEquals(8, game.getActions(state).size());
-            Assert.assertEquals(TicTacToeState.O, game.getPlayer(state));
+            Assert.AreEqual(TicTacToeState.X, state.getValue(0, 0));
+            Assert.AreEqual(false, state.isEmpty(0, 0));
+            Assert.AreEqual(8, game.getActions(state).Size());
+            Assert.AreEqual(TicTacToeState.O, game.getPlayer(state));
         }
 
-        @Test
+        [TestMethod]
         public void testMakingTwoMovesChangesState()
         {
             state = game.getResult(state, new XYLocation(0, 0));
             state = game.getResult(state, new XYLocation(0, 1));
-            Assert.assertEquals(TicTacToeState.O, state.getValue(0, 1));
-            Assert.assertEquals(false, state.isEmpty(0, 1));
-            Assert.assertEquals(true, state.isEmpty(1, 0));
-            Assert.assertEquals(7, game.getActions(state).size());
-            Assert.assertEquals(TicTacToeState.X, game.getPlayer(state));
+            Assert.AreEqual(TicTacToeState.O, state.getValue(0, 1));
+            Assert.AreEqual(false, state.isEmpty(0, 1));
+            Assert.AreEqual(true, state.isEmpty(1, 0));
+            Assert.AreEqual(7, game.getActions(state).Size());
+            Assert.AreEqual(TicTacToeState.X, game.getPlayer(state));
         }
 
-        @Test
+        [TestMethod]
         public void testVerticalLineThroughBoard()
         {
             state.mark(0, 0);
             state.mark(1, 0);
             state.mark(0, 1);
             state.mark(1, 1);
-            Assert.assertEquals(false, state.lineThroughBoard());
+            Assert.AreEqual(false, state.lineThroughBoard());
             state.mark(new XYLocation(0, 2));
-            Assert.assertEquals(true, state.lineThroughBoard());
+            Assert.AreEqual(true, state.lineThroughBoard());
         }
 
-        @Test
+        [TestMethod]
         public void testHorizontalLineThroughBoard()
         {
             state.mark(0, 0);
             state.mark(0, 1);
             state.mark(1, 0);
             state.mark(1, 1);
-            Assert.assertEquals(false, state.lineThroughBoard());
+            Assert.AreEqual(false, state.lineThroughBoard());
             state.mark(2, 0);
-            Assert.assertEquals(true, state.lineThroughBoard());
+            Assert.AreEqual(true, state.lineThroughBoard());
         }
 
-        @Test
+        [TestMethod]
         public void testDiagonalLineThroughBoard()
         {
             state.mark(0, 0);
             state.mark(0, 1);
             state.mark(1, 1);
             state.mark(0, 2);
-            Assert.assertEquals(false, state.lineThroughBoard());
+            Assert.AreEqual(false, state.lineThroughBoard());
             state.mark(2, 2);
-            Assert.assertEquals(true, state.lineThroughBoard());
+            Assert.AreEqual(true, state.lineThroughBoard());
         }
 
-        @Test
+        [TestMethod]
         public void testMinmaxValueCalculation()
         {
-            MinimaxSearch<TicTacToeState, XYLocation, String> search = MinimaxSearch
-            .createFor(game);
-            Assert.assertTrue(epsilon > Math.abs(search.maxValue(state,
+            MinimaxSearch<TicTacToeState, XYLocation, string> search = MinimaxSearch<TicTacToeState, XYLocation, string>.createFor(game);
+            Assert.IsTrue(epsilon > System.Math.Abs(search.maxValue(state,
                     TicTacToeState.X) - 0.5));
-            Assert.assertTrue(epsilon > Math.abs(search.minValue(state,
+            Assert.IsTrue(epsilon > System.Math.Abs(search.minValue(state,
                     TicTacToeState.O) - 0.5));
 
             // x o x
@@ -127,42 +131,41 @@
             state.mark(2, 1); // x
             state.mark(1, 1); // o
 
-            Assert.assertTrue(epsilon > Math.abs(search.maxValue(state,
+            Assert.IsTrue(epsilon > System.Math.Abs(search.maxValue(state,
                     TicTacToeState.X) - 1));
-            Assert.assertTrue(epsilon > Math.abs(search.minValue(state,
+            Assert.IsTrue(epsilon > System.Math.Abs(search.minValue(state,
                     TicTacToeState.O)));
             XYLocation action = search.makeDecision(state);
-            Assert.assertEquals(new XYLocation(2, 2), action);
+            Assert.AreEqual(new XYLocation(2, 2), action);
         }
 
-        @Test
+        [TestMethod]
         public void testMinmaxDecision()
         {
-            MinimaxSearch<TicTacToeState, XYLocation, String> search = MinimaxSearch
+            MinimaxSearch<TicTacToeState, XYLocation, string> search = MinimaxSearch<TicTacToeState, XYLocation, string>
                     .createFor(game);
             search.makeDecision(state);
-            int expandedNodes = search.getMetrics().getInt(MinimaxSearch.METRICS_NODES_EXPANDED);
-            Assert.assertEquals(549945, expandedNodes);
+            int expandedNodes = search.getMetrics().getInt(MinimaxSearch<TicTacToeState, XYLocation, string>.METRICS_NODES_EXPANDED);
+            Assert.AreEqual(549945, expandedNodes);
         }
 
-        @Test
+        [TestMethod]
         public void testAlphaBetaDecision()
         {
-            AlphaBetaSearch<TicTacToeState, XYLocation, String> search = AlphaBetaSearch
-                    .createFor(game);
+            AlphaBetaSearch<TicTacToeState, XYLocation, string> search = AlphaBetaSearch<TicTacToeState, XYLocation, string>.createFor(game);
             search.makeDecision(state);
-            int expandedNodes = search.getMetrics().getInt(MinimaxSearch.METRICS_NODES_EXPANDED);
-            Assert.assertEquals(30709, expandedNodes);
+            int expandedNodes = search.getMetrics().getInt(MinimaxSearch<TicTacToeState, XYLocation, string>.METRICS_NODES_EXPANDED);
+            Assert.AreEqual(30709, expandedNodes);
         }
 
-        @Test
+        [TestMethod]
         public void testIterativeDeepeningAlphaBetaDecision()
         {
-            IterativeDeepeningAlphaBetaSearch<TicTacToeState, XYLocation, String> search = IterativeDeepeningAlphaBetaSearch
+            IterativeDeepeningAlphaBetaSearch<TicTacToeState, XYLocation, string> search = IterativeDeepeningAlphaBetaSearch<TicTacToeState, XYLocation, string>
                     .createFor(game, 0.0, 1.0, 100);
             search.makeDecision(state);
-            int expandedNodes = search.getMetrics().getInt(MinimaxSearch.METRICS_NODES_EXPANDED);
-            Assert.assertEquals(76035, expandedNodes);
+            int expandedNodes = search.getMetrics().getInt(MinimaxSearch<TicTacToeState, XYLocation, string>.METRICS_NODES_EXPANDED);
+            Assert.AreEqual(76035, expandedNodes);
         }
     }
 

@@ -1,9 +1,15 @@
-﻿namespace tvn_cosine.ai.test.unit.learning.neural
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.neural;
+using tvn.cosine.ai.util.math;
+
+namespace tvn_cosine.ai.test.unit.learning.neural
 {
+    [TestClass]
     public class BackPropagationTest
     {
 
-        @Test
+        [TestMethod]
         public void testFeedForwardAndBAckLoopWorks()
         {
             // example 11.14 of Neural Network Design by Hagan, Demuth and Beale
@@ -39,22 +45,22 @@
             ffnn.processError(error);
 
             Matrix finalHiddenLayerWeights = ffnn.getHiddenLayerWeights();
-            Assert.assertEquals(-0.265, finalHiddenLayerWeights.get(0, 0), 0.001);
-            Assert.assertEquals(-0.419, finalHiddenLayerWeights.get(1, 0), 0.001);
+            Assert.AreEqual(-0.265, finalHiddenLayerWeights.get(0, 0), 0.001);
+            Assert.AreEqual(-0.419, finalHiddenLayerWeights.get(1, 0), 0.001);
 
             Vector hiddenLayerBias = ffnn.getHiddenLayerBias();
-            Assert.assertEquals(-0.475, hiddenLayerBias.getValue(0), 0.001);
-            Assert.assertEquals(-0.1399, hiddenLayerBias.getValue(1), 0.001);
+            Assert.AreEqual(-0.475, hiddenLayerBias.getValue(0), 0.001);
+            Assert.AreEqual(-0.1399, hiddenLayerBias.getValue(1), 0.001);
 
             Matrix finalOutputLayerWeights = ffnn.getOutputLayerWeights();
-            Assert.assertEquals(0.171, finalOutputLayerWeights.get(0, 0), 0.001);
-            Assert.assertEquals(-0.0772, finalOutputLayerWeights.get(0, 1), 0.001);
+            Assert.AreEqual(0.171, finalOutputLayerWeights.get(0, 0), 0.001);
+            Assert.AreEqual(-0.0772, finalOutputLayerWeights.get(0, 1), 0.001);
 
             Vector outputLayerBias = ffnn.getOutputLayerBias();
-            Assert.assertEquals(0.7322, outputLayerBias.getValue(0), 0.001);
+            Assert.AreEqual(0.7322, outputLayerBias.getValue(0), 0.001);
         }
 
-        @Test
+        [TestMethod]
         public void testFeedForwardAndBAckLoopWorksWithMomentum()
         {
             // example 11.14 of Neural Network Design by Hagan, Demuth and Beale
@@ -91,62 +97,61 @@
             ffnn.processError(error);
 
             Matrix finalHiddenLayerWeights = ffnn.getHiddenLayerWeights();
-            Assert.assertEquals(-0.2675, finalHiddenLayerWeights.get(0, 0), 0.001);
-            Assert.assertEquals(-0.4149, finalHiddenLayerWeights.get(1, 0), 0.001);
+            Assert.AreEqual(-0.2675, finalHiddenLayerWeights.get(0, 0), 0.001);
+            Assert.AreEqual(-0.4149, finalHiddenLayerWeights.get(1, 0), 0.001);
 
             Vector hiddenLayerBias = ffnn.getHiddenLayerBias();
-            Assert.assertEquals(-0.4775, hiddenLayerBias.getValue(0), 0.001);
-            Assert.assertEquals(-0.1349, hiddenLayerBias.getValue(1), 0.001);
+            Assert.AreEqual(-0.4775, hiddenLayerBias.getValue(0), 0.001);
+            Assert.AreEqual(-0.1349, hiddenLayerBias.getValue(1), 0.001);
 
             Matrix finalOutputLayerWeights = ffnn.getOutputLayerWeights();
-            Assert.assertEquals(0.1304, finalOutputLayerWeights.get(0, 0), 0.001);
-            Assert.assertEquals(-0.1235, finalOutputLayerWeights.get(0, 1), 0.001);
+            Assert.AreEqual(0.1304, finalOutputLayerWeights.get(0, 0), 0.001);
+            Assert.AreEqual(-0.1235, finalOutputLayerWeights.get(0, 1), 0.001);
 
             Vector outputLayerBias = ffnn.getOutputLayerBias();
-            Assert.assertEquals(0.6061, outputLayerBias.getValue(0), 0.001);
+            Assert.AreEqual(0.6061, outputLayerBias.getValue(0), 0.001);
         }
 
-        @Test
-        public void testDataSetPopulation() throws Exception
+        [TestMethod]
+        public void testDataSetPopulation()
         {
             DataSet irisDataSet = DataSetFactory.getIrisDataSet();
             Numerizer numerizer = new IrisDataSetNumerizer();
-        NNDataSet innds = new IrisNNDataSet();
+            NNDataSet innds = new IrisNNDataSet();
 
-        innds.createExamplesFromDataSet(irisDataSet, numerizer);
+            innds.createExamplesFromDataSet(irisDataSet, numerizer);
 
-		NNConfig config = new NNConfig();
-        config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_INPUTS, 4);
-		config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_OUTPUTS, 3);
-		config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_HIDDEN_NEURONS, 6);
-		config.setConfig(FeedForwardNeuralNetwork.LOWER_LIMIT_WEIGHTS, -2.0);
-		config.setConfig(FeedForwardNeuralNetwork.UPPER_LIMIT_WEIGHTS, 2.0);
+            NNConfig config = new NNConfig();
+            config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_INPUTS, 4);
+            config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_OUTPUTS, 3);
+            config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_HIDDEN_NEURONS, 6);
+            config.setConfig(FeedForwardNeuralNetwork.LOWER_LIMIT_WEIGHTS, -2.0);
+            config.setConfig(FeedForwardNeuralNetwork.UPPER_LIMIT_WEIGHTS, 2.0);
 
-		FeedForwardNeuralNetwork ffnn = new FeedForwardNeuralNetwork(config);
-        ffnn.setTrainingScheme(new BackPropLearning(0.1, 0.9));
+            FeedForwardNeuralNetwork ffnn = new FeedForwardNeuralNetwork(config);
+            ffnn.setTrainingScheme(new BackPropLearning(0.1, 0.9));
 
-		ffnn.trainOn(innds, 10);
+            ffnn.trainOn(innds, 10);
 
-		innds.refreshDataset();
-		ffnn.testOnDataSet(innds);
-	}
+            innds.refreshDataset();
+            ffnn.testOnDataSet(innds);
+        }
 
-    @Test
-    public void testPerceptron() throws Exception
-    {
-        DataSet irisDataSet = DataSetFactory.getIrisDataSet();
-        Numerizer numerizer = new IrisDataSetNumerizer();
-    NNDataSet innds = new IrisNNDataSet();
+        [TestMethod]
+        public void testPerceptron()
+        {
+            DataSet irisDataSet = DataSetFactory.getIrisDataSet();
+            Numerizer numerizer = new IrisDataSetNumerizer();
+            NNDataSet innds = new IrisNNDataSet();
 
-    innds.createExamplesFromDataSet(irisDataSet, numerizer);
+            innds.createExamplesFromDataSet(irisDataSet, numerizer);
 
-		Perceptron perc = new Perceptron(3, 4);
+            Perceptron perc = new Perceptron(3, 4);
 
-    perc.trainOn(innds, 10);
+            perc.trainOn(innds, 10);
 
-		innds.refreshDataset();
-		perc.testOnDataSet(innds);
-	}
-}
-
+            innds.refreshDataset();
+            perc.testOnDataSet(innds);
+        }
+    } 
 }

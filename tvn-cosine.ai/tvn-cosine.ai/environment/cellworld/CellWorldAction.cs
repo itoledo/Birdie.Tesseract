@@ -18,11 +18,11 @@ namespace tvn.cosine.ai.environment.cellworld
      */
     public class CellWorldAction : Action
     {
-        private static readonly CellWorldAction Up = new CellWorldAction();
-        private static readonly CellWorldAction Down = new CellWorldAction();
-        private static readonly CellWorldAction Left = new CellWorldAction();
-        private static readonly CellWorldAction Right = new CellWorldAction();
-        private static readonly CellWorldAction None = new CellWorldAction();
+        public static readonly CellWorldAction Up = new CellWorldAction();
+        public static readonly CellWorldAction Down = new CellWorldAction();
+        public static readonly CellWorldAction Left = new CellWorldAction();
+        public static readonly CellWorldAction Right = new CellWorldAction();
+        public static readonly CellWorldAction None = new CellWorldAction();
 
         private static readonly ISet<CellWorldAction> _actions;
 

@@ -1,63 +1,68 @@
-﻿namespace tvn_cosine.ai.test.unit.learning.inductive
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.inductive;
+
+namespace tvn_cosine.ai.test.unit.learning.inductive
 {
+    [TestClass]
     public class DLTestTest
-    { 
-        @Test
-        public void testDecisionList() throws Exception
+    {
+        [TestMethod]
+        public void testDecisionList()
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
-            List<DLTest> dlTests = new DLTestFactory()
-    				.createDLTestsWithAttributeCount(ds, 1);
-        Assert.assertEquals(26, dlTests.size());
-	}
+            IQueue<DLTest> dlTests = new DLTestFactory()
+                       .createDLTestsWithAttributeCount(ds, 1);
+            Assert.AreEqual(26, dlTests.Size());
+        }
 
-    @Test
-    public void testDLTestMatchSucceedsWithMatchedExample() throws Exception
-    {
-        DataSet ds = DataSetFactory.getRestaurantDataSet();
-        Example e = ds.getExample(0);
-        DLTest test = new DLTest();
-    test.add("type", "French");
-		Assert.assertTrue(test.matches(e));
-	}
+        [TestMethod]
+        public void testDLTestMatchSucceedsWithMatchedExample()
+        {
+            DataSet ds = DataSetFactory.getRestaurantDataSet();
+            Example e = ds.getExample(0);
+            DLTest test = new DLTest();
+            test.add("type", "French");
+            Assert.IsTrue(test.matches(e));
+        }
 
-@Test
-    public void testDLTestMatchFailsOnMismatchedExample() throws Exception
-{
-    DataSet ds = DataSetFactory.getRestaurantDataSet();
-    Example e = ds.getExample(0);
-    DLTest test = new DLTest();
-test.add("type", "Thai");
-		Assert.assertFalse(test.matches(e));
-	}
+        [TestMethod]
+        public void testDLTestMatchFailsOnMismatchedExample()
+        {
+            DataSet ds = DataSetFactory.getRestaurantDataSet();
+            Example e = ds.getExample(0);
+            DLTest test = new DLTest();
+            test.add("type", "Thai");
+            Assert.IsFalse(test.matches(e));
+        }
 
-	@Test
-    public void testDLTestMatchesEvenOnMismatchedTargetAttributeValue()
+        [TestMethod]
+        public void testDLTestMatchesEvenOnMismatchedTargetAttributeValue()
 
-            throws Exception
-{
-    DataSet ds = DataSetFactory.getRestaurantDataSet();
-    Example e = ds.getExample(0);
-    DLTest test = new DLTest();
-test.add("type", "French");
-		Assert.assertTrue(test.matches(e));
-	}
 
-	@Test
-    public void testDLTestReturnsMatchedAndUnmatchedExamplesCorrectly()
+        {
+            DataSet ds = DataSetFactory.getRestaurantDataSet();
+            Example e = ds.getExample(0);
+            DLTest test = new DLTest();
+            test.add("type", "French");
+            Assert.IsTrue(test.matches(e));
+        }
 
-            throws Exception
-{
-    DataSet ds = DataSetFactory.getRestaurantDataSet();
-    DLTest test = new DLTest();
-test.add("type", "Burger");
+        [TestMethod]
+        public void testDLTestReturnsMatchedAndUnmatchedExamplesCorrectly()
 
-		DataSet matched = test.matchedExamples(ds);
-Assert.assertEquals(4, matched.size());
 
-		DataSet unmatched = test.unmatchedExamples(ds);
-Assert.assertEquals(8, unmatched.size());
-	}
-}
+        {
+            DataSet ds = DataSetFactory.getRestaurantDataSet();
+            DLTest test = new DLTest();
+            test.add("type", "Burger");
 
+            DataSet matched = test.matchedExamples(ds);
+            Assert.AreEqual(4, matched.size());
+
+            DataSet unmatched = test.unmatchedExamples(ds);
+            Assert.AreEqual(8, unmatched.size());
+        }
+    } 
 }

@@ -1,12 +1,15 @@
-﻿namespace tvn_cosine.ai.test.unit.environment.vacuum
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.environment.vacuum;
+
+namespace tvn_cosine.ai.test.unit.environment.vacuum
 {
-    public class VacuumEnvironmentTest
+    [TestClass] public class VacuumEnvironmentTest
     {
         VacuumEnvironment tve, tve2, tve3, tve4;
 
         ModelBasedReflexVacuumAgent a;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             tve = new VacuumEnvironment(VacuumEnvironment.LocationState.Dirty,
@@ -20,26 +23,26 @@
             a = new ModelBasedReflexVacuumAgent();
         }
 
-        @Test
+        [TestMethod]
         public void testTVEConstruction()
         {
-            Assert.assertEquals(VacuumEnvironment.LocationState.Dirty,
+            Assert.AreEqual(VacuumEnvironment.LocationState.Dirty,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
-            Assert.assertEquals(VacuumEnvironment.LocationState.Dirty,
+            Assert.AreEqual(VacuumEnvironment.LocationState.Dirty,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            Assert.assertEquals(VacuumEnvironment.LocationState.Clean,
+            Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve2.getLocationState(VacuumEnvironment.LOCATION_A));
-            Assert.assertEquals(VacuumEnvironment.LocationState.Clean,
+            Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve2.getLocationState(VacuumEnvironment.LOCATION_B));
         }
 
-        @Test
+        [TestMethod]
         public void testAgentAdd()
         {
             tve.addAgent(a, VacuumEnvironment.LOCATION_A);
-            Assert.assertEquals(VacuumEnvironment.LOCATION_A,
+            Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(a));
-            Assert.assertEquals(1, tve.getAgents().size());
+            Assert.AreEqual(1, tve.getAgents().Size());
         }
     }
 

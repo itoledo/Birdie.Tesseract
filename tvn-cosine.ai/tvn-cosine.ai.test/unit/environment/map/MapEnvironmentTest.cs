@@ -1,12 +1,18 @@
-﻿namespace tvn_cosine.ai.test.unit.environment.map
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.environment.map;
+using tvn.cosine.ai.search.uninformed;
+
+namespace tvn_cosine.ai.test.unit.environment.map
 {
+    [TestClass]
     public class MapEnvironmentTest
     {
         MapEnvironment me;
 
         SimpleMapAgent ma;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -17,48 +23,48 @@
             aMap.addUnidirectionalLink("B", "E", 14.0);
 
             me = new MapEnvironment(aMap);
-            ma = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<>(),
-                    new String[] { "A" });
+            ma = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<string, MoveToAction>(),
+                    new string[] { "A" });
         }
 
-        @Test
+        [TestMethod]
         public void testAddAgent()
         {
             me.addAgent(ma, "E");
-            Assert.assertEquals(me.getAgentLocation(ma), "E");
+            Assert.AreEqual(me.getAgentLocation(ma), "E");
         }
 
-        @Test
+        [TestMethod]
         public void testExecuteAction()
         {
             me.addAgent(ma, "D");
             me.executeAction(ma, new MoveToAction("C"));
-            Assert.assertEquals(me.getAgentLocation(ma), "C");
+            Assert.AreEqual(me.getAgentLocation(ma), "C");
         }
 
-        @Test
+        [TestMethod]
         public void testPerceptSeenBy()
         {
             me.addAgent(ma, "D");
             DynamicPercept p = (DynamicPercept)me.getPerceptSeenBy(ma);
-            Assert.assertEquals(p.getAttribute(DynAttributeNames.PERCEPT_IN), "D");
+            Assert.AreEqual(p.getAttribute(DynAttributeNames.PERCEPT_IN), "D");
         }
 
-        @Test
+        [TestMethod]
         public void testTwoAgentsSupported()
         {
-            SimpleMapAgent ma1 = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<>(),
-                    new String[] { "A" });
-            SimpleMapAgent ma2 = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<>(),
-                    new String[] { "A" });
+            SimpleMapAgent ma1 = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<string, MoveToAction>(),
+                    new string[] { "A" });
+            SimpleMapAgent ma2 = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<string, MoveToAction>(),
+                    new string[] { "A" });
 
             me.addAgent(ma1, "A");
             me.addAgent(ma2, "A");
             me.executeAction(ma1, new MoveToAction("B"));
             me.executeAction(ma2, new MoveToAction("C"));
 
-            Assert.assertEquals(me.getAgentLocation(ma1), "B");
-            Assert.assertEquals(me.getAgentLocation(ma2), "C");
+            Assert.AreEqual(me.getAgentLocation(ma1), "B");
+            Assert.AreEqual(me.getAgentLocation(ma2), "C");
         }
     }
 

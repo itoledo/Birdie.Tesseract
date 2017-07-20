@@ -94,8 +94,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
         { }
 
         public HybridWumpusAgent(int caveXDim, int caveYDim, AgentPosition start,
-            WumpusKnowledgeBase kb,
-                                 EnvironmentViewNotifier notifier)
+            WumpusKnowledgeBase kb,                                 EnvironmentViewNotifier notifier)
         {
             this.kb = kb;
             this.start = start;
@@ -308,6 +307,6 @@ namespace tvn.cosine.ai.environment.wumpusworld
         {
             if (notifier != null)
                 notifier.notifyViews(message);
-        }
+        } 
     }
 }

@@ -1,173 +1,169 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.propositional.inference
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
+using tvn.cosine.ai.util;
+
+namespace tvn_cosine.ai.test.unit.logic.propositional.inference
 {
-@RunWith(Parameterized.class)
-public class PLResolutionTest
+    [TestClass]
+    public class PLResolutionTest
     {
         private PLResolution resolution;
         private PLParser parser;
 
 
-    @Parameters(name = "{index}: discardTautologies={0}")
-    public static Collection<Object[]> inferenceAlgorithmSettings()
+        public static IQueue<object> inferenceAlgorithmSettings()
         {
-            return Arrays.asList(new Object[][] {
-                {false}, // will not discard tautological clauses - slower!
-        		{true}   // will discard tautological clauses - faster!
+            return Factory.CreateQueue<object>(new object[] {
+                 false , // will not discard tautological clauses - slower!
+        		 true    // will discard tautological clauses - faster!
         });
         }
 
-        public PLResolutionTest(boolean discardTautologies)
+        public PLResolutionTest(bool discardTautologies)
         {
             this.resolution = new PLResolution(discardTautologies);
             parser = new PLParser();
         }
 
-        @Test
-    public void testPLResolveWithOneLiteralMatching()
+        [TestMethod]
+        public void testPLResolveWithOneLiteralMatching()
         {
-            Clause one = ConvertToConjunctionOfClauses
-                    .convert(parser.parse("A | B")).getClauses().iterator().next();
-            Clause two = ConvertToConjunctionOfClauses
-                    .convert(parser.parse("~B | C")).getClauses().iterator().next();
-            Clause expected = ConvertToConjunctionOfClauses
-                    .convert(parser.parse("A | C")).getClauses().iterator().next();
+            Clause one = Util.first(ConvertToConjunctionOfClauses.convert(parser.parse("A | B")).getClauses());
+            Clause two = Util.first(ConvertToConjunctionOfClauses.convert(parser.parse("~B | C")).getClauses());
+            Clause expected = Util.first(ConvertToConjunctionOfClauses.convert(parser.parse("A | C")).getClauses());
 
-            Set<Clause> resolvents = resolution.plResolve(one, two);
-            Assert.assertEquals(1, resolvents.size());
-            Assert.assertTrue(resolvents.contains(expected));
+            ISet<Clause> resolvents = resolution.plResolve(one, two);
+            Assert.AreEqual(1, resolvents.Size());
+            Assert.IsTrue(resolvents.Contains(expected));
         }
 
-        @Test
-    public void testPLResolveWithNoLiteralMatching()
+        [TestMethod]
+        public void testPLResolveWithNoLiteralMatching()
         {
-            Clause one = ConvertToConjunctionOfClauses
-                    .convert(parser.parse("A | B")).getClauses().iterator().next();
-            Clause two = ConvertToConjunctionOfClauses
-                    .convert(parser.parse("C | D")).getClauses().iterator().next();
+            Clause one = Util.first(ConvertToConjunctionOfClauses.convert(parser.parse("A | B")).getClauses());
+            Clause two = Util.first(ConvertToConjunctionOfClauses.convert(parser.parse("C | D")).getClauses());
 
-            Set<Clause> resolvents = resolution.plResolve(one, two);
-            Assert.assertEquals(0, resolvents.size());
+            ISet<Clause> resolvents = resolution.plResolve(one, two);
+            Assert.AreEqual(0, resolvents.Size());
         }
 
-        @Test
-    public void testPLResolveWithOneLiteralSentencesMatching()
+        [TestMethod]
+        public void testPLResolveWithOneLiteralSentencesMatching()
         {
-            Clause one = ConvertToConjunctionOfClauses.convert(parser.parse("A"))
-                    .getClauses().iterator().next();
-            Clause two = ConvertToConjunctionOfClauses.convert(parser.parse("~A"))
-                    .getClauses().iterator().next();
+            Clause one = Util.first(ConvertToConjunctionOfClauses.convert(parser.parse("A")).getClauses());
+            Clause two = Util.first(ConvertToConjunctionOfClauses.convert(parser.parse("~A")).getClauses());
 
-            Set<Clause> resolvents = resolution.plResolve(one, two);
-            Assert.assertEquals(1, resolvents.size());
-            Assert.assertTrue(resolvents.iterator().next().isEmpty());
-            Assert.assertTrue(resolvents.iterator().next().isFalse());
+            ISet<Clause> resolvents = resolution.plResolve(one, two);
+            Assert.AreEqual(1, resolvents.Size());
+            Assert.IsTrue(Util.first(resolvents).isEmpty());
+            Assert.IsTrue(Util.first(resolvents).isFalse());
         }
 
-        @Test
-    public void testPLResolveWithTwoLiteralsMatching()
+        [TestMethod]
+        public void testPLResolveWithTwoLiteralsMatching()
         {
-            Clause one = ConvertToConjunctionOfClauses
-                    .convert(parser.parse("~P21 | B11")).getClauses().iterator()
-                    .next();
-            Clause two = ConvertToConjunctionOfClauses
-                    .convert(parser.parse("~B11 | P21 | P12")).getClauses()
-                    .iterator().next();
-            Set<Clause> expected = ConvertToConjunctionOfClauses.convert(
-                    parser.parse("(P12 | P21 | ~P21) & (B11 | P12 | ~B11)"))
-                    .getClauses();
+            Clause one = Util.first(ConvertToConjunctionOfClauses.convert(parser.parse("~P21 | B11")).getClauses());
+            Clause two = Util.first(ConvertToConjunctionOfClauses.convert(parser.parse("~B11 | P21 | P12")).getClauses());
+            ISet<Clause> expected = ConvertToConjunctionOfClauses.convert(parser.parse("(P12 | P21 | ~P21) & (B11 | P12 | ~B11)")).getClauses();
 
-            Set<Clause> resolvents = resolution.plResolve(one, two);
+            ISet<Clause> resolvents = resolution.plResolve(one, two);
 
             int numberExpectedResolvents = 2;
             if (resolution.isDiscardTautologies())
             {
                 numberExpectedResolvents = 0; // due to being tautologies
             }
-            Assert.assertEquals(numberExpectedResolvents, resolvents.size());
-            Assert.assertEquals(numberExpectedResolvents, SetOps.intersection(expected, resolvents).size());
+            Assert.AreEqual(numberExpectedResolvents, resolvents.Size());
+            Assert.AreEqual(numberExpectedResolvents, SetOps.intersection(expected, resolvents).Size());
         }
 
-        @Test
-    public void testPLResolve1()
+        [TestMethod]
+        public void testPLResolve1()
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("(B11 => ~P11) & B11");
             Sentence alpha = parser.parse("P11");
 
-            boolean b = resolution.plResolution(kb, alpha);
-            Assert.assertEquals(false, b);
+            bool b = resolution.plResolution(kb, alpha);
+            Assert.AreEqual(false, b);
         }
 
-        @Test
-    public void testPLResolve2()
+        [TestMethod]
+        public void testPLResolve2()
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("A & B");
             Sentence alpha = parser.parse("B");
 
-            boolean b = resolution.plResolution(kb, alpha);
-            Assert.assertEquals(true, b);
+            bool b = resolution.plResolution(kb, alpha);
+            Assert.AreEqual(true, b);
         }
 
-        @Test
-    public void testPLResolve3()
+        [TestMethod]
+        public void testPLResolve3()
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("(B11 => ~P11) & B11");
             Sentence alpha = parser.parse("~P11");
 
-            boolean b = resolution.plResolution(kb, alpha);
-            Assert.assertEquals(true, b);
+            bool b = resolution.plResolution(kb, alpha);
+            Assert.AreEqual(true, b);
         }
 
-        @Test
-    public void testPLResolve4()
+        [TestMethod]
+        public void testPLResolve4()
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("A | B");
             Sentence alpha = parser.parse("B");
 
-            boolean b = resolution.plResolution(kb, alpha);
-            Assert.assertEquals(false, b);
+            bool b = resolution.plResolution(kb, alpha);
+            Assert.AreEqual(false, b);
         }
 
-        @Test
-    public void testPLResolve5()
+        [TestMethod]
+        public void testPLResolve5()
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("(B11 => ~P11) & B11");
             Sentence alpha = parser.parse("~B11");
 
-            boolean b = resolution.plResolution(kb, alpha);
-            Assert.assertEquals(false, b);
+            bool b = resolution.plResolution(kb, alpha);
+            Assert.AreEqual(false, b);
         }
 
-        @Test
-    public void testPLResolve6()
+        [TestMethod]
+        public void testPLResolve6()
         {
             KnowledgeBase kb = new KnowledgeBase();
             // e.g. from AIMA3e pg. 254
             kb.tell("(B11 <=> P12 | P21) & ~B11");
             Sentence alpha = parser.parse("~P21");
 
-            boolean b = resolution.plResolution(kb, alpha);
-            Assert.assertEquals(true, b);
+            bool b = resolution.plResolution(kb, alpha);
+            Assert.AreEqual(true, b);
         }
 
-        @Test
-    public void testMultipleClauseResolution()
+        [TestMethod]
+        public void testMultipleClauseResolution()
         {
             // test (and fix) suggested by Huy Dinh. Thanks Huy!
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("(B11 <=> P12 | P21) & ~B11");
             Sentence alpha = parser.parse("B");
 
-            boolean b = resolution.plResolution(kb, alpha);
-            Assert.assertEquals(false, b); // false as KB says nothing about B
+            bool b = resolution.plResolution(kb, alpha);
+            Assert.AreEqual(false, b); // false as KB says nothing about B
         }
 
-        @Test
-    public void testPLResolutionWithChadCarfBugReportData()
+        [TestMethod]
+        public void testPLResolutionWithChadCarfBugReportData()
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("B12 <=> P11 | P13 | P22 | P02");
@@ -180,12 +176,12 @@ public class PLResolutionTest
             kb.tell("B01");
 
             Sentence alpha = parser.parse("P00");
-            boolean b = resolution.plResolution(kb, alpha);
-            Assert.assertEquals(true, b);
+            bool b = resolution.plResolution(kb, alpha);
+            Assert.AreEqual(true, b);
         }
 
-        @Test
-    public void testPLResolutionSucceedsWithChadCarffsBugReport2()
+        [TestMethod]
+        public void testPLResolutionSucceedsWithChadCarffsBugReport2()
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("B10 <=> P11 | P20 | P00");
@@ -198,8 +194,8 @@ public class PLResolutionTest
             kb.tell("B01");
 
             Sentence alpha = parser.parse("P00");
-            boolean b = resolution.plResolution(kb, alpha);
-            Assert.assertEquals(true, b);
+            bool b = resolution.plResolution(kb, alpha);
+            Assert.AreEqual(true, b);
         }
     }
 }

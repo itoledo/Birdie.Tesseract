@@ -1,34 +1,40 @@
-﻿namespace tvn_cosine.ai.test.unit.probability.hmm.exact
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.probability.example;
+using tvn.cosine.ai.probability.hmm.exact;
+using tvn_cosine.ai.test.unit.probability.temporal;
+
+namespace tvn_cosine.ai.test.unit.probability.hmm.exact
 {
-    public class HMMForwardBackwardTest extends CommonForwardBackwardTest
+    [TestClass]
+    public class HMMForwardBackwardTest : CommonForwardBackwardTest
     {
 
-    //
-    private HMMForwardBackward uw = null;
+        //
+        private HMMForwardBackward uw = null;
 
-    @Before
-    public void setUp()
-    {
-        uw = new HMMForwardBackward(HMMExampleFactory.getUmbrellaWorldModel());
+        [TestInitialize]
+        public void setUp()
+        {
+            uw = new HMMForwardBackward(HMMExampleFactory.getUmbrellaWorldModel());
+        }
+
+        [TestMethod]
+        public void testForwardStep_UmbrellaWorld()
+        {
+            base.testForwardStep_UmbrellaWorld(uw);
+        }
+
+        [TestMethod]
+        public void testBackwardStep_UmbrellaWorld()
+        {
+            base.testBackwardStep_UmbrellaWorld(uw);
+        }
+
+        [TestMethod]
+        public void testForwardBackward_UmbrellaWorld()
+        {
+            base.testForwardBackward_UmbrellaWorld(uw);
+        }
     }
-
-    @Test
-    public void testForwardStep_UmbrellaWorld()
-    {
-        super.testForwardStep_UmbrellaWorld(uw);
-    }
-
-    @Test
-    public void testBackwardStep_UmbrellaWorld()
-    {
-        super.testBackwardStep_UmbrellaWorld(uw);
-    }
-
-    @Test
-    public void testForwardBackward_UmbrellaWorld()
-    {
-        super.testForwardBackward_UmbrellaWorld(uw);
-    }
-}
 
 }

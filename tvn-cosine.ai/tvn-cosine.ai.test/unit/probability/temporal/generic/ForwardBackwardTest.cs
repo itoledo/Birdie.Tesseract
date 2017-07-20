@@ -1,37 +1,42 @@
-﻿namespace tvn_cosine.ai.test.unit.probability.temporal.generic
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.probability.example;
+using tvn.cosine.ai.probability.temporal.generic;
+
+namespace tvn_cosine.ai.test.unit.probability.temporal.generic
 {
-    public class ForwardBackwardTest extends CommonForwardBackwardTest
+    [TestClass]
+    public class ForwardBackwardTest : CommonForwardBackwardTest
     {
 
-    //
-    private ForwardBackward uw = null;
+        //
+        private ForwardBackward uw = null;
 
-    @Before
-    public void setUp()
-    {
-        uw = new ForwardBackward(
-                GenericTemporalModelFactory.getUmbrellaWorldTransitionModel(),
-                GenericTemporalModelFactory.getUmbrellaWorld_Xt_to_Xtm1_Map(),
-                GenericTemporalModelFactory.getUmbrellaWorldSensorModel());
+        [TestInitialize]
+        public void setUp()
+        {
+            uw = new ForwardBackward(
+                    GenericTemporalModelFactory.getUmbrellaWorldTransitionModel(),
+                    GenericTemporalModelFactory.getUmbrellaWorld_Xt_to_Xtm1_Map(),
+                    GenericTemporalModelFactory.getUmbrellaWorldSensorModel());
+        }
+
+        [TestMethod]
+        public void testForwardStep_UmbrellaWorld()
+        {
+            base.testForwardStep_UmbrellaWorld(uw);
+        }
+
+        [TestMethod]
+        public void testBackwardStep_UmbrellaWorld()
+        {
+            base.testBackwardStep_UmbrellaWorld(uw);
+        }
+
+        [TestMethod]
+        public void testForwardBackward_UmbrellaWorld()
+        {
+            base.testForwardBackward_UmbrellaWorld(uw);
+        }
     }
-
-    @Test
-    public void testForwardStep_UmbrellaWorld()
-    {
-        super.testForwardStep_UmbrellaWorld(uw);
-    }
-
-    @Test
-    public void testBackwardStep_UmbrellaWorld()
-    {
-        super.testBackwardStep_UmbrellaWorld(uw);
-    }
-
-    @Test
-    public void testForwardBackward_UmbrellaWorld()
-    {
-        super.testForwardBackward_UmbrellaWorld(uw);
-    }
-}
 
 }

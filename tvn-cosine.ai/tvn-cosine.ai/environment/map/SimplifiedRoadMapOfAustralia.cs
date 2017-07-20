@@ -63,7 +63,7 @@
          */
         public static void initMap(ExtendableMap map)
         {
-            map.Clear();
+            map.clear();
             // Add links
             // Distances from http://maps.google.com
             map.addBidirectionalLink(PERTH, ALBANY, 417.0);

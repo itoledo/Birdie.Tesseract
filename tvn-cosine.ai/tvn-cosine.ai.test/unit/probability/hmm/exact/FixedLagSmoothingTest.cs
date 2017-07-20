@@ -1,84 +1,91 @@
-﻿namespace tvn_cosine.ai.test.unit.probability.hmm.exact
-{
-    public class FixedLagSmoothingTest
-    {
-        public static final double DELTA_THRESHOLD = 1e-3;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.example;
+using tvn.cosine.ai.probability.hmm.exact;
+using tvn.cosine.ai.probability.proposition;
 
-        @Test
+namespace tvn_cosine.ai.test.unit.probability.hmm.exact
+{
+    [TestClass] public class FixedLagSmoothingTest
+    {
+        public static readonly  double DELTA_THRESHOLD = 1e-3;
+
+        [TestMethod]
         public void testFixedLagSmoothing_lag_1_UmbrellaWorld()
         {
             FixedLagSmoothing uw = new FixedLagSmoothing(HMMExampleFactory
                     .getUmbrellaWorldModel(), 1);
 
             // Day 1 - Lag 1
-            List<AssignmentProposition> e1 = new ArrayList<AssignmentProposition>();
+         IQueue<AssignmentProposition> e1 = Factory.CreateQueue<AssignmentProposition>();
             e1
-                    .add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                            Boolean.TRUE));
+                    .Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                            true));
 
             CategoricalDistribution smoothed = uw.fixedLagSmoothing(e1);
-            Assert.assertNull(smoothed);
+            Assert.IsNull(smoothed);
 
             // Day 2 - Lag 1
-            List<AssignmentProposition> e2 = new ArrayList<AssignmentProposition>();
+         IQueue<AssignmentProposition> e2 = Factory.CreateQueue<AssignmentProposition>();
             e2
-                    .add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                            Boolean.TRUE));
+                    .Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                            true));
 
             smoothed = uw.fixedLagSmoothing(e2);
 
             // Day 1 smoothed probabilities based on 2 days of evidence
-            Assert.assertNotNull(smoothed);
-            Assert.assertArrayEquals(new double[] { 0.883, 0.117 }, smoothed
-                    .getValues(), DELTA_THRESHOLD);
+            Assert.IsNotNull(smoothed);
+            Assert.AreEqual(new double[] { 0.883, 0.117 }, smoothed
+                    .getValues() );
 
             // Day 3 - Lag 1
-            List<AssignmentProposition> e3 = new ArrayList<AssignmentProposition>();
-            e3.add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                    Boolean.FALSE));
+         IQueue<AssignmentProposition> e3 = Factory.CreateQueue<AssignmentProposition>();
+            e3.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                    false));
 
             smoothed = uw.fixedLagSmoothing(e3);
 
             // Day 2 smoothed probabilities based on 3 days of evidence
-            Assert.assertNotNull(smoothed);
-            Assert.assertArrayEquals(new double[] { 0.799, 0.201 }, smoothed
-                    .getValues(), DELTA_THRESHOLD);
+            Assert.IsNotNull(smoothed);
+            Assert.AreEqual(new double[] { 0.799, 0.201 }, smoothed
+                    .getValues() );
         }
 
-        @Test
+        [TestMethod]
         public void testFixedLagSmoothing_lag_2_UmbrellaWorld()
         {
             FixedLagSmoothing uw = new FixedLagSmoothing(HMMExampleFactory
                     .getUmbrellaWorldModel(), 2);
 
             // Day 1 - Lag 2
-            List<AssignmentProposition> e1 = new ArrayList<AssignmentProposition>();
+         IQueue<AssignmentProposition> e1 = Factory.CreateQueue<AssignmentProposition>();
             e1
-                    .add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                            Boolean.TRUE));
+                    .Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                            true));
 
             CategoricalDistribution smoothed = uw.fixedLagSmoothing(e1);
-            Assert.assertNull(smoothed);
+            Assert.IsNull(smoothed);
 
             // Day 2 - Lag 2
-            List<AssignmentProposition> e2 = new ArrayList<AssignmentProposition>();
+         IQueue<AssignmentProposition> e2 = Factory.CreateQueue<AssignmentProposition>();
             e2
-                    .add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                            Boolean.TRUE));
+                    .Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                            true));
 
             smoothed = uw.fixedLagSmoothing(e2);
-            Assert.assertNull(smoothed);
+            Assert.IsNull(smoothed);
 
             // Day 3 - Lag 2
-            List<AssignmentProposition> e3 = new ArrayList<AssignmentProposition>();
-            e3.add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
-                    Boolean.FALSE));
+         IQueue<AssignmentProposition> e3 = Factory.CreateQueue<AssignmentProposition>();
+            e3.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV,
+                    false));
 
             smoothed = uw.fixedLagSmoothing(e3);
 
-            Assert.assertNotNull(smoothed);
-            Assert.assertArrayEquals(new double[] { 0.861, 0.138 }, smoothed
-                    .getValues(), DELTA_THRESHOLD);
+            Assert.IsNotNull(smoothed);
+            Assert.AreEqual(new double[] { 0.861, 0.138 }, smoothed
+                    .getValues() );
         }
     }
 

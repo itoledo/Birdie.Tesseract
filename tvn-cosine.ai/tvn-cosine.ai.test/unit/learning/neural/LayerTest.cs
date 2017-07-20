@@ -1,9 +1,14 @@
-﻿namespace tvn_cosine.ai.test.unit.learning.neural
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.learning.neural;
+using tvn.cosine.ai.util.math;
+
+namespace tvn_cosine.ai.test.unit.learning.neural
 {
+    [TestClass]
     public class LayerTest
     {
 
-        @Test
+        [TestMethod]
         public void testFeedForward()
         {
             // example 11.14 of Neural Network Design by Hagan, Demuth and Beale
@@ -27,8 +32,8 @@
             expected.setValue(1, 0.368);
 
             Vector result1 = layer1.feedForward(inputVector1);
-            Assert.assertEquals(expected.getValue(0), result1.getValue(0), 0.001);
-            Assert.assertEquals(expected.getValue(1), result1.getValue(1), 0.001);
+            Assert.AreEqual(expected.getValue(0), result1.getValue(0), 0.001);
+            Assert.AreEqual(expected.getValue(1), result1.getValue(1), 0.001);
 
             Matrix weightMatrix2 = new Matrix(1, 2);
             weightMatrix2.set(0, 0, 0.09);
@@ -41,10 +46,10 @@
                     new PureLinearActivationFunction());
             Vector inputVector2 = layer1.getLastActivationValues();
             Vector result2 = layer2.feedForward(inputVector2);
-            Assert.assertEquals(0.446, result2.getValue(0), 0.001);
+            Assert.AreEqual(0.446, result2.getValue(0), 0.001);
         }
 
-        @Test
+        [TestMethod]
         public void testSensitivityMatrixCalculationFromErrorVector()
         {
             Matrix weightMatrix1 = new Matrix(2, 1);
@@ -81,10 +86,10 @@
             layer2Sensitivity.sensitivityMatrixFromErrorMatrix(errorVector);
 
             Matrix sensitivityMatrix = layer2Sensitivity.getSensitivityMatrix();
-            Assert.assertEquals(-2.522, sensitivityMatrix.get(0, 0), 0.0001);
+            Assert.AreEqual(-2.522, sensitivityMatrix.get(0, 0), 0.0001);
         }
 
-        @Test
+        [TestMethod]
         public void testSensitivityMatrixCalculationFromSucceedingLayer()
         {
             Matrix weightMatrix1 = new Matrix(2, 1);
@@ -125,13 +130,13 @@
                     .sensitivityMatrixFromSucceedingLayer(layer2Sensitivity);
             Matrix sensitivityMatrix = layer1Sensitivity.getSensitivityMatrix();
 
-            Assert.assertEquals(2, sensitivityMatrix.getRowDimension());
-            Assert.assertEquals(1, sensitivityMatrix.getColumnDimension());
-            Assert.assertEquals(-0.0495, sensitivityMatrix.get(0, 0), 0.001);
-            Assert.assertEquals(0.0997, sensitivityMatrix.get(1, 0), 0.001);
+            Assert.AreEqual(2, sensitivityMatrix.getRowDimension());
+            Assert.AreEqual(1, sensitivityMatrix.getColumnDimension());
+            Assert.AreEqual(-0.0495, sensitivityMatrix.get(0, 0), 0.001);
+            Assert.AreEqual(0.0997, sensitivityMatrix.get(1, 0), 0.001);
         }
 
-        @Test
+        [TestMethod]
         public void testWeightUpdateMatrixesFormedCorrectly()
         {
             Matrix weightMatrix1 = new Matrix(2, 1);
@@ -173,37 +178,37 @@
 
             Matrix weightUpdateMatrix2 = BackPropLearning.calculateWeightUpdates(
                     layer2Sensitivity, layer1.getLastActivationValues(), 0.1);
-            Assert.assertEquals(0.0809, weightUpdateMatrix2.get(0, 0), 0.001);
-            Assert.assertEquals(0.0928, weightUpdateMatrix2.get(0, 1), 0.001);
+            Assert.AreEqual(0.0809, weightUpdateMatrix2.get(0, 0), 0.001);
+            Assert.AreEqual(0.0928, weightUpdateMatrix2.get(0, 1), 0.001);
 
             Matrix lastWeightUpdateMatrix2 = layer2.getLastWeightUpdateMatrix();
-            Assert.assertEquals(0.0809, lastWeightUpdateMatrix2.get(0, 0), 0.001);
-            Assert.assertEquals(0.0928, lastWeightUpdateMatrix2.get(0, 1), 0.001);
+            Assert.AreEqual(0.0809, lastWeightUpdateMatrix2.get(0, 0), 0.001);
+            Assert.AreEqual(0.0928, lastWeightUpdateMatrix2.get(0, 1), 0.001);
 
             Matrix penultimateWeightUpdatematrix2 = layer2
                     .getPenultimateWeightUpdateMatrix();
-            Assert.assertEquals(0.0, penultimateWeightUpdatematrix2.get(0, 0),
+            Assert.AreEqual(0.0, penultimateWeightUpdatematrix2.get(0, 0),
                     0.001);
-            Assert.assertEquals(0.0, penultimateWeightUpdatematrix2.get(0, 1),
+            Assert.AreEqual(0.0, penultimateWeightUpdatematrix2.get(0, 1),
                     0.001);
 
             Matrix weightUpdateMatrix1 = BackPropLearning.calculateWeightUpdates(
                     layer1Sensitivity, inputVector1, 0.1);
-            Assert.assertEquals(0.0049, weightUpdateMatrix1.get(0, 0), 0.001);
-            Assert.assertEquals(-0.00997, weightUpdateMatrix1.get(1, 0), 0.001);
+            Assert.AreEqual(0.0049, weightUpdateMatrix1.get(0, 0), 0.001);
+            Assert.AreEqual(-0.00997, weightUpdateMatrix1.get(1, 0), 0.001);
 
             Matrix lastWeightUpdateMatrix1 = layer1.getLastWeightUpdateMatrix();
-            Assert.assertEquals(0.0049, lastWeightUpdateMatrix1.get(0, 0), 0.001);
-            Assert.assertEquals(-0.00997, lastWeightUpdateMatrix1.get(1, 0), 0.001);
+            Assert.AreEqual(0.0049, lastWeightUpdateMatrix1.get(0, 0), 0.001);
+            Assert.AreEqual(-0.00997, lastWeightUpdateMatrix1.get(1, 0), 0.001);
             Matrix penultimateWeightUpdatematrix1 = layer1
                     .getPenultimateWeightUpdateMatrix();
-            Assert.assertEquals(0.0, penultimateWeightUpdatematrix1.get(0, 0),
+            Assert.AreEqual(0.0, penultimateWeightUpdatematrix1.get(0, 0),
                     0.001);
-            Assert.assertEquals(0.0, penultimateWeightUpdatematrix1.get(1, 0),
+            Assert.AreEqual(0.0, penultimateWeightUpdatematrix1.get(1, 0),
                     0.001);
         }
 
-        @Test
+        [TestMethod]
         public void testBiasUpdateMatrixesFormedCorrectly()
         {
             Matrix weightMatrix1 = new Matrix(2, 1);
@@ -245,35 +250,35 @@
 
             Vector biasUpdateVector2 = BackPropLearning.calculateBiasUpdates(
                     layer2Sensitivity, 0.1);
-            Assert.assertEquals(0.2522, biasUpdateVector2.getValue(0), 0.001);
+            Assert.AreEqual(0.2522, biasUpdateVector2.getValue(0), 0.001);
 
             Vector lastBiasUpdateVector2 = layer2.getLastBiasUpdateVector();
-            Assert.assertEquals(0.2522, lastBiasUpdateVector2.getValue(0), 0.001);
+            Assert.AreEqual(0.2522, lastBiasUpdateVector2.getValue(0), 0.001);
 
             Vector penultimateBiasUpdateVector2 = layer2
                     .getPenultimateBiasUpdateVector();
-            Assert.assertEquals(0.0, penultimateBiasUpdateVector2.getValue(0),
+            Assert.AreEqual(0.0, penultimateBiasUpdateVector2.getValue(0),
                     0.001);
 
             Vector biasUpdateVector1 = BackPropLearning.calculateBiasUpdates(
                     layer1Sensitivity, 0.1);
-            Assert.assertEquals(0.00495, biasUpdateVector1.getValue(0), 0.001);
-            Assert.assertEquals(-0.00997, biasUpdateVector1.getValue(1), 0.001);
+            Assert.AreEqual(0.00495, biasUpdateVector1.getValue(0), 0.001);
+            Assert.AreEqual(-0.00997, biasUpdateVector1.getValue(1), 0.001);
 
             Vector lastBiasUpdateVector1 = layer1.getLastBiasUpdateVector();
 
-            Assert.assertEquals(0.00495, lastBiasUpdateVector1.getValue(0), 0.001);
-            Assert.assertEquals(-0.00997, lastBiasUpdateVector1.getValue(1), 0.001);
+            Assert.AreEqual(0.00495, lastBiasUpdateVector1.getValue(0), 0.001);
+            Assert.AreEqual(-0.00997, lastBiasUpdateVector1.getValue(1), 0.001);
 
             Vector penultimateBiasUpdateVector1 = layer1
                     .getPenultimateBiasUpdateVector();
-            Assert.assertEquals(0.0, penultimateBiasUpdateVector1.getValue(0),
+            Assert.AreEqual(0.0, penultimateBiasUpdateVector1.getValue(0),
                     0.001);
-            Assert.assertEquals(0.0, penultimateBiasUpdateVector1.getValue(1),
+            Assert.AreEqual(0.0, penultimateBiasUpdateVector1.getValue(1),
                     0.001);
         }
 
-        @Test
+        [TestMethod]
         public void testWeightsAndBiasesUpdatedCorrectly()
         {
             Matrix weightMatrix1 = new Matrix(2, 1);
@@ -325,24 +330,24 @@
 
             layer2.updateWeights();
             Matrix newWeightMatrix2 = layer2.getWeightMatrix();
-            Assert.assertEquals(0.171, newWeightMatrix2.get(0, 0), 0.001);
-            Assert.assertEquals(-0.0772, newWeightMatrix2.get(0, 1), 0.001);
+            Assert.AreEqual(0.171, newWeightMatrix2.get(0, 0), 0.001);
+            Assert.AreEqual(-0.0772, newWeightMatrix2.get(0, 1), 0.001);
 
             layer2.updateBiases();
             Vector newBiasVector2 = layer2.getBiasVector();
-            Assert.assertEquals(0.7322, newBiasVector2.getValue(0), 0.00001);
+            Assert.AreEqual(0.7322, newBiasVector2.getValue(0), 0.00001);
 
             layer1.updateWeights();
             Matrix newWeightMatrix1 = layer1.getWeightMatrix();
 
-            Assert.assertEquals(-0.265, newWeightMatrix1.get(0, 0), 0.001);
-            Assert.assertEquals(-0.419, newWeightMatrix1.get(1, 0), 0.001);
+            Assert.AreEqual(-0.265, newWeightMatrix1.get(0, 0), 0.001);
+            Assert.AreEqual(-0.419, newWeightMatrix1.get(1, 0), 0.001);
 
             layer1.updateBiases();
             Vector newBiasVector1 = layer1.getBiasVector();
 
-            Assert.assertEquals(-0.475, newBiasVector1.getValue(0), 0.001);
-            Assert.assertEquals(-0.139, newBiasVector1.getValue(1), 0.001);
+            Assert.AreEqual(-0.475, newBiasVector1.getValue(0), 0.001);
+            Assert.AreEqual(-0.139, newBiasVector1.getValue(1), 0.001);
         }
     }
 

@@ -95,8 +95,8 @@ namespace tvn.cosine.ai.learning.neural
          */
         public NNExample getExampleAtRandom()
         {
-            int i = Util.randomNumberBetween(0, (presentlyProcessed.size() - 1));
-            return presentlyProcessed.Remove(i);
+            int i = Util.randomNumberBetween(0, (presentlyProcessed.Size() - 1));
+            return getExample(i);
         }
 
         /*
@@ -104,8 +104,9 @@ namespace tvn.cosine.ai.learning.neural
          */
         public NNExample getExample(int index)
         {
-
-            return presentlyProcessed.Remove(index);
+            NNExample obj = presentlyProcessed.Get(index);
+            presentlyProcessed.Remove(obj);
+            return obj;
         }
 
         /*
@@ -275,7 +276,7 @@ namespace tvn.cosine.ai.learning.neural
                     rexample.Add(d);
                 }
                 IQueue<double> targets = p.getSecond();
-                foreach (double d in  targets)
+                foreach (double d in targets)
                 {
                     rexample.Add(d);
                 }
@@ -283,5 +284,5 @@ namespace tvn.cosine.ai.learning.neural
             }
             return rds;
         }
-    } 
+    }
 }

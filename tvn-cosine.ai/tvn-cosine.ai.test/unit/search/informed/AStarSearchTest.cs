@@ -1,146 +1,153 @@
-﻿namespace tvn_cosine.ai.test.unit.search.informed
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.environment.eightpuzzle;
+using tvn.cosine.ai.environment.map;
+using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.agent;
+using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.qsearch;
+using tvn.cosine.ai.search.informed;
+using tvn.cosine.ai.util;
+
+namespace tvn_cosine.ai.test.unit.search.informed
 {
+    [TestClass]
     public class AStarSearchTest
     {
 
-        @Test
+        [TestMethod]
         public void testAStarSearch()
         {
             // added to narrow down bug report filed by L.N.Sudarshan of
             // Thoughtworks and Xin Lu of UCI
-            try
-            {
-                // EightPuzzleBoard extreme = new EightPuzzleBoard(new int[]
-                // {2,0,5,6,4,8,3,7,1});
-                // EightPuzzleBoard extreme = new EightPuzzleBoard(new int[]
-                // {0,8,7,6,5,4,3,2,1});
-                EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 7, 1, 8,
+
+            // EightPuzzleBoard extreme = new EightPuzzleBoard(new int[]
+            // {2,0,5,6,4,8,3,7,1});
+            // EightPuzzleBoard extreme = new EightPuzzleBoard(new int[]
+            // {0,8,7,6,5,4,3,2,1});
+            EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 7, 1, 8,
                     0, 4, 6, 2, 3, 5 });
 
-                Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(board);
-                SearchForActions<EightPuzzleBoard, Action> search = new AStarSearch<>(new GraphSearch<>(),
-                        EightPuzzleFunctions.createManhattanHeuristicFunction());
-                SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<>(problem, search);
-                Assert.assertEquals(23, agent.getActions().size());
-                Assert.assertEquals("1133", // "926" GraphSearchReduced Frontier
-                        agent.getInstrumentation().getProperty("nodesExpanded"));
-                Assert.assertEquals("676", // "534" GraphSearchReduced Frontier
-                        agent.getInstrumentation().getProperty("queueSize"));
-                Assert.assertEquals("677", // "535" GraphSearchReduced Frontier
-                        agent.getInstrumentation().getProperty("maxQueueSize"));
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-                Assert.fail("Exception thrown");
-            }
+            Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(board);
+            SearchForActions<EightPuzzleBoard, Action> search = new AStarSearch<EightPuzzleBoard, Action>(new GraphSearch<EightPuzzleBoard, Action>(),
+                    EightPuzzleFunctions.createManhattanHeuristicFunction());
+            SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<EightPuzzleBoard, Action>(problem, search);
+            Assert.AreEqual(23, agent.getActions().Size());
+            Assert.AreEqual("1133", // "926" GraphSearchReduced Frontier
+                    agent.getInstrumentation().getProperty("nodesExpanded"));
+            Assert.AreEqual("676", // "534" GraphSearchReduced Frontier
+                    agent.getInstrumentation().getProperty("queueSize"));
+            Assert.AreEqual("677", // "535" GraphSearchReduced Frontier
+                    agent.getInstrumentation().getProperty("maxQueueSize"));
+
         }
 
-        @Test
-        public void testAIMA3eFigure3_15() throws Exception
+        [TestMethod]
+        public void testAIMA3eFigure3_15()
         {
             Map romaniaMap = new SimplifiedRoadMapOfPartOfRomania();
-        Problem<String, MoveToAction> problem = new GeneralProblem<>(
-                SimplifiedRoadMapOfPartOfRomania.SIBIU,
-                MapFunctions.createActionsFunction(romaniaMap),
-                MapFunctions.createResultFunction(),
-                GoalTest.isEqual(SimplifiedRoadMapOfPartOfRomania.BUCHAREST),
-                MapFunctions.createDistanceStepCostFunction(romaniaMap));
+            Problem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(
+                    SimplifiedRoadMapOfPartOfRomania.SIBIU,
+                    MapFunctions.createActionsFunction(romaniaMap),
+                    MapFunctions.createResultFunction(),
+                     SimplifiedRoadMapOfPartOfRomania.BUCHAREST.Equals,
+                    MapFunctions.createDistanceStepCostFunction(romaniaMap));
 
-        SearchForActions<String, MoveToAction> search = new AStarSearch<>(new GraphSearch<>(),
-                MapFunctions.createSLDHeuristicFunction(SimplifiedRoadMapOfPartOfRomania.BUCHAREST, romaniaMap));
-        SearchAgent<String, MoveToAction> agent = new SearchAgent<>(problem, search);
+            SearchForActions<string, MoveToAction> search = new AStarSearch<string, MoveToAction>(new GraphSearch<string, MoveToAction>(),
+                    MapFunctions.createSLDHeuristicFunction(SimplifiedRoadMapOfPartOfRomania.BUCHAREST, romaniaMap));
+            SearchAgent<string, MoveToAction> agent = new SearchAgent<string, MoveToAction>(problem, search);
 
-        List<Action> actions = agent.getActions();
+            IQueue<MoveToAction> actions = agent.getActions();
 
-        Assert.assertEquals(
-				"[Action[name==moveTo, location==RimnicuVilcea], Action[name==moveTo, location==Pitesti], Action[name==moveTo, location==Bucharest]]",
-				actions.toString());
-		Assert.assertEquals("278.0",
-				search.getMetrics().get(QueueSearch.METRIC_PATH_COST));
-	}
+            Assert.AreEqual(
+                    "[Action[name==moveTo, location==RimnicuVilcea], Action[name==moveTo, location==Pitesti], Action[name==moveTo, location==Bucharest]]",
+                    actions.ToString());
+            Assert.AreEqual("278.0",
+                    search.getMetrics().get(QueueSearch<string, MoveToAction>.METRIC_PATH_COST));
+        }
 
-    @Test
-    public void testAIMA3eFigure3_24() throws Exception
-    {
-        Map romaniaMap = new SimplifiedRoadMapOfPartOfRomania();
-    Problem<String, MoveToAction> problem = new GeneralProblem<>(
+        [TestMethod]
+        public void testAIMA3eFigure3_24()
+        {
+            Map romaniaMap = new SimplifiedRoadMapOfPartOfRomania();
+            Problem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(
+                            SimplifiedRoadMapOfPartOfRomania.ARAD,
+                            MapFunctions.createActionsFunction(romaniaMap),
+                            MapFunctions.createResultFunction(),
+                            SimplifiedRoadMapOfPartOfRomania.BUCHAREST.Equals,
+                            MapFunctions.createDistanceStepCostFunction(romaniaMap));
+
+            SearchForActions<string, MoveToAction> search = new AStarSearch<string, MoveToAction>(new TreeSearch<string, MoveToAction>(),
+                    MapFunctions.createSLDHeuristicFunction(SimplifiedRoadMapOfPartOfRomania.BUCHAREST, romaniaMap));
+            SearchAgent<string, MoveToAction> agent = new SearchAgent<string, MoveToAction>(problem, search);
+            Assert.AreEqual(
+                        "[Action[name==moveTo, location==Sibiu], Action[name==moveTo, location==RimnicuVilcea], Action[name==moveTo, location==Pitesti], Action[name==moveTo, location==Bucharest]]",
+                        agent.getActions().ToString());
+            Assert.AreEqual(4, agent.getActions().Size());
+            Assert.AreEqual("5",
+                    agent.getInstrumentation().getProperty("nodesExpanded"));
+            Assert.AreEqual("10",
+                    agent.getInstrumentation().getProperty("queueSize"));
+            Assert.AreEqual("11",
+                    agent.getInstrumentation().getProperty("maxQueueSize"));
+        }
+
+        [TestMethod]
+        public void testAIMA3eFigure3_24_using_GraphSearch()
+        {
+            Map romaniaMap = new SimplifiedRoadMapOfPartOfRomania();
+            Problem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(
                     SimplifiedRoadMapOfPartOfRomania.ARAD,
                     MapFunctions.createActionsFunction(romaniaMap),
                     MapFunctions.createResultFunction(),
-                    GoalTest.isEqual(SimplifiedRoadMapOfPartOfRomania.BUCHAREST),
+                     SimplifiedRoadMapOfPartOfRomania.BUCHAREST.Equals,
                     MapFunctions.createDistanceStepCostFunction(romaniaMap));
 
-    SearchForActions<String, MoveToAction> search = new AStarSearch<>(new TreeSearch<>(),
-            MapFunctions.createSLDHeuristicFunction(SimplifiedRoadMapOfPartOfRomania.BUCHAREST, romaniaMap));
-    SearchAgent<String, MoveToAction> agent = new SearchAgent<>(problem, search);
-    Assert.assertEquals(
-				"[Action[name==moveTo, location==Sibiu], Action[name==moveTo, location==RimnicuVilcea], Action[name==moveTo, location==Pitesti], Action[name==moveTo, location==Bucharest]]",
-				agent.getActions().toString());
-		Assert.assertEquals(4, agent.getActions().size());
-		Assert.assertEquals("5",
-				agent.getInstrumentation().getProperty("nodesExpanded"));
-		Assert.assertEquals("10",
-				agent.getInstrumentation().getProperty("queueSize"));
-		Assert.assertEquals("11",
-				agent.getInstrumentation().getProperty("maxQueueSize"));
-	}
+            SearchForActions<string, MoveToAction> search = new AStarSearch<string, MoveToAction>(new GraphSearch<string, MoveToAction>(),
+                    MapFunctions.createSLDHeuristicFunction(SimplifiedRoadMapOfPartOfRomania.BUCHAREST, romaniaMap));
+            SearchAgent<string, MoveToAction> agent = new SearchAgent<string, MoveToAction>(problem, search);
+            Assert.AreEqual(
+                            "[Action[name==moveTo, location==Sibiu], Action[name==moveTo, location==RimnicuVilcea], Action[name==moveTo, location==Pitesti], Action[name==moveTo, location==Bucharest]]",
+                            agent.getActions().ToString());
+            Assert.AreEqual(4, agent.getActions().Size());
+            Assert.AreEqual("5",
+                    agent.getInstrumentation().getProperty("nodesExpanded"));
+            Assert.AreEqual("6",
+                    agent.getInstrumentation().getProperty("queueSize"));
+            Assert.AreEqual("7",
+                    agent.getInstrumentation().getProperty("maxQueueSize"));
+        }
 
-@Test
-    public void testAIMA3eFigure3_24_using_GraphSearch() throws Exception
-{
-    Map romaniaMap = new SimplifiedRoadMapOfPartOfRomania();
-Problem<String, MoveToAction> problem = new GeneralProblem<>(
-        SimplifiedRoadMapOfPartOfRomania.ARAD,
-        MapFunctions.createActionsFunction(romaniaMap),
-        MapFunctions.createResultFunction(),
-        GoalTest.isEqual(SimplifiedRoadMapOfPartOfRomania.BUCHAREST),
-        MapFunctions.createDistanceStepCostFunction(romaniaMap));
+        //[TestMethod]
+        //public void testCheckFrontierPathCost()
+        //{
+        //    ExtendableMap map = new ExtendableMap();
+        //    map.addBidirectionalLink("start", "b", 2.5);
+        //    map.addBidirectionalLink("start", "c", 1.0);
+        //    map.addBidirectionalLink("b", "d", 2.0);
+        //    map.addBidirectionalLink("c", "d", 4.0);
+        //    map.addBidirectionalLink("c", "e", 1.0);
+        //    map.addBidirectionalLink("d", "goal", 1.0);
+        //    map.addBidirectionalLink("e", "goal", 5.0);
+        //    Problem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>("start",
+        //            MapFunctions.createActionsFunction(map),
+        //            MapFunctions.createResultFunction(), GoalTest.isEqual("goal"),
+        //            MapFunctions.createDistanceStepCostFunction(map));
 
-SearchForActions<String, MoveToAction> search = new AStarSearch<>(new GraphSearch<>(),
-        MapFunctions.createSLDHeuristicFunction(SimplifiedRoadMapOfPartOfRomania.BUCHAREST, romaniaMap));
-SearchAgent<String, MoveToAction> agent = new SearchAgent<>(problem, search);
-Assert.assertEquals(
-				"[Action[name==moveTo, location==Sibiu], Action[name==moveTo, location==RimnicuVilcea], Action[name==moveTo, location==Pitesti], Action[name==moveTo, location==Bucharest]]",
-				agent.getActions().toString());
-		Assert.assertEquals(4, agent.getActions().size());
-		Assert.assertEquals("5",
-				agent.getInstrumentation().getProperty("nodesExpanded"));
-		Assert.assertEquals("6",
-				agent.getInstrumentation().getProperty("queueSize"));
-		Assert.assertEquals("7",
-				agent.getInstrumentation().getProperty("maxQueueSize"));
-	}
+        //    ToDoubleFunction<Node<string, MoveToAction>> h = node=> 0.0; // Don't have one for this test
 
-	@Test
-    public void testCheckFrontierPathCost() throws Exception
-{
-    ExtendableMap map = new ExtendableMap();
-map.addBidirectionalLink("start", "b", 2.5);
-		map.addBidirectionalLink("start", "c", 1.0);
-		map.addBidirectionalLink("b", "d", 2.0);
-		map.addBidirectionalLink("c", "d", 4.0);
-		map.addBidirectionalLink("c", "e", 1.0);
-		map.addBidirectionalLink("d", "goal", 1.0);
-		map.addBidirectionalLink("e", "goal", 5.0);
-		Problem<String, MoveToAction> problem = new GeneralProblem<>("start",
-                MapFunctions.createActionsFunction(map),
-                MapFunctions.createResultFunction(), GoalTest.isEqual("goal"),
-                MapFunctions.createDistanceStepCostFunction(map));
+        //    SearchForActions<string, MoveToAction> search = new AStarSearch<>(new GraphSearch<>(), h);
+        //    SearchAgent<string, MoveToAction> agent = new SearchAgent<>(problem, search);
 
-ToDoubleFunction<Node<String, MoveToAction>> h = node-> 0.0; // Don't have one for this test
+        //    IQueue<Action> actions = agent.getActions();
 
-		SearchForActions<String, MoveToAction> search = new AStarSearch<>(new GraphSearch<>(), h);
-SearchAgent<String, MoveToAction> agent = new SearchAgent<>(problem, search);
-
-List<Action> actions = agent.getActions();
-
-Assert.assertEquals(
-				"[Action[name==moveTo, location==b], Action[name==moveTo, location==d], Action[name==moveTo, location==goal]]",
-				actions.toString());
-		Assert.assertEquals("5.5",
-				search.getMetrics().get(QueueSearch.METRIC_PATH_COST));
-	}
-}
+        //    Assert.AreEqual(
+        //                    "[Action[name==moveTo, location==b], Action[name==moveTo, location==d], Action[name==moveTo, location==goal]]",
+        //                    actions.ToString());
+        //    Assert.AreEqual("5.5",
+        //            search.getMetrics().Get(QueueSearch.METRIC_PATH_COST));
+        //}
+    }
 
 }

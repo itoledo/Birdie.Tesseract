@@ -1,20 +1,26 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.propositional.inference
-{
-@RunWith(Parameterized.class)
-public class DPLLTest
-    {
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
 
+namespace tvn_cosine.ai.test.unit.logic.propositional.inference
+{
+    [TestClass]
+    public class DPLLTest
+    {
         private DPLL dpll;
         private PLParser parser;
 
 
-    @Parameters(name = "{index}: dpll={0}")
-    public static Collection<Object[]> inferenceAlgorithmSettings()
+        public static IQueue<object> inferenceAlgorithmSettings()
         {
-            return Arrays.asList(new Object[][] {
-                {new DPLLSatisfiable()},
-                {new OptimizedDPLL()}
-        });
+            return Factory.CreateQueue<object>(new object[] {
+                 new DPLLSatisfiable() ,
+                new OptimizedDPLL()});
         }
 
         public DPLLTest(DPLL dpll)
@@ -23,48 +29,48 @@ public class DPLLTest
             this.parser = new PLParser();
         }
 
-        @Test
-    public void testDPLLReturnsTrueWhenAllClausesTrueInModel()
+        [TestMethod]
+        public void testDPLLReturnsTrueWhenAllClausesTrueInModel()
         {
             Model model = new Model();
             model = model.union(new PropositionSymbol("A"), true).union(
                     new PropositionSymbol("B"), true);
             Sentence sentence = parser.parse("A & B & (A | B)");
-            Set<Clause> clauses = ConvertToConjunctionOfClauses.convert(sentence)
+            ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(sentence)
                     .getClauses();
-            List<PropositionSymbol> symbols = new ArrayList<PropositionSymbol>(
-                    SymbolCollector.getSymbolsFrom(sentence));
+            IQueue<PropositionSymbol> symbols = Factory.CreateQueue<PropositionSymbol>(
+                       SymbolCollector.getSymbolsFrom(sentence));
 
-            boolean satisfiable = dpll.dpll(clauses, symbols, model);
-            Assert.assertEquals(true, satisfiable);
+            bool satisfiable = dpll.dpll(clauses, symbols, model);
+            Assert.AreEqual(true, satisfiable);
         }
 
-        @Test
-    public void testDPLLReturnsFalseWhenOneClauseFalseInModel()
+        [TestMethod]
+        public void testDPLLReturnsFalseWhenOneClauseFalseInModel()
         {
             Model model = new Model();
             model = model.union(new PropositionSymbol("A"), true).union(
                     new PropositionSymbol("B"), false);
             Sentence sentence = parser.parse("(A | B) & (A => B)");
-            Set<Clause> clauses = ConvertToConjunctionOfClauses.convert(sentence)
+            ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(sentence)
                     .getClauses();
-            List<PropositionSymbol> symbols = new ArrayList<PropositionSymbol>(
-                    SymbolCollector.getSymbolsFrom(sentence));
+            IQueue<PropositionSymbol> symbols = Factory.CreateQueue<PropositionSymbol>(
+                       SymbolCollector.getSymbolsFrom(sentence));
 
-            boolean satisfiable = dpll.dpll(clauses, symbols, model);
-            Assert.assertEquals(false, satisfiable);
+            bool satisfiable = dpll.dpll(clauses, symbols, model);
+            Assert.AreEqual(false, satisfiable);
         }
 
-        @Test
-    public void testDPLLSucceedsWithAandNotA()
+        [TestMethod]
+        public void testDPLLSucceedsWithAandNotA()
         {
             Sentence sentence = parser.parse("A & ~A");
-            boolean satisfiable = dpll.dpllSatisfiable(sentence);
-            Assert.assertEquals(false, satisfiable);
+            bool satisfiable = dpll.dpllSatisfiable(sentence);
+            Assert.AreEqual(false, satisfiable);
         }
 
-        @Test
-    public void testDPLLSucceedsWithChadCarffsBugReport()
+        [TestMethod]
+        public void testDPLLSucceedsWithChadCarffsBugReport()
         {
             KnowledgeBase kb = new KnowledgeBase();
 
@@ -77,19 +83,19 @@ public class DPLLTest
             kb.tell("B10");
             kb.tell("B01");
 
-            Assert.assertTrue(dpll.isEntailed(kb, parser.parse("P00")));
-            Assert.assertFalse(dpll.isEntailed(kb, parser.parse("~P00")));
+            Assert.IsTrue(dpll.isEntailed(kb, parser.parse("P00")));
+            Assert.IsFalse(dpll.isEntailed(kb, parser.parse("~P00")));
         }
 
-        @Test
-    public void testDPLLSucceedsWithStackOverflowBugReport1()
+        [TestMethod]
+        public void testDPLLSucceedsWithStackOverflowBugReport1()
         {
             Sentence sentence = (Sentence)parser.parse("(A | ~A) & (A | B)");
-            Assert.assertTrue(dpll.dpllSatisfiable(sentence));
+            Assert.IsTrue(dpll.dpllSatisfiable(sentence));
         }
 
-        @Test
-    public void testDPLLSucceedsWithChadCarffsBugReport2()
+        [TestMethod]
+        public void testDPLLSucceedsWithChadCarffsBugReport2()
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("B10 <=> P11 | P20 | P00");
@@ -101,12 +107,12 @@ public class DPLLTest
             kb.tell("B10");
             kb.tell("B01");
 
-            Assert.assertTrue(dpll.isEntailed(kb, parser.parse("P00")));
-            Assert.assertFalse(dpll.isEntailed(kb, parser.parse("~P00")));
+            Assert.IsTrue(dpll.isEntailed(kb, parser.parse("P00")));
+            Assert.IsFalse(dpll.isEntailed(kb, parser.parse("~P00")));
         }
 
-        @Test
-    public void testIssue66()
+        [TestMethod]
+        public void testIssue66()
         {
             // http://code.google.com/p/aima-java/issues/detail?id=66
             Model model = new Model();
@@ -114,23 +120,23 @@ public class DPLLTest
                     .union(new PropositionSymbol("B"), false)
                     .union(new PropositionSymbol("C"), true);
             Sentence sentence = parser.parse("((A | B) | C)");
-            Set<Clause> clauses = ConvertToConjunctionOfClauses.convert(sentence)
+            ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(sentence)
                     .getClauses();
-            List<PropositionSymbol> symbols = new ArrayList<PropositionSymbol>(
-                    SymbolCollector.getSymbolsFrom(sentence));
+            IQueue<PropositionSymbol> symbols = Factory.CreateQueue<PropositionSymbol>(
+                       SymbolCollector.getSymbolsFrom(sentence));
 
-            boolean satisfiable = dpll.dpll(clauses, symbols, model);
-            Assert.assertEquals(true, satisfiable);
+            bool satisfiable = dpll.dpll(clauses, symbols, model);
+            Assert.AreEqual(true, satisfiable);
         }
 
-        @Test
-    public void testDoesNotKnow()
+        [TestMethod]
+        public void testDoesNotKnow()
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("A");
 
-            Assert.assertFalse(dpll.isEntailed(kb, parser.parse("B")));
-            Assert.assertFalse(dpll.isEntailed(kb, parser.parse("~B")));
+            Assert.IsFalse(dpll.isEntailed(kb, parser.parse("B")));
+            Assert.IsFalse(dpll.isEntailed(kb, parser.parse("~B")));
         }
     }
 

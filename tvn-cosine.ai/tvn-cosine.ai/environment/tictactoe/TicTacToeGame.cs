@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.search.adversarial;
 
 namespace tvn.cosine.ai.environment.tictactoe
 {

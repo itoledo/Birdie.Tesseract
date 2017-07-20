@@ -21,7 +21,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
 
         public LookupPolicy(IMap<S, A> aPolicy)
         {
-            policy.putAll(aPolicy);
+            policy.PutAll(aPolicy);
         }
 
         public A action(S s)

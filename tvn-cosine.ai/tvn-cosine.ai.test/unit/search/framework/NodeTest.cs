@@ -1,29 +1,34 @@
-﻿namespace tvn_cosine.ai.test.unit.search.framework
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
+
+namespace tvn_cosine.ai.test.unit.search.framework
 {
+    [TestClass]
     public class NodeTest
     {
 
-        @Test
+        [TestMethod]
         public void testRootNode()
         {
-            Node < String, ?> node1 = new Node<>("state1");
-            Assert.assertTrue(node1.isRootNode());
-            Node < String, ?> node2 = new Node<>("state2", node1, null, 1.0);
-            Assert.assertTrue(node1.isRootNode());
-            Assert.assertFalse(node2.isRootNode());
-            Assert.assertEquals(node1, node2.getParent());
+            Node<string, string> node1 = new Node<string, string>("state1");
+            Assert.IsTrue(node1.isRootNode());
+            Node<string, string> node2 = new Node<string, string>("state2", node1, null, 1.0);
+            Assert.IsTrue(node1.isRootNode());
+            Assert.IsFalse(node2.isRootNode());
+            Assert.AreEqual(node1, node2.getParent());
         }
 
-        @Test
+        [TestMethod]
         public void testGetPathFromRoot()
         {
-            Node<String, String> node1 = new Node<>("state1");
-            Node<String, String> node2 = new Node<>("state2", node1, null, 1.0);
-            Node<String, String> node3 = new Node<>("state3", node2, null, 2.0);
-            List<Node<String, String>> path = SearchUtils.getPathFromRoot(node3);
-            Assert.assertEquals(node1, path.get(0));
-            Assert.assertEquals(node2, path.get(1));
-            Assert.assertEquals(node3, path.get(2));
+            Node<string, string> node1 = new Node<string, string>("state1");
+            Node<string, string> node2 = new Node<string, string>("state2", node1, null, 1.0);
+            Node<string, string> node3 = new Node<string, string>("state3", node2, null, 2.0);
+            IQueue<Node<string, string>> path = SearchUtils.getPathFromRoot(node3);
+            Assert.AreEqual(node1, path.Get(0));
+            Assert.AreEqual(node2, path.Get(1));
+            Assert.AreEqual(node3, path.Get(2));
         }
     }
 

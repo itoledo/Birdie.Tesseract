@@ -28,7 +28,7 @@ namespace tvn.cosine.ai.environment.connectfour
             return value;
         }
 
-        public int compareTo(ActionValuePair<A> pair)
+        public int CompareTo(ActionValuePair<A> pair)
         {
             if (value < pair.value)
                 return 1;

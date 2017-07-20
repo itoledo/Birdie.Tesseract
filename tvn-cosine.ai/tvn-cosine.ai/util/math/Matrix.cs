@@ -390,7 +390,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (ArrayIndexOutOfBoundsException e)
+            catch (ArrayIndexOutOfBoundsException)
             {
                 throw new ArrayIndexOutOfBoundsException("Submatrix indices");
             }
@@ -423,7 +423,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (ArrayIndexOutOfBoundsException e)
+            catch (ArrayIndexOutOfBoundsException)
             {
                 throw new ArrayIndexOutOfBoundsException("Submatrix indices");
             }
@@ -458,7 +458,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (ArrayIndexOutOfBoundsException e)
+            catch (ArrayIndexOutOfBoundsException)
             {
                 throw new ArrayIndexOutOfBoundsException("Submatrix indices");
             }
@@ -493,7 +493,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (ArrayIndexOutOfBoundsException e)
+            catch (ArrayIndexOutOfBoundsException)
             {
                 throw new ArrayIndexOutOfBoundsException("Submatrix indices");
             }
@@ -546,7 +546,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (ArrayIndexOutOfBoundsException e)
+            catch (ArrayIndexOutOfBoundsException)
             {
                 throw new ArrayIndexOutOfBoundsException("Submatrix indices");
             }
@@ -577,7 +577,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (ArrayIndexOutOfBoundsException e)
+            catch (ArrayIndexOutOfBoundsException)
             {
                 throw new ArrayIndexOutOfBoundsException("Submatrix indices");
             }
@@ -610,7 +610,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (ArrayIndexOutOfBoundsException e)
+            catch (ArrayIndexOutOfBoundsException)
             {
                 throw new ArrayIndexOutOfBoundsException("Submatrix indices");
             }
@@ -643,7 +643,7 @@ namespace tvn.cosine.ai.util.math
                     }
                 }
             }
-            catch (ArrayIndexOutOfBoundsException e)
+            catch (ArrayIndexOutOfBoundsException)
             {
                 throw new ArrayIndexOutOfBoundsException("Submatrix indices");
             }

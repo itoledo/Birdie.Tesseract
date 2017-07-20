@@ -1,92 +1,98 @@
-﻿namespace tvn_cosine.ai.test.unit.search.csp
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.csp;
+using tvn.cosine.ai.search.csp.examples;
+
+namespace tvn_cosine.ai.test.unit.search.csp
 {
+    [TestClass]
     public class TreeCspSolverTest
     {
-        private static final Variable WA = new Variable("wa");
-        private static final Variable NT = new Variable("nt");
-        private static final Variable Q = new Variable("q");
-        private static final Variable NSW = new Variable("nsw");
-        private static final Variable V = new Variable("v");
+        private static readonly Variable WA = new Variable("wa");
+        private static readonly Variable NT = new Variable("nt");
+        private static readonly Variable Q = new Variable("q");
+        private static readonly Variable NSW = new Variable("nsw");
+        private static readonly Variable V = new Variable("v");
 
-        private static final Constraint<Variable, String> C1 = new NotEqualConstraint<>(WA, NT);
-        private static final Constraint<Variable, String> C2 = new NotEqualConstraint<>(NT, Q);
-        private static final Constraint<Variable, String> C3 = new NotEqualConstraint<>(Q, NSW);
-        private static final Constraint<Variable, String> C4 = new NotEqualConstraint<>(NSW, V);
+        private static readonly Constraint<Variable, string> C1 = new NotEqualConstraint<Variable, string>(WA, NT);
+        private static readonly Constraint<Variable, string> C2 = new NotEqualConstraint<Variable, string>(NT, Q);
+        private static readonly Constraint<Variable, string> C3 = new NotEqualConstraint<Variable, string>(Q, NSW);
+        private static readonly Constraint<Variable, string> C4 = new NotEqualConstraint<Variable, string>(NSW, V);
 
-        private Domain<String> colors;
+        private Domain<string> colors;
 
-        private List<Variable> variables;
+        private IQueue<Variable> variables;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
-            variables = new ArrayList<>();
-            variables.add(WA);
-            variables.add(NT);
-            variables.add(Q);
-            variables.add(NSW);
-            variables.add(V);
-            colors = new Domain<>("red", "green", "blue");
+            variables = Factory.CreateQueue<Variable>();
+            variables.Add(WA);
+            variables.Add(NT);
+            variables.Add(Q);
+            variables.Add(NSW);
+            variables.Add(V);
+            colors = new Domain<string>("red", "green", "blue");
         }
 
-        @Test
+        [TestMethod]
         public void testConstraintNetwork()
         {
-            CSP<Variable, String> csp = new CSP<>(variables);
+            CSP<Variable, string> csp = new CSP<Variable, string>(variables);
             csp.addConstraint(C1);
             csp.addConstraint(C2);
             csp.addConstraint(C3);
             csp.addConstraint(C4);
-            Assert.assertNotNull(csp.getConstraints());
-            Assert.assertEquals(4, csp.getConstraints().size());
-            Assert.assertNotNull(csp.getConstraints(WA));
-            Assert.assertEquals(1, csp.getConstraints(WA).size());
-            Assert.assertNotNull(csp.getConstraints(NT));
-            Assert.assertEquals(2, csp.getConstraints(NT).size());
-            Assert.assertNotNull(csp.getConstraints(Q));
-            Assert.assertEquals(2, csp.getConstraints(Q).size());
-            Assert.assertNotNull(csp.getConstraints(NSW));
-            Assert.assertEquals(2, csp.getConstraints(NSW).size());
+            Assert.IsNotNull(csp.getConstraints());
+            Assert.AreEqual(4, csp.getConstraints().Size());
+            Assert.IsNotNull(csp.getConstraints(WA));
+            Assert.AreEqual(1, csp.getConstraints(WA).Size());
+            Assert.IsNotNull(csp.getConstraints(NT));
+            Assert.AreEqual(2, csp.getConstraints(NT).Size());
+            Assert.IsNotNull(csp.getConstraints(Q));
+            Assert.AreEqual(2, csp.getConstraints(Q).Size());
+            Assert.IsNotNull(csp.getConstraints(NSW));
+            Assert.AreEqual(2, csp.getConstraints(NSW).Size());
         }
 
-        @Test
+        [TestMethod]
         public void testDomainChanges()
         {
-            Domain<String> colors2 = new Domain<>(colors.asList());
-            Assert.assertEquals(colors, colors2);
+            Domain<string> colors2 = new Domain<string>(colors.asList());
+            Assert.AreEqual(colors, colors2);
 
-            CSP<Variable, String> csp = new CSP<>(variables);
+            CSP<Variable, string> csp = new CSP<Variable, string>(variables);
             csp.addConstraint(C1);
-            Assert.assertNotNull(csp.getDomain(WA));
-            Assert.assertEquals(0, csp.getDomain(WA).size());
-            Assert.assertNotNull(csp.getConstraints(WA));
+            Assert.IsNotNull(csp.getDomain(WA));
+            Assert.AreEqual(0, csp.getDomain(WA).size());
+            Assert.IsNotNull(csp.getConstraints(WA));
 
             csp.setDomain(WA, colors);
-            Assert.assertEquals(colors, csp.getDomain(WA));
-            Assert.assertEquals(3, csp.getDomain(WA).size());
-            Assert.assertEquals("red", csp.getDomain(WA).get(0));
+            Assert.AreEqual(colors, csp.getDomain(WA));
+            Assert.AreEqual(3, csp.getDomain(WA).size());
+            Assert.AreEqual("red", csp.getDomain(WA).get(0));
 
-            CSP<Variable, String> cspCopy = csp.copyDomains();
-            Assert.assertNotNull(cspCopy.getDomain(WA));
-            Assert.assertEquals(3, cspCopy.getDomain(WA).size());
-            Assert.assertEquals("red", cspCopy.getDomain(WA).get(0));
-            Assert.assertNotNull(cspCopy.getDomain(NT));
-            Assert.assertEquals(0, cspCopy.getDomain(NT).size());
-            Assert.assertNotNull(cspCopy.getConstraints(NT));
-            Assert.assertEquals(C1, cspCopy.getConstraints(NT).get(0));
+            CSP<Variable, string> cspCopy = csp.copyDomains();
+            Assert.IsNotNull(cspCopy.getDomain(WA));
+            Assert.AreEqual(3, cspCopy.getDomain(WA).size());
+            Assert.AreEqual("red", cspCopy.getDomain(WA).get(0));
+            Assert.IsNotNull(cspCopy.getDomain(NT));
+            Assert.AreEqual(0, cspCopy.getDomain(NT).size());
+            Assert.IsNotNull(cspCopy.getConstraints(NT));
+            Assert.AreEqual(C1, cspCopy.getConstraints(NT).Get(0));
 
             cspCopy.removeValueFromDomain(WA, "red");
-            Assert.assertEquals(2, cspCopy.getDomain(WA).size());
-            Assert.assertEquals("green", cspCopy.getDomain(WA).get(0));
-            Assert.assertEquals(3, csp.getDomain(WA).size());
-            Assert.assertEquals("red", csp.getDomain(WA).get(0));
+            Assert.AreEqual(2, cspCopy.getDomain(WA).size());
+            Assert.AreEqual("green", cspCopy.getDomain(WA).get(0));
+            Assert.AreEqual(3, csp.getDomain(WA).size());
+            Assert.AreEqual("red", csp.getDomain(WA).get(0));
         }
 
-        @Test
+        [TestMethod]
         public void testCSPSolver()
         {
 
-            CSP<Variable, String> csp = new CSP<>(variables);
+            CSP<Variable, string> csp = new CSP<Variable, string>(variables);
             csp.addConstraint(C1);
             csp.addConstraint(C2);
             csp.addConstraint(C3);
@@ -98,11 +104,11 @@
             csp.setDomain(NSW, colors);
             csp.setDomain(V, colors);
 
-            TreeCspSolver<Variable, String> treeCSPSolver = new TreeCspSolver<>();
-            Optional<Assignment<Variable, String>> assignment = treeCSPSolver.solve(csp);
-            Assert.assertTrue(assignment.isPresent());
-            Assert.assertTrue(assignment.get().isComplete(csp.getVariables()));
-            Assert.assertTrue(assignment.get().isSolution(csp));
+            TreeCspSolver<Variable, string> treeCSPSolver = new TreeCspSolver<Variable, string>();
+            Assignment<Variable, string> assignment = treeCSPSolver.solve(csp);
+            Assert.IsTrue(assignment != null);
+            Assert.IsTrue(assignment.isComplete(csp.getVariables()));
+            Assert.IsTrue(assignment.isSolution(csp));
         }
     }
 

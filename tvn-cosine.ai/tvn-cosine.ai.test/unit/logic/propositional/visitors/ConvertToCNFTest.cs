@@ -1,161 +1,166 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.propositional.visitors
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.logic.propositional.visitors;
+
+namespace tvn_cosine.ai.test.unit.logic.propositional.visitors
 {
-    public class ConvertToCNFTest
+    [TestClass] public class ConvertToCNFTest
     {
         private PLParser parser = new PLParser();
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
         }
 
-        @Test
+        [TestMethod]
         public void testSymbolTransform()
         {
             Sentence symbol = parser.parse("A");
             Sentence transformed = ConvertToCNF.convert(symbol);
-            Assert.assertEquals("A", transformed.toString());
+            Assert.AreEqual("A", transformed.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testBasicSentenceTransformation()
         {
             Sentence and = parser.parse("A & B");
             Sentence transformedAnd = ConvertToCNF.convert(and);
-            Assert.assertEquals("A & B", transformedAnd.toString());
+            Assert.AreEqual("A & B", transformedAnd.ToString());
 
             Sentence or = parser.parse("A | B");
             Sentence transformedOr = ConvertToCNF.convert(or);
-            Assert.assertEquals("A | B", transformedOr.toString());
+            Assert.AreEqual("A | B", transformedOr.ToString());
 
             Sentence not = parser.parse("~C");
             Sentence transformedNot = ConvertToCNF.convert(not);
-            Assert.assertEquals("~C", transformedNot.toString());
+            Assert.AreEqual("~C", transformedNot.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testImplicationTransformation()
         {
             Sentence impl = parser.parse("A => B");
             Sentence transformedImpl = ConvertToCNF.convert(impl);
-            Assert.assertEquals("~A | B", transformedImpl.toString());
+            Assert.AreEqual("~A | B", transformedImpl.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testBiConditionalTransformation()
         {
             Sentence bic = parser.parse("A <=> B");
             Sentence transformedBic = ConvertToCNF.convert(bic);
-            Assert.assertEquals("(~A | B) & (~B | A)", transformedBic.toString());
+            Assert.AreEqual("(~A | B) & (~B | A)", transformedBic.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testTwoSuccessiveNotsTransformation()
         {
             Sentence twoNots = parser.parse("~~A");
             Sentence transformed = ConvertToCNF.convert(twoNots);
-            Assert.assertEquals("A", transformed.toString());
+            Assert.AreEqual("A", transformed.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testThreeSuccessiveNotsTransformation()
         {
             Sentence threeNots = parser.parse("~~~A");
             Sentence transformed = ConvertToCNF.convert(threeNots);
-            Assert.assertEquals("~A", transformed.toString());
+            Assert.AreEqual("~A", transformed.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testFourSuccessiveNotsTransformation()
         {
             Sentence fourNots = parser.parse("~~~~A");
             Sentence transformed = ConvertToCNF.convert(fourNots);
-            Assert.assertEquals("A", transformed.toString());
+            Assert.AreEqual("A", transformed.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testDeMorgan1()
         {
             Sentence dm = parser.parse("~(A & B)");
             Sentence transformed = ConvertToCNF.convert(dm);
-            Assert.assertEquals("~A | ~B", transformed.toString());
+            Assert.AreEqual("~A | ~B", transformed.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testDeMorgan2()
         {
             Sentence dm = parser.parse("~(A | B)");
             Sentence transformed = ConvertToCNF.convert(dm);
-            Assert.assertEquals("~A & ~B", transformed.toString());
+            Assert.AreEqual("~A & ~B", transformed.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testOrDistribution1()
         {
             Sentence or = parser.parse("A & B | C)");
             Sentence transformed = ConvertToCNF.convert(or);
-            Assert.assertEquals("(A | C) & (B | C)", transformed.toString());
+            Assert.AreEqual("(A | C) & (B | C)", transformed.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testOrDistribution2()
         {
             Sentence or = parser.parse("A | B & C");
             Sentence transformed = ConvertToCNF.convert(or);
-            Assert.assertEquals("(A | B) & (A | C)", transformed.toString());
+            Assert.AreEqual("(A | B) & (A | C)", transformed.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testAimaExample()
         {
             Sentence aimaEg = parser.parse("B11 <=> P12 | P21");
             Sentence transformed = ConvertToCNF.convert(aimaEg);
-            Assert.assertEquals("(~B11 | P12 | P21) & (~P12 | B11) & (~P21 | B11)", transformed.toString());
+            Assert.AreEqual("(~B11 | P12 | P21) & (~P12 | B11) & (~P21 | B11)", transformed.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testNested()
         {
             Sentence nested = parser.parse("A | (B | (C | (D & E)))");
             Sentence transformed = ConvertToCNF.convert(nested);
-            Assert.assertEquals("(A | B | C | D) & (A | B | C | E)", transformed.toString());
+            Assert.AreEqual("(A | B | C | D) & (A | B | C | E)", transformed.ToString());
 
             nested = parser.parse("A | (B | (C & (D & E)))");
             transformed = ConvertToCNF.convert(nested);
-            Assert.assertEquals("(A | B | C) & (A | B | D) & (A | B | E)", transformed.toString());
+            Assert.AreEqual("(A | B | C) & (A | B | D) & (A | B | E)", transformed.ToString());
 
             nested = parser.parse("A | (B | (C & (D & (E | F))))");
             transformed = ConvertToCNF.convert(nested);
-            Assert.assertEquals("(A | B | C) & (A | B | D) & (A | B | E | F)", transformed.toString());
+            Assert.AreEqual("(A | B | C) & (A | B | D) & (A | B | E | F)", transformed.ToString());
 
             nested = parser.parse("(A | (B | (C & D))) | E | (F | (G | (H & I)))");
             transformed = ConvertToCNF.convert(nested);
-            Assert.assertEquals("(A | B | C | E | F | G | H) & (A | B | D | E | F | G | H) & (A | B | C | E | F | G | I) & (A | B | D | E | F | G | I)", transformed.toString());
+            Assert.AreEqual("(A | B | C | E | F | G | H) & (A | B | D | E | F | G | H) & (A | B | C | E | F | G | I) & (A | B | D | E | F | G | I)", transformed.ToString());
 
             nested = parser.parse("(((~P | ~Q) => ~(P | Q)) => R)");
             transformed = ConvertToCNF.convert(nested);
-            Assert.assertEquals("(~P | ~Q | R) & (P | Q | R)", transformed.toString());
+            Assert.AreEqual("(~P | ~Q | R) & (P | Q | R)", transformed.ToString());
 
             nested = parser.parse("~(((~P | ~Q) => ~(P | Q)) => R)");
             transformed = ConvertToCNF.convert(nested);
-            Assert.assertEquals("(P | ~P) & (Q | ~P) & (P | ~Q) & (Q | ~Q) & ~R", transformed.toString());
+            Assert.AreEqual("(P | ~P) & (Q | ~P) & (P | ~Q) & (Q | ~Q) & ~R", transformed.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testIssue78()
         {
             // (  ( NOT J1007 )  OR  ( NOT ( OR J1008 J1009 J1010 J1011 J1012 J1013 J1014 J1015  )  )  )
             Sentence issue78Eg = parser.parse("(  ( ~ J1007 )  |  ( ~ ( J1008 | J1009 | J1010 | J1011 | J1012 | J1013 | J1014 | J1015  )  ) )");
             Sentence transformed = ConvertToCNF.convert(issue78Eg);
-            Assert.assertEquals("(~J1007 | ~J1008) & (~J1007 | ~J1009) & (~J1007 | ~J1010) & (~J1007 | ~J1011) & (~J1007 | ~J1012) & (~J1007 | ~J1013) & (~J1007 | ~J1014) & (~J1007 | ~J1015)", transformed.toString());
+            Assert.AreEqual("(~J1007 | ~J1008) & (~J1007 | ~J1009) & (~J1007 | ~J1010) & (~J1007 | ~J1011) & (~J1007 | ~J1012) & (~J1007 | ~J1013) & (~J1007 | ~J1014) & (~J1007 | ~J1015)", transformed.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testDistributingOrCorrectly()
         {
             Sentence s = parser.parse("A & B & C & D & (E | (F & G)) & H & I & J & K");
             Sentence transformed = ConvertToCNF.convert(s);
-            Assert.assertEquals("A & B & C & D & (E | F) & (E | G) & H & I & J & K", transformed.toString());
+            Assert.AreEqual("A & B & C & D & (E | F) & (E | G) & H & I & J & K", transformed.ToString());
         }
     }
 

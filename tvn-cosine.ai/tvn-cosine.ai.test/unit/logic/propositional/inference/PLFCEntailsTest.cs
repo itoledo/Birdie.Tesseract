@@ -1,18 +1,26 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.propositional.inference
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.propositional.inference;
+using tvn.cosine.ai.logic.propositional.kb;
+using tvn.cosine.ai.logic.propositional.parsing;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
+
+namespace tvn_cosine.ai.test.unit.logic.propositional.inference
 {
+    [TestClass]
     public class PLFCEntailsTest
     {
         private PLParser parser;
         private PLFCEntails plfce;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             parser = new PLParser();
             plfce = new PLFCEntails();
         }
 
-        @Test
+        [TestMethod]
         public void testAIMAExample()
         {
             KnowledgeBase kb = new KnowledgeBase();
@@ -25,12 +33,13 @@
             kb.tell("B");
             PropositionSymbol q = (PropositionSymbol)parser.parse("Q");
 
-            Assert.assertEquals(true, plfce.plfcEntails(kb, q));
+            Assert.AreEqual(true, plfce.plfcEntails(kb, q));
         }
 
 
-    @Test(expected= IllegalArgumentException.class)
-	public void testKBWithNonDefiniteClauses()
+        [TestMethod]
+        [ExpectedException(typeof(IllegalArgumentException))]
+        public void testKBWithNonDefiniteClauses()
         {
             KnowledgeBase kb = new KnowledgeBase();
             kb.tell("P => Q");
@@ -42,7 +51,7 @@
             kb.tell("B");
             PropositionSymbol q = (PropositionSymbol)parser.parse("Q");
 
-            Assert.assertEquals(true, plfce.plfcEntails(kb, q));
+            Assert.AreEqual(true, plfce.plfcEntails(kb, q));
         }
     }
 }

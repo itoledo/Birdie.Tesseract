@@ -84,7 +84,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
                     U_ip1.Put(s, mdp.reward(s) + gamma * aSum);
                 }
 
-                U_i.putAll(U_ip1);
+                U_i.PutAll(U_ip1);
             }
             return U_ip1;
         } 

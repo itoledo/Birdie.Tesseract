@@ -70,7 +70,7 @@ namespace tvn.cosine.ai.robotics.impl.datatypes
         }
 
 
-        public int compareTo(Angle o)
+        public int CompareTo(Angle o)
         {
             if (Util.compareDoubles(this.value, o.value)) return 0;
             if (this.value < o.value) return -1;

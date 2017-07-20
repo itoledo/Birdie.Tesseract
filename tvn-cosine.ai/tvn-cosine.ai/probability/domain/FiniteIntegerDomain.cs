@@ -40,9 +40,14 @@ namespace tvn.cosine.ai.probability.domain
         //
         // START-DiscreteDomain
 
-        public override ISet<int> getPossibleValues()
+        public override ISet<object> getPossibleValues()
         {
-            return possibleValues;
+            ISet<object> obj = Factory.CreateSet<object>();
+            foreach (int i in possibleValues)
+            {
+                obj.Add(i);
+            }
+            return obj;
         }
 
         // END-DiscreteDomain
@@ -71,5 +76,5 @@ namespace tvn.cosine.ai.probability.domain
         {
             return possibleValues.GetHashCode();
         }
-    } 
+    }
 }

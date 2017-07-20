@@ -46,11 +46,11 @@ namespace tvn.cosine.ai.learning.inductive
             DecisionList merged = new DecisionList(positive, negative);
             foreach (DLTest test in tests)
             {
-                merged.Add(test, testOutcomes.Get(test));
+                merged.add(test, testOutcomes.Get(test));
             }
             foreach (DLTest test in dlist2.tests)
             {
-                merged.Add(test, dlist2.testOutcomes.Get(test));
+                merged.add(test, dlist2.testOutcomes.Get(test));
             }
             return merged;
         }

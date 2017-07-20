@@ -1,10 +1,18 @@
-﻿namespace tvn_cosine.ai.test.unit.probability.util
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.util;
+
+namespace tvn_cosine.ai.test.unit.probability.util
 {
+    [TestClass]
     public class ProbabilityTableTest
     {
-        public static final double DELTA_THRESHOLD = ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD;
+        public static readonly double DELTA_THRESHOLD = ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
 
-        @Test
+        [TestMethod]
         public void test_divideBy()
         {
             RandomVariable xRV = new RandVar("X", new BooleanDomain());
@@ -68,15 +76,15 @@
             ProbabilityTable iD = new ProbabilityTable(new double[] { 1.0 });
             // Ensure the order of the dividends
             // makes no difference to the result
-            Assert.assertArrayEquals(xyzD.divideBy(zD).getValues(),
+            Assert.AreEqual(xyzD.divideBy(zD).getValues(),
                     xzyD.divideBy(zD).pointwiseProductPOS(iD, xRV, yRV, zRV)
-                            .getValues(), DELTA_THRESHOLD);
-            Assert.assertArrayEquals(xzyD.divideBy(zD).getValues(),
+                            .getValues());
+            Assert.AreEqual(xzyD.divideBy(zD).getValues(),
                     zxyD.divideBy(zD).pointwiseProductPOS(iD, xRV, zRV, yRV)
-                            .getValues(), DELTA_THRESHOLD);
+                            .getValues());
         }
 
-        @Test
+        [TestMethod]
         public void test_pointwiseProduct()
         {
             RandomVariable xRV = new RandVar("X", new BooleanDomain());
@@ -96,15 +104,13 @@
                     zRV);
 
             // Not commutative
-            Assert.assertArrayEquals(new double[] { 3.0, 7.0, 6.0, 14.0, 9.0, 21.0,
-                12.0, 28.0 }, xyD.pointwiseProduct(zD).getValues(),
-                    DELTA_THRESHOLD);
-            Assert.assertArrayEquals(new double[] { 3.0, 6.0, 9.0, 12.0, 7.0, 14.0,
-                21.0, 28.0 }, zD.pointwiseProduct(xyD).getValues(),
-                    DELTA_THRESHOLD);
+            Assert.AreEqual(new double[] { 3.0, 7.0, 6.0, 14.0, 9.0, 21.0,
+                12.0, 28.0 }, xyD.pointwiseProduct(zD).getValues());
+            Assert.AreEqual(new double[] { 3.0, 6.0, 9.0, 12.0, 7.0, 14.0,
+                21.0, 28.0 }, zD.pointwiseProduct(xyD).getValues());
         }
 
-        @Test
+        [TestMethod]
         public void test_pointwiseProductPOS()
         {
             RandomVariable xRV = new RandVar("X", new BooleanDomain());
@@ -124,12 +130,27 @@
                     zRV);
 
             // Make commutative by specifying an order for the product
-            Assert.assertArrayEquals(xyD.pointwiseProduct(zD).getValues(), zD
-                    .pointwiseProductPOS(xyD, xRV, yRV, zRV).getValues(),
-                    DELTA_THRESHOLD);
+            Assert.AreEqual(xyD.pointwiseProduct(zD).getValues(), zD
+                    .pointwiseProductPOS(xyD, xRV, yRV, zRV).getValues());
         }
 
-        @Test
+        class iter : ProbabilityTable.ProbabilityTableIterator
+        {
+            private IQueue<double> answer;
+
+            public iter(IQueue<double> answer)
+            {
+                this.answer = answer;
+            }
+
+            public void iterate(IMap<RandomVariable, object> possibleAssignment,
+                    double probability)
+            {
+                answer.Add(probability);
+            }
+        }
+
+        [TestMethod]
         public void test_iterateOverTable_fixedValues()
         {
             RandVar aRV = new RandVar("A", new BooleanDomain());
@@ -153,60 +174,51 @@
 				// A = false, B = false, C = false
 				10000000.0 }, aRV, bRV, cRV);
 
-            final List< Double > answer = new ArrayList<Double>();
-            ProbabilityTable.Iterator pti = new ProbabilityTable.Iterator() {
+            IQueue<double> answer = Factory.CreateQueue<double>();
+            ProbabilityTable.ProbabilityTableIterator pti = new iter(answer);
 
-            @Override
+            answer.Clear();
+            ptABC.iterateOverTable(pti, new AssignmentProposition(aRV, true));
+            Assert.AreEqual(1111.0, sumOf(answer));
 
-            public void iterate(Map<RandomVariable, Object> possibleAssignment,
-                    double probability)
-        {
-            answer.add(probability);
+            answer.Clear();
+            ptABC.iterateOverTable(pti, new AssignmentProposition(aRV, false));
+            Assert.AreEqual(11110000.0, sumOf(answer));
+
+            answer.Clear();
+            ptABC.iterateOverTable(pti, new AssignmentProposition(bRV, true));
+            Assert.AreEqual(110011.0, sumOf(answer));
+
+            answer.Clear();
+            ptABC.iterateOverTable(pti, new AssignmentProposition(bRV, false));
+            Assert.AreEqual(11001100.0, sumOf(answer));
+
+            answer.Clear();
+            ptABC.iterateOverTable(pti, new AssignmentProposition(cRV, true));
+            Assert.AreEqual(1010101.0, sumOf(answer));
+
+            answer.Clear();
+            ptABC.iterateOverTable(pti, new AssignmentProposition(cRV, false));
+            Assert.AreEqual(10101010.0, sumOf(answer));
+
+            answer.Clear();
+            ptABC.iterateOverTable(pti, new AssignmentProposition(bRV, true),
+                    new AssignmentProposition(cRV, true));
+            Assert.AreEqual(10001.0, sumOf(answer));
         }
-    };
 
-    answer.clear();
-		ptABC.iterateOverTable(pti, new AssignmentProposition(aRV, true));
-		Assert.assertEquals(1111.0, sumOf(answer), DELTA_THRESHOLD);
-
-		answer.clear();
-		ptABC.iterateOverTable(pti, new AssignmentProposition(aRV, false));
-		Assert.assertEquals(11110000.0, sumOf(answer), DELTA_THRESHOLD);
-
-		answer.clear();
-		ptABC.iterateOverTable(pti, new AssignmentProposition(bRV, true));
-		Assert.assertEquals(110011.0, sumOf(answer), DELTA_THRESHOLD);
-
-		answer.clear();
-		ptABC.iterateOverTable(pti, new AssignmentProposition(bRV, false));
-		Assert.assertEquals(11001100.0, sumOf(answer), DELTA_THRESHOLD);
-
-		answer.clear();
-		ptABC.iterateOverTable(pti, new AssignmentProposition(cRV, true));
-		Assert.assertEquals(1010101.0, sumOf(answer), DELTA_THRESHOLD);
-
-		answer.clear();
-		ptABC.iterateOverTable(pti, new AssignmentProposition(cRV, false));
-		Assert.assertEquals(10101010.0, sumOf(answer), DELTA_THRESHOLD);
-
-		answer.clear();
-		ptABC.iterateOverTable(pti, new AssignmentProposition(bRV, true),
-				new AssignmentProposition(cRV, true));
-		Assert.assertEquals(10001.0, sumOf(answer), DELTA_THRESHOLD);
-	}
-
-//
-// PRIVATE METHOD
-//
-private double sumOf(List<Double> values)
-{
-    double sum = 0;
-    for (Double d : values)
-    {
-        sum += d;
+        //
+        // PRIVATE METHOD
+        //
+        private double sumOf(IQueue<double> values)
+        {
+            double sum = 0;
+            foreach (double d in values)
+            {
+                sum += d;
+            }
+            return sum;
+        }
     }
-    return sum;
-}
-}
 
 }

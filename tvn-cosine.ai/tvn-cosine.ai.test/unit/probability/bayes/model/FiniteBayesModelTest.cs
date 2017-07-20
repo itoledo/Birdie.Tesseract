@@ -1,133 +1,139 @@
-﻿namespace tvn_cosine.ai.test.unit.probability.bayes.model
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.probability.bayes;
+using tvn.cosine.ai.probability.bayes.exact;
+using tvn.cosine.ai.probability.bayes.model;
+using tvn.cosine.ai.probability.example;
+
+namespace tvn_cosine.ai.test.unit.probability.bayes.model
 {
-    public class FiniteBayesModelTest extends CommonFiniteProbabilityModelTests
+    [TestClass]
+    public class FiniteBayesModelTest : CommonFiniteProbabilityModelTests
     {
 
         //
         // ProbabilityModel Tests
-        @Test
+        [TestMethod]
 
-    public void test_RollingPairFairDiceModel()
-    {
-        for (BayesInference bi : getBayesInferenceImplementations())
+        public void test_RollingPairFairDiceModel()
         {
-            test_RollingPairFairDiceModel(new FiniteBayesModel(
-                    BayesNetExampleFactory.construct2FairDiceNetwor(), bi));
+            foreach (BayesInference bi in getBayesInferenceImplementations())
+            {
+                test_RollingPairFairDiceModel(new FiniteBayesModel(
+                        BayesNetExampleFactory.construct2FairDiceNetwor(), bi));
+            }
         }
-    }
 
-    @Test
-    public void test_ToothacheCavityCatchModel()
-    {
-        for (BayesInference bi : getBayesInferenceImplementations())
+        [TestMethod]
+        public void test_ToothacheCavityCatchModel()
         {
-            test_ToothacheCavityCatchModel(new FiniteBayesModel(
-                    BayesNetExampleFactory
-                            .constructToothacheCavityCatchNetwork(),
-                    bi));
+            foreach (BayesInference bi in getBayesInferenceImplementations())
+            {
+                test_ToothacheCavityCatchModel(new FiniteBayesModel(
+                        BayesNetExampleFactory
+                                .constructToothacheCavityCatchNetwork(),
+                        bi));
+            }
         }
-    }
 
-    @Test
-    public void test_ToothacheCavityCatchWeatherModel()
-    {
-        for (BayesInference bi : getBayesInferenceImplementations())
+        [TestMethod]
+        public void test_ToothacheCavityCatchWeatherModel()
         {
-            test_ToothacheCavityCatchWeatherModel(new FiniteBayesModel(
-                    BayesNetExampleFactory
-                            .constructToothacheCavityCatchWeatherNetwork(),
-                    bi));
+            foreach (BayesInference bi in getBayesInferenceImplementations())
+            {
+                test_ToothacheCavityCatchWeatherModel(new FiniteBayesModel(
+                        BayesNetExampleFactory
+                                .constructToothacheCavityCatchWeatherNetwork(),
+                        bi));
+            }
         }
-    }
 
-    @Test
-    public void test_MeningitisStiffNeckModel()
-    {
-        for (BayesInference bi : getBayesInferenceImplementations())
+        [TestMethod]
+        public void test_MeningitisStiffNeckModel()
         {
-            test_MeningitisStiffNeckModel(new FiniteBayesModel(
-                    BayesNetExampleFactory
-                            .constructMeningitisStiffNeckNetwork(),
-                    bi));
+            foreach (BayesInference bi in getBayesInferenceImplementations())
+            {
+                test_MeningitisStiffNeckModel(new FiniteBayesModel(
+                        BayesNetExampleFactory.constructMeningitisStiffNeckNetwork(),
+                        bi));
+            }
         }
-    }
 
-    @Test
-    public void test_BurglaryAlarmModel()
-    {
-        for (BayesInference bi : getBayesInferenceImplementations())
+        [TestMethod]
+        public void test_BurglaryAlarmModel()
         {
-            test_BurglaryAlarmModel(new FiniteBayesModel(
-                    BayesNetExampleFactory.constructBurglaryAlarmNetwork(), bi));
+            foreach (BayesInference bi in getBayesInferenceImplementations())
+            {
+                test_BurglaryAlarmModel(new FiniteBayesModel(
+                        BayesNetExampleFactory.constructBurglaryAlarmNetwork(), bi));
+            }
         }
-    }
 
-    //
-    // FiniteProbabilityModel Tests
-    @Test
-    public void test_RollingPairFairDiceModel_Distributions()
-    {
-        for (BayesInference bi : getBayesInferenceImplementations())
+        //
+        // FiniteProbabilityModel Tests
+        [TestMethod]
+        public void test_RollingPairFairDiceModel_Distributions()
         {
-            test_RollingPairFairDiceModel_Distributions(new FiniteBayesModel(
-                    BayesNetExampleFactory.construct2FairDiceNetwor(), bi));
+            foreach (BayesInference bi in getBayesInferenceImplementations())
+            {
+                test_RollingPairFairDiceModel_Distributions(new FiniteBayesModel(
+                        BayesNetExampleFactory.construct2FairDiceNetwor(), bi));
+            }
         }
-    }
 
-    @Test
-    public void test_ToothacheCavityCatchModel_Distributions()
-    {
-        for (BayesInference bi : getBayesInferenceImplementations())
+        [TestMethod]
+        public void test_ToothacheCavityCatchModel_Distributions()
         {
-            test_ToothacheCavityCatchModel_Distributions(new FiniteBayesModel(
-                    BayesNetExampleFactory
-                            .constructToothacheCavityCatchNetwork(),
-                    bi));
+            foreach (BayesInference bi in getBayesInferenceImplementations())
+            {
+                test_ToothacheCavityCatchModel_Distributions(new FiniteBayesModel(
+                        BayesNetExampleFactory
+                                .constructToothacheCavityCatchNetwork(),
+                        bi));
+            }
         }
-    }
 
-    @Test
-    public void test_ToothacheCavityCatchWeatherModel_Distributions()
-    {
-        for (BayesInference bi : getBayesInferenceImplementations())
+        [TestMethod]
+        public void test_ToothacheCavityCatchWeatherModel_Distributions()
         {
-            test_ToothacheCavityCatchWeatherModel_Distributions(new FiniteBayesModel(
-                    BayesNetExampleFactory
-                            .constructToothacheCavityCatchWeatherNetwork(),
-                    bi));
+            foreach (BayesInference bi in getBayesInferenceImplementations())
+            {
+                test_ToothacheCavityCatchWeatherModel_Distributions(new FiniteBayesModel(
+                        BayesNetExampleFactory
+                                .constructToothacheCavityCatchWeatherNetwork(),
+                        bi));
+            }
         }
-    }
 
-    @Test
-    public void test_MeningitisStiffNeckModel_Distributions()
-    {
-        for (BayesInference bi : getBayesInferenceImplementations())
+        [TestMethod]
+        public void test_MeningitisStiffNeckModel_Distributions()
         {
-            test_MeningitisStiffNeckModel_Distributions(new FiniteBayesModel(
-                    BayesNetExampleFactory
-                            .constructMeningitisStiffNeckNetwork(),
-                    bi));
+            foreach (BayesInference bi in getBayesInferenceImplementations())
+            {
+                test_MeningitisStiffNeckModel_Distributions(new FiniteBayesModel(
+                        BayesNetExampleFactory
+                                .constructMeningitisStiffNeckNetwork(),
+                        bi));
+            }
         }
-    }
 
-    @Test
-    public void test_BurglaryAlarmModel_Distributions()
-    {
-        for (BayesInference bi : getBayesInferenceImplementations())
+        [TestMethod]
+        public void test_BurglaryAlarmModel_Distributions()
         {
-            test_BurglaryAlarmModel_Distributions(new FiniteBayesModel(
-                    BayesNetExampleFactory.constructBurglaryAlarmNetwork(), bi));
+            foreach (BayesInference bi in getBayesInferenceImplementations())
+            {
+                test_BurglaryAlarmModel_Distributions(new FiniteBayesModel(
+                        BayesNetExampleFactory.constructBurglaryAlarmNetwork(), bi));
+            }
         }
-    }
 
-    //
-    // PRIVATE METHODS
-    //
-    private BayesInference[] getBayesInferenceImplementations()
-    {
-        return new BayesInference[] { new EnumerationAsk(),
+        //
+        // PRIVATE METHODS
+        //
+        private BayesInference[] getBayesInferenceImplementations()
+        {
+            return new BayesInference[] { new EnumerationAsk(),
                 new EliminationAsk() };
+        }
     }
-}
 
 }

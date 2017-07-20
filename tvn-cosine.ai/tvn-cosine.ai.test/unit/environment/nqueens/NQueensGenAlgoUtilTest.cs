@@ -1,79 +1,85 @@
-﻿namespace tvn_cosine.ai.test.unit.environment.nqueens
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.environment.nqueens;
+using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.local;
+
+namespace tvn_cosine.ai.test.unit.environment.nqueens
 {
+    [TestClass]
     public class NQueensGenAlgoUtilTest
     {
 
-        private FitnessFunction<Integer> fitnessFunction;
-        private GoalTest<Individual<Integer>> goalTest;
+        private FitnessFunction<int> fitnessFunction;
+        private GoalTest<Individual<int>> goalTest;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             fitnessFunction = NQueensGenAlgoUtil.getFitnessFunction();
             goalTest = NQueensGenAlgoUtil.getGoalTest();
         }
 
-        @Test
+        [TestMethod]
         public void test_getValue()
         {
-            Assert.assertTrue(0.0 == fitnessFunction
-                    .apply(new Individual<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0))));
-            Assert.assertTrue(0.0 == fitnessFunction
-                    .apply(new Individual<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7))));
-            Assert.assertTrue(0.0 == fitnessFunction
-                    .apply(new Individual<>(Arrays.asList(7, 6, 5, 4, 3, 2, 1, 0))));
+            Assert.IsTrue(0.0 == fitnessFunction
+                    .apply(new Individual<int>(Factory.CreateQueue<int>(new[] { 0, 0, 0, 0, 0, 0, 0, 0 }))));
+            Assert.IsTrue(0.0 == fitnessFunction
+                    .apply(new Individual<int>(Factory.CreateQueue<int>(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }))));
+            Assert.IsTrue(0.0 == fitnessFunction
+                    .apply(new Individual<int>(Factory.CreateQueue<int>(new[] { 7, 6, 5, 4, 3, 2, 1, 0 }))));
 
-            Assert.assertTrue(23.0 == fitnessFunction
-                    .apply(new Individual<>(Arrays.asList(5, 6, 1, 3, 6, 4, 7, 7))));
-            Assert.assertTrue(28.0 == fitnessFunction
-                    .apply(new Individual<>(Arrays.asList(0, 4, 7, 5, 2, 6, 1, 3))));
+            Assert.IsTrue(23.0 == fitnessFunction
+                    .apply(new Individual<int>(Factory.CreateQueue<int>(new[] { 5, 6, 1, 3, 6, 4, 7, 7 }))));
+            Assert.IsTrue(28.0 == fitnessFunction
+                    .apply(new Individual<int>(Factory.CreateQueue<int>(new[] { 0, 4, 7, 5, 2, 6, 1, 3 }))));
         }
 
-        @Test
+        [TestMethod]
         public void test_isGoalState()
         {
-            Assert.assertTrue(goalTest.test(new Individual<>(
-                    Arrays.asList(0, 4, 7, 5, 2, 6, 1, 3))));
-            Assert.assertFalse(goalTest.test(new Individual<>(
-                    Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0))));
-            Assert.assertFalse(goalTest.test(new Individual<>(
-                    Arrays.asList(5, 6, 1, 3, 6, 4, 7, 7))));
+            Assert.IsTrue(goalTest(new Individual<int>(
+                    Factory.CreateQueue<int>(new[] { 0, 4, 7, 5, 2, 6, 1, 3 }))));
+            Assert.IsFalse(goalTest(new Individual<int>(
+                   Factory.CreateQueue<int>(new[] { 0, 0, 0, 0, 0, 0, 0, 0 }))));
+            Assert.IsFalse(goalTest(new Individual<int>(
+                   Factory.CreateQueue<int>(new[] { 5, 6, 1, 3, 6, 4, 7, 7 }))));
         }
 
-        @Test
+        [TestMethod]
         public void test_getBoardForIndividual()
         {
             NQueensBoard board = NQueensGenAlgoUtil
-                    .getBoardForIndividual(new Individual<>(Arrays
-                            .asList(5, 6, 1, 3, 6, 4, 7, 7)));
-            Assert.assertEquals(" -  -  -  -  -  -  -  - \n"
+                    .getBoardForIndividual(new Individual<int>(Factory.CreateQueue<int>(new[] { 5, 6, 1, 3, 6, 4, 7, 7 })));
+            Assert.AreEqual(" -  -  -  -  -  -  -  - \n"
                     + " -  -  Q  -  -  -  -  - \n" + " -  -  -  -  -  -  -  - \n"
                     + " -  -  -  Q  -  -  -  - \n" + " -  -  -  -  -  Q  -  - \n"
                     + " Q  -  -  -  -  -  -  - \n" + " -  Q  -  -  Q  -  -  - \n"
                     + " -  -  -  -  -  -  Q  Q \n", board.getBoardPic());
 
-            Assert.assertEquals("--------\n" + "--Q-----\n" + "--------\n"
+            Assert.AreEqual("--------\n" + "--Q-----\n" + "--------\n"
                     + "---Q----\n" + "-----Q--\n" + "Q-------\n" + "-Q--Q---\n"
-                    + "------QQ\n", board.toString());
+                    + "------QQ\n", board.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void test_generateRandomIndividual()
         {
             for (int i = 2; i <= 40; i++)
             {
-                Individual<Integer> individual = NQueensGenAlgoUtil.generateRandomIndividual(i);
-                Assert.assertEquals(i, individual.length());
+                Individual<int> individual = NQueensGenAlgoUtil.generateRandomIndividual(i);
+                Assert.AreEqual(i, individual.length());
             }
         }
 
-        @Test
+        [TestMethod]
         public void test_getFiniteAlphabet()
         {
             for (int i = 2; i <= 40; i++)
             {
-                Collection<Integer> fab = NQueensGenAlgoUtil.getFiniteAlphabetForBoardOfSize(i);
-                Assert.assertEquals(i, fab.size());
+                IQueue<int> fab = NQueensGenAlgoUtil.getFiniteAlphabetForBoardOfSize(i);
+                Assert.AreEqual(i, fab.Size());
             }
         }
     }

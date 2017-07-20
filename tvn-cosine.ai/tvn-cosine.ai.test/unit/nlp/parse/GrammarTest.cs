@@ -1,26 +1,32 @@
-﻿namespace tvn_cosine.ai.test.unit.nlp.parse
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.nlp.parsing.grammars;
+
+namespace tvn_cosine.ai.test.unit.nlp.parse
 {
+    [TestClass]
     public class GrammarTest
     {
 
-        ProbUnrestrictedGrammar g; ProbUnrestrictedGrammar g2;
+        ProbUnrestrictedGrammar g;
+        //ProbUnrestrictedGrammar g2;
 
-        @Before
+        [TestInitialize]
         public void setup()
         {
             g = new ProbUnrestrictedGrammar(); // reset grammar before each test
         }
 
-        @Test
+        [TestMethod]
         public void testValidRule()
         {
-            Rule invalidR = new Rule(null, new ArrayList<String>(Arrays.asList("W", "Z")), (float)0.5);
-            Rule validR = new Rule(new ArrayList<String>(Arrays.asList("W")),
-                                      new ArrayList<String>(Arrays.asList("a", "s")), (float)0.5);
-            Rule validR2 = new Rule(new ArrayList<String>(Arrays.asList("W")), null, (float)0.5);
-            assertFalse(g.validRule(invalidR));
-            assertTrue(g.validRule(validR));
-            assertTrue(g.validRule(validR2));
+            Rule invalidR = new Rule(null, Factory.CreateQueue<string>(new[] { "W", "Z" }), (float)0.5);
+            Rule validR = new Rule(Factory.CreateQueue<string>(new[] { "W" }),
+                                      Factory.CreateQueue<string>(new[] { "a", "s" }), (float)0.5);
+            Rule validR2 = new Rule(Factory.CreateQueue<string>(new[] { "W" }), null, (float)0.5);
+            Assert.IsFalse(g.validRule(invalidR));
+            Assert.IsTrue(g.validRule(validR));
+            Assert.IsTrue(g.validRule(validR2));
 
         }
 
@@ -28,71 +34,71 @@
          * Grammar should not allow a rule of the form 
          * null -> X, where X is a combo of variables and terminals
          */
-        @Test
+        [TestMethod]
         public void testRejectNullLhs()
         {
-            Rule r = new Rule(new ArrayList<String>(), new ArrayList<String>(), (float)0.50); // test completely null rule
-                                                                                              // test only null lhs
-            Rule r2 = new Rule(null, new ArrayList<String>(Arrays.asList("W", "Z")), (float)0.50);
-            assertFalse(g.addRule(r));
-            assertFalse(g.addRule(r2));
+            Rule r = new Rule(Factory.CreateQueue<string>(), Factory.CreateQueue<string>(), (float)0.50); // test completely null rule
+                                                                                                          // test only null lhs
+            Rule r2 = new Rule(null, Factory.CreateQueue<string>(new[] { "W", "Z" }), (float)0.50);
+            Assert.IsFalse(g.addRule(r));
+            Assert.IsFalse(g.addRule(r2));
         }
 
         /**
          * Grammar (unrestricted) should accept all the rules in the test,
          * as they have non-null left hand sides
          */
-        @Test
+        [TestMethod]
         public void testAcceptValidRules()
         {
-            Rule unrestrictedRule = new Rule(new ArrayList<String>(Arrays.asList("A", "a", "A", "B")),
-                                              new ArrayList<String>(Arrays.asList("b", "b", "A", "C")), (float)0.50);
-            Rule contextSensRule = new Rule(new ArrayList<String>(Arrays.asList("A", "a", "A")),
-                                                new ArrayList<String>(Arrays.asList("b", "b", "A", "C")), (float)0.50);
-            Rule contextFreeRule = new Rule(new ArrayList<String>(Arrays.asList("A")),
-                                                new ArrayList<String>(Arrays.asList("b", "b", "A", "C")), (float)0.50);
-            Rule regularRule = new Rule(new ArrayList<String>(Arrays.asList("A")),
-                                               new ArrayList<String>(Arrays.asList("b", "C")), (float)0.50);
-            Rule nullRHSRule = new Rule(new ArrayList<String>(Arrays.asList("A", "B")), null, (float)0.50);
+            Rule unrestrictedRule = new Rule(Factory.CreateQueue<string>(new[] { "A", "a", "A", "B" }),
+                                              Factory.CreateQueue<string>(new[] { "b", "b", "A", "C" }), (float)0.50);
+            Rule contextSensRule = new Rule(Factory.CreateQueue<string>(new[] { "A", "a", "A" }),
+                                                Factory.CreateQueue<string>(new[] { "b", "b", "A", "C" }), (float)0.50);
+            Rule contextFreeRule = new Rule(Factory.CreateQueue<string>(new[] { "A" }),
+                                                Factory.CreateQueue<string>(new[] { "b", "b", "A", "C" }), (float)0.50);
+            Rule regularRule = new Rule(Factory.CreateQueue<string>(new[] { "A" }),
+                                               Factory.CreateQueue<string>(new[] { "b", "C" }), (float)0.50);
+            Rule nullRHSRule = new Rule(Factory.CreateQueue<string>(new[] { "A", "B" }), null, (float)0.50);
             // try adding these rules in turn
-            assertTrue(g.addRule(unrestrictedRule));
-            assertTrue(g.addRule(contextSensRule));
-            assertTrue(g.addRule(contextFreeRule));
-            assertTrue(g.addRule(regularRule));
-            assertTrue(g.addRule(nullRHSRule));
+            Assert.IsTrue(g.addRule(unrestrictedRule));
+            Assert.IsTrue(g.addRule(contextSensRule));
+            Assert.IsTrue(g.addRule(contextFreeRule));
+            Assert.IsTrue(g.addRule(regularRule));
+            Assert.IsTrue(g.addRule(nullRHSRule));
         }
 
         /**
          * Test that Grammar class correctly updates its 
          * list of variables and terminals when a new rule is added
          */
-        @Test
+        [TestMethod]
         public void testUpdateVarsAndTerminals()
         {
             // add a rule that has variables and terminals not 
             // already in the grammar
-            g.addRule(new Rule(new ArrayList<String>(Arrays.asList("Z")),
-                                   new ArrayList<String>(Arrays.asList("z", "Z")), (float)0.50));
-            assertTrue(g.terminals.contains("z") && !g.terminals.contains("Z"));
-            assertTrue(g.vars.contains("Z") && !g.vars.contains("z"));
+            g.addRule(new Rule(Factory.CreateQueue<string>(new[] { "Z" }),
+                                   Factory.CreateQueue<string>(new[] { "z", "Z" }), (float)0.50));
+            Assert.IsTrue(g.terminals.Contains("z") && !g.terminals.Contains("Z"));
+            Assert.IsTrue(g.vars.Contains("Z") && !g.vars.Contains("z"));
         }
 
-        @Test
+        [TestMethod]
         public void testIsVariable()
         {
-            assertTrue(ProbUnrestrictedGrammar.isVariable("S"));
-            assertTrue(ProbUnrestrictedGrammar.isVariable("SSSSS"));
-            assertFalse(ProbUnrestrictedGrammar.isVariable("s"));
-            assertFalse(ProbUnrestrictedGrammar.isVariable("tttt"));
+            Assert.IsTrue(ProbUnrestrictedGrammar.isVariable("S"));
+            Assert.IsTrue(ProbUnrestrictedGrammar.isVariable("SSSSS"));
+            Assert.IsFalse(ProbUnrestrictedGrammar.isVariable("s"));
+            Assert.IsFalse(ProbUnrestrictedGrammar.isVariable("tttt"));
         }
 
-        @Test
+        [TestMethod]
         public void testIsTerminal()
         {
-            assertTrue(ProbUnrestrictedGrammar.isTerminal("x"));
-            assertTrue(ProbUnrestrictedGrammar.isTerminal("xxxxx"));
-            assertFalse(ProbUnrestrictedGrammar.isTerminal("X"));
-            assertFalse(ProbUnrestrictedGrammar.isTerminal("XXXXXX"));
+            Assert.IsTrue(ProbUnrestrictedGrammar.isTerminal("x"));
+            Assert.IsTrue(ProbUnrestrictedGrammar.isTerminal("xxxxx"));
+            Assert.IsFalse(ProbUnrestrictedGrammar.isTerminal("X"));
+            Assert.IsFalse(ProbUnrestrictedGrammar.isTerminal("XXXXXX"));
         }
     }
 

@@ -1,75 +1,80 @@
-﻿namespace tvn_cosine.ai.test.unit.util
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.util;
+
+namespace tvn_cosine.ai.test.unit.util
 {
     /**
      * @author Ravi Mohan
      * 
      */
+    [TestClass]
     public class SetOpsTest
     {
-        Set<Integer> s1, s2;
+        ISet<int> s1, s2;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
-            s1 = new HashSet<Integer>();
-            s1.add(new Integer(1));
-            s1.add(new Integer(2));
-            s1.add(new Integer(3));
-            s1.add(new Integer(4));
+            s1 = Factory.CreateSet<int>();
+            s1.Add(1);
+            s1.Add(2);
+            s1.Add(3);
+            s1.Add(4);
 
-            s2 = new HashSet<Integer>();
-            s2.add(new Integer(4));
-            s2.add(new Integer(5));
-            s2.add(new Integer(6));
+            s2 = Factory.CreateSet<int>();
+            s2.Add(4);
+            s2.Add(5);
+            s2.Add(6);
         }
 
-        @Test
+        [TestMethod]
         public void testUnion()
         {
-            Set<Integer> union = SetOps.union(s1, s2);
-            Assert.assertEquals(6, union.size());
-            Assert.assertEquals(4, s1.size());
-            Assert.assertEquals(3, s2.size());
+            ISet<int> union = SetOps.union(s1, s2);
+            Assert.AreEqual(6, union.Size());
+            Assert.AreEqual(4, s1.Size());
+            Assert.AreEqual(3, s2.Size());
 
-            s1.remove(new Integer(1));
-            Assert.assertEquals(6, union.size());
-            Assert.assertEquals(3, s1.size());
-            Assert.assertEquals(3, s2.size());
+            s1.Remove(1);
+            Assert.AreEqual(6, union.Size());
+            Assert.AreEqual(3, s1.Size());
+            Assert.AreEqual(3, s2.Size());
         }
 
-        @Test
+        [TestMethod]
         public void testIntersection()
         {
-            Set<Integer> intersection = SetOps.intersection(s1, s2);
-            Assert.assertEquals(1, intersection.size());
-            Assert.assertEquals(4, s1.size());
-            Assert.assertEquals(3, s2.size());
+            ISet<int> intersection = SetOps.intersection(s1, s2);
+            Assert.AreEqual(1, intersection.Size());
+            Assert.AreEqual(4, s1.Size());
+            Assert.AreEqual(3, s2.Size());
 
-            s1.remove(new Integer(1));
-            Assert.assertEquals(1, intersection.size());
-            Assert.assertEquals(3, s1.size());
-            Assert.assertEquals(3, s2.size());
+            s1.Remove(1);
+            Assert.AreEqual(1, intersection.Size());
+            Assert.AreEqual(3, s1.Size());
+            Assert.AreEqual(3, s2.Size());
         }
 
-        @Test
+        [TestMethod]
         public void testDifference()
         {
-            Set<Integer> difference = SetOps.difference(s1, s2);
-            Assert.assertEquals(3, difference.size());
-            Assert.assertTrue(difference.contains(new Integer(1)));
-            Assert.assertTrue(difference.contains(new Integer(2)));
-            Assert.assertTrue(difference.contains(new Integer(3)));
+            ISet<int> difference = SetOps.difference(s1, s2);
+            Assert.AreEqual(3, difference.Size());
+            Assert.IsTrue(difference.Contains(1));
+            Assert.IsTrue(difference.Contains(2));
+            Assert.IsTrue(difference.Contains(3));
         }
 
-        @Test
+        [TestMethod]
         public void testDifference2()
         {
-            Set<Integer> one = new HashSet<Integer>();
-            Set<Integer> two = new HashSet<Integer>();
-            one.add(new Integer(1));
-            two.add(new Integer(1));
-            Set<Integer> difference = SetOps.difference(one, two);
-            Assert.assertTrue(difference.isEmpty());
+            ISet<int> one = Factory.CreateSet<int>();
+            ISet<int> two = Factory.CreateSet<int>();
+            one.Add(1);
+            two.Add(1);
+            ISet<int> difference = SetOps.difference(one, two);
+            Assert.IsTrue(difference.IsEmpty());
         }
     }
 }

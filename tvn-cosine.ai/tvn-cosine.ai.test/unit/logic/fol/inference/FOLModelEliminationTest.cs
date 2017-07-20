@@ -1,46 +1,49 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.fol.inference
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.logic.fol.inference;
+
+namespace tvn_cosine.ai.test.unit.logic.fol.inference
 {
-    public class FOLModelEliminationTest extends CommonFOLInferenceProcedureTests
+    [TestClass] public class FOLModelEliminationTest :  CommonFOLInferenceProcedureTests
     {
 
-        @Test
+        [TestMethod]
 
     public void testDefiniteClauseKBKingsQueryCriminalXFalse()
     {
         testDefiniteClauseKBKingsQueryCriminalXFalse(new FOLModelElimination());
     }
 
-    @Test
+    [TestMethod]
     public void testDefiniteClauseKBKingsQueryRichardEvilFalse()
     {
         testDefiniteClauseKBKingsQueryRichardEvilFalse(new FOLModelElimination());
     }
 
-    @Test
+    [TestMethod]
     public void testDefiniteClauseKBKingsQueryJohnEvilSucceeds()
     {
         testDefiniteClauseKBKingsQueryJohnEvilSucceeds(new FOLModelElimination());
     }
 
-    @Test
+    [TestMethod]
     public void testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds()
     {
         testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds(new FOLModelElimination());
     }
 
-    @Test
+    [TestMethod]
     public void testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds()
     {
         testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds(new FOLModelElimination());
     }
 
-    @Test
+    [TestMethod]
     public void testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds()
     {
         testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(new FOLModelElimination());
     }
 
-    @Test
+    [TestMethod]
     public void testHornClauseKBRingOfThievesQuerySkisXReturnsNancyRedBertDrew()
     {
         // This KB ends up being infinite when resolving, however 2
@@ -50,21 +53,21 @@
                 2 * 1000));
     }
 
-    @Test
+    [TestMethod]
     public void testFullFOLKBLovesAnimalQueryKillsCuriosityTunaSucceeds()
     {
         testFullFOLKBLovesAnimalQueryKillsCuriosityTunaSucceeds(
                 new FOLModelElimination(), false);
     }
 
-    @Test
+    [TestMethod]
     public void testFullFOLKBLovesAnimalQueryNotKillsJackTunaSucceeds()
     {
         testFullFOLKBLovesAnimalQueryNotKillsJackTunaSucceeds(
                 new FOLModelElimination(), false);
     }
 
-    @Test
+    [TestMethod]
     public void testFullFOLKBLovesAnimalQueryKillsJackTunaFalse()
     {
         // Note: While the KB expands infinitely, the answer
@@ -74,53 +77,53 @@
                 new FOLModelElimination(), false);
     }
 
-    @Test
+    [TestMethod]
     public void testEqualityAxiomsKBabcAEqualsCSucceeds()
     {
         testEqualityAxiomsKBabcAEqualsCSucceeds(new FOLModelElimination());
     }
 
-    @Test
+    [TestMethod]
     public void testEqualityAndSubstitutionAxiomsKBabcdFFASucceeds()
     {
         testEqualityAndSubstitutionAxiomsKBabcdFFASucceeds(new FOLModelElimination());
     }
 
-    @Test
+    [TestMethod]
     public void testEqualityAndSubstitutionAxiomsKBabcdPDSucceeds()
     {
         testEqualityAndSubstitutionAxiomsKBabcdPDSucceeds(new FOLModelElimination());
     }
 
-    @Test
+    [TestMethod]
     public void testEqualityAndSubstitutionAxiomsKBabcdPFFASucceeds()
     {
         testEqualityAndSubstitutionAxiomsKBabcdPFFASucceeds(
                 new FOLModelElimination(), false);
     }
 
-    @Test
+    [TestMethod]
     public void testEqualityNoAxiomsKBabcAEqualsCSucceeds()
     {
         testEqualityNoAxiomsKBabcAEqualsCSucceeds(new FOLModelElimination(),
                 true);
     }
 
-    @Test
+    [TestMethod]
     public void testEqualityAndSubstitutionNoAxiomsKBabcdFFASucceeds()
     {
         testEqualityAndSubstitutionNoAxiomsKBabcdFFASucceeds(
                 new FOLModelElimination(), true);
     }
 
-    @Test
+    [TestMethod]
     public void testEqualityAndSubstitutionNoAxiomsKBabcdPDSucceeds()
     {
         testEqualityAndSubstitutionNoAxiomsKBabcdPDSucceeds(
                 new FOLModelElimination(), true);
     }
 
-    @Test
+    [TestMethod]
     public void testEqualityAndSubstitutionNoAxiomsKBabcdPFFASucceeds()
     {
         testEqualityAndSubstitutionNoAxiomsKBabcdPFFASucceeds(

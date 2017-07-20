@@ -1,128 +1,132 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
-{
-    public class LiteralTest
-    {
-        private final PropositionSymbol SYMBOL_P = new PropositionSymbol("P");
-        private final PropositionSymbol SYMBOL_Q = new PropositionSymbol("Q");
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.logic.propositional.kb.data;
+using tvn.cosine.ai.logic.propositional.parsing.ast;
 
-        @Test
+namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
+{
+    [TestClass] public class LiteralTest
+    {
+        private readonly PropositionSymbol SYMBOL_P = new PropositionSymbol("P");
+        private readonly PropositionSymbol SYMBOL_Q = new PropositionSymbol("Q");
+
+        [TestMethod]
         public void testIsPositiveLiteral()
         {
             Literal literal = new Literal(SYMBOL_P);
-            Assert.assertTrue(literal.isPositiveLiteral());
+            Assert.IsTrue(literal.isPositiveLiteral());
 
             literal = new Literal(SYMBOL_P, true);
-            Assert.assertTrue(literal.isPositiveLiteral());
+            Assert.IsTrue(literal.isPositiveLiteral());
 
             literal = new Literal(SYMBOL_P, false);
-            Assert.assertFalse(literal.isPositiveLiteral());
+            Assert.IsFalse(literal.isPositiveLiteral());
         }
 
-        @Test
+        [TestMethod]
         public void testIsNegativeLiteral()
         {
             Literal literal = new Literal(SYMBOL_P);
-            Assert.assertFalse(literal.isNegativeLiteral());
+            Assert.IsFalse(literal.isNegativeLiteral());
 
             literal = new Literal(SYMBOL_P, true);
-            Assert.assertFalse(literal.isNegativeLiteral());
+            Assert.IsFalse(literal.isNegativeLiteral());
 
             literal = new Literal(SYMBOL_P, false);
-            Assert.assertTrue(literal.isNegativeLiteral());
+            Assert.IsTrue(literal.isNegativeLiteral());
         }
 
-        @Test
+        [TestMethod]
         public void testGetAtomicSentence()
         {
             Literal literal = new Literal(SYMBOL_P);
-            Assert.assertSame(literal.getAtomicSentence(), SYMBOL_P);
+            Assert.AreEqual(literal.getAtomicSentence(), SYMBOL_P);
         }
 
-        @Test
+        [TestMethod]
         public void testIsAlwaysTrue()
         {
             Literal literal = new Literal(SYMBOL_P);
-            Assert.assertFalse(literal.isAlwaysTrue());
+            Assert.IsFalse(literal.isAlwaysTrue());
 
             literal = new Literal(PropositionSymbol.TRUE);
-            Assert.assertTrue(literal.isAlwaysTrue());
+            Assert.IsTrue(literal.isAlwaysTrue());
 
             literal = new Literal(PropositionSymbol.TRUE, false);
-            Assert.assertFalse(literal.isAlwaysTrue());
+            Assert.IsFalse(literal.isAlwaysTrue());
 
             literal = new Literal(PropositionSymbol.FALSE);
-            Assert.assertFalse(literal.isAlwaysTrue());
+            Assert.IsFalse(literal.isAlwaysTrue());
 
             literal = new Literal(PropositionSymbol.FALSE, false);
-            Assert.assertTrue(literal.isAlwaysTrue());
+            Assert.IsTrue(literal.isAlwaysTrue());
         }
 
-        @Test
+        [TestMethod]
         public void testIsAlwaysFalse()
         {
             Literal literal = new Literal(SYMBOL_P);
-            Assert.assertFalse(literal.isAlwaysFalse());
+            Assert.IsFalse(literal.isAlwaysFalse());
 
             literal = new Literal(PropositionSymbol.TRUE);
-            Assert.assertFalse(literal.isAlwaysFalse());
+            Assert.IsFalse(literal.isAlwaysFalse());
 
             literal = new Literal(PropositionSymbol.TRUE, false);
-            Assert.assertTrue(literal.isAlwaysFalse());
+            Assert.IsTrue(literal.isAlwaysFalse());
 
             literal = new Literal(PropositionSymbol.FALSE);
-            Assert.assertTrue(literal.isAlwaysFalse());
+            Assert.IsTrue(literal.isAlwaysFalse());
 
             literal = new Literal(PropositionSymbol.FALSE, false);
-            Assert.assertFalse(literal.isAlwaysFalse());
+            Assert.IsFalse(literal.isAlwaysFalse());
         }
 
-        @Test
+        [TestMethod]
         public void testToString()
         {
             Literal literal = new Literal(SYMBOL_P);
-            Assert.assertEquals("P", literal.toString());
+            Assert.AreEqual("P", literal.ToString());
 
             literal = new Literal(SYMBOL_P, false);
-            Assert.assertEquals("~P", literal.toString());
+            Assert.AreEqual("~P", literal.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testEquals()
         {
             Literal literal1 = new Literal(SYMBOL_P);
             Literal literal2 = new Literal(SYMBOL_P);
-            Assert.assertTrue(literal1.equals(literal2));
+            Assert.IsTrue(literal1.Equals(literal2));
 
             literal1 = new Literal(SYMBOL_P, false);
             literal2 = new Literal(SYMBOL_P, false);
-            Assert.assertTrue(literal1.equals(literal2));
+            Assert.IsTrue(literal1.Equals(literal2));
 
             literal1 = new Literal(SYMBOL_P);
             literal2 = new Literal(SYMBOL_P, false);
-            Assert.assertFalse(literal1.equals(literal2));
+            Assert.IsFalse(literal1.Equals(literal2));
 
             literal1 = new Literal(SYMBOL_P);
             literal2 = new Literal(SYMBOL_Q);
-            Assert.assertFalse(literal1.equals(literal2));
+            Assert.IsFalse(literal1.Equals(literal2));
 
             literal1 = new Literal(SYMBOL_P);
-            Assert.assertFalse(literal1.equals(SYMBOL_P));
+            Assert.IsFalse(literal1.Equals(SYMBOL_P));
         }
 
-        @Test
+        [TestMethod]
         public void testHashCode()
         {
             Literal literal1 = new Literal(SYMBOL_P);
             Literal literal2 = new Literal(SYMBOL_P);
-            Assert.assertTrue(literal1.hashCode() == literal2.hashCode());
+            Assert.IsTrue(literal1.GetHashCode() == literal2.GetHashCode());
 
             literal1 = new Literal(SYMBOL_P, false);
             literal2 = new Literal(SYMBOL_P, false);
-            Assert.assertTrue(literal1.hashCode() == literal2.hashCode());
+            Assert.IsTrue(literal1.GetHashCode() == literal2.GetHashCode());
 
             literal1 = new Literal(SYMBOL_P);
             literal2 = new Literal(SYMBOL_P, false);
-            Assert.assertFalse(literal1.hashCode() == literal2.hashCode());
+            Assert.IsFalse(literal1.GetHashCode() == literal2.GetHashCode());
         }
     }
 

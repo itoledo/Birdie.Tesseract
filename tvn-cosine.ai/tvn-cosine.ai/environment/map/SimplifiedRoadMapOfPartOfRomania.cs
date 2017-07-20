@@ -46,7 +46,7 @@
         public static void initMap(ExtendableMap map)
         {
             // mapOfRomania
-            map.Clear();
+            map.clear();
             map.addBidirectionalLink(ORADEA, ZERIND, 71.0);
             map.addBidirectionalLink(ORADEA, SIBIU, 151.0);
             map.addBidirectionalLink(ZERIND, ARAD, 75.0);

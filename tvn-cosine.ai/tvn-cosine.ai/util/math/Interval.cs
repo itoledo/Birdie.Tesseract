@@ -76,22 +76,22 @@ namespace tvn.cosine.ai.util.math
 
             if (isLowerInclusive())
             {
-                _in = lower.compareTo(o) <= 0;
+                _in = lower.CompareTo(o) <= 0;
             }
             else
             {
-                _in = lower.compareTo(o) < 0;
+                _in = lower.CompareTo(o) < 0;
             }
 
             if (_in)
             {
                 if (isUpperInclusive())
                 {
-                    _in = upper.compareTo(o) >= 0;
+                    _in = upper.CompareTo(o) >= 0;
                 }
                 else
                 {
-                    _in = upper.compareTo(o) > 0;
+                    _in = upper.CompareTo(o) > 0;
                 }
             }
 

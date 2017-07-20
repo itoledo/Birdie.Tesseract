@@ -1,6 +1,7 @@
-﻿using tvn.cosine.ai.search.framework;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.qsearch;
-using tvn.cosine.ai.search.informed;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.search.informed
@@ -21,6 +22,22 @@ namespace tvn.cosine.ai.search.informed
      */
     public class BestFirstSearch<S, A> : QueueBasedSearch<S, A>, Informed<S, A>
     {
+        class BestFirstSearchComparer : IComparer<Node<S, A>>
+        {
+            ToDoubleFunction<Node<S, A>> evalFn;
+            System.Collections.Generic.Comparer<double> comparer = System.Collections.Generic.Comparer<double>.Default;
+
+            public BestFirstSearchComparer(ToDoubleFunction<Node<S, A>> evalFn)
+            {
+                this.evalFn = evalFn;
+            }
+
+            public int Compare(Node<S, A> x, Node<S, A> y)
+            {
+                return comparer.Compare(evalFn.applyAsDouble(x), evalFn.applyAsDouble(y));
+            }
+        }
+
         private readonly ToDoubleFunction<Node<S, A>> evalFn;
 
         /**
@@ -35,7 +52,7 @@ namespace tvn.cosine.ai.search.informed
          *            node.
          */
         public BestFirstSearch(QueueSearch<S, A> impl, ToDoubleFunction<Node<S, A>> evalFn)
-            : base(impl, QueueFactory.createPriorityQueue(Comparator.comparing(evalFn::applyAsDouble)))
+            : base(impl, Factory.CreatePriorityQueue<Node<S, A>>(new BestFirstSearchComparer(evalFn)))
         {
 
             this.evalFn = evalFn;

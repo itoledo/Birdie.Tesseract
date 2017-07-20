@@ -1,101 +1,103 @@
-﻿namespace tvn_cosine.ai.test.unit.learning.inductive
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.inductive;
+
+namespace tvn_cosine.ai.test.unit.learning.inductive
 {
+    [TestClass]
     public class DecisionListTest
     {
 
-        @Test
-        public void testDecisonListWithNoTestsReturnsDefaultValue()
-    
-            throws Exception
+        [TestMethod]
+        public void testDecisonListWithNoTestsReturnsDefaultValue() 
         {
             DecisionList dlist = new DecisionList("Yes", "No");
-        DataSet ds = DataSetFactory.getRestaurantDataSet();
-        Assert.assertEquals("No", dlist.predict(ds.getExample(0)));
-	}
+            DataSet ds = DataSetFactory.getRestaurantDataSet();
+            Assert.AreEqual("No", dlist.predict(ds.getExample(0)));
+        }
 
-    @Test
-    public void testDecisionListWithSingleTestReturnsTestValueIfTestSuccessful()
+        [TestMethod]
+        public void testDecisionListWithSingleTestReturnsTestValueIfTestSuccessful()
 
-            throws Exception
-    {
-        DecisionList dlist = new DecisionList("Yes", "No");
-    DataSet ds = DataSetFactory.getRestaurantDataSet();
 
-    DLTest test = new DLTest();
-    test.add("type", "French");
+        {
+            DecisionList dlist = new DecisionList("Yes", "No");
+            DataSet ds = DataSetFactory.getRestaurantDataSet();
 
-		dlist.add(test, "test1success");
+            DLTest test = new DLTest();
+            test.add("type", "French");
 
-		Assert.assertEquals("test1success", dlist.predict(ds.getExample(0)));
-	}
+            dlist.add(test, "test1success");
 
-@Test
-    public void testDecisionListFallsThruToNextTestIfOneDoesntMatch()
+            Assert.AreEqual("test1success", dlist.predict(ds.getExample(0)));
+        }
 
-            throws Exception
-{
-    DecisionList dlist = new DecisionList("Yes", "No");
-DataSet ds = DataSetFactory.getRestaurantDataSet();
+        [TestMethod]
+        public void testDecisionListFallsThruToNextTestIfOneDoesntMatch()
 
-DLTest test1 = new DLTest();
-test1.add("type", "Thai"); // doesn't match first example
-		dlist.add(test1, "test1success");
 
-		DLTest test2 = new DLTest();
-test2.add("type", "French");
-		dlist.add(test2, "test2success");// matches first example
+        {
+            DecisionList dlist = new DecisionList("Yes", "No");
+            DataSet ds = DataSetFactory.getRestaurantDataSet();
 
-		Assert.assertEquals("test2success", dlist.predict(ds.getExample(0)));
-	}
+            DLTest test1 = new DLTest();
+            test1.add("type", "Thai"); // doesn't match first example
+            dlist.add(test1, "test1success");
 
-	@Test
-    public void testDecisionListFallsThruToDefaultIfNoTestMatches()
+            DLTest test2 = new DLTest();
+            test2.add("type", "French");
+            dlist.add(test2, "test2success");// matches first example
 
-            throws Exception
-{
-    DecisionList dlist = new DecisionList("Yes", "No");
-DataSet ds = DataSetFactory.getRestaurantDataSet();
+            Assert.AreEqual("test2success", dlist.predict(ds.getExample(0)));
+        }
 
-DLTest test1 = new DLTest();
-test1.add("type", "Thai"); // doesn't match first example
-		dlist.add(test1, "test1success");
+        [TestMethod]
+        public void testDecisionListFallsThruToDefaultIfNoTestMatches()
 
-		DLTest test2 = new DLTest();
-test2.add("type", "Burger");
-		dlist.add(test2, "test2success");// doesn't match first example
 
-		Assert.assertEquals("No", dlist.predict(ds.getExample(0)));
-	}
+        {
+            DecisionList dlist = new DecisionList("Yes", "No");
+            DataSet ds = DataSetFactory.getRestaurantDataSet();
 
-	@Test
-    public void testDecisionListHandlesEmptyDataSet() throws Exception
-{
-    // tests first base case of recursion
-    DecisionList dlist = new DecisionList("Yes", "No");
+            DLTest test1 = new DLTest();
+            test1.add("type", "Thai"); // doesn't match first example
+            dlist.add(test1, "test1success");
 
-DLTest test1 = new DLTest();
-test1.add("type", "Thai"); // doesn't match first example
-		dlist.add(test1, "test1success");
-	}
+            DLTest test2 = new DLTest();
+            test2.add("type", "Burger");
+            dlist.add(test2, "test2success");// doesn't match first example
 
-	@Test
-    public void testDecisionListMerge() throws Exception
-{
-    DecisionList dlist1 = new DecisionList("Yes", "No");
-DecisionList dlist2 = new DecisionList("Yes", "No");
-DataSet ds = DataSetFactory.getRestaurantDataSet();
+            Assert.AreEqual("No", dlist.predict(ds.getExample(0)));
+        }
 
-DLTest test1 = new DLTest();
-test1.add("type", "Thai"); // doesn't match first example
-		dlist1.add(test1, "test1success");
+        [TestMethod]
+        public void testDecisionListHandlesEmptyDataSet()
+        {
+            // tests first base case of recursion
+            DecisionList dlist = new DecisionList("Yes", "No");
 
-		DLTest test2 = new DLTest();
-test2.add("type", "French");
-		dlist2.add(test2, "test2success");// matches first example
+            DLTest test1 = new DLTest();
+            test1.add("type", "Thai"); // doesn't match first example
+            dlist.add(test1, "test1success");
+        }
 
-		DecisionList dlist3 = dlist1.mergeWith(dlist2);
-Assert.assertEquals("test2success", dlist3.predict(ds.getExample(0)));
-	}
-}
+        [TestMethod]
+        public void testDecisionListMerge()
+        {
+            DecisionList dlist1 = new DecisionList("Yes", "No");
+            DecisionList dlist2 = new DecisionList("Yes", "No");
+            DataSet ds = DataSetFactory.getRestaurantDataSet();
 
+            DLTest test1 = new DLTest();
+            test1.add("type", "Thai"); // doesn't match first example
+            dlist1.add(test1, "test1success");
+
+            DLTest test2 = new DLTest();
+            test2.add("type", "French");
+            dlist2.add(test2, "test2success");// matches first example
+
+            DecisionList dlist3 = dlist1.mergeWith(dlist2);
+            Assert.AreEqual("test2success", dlist3.predict(ds.getExample(0)));
+        }
+    } 
 }

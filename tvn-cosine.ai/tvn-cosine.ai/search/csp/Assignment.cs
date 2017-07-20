@@ -35,12 +35,15 @@ namespace tvn.cosine.ai.search.csp
                 throw new ArgumentNullException("value cannot be null");
             }
 
-            return variableToValueMap.Put(var, value);
+            variableToValueMap.Put(var, value);
+            return value;
         }
 
         public VAL remove(VAR var)
         {
-            return variableToValueMap.Remove(var);
+            VAL val = variableToValueMap.Get(var);
+            variableToValueMap.Remove(var);
+            return val;
         }
 
         public bool contains(VAR var)

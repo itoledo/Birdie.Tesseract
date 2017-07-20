@@ -17,20 +17,20 @@ namespace tvn.cosine.ai.search.informed
     {
         protected ToDoubleFunction<Node<S, A>> h;
 
-        public double applyAsDouble(Node<S, A> value)
+        public virtual double applyAsDouble(Node<S, A> value)
         {
             if (null == h)
                 return 0;
-            else 
+            else
                 return h.applyAsDouble(value);
         }
 
-        public ToDoubleFunction<Node<S, A>> getHeuristicFunction()
+        public virtual ToDoubleFunction<Node<S, A>> getHeuristicFunction()
         {
             return h;
         }
 
-        public void setHeuristicFunction(ToDoubleFunction<Node<S, A>> h)
+        public virtual void setHeuristicFunction(ToDoubleFunction<Node<S, A>> h)
         {
             this.h = h;
         }

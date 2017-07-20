@@ -1,9 +1,16 @@
-﻿namespace tvn_cosine.ai.test.unit.probability.util
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.util;
+
+namespace tvn_cosine.ai.test.unit.probability.util
 {
+    [TestClass]
     public class ProbUtilTest
     {
-
-        @Test
+        [TestMethod]
         public void test_indexOf()
         {
             RandVar X = new RandVar("X", new BooleanDomain());
@@ -24,62 +31,63 @@
             // 10: false, C, true
             // 11: false, C, false
             RandomVariable[] vars = new RandomVariable[] { X, Y, Z };
-            Map < RandomVariable, Object > event = new LinkedHashMap<RandomVariable, Object>();
+            IMap<RandomVariable, object> even = Factory.CreateMap<RandomVariable, object>();
 
-		event.put(X, Boolean.TRUE);
 
-        event.put(Y, "A");
+            even.Put(X, true);
 
-        event.put(Z, Boolean.TRUE);
-        Assert.assertEquals(0, ProbUtil.indexOf(vars, event));
+            even.Put(Y, "A");
 
-        event.put(Z, Boolean.FALSE);
-        Assert.assertEquals(1, ProbUtil.indexOf(vars, event));
+            even.Put(Z, true);
+            Assert.AreEqual(0, ProbUtil.indexOf(vars, even));
 
-        event.put(Y, "B");
+            even.Put(Z, false);
+            Assert.AreEqual(1, ProbUtil.indexOf(vars, even));
 
-        event.put(Z, Boolean.TRUE);
-        Assert.assertEquals(2, ProbUtil.indexOf(vars, event));
+            even.Put(Y, "B");
 
-        event.put(Z, Boolean.FALSE);
-        Assert.assertEquals(3, ProbUtil.indexOf(vars, event));
+            even.Put(Z, true);
+            Assert.AreEqual(2, ProbUtil.indexOf(vars, even));
 
-        event.put(Y, "C");
+            even.Put(Z, false);
+            Assert.AreEqual(3, ProbUtil.indexOf(vars, even));
 
-        event.put(Z, Boolean.TRUE);
-        Assert.assertEquals(4, ProbUtil.indexOf(vars, event));
+            even.Put(Y, "C");
 
-        event.put(Z, Boolean.FALSE);
-        Assert.assertEquals(5, ProbUtil.indexOf(vars, event));
-        //
-        event.put(X, Boolean.FALSE);
+            even.Put(Z, true);
+            Assert.AreEqual(4, ProbUtil.indexOf(vars, even));
 
-        event.put(Y, "A");
+            even.Put(Z, false);
+            Assert.AreEqual(5, ProbUtil.indexOf(vars, even));
+            //
+            even.Put(X, false);
 
-        event.put(Z, Boolean.TRUE);
-        Assert.assertEquals(6, ProbUtil.indexOf(vars, event));
+            even.Put(Y, "A");
 
-        event.put(Z, Boolean.FALSE);
-        Assert.assertEquals(7, ProbUtil.indexOf(vars, event));
+            even.Put(Z, true);
+            Assert.AreEqual(6, ProbUtil.indexOf(vars, even));
 
-        event.put(Y, "B");
+            even.Put(Z, false);
+            Assert.AreEqual(7, ProbUtil.indexOf(vars, even));
 
-        event.put(Z, Boolean.TRUE);
-        Assert.assertEquals(8, ProbUtil.indexOf(vars, event));
+            even.Put(Y, "B");
 
-        event.put(Z, Boolean.FALSE);
-        Assert.assertEquals(9, ProbUtil.indexOf(vars, event));
+            even.Put(Z, true);
+            Assert.AreEqual(8, ProbUtil.indexOf(vars, even));
 
-        event.put(Y, "C");
+            even.Put(Z, false);
+            Assert.AreEqual(9, ProbUtil.indexOf(vars, even));
 
-        event.put(Z, Boolean.TRUE);
-        Assert.assertEquals(10, ProbUtil.indexOf(vars, event));
+            even.Put(Y, "C");
 
-        event.put(Z, Boolean.FALSE);
-        Assert.assertEquals(11, ProbUtil.indexOf(vars, event));
+            even.Put(Z, true);
+            Assert.AreEqual(10, ProbUtil.indexOf(vars, even));
+
+            even.Put(Z, false);
+            Assert.AreEqual(11, ProbUtil.indexOf(vars, even));
         }
 
-        @Test
+        [TestMethod]
         public void test_indexesOfValue()
         {
             RandVar X = new RandVar("X", new BooleanDomain());
@@ -100,51 +108,52 @@
             // 10: false, C, true
             // 11: false, C, false
             RandomVariable[] vars = new RandomVariable[] { X, Y, Z };
-            Map < RandomVariable, Object > event = new LinkedHashMap<RandomVariable, Object>();
-
-		event.put(X, Boolean.TRUE);
-        Assert.assertArrayEquals(new int[] { 0, 1, 2, 3, 4, 5 },
-				ProbUtil.indexesOfValue(vars, 0, event));
-
-        event.put(X, Boolean.FALSE);
-        Assert.assertArrayEquals(new int[] { 6, 7, 8, 9, 10, 11 },
-				ProbUtil.indexesOfValue(vars, 0, event));
+            IMap<RandomVariable, object> even = Factory.CreateMap<RandomVariable, object>();
 
 
-        event.put(Y, "A");
-        Assert.assertArrayEquals(new int[] { 0, 1, 6, 7 },
-				ProbUtil.indexesOfValue(vars, 1, event));
+            even.Put(X, true);
+            Assert.AreEqual(new int[] { 0, 1, 2, 3, 4, 5 },
+                    ProbUtil.indexesOfValue(vars, 0, even));
 
-        event.put(Y, "B");
-        Assert.assertArrayEquals(new int[] { 2, 3, 8, 9 },
-				ProbUtil.indexesOfValue(vars, 1, event));
-
-        event.put(Y, "C");
-        Assert.assertArrayEquals(new int[] { 4, 5, 10, 11 },
-				ProbUtil.indexesOfValue(vars, 1, event));
+            even.Put(X, false);
+            Assert.AreEqual(new int[] { 6, 7, 8, 9, 10, 11 },
+                    ProbUtil.indexesOfValue(vars, 0, even));
 
 
-        event.put(Z, Boolean.TRUE);
-        Assert.assertArrayEquals(new int[] { 0, 2, 4, 6, 8, 10 },
-				ProbUtil.indexesOfValue(vars, 2, event));
+            even.Put(Y, "A");
+            Assert.AreEqual(new int[] { 0, 1, 6, 7 },
+                    ProbUtil.indexesOfValue(vars, 1, even));
 
-        event.put(Z, Boolean.FALSE);
-        Assert.assertArrayEquals(new int[] { 1, 3, 5, 7, 9, 11 },
-				ProbUtil.indexesOfValue(vars, 2, event));
+            even.Put(Y, "B");
+            Assert.AreEqual(new int[] { 2, 3, 8, 9 },
+                    ProbUtil.indexesOfValue(vars, 1, even));
+
+            even.Put(Y, "C");
+            Assert.AreEqual(new int[] { 4, 5, 10, 11 },
+                    ProbUtil.indexesOfValue(vars, 1, even));
+
+
+            even.Put(Z, true);
+            Assert.AreEqual(new int[] { 0, 2, 4, 6, 8, 10 },
+                    ProbUtil.indexesOfValue(vars, 2, even));
+
+            even.Put(Z, false);
+            Assert.AreEqual(new int[] { 1, 3, 5, 7, 9, 11 },
+                    ProbUtil.indexesOfValue(vars, 2, even));
         }
 
-        @Test
+        [TestMethod]
         public void test_randomVariableName()
         {
-            String names[] = { null, "a ", " b", "_A1", "B\ta\t\nf", "B___\n?", "Aa \tb c d e", "12asb", "33", "-A\t\b", "-_-" };
-            for (String name : names)
+            string[] names = new[] { null, "a ", " b", "_A1", "B\ta\t\nf", "B___\n?", "Aa \tb c d e", "12asb", "33", "-A\t\b", "-_-" };
+            foreach (string name in names)
             {
                 try
                 {
                     ProbUtil.checkValidRandomVariableName(name);
-                    Assert.fail("Invalid name string not caught!");
+                    Assert.Fail("Invalid name string not caught!");
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     ;
                 }
@@ -154,6 +163,5 @@
             ProbUtil.checkValidRandomVariableName("A1_2");
             ProbUtil.checkValidRandomVariableName("A_a");
         }
-    }
-
+    } 
 }

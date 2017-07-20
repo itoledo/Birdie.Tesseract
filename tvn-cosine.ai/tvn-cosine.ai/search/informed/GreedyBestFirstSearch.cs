@@ -48,7 +48,7 @@ namespace tvn.cosine.ai.search.informed
              * @return h(n)
              */
 
-            public double applyAsDouble(Node<S, A> n)
+            public override double applyAsDouble(Node<S, A> n)
             {
                 // f(n) = h(n)
                 return h.applyAsDouble(n);

@@ -1,10 +1,16 @@
-﻿namespace tvn_cosine.ai.test.unit.probability.bayes.impl
-{
-    public class CPTTest
-    {
-        public static final double DELTA_THRESHOLD = ProbabilityModel.DEFAULT_ROUNDING_THRESHOLD;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.bayes.impl;
+using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.util;
 
-        @Test
+namespace tvn_cosine.ai.test.unit.probability.bayes.impl
+{
+    [TestClass] public class CPTTest
+    {
+        public static readonly  double DELTA_THRESHOLD = ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
+
+        [TestMethod]
         public void test_getConditioningCase()
         {
             RandVar aRV = new RandVar("A", new BooleanDomain());
@@ -29,17 +35,17 @@
 				// A = false, B = false, C = false
 				0.6 }, aRV, bRV);
 
-            Assert.assertArrayEquals(new double[] { 0.1, 0.9 }, cpt
-                    .getConditioningCase(true, true).getValues(), DELTA_THRESHOLD);
+            Assert.AreEqual(new double[] { 0.1, 0.9 }, cpt
+                    .getConditioningCase(true, true).getValues());
 
-            Assert.assertArrayEquals(new double[] { 0.2, 0.8 }, cpt
-                    .getConditioningCase(true, false).getValues(), DELTA_THRESHOLD);
+            Assert.AreEqual(new double[] { 0.2, 0.8 }, cpt
+                    .getConditioningCase(true, false).getValues());
 
-            Assert.assertArrayEquals(new double[] { 0.3, 0.7 }, cpt
-                    .getConditioningCase(false, true).getValues(), DELTA_THRESHOLD);
+            Assert.AreEqual(new double[] { 0.3, 0.7 }, cpt
+                    .getConditioningCase(false, true).getValues());
 
-            Assert.assertArrayEquals(new double[] { 0.4, 0.6 }, cpt
-                    .getConditioningCase(false, false).getValues(), DELTA_THRESHOLD);
+            Assert.AreEqual(new double[] { 0.4, 0.6 }, cpt
+                    .getConditioningCase(false, false).getValues());
 
         }
     }

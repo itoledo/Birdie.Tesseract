@@ -19,13 +19,13 @@ namespace tvn.cosine.ai.environment.map
                   MapFunctions.createResultFunction(),
                   goalTest,
                   MapFunctions.createDistanceStepCostFunction(map))
-        {
-
-
-            reverseProblem = new GeneralProblem<string, MoveToAction>(goalState,
-                MapFunctions.createReverseActionsFunction(map),
-                initialState.Equals,
-                MapFunctions.createDistanceStepCostFunction(map));
+        {  
+            reverseProblem = new GeneralProblem<string, MoveToAction>(
+                    goalState, 
+                    MapFunctions.createReverseActionsFunction(map),
+                    MapFunctions.createResultFunction(),
+                    initialState.Equals,
+                    MapFunctions.createDistanceStepCostFunction(map));
         }
 
         public Problem<string, MoveToAction> getOriginalProblem()

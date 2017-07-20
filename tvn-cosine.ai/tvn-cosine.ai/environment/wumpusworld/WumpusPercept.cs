@@ -100,8 +100,8 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 result.Append("Bump, ");
             if (scream)
                 result.Append("Scream, ");
-            if (result.length() > 1)
-                result.delete(result.length() - 2, result.length());
+            if (result.Length > 1)
+                result.Remove(result.Length - 2, result.Length);
             result.Append("}");
             return result.ToString();
         }

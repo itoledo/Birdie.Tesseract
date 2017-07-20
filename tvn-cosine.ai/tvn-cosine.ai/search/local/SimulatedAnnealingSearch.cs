@@ -99,6 +99,19 @@ namespace tvn.cosine.ai.search.local
             return SearchUtils.toState(findNode(p));
         }
 
+
+        private bool currIsCancelled;
+
+        public void SetCurrIsCancelled(bool value)
+        {
+            currIsCancelled = value;
+        }
+
+        public bool GetCurrIsCancelled()
+        {
+            return currIsCancelled;
+        }
+
         // function SIMULATED-ANNEALING(problem, schedule) returns a solution state
         public Node<S, A> findNode(Problem<S, A> p)
         {
@@ -109,7 +122,7 @@ namespace tvn.cosine.ai.search.local
             Node<S, A> current = nodeExpander.createRootNode(p.getInitialState());
             // for t = 1 to INFINITY do
             int timeStep = 0;
-            while (!Tasks.currIsCancelled())
+            while (!currIsCancelled)
             {
                 // temperature <- schedule(t)
                 double temperature = scheduler.getTemp(timeStep);

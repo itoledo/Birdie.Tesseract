@@ -13,6 +13,19 @@ namespace tvn.cosine.ai.environment.vacuum
     public class VacuumWorldFunctions
     {
         /**
+         * Map fully observable state percepts to their corresponding state
+         * representation.
+         * 
+         * @author Andrew Brown
+         */
+        public static object FullyObservableVacuumEnvironmentPerceptToStateFunction(Percept p)
+        {
+            // Note: VacuumEnvironmentState implements
+            // FullyObservableVacuumEnvironmentPercept
+            return (VacuumEnvironmentState)p;
+        }
+
+        /**
          * Specifies the actions available to the agent at state s
          */
         public static IQueue<Action> getActions(VacuumEnvironmentState state)
@@ -59,9 +72,9 @@ namespace tvn.cosine.ai.environment.vacuum
                 VacuumEnvironmentState s = state.clone();
                 results.Add(s);
 
-               string currentLocation = state.getAgentLocation(agent);
-               string adjacentLocation = (currentLocation.Equals(VacuumEnvironment.LOCATION_A))
-                         ? VacuumEnvironment.LOCATION_B : VacuumEnvironment.LOCATION_A;
+                string currentLocation = state.getAgentLocation(agent);
+                string adjacentLocation = (currentLocation.Equals(VacuumEnvironment.LOCATION_A))
+                          ? VacuumEnvironment.LOCATION_B : VacuumEnvironment.LOCATION_A;
 
                 if (action == VacuumEnvironment.ACTION_MOVE_RIGHT)
                 {

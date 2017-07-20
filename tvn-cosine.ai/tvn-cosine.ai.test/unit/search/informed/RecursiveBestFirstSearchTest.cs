@@ -1,115 +1,123 @@
-﻿namespace tvn_cosine.ai.test.unit.search.informed
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text;
+using tvn.cosine.ai.agent;
+using tvn.cosine.ai.environment.map;
+using tvn.cosine.ai.search.informed;
+
+namespace tvn_cosine.ai.test.unit.search.informed
 {
-    public class RecursiveBestFirstSearchTest
-    {
+    //[TestClass]
+    //public class RecursiveBestFirstSearchTest
+    //{
 
-        private StringBuffer envChanges;
+    //    private static StringBuilder envChanges = new StringBuilder();
 
-        private Map aMap;
+    //    private Map aMap  ;
 
-        private RecursiveBestFirstSearch<String, MoveToAction> recursiveBestFirstSearch;
-        private RecursiveBestFirstSearch<String, MoveToAction> recursiveBestFirstSearchAvoidingLoops;
+    //      private RecursiveBestFirstSearch<string, MoveToAction> recursiveBestFirstSearch;
+    //     private RecursiveBestFirstSearch<string, MoveToAction> recursiveBestFirstSearchAvoidingLoops;
 
-        @Before
-        public void setUp()
-        {
-            envChanges = new StringBuffer();
-            aMap = new SimplifiedRoadMapOfPartOfRomania();
+    //    //[TestInitialize]
+    //    //public void setUp()
+    //    //{
+    //    //    envChanges = new StringBuilder();
+    //    //    aMap = new SimplifiedRoadMapOfPartOfRomania();
 
-            ToDoubleFunction<Node<String, MoveToAction>> heuristicFunction = (node)-> {
-                Point2D pt1 = aMap.getPosition((String)node.getState());
-                Point2D pt2 = aMap.getPosition(SimplifiedRoadMapOfPartOfRomania.BUCHAREST);
-                return pt1.distance(pt2);
-            };
+    //    //    ToDoubleFunction<Node<string, MoveToAction>> heuristicFunction = (node) =>
+    //    //    {
+    //    //        Point2D pt1 = aMap.getPosition((String)node.getState());
+    //    //        Point2D pt2 = aMap.getPosition(SimplifiedRoadMapOfPartOfRomania.BUCHAREST);
+    //    //        return pt1.distance(pt2);
+    //    //    };
 
-            recursiveBestFirstSearch = new RecursiveBestFirstSearch<>(new AStarSearch.EvalFunction<>(heuristicFunction));
-            recursiveBestFirstSearchAvoidingLoops = new RecursiveBestFirstSearch<>(
-                    new AStarSearch.EvalFunction<>(heuristicFunction), true);
-        }
+    //    //    recursiveBestFirstSearch = new RecursiveBestFirstSearch<>(new AStarSearch.EvalFunction<>(heuristicFunction));
+    //    //    recursiveBestFirstSearchAvoidingLoops = new RecursiveBestFirstSearch<>(
+    //    //            new AStarSearch.EvalFunction<>(heuristicFunction), true);
+    //    //}
 
-        @Test
-        public void testStartingAtGoal()
-        {
-            MapEnvironment me = new MapEnvironment(aMap);
-            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, recursiveBestFirstSearch,
-                    new String[] { SimplifiedRoadMapOfPartOfRomania.BUCHAREST });
+    //    [TestMethod]
+    //    public void testStartingAtGoal()
+    //    {
+    //        MapEnvironment me = new MapEnvironment(aMap);
+    //        SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, recursiveBestFirstSearch,
+    //                new string[] { SimplifiedRoadMapOfPartOfRomania.BUCHAREST });
 
-            me.addAgent(ma, SimplifiedRoadMapOfPartOfRomania.BUCHAREST);
-            me.addEnvironmentView(new TestEnvironmentView());
-            me.stepUntilDone();
+    //        me.addAgent(ma, SimplifiedRoadMapOfPartOfRomania.BUCHAREST);
+    //        me.addEnvironmentView(new TestEnvironmentView());
+    //        me.stepUntilDone();
 
-            Assert.assertEquals(
-                    "CurrentLocation=In(Bucharest), Goal=In(Bucharest):Action[name==NoOp]:METRIC[pathCost]=0.0:METRIC[maxRecursiveDepth]=0:METRIC[nodesExpanded]=0:Action[name==NoOp]:",
-                    envChanges.toString());
-        }
+    //        Assert.AreEqual(
+    //                "CurrentLocation=In(Bucharest), Goal=In(Bucharest):Action[name==NoOp]:METRIC[pathCost]=0.0:METRIC[maxRecursiveDepth]=0:METRIC[nodesExpanded]=0:Action[name==NoOp]:",
+    //                envChanges.ToString());
+    //    }
 
-        @Test
-        public void testAIMA3eFigure3_27()
-        {
-            MapEnvironment me = new MapEnvironment(aMap);
-            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, recursiveBestFirstSearch,
-                    new String[] { SimplifiedRoadMapOfPartOfRomania.BUCHAREST });
+    //    [TestMethod]
+    //    public void testAIMA3eFigure3_27()
+    //    {
+    //        MapEnvironment me = new MapEnvironment(aMap);
+    //        SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, recursiveBestFirstSearch,
+    //                new string[] { SimplifiedRoadMapOfPartOfRomania.BUCHAREST });
 
-            me.addAgent(ma, SimplifiedRoadMapOfPartOfRomania.ARAD);
-            me.addEnvironmentView(new TestEnvironmentView());
-            me.stepUntilDone();
+    //        me.addAgent(ma, SimplifiedRoadMapOfPartOfRomania.ARAD);
+    //        me.addEnvironmentView(new TestEnvironmentView());
+    //        me.stepUntilDone();
 
-            Assert.assertEquals(
-                    "CurrentLocation=In(Arad), Goal=In(Bucharest):Action[name==moveTo, location==Sibiu]:Action[name==moveTo, location==RimnicuVilcea]:Action[name==moveTo, location==Pitesti]:Action[name==moveTo, location==Bucharest]:METRIC[pathCost]=418.0:METRIC[maxRecursiveDepth]=4:METRIC[nodesExpanded]=6:Action[name==NoOp]:",
-                    envChanges.toString());
-        }
+    //        Assert.AreEqual(
+    //                "CurrentLocation=In(Arad), Goal=In(Bucharest):Action[name==moveTo, location==Sibiu]:Action[name==moveTo, location==RimnicuVilcea]:Action[name==moveTo, location==Pitesti]:Action[name==moveTo, location==Bucharest]:METRIC[pathCost]=418.0:METRIC[maxRecursiveDepth]=4:METRIC[nodesExpanded]=6:Action[name==NoOp]:",
+    //                envChanges.ToString());
+    //    }
 
-        @Test
-        public void testAIMA3eAradNeamtA()
-        {
-            MapEnvironment me = new MapEnvironment(aMap);
-            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, recursiveBestFirstSearch,
-                    new String[] { SimplifiedRoadMapOfPartOfRomania.NEAMT });
+    //    [TestMethod]
+    //    public void testAIMA3eAradNeamtA()
+    //    {
+    //        MapEnvironment me = new MapEnvironment(aMap);
+    //        SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, recursiveBestFirstSearch,
+    //                new string[] { SimplifiedRoadMapOfPartOfRomania.NEAMT });
 
-            me.addAgent(ma, SimplifiedRoadMapOfPartOfRomania.ARAD);
-            me.addEnvironmentView(new TestEnvironmentView());
-            me.stepUntilDone();
+    //        me.addAgent(ma, SimplifiedRoadMapOfPartOfRomania.ARAD);
+    //        me.addEnvironmentView(new TestEnvironmentView());
+    //        me.stepUntilDone();
 
-            Assert.assertEquals(
-                    "CurrentLocation=In(Arad), Goal=In(Neamt):Action[name==moveTo, location==Sibiu]:Action[name==moveTo, location==RimnicuVilcea]:Action[name==moveTo, location==Pitesti]:Action[name==moveTo, location==Bucharest]:Action[name==moveTo, location==Urziceni]:Action[name==moveTo, location==Vaslui]:Action[name==moveTo, location==Iasi]:Action[name==moveTo, location==Neamt]:METRIC[pathCost]=824.0:METRIC[maxRecursiveDepth]=12:METRIC[nodesExpanded]=340208:Action[name==NoOp]:",
-                    envChanges.toString());
-        }
+    //        Assert.AreEqual(
+    //                "CurrentLocation=In(Arad), Goal=In(Neamt):Action[name==moveTo, location==Sibiu]:Action[name==moveTo, location==RimnicuVilcea]:Action[name==moveTo, location==Pitesti]:Action[name==moveTo, location==Bucharest]:Action[name==moveTo, location==Urziceni]:Action[name==moveTo, location==Vaslui]:Action[name==moveTo, location==Iasi]:Action[name==moveTo, location==Neamt]:METRIC[pathCost]=824.0:METRIC[maxRecursiveDepth]=12:METRIC[nodesExpanded]=340208:Action[name==NoOp]:",
+    //                envChanges.ToString());
+    //    }
 
-        @Test
-        public void testAIMA3eAradNeamtB()
-        {
-            MapEnvironment me = new MapEnvironment(aMap);
-            SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, recursiveBestFirstSearchAvoidingLoops,
-                    new String[] { SimplifiedRoadMapOfPartOfRomania.NEAMT });
+    //    [TestMethod]
+    //    public void testAIMA3eAradNeamtB()
+    //    {
+    //        MapEnvironment me = new MapEnvironment(aMap);
+    //        SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, recursiveBestFirstSearchAvoidingLoops,
+    //                new string[] { SimplifiedRoadMapOfPartOfRomania.NEAMT });
 
-            me.addAgent(ma, SimplifiedRoadMapOfPartOfRomania.ARAD);
-            me.addEnvironmentView(new TestEnvironmentView());
-            me.stepUntilDone();
+    //        me.addAgent(ma, SimplifiedRoadMapOfPartOfRomania.ARAD);
+    //        me.addEnvironmentView(new TestEnvironmentView());
+    //        me.stepUntilDone();
 
-            // loops avoided, now much less number of expanded nodes ...
-            Assert.assertEquals(
-                    "CurrentLocation=In(Arad), Goal=In(Neamt):Action[name==moveTo, location==Sibiu]:Action[name==moveTo, location==RimnicuVilcea]:Action[name==moveTo, location==Pitesti]:Action[name==moveTo, location==Bucharest]:Action[name==moveTo, location==Urziceni]:Action[name==moveTo, location==Vaslui]:Action[name==moveTo, location==Iasi]:Action[name==moveTo, location==Neamt]:METRIC[pathCost]=824.0:METRIC[maxRecursiveDepth]=9:METRIC[nodesExpanded]=1367:Action[name==NoOp]:",
-                    envChanges.toString());
-        }
+    //        // loops avoided, now much less number of expanded nodes ...
+    //        Assert.AreEqual(
+    //                "CurrentLocation=In(Arad), Goal=In(Neamt):Action[name==moveTo, location==Sibiu]:Action[name==moveTo, location==RimnicuVilcea]:Action[name==moveTo, location==Pitesti]:Action[name==moveTo, location==Bucharest]:Action[name==moveTo, location==Urziceni]:Action[name==moveTo, location==Vaslui]:Action[name==moveTo, location==Iasi]:Action[name==moveTo, location==Neamt]:METRIC[pathCost]=824.0:METRIC[maxRecursiveDepth]=9:METRIC[nodesExpanded]=1367:Action[name==NoOp]:",
+    //                envChanges.ToString());
+    //    }
 
-        private class TestEnvironmentView implements EnvironmentView
-        {
+    //    private class TestEnvironmentView : EnvironmentView
+    //    {
 
-        public void notify(String msg)
-        {
-            envChanges.append(msg).append(":");
-        }
+    //        public void notify(string msg)
+    //        {
+    //            envChanges.Append(msg).Append(":");
+    //        }
 
-        public void agentAdded(Agent agent, Environment source)
-        {
-            // Nothing.
-        }
+    //        public void agentAdded(Agent agent, Environment source)
+    //        {
+    //            // Nothing.
+    //        }
 
-        public void agentActed(Agent agent, Percept percept, Action action, Environment source)
-        {
-            envChanges.append(action).append(":");
-        }
-    }
-}
+    //        public void agentActed(Agent agent, Percept percept, Action action, Environment source)
+    //        {
+    //            envChanges.Append(action).Append(":");
+    //        }
+    //    }
+    //}
 
 }

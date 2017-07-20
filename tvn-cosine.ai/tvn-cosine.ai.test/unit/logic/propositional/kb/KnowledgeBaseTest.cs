@@ -1,61 +1,64 @@
-﻿namespace tvn_cosine.ai.test.unit.logic.propositional.kb
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.logic.propositional.kb;
+
+namespace tvn_cosine.ai.test.unit.logic.propositional.kb
 {
-    public class KnowledgeBaseTest
+    [TestClass] public class KnowledgeBaseTest
     {
         private KnowledgeBase kb;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
             kb = new KnowledgeBase();
         }
 
-        @Test
+        [TestMethod]
         public void testTellInsertsSentence()
         {
             kb.tell("(A & B)");
-            Assert.assertEquals(1, kb.size());
+            Assert.AreEqual(1, kb.size());
         }
 
-        @Test
+        [TestMethod]
         public void testTellDoesNotInsertSameSentenceTwice()
         {
             kb.tell("(A & B)");
-            Assert.assertEquals(1, kb.size());
+            Assert.AreEqual(1, kb.size());
             kb.tell("(A & B)");
-            Assert.assertEquals(1, kb.size());
+            Assert.AreEqual(1, kb.size());
         }
 
-        @Test
+        [TestMethod]
         public void testEmptyKnowledgeBaseIsAnEmptyString()
         {
-            Assert.assertEquals("", kb.toString());
+            Assert.AreEqual("", kb.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testKnowledgeBaseWithOneSentenceToString()
         {
             kb.tell("(A & B)");
-            Assert.assertEquals("A & B", kb.toString());
+            Assert.AreEqual("A & B", kb.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testKnowledgeBaseWithTwoSentencesToString()
         {
             kb.tell("(A & B)");
             kb.tell("(C & D)");
-            Assert.assertEquals("A & B & C & D", kb.toString());
+            Assert.AreEqual("A & B & C & D", kb.ToString());
         }
 
-        @Test
+        [TestMethod]
         public void testKnowledgeBaseWithThreeSentencesToString()
         {
             kb.tell("(A & B)");
             kb.tell("(C & D)");
             kb.tell("(E & F)");
-            Assert.assertEquals(
+            Assert.AreEqual(
                     "A & B & C & D & E & F",
-                    kb.toString());
+                    kb.ToString());
         }
     }
 

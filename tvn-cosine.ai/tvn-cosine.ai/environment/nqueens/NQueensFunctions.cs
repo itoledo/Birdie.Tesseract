@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using System;
+using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
@@ -105,6 +106,13 @@ namespace tvn.cosine.ai.environment.nqueens
             return state.getNumberOfQueensOnBoard() == state.getSize() && state.getNumberOfAttackingPairs() == 0;
         }
 
+        class AttackingPairsHeuristicFunction : ToDoubleFunction<Node<NQueensBoard, QueenAction>>
+        {
+            public double applyAsDouble(Node<NQueensBoard, QueenAction> node)
+            {
+                return node.getState().getNumberOfAttackingPairs();
+            }
+        }
 
         /**
          * Estimates the distance to goal by the number of attacking pairs of queens on
@@ -112,7 +120,7 @@ namespace tvn.cosine.ai.environment.nqueens
          */
         public static ToDoubleFunction<Node<NQueensBoard, QueenAction>> createAttackingPairsHeuristicFunction()
         {
-            return (node) => node.getState().getNumberOfAttackingPairs();
+            return new AttackingPairsHeuristicFunction();
         }
     }
 }

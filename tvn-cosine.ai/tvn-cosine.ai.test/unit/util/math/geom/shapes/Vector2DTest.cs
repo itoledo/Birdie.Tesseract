@@ -1,94 +1,98 @@
-﻿namespace tvn_cosine.ai.test.unit.util.math.geom.shapes
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.util.math.geom.shapes;
+
+namespace tvn_cosine.ai.test.unit.util.math.geom.shapes
 {
-/**
- * Test case for the {@code aima.core.util.math.geom} package.
- * Tests valid implementation of {@link Vector2D}.
- * 
- * @author Arno v. Borries
- * @author Jan Phillip Kretzschmar
- * @author Andreas Walscheid
- *
- */
-@SuppressWarnings("javadoc")
-public class Vector2DTest
+    /**
+     * Test case for the {@code aima.core.util.math.geom} package.
+     * Tests valid implementation of {@link Vector2D}.
+     * 
+     * @author Arno v. Borries
+     * @author Jan Phillip Kretzschmar
+     * @author Andreas Walscheid
+     *
+     */
+
+    [TestClass]
+    public class Vector2DTest
     {
         private Vector2D testVector;
 
-        @Before
-    public void setUp() throws Exception
+        [TestInitialize]
+        public void setUp()
         {
-            testVector = new Vector2D(3.0d,4.0d);
+            testVector = new Vector2D(3.0d, 4.0d);
+        }
+
+        [TestMethod]
+        public void testAdd()
+        {
+            Assert.AreEqual(testVector.add(new Vector2D(8.0d, 12.0d)).getX(), 11.0d, 0.000005d);
+            Assert.AreEqual(testVector.add(new Vector2D(8.0d, 12.0d)).getY(), 16.0d, 0.000005d);
+
+        }
+
+        [TestMethod]
+        public void testSub()
+        {
+            Assert.AreEqual(testVector.sub(new Vector2D(8.0d, 12.0d)).getX(), -5.0d, 0.000005d);
+            Assert.AreEqual(testVector.sub(new Vector2D(8.0d, 12.0d)).getY(), -8.0d, 0.000005d);
+        }
+
+        [TestMethod]
+        public void testInvert()
+        {
+            Assert.AreEqual(testVector.invert().getX(), -3.0d, 0.000005d);
+            Assert.AreEqual(testVector.invert().getY(), -4.0d, 0.000005d);
+        }
+
+        [TestMethod]
+        public void testIsParallel()
+        {
+            Assert.IsFalse(testVector.isAbsoluteParallel(new Vector2D(4.0d, 7.0d)));
+            Assert.IsTrue(testVector.isAbsoluteParallel(new Vector2D(9.0d, 12.0d)));
+            Assert.IsTrue(testVector.isAbsoluteParallel(Vector2D.ZERO_VECTOR));
+
+        }
+
+        [TestMethod]
+        public void testIsAbsoluteParallel()
+        {
+            Assert.IsFalse(testVector.isParallel(new Vector2D(6.5d, 5.8d)));
+            Assert.IsFalse(testVector.isParallel(Vector2D.ZERO_VECTOR));
+            Assert.IsTrue(testVector.isParallel(new Vector2D(9, 12)));
+            Assert.IsTrue(testVector.isParallel(new Vector2D(-9, -12)));
+        }
+
+        [TestMethod]
+        public void testAngleTo()
+        {
+            Assert.AreEqual(testVector.angleTo(new Vector2D(-4.0d, 3.0d)), 1.0d / 2.0d * System.Math.PI, 0.000005d);
+            Assert.AreEqual(testVector.angleTo(new Vector2D(-3.0d, -4.0d)), System.Math.PI, 0.000005d);
+            Assert.AreEqual(testVector.angleTo(new Vector2D(4.0d, -3.0d)), 3.0d / 2.0d * System.Math.PI, 0.000005d);
+            Assert.AreEqual(testVector.angleTo(new Vector2D(6.0d, 8.0d)), 0.0d, 0.000005d);
+        }
+
+        [TestMethod]
+        public void testLength()
+        {
+            Assert.AreEqual(testVector.length(), 5.0d, 0.000005d);
+        }
+
+        [TestMethod]
+        public void testEqualsVector2D()
+        {
+            Assert.IsFalse(testVector.Equals(new Vector2D(6.0d, 5.0d)));
+            Assert.IsTrue(testVector.Equals(new Vector2D(3.0d, 4.0d)));
+        }
+
+        [TestMethod]
+        public void testEqualsObject()
+        {
+            Assert.IsFalse(testVector.Equals(new Point2D(3.0d, 4.0d)));
+            Assert.IsTrue(testVector.Equals(new Vector2D(3.0d, 4.0d)));
+        }
+
     }
-
-    @Test
-    public final void testAdd()
-    {
-        assertEquals("Correct vector addition X-Value.", testVector.add(new Vector2D(8.0d, 12.0d)).getX(), 11.0d, 0.000005d);
-        assertEquals("Correct vector addition Y-Value.", testVector.add(new Vector2D(8.0d, 12.0d)).getY(), 16.0d, 0.000005d);
-
-    }
-
-    @Test
-    public final void testSub()
-    {
-        assertEquals("Correct vector subtraction X-Value.", testVector.sub(new Vector2D(8.0d, 12.0d)).getX(), -5.0d, 0.000005d);
-        assertEquals("Correct vector subtraction Y-Value.", testVector.sub(new Vector2D(8.0d, 12.0d)).getY(), -8.0d, 0.000005d);
-    }
-
-    @Test
-    public final void testInvert()
-    {
-        assertEquals("Correct vector inversion X-Value.", testVector.invert().getX(), -3.0d, 0.000005d);
-        assertEquals("Correct vector inversion Y-Value.", testVector.invert().getY(), -4.0d, 0.000005d);
-    }
-
-    @Test
-    public final void testIsParallel()
-    {
-        assertFalse("Two non-parallel vectors.", testVector.isAbsoluteParallel(new Vector2D(4.0d, 7.0d)));
-        assertTrue("Two parallel vectors.", testVector.isAbsoluteParallel(new Vector2D(9.0d, 12.0d)));
-        assertTrue("Every vector is parallel to the zero vector.", testVector.isAbsoluteParallel(Vector2D.ZERO_VECTOR));
-
-    }
-
-    @Test
-    public final void testIsAbsoluteParallel()
-    {
-        assertFalse("Two non-absolute-parallel vectors.", testVector.isParallel(new Vector2D(6.5d, 5.8d)));
-        assertFalse("No vector is absolute parallel to the zero vector.", testVector.isParallel(Vector2D.ZERO_VECTOR));
-        assertTrue("Two absolute-parallel vectors.", testVector.isParallel(new Vector2D(9, 12)));
-        assertTrue("Two absolute-parallel vectors.", testVector.isParallel(new Vector2D(-9, -12)));
-    }
-
-    @Test
-    public final void testAngleTo()
-    {
-        assertEquals("Rotating vector by 1/2 Pi radians.", testVector.angleTo(new Vector2D(-4.0d, 3.0d)), 1.0d / 2.0d * Math.PI, 0.000005d);
-        assertEquals("Rotating vector by Pi radians.", testVector.angleTo(new Vector2D(-3.0d, -4.0d)), Math.PI, 0.000005d);
-        assertEquals("Rotating vector by 3/2 Pi radians.", testVector.angleTo(new Vector2D(4.0d, -3.0d)), 3.0d / 2.0d * Math.PI, 0.000005d);
-        assertEquals("Rotating vector by 2 Pi radians.", testVector.angleTo(new Vector2D(6.0d, 8.0d)), 0.0d, 0.000005d);
-    }
-
-    @Test
-    public final void testLength()
-    {
-        assertEquals("The correct length.", testVector.length(), 5.0d, 0.000005d);
-    }
-
-    @Test
-    public final void testEqualsVector2D()
-    {
-        assertFalse("Not the same vector.", testVector.equals(new Vector2D(6.0d, 5.0d)));
-        assertTrue("The exact same vector.", testVector.equals(new Vector2D(3.0d, 4.0d)));
-    }
-
-    @Test
-    public final void testEqualsObject()
-    {
-        assertFalse("Not the same object, since no cast defined.", testVector.equals(new Point2D(3.0d, 4.0d)));
-        assertTrue("The exact same object.", testVector.equals(new Vector2D(3.0d, 4.0d)));
-    }
-
-}
 
 }

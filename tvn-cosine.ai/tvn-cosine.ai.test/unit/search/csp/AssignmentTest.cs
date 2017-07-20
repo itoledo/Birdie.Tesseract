@@ -1,41 +1,46 @@
-﻿namespace tvn_cosine.ai.test.unit.search.csp
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.csp;
+
+namespace tvn_cosine.ai.test.unit.search.csp
 {
+    [TestClass]
     public class AssignmentTest
     {
-        private static final Variable X = new Variable("x");
-        private static final Variable Y = new Variable("y");
+        private static readonly Variable X = new Variable("x");
+        private static readonly Variable Y = new Variable("y");
 
-        private List<Variable> variables;
-        private Assignment assignment;
+        private IQueue<Variable> variables;
+        private Assignment<Variable, string> assignment;
 
-        @Before
+        [TestInitialize]
         public void setUp()
         {
-            variables = new ArrayList<Variable>();
-            variables.add(X);
-            variables.add(Y);
-            assignment = new Assignment();
+            variables = Factory.CreateQueue<Variable>();
+            variables.Add(X);
+            variables.Add(Y);
+            assignment = new Assignment<Variable, string>();
         }
 
-        @Test
+        [TestMethod]
         public void testAssignmentCompletion()
         {
-            Assert.assertFalse(assignment.isComplete(variables));
+            Assert.IsFalse(assignment.isComplete(variables));
             assignment.add(X, "Ravi");
-            Assert.assertFalse(assignment.isComplete(variables));
+            Assert.IsFalse(assignment.isComplete(variables));
             assignment.add(Y, "AIMA");
-            Assert.assertTrue(assignment.isComplete(variables));
+            Assert.IsTrue(assignment.isComplete(variables));
             assignment.remove(X);
-            Assert.assertFalse(assignment.isComplete(variables));
+            Assert.IsFalse(assignment.isComplete(variables));
         }
 
-        // @Test
+        // [TestMethod]
         // public void testAssignmentDefaultVariableSelection() {
-        // Assert.assertEquals(X, assignment.selectFirstUnassignedVariable(csp));
-        // assignment.add(X, "Ravi");
-        // Assert.assertEquals(Y, assignment.selectFirstUnassignedVariable(csp));
-        // assignment.add(Y, "AIMA");
-        // Assert.assertEquals(null, assignment.selectFirstUnassignedVariable(csp));
+        // Assert.AreEqual(X, assignment.selectFirstUnassignedVariable(csp));
+        // assignment.Add(X, "Ravi");
+        // Assert.AreEqual(Y, assignment.selectFirstUnassignedVariable(csp));
+        // assignment.Add(Y, "AIMA");
+        // Assert.AreEqual(null, assignment.selectFirstUnassignedVariable(csp));
         // }
     }
 }

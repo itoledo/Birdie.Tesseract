@@ -7,11 +7,14 @@ namespace tvn.cosine.ai.logic.fol.inference.otter.defaultimpl
 {
     public class DefaultLightestClauseHeuristic : LightestClauseHeuristic
     {
-        private LightestClauseSorter c = new LightestClauseSorter();
-        private IQueue<Clause> sos = Factory.CreatePriorityQueue<Clause>(c);
+        private LightestClauseSorter c;
+        private IQueue<Clause> sos;
 
         public DefaultLightestClauseHeuristic()
-        { }
+        {
+            c = new LightestClauseSorter();
+            sos = Factory.CreatePriorityQueue<Clause>(c);
+        }
 
         //
         // START-LightestClauseHeuristic
