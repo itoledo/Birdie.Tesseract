@@ -221,7 +221,7 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.parsing
         {
             Sentence s = parser.parse(prettyPrintedFormula);
 
-            Assert.AreEqual("The pretty print formula should parse and print the same.", prettyPrintedFormula, "" + s);
+            Assert.AreEqual(prettyPrintedFormula, "" + s);
 
             return prettyPrintedFormula;
         }

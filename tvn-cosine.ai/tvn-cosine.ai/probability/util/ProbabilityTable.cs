@@ -625,7 +625,7 @@ namespace tvn.cosine.ai.probability.util
         public ProbabilityTable pointwiseProductPOS(ProbabilityTable multiplier, params RandomVariable[] prodVarOrder)
         {
             ProbabilityTable product = new ProbabilityTable(prodVarOrder);
-            if (!product.randomVarInfo.GetKeys().Equals(
+            if (!product.randomVarInfo.GetKeys().SequenceEqual(
                     SetOps.union(Factory.CreateSet<RandomVariable>(randomVarInfo.GetKeys()),
                      Factory.CreateSet<RandomVariable>(multiplier.randomVarInfo.GetKeys()))))
             {

@@ -198,8 +198,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             c1.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
             Assert.IsNotNull(c1.binaryResolvents(c1));
             Assert.AreEqual(1, c1.binaryResolvents(c1).Size());
-            // i.e. resolving a tautology with a tautology gives you
-            // back a tautology.
+            // i.e. resolving a tautology with a tautology gives you  back a tautology.
             Assert.AreEqual("[~Pred1(), Pred1()]", Util.first(c1.binaryResolvents(c1)).ToString());
 
             // Check if try to resolve with self and no resolvents

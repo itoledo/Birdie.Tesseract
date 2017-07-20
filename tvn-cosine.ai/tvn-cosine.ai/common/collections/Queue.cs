@@ -162,8 +162,8 @@ namespace tvn.cosine.ai.common.collections
         {
             if (startPos < 0
                || startPos > endPos
-               || endPos > backingList.Count - 1
-               || startPos > backingList.Count - 1)
+               || endPos > backingList.Count
+               || startPos > backingList.Count)
             {
                 throw new NotSupportedException("Not supported");
             }

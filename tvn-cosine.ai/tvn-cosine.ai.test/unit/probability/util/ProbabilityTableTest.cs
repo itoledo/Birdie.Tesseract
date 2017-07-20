@@ -101,9 +101,9 @@ namespace tvn_cosine.ai.test.unit.probability.util
                     zRV);
 
             // Not commutative
-            Assert.AreEqual(new double[] { 3.0, 7.0, 6.0, 14.0, 9.0, 21.0,
+            CollectionAssert.AreEqual(new double[] { 3.0, 7.0, 6.0, 14.0, 9.0, 21.0,
                 12.0, 28.0 }, xyD.pointwiseProduct(zD).getValues());
-            Assert.AreEqual(new double[] { 3.0, 6.0, 9.0, 12.0, 7.0, 14.0,
+            CollectionAssert.AreEqual(new double[] { 3.0, 6.0, 9.0, 12.0, 7.0, 14.0,
                 21.0, 28.0 }, zD.pointwiseProduct(xyD).getValues());
         }
 
@@ -127,7 +127,7 @@ namespace tvn_cosine.ai.test.unit.probability.util
                     zRV);
 
             // Make commutative by specifying an order for the product
-            Assert.AreEqual(xyD.pointwiseProduct(zD).getValues(), zD
+            CollectionAssert.AreEqual(xyD.pointwiseProduct(zD).getValues(), zD
                     .pointwiseProductPOS(xyD, xRV, yRV, zRV).getValues());
         }
 
