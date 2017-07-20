@@ -46,7 +46,7 @@ namespace tvn_cosine.ai.test.unit.agent.impl.aprog
         {
             Assert.AreEqual(ACTION_1,
                     agent.Execute(new DynamicPercept("key1", "value1")));
-            Assert.AreEqual(NoOpAction.NO_OP,
+            Assert.AreEqual(DynamicAction.NO_OP,
                     agent.Execute(new DynamicPercept("key1", "value3")));
         }
 

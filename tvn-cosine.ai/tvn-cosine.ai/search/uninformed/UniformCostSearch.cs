@@ -54,9 +54,7 @@ namespace tvn.cosine.ai.search.uninformed
         /** Creates a UniformCostSearch instance using GraphSearch */
         public UniformCostSearch()
                 : this(new GraphSearch<S, A>())
-        {
-
-        }
+        { }
 
         /**
          * Combines UniformCostSearch queue definition with the specified
@@ -64,6 +62,6 @@ namespace tvn.cosine.ai.search.uninformed
          */
         public UniformCostSearch(QueueSearch<S, A> impl)
                 : base(impl, Factory.CreatePriorityQueue<Node<S, A>>(new UniformCostSearchComparer()))
-        {  }
+        { }
     }
 }

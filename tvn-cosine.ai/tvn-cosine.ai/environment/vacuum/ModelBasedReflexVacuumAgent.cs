@@ -65,7 +65,7 @@ namespace tvn.cosine.ai.environment.vacuum
                     ATTRIBUTE_STATE_LOCATION_A,
                     VacuumEnvironment.LocationState.Clean), new EQUALCondition(
                     ATTRIBUTE_STATE_LOCATION_B,
-                    VacuumEnvironment.LocationState.Clean)), NoOpAction.NO_OP));
+                    VacuumEnvironment.LocationState.Clean)), DynamicAction.NO_OP));
             rules.Add(new Rule(new EQUALCondition(ATTRIBUTE_CURRENT_STATE,
                     VacuumEnvironment.LocationState.Dirty),
                     VacuumEnvironment.ACTION_SUCK));

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 {

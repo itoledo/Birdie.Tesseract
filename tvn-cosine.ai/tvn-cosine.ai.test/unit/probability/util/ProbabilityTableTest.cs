@@ -70,18 +70,15 @@ namespace tvn_cosine.ai.test.unit.probability.util
 				6.0,
 				// Z = false, X = false, Y = false
 				8.0, }, zRV, xRV, yRV);
-            ProbabilityTable zD = new ProbabilityTable(new double[] { 0.5, 0.2 },
-                    zRV);
+            ProbabilityTable zD = new ProbabilityTable(new double[] { 0.5, 0.2 }, zRV);
             // The identity distribution (to order results for comparison purposes)
             ProbabilityTable iD = new ProbabilityTable(new double[] { 1.0 });
             // Ensure the order of the dividends
             // makes no difference to the result
             Assert.AreEqual(xyzD.divideBy(zD).getValues(),
-                    xzyD.divideBy(zD).pointwiseProductPOS(iD, xRV, yRV, zRV)
-                            .getValues());
+                    xzyD.divideBy(zD).pointwiseProductPOS(iD, xRV, yRV, zRV).getValues());
             Assert.AreEqual(xzyD.divideBy(zD).getValues(),
-                    zxyD.divideBy(zD).pointwiseProductPOS(iD, xRV, zRV, yRV)
-                            .getValues());
+                    zxyD.divideBy(zD).pointwiseProductPOS(iD, xRV, zRV, yRV).getValues());
         }
 
         [TestMethod]

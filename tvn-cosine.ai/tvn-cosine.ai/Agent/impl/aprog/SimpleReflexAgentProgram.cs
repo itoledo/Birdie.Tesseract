@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.impl.aprog.simplerule;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.impl.aprog
 {
@@ -73,7 +74,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
 
         protected IAction ruleAction(Rule r)
         {
-            return null == r ? NoOpAction.NO_OP : r.getAction();
+            return null == r ? DynamicAction.NO_OP : r.getAction();
         }
     } 
 }

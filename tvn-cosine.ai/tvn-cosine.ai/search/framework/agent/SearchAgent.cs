@@ -40,7 +40,7 @@ namespace tvn.cosine.ai.search.framework.agent
             hasNext = actionIterator.MoveNext();
             if (hasNext)
                 return actionIterator.Current;
-            return NoOpAction.NO_OP; // no success or at goal
+            return DynamicAction.NO_OP; // no success or at goal
         }
 
         public bool isDone()

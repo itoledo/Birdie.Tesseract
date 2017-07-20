@@ -6,7 +6,7 @@ namespace tvn.cosine.ai.common.collections
     public class Set<T> : ISet<T>
     {
         protected readonly System.Collections.Generic.ISet<T> backingSet;
-         
+
         public Set()
         {
             backingSet = new System.Collections.Generic.HashSet<T>();
@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.common.collections
         {
             return backingSet.Contains(item);
         }
-         
+
         public IEnumerator<T> GetEnumerator()
         {
             return new Enumerator(backingSet);
@@ -65,10 +65,36 @@ namespace tvn.cosine.ai.common.collections
         {
             return backingSet.Remove(item);
         }
-         
+
         public int Size()
         {
             return backingSet.Count;
+        }
+         
+        public bool ContainsAll(IQueue<T> other)
+        {
+            foreach (T item in other)
+            {
+                if (!backingSet.Contains(item))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public void RemoveAll(IQueue<T> items)
+        {
+            foreach (T item in items)
+            {
+                backingSet.Remove(item);
+            }
+        }
+
+        public T[] ToArray()
+        {
+            return backingSet.ToArray();
         }
 
         void IQueue<T>.RemoveAt(int index)
@@ -101,34 +127,19 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException("Not supported");
         }
 
-        public bool ContainsAll(IQueue<T> other)
+        void IQueue<T>.Reverse()
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public void RemoveAll(IQueue<T> items)
+        IQueue<T> IQueue<T>.subList(int startPos, int endPos)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public T[] ToArray()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Reverse()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IQueue<T> subList(int startPos, int endPos)
-        {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
         void IQueue<T>.Set(int position, T item)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
         class Enumerator : IEnumerator<T>

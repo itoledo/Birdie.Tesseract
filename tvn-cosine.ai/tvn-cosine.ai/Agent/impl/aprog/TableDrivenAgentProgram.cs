@@ -86,7 +86,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
             action = table.get(percepts, ACTION);
             if (null == action)
             {
-                action = NoOpAction.NO_OP;
+                action = DynamicAction.NO_OP;
             }
 
             return action;

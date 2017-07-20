@@ -97,14 +97,14 @@ namespace tvn.cosine.ai.environment.vacuum
             if (state.getLocationState(VacuumEnvironment.LOCATION_A) == VacuumEnvironment.LocationState.Clean
                     && state.getLocationState(VacuumEnvironment.LOCATION_B) == VacuumEnvironment.LocationState.Clean)
             {
-                return NoOpAction.NO_OP;
+                return DynamicAction.NO_OP;
             }
             // check stack size
             if (this.stack.Size() < 1)
             {
                 if (this.contingencyPlan.Size() < 1)
                 {
-                    return NoOpAction.NO_OP;
+                    return DynamicAction.NO_OP;
                 }
                 else
                 {

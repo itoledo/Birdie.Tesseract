@@ -2,15 +2,10 @@
 
 namespace tvn.cosine.ai.agent.impl
 {
-    /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     */
     public abstract class EnvironmentBase : IEnvironment
     {
-        // Note: Use LinkedHashSet's in order to ensure order is respected as provide
-        // access to these elements via List interface.
-        protected ISet<IEnvironmentObject> envObjects = Factory.CreateSet<IEnvironmentObject>();
+        // Note: Use LinkedHashSet's in order to ensure order is respected as provide access to these elements via List interface.
+        protected IQueue<IEnvironmentObject> envObjects = Factory.CreateFifoQueueNoDuplicates<IEnvironmentObject>();
         protected ISet<IAgent> agents = Factory.CreateSet<IAgent>();
         protected ISet<IEnvironmentView> views = Factory.CreateSet<IEnvironmentView>();
         protected IMap<IAgent, double> performanceMeasures = Factory.CreateMap<IAgent, double>();
@@ -25,11 +20,8 @@ namespace tvn.cosine.ai.agent.impl
          * does nothing.
          */
         public virtual void createExogenousChange()
-        {
-        }
+        { }
 
-        //
-        // START-Environment
         public virtual IQueue<IAgent> GetAgents()
         {
             // Return as a List but also ensures the caller cannot modify
@@ -95,7 +87,7 @@ namespace tvn.cosine.ai.agent.impl
 
         public virtual void Step(int n)
         {
-            for (int i = 0; i < n;++i)
+            for (int i = 0; i < n; ++i)
             {
                 Step();
             }

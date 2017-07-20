@@ -42,8 +42,7 @@ namespace tvn.cosine.ai.search.informed
      * @author Ruediger Lunde
      */
     public class RecursiveBestFirstSearch<S, A> : SearchForActions<S, A>, Informed<S, A>
-    {
-
+    { 
         public const string METRIC_NODES_EXPANDED = "nodesExpanded";
         public const string METRIC_MAX_RECURSIVE_DEPTH = "maxRecursiveDepth";
         public const string METRIC_PATH_COST = "pathCost";
@@ -89,9 +88,7 @@ namespace tvn.cosine.ai.search.informed
                 ((HeuristicEvaluationFunction<S, A>)evalFn).setHeuristicFunction(h);
         }
 
-        // function RECURSIVE-BEST-FIRST-SEARCH(problem) returns a solution, or
-        // failure
-
+        // function RECURSIVE-BEST-FIRST-SEARCH(problem) returns a solution, or failure 
         public IQueue<A> findActions(Problem<S, A> p)
         {
             explored.Clear();
@@ -111,8 +108,7 @@ namespace tvn.cosine.ai.search.informed
 
         /**
          * Returns all the search metrics.
-         */
-
+         */ 
         public Metrics getMetrics()
         {
             return metrics;
@@ -127,14 +123,12 @@ namespace tvn.cosine.ai.search.informed
             metrics.set(METRIC_MAX_RECURSIVE_DEPTH, 0);
             metrics.set(METRIC_PATH_COST, 0.0);
         }
-
-
+         
         public void addNodeListener(Consumer<Node<S, A>> listener)
         {
             nodeExpander.addNodeListener(listener);
         }
-
-
+         
         public bool removeNodeListener(Consumer<Node<S, A>> listener)
         {
             return nodeExpander.removeNodeListener(listener);

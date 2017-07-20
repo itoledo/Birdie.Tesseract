@@ -58,7 +58,7 @@ namespace tvn.cosine.ai.search.framework.agent
          */
         public override IAction Execute(IPercept p)
         {
-            IAction action = NoOpAction.NO_OP;
+            IAction action = DynamicAction.NO_OP;
             // state <- UPDATE-STATE(state, percept)
             updateState(p);
             // if plan is empty then do

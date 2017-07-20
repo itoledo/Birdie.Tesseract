@@ -53,7 +53,7 @@ namespace tvn.cosine.ai.environment.vacuum
 
                 // Note: This should not be returned if the
                 // environment is correct
-                return NoOpAction.NO_OP;
+                return DynamicAction.NO_OP;
             }
         }
 

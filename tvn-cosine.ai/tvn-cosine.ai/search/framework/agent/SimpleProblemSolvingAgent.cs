@@ -78,7 +78,7 @@ namespace tvn.cosine.ai.search.framework.agent
 
         public override IAction Execute(IPercept p)
         {
-            IAction action = NoOpAction.NO_OP; // return value if at goal or goal not found
+            IAction action = DynamicAction.NO_OP; // return value if at goal or goal not found
 
             // state <- UPDATE-STATE(state, percept)
             updateState(p);

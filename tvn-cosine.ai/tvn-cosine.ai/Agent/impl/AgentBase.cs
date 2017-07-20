@@ -25,7 +25,7 @@
             {
                 return program.Execute(p);
             }
-            return NoOpAction.NO_OP;
+            return DynamicAction.NO_OP;
         }
 
         public virtual bool IsAlive()

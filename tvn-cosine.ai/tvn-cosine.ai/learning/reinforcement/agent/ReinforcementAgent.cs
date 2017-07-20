@@ -60,7 +60,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
                 IAction a = execute((PerceptStateReward<S>)p);
                 if (null == a)
                 {
-                    a = NoOpAction.NO_OP;
+                    a = DynamicAction.NO_OP;
                     SetAlive(false);
                 }
                 return a;
