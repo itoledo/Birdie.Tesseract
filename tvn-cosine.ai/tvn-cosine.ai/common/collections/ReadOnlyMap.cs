@@ -126,5 +126,40 @@ namespace tvn.cosine.ai.common.collections
         {
             throw new NotSupportedException("Not supported");
         }
+
+        public void PutAll(IMap<KEY, VALUE> map)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool ContainsAll(IQueue<KeyValuePair<KEY, VALUE>> other)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveAll(IQueue<KeyValuePair<KEY, VALUE>> items)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public KeyValuePair<KEY, VALUE>[] ToArray()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Reverse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IQueue<KeyValuePair<KEY, VALUE>> subList(int startPos, int endPos)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Set(int position, KeyValuePair<KEY, VALUE> item)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

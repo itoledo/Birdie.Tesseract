@@ -1,5 +1,5 @@
-﻿using System;
-using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.datastructures
 {
@@ -150,6 +150,46 @@ namespace tvn.cosine.ai.common.datastructures
         public bool Equals(IMap<Pair<K1, K2>, V> other)
         {
             return backingMap.Equals(other);
+        }
+
+        public void PutAll(IMap<Pair<K1, K2>, V> map)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ContainsAll(IQueue<KeyValuePair<Pair<K1, K2>, V>> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAll(IQueue<KeyValuePair<Pair<K1, K2>, V>> items)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Sort(IComparer<KeyValuePair<Pair<K1, K2>, V>> comparer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public KeyValuePair<Pair<K1, K2>, V>[] ToArray()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reverse()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueue<KeyValuePair<Pair<K1, K2>, V>> subList(int startPos, int endPos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set(int position, KeyValuePair<Pair<K1, K2>, V> item)
+        {
+            throw new NotImplementedException();
         }
     } 
 }

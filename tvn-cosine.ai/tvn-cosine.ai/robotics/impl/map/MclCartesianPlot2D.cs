@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using System.IO;
+using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.robotics.datatypes;
 using tvn.cosine.ai.robotics.impl.datatypes;
@@ -110,7 +111,7 @@ namespace tvn.cosine.ai.robotics.impl.map
          * @param areaInput the stream containing the areas
          * @throws Exception thrown by the implementing class of {@link IGroupParser} when calling {@code loadMap}.
          */
-        public void loadMap(InputStream obstacleInput, InputStream areaInput)
+        public void loadMap(StreamReader obstacleInput, StreamReader areaInput)
         {
             obstaclesException = null;
             areasException = null;
@@ -178,6 +179,10 @@ namespace tvn.cosine.ai.robotics.impl.map
             return poseFactory.getPose(point);
         }
 
+        AbstractRangeReading IMclMap<P, Angle, M, AbstractRangeReading>.rayCast(P pose)
+        {
+            return rayCast(pose);
+        }
 
         public R rayCast(P pose)
         {

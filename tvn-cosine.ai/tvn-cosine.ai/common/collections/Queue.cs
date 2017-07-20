@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.common.collections
+﻿using tvn.cosine.ai.common.exceptions;
+
+namespace tvn.cosine.ai.common.collections
 {
     public class Queue<T> : QueueBase<T>, IQueue<T>
     {
@@ -109,7 +111,37 @@
         {
             return backingList.Count;
         }
-         
+
+        public bool ContainsAll(IQueue<T> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAll(IQueue<T> items)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T[] ToArray()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reverse()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueue<T> subList(int startPos, int endPos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set(int position, T item)
+        {
+            throw new NotImplementedException();
+        }
+
         class Enumerator : IEnumerator<T>
         {
             private readonly T[] values;

@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.environment.tictactoe
 {

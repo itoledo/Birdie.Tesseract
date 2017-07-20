@@ -1,4 +1,4 @@
-﻿using System;
+﻿using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.collections
 {
@@ -89,6 +89,36 @@ namespace tvn.cosine.ai.common.collections
         void IQueue<T>.Insert(int index, T item)
         {
             throw new NotSupportedException();
+        }
+
+        public bool ContainsAll(IQueue<T> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAll(IQueue<T> items)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T[] ToArray()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reverse()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueue<T> subList(int startPos, int endPos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Set(int position, T item)
+        {
+            throw new NotImplementedException();
         }
     }
 }

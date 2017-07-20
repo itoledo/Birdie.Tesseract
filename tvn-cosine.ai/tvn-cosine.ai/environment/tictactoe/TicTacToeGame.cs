@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.environment.tictactoe
@@ -11,9 +12,7 @@ namespace tvn.cosine.ai.environment.tictactoe
      * 
      */
     public class TicTacToeGame : Game<TicTacToeState, XYLocation, string>
-    {
-
-
+    { 
         private TicTacToeState initialState = new TicTacToeState();
 
         public TicTacToeState getInitialState()

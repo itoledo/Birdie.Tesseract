@@ -101,6 +101,36 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException("Not supported");
         }
 
+        public bool ContainsAll(IQueue<T> other)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveAll(IQueue<T> items)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public T[] ToArray()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Reverse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IQueue<T> subList(int startPos, int endPos)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void IQueue<T>.Set(int position, T item)
+        {
+            throw new System.NotImplementedException();
+        }
+
         class Enumerator : IEnumerator<T>
         {
             private readonly T[] values;

@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.learning.neural
+﻿using tvn.cosine.ai.util.math;
+
+namespace tvn.cosine.ai.learning.neural
 {
     public interface FunctionApproximator
     { 

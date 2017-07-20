@@ -1,4 +1,7 @@
-﻿namespace tvn.cosine.ai.learning.neural
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.util.math;
+
+namespace tvn.cosine.ai.learning.neural
 {
     public class LayerSensitivity
     {
@@ -62,11 +65,10 @@
             IQueue<double> lst = Factory.CreateQueue<double>();
             for (int i = 0; i < lastInducedField.size(); i++)
             {
-                lst.Add(new Double(layer.getActivationFunction().deriv(
-                        lastInducedField.getValue(i))));
+                lst.Add(layer.getActivationFunction().deriv(
+                        lastInducedField.getValue(i)));
             }
             return Matrix.createDiagonalMatrix(lst);
         }
-    }
-
+    } 
 }
