@@ -19,28 +19,28 @@ namespace tvn.cosine.ai.environment.map
             this.map = map;
         }
 
-        public void addAgent(Agent a, string startLocation)
+        public void addAgent(IAgent a, string startLocation)
         {
             // Ensure the agent state information is tracked before
             // adding to super, as super will notify the registered
             // EnvironmentViews that is was added.
             state.setAgentLocationAndTravelDistance(a, startLocation, 0.0);
-            base.addAgent(a);
+            base.AddAgent(a);
         }
 
-        public string getAgentLocation(Agent a)
+        public string getAgentLocation(IAgent a)
         {
             return state.getAgentLocation(a);
         }
 
-        public double getAgentTravelDistance(Agent a)
+        public double getAgentTravelDistance(IAgent a)
         {
             return state.getAgentTravelDistance(a);
         }
 
-        public override void executeAction(Agent agent, Action a)
+        public override void executeAction(IAgent agent, IAction a)
         {
-            if (!a.isNoOp())
+            if (!a.IsNoOp())
             {
                 MoveToAction act = (MoveToAction)a;
 
@@ -55,7 +55,7 @@ namespace tvn.cosine.ai.environment.map
             }
         }
 
-        public override Percept getPerceptSeenBy(Agent anAgent)
+        public override IPercept getPerceptSeenBy(IAgent anAgent)
         {
             return new DynamicPercept(DynAttributeNames.PERCEPT_IN,
                     getAgentLocation(anAgent));

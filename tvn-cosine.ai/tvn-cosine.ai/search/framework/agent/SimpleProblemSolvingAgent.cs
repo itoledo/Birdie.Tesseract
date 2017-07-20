@@ -40,7 +40,7 @@ namespace tvn.cosine.ai.search.framework.agent
      * @author Ruediger Lunde
      */
     public abstract class SimpleProblemSolvingAgent<S, A> : AbstractAgent
-        where A : Action
+        where A : IAction
     {
         // seq, an action sequence, initially empty
         private IQueue<A> seq = Factory.CreateQueue<A>();
@@ -76,9 +76,9 @@ namespace tvn.cosine.ai.search.framework.agent
 
         // function SIMPLE-PROBLEM-SOLVING-AGENT(percept) returns an action
 
-        public override Action execute(Percept p)
+        public override IAction Execute(IPercept p)
         {
-            Action action = NoOpAction.NO_OP; // return value if at goal or goal not found
+            IAction action = NoOpAction.NO_OP; // return value if at goal or goal not found
 
             // state <- UPDATE-STATE(state, percept)
             updateState(p);
@@ -105,7 +105,7 @@ namespace tvn.cosine.ai.search.framework.agent
                 {
                     // Agent no longer wishes to
                     // achieve any more goals
-                    setAlive(false);
+                    SetAlive(false);
                     notifyViewOfMetrics();
                 }
             }
@@ -123,7 +123,7 @@ namespace tvn.cosine.ai.search.framework.agent
         //
         // PROTECTED METHODS
         //
-        protected abstract void updateState(Percept p);
+        protected abstract void updateState(IPercept p);
 
         protected abstract object formulateGoal();
 

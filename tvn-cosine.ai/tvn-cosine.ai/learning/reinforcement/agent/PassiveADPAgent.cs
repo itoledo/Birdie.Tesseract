@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
      * 
      */
     public class PassiveADPAgent<S, A> : ReinforcementAgent<S, A>
-        where A : Action
+        where A : IAction
     {
         // persistent: &pi;, a fixed policy
         private IMap<S, A> pi = Factory.CreateMap<S, A>();

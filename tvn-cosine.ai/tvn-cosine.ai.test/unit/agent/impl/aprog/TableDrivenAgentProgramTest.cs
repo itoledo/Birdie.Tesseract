@@ -10,16 +10,16 @@ namespace tvn_cosine.ai.test.unit.agent.impl.aprog
     public class TableDrivenAgentProgramTest
     {
 
-        private static readonly Action ACTION_1 = new DynamicAction("action1");
-        private static readonly Action ACTION_2 = new DynamicAction("action2");
-        private static readonly Action ACTION_3 = new DynamicAction("action3");
+        private static readonly IAction ACTION_1 = new DynamicAction("action1");
+        private static readonly IAction ACTION_2 = new DynamicAction("action2");
+        private static readonly IAction ACTION_3 = new DynamicAction("action3");
 
         private AbstractAgent agent;
 
         [TestInitialize]
         public void setUp()
         {
-            IMap<IQueue<Percept>, Action> perceptSequenceActions = Factory.CreateMap<IQueue<Percept>, Action>();
+            IMap<IQueue<IPercept>, IAction> perceptSequenceActions = Factory.CreateMap<IQueue<IPercept>, IAction>();
             perceptSequenceActions.Put(createPerceptSequence(new DynamicPercept("key1", "value1")), ACTION_1);
             perceptSequenceActions.Put(createPerceptSequence(new DynamicPercept("key1", "value1"),
                             new DynamicPercept("key1", "value2")), ACTION_2);
@@ -34,27 +34,27 @@ namespace tvn_cosine.ai.test.unit.agent.impl.aprog
         public void testExistingSequences()
         {
             Assert.AreEqual(ACTION_1,
-                    agent.execute(new DynamicPercept("key1", "value1")));
+                    agent.Execute(new DynamicPercept("key1", "value1")));
             Assert.AreEqual(ACTION_2,
-                    agent.execute(new DynamicPercept("key1", "value2")));
+                    agent.Execute(new DynamicPercept("key1", "value2")));
             Assert.AreEqual(ACTION_3,
-                    agent.execute(new DynamicPercept("key1", "value3")));
+                    agent.Execute(new DynamicPercept("key1", "value3")));
         }
 
         [TestMethod]
         public void testNonExistingSequence()
         {
             Assert.AreEqual(ACTION_1,
-                    agent.execute(new DynamicPercept("key1", "value1")));
+                    agent.Execute(new DynamicPercept("key1", "value1")));
             Assert.AreEqual(NoOpAction.NO_OP,
-                    agent.execute(new DynamicPercept("key1", "value3")));
+                    agent.Execute(new DynamicPercept("key1", "value3")));
         }
 
-        private static IQueue<Percept> createPerceptSequence(params Percept[] percepts)
+        private static IQueue<IPercept> createPerceptSequence(params IPercept[] percepts)
         {
-            IQueue<Percept> perceptSequence = Factory.CreateQueue<Percept>();
+            IQueue<IPercept> perceptSequence = Factory.CreateQueue<IPercept>();
 
-            foreach (Percept p in percepts)
+            foreach (IPercept p in percepts)
             {
                 perceptSequence.Add(p);
             }

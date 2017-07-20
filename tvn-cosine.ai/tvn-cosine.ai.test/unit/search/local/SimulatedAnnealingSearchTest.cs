@@ -12,7 +12,7 @@ namespace tvn_cosine.ai.test.unit.search.local
         {
             // this isn't very nice. the object's state is uninitialized but is ok
             // for this test.
-            SimulatedAnnealingSearch<string, Action> search = new SimulatedAnnealingSearch<string, Action>(null);
+            SimulatedAnnealingSearch<string, IAction> search = new SimulatedAnnealingSearch<string, IAction>(null);
             int deltaE = -1;
             double higherTemperature = 30.0;
             double lowerTemperature = 29.5;

@@ -35,7 +35,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
      * 
      */
     public class ModifiedPolicyEvaluation<S, A> : PolicyEvaluation<S, A>
-        where A : Action
+        where A : IAction
     {
         // # iterations to use to produce the next utility estimate
         private int k;

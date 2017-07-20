@@ -1,8 +1,8 @@
 ﻿namespace tvn.cosine.ai.agent.impl
 { 
-    public abstract class AbstractAgent : Agent
+    public abstract class AbstractAgent : IAgent
     {
-        protected AgentProgram program;
+        protected IAgentProgram program;
         private bool alive = true;
 
         public AbstractAgent()
@@ -14,26 +14,26 @@
          * @param aProgram
          *            the Agent's program, which maps any given percept sequences to an action.
          */
-        public AbstractAgent(AgentProgram aProgram)
+        public AbstractAgent(IAgentProgram aProgram)
         {
             program = aProgram;
         }
          
-        public virtual Action execute(Percept p)
+        public virtual IAction Execute(IPercept p)
         {
             if (null != program)
             {
-                return program.execute(p);
+                return program.Execute(p);
             }
             return NoOpAction.NO_OP;
         }
 
-        public virtual bool isAlive()
+        public virtual bool IsAlive()
         {
             return alive;
         }
 
-        public virtual void setAlive(bool alive)
+        public virtual void SetAlive(bool alive)
         {
             this.alive = alive;
         } 

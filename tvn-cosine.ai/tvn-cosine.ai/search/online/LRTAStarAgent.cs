@@ -46,10 +46,10 @@ namespace tvn.cosine.ai.search.online
      * @author Mike Stampone
      */
     public class LRTAStarAgent<S, A> : AbstractAgent
-        where A : Action
+        where A : IAction
     {
         private OnlineSearchProblem<S, A> problem;
-        private Function<Percept, S> ptsFn;
+        private Function<IPercept, S> ptsFn;
         private ToDoubleFunction<S> h;
         // persistent: result, a table, indexed by state and action, initially empty
         private TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<S, A, S>();
@@ -73,7 +73,7 @@ namespace tvn.cosine.ai.search.online
          *            the cheapest path from the state at node <em>n</em> to a goal
          *            state.
          */
-        public LRTAStarAgent(OnlineSearchProblem<S, A> problem, Function<Percept, S> ptsFn, ToDoubleFunction<S> h)
+        public LRTAStarAgent(OnlineSearchProblem<S, A> problem, Function<IPercept, S> ptsFn, ToDoubleFunction<S> h)
         {
             setProblem(problem);
             setPerceptToStateFunction(ptsFn);
@@ -107,7 +107,7 @@ namespace tvn.cosine.ai.search.online
          * 
          * @return the percept to state function of this agent.
          */
-        public Function<Percept, S> getPerceptToStateFunction()
+        public Function<IPercept, S> getPerceptToStateFunction()
         {
             return ptsFn;
         }
@@ -119,7 +119,7 @@ namespace tvn.cosine.ai.search.online
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public void setPerceptToStateFunction(Function<Percept, S> ptsFn)
+        public void setPerceptToStateFunction(Function<IPercept, S> ptsFn)
         {
             this.ptsFn = ptsFn;
         }
@@ -148,7 +148,7 @@ namespace tvn.cosine.ai.search.online
         // function LRTA*-AGENT(s') returns an action
         // inputs: s', a percept that identifies the current state
 
-        public override Action execute(Percept psPrimed)
+        public override IAction Execute(IPercept psPrimed)
         {
             S sPrimed = ptsFn(psPrimed);
             // if GOAL-TEST(s') then return stop
@@ -205,7 +205,7 @@ namespace tvn.cosine.ai.search.online
             {
                 // I'm either at the Goal or can't get to it,
                 // which in either case I'm finished so just die.
-                setAlive(false);
+                SetAlive(false);
             }
             // return a
             return a;
@@ -216,7 +216,7 @@ namespace tvn.cosine.ai.search.online
         //
         private void init()
         {
-            setAlive(true);
+            SetAlive(true);
             result.Clear();
             H.Clear();
             s = default(S);

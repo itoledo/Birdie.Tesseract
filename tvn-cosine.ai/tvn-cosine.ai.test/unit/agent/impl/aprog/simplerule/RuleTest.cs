@@ -9,8 +9,8 @@ namespace tvn_cosine.ai.test.unit.agent.impl.aprog.simplerule
     public class RuleTest
     {
 
-        private static readonly Action ACTION_INITIATE_BRAKING = new DynamicAction("initiate-braking");
-        private static readonly Action ACTION_EMERGENCY_BRAKING = new DynamicAction("emergency-braking");
+        private static readonly IAction ACTION_INITIATE_BRAKING = new DynamicAction("initiate-braking");
+        private static readonly IAction ACTION_EMERGENCY_BRAKING = new DynamicAction("emergency-braking");
         //
         private const string ATTRIBUTE_CAR_IN_FRONT_IS_BRAKING = "car-in-front-is-braking";
         private const string ATTRIBUTE_CAR_IN_FRONT_IS_INDICATING = "car-in-front-is-indicating";

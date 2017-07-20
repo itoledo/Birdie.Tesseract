@@ -7,7 +7,7 @@
     {
         public static readonly NoOpAction NO_OP = new NoOpAction();
          
-        public override bool isNoOp()
+        public override bool IsNoOp()
         {
             return true;
         }

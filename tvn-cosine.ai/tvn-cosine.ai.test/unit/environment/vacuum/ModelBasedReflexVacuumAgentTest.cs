@@ -26,9 +26,9 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
                     VacuumEnvironment.LocationState.Clean);
             tve.addAgent(agent, VacuumEnvironment.LOCATION_A);
 
-            tve.addEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
+            tve.AddEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
 
-            tve.stepUntilDone();
+            tve.StepUntilDone();
 
             Assert.AreEqual("Action[name==Right]Action[name==NoOp]",
                     envChanges.ToString());
@@ -42,9 +42,9 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
                     VacuumEnvironment.LocationState.Dirty);
             tve.addAgent(agent, VacuumEnvironment.LOCATION_A);
 
-            tve.addEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
+            tve.AddEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
 
-            tve.stepUntilDone();
+            tve.StepUntilDone();
 
             Assert.AreEqual(
                     "Action[name==Right]Action[name==Suck]Action[name==NoOp]",
@@ -59,9 +59,9 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
                     VacuumEnvironment.LocationState.Clean);
             tve.addAgent(agent, VacuumEnvironment.LOCATION_A);
 
-            tve.addEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
+            tve.AddEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
 
-            tve.stepUntilDone();
+            tve.StepUntilDone();
 
             Assert.AreEqual(
                     "Action[name==Suck]Action[name==Right]Action[name==NoOp]",
@@ -76,9 +76,9 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
                     VacuumEnvironment.LocationState.Dirty);
             tve.addAgent(agent, VacuumEnvironment.LOCATION_A);
 
-            tve.addEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
+            tve.AddEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
 
-            tve.stepUntilDone();
+            tve.StepUntilDone();
 
             Assert.AreEqual(
                     "Action[name==Suck]Action[name==Right]Action[name==Suck]Action[name==NoOp]",
@@ -95,26 +95,26 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
 
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
-            Assert.AreEqual(1, tve.getAgents().Size());
-            tve.step(); // cleans location A
+            Assert.AreEqual(1, tve.GetAgents().Size());
+            tve.Step(); // cleans location A
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
-            tve.step(); // moves to lcation B
+            tve.Step(); // moves to lcation B
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Dirty,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            tve.step(); // cleans location B
+            tve.Step(); // cleans location B
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            tve.step(); // NOOP
+            tve.Step(); // NOOP
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
-            Assert.AreEqual(19, tve.getPerformanceMeasure(agent), 0.001);
+            Assert.AreEqual(19, tve.GetPerformanceMeasure(agent), 0.001);
         }
 
         [TestMethod]
@@ -127,30 +127,30 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
 
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
-            Assert.AreEqual(1, tve.getAgents().Size());
-            tve.step(); // cleans location B
+            Assert.AreEqual(1, tve.GetAgents().Size());
+            tve.Step(); // cleans location B
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            tve.step(); // moves to lcation A
+            tve.Step(); // moves to lcation A
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Dirty,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
-            tve.step(); // cleans location A
+            tve.Step(); // cleans location A
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
-            tve.step(); // NOOP
+            tve.Step(); // NOOP
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            Assert.AreEqual(19, tve.getPerformanceMeasure(agent), 0.001);
+            Assert.AreEqual(19, tve.GetPerformanceMeasure(agent), 0.001);
         }
 
         [TestMethod]
@@ -163,20 +163,20 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
 
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
-            Assert.AreEqual(1, tve.getAgents().Size());
-            tve.step(); // moves to location B
+            Assert.AreEqual(1, tve.GetAgents().Size());
+            tve.Step(); // moves to location B
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            tve.step(); // NOOP
+            tve.Step(); // NOOP
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            Assert.AreEqual(-1, tve.getPerformanceMeasure(agent), 0.001);
+            Assert.AreEqual(-1, tve.GetPerformanceMeasure(agent), 0.001);
         }
 
         [TestMethod]
@@ -189,20 +189,20 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
 
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
-            Assert.AreEqual(1, tve.getAgents().Size());
-            tve.step(); // moves to location A
+            Assert.AreEqual(1, tve.GetAgents().Size());
+            tve.Step(); // moves to location A
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
-            tve.step(); // NOOP
+            tve.Step(); // NOOP
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            Assert.AreEqual(-1, tve.getPerformanceMeasure(agent), 0.001);
+            Assert.AreEqual(-1, tve.GetPerformanceMeasure(agent), 0.001);
         }
 
         [TestMethod]
@@ -215,25 +215,25 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
 
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
-            Assert.AreEqual(1, tve.getAgents().Size());
-            tve.step(); // moves to B
+            Assert.AreEqual(1, tve.GetAgents().Size());
+            tve.Step(); // moves to B
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Dirty,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            tve.step(); // cleans location B
+            tve.Step(); // cleans location B
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            tve.step(); // NOOP
+            tve.Step(); // NOOP
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            Assert.AreEqual(9, tve.getPerformanceMeasure(agent), 0.001);
+            Assert.AreEqual(9, tve.GetPerformanceMeasure(agent), 0.001);
         }
 
         [TestMethod]
@@ -246,25 +246,25 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
 
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
-            Assert.AreEqual(1, tve.getAgents().Size());
-            tve.step(); // cleans B
+            Assert.AreEqual(1, tve.GetAgents().Size());
+            tve.Step(); // cleans B
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            tve.step(); // moves to A
+            tve.Step(); // moves to A
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
-            tve.step(); // NOOP
+            tve.Step(); // NOOP
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            Assert.AreEqual(9, tve.getPerformanceMeasure(agent), 0.001);
+            Assert.AreEqual(9, tve.GetPerformanceMeasure(agent), 0.001);
         }
 
         [TestMethod]
@@ -277,25 +277,25 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
 
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
-            Assert.AreEqual(1, tve.getAgents().Size());
-            tve.step(); // cleans A
+            Assert.AreEqual(1, tve.GetAgents().Size());
+            tve.Step(); // cleans A
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
-            tve.step(); // moves to B
+            tve.Step(); // moves to B
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            tve.step(); // NOOP
+            tve.Step(); // NOOP
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            Assert.AreEqual(9, tve.getPerformanceMeasure(agent), 0.001);
+            Assert.AreEqual(9, tve.GetPerformanceMeasure(agent), 0.001);
         }
 
         [TestMethod]
@@ -308,25 +308,25 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
 
             Assert.AreEqual(VacuumEnvironment.LOCATION_B,
                     tve.getAgentLocation(agent));
-            Assert.AreEqual(1, tve.getAgents().Size());
-            tve.step(); // moves to A
+            Assert.AreEqual(1, tve.GetAgents().Size());
+            tve.Step(); // moves to A
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Dirty,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
-            tve.step(); // cleans A
+            tve.Step(); // cleans A
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
-            tve.step(); // NOOP
+            tve.Step(); // NOOP
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(agent));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_A));
             Assert.AreEqual(VacuumEnvironment.LocationState.Clean,
                     tve.getLocationState(VacuumEnvironment.LOCATION_B));
-            Assert.AreEqual(9, tve.getPerformanceMeasure(agent), 0.001);
+            Assert.AreEqual(9, tve.GetPerformanceMeasure(agent), 0.001);
         }
     }
 }

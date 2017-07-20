@@ -4,7 +4,7 @@
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class DynamicAction : ObjectWithDynamicAttributes, Action
+    public class DynamicAction : ObjectWithDynamicAttributes, IAction
     {
         public const string ATTRIBUTE_NAME = "name";
          
@@ -23,7 +23,7 @@
             return (string)getAttribute(ATTRIBUTE_NAME);
         }
          
-        public virtual bool isNoOp()
+        public virtual bool IsNoOp()
         {
             return false;
         }

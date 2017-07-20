@@ -15,19 +15,19 @@ namespace tvn_cosine.ai.demo.agent
         public static void Main(params string[] args)
         {
             // create environment with random state of cleaning.
-            Environment env = new VacuumEnvironment();
-            EnvironmentView view = new SimpleEnvironmentView();
-            env.addEnvironmentView(view);
+            IEnvironment env = new VacuumEnvironment();
+            IEnvironmentView view = new SimpleEnvironmentView();
+            env.AddEnvironmentView(view);
 
-            Agent a = null;
+            IAgent a = null;
             a = new ModelBasedReflexVacuumAgent();
             // a = new ReflexVacuumAgent();
             // a = new SimpleReflexVacuumAgent();
             // a = new TableDrivenVacuumAgent();
 
-            env.addAgent(a);
-            env.step(16);
-            env.notifyViews("Performance=" + env.getPerformanceMeasure(a));
+            env.AddAgent(a);
+            env.Step(16);
+            env.NotifyViews("Performance=" + env.GetPerformanceMeasure(a));
         }
     }
 }

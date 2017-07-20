@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
      * 
      */
     public class PassiveTDAgent<S, A> : ReinforcementAgent<S, A>
-        where A : Action
+        where A : IAction
     {
         // persistent: &pi;, a fixed policy
         private IMap<S, A> pi = Factory.CreateMap<S, A>();
@@ -163,8 +163,8 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         private bool isTerminal(S s)
         {
             bool terminal = false;
-            Action a = pi.Get(s);
-            if (null == a || a.isNoOp())
+            IAction a = pi.Get(s);
+            if (null == a || a.IsNoOp())
             {
                 // No actions possible in state is considered terminal.
                 terminal = true;

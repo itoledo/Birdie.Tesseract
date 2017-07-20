@@ -42,7 +42,7 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
             tve.addAgent(a, VacuumEnvironment.LOCATION_A);
             Assert.AreEqual(VacuumEnvironment.LOCATION_A,
                     tve.getAgentLocation(a));
-            Assert.AreEqual(1, tve.getAgents().Size());
+            Assert.AreEqual(1, tve.GetAgents().Size());
         }
     }
 

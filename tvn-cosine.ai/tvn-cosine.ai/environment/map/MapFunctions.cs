@@ -73,7 +73,7 @@ namespace tvn.cosine.ai.environment.map
             };
         }
 
-        public static Function<Percept, string> createPerceptToStateFunction()
+        public static Function<IPercept, string> createPerceptToStateFunction()
         {
             return (p) => (string)((DynamicPercept)p).getAttribute(DynAttributeNames.PERCEPT_IN);
         }

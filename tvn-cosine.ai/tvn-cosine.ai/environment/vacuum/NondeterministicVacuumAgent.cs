@@ -15,12 +15,12 @@ namespace tvn.cosine.ai.environment.vacuum
      */
     public class NondeterministicVacuumAgent : AbstractAgent
     {
-        private NondeterministicProblem<object, Action> problem;
-        private Function<Percept, object> ptsFunction;
+        private NondeterministicProblem<object, IAction> problem;
+        private Function<IPercept, object> ptsFunction;
         private Plan contingencyPlan;
         private IQueue<object> stack = Factory.CreateLifoQueue<object>();
 
-        public NondeterministicVacuumAgent(Function<Percept, object> ptsFunction)
+        public NondeterministicVacuumAgent(Function<IPercept, object> ptsFunction)
         {
             setPerceptToStateFunction(ptsFunction);
         }
@@ -30,7 +30,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * 
          * @return the search problem for this agent.
          */
-        public NondeterministicProblem<object, Action> getProblem()
+        public NondeterministicProblem<object, IAction> getProblem()
         {
             return problem;
         }
@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * @param problem
          *            the search problem for this agent to solve.
          */
-        public void setProblem(NondeterministicProblem<object, Action> problem)
+        public void setProblem(NondeterministicProblem<object, IAction> problem)
         {
             this.problem = problem;
             init();
@@ -52,7 +52,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * 
          * @return the percept to state function of this agent.
          */
-        public Function<Percept, object> getPerceptToStateFunction()
+        public Function<IPercept, object> getPerceptToStateFunction()
         {
             return ptsFunction;
         }
@@ -64,7 +64,7 @@ namespace tvn.cosine.ai.environment.vacuum
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public void setPerceptToStateFunction(Function<Percept, object> ptsFunction)
+        public void setPerceptToStateFunction(Function<IPercept, object> ptsFunction)
         {
             this.ptsFunction = ptsFunction;
         }
@@ -89,7 +89,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * @param percept a percept.
          * @return an action from the contingency plan.
          */
-        public override Action execute(Percept percept)
+        public override IAction Execute(IPercept percept)
         {
             // check if goal state
             VacuumEnvironmentState state = (VacuumEnvironmentState)this
@@ -114,9 +114,9 @@ namespace tvn.cosine.ai.environment.vacuum
             // pop...
             object currentStep = this.stack.Peek();
             // push...
-            if (currentStep is Action)
+            if (currentStep is IAction)
             {
-                return (Action)this.stack.Pop();
+                return (IAction)this.stack.Pop();
             } // case: next step is a plan
             else if (currentStep is Plan)
             {
@@ -129,18 +129,18 @@ namespace tvn.cosine.ai.environment.vacuum
                 {
                     this.stack.Pop();
                 }
-                return this.execute(percept);
+                return this.Execute(percept);
             } // case: next step is an if-then
             else if (currentStep is IfStateThenPlan)
             {
                 IfStateThenPlan conditional = (IfStateThenPlan)this.stack.Pop();
                 this.stack.Add(conditional.ifStateMatches(percept));
-                return this.execute(percept);
+                return this.Execute(percept);
             } // case: ignore next step if null
             else if (currentStep == null)
             {
                 this.stack.Pop();
-                return this.execute(percept);
+                return this.Execute(percept);
             }
             else
             {
@@ -153,9 +153,9 @@ namespace tvn.cosine.ai.environment.vacuum
         //
         private void init()
         {
-            setAlive(true);
+            SetAlive(true);
             stack.Clear();
-            AndOrSearch<object, Action> andOrSearch = new AndOrSearch<object, Action>();
+            AndOrSearch<object, IAction> andOrSearch = new AndOrSearch<object, IAction>();
             this.contingencyPlan = andOrSearch.search(this.problem);
         }
     }

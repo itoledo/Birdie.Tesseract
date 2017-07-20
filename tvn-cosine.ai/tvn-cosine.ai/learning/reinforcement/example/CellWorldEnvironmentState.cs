@@ -10,9 +10,9 @@ namespace tvn.cosine.ai.learning.reinforcement.example
      * @author Ciaran O'Reilly
      * 
      */
-    public class CellWorldEnvironmentState : EnvironmentState
+    public class CellWorldEnvironmentState : IEnvironmentState
     { 
-        private IMap<Agent, CellWorldPercept> agentLocations = Factory.CreateMap<Agent, CellWorldPercept>();
+        private IMap<IAgent, CellWorldPercept> agentLocations = Factory.CreateMap<IAgent, CellWorldPercept>();
 
         /**
          * Default Constructor.
@@ -36,7 +36,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
          * @param location
          *            the location for the agent in the cell world environment.
          */
-        public void setAgentLocation(Agent anAgent, Cell<double> location)
+        public void setAgentLocation(IAgent anAgent, Cell<double> location)
         {
             CellWorldPercept percept = agentLocations.Get(anAgent);
             if (null == percept)
@@ -57,7 +57,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
          *            the agent whose location is being queried.
          * @return the location of the agent within the cell world environment.
          */
-        public Cell<double> getAgentLocation(Agent anAgent)
+        public Cell<double> getAgentLocation(IAgent anAgent)
         {
             return agentLocations.Get(anAgent).getCell();
         }
@@ -71,7 +71,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
          * @return a percept for the agent, representing what it senses within the
          *         cell world environment.
          */
-        public CellWorldPercept getPerceptFor(Agent anAgent)
+        public CellWorldPercept getPerceptFor(IAgent anAgent)
         {
             return agentLocations.Get(anAgent);
         }

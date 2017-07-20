@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.probability.mdp
      * @author Ravi Mohan
      */
     public interface TransitionProbabilityFunction<S, A>
-        where A : Action
+        where A : IAction
     {
 
         /**

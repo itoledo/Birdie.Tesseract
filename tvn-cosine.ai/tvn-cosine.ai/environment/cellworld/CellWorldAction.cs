@@ -16,7 +16,7 @@ namespace tvn.cosine.ai.environment.cellworld
      * @author Ciaran O'Reilly
      * 
      */
-    public class CellWorldAction : Action
+    public class CellWorldAction : IAction
     {
         public static readonly CellWorldAction Up = new CellWorldAction();
         public static readonly CellWorldAction Down = new CellWorldAction();
@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.environment.cellworld
             return Factory.CreateReadOnlySet<CellWorldAction>(_actions);
         }
 
-        public bool isNoOp()
+        public bool IsNoOp()
         {
             if (None == this)
             {

@@ -77,14 +77,14 @@ namespace tvn.cosine.ai.environment.wumpusworld
 
         public EfficientHybridWumpusAgent(int caveXDim, int caveYDim, AgentPosition start,
             DPLL satSolver,
-            EnvironmentViewNotifier notifier)
+            IEnvironmentViewNotifier notifier)
             : this(caveXDim, caveYDim, start,
                 new WumpusKnowledgeBase(caveXDim, caveYDim, start, satSolver), notifier)
         { }
 
         public EfficientHybridWumpusAgent(int caveXDim, int caveYDim,
             AgentPosition start, WumpusKnowledgeBase kb,
-            EnvironmentViewNotifier notifier)
+            IEnvironmentViewNotifier notifier)
             : base(caveXDim, caveYDim, start, kb, notifier)
         {
             getKB().disableNavSentences(); // Optimization: Verbosity of produced sentences is reduced.
@@ -100,7 +100,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
          *
          * @return an action the agent should take.
          */
-        public override Action execute(Percept percept)
+        public override IAction Execute(IPercept percept)
         {
 
             // TELL(KB, MAKE-PERCEPT-SENTENCE(percept, t))

@@ -26,9 +26,9 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
                     VacuumEnvironment.LocationState.Clean);
             tve.addAgent(agent, VacuumEnvironment.LOCATION_A);
 
-            tve.addEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
+            tve.AddEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
 
-            tve.stepUntilDone();
+            tve.StepUntilDone();
 
             Assert.AreEqual(
                     "Action[name==Right]Action[name==Left]Action[name==Right]Action[name==NoOp]",
@@ -43,9 +43,9 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
                     VacuumEnvironment.LocationState.Dirty);
             tve.addAgent(agent, VacuumEnvironment.LOCATION_A);
 
-            tve.addEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
+            tve.AddEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
 
-            tve.stepUntilDone();
+            tve.StepUntilDone();
 
             Assert.AreEqual(
                     "Action[name==Right]Action[name==Suck]Action[name==Left]Action[name==NoOp]",
@@ -60,9 +60,9 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
                     VacuumEnvironment.LocationState.Clean);
             tve.addAgent(agent, VacuumEnvironment.LOCATION_A);
 
-            tve.addEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
+            tve.AddEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
 
-            tve.stepUntilDone();
+            tve.StepUntilDone();
 
             Assert.AreEqual(
                     "Action[name==Suck]Action[name==Right]Action[name==Left]Action[name==NoOp]",
@@ -77,9 +77,9 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
                     VacuumEnvironment.LocationState.Dirty);
             tve.addAgent(agent, VacuumEnvironment.LOCATION_A);
 
-            tve.addEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
+            tve.AddEnvironmentView(new VacuumEnvironmentViewActionTracker(envChanges));
 
-            tve.stepUntilDone();
+            tve.StepUntilDone();
 
             Assert.AreEqual(
                     "Action[name==Suck]Action[name==Right]Action[name==Suck]Action[name==NoOp]",

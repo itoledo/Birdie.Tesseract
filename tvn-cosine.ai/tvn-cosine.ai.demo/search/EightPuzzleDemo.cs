@@ -40,9 +40,9 @@ namespace tvn_cosine.ai.demo.search
             System.Console.WriteLine("\nEightPuzzleDemo recursive DLS (9) -->");
             try
             {
-                Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
-                SearchForActions<EightPuzzleBoard, Action> search = new DepthLimitedSearch<EightPuzzleBoard, Action>(9);
-                SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<EightPuzzleBoard, Action>(problem, search);
+                Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
+                SearchForActions<EightPuzzleBoard, IAction> search = new DepthLimitedSearch<EightPuzzleBoard, IAction>(9);
+                SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
                 printActions(agent.getActions());
                 printInstrumentation(agent.getInstrumentation());
             }
@@ -58,9 +58,9 @@ namespace tvn_cosine.ai.demo.search
             System.Console.WriteLine("\nEightPuzzleDemo Iterative DLS -->");
             try
             {
-                Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(random1);
-                SearchForActions<EightPuzzleBoard, Action> search = new IterativeDeepeningSearch<EightPuzzleBoard, Action>();
-                SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<EightPuzzleBoard, Action>(problem, search);
+                Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(random1);
+                SearchForActions<EightPuzzleBoard, IAction> search = new IterativeDeepeningSearch<EightPuzzleBoard, IAction>();
+                SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
                 printActions(agent.getActions());
                 printInstrumentation(agent.getInstrumentation());
             }
@@ -76,10 +76,10 @@ namespace tvn_cosine.ai.demo.search
             System.Console.WriteLine("\nEightPuzzleDemo Greedy Best First Search (MisplacedTileHeursitic)-->");
             try
             {
-                Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
-                SearchForActions<EightPuzzleBoard, Action> search = new GreedyBestFirstSearch<EightPuzzleBoard, Action>
-                        (new GraphSearch<EightPuzzleBoard, Action>(), EightPuzzleFunctions.createMisplacedTileHeuristicFunction());
-                SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<EightPuzzleBoard, Action>(problem, search);
+                Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
+                SearchForActions<EightPuzzleBoard, IAction> search = new GreedyBestFirstSearch<EightPuzzleBoard, IAction>
+                        (new GraphSearch<EightPuzzleBoard, IAction>(), EightPuzzleFunctions.createMisplacedTileHeuristicFunction());
+                SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
                 printActions(agent.getActions());
                 printInstrumentation(agent.getInstrumentation());
             }
@@ -95,10 +95,10 @@ namespace tvn_cosine.ai.demo.search
             System.Console.WriteLine("\nEightPuzzleDemo Greedy Best First Search (ManhattanHeursitic)-->");
             try
             {
-                Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
-                SearchForActions<EightPuzzleBoard, Action> search = new GreedyBestFirstSearch<EightPuzzleBoard, Action>
-                        (new GraphSearch<EightPuzzleBoard, Action>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
-                SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<EightPuzzleBoard, Action>(problem, search);
+                Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
+                SearchForActions<EightPuzzleBoard, IAction> search = new GreedyBestFirstSearch<EightPuzzleBoard, IAction>
+                        (new GraphSearch<EightPuzzleBoard, IAction>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
+                SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
                 printActions(agent.getActions());
                 printInstrumentation(agent.getInstrumentation());
             }
@@ -114,10 +114,10 @@ namespace tvn_cosine.ai.demo.search
             System.Console.WriteLine("\nEightPuzzleDemo AStar Search (MisplacedTileHeursitic)-->");
             try
             {
-                Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(random1);
-                SearchForActions<EightPuzzleBoard, Action> search = new AStarSearch<EightPuzzleBoard, Action>
-                        (new GraphSearch<EightPuzzleBoard, Action>(), EightPuzzleFunctions.createMisplacedTileHeuristicFunction());
-                SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<EightPuzzleBoard, Action>(problem, search);
+                Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(random1);
+                SearchForActions<EightPuzzleBoard, IAction> search = new AStarSearch<EightPuzzleBoard, IAction>
+                        (new GraphSearch<EightPuzzleBoard, IAction>(), EightPuzzleFunctions.createMisplacedTileHeuristicFunction());
+                SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
                 printActions(agent.getActions());
                 printInstrumentation(agent.getInstrumentation());
             }
@@ -133,10 +133,10 @@ namespace tvn_cosine.ai.demo.search
             System.Console.WriteLine("\nEightPuzzleDemo Simulated Annealing  Search -->");
             try
             {
-                Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(random1);
-                SimulatedAnnealingSearch<EightPuzzleBoard, Action> search = new SimulatedAnnealingSearch<EightPuzzleBoard, Action>
+                Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(random1);
+                SimulatedAnnealingSearch<EightPuzzleBoard, IAction> search = new SimulatedAnnealingSearch<EightPuzzleBoard, IAction>
                         (EightPuzzleFunctions.createManhattanHeuristicFunction());
-                SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<EightPuzzleBoard, Action>(problem, search);
+                SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
                 printActions(agent.getActions());
                 System.Console.WriteLine("Search Outcome=" + search.getOutcome());
                 System.Console.WriteLine("Final State=\n" + search.getLastSearchState());
@@ -153,10 +153,10 @@ namespace tvn_cosine.ai.demo.search
             System.Console.WriteLine("\nEightPuzzleDemo AStar Search (ManhattanHeursitic)-->");
             try
             {
-                Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(random1);
-                SearchForActions<EightPuzzleBoard, Action> search = new AStarSearch<EightPuzzleBoard, Action>
-                        (new GraphSearch<EightPuzzleBoard, Action>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
-                SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<EightPuzzleBoard, Action>(problem, search);
+                Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(random1);
+                SearchForActions<EightPuzzleBoard, IAction> search = new AStarSearch<EightPuzzleBoard, IAction>
+                        (new GraphSearch<EightPuzzleBoard, IAction>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
+                SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
                 printActions(agent.getActions());
                 printInstrumentation(agent.getInstrumentation());
             }
@@ -178,9 +178,9 @@ namespace tvn_cosine.ai.demo.search
 
         }
 
-        private static void printActions(IQueue<Action> actions)
+        private static void printActions(IQueue<IAction> actions)
         {
-            foreach (Action action in actions)
+            foreach (IAction action in actions)
                 System.Console.WriteLine(action);
         }
     }

@@ -42,12 +42,12 @@ namespace tvn.cosine.ai.search.online
      * 
      */
     public class OnlineDFSAgent<S, A> : AbstractAgent
-        where A : Action
+        where A : IAction
     {
 
 
         private OnlineSearchProblem<S, A> problem;
-        private Function<Percept, S> ptsFn;
+        private Function<IPercept, S> ptsFn;
         // persistent: result, a table, indexed by state and action, initially empty
         private TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<S, A, S>();
         // untried, a table that lists, for each state, the actions not yet tried
@@ -69,7 +69,7 @@ namespace tvn.cosine.ai.search.online
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public OnlineDFSAgent(OnlineSearchProblem<S, A> problem, Function<Percept, S> ptsFn)
+        public OnlineDFSAgent(OnlineSearchProblem<S, A> problem, Function<IPercept, S> ptsFn)
         {
             setProblem(problem);
             setPerceptToStateFunction(ptsFn);
@@ -102,7 +102,7 @@ namespace tvn.cosine.ai.search.online
          * 
          * @return the percept to state function of this agent.
          */
-        public Function<Percept, S> getPerceptToStateFunction()
+        public Function<IPercept, S> getPerceptToStateFunction()
         {
             return ptsFn;
         }
@@ -114,7 +114,7 @@ namespace tvn.cosine.ai.search.online
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public void setPerceptToStateFunction(Function<Percept, S> ptsFn)
+        public void setPerceptToStateFunction(Function<IPercept, S> ptsFn)
         {
             this.ptsFn = ptsFn;
         }
@@ -122,7 +122,7 @@ namespace tvn.cosine.ai.search.online
         // function ONLINE-DFS-AGENT(s') returns an action
         // inputs: s', a percept that identifies the current state
 
-        public override Action execute(Percept psPrimed)
+        public override IAction Execute(IPercept psPrimed)
         {
             S sPrimed = ptsFn(psPrimed);
             // if GOAL-TEST(s') then return stop
@@ -195,7 +195,7 @@ namespace tvn.cosine.ai.search.online
             {
                 // I'm either at the Goal or can't get to it,
                 // which in either case I'm finished so just die.
-                setAlive(false);
+                SetAlive(false);
             }
 
             // s <- s'
@@ -210,7 +210,7 @@ namespace tvn.cosine.ai.search.online
 
         private void init()
         {
-            setAlive(true);
+            SetAlive(true);
             result.Clear();
             untried.Clear();
             unbacktracked.Clear();

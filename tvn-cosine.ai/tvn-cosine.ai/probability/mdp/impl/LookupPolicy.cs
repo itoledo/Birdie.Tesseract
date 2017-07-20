@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
      * @author Ciaran O'Reilly
      */
     public class LookupPolicy<S, A> : Policy<S, A>
-        where A : Action
+        where A : IAction
     {
         private IMap<S, A> policy = Factory.CreateMap<S, A>();
 

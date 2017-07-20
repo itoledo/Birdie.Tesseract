@@ -10,9 +10,9 @@ namespace tvn.cosine.ai.environment.eightpuzzle
     {
         public static readonly EightPuzzleBoard GOAL_STATE = new EightPuzzleBoard(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
 
-        public static IQueue<Action> getActions(EightPuzzleBoard state)
+        public static IQueue<IAction> getActions(EightPuzzleBoard state)
         {
-            IQueue<Action> actions = Factory.CreateQueue<Action>();
+            IQueue<IAction> actions = Factory.CreateQueue<IAction>();
 
             if (state.canMoveGap(EightPuzzleBoard.UP))
                 actions.Add(EightPuzzleBoard.UP);
@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             return actions;
         }
 
-        public static EightPuzzleBoard getResult(EightPuzzleBoard state, Action action)
+        public static EightPuzzleBoard getResult(EightPuzzleBoard state, IAction action)
         {
             EightPuzzleBoard result = new EightPuzzleBoard(state);
 
@@ -41,20 +41,20 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             return result;
         }
 
-        public static ToDoubleFunction<Node<EightPuzzleBoard, Action>> createManhattanHeuristicFunction()
+        public static ToDoubleFunction<Node<EightPuzzleBoard, IAction>> createManhattanHeuristicFunction()
         {
             return new ManhattanHeuristicFunction();
         }
 
-        public static ToDoubleFunction<Node<EightPuzzleBoard, Action>> createMisplacedTileHeuristicFunction()
+        public static ToDoubleFunction<Node<EightPuzzleBoard, IAction>> createMisplacedTileHeuristicFunction()
         {
             return new MisplacedTileHeuristicFunction();
         }
 
-        private class ManhattanHeuristicFunction : ToDoubleFunction<Node<EightPuzzleBoard, Action>>
+        private class ManhattanHeuristicFunction : ToDoubleFunction<Node<EightPuzzleBoard, IAction>>
         {
 
-            public double applyAsDouble(Node<EightPuzzleBoard, Action> node)
+            public double applyAsDouble(Node<EightPuzzleBoard, IAction> node)
             {
                 EightPuzzleBoard board = node.getState();
                 int retVal = 0;
@@ -104,9 +104,9 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             }
         }
 
-        private class MisplacedTileHeuristicFunction : ToDoubleFunction<Node<EightPuzzleBoard, Action>>
+        private class MisplacedTileHeuristicFunction : ToDoubleFunction<Node<EightPuzzleBoard, IAction>>
         {
-            public double applyAsDouble(Node<EightPuzzleBoard, Action> node)
+            public double applyAsDouble(Node<EightPuzzleBoard, IAction> node)
             {
                 EightPuzzleBoard board = (EightPuzzleBoard)node.getState();
                 return getNumberOfMisplacedTiles(board);

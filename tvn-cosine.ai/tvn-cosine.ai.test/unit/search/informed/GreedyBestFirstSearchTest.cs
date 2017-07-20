@@ -23,10 +23,10 @@ namespace tvn_cosine.ai.test.unit.search.informed
             // {0,8,7,6,5,4,3,2,1});
             EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 7, 1, 8, 0, 4, 6, 2, 3, 5 });
 
-            Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(board);
-            SearchForActions<EightPuzzleBoard, Action> search = new GreedyBestFirstSearch<EightPuzzleBoard, Action>
-                    (new GraphSearch<EightPuzzleBoard, Action>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
-            SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<EightPuzzleBoard, Action>(problem, search);
+            Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(board);
+            SearchForActions<EightPuzzleBoard, IAction> search = new GreedyBestFirstSearch<EightPuzzleBoard, IAction>
+                    (new GraphSearch<EightPuzzleBoard, IAction>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
+            SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
 
             Assert.AreEqual(49, agent.getActions().Size()); // GraphSearchReducedFrontier: "49"
             Assert.AreEqual("332", // GraphSearchReducedFrontier: "197"
@@ -47,11 +47,11 @@ namespace tvn_cosine.ai.test.unit.search.informed
             // {0,8,7,6,5,4,3,2,1});
             EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 7, 1, 8, 0, 4, 6, 2, 3, 5 });
 
-            Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(board);
-            QueueBasedSearch<EightPuzzleBoard, Action> search = new GreedyBestFirstSearch<EightPuzzleBoard, Action>
-                    (new GraphSearchReducedFrontier<EightPuzzleBoard, Action>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
+            Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(board);
+            QueueBasedSearch<EightPuzzleBoard, IAction> search = new GreedyBestFirstSearch<EightPuzzleBoard, IAction>
+                    (new GraphSearchReducedFrontier<EightPuzzleBoard, IAction>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
 
-            SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<EightPuzzleBoard, Action>(problem, search);
+            SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
             Assert.AreEqual(49, agent.getActions().Size());
             Assert.AreEqual("197", agent.getInstrumentation().getProperty("nodesExpanded"));
             Assert.AreEqual("140", agent.getInstrumentation().getProperty("queueSize"));

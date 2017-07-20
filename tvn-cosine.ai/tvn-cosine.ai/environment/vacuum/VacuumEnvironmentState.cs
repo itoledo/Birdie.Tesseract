@@ -13,12 +13,12 @@ namespace tvn.cosine.ai.environment.vacuum
      * @author Andrew Brown
      * @author Ruediger Lunde
      */
-    public class VacuumEnvironmentState : EnvironmentState, Percept,
+    public class VacuumEnvironmentState : IEnvironmentState, IPercept,
         ICloneable<VacuumEnvironmentState>,
         IEquatable, IToString, IHashable
     {
         private IMap<string, VacuumEnvironment.LocationState> state;
-        private IMap<Agent, string> agentLocations;
+        private IMap<IAgent, string> agentLocations;
 
         /**
          * Constructor
@@ -26,10 +26,10 @@ namespace tvn.cosine.ai.environment.vacuum
         public VacuumEnvironmentState()
         {
             state = Factory.CreateMap<string, VacuumEnvironment.LocationState>();
-            agentLocations = Factory.CreateMap<Agent, string>();
+            agentLocations = Factory.CreateMap<IAgent, string>();
         }
 
-        public string getAgentLocation(Agent a)
+        public string getAgentLocation(IAgent a)
         {
             return agentLocations.Get(a);
         }
@@ -37,7 +37,7 @@ namespace tvn.cosine.ai.environment.vacuum
         /**
          * Sets the agent location
          */
-        public void setAgentLocation(Agent a, string location)
+        public void setAgentLocation(IAgent a, string location)
         {
             agentLocations.Put(a, location);
         }
@@ -82,7 +82,7 @@ namespace tvn.cosine.ai.environment.vacuum
 
             result = new VacuumEnvironmentState();
             result.state = Factory.CreateMap<string, VacuumEnvironment.LocationState>(state);
-            agentLocations = Factory.CreateMap<Agent, string>(agentLocations);
+            agentLocations = Factory.CreateMap<IAgent, string>(agentLocations);
 
             return result;
         }
@@ -101,7 +101,7 @@ namespace tvn.cosine.ai.environment.vacuum
                 builder.Append(entity.GetKey()).Append("=").Append(entity.GetValue());
             }
             int i = 0;
-            foreach (KeyValuePair<Agent, string> entity in agentLocations)
+            foreach (KeyValuePair<IAgent, string> entity in agentLocations)
             {
                 if (builder.Length  > 2) builder.Append(", ");
                 builder.Append("Loc").Append(++i).Append("=").Append(entity.GetValue());

@@ -13,7 +13,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
     public class Rule : IEquatable, IHashable, IToString
     {
         private Condition con;
-        private Action action;
+        private IAction action;
 
         /**
          * Constructs a condition-action rule.
@@ -23,7 +23,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
          * @param action
          *            an action
          */
-        public Rule(Condition con, Action action)
+        public Rule(Condition con, IAction action)
         {
             if (null == con ||
                 null == action)
@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
          * 
          * @return the action of this condition-action rule.
          */
-        public Action getAction()
+        public IAction getAction()
         {
             return action;
         }

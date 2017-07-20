@@ -17,7 +17,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
      * @author Ravi Mohan
      */
     public abstract class ReinforcementAgent<S, A> : AbstractAgent
-        where A : Action
+        where A : IAction
     {
 
         /**
@@ -53,15 +53,15 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         public abstract void reset();
 
 
-        public override Action execute(Percept p)
+        public override IAction Execute(IPercept p)
         {
             if (p is PerceptStateReward<S>)
             {
-                Action a = execute((PerceptStateReward<S>)p);
+                IAction a = execute((PerceptStateReward<S>)p);
                 if (null == a)
                 {
                     a = NoOpAction.NO_OP;
-                    setAlive(false);
+                    SetAlive(false);
                 }
                 return a;
             }

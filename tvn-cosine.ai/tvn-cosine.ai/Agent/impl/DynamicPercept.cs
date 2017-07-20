@@ -8,7 +8,7 @@ namespace tvn.cosine.ai.agent.impl
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class DynamicPercept : ObjectWithDynamicAttributes, Percept, IHashable, IEquatable
+    public class DynamicPercept : ObjectWithDynamicAttributes, IPercept, IHashable, IEquatable
     {
         public DynamicPercept()
         { }

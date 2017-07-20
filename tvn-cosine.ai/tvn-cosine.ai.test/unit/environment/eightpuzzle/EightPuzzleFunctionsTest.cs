@@ -19,7 +19,7 @@ namespace tvn_cosine.ai.test.unit.environment.eightpuzzle
         [TestMethod]
         public void testGenerateCorrect3Successors()
         {
-            IQueue<Action> actions = Factory.CreateQueue<Action>(EightPuzzleFunctions.getActions(board));
+            IQueue<IAction> actions = Factory.CreateQueue<IAction>(EightPuzzleFunctions.getActions(board));
             Assert.AreEqual(3, actions.Size());
 
             // test first successor
@@ -51,7 +51,7 @@ namespace tvn_cosine.ai.test.unit.environment.eightpuzzle
             Assert.AreEqual(new EightPuzzleBoard(new int[] { 1, 2, 5, 3, 0, 4,
                 6, 7, 8 }), board);
 
-            IQueue<Action> actions = Factory.CreateQueue<Action>(EightPuzzleFunctions.getActions(board));
+            IQueue<IAction> actions = Factory.CreateQueue<IAction>(EightPuzzleFunctions.getActions(board));
             Assert.AreEqual(4, actions.Size());
 
             EightPuzzleBoard expectedFourth = new EightPuzzleBoard(new int[] { 1,

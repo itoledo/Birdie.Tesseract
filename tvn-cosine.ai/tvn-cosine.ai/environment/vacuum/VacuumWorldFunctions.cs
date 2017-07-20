@@ -18,7 +18,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * 
          * @author Andrew Brown
          */
-        public static object FullyObservableVacuumEnvironmentPerceptToStateFunction(Percept p)
+        public static object FullyObservableVacuumEnvironmentPerceptToStateFunction(IPercept p)
         {
             // Note: VacuumEnvironmentState implements
             // FullyObservableVacuumEnvironmentPercept
@@ -28,14 +28,14 @@ namespace tvn.cosine.ai.environment.vacuum
         /**
          * Specifies the actions available to the agent at state s
          */
-        public static IQueue<Action> getActions(object state)
+        public static IQueue<IAction> getActions(object state)
         {
-            IQueue<Action> actions = Factory.CreateQueue<Action>();
+            IQueue<IAction> actions = Factory.CreateQueue<IAction>();
             actions.Add(VacuumEnvironment.ACTION_SUCK);
             actions.Add(VacuumEnvironment.ACTION_MOVE_LEFT);
             actions.Add(VacuumEnvironment.ACTION_MOVE_RIGHT);
             // Ensure cannot be modified.
-            return Factory.CreateReadOnlyQueue<Action>(actions);
+            return Factory.CreateReadOnlyQueue<IAction>(actions);
         }
 
         public static bool testGoal(VacuumEnvironmentState state)
@@ -44,8 +44,8 @@ namespace tvn.cosine.ai.environment.vacuum
                     && state.getLocationState(VacuumEnvironment.LOCATION_B) == VacuumEnvironment.LocationState.Clean;
         }
 
-        public static ResultsFunction<VacuumEnvironmentState, Action>
-            createResultsFunction(Agent agent)
+        public static ResultsFunction<VacuumEnvironmentState, IAction>
+            createResultsFunction(IAgent agent)
         {
             return new VacuumWorldResults(agent);
         }
@@ -53,11 +53,11 @@ namespace tvn.cosine.ai.environment.vacuum
         /**
          * Returns possible results.
          */
-        private class VacuumWorldResults : ResultsFunction<VacuumEnvironmentState, Action>
+        private class VacuumWorldResults : ResultsFunction<VacuumEnvironmentState, IAction>
         {
-            private Agent agent;
+            private IAgent agent;
 
-            public VacuumWorldResults(Agent agent)
+            public VacuumWorldResults(IAgent agent)
             {
                 this.agent = agent;
             }
@@ -65,7 +65,7 @@ namespace tvn.cosine.ai.environment.vacuum
             /**
              * Returns a list of possible results for a given state and action.
              */
-            public IQueue<VacuumEnvironmentState> results(VacuumEnvironmentState state, Action action)
+            public IQueue<VacuumEnvironmentState> results(VacuumEnvironmentState state, IAction action)
             {
                 IQueue<VacuumEnvironmentState> results = Factory.CreateQueue<VacuumEnvironmentState>();
                 // add clone of state to results, modify later...

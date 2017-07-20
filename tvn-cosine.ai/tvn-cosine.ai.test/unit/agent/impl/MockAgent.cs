@@ -16,7 +16,7 @@ namespace tvn_cosine.ai.test.unit.agent.impl
         {
         }
 
-        public MockAgent(AgentProgram agent)
+        public MockAgent(IAgentProgram agent)
             : base(agent)
         {
 

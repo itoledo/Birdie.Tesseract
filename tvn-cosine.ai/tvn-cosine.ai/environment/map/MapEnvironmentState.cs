@@ -4,17 +4,17 @@ using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.environment.map
 {
-    public class MapEnvironmentState : EnvironmentState
+    public class MapEnvironmentState : IEnvironmentState
     {
 
-        private IMap<Agent, Pair<string, double>> agentLocationAndTravelDistance;
+        private IMap<IAgent, Pair<string, double>> agentLocationAndTravelDistance;
 
         public MapEnvironmentState()
         {
-            agentLocationAndTravelDistance = Factory.CreateMap<Agent, Pair<string, double>>();
+            agentLocationAndTravelDistance = Factory.CreateMap<IAgent, Pair<string, double>>();
         }
 
-        public string getAgentLocation(Agent a)
+        public string getAgentLocation(IAgent a)
         {
             Pair<string, double> locAndTDistance = agentLocationAndTravelDistance.Get(a);
             if (null == locAndTDistance)
@@ -24,7 +24,7 @@ namespace tvn.cosine.ai.environment.map
             return locAndTDistance.getFirst();
         }
 
-        public double getAgentTravelDistance(Agent a)
+        public double getAgentTravelDistance(IAgent a)
         {
             Pair<string, double> locAndTDistance = agentLocationAndTravelDistance.Get(a);
             if (null == locAndTDistance)
@@ -34,7 +34,7 @@ namespace tvn.cosine.ai.environment.map
             return locAndTDistance.getSecond();
         }
 
-        public void setAgentLocationAndTravelDistance(Agent a, string location,
+        public void setAgentLocationAndTravelDistance(IAgent a, string location,
                 double travelDistance)
         {
             agentLocationAndTravelDistance.Put(a, new Pair<string, double>(

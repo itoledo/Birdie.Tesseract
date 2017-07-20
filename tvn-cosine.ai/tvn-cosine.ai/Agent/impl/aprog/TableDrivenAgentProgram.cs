@@ -25,11 +25,11 @@ namespace tvn.cosine.ai.agent.impl.aprog
      * @author Mike Stampone
      * 
      */
-    public class TableDrivenAgentProgram : AgentProgram
+    public class TableDrivenAgentProgram : IAgentProgram
     {
-        private IQueue<Percept> percepts = Factory.CreateQueue<Percept>();
+        private IQueue<IPercept> percepts = Factory.CreateQueue<IPercept>();
 
-        private Table<IQueue<Percept>, string, Action> table;
+        private Table<IQueue<IPercept>, string, IAction> table;
 
         private const string ACTION = "action";
 
@@ -43,17 +43,17 @@ namespace tvn.cosine.ai.agent.impl.aprog
          * @param perceptSequenceActions
          *            a table of actions, indexed by percept sequences
          */
-        public TableDrivenAgentProgram(IMap<IQueue<Percept>, Action> perceptSequenceActions)
+        public TableDrivenAgentProgram(IMap<IQueue<IPercept>, IAction> perceptSequenceActions)
         { 
-            IQueue<IQueue<Percept>> rowHeaders 
-                = Factory.CreateQueue<IQueue<Percept>>(perceptSequenceActions.GetKeys());
+            IQueue<IQueue<IPercept>> rowHeaders 
+                = Factory.CreateQueue<IQueue<IPercept>>(perceptSequenceActions.GetKeys());
 
             IQueue<string> colHeaders = Factory.CreateFifoQueue<string>();
             colHeaders.Add(ACTION);
 
-            table = new Table<IQueue<Percept>, string, Action>(rowHeaders, colHeaders);
+            table = new Table<IQueue<IPercept>, string, IAction>(rowHeaders, colHeaders);
 
-            foreach (IQueue<Percept> row in rowHeaders)
+            foreach (IQueue<IPercept> row in rowHeaders)
             {
                 table.set(row, ACTION, perceptSequenceActions.Get(row));
             }
@@ -63,7 +63,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         // START-AgentProgram
 
         // function TABLE-DRIVEN-AGENT(percept) returns an action
-        public Action execute(Percept percept)
+        public IAction Execute(IPercept percept)
         {
             // append percept to end of percepts
             percepts.Add(percept);
@@ -79,9 +79,9 @@ namespace tvn.cosine.ai.agent.impl.aprog
         //
         // PRIVATE METHODS
         //
-        private Action lookupCurrentAction()
+        private IAction lookupCurrentAction()
         {
-            Action action = null;
+            IAction action = null;
 
             action = table.get(percepts, ACTION);
             if (null == action)

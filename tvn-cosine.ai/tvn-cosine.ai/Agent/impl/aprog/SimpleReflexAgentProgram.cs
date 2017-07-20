@@ -25,7 +25,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
      * @author Mike Stampone
      * 
      */
-    public class SimpleReflexAgentProgram : AgentProgram
+    public class SimpleReflexAgentProgram : IAgentProgram
     { 
         // persistent: rules, a set of condition-action rules
         private ISet<Rule> rules;
@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         }
 
         // function SIMPLE-RELEX-AGENT(percept) returns an action 
-        public Action execute(Percept percept)
+        public IAction Execute(IPercept percept)
         {
 
             // state <- INTERPRET-INPUT(percept);
@@ -54,7 +54,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
             return ruleAction(rule);
         }
          
-        protected ObjectWithDynamicAttributes interpretInput(Percept p)
+        protected ObjectWithDynamicAttributes interpretInput(IPercept p)
         {
             return (DynamicPercept)p;
         }
@@ -71,7 +71,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
             return null;
         }
 
-        protected Action ruleAction(Rule r)
+        protected IAction ruleAction(Rule r)
         {
             return null == r ? NoOpAction.NO_OP : r.getAction();
         }

@@ -26,31 +26,31 @@ namespace tvn.cosine.ai.environment.xyenv
 
         /** Does nothing (don't ask me why...). */
 
-        public override void executeAction(Agent a, Action action)
+        public override void executeAction(IAgent a, IAction action)
         {
         }
 
 
-        public override Percept getPerceptSeenBy(Agent anAgent)
+        public override IPercept getPerceptSeenBy(IAgent anAgent)
         {
             return new DynamicPercept();
         }
 
-        public void addObjectToLocation(EnvironmentObject eo, XYLocation loc)
+        public void addObjectToLocation(IEnvironmentObject eo, XYLocation loc)
         {
             moveObjectToAbsoluteLocation(eo, loc);
         }
 
-        public void moveObjectToAbsoluteLocation(EnvironmentObject eo, XYLocation loc)
+        public void moveObjectToAbsoluteLocation(IEnvironmentObject eo, XYLocation loc)
         {
             // Ensure the object is not already at a location
             envState.moveObjectToAbsoluteLocation(eo, loc);
 
             // Ensure is added to the environment
-            addEnvironmentObject(eo);
+            AddEnvironmentObject(eo);
         }
 
-        public void moveObject(EnvironmentObject eo, XYLocation.Direction direction)
+        public void moveObject(IEnvironmentObject eo, XYLocation.Direction direction)
         {
             XYLocation presentLocation = envState.getCurrentLocationFor(eo);
 
@@ -64,24 +64,24 @@ namespace tvn.cosine.ai.environment.xyenv
             }
         }
 
-        public XYLocation getCurrentLocationFor(EnvironmentObject eo)
+        public XYLocation getCurrentLocationFor(IEnvironmentObject eo)
         {
             return envState.getCurrentLocationFor(eo);
         }
 
-        public ISet<EnvironmentObject> getObjectsAt(XYLocation loc)
+        public ISet<IEnvironmentObject> getObjectsAt(XYLocation loc)
         {
             return envState.getObjectsAt(loc);
         }
 
-        public ISet<EnvironmentObject> getObjectsNear(Agent agent, int radius)
+        public ISet<IEnvironmentObject> getObjectsNear(IAgent agent, int radius)
         {
             return envState.getObjectsNear(agent, radius);
         }
 
         public bool isBlocked(XYLocation loc)
         {
-            foreach (EnvironmentObject eo in envState.getObjectsAt(loc))
+            foreach (IEnvironmentObject eo in envState.getObjectsAt(loc))
             {
                 if (eo is Wall)
                 {
@@ -111,12 +111,12 @@ namespace tvn.cosine.ai.environment.xyenv
         }
     }
 
-    class XYEnvironmentState : EnvironmentState
+    class XYEnvironmentState : IEnvironmentState
     {
         public int width;
         public int height;
 
-        private IMap<XYLocation, ISet<EnvironmentObject>> objsAtLocation = Factory.CreateMap<XYLocation, ISet<EnvironmentObject>>();
+        private IMap<XYLocation, ISet<IEnvironmentObject>> objsAtLocation = Factory.CreateMap<XYLocation, ISet<IEnvironmentObject>>();
 
         public XYEnvironmentState(int width, int height)
         {
@@ -126,15 +126,15 @@ namespace tvn.cosine.ai.environment.xyenv
             {
                 for (int w = 1; w <= width; w++)
                 {
-                    objsAtLocation.Put(new XYLocation(h, w), Factory.CreateSet<EnvironmentObject>());
+                    objsAtLocation.Put(new XYLocation(h, w), Factory.CreateSet<IEnvironmentObject>());
                 }
             }
         }
 
-        public void moveObjectToAbsoluteLocation(EnvironmentObject eo, XYLocation loc)
+        public void moveObjectToAbsoluteLocation(IEnvironmentObject eo, XYLocation loc)
         {
             // Ensure is not already at another location
-            foreach (ISet<EnvironmentObject> eos in objsAtLocation.GetValues())
+            foreach (ISet<IEnvironmentObject> eos in objsAtLocation.GetValues())
             {
                 if (eos.Remove(eo))
                 {
@@ -145,19 +145,19 @@ namespace tvn.cosine.ai.environment.xyenv
             getObjectsAt(loc).Add(eo);
         }
 
-        public ISet<EnvironmentObject> getObjectsAt(XYLocation loc)
+        public ISet<IEnvironmentObject> getObjectsAt(XYLocation loc)
         {
-            ISet<EnvironmentObject> objectsAt = objsAtLocation.Get(loc);
+            ISet<IEnvironmentObject> objectsAt = objsAtLocation.Get(loc);
             if (null == objectsAt)
             {
                 // Always ensure an empty Set is returned
-                objectsAt = Factory.CreateSet<EnvironmentObject>();
+                objectsAt = Factory.CreateSet<IEnvironmentObject>();
                 objsAtLocation.Put(loc, objectsAt);
             }
             return objectsAt;
         }
 
-        public XYLocation getCurrentLocationFor(EnvironmentObject eo)
+        public XYLocation getCurrentLocationFor(IEnvironmentObject eo)
         {
             foreach (XYLocation loc in objsAtLocation.GetKeys())
             {
@@ -169,9 +169,9 @@ namespace tvn.cosine.ai.environment.xyenv
             return null;
         }
 
-        public ISet<EnvironmentObject> getObjectsNear(Agent agent, int radius)
+        public ISet<IEnvironmentObject> getObjectsNear(IAgent agent, int radius)
         {
-            ISet<EnvironmentObject> objsNear = Factory.CreateSet<EnvironmentObject>();
+            ISet<IEnvironmentObject> objsNear = Factory.CreateSet<IEnvironmentObject>();
 
             XYLocation agentLocation = getCurrentLocationFor(agent);
             foreach (XYLocation loc in objsAtLocation.GetKeys())

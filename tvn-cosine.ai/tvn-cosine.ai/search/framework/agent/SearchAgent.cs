@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.search.framework.agent
      * @author Ruediger Lunde
      */
     public class SearchAgent<S, A> : AbstractAgent
-        where A : Action
+        where A : IAction
     {
         private IQueue<A> actionList;
         private bool hasNext = false;
@@ -35,7 +35,7 @@ namespace tvn.cosine.ai.search.framework.agent
         }
 
 
-        public override Action execute(Percept p)
+        public override IAction Execute(IPercept p)
         {
             hasNext = actionIterator.MoveNext();
             if (hasNext)

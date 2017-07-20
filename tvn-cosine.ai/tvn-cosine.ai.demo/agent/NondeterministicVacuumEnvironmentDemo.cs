@@ -31,7 +31,7 @@ namespace tvn_cosine.ai.demo.agent
             state.setLocationState(VacuumEnvironment.LOCATION_B, VacuumEnvironment.LocationState.Dirty);
             state.setAgentLocation(agent, VacuumEnvironment.LOCATION_A);
             // create problem
-            NondeterministicProblem<VacuumEnvironmentState, Action> problem = new NondeterministicProblem<VacuumEnvironmentState, Action>(
+            NondeterministicProblem<VacuumEnvironmentState, IAction> problem = new NondeterministicProblem<VacuumEnvironmentState, IAction>(
                     state,
                     VacuumWorldFunctions.getActions,
                     VacuumWorldFunctions.createResultsFunction(agent),
@@ -47,8 +47,8 @@ namespace tvn_cosine.ai.demo.agent
             // execute and show plan
             System.Console.WriteLine("Initial Plan: " + agent.getContingencyPlan());
             StringBuilder sb = new StringBuilder();
-            world.addEnvironmentView(new VacuumEnvironmentViewActionTracker(sb));
-            world.stepUntilDone();
+            world.AddEnvironmentView(new VacuumEnvironmentViewActionTracker(sb));
+            world.StepUntilDone();
             System.Console.WriteLine("Remaining Plan: " + agent.getContingencyPlan());
             System.Console.WriteLine("Actions Taken: " + sb);
             System.Console.WriteLine("Final State: " + world.getCurrentState());

@@ -227,7 +227,7 @@ namespace tvn_cosine.ai.demo.learning
                     MDPFactory.createActionsFunctionForFigure17_1(cw),
                     new ModifiedPolicyEvaluation<Cell<double>, CellWorldAction>(10, 1.0));
 
-            cwe.addAgent(padpa);
+            cwe.AddAgent(padpa);
 
             output_utility_learning_rates(padpa, 20, 100, 100, 1);
 
@@ -263,7 +263,7 @@ namespace tvn_cosine.ai.demo.learning
             PassiveTDAgent<Cell<double>, CellWorldAction> ptda = new PassiveTDAgent<Cell<double>, CellWorldAction>(
                     fixedPolicy, 0.2, 1.0);
 
-            cwe.addAgent(ptda);
+            cwe.AddAgent(ptda);
 
             output_utility_learning_rates(ptda, 20, 500, 100, 1);
 
@@ -318,7 +318,7 @@ namespace tvn_cosine.ai.demo.learning
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
                     new DefaultRandom());
 
-            cwe.addAgent(reinforcementAgent);
+            cwe.AddAgent(reinforcementAgent);
 
             IMap<int, IQueue<IMap<Cell<double>, double>>> runs = Factory.CreateMap<int, IQueue<IMap<Cell<double>, double>>>();
             for (int r = 0; r < numRuns; r++)

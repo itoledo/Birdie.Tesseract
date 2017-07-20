@@ -6,6 +6,6 @@
     /// bool circuits or in complete scientific theories - is called a model of
     /// the world. An Agent that uses such a model is called a model-based agent.
     /// </summary>
-    public interface Model
+    public interface IModel
     { }
 }

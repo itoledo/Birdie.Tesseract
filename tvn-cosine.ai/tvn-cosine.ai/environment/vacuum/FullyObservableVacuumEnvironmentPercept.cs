@@ -8,7 +8,7 @@ namespace tvn.cosine.ai.environment.vacuum
      *
      * @author Andrew Brown
      */
-    public interface FullyObservableVacuumEnvironmentPercept : Percept
+    public interface FullyObservableVacuumEnvironmentPercept : IPercept
     {
         /**
          * Returns the agent location
@@ -16,7 +16,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * @param a
          * @return the agents location
          */
-        string getAgentLocation(Agent a);
+        string getAgentLocation(IAgent a);
 
         /**
          * Returns the location state

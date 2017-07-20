@@ -78,7 +78,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
         protected int t = 0;
         // plan, an action sequence, initially empty
         protected IQueue<WumpusAction> plan = Factory.CreateFifoQueue<WumpusAction>(); // FIFOQueue
-        private EnvironmentViewNotifier notifier;
+        private IEnvironmentViewNotifier notifier;
 
         public HybridWumpusAgent() // i.e. default is a 4x4 world as depicted in figure 7.2 
             : this(4, 4, new AgentPosition(1, 1, AgentPosition.Orientation.FACING_NORTH))
@@ -88,13 +88,13 @@ namespace tvn.cosine.ai.environment.wumpusworld
             : this(caveXDim, caveYDim, start, new DPLLSatisfiable(), null)
         { }
 
-        public HybridWumpusAgent(int caveXDim, int caveYDim, AgentPosition start, DPLL satSolver, EnvironmentViewNotifier notifier)
+        public HybridWumpusAgent(int caveXDim, int caveYDim, AgentPosition start, DPLL satSolver, IEnvironmentViewNotifier notifier)
             : this(caveXDim, caveYDim, start,
                 new WumpusKnowledgeBase(caveXDim, caveYDim, start, satSolver), notifier)
         { }
 
         public HybridWumpusAgent(int caveXDim, int caveYDim, AgentPosition start,
-            WumpusKnowledgeBase kb,                                 EnvironmentViewNotifier notifier)
+            WumpusKnowledgeBase kb,                                 IEnvironmentViewNotifier notifier)
         {
             this.kb = kb;
             this.start = start;
@@ -115,7 +115,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
          * 
          * @return an action the agent should take.
          */
-        public override Action execute(Percept percept)
+        public override IAction Execute(IPercept percept)
         {
             // TELL(KB, MAKE-PERCEPT-SENTENCE(percept, t))
             kb.makePerceptSentence((WumpusPercept)percept, t);
@@ -306,7 +306,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
         protected virtual void notifyViews(string message)
         {
             if (notifier != null)
-                notifier.notifyViews(message);
+                notifier.NotifyViews(message);
         } 
     }
 }

@@ -34,8 +34,8 @@ namespace tvn_cosine.ai.test.unit.environment.map
             MapEnvironment me = new MapEnvironment(aMap);
             SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<string, MoveToAction>(), new string[] { "A" });
             me.addAgent(ma, "A");
-            me.addEnvironmentView(new TestEnvironmentView(envChanges));
-            me.stepUntilDone();
+            me.AddEnvironmentView(new TestEnvironmentView(envChanges));
+            me.StepUntilDone();
 
             Assert.AreEqual(
                     "CurrentLocation=In(A), Goal=In(A):Action[name==NoOp]:METRIC[pathCost]=0.0:METRIC[maxQueueSize]=1:METRIC[queueSize]=0:METRIC[nodesExpanded]=0:Action[name==NoOp]:",
@@ -48,8 +48,8 @@ namespace tvn_cosine.ai.test.unit.environment.map
             MapEnvironment me = new MapEnvironment(aMap);
             SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<string, MoveToAction>(), new string[] { "D" });
             me.addAgent(ma, "A");
-            me.addEnvironmentView(new TestEnvironmentView(envChanges));
-            me.stepUntilDone();
+            me.AddEnvironmentView(new TestEnvironmentView(envChanges));
+            me.StepUntilDone();
 
             Assert.AreEqual(
                     "CurrentLocation=In(A), Goal=In(D):Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:METRIC[pathCost]=13.0:METRIC[maxQueueSize]=3:METRIC[queueSize]=1:METRIC[nodesExpanded]=3:Action[name==NoOp]:",
@@ -65,8 +65,8 @@ namespace tvn_cosine.ai.test.unit.environment.map
             SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, ucSearch, new string[] { "D" });
 
             me.addAgent(ma, "A");
-            me.addEnvironmentView(new TestEnvironmentView(envChanges));
-            me.stepUntilDone();
+            me.AddEnvironmentView(new TestEnvironmentView(envChanges));
+            me.StepUntilDone();
 
             Assert.AreEqual(
                     "CurrentLocation=In(A), Goal=In(D):Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:METRIC[pathCost]=13.0:METRIC[maxQueueSize]=2:METRIC[queueSize]=1:METRIC[nodesExpanded]=3:Action[name==NoOp]:",
@@ -79,15 +79,15 @@ namespace tvn_cosine.ai.test.unit.environment.map
             MapEnvironment me = new MapEnvironment(aMap);
             SimpleMapAgent ma = new SimpleMapAgent(me.getMap(), me, new UniformCostSearch<string, MoveToAction>(), new string[] { "A" });
             me.addAgent(ma, "E");
-            me.addEnvironmentView(new TestEnvironmentView(envChanges));
-            me.stepUntilDone();
+            me.AddEnvironmentView(new TestEnvironmentView(envChanges));
+            me.StepUntilDone();
 
             Assert.AreEqual(
                     "CurrentLocation=In(E), Goal=In(A):Action[name==NoOp]:METRIC[pathCost]=0:METRIC[maxQueueSize]=1:METRIC[queueSize]=0:METRIC[nodesExpanded]=1:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
-        private class TestEnvironmentView : EnvironmentView
+        private class TestEnvironmentView : IEnvironmentView
         {
             private StringBuilder envChanges;
 
@@ -96,17 +96,17 @@ namespace tvn_cosine.ai.test.unit.environment.map
                 this.envChanges = envChanges;
             }
 
-            public void notify(string msg)
+            public void Notify(string msg)
             {
                 envChanges.Append(msg).Append(":");
             }
 
-            public void agentAdded(Agent agent, Environment source)
+            public void AgentAdded(IAgent agent, IEnvironment source)
             {
                 // Nothing
             }
 
-            public void agentActed(Agent agent, Percept percept, Action action, Environment source)
+            public void AgentActed(IAgent agent, IPercept percept, IAction action, IEnvironment source)
             {
                 envChanges.Append(action).Append(":");
             }

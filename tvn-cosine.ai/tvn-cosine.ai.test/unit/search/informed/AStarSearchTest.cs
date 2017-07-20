@@ -29,10 +29,10 @@ namespace tvn_cosine.ai.test.unit.search.informed
             EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 7, 1, 8,
                     0, 4, 6, 2, 3, 5 });
 
-            Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(board);
-            SearchForActions<EightPuzzleBoard, Action> search = new AStarSearch<EightPuzzleBoard, Action>(new GraphSearch<EightPuzzleBoard, Action>(),
+            Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(board);
+            SearchForActions<EightPuzzleBoard, IAction> search = new AStarSearch<EightPuzzleBoard, IAction>(new GraphSearch<EightPuzzleBoard, IAction>(),
                     EightPuzzleFunctions.createManhattanHeuristicFunction());
-            SearchAgent<EightPuzzleBoard, Action> agent = new SearchAgent<EightPuzzleBoard, Action>(problem, search);
+            SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
             Assert.AreEqual(23, agent.getActions().Size());
             Assert.AreEqual("1133", // "926" GraphSearchReduced Frontier
                     agent.getInstrumentation().getProperty("nodesExpanded"));

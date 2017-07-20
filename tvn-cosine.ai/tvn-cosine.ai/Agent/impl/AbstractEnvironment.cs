@@ -6,18 +6,18 @@ namespace tvn.cosine.ai.agent.impl
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public abstract class AbstractEnvironment : Environment
+    public abstract class AbstractEnvironment : IEnvironment
     {
         // Note: Use LinkedHashSet's in order to ensure order is respected as provide
         // access to these elements via List interface.
-        protected ISet<EnvironmentObject> envObjects = Factory.CreateSet<EnvironmentObject>();
-        protected ISet<Agent> agents = Factory.CreateSet<Agent>();
-        protected ISet<EnvironmentView> views = Factory.CreateSet<EnvironmentView>();
-        protected IMap<Agent, double> performanceMeasures = Factory.CreateMap<Agent, double>();
+        protected ISet<IEnvironmentObject> envObjects = Factory.CreateSet<IEnvironmentObject>();
+        protected ISet<IAgent> agents = Factory.CreateSet<IAgent>();
+        protected ISet<IEnvironmentView> views = Factory.CreateSet<IEnvironmentView>();
+        protected IMap<IAgent, double> performanceMeasures = Factory.CreateMap<IAgent, double>();
 
         // Methods to be implemented by subclasses. 
-        public abstract void executeAction(Agent agent, Action action);
-        public abstract Percept getPerceptSeenBy(Agent anAgent);
+        public abstract void executeAction(IAgent agent, IAction action);
+        public abstract IPercept getPerceptSeenBy(IAgent anAgent);
 
         /**
          * Method for implementing dynamic environments in which not all changes are
@@ -30,34 +30,34 @@ namespace tvn.cosine.ai.agent.impl
 
         //
         // START-Environment
-        public virtual IQueue<Agent> getAgents()
+        public virtual IQueue<IAgent> GetAgents()
         {
             // Return as a List but also ensures the caller cannot modify
-            return Factory.CreateReadOnlyQueue<Agent>(agents);
+            return Factory.CreateReadOnlyQueue<IAgent>(agents);
         }
 
-        public virtual void addAgent(Agent a)
+        public virtual void AddAgent(IAgent a)
         {
-            addEnvironmentObject(a);
+            AddEnvironmentObject(a);
         }
 
-        public virtual void removeAgent(Agent a)
+        public virtual void RemoveAgent(IAgent a)
         {
-            removeEnvironmentObject(a);
+            RemoveEnvironmentObject(a);
         }
 
-        public virtual IQueue<EnvironmentObject> getEnvironmentObjects()
+        public virtual IQueue<IEnvironmentObject> GetEnvironmentObjects()
         {
             // Return as a List but also ensures the caller cannot modify
-            return Factory.CreateReadOnlyQueue<EnvironmentObject>(envObjects);
+            return Factory.CreateReadOnlyQueue<IEnvironmentObject>(envObjects);
         }
 
-        public virtual void addEnvironmentObject(EnvironmentObject eo)
+        public virtual void AddEnvironmentObject(IEnvironmentObject eo)
         {
             envObjects.Add(eo);
-            if (eo is Agent)
+            if (eo is IAgent)
             {
-                Agent a = (Agent)eo;
+                IAgent a = (IAgent)eo;
                 if (!agents.Contains(a))
                 {
                     agents.Add(a);
@@ -66,10 +66,10 @@ namespace tvn.cosine.ai.agent.impl
             }
         }
 
-        public virtual void removeEnvironmentObject(EnvironmentObject eo)
+        public virtual void RemoveEnvironmentObject(IEnvironmentObject eo)
         {
             envObjects.Remove(eo);
-            agents.Remove(eo as Agent);
+            agents.Remove(eo as IAgent);
         }
 
         /**
@@ -78,14 +78,14 @@ namespace tvn.cosine.ai.agent.impl
          * #getPerceptSeenBy(Agent), #executeAction(Agent, Action),
          * and #createExogenousChange().
          */
-        public virtual void step()
+        public virtual void Step()
         {
-            foreach (Agent agent in agents)
+            foreach (IAgent agent in agents)
             {
-                if (agent.isAlive())
+                if (agent.IsAlive())
                 {
-                    Percept percept = getPerceptSeenBy(agent);
-                    Action anAction = agent.execute(percept);
+                    IPercept percept = getPerceptSeenBy(agent);
+                    IAction anAction = agent.Execute(percept);
                     executeAction(agent, anAction);
                     notifyEnvironmentViews(agent, percept, anAction);
                 }
@@ -93,27 +93,27 @@ namespace tvn.cosine.ai.agent.impl
             createExogenousChange();
         }
 
-        public virtual void step(int n)
+        public virtual void Step(int n)
         {
             for (int i = 0; i < n; i++)
             {
-                step();
+                Step();
             }
         }
 
-        public virtual void stepUntilDone()
+        public virtual void StepUntilDone()
         {
-            while (!isDone())
+            while (!IsDone())
             {
-                step();
+                Step();
             }
         }
 
-        public virtual bool isDone()
+        public virtual bool IsDone()
         {
-            foreach (Agent agent in agents)
+            foreach (IAgent agent in agents)
             {
-                if (agent.isAlive())
+                if (agent.IsAlive())
                 {
                     return false;
                 }
@@ -121,7 +121,7 @@ namespace tvn.cosine.ai.agent.impl
             return true;
         }
 
-        public virtual double getPerformanceMeasure(Agent forAgent)
+        public virtual double GetPerformanceMeasure(IAgent forAgent)
         {
             if (performanceMeasures.ContainsKey(forAgent))
             {
@@ -131,42 +131,42 @@ namespace tvn.cosine.ai.agent.impl
             return performanceMeasures.Get(forAgent);
         }
 
-        public virtual void addEnvironmentView(EnvironmentView ev)
+        public virtual void AddEnvironmentView(IEnvironmentView ev)
         {
             views.Add(ev);
         }
 
-        public virtual void removeEnvironmentView(EnvironmentView ev)
+        public virtual void RemoveEnvironmentView(IEnvironmentView ev)
         {
             views.Remove(ev);
         }
 
-        public virtual void notifyViews(string message)
+        public virtual void NotifyViews(string message)
         {
-            foreach (EnvironmentView ev in views)
+            foreach (IEnvironmentView ev in views)
             {
-                ev.notify(message);
+                ev.Notify(message);
             }
         }
 
-        protected virtual void updatePerformanceMeasure(Agent forAgent, double addTo)
+        protected virtual void updatePerformanceMeasure(IAgent forAgent, double addTo)
         {
-            performanceMeasures.Put(forAgent, getPerformanceMeasure(forAgent) + addTo);
+            performanceMeasures.Put(forAgent, GetPerformanceMeasure(forAgent) + addTo);
         }
 
-        protected virtual void notifyEnvironmentViews(Agent agent)
+        protected virtual void notifyEnvironmentViews(IAgent agent)
         {
-            foreach (EnvironmentView view in views)
+            foreach (IEnvironmentView view in views)
             {
-                view.agentAdded(agent, this);
+                view.AgentAdded(agent, this);
             }
         }
 
-        protected virtual void notifyEnvironmentViews(Agent agent, Percept percept, Action action)
+        protected virtual void notifyEnvironmentViews(IAgent agent, IPercept percept, IAction action)
         {
-            foreach (EnvironmentView view in views)
+            foreach (IEnvironmentView view in views)
             {
-                view.agentActed(agent, percept, action, this);
+                view.AgentActed(agent, percept, action, this);
             }
         }
     }

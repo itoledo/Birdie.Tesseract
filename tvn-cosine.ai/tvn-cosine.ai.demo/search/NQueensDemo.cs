@@ -223,7 +223,7 @@ namespace tvn_cosine.ai.demo.search
 
         private static void printActions(IQueue<QueenAction> actions)
         {
-            foreach (Action action in actions)
+            foreach (IAction action in actions)
             {
                 System.Console.WriteLine(action.ToString());
             }

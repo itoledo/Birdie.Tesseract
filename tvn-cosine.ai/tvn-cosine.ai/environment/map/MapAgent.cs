@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.environment.map
         protected int currGoalIdx = -1;
 
         // possibly null...
-        protected EnvironmentViewNotifier notifier = null;
+        protected IEnvironmentViewNotifier notifier = null;
         private SearchForActions<string, MoveToAction> _search = null;
         private Function<string, ToDoubleFunction<Node<string, MoveToAction>>> hFnFactory;
 
@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.environment.map
         }
 
         public MapAgent(Map map, SearchForActions<string, MoveToAction> search,
-            string goal, EnvironmentViewNotifier notifier)
+            string goal, IEnvironmentViewNotifier notifier)
             : this(map, search, goal)
         {
             this.notifier = notifier;
@@ -54,7 +54,7 @@ namespace tvn.cosine.ai.environment.map
 
         public MapAgent(Map map, SearchForActions<string, MoveToAction> search,
             IQueue<string> goals,
-            EnvironmentViewNotifier notifier)
+            IEnvironmentViewNotifier notifier)
             : this(map, search, goals)
         {
 
@@ -73,7 +73,7 @@ namespace tvn.cosine.ai.environment.map
          */
         public MapAgent(Map map,
             SearchForActions<string, MoveToAction> search, IQueue<string> goals,
-            EnvironmentViewNotifier notifier,
+            IEnvironmentViewNotifier notifier,
             Function<string, ToDoubleFunction<Node<string, MoveToAction>>> hFnFactory)
             : this(map, search, goals, notifier)
         {
@@ -83,7 +83,7 @@ namespace tvn.cosine.ai.environment.map
         //
         // PROTECTED METHODS
         // 
-        protected override void updateState(Percept p)
+        protected override void updateState(IPercept p)
         {
             DynamicPercept dp = (DynamicPercept)p;
             state.setAttribute(DynAttributeNames.AGENT_LOCATION, dp.getAttribute(DynAttributeNames.PERCEPT_IN));
@@ -100,7 +100,7 @@ namespace tvn.cosine.ai.environment.map
                         .setHeuristicFunction(hFnFactory(goal));
 
                 if (notifier != null)
-                    notifier.notifyViews("Current location: In(" + state.getAttribute(DynAttributeNames.AGENT_LOCATION)
+                    notifier.NotifyViews("Current location: In(" + state.getAttribute(DynAttributeNames.AGENT_LOCATION)
                             + "), Goal: In(" + goal + ")");
             }
             return goal;
@@ -123,7 +123,7 @@ namespace tvn.cosine.ai.environment.map
         protected void notifyViewOfMetrics()
         {
             if (notifier != null)
-                notifier.notifyViews("Search metrics: " + _search.getMetrics());
+                notifier.NotifyViews("Search metrics: " + _search.getMetrics());
         }
     }
 }

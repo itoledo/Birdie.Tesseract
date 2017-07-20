@@ -12,7 +12,7 @@ namespace tvn_cosine.ai.test.unit.agent.impl
         [TestMethod]
         public void testToString()
         {
-            IQueue<Percept> ps = Factory.CreateQueue<Percept>();
+            IQueue<IPercept> ps = Factory.CreateQueue<IPercept>();
             ps.Add(new DynamicPercept("key1", "value1"));
 
             Assert.AreEqual("[Percept[key1==value1]]", ps.ToString());
@@ -27,8 +27,8 @@ namespace tvn_cosine.ai.test.unit.agent.impl
         [TestMethod]
         public void testEquals()
         {
-            IQueue<Percept> ps1 = Factory.CreateQueue<Percept>();
-            IQueue<Percept> ps2 = Factory.CreateQueue<Percept>();
+            IQueue<IPercept> ps1 = Factory.CreateQueue<IPercept>();
+            IQueue<IPercept> ps2 = Factory.CreateQueue<IPercept>();
 
             Assert.AreEqual(ps1, ps2);
 

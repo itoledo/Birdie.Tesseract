@@ -14,10 +14,10 @@ namespace tvn.cosine.ai.environment.wumpusworld
         private WumpusCave cave;
         private bool _isWumpusAlive = true;
         private bool isGoldGrabbed;
-        private IMap<Agent, AgentPosition> agentPositions = Factory.CreateMap<Agent, AgentPosition>();
-        private ISet<Agent> bumpedAgents = Factory.CreateSet<Agent>();
-        private ISet<Agent> agentsHavingArrow = Factory.CreateSet<Agent>();
-        private Agent agentJustKillingWumpus;
+        private IMap<IAgent, AgentPosition> agentPositions = Factory.CreateMap<IAgent, AgentPosition>();
+        private ISet<IAgent> bumpedAgents = Factory.CreateSet<IAgent>();
+        private ISet<IAgent> agentsHavingArrow = Factory.CreateSet<IAgent>();
+        private IAgent agentJustKillingWumpus;
 
         public WumpusEnvironment(WumpusCave cave)
         {
@@ -39,21 +39,21 @@ namespace tvn.cosine.ai.environment.wumpusworld
             return isGoldGrabbed;
         }
 
-        public AgentPosition getAgentPosition(Agent agent)
+        public AgentPosition getAgentPosition(IAgent agent)
         {
             return agentPositions.Get(agent);
         }
 
 
-        public override void addAgent(Agent agent)
+        public override void AddAgent(IAgent agent)
         {
             agentPositions.Put(agent, cave.getStart());
             agentsHavingArrow.Add(agent);
-            base.addAgent(agent);
+            base.AddAgent(agent);
         }
 
 
-        public override void executeAction(Agent agent, Action action)
+        public override void executeAction(IAgent agent, IAction action)
         {
             bumpedAgents.Remove(agent);
             if (agent == agentJustKillingWumpus)
@@ -68,7 +68,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
                     bumpedAgents.Add(agent);
                 }
                 else if (cave.isPit(newPos.getRoom()) || newPos.getRoom().Equals(cave.getWumpus()) && _isWumpusAlive)
-                    agent.setAlive(false);
+                    agent.SetAlive(false);
             }
             else if (action == WumpusAction.TURN_LEFT)
             {
@@ -94,7 +94,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             }
             else if (action == WumpusAction.CLIMB)
             {
-                agent.setAlive(false);
+                agent.SetAlive(false);
             }
         }
 
@@ -122,7 +122,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
         }
 
 
-        public override Percept getPerceptSeenBy(Agent anAgent)
+        public override IPercept getPerceptSeenBy(IAgent anAgent)
         {
             WumpusPercept result = new WumpusPercept();
             AgentPosition pos = agentPositions.Get(anAgent);

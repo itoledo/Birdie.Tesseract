@@ -1,6 +1,6 @@
 ﻿namespace tvn.cosine.ai.agent.impl
 { 
-    public class DynamicState : ObjectWithDynamicAttributes, State
+    public class DynamicState : ObjectWithDynamicAttributes, IState
     {
         public DynamicState()
         {

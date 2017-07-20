@@ -29,19 +29,19 @@ namespace tvn.cosine.ai.agent.impl.aprog
      * @author Mike Stampone
      * 
      */
-    public abstract class ModelBasedReflexAgentProgram : AgentProgram
+    public abstract class ModelBasedReflexAgentProgram : IAgentProgram
     { 
         // persistent: state, the agent's current conception of the world state
         private DynamicState state = null;
 
         // model, a description of how the next state depends on current state and action
-        private Model model = null;
+        private IModel model = null;
 
         // rules, a set of condition-action rules
         private ISet<Rule> rules = null;
 
         // action, the most recent action, initially none
-        private Action action = null;
+        private IAction action = null;
 
         public ModelBasedReflexAgentProgram()
         {
@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
          *            a description of how the next state depends on the current
          *            state and action.
          */
-        public void setModel(Model model)
+        public void setModel(IModel model)
         {
             this.model = model;
         }
@@ -84,7 +84,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
         }
          
         // function MODEL-BASED-REFLEX-AGENT(percept) returns an action
-        public Action execute(Percept percept)
+        public IAction Execute(IPercept percept)
         {
             // state <- UPDATE-STATE(state, action, percept, model)
             state = updateState(state, action, percept, model);
@@ -102,7 +102,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
          */
         protected abstract void init();
 
-        protected abstract DynamicState updateState(DynamicState state, Action action, Percept percept, Model model);
+        protected abstract DynamicState updateState(DynamicState state, IAction action, IPercept percept, IModel model);
 
         protected Rule ruleMatch(DynamicState state, ISet<Rule> rules)
         {
@@ -116,7 +116,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
             return null;
         }
 
-        protected Action ruleAction(Rule r)
+        protected IAction ruleAction(Rule r)
         {
             return null == r ? NoOpAction.NO_OP : r.getAction();
         }

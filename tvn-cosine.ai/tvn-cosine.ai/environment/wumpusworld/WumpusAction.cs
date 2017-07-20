@@ -18,7 +18,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
      *
      * @author Ruediger Lunde
      */
-    public class WumpusAction : Action
+    public class WumpusAction : IAction
     {
         private static readonly ISet<WumpusAction> _values = Factory.CreateSet<WumpusAction>();
 
@@ -34,7 +34,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             return symbol;
         }
          
-        public bool isNoOp()
+        public bool IsNoOp()
         {
             return false;
         }
