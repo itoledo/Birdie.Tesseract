@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using System.Globalization;
+using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.nlp.parsing.grammars;
 
@@ -64,15 +65,15 @@ namespace tvn.cosine.ai.nlp.parsing
             string key = vargs[0].ToUpper();
             if (this.ContainsKey(key)) { containsKey = true; }
 
-            for (int i = 1; i < vargs.Length;++i)
+            for (int i = 1; i < vargs.Length; ++i)
             {
                 try
                 {
                     if (containsKey)
-                        this.Get(key).Add(new LexWord(vargs[i], float.Parse(vargs[i + 1])));
+                        this.Get(key).Add(new LexWord(vargs[i], float.Parse(vargs[i + 1], NumberStyles.Any, CultureInfo.InvariantCulture)));
                     else
-                        lexWords.Add(new LexWord(vargs[i], float.Parse(vargs[i + 1])));
-                   ++i;
+                        lexWords.Add(new LexWord(vargs[i], float.Parse(vargs[i + 1], NumberStyles.Any, CultureInfo.InvariantCulture)));
+                    ++i;
                 }
                 catch (NumberFormatException)
                 {

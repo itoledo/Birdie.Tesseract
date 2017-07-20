@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.common.collections
+﻿using tvn.cosine.ai.logic.fol.parsing.ast;
+
+namespace tvn.cosine.ai.common.collections
 {
     public interface IQueue<T> : IEnumerable<T>, IStringable
     {
@@ -24,5 +26,6 @@
         void Reverse();
         IQueue<T> subList(int startPos, int endPos);
         void Set(int position, T item);
+        bool SequenceEqual(IQueue<T> queue);
     }
 }

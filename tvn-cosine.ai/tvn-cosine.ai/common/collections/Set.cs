@@ -104,7 +104,44 @@ namespace tvn.cosine.ai.common.collections
 
         T IQueue<T>.Get(int index)
         {
-            throw new NotSupportedException("Not supported");
+           if (index >= backingSet.Count 
+            || index < 0)
+            {
+                throw new NotSupportedException("Not supported");
+            }
+
+            int counter = 0;
+
+            foreach (T item in backingSet)
+            {
+                if (counter == index)
+                {
+                    return item;
+                }
+                ++counter;
+            }
+
+            return default(T);
+        }
+
+        public bool SequenceEqual(IQueue<T> other)
+        {
+            if (null == other
+             || other.Size() != Size())
+            {
+                return false;
+            }
+
+            int counter = 0;
+            foreach (T item in backingSet)
+            {
+                if (!item.Equals(other.Get(counter)))
+                {
+                    return false;
+                }
+                ++counter;
+            }
+            return true;
         }
 
         int IQueue<T>.IndexOf(T item)

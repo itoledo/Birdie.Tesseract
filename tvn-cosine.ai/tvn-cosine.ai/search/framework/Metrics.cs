@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.search.framework
 
         public int getInt(string name)
         {
-            return hash.ContainsKey(name) ? int.Parse(name) : 0;
+            return hash.ContainsKey(name) ? int.Parse(name, NumberStyles.Any, CultureInfo.InvariantCulture) : 0;
         }
 
         public double getDouble(string name)
@@ -49,7 +49,7 @@ namespace tvn.cosine.ai.search.framework
         public long getLong(string name)
         {
             string value = hash.Get(name);
-            return value != null ? long.Parse(value) : 0L;
+            return value != null ? long.Parse(value, NumberStyles.Any, CultureInfo.InvariantCulture) : 0L;
         }
 
         public string get(string name)

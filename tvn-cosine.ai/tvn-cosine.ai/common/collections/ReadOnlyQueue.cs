@@ -21,6 +21,11 @@ namespace tvn.cosine.ai.common.collections
             return backingQueue.Get(index);
         }
 
+        public bool SequenceEqual(IQueue<T> other)
+        {
+            return backingQueue.SequenceEqual(other);
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             return backingQueue.GetEnumerator();
@@ -65,7 +70,7 @@ namespace tvn.cosine.ai.common.collections
         {
             return backingQueue.subList(startPos, endPos);
         }
-         
+
         void IQueue<T>.Sort(IComparer<T> comparer)
         {
             throw new NotSupportedException("Not supported");

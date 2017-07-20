@@ -69,7 +69,7 @@ namespace tvn.cosine.ai.environment.nqueens
 
         public int getSize()
         {
-            return squares.Length;
+            return squares.GetLength(0);
         }
 
         public void clear()

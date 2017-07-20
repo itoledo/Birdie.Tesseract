@@ -17,6 +17,7 @@ namespace tvn.cosine.ai.common.collections
             return backingMap.Size();
         }
 
+
         public bool Contains(KeyValuePair<KEY, VALUE> item)
         {
             return backingMap.Contains(item);
@@ -67,7 +68,11 @@ namespace tvn.cosine.ai.common.collections
             return backingMap.ContainsAll(other);
         }
 
-
+        bool IQueue<KeyValuePair<KEY, VALUE>>.SequenceEqual(IQueue<KeyValuePair<KEY, VALUE>> other)
+        {
+            throw new NotSupportedException("Not supported");
+        }
+         
         void IQueue<KeyValuePair<KEY, VALUE>>.Sort(IComparer<KeyValuePair<KEY, VALUE>> comparer)
         {
             throw new NotSupportedException("Not supported");

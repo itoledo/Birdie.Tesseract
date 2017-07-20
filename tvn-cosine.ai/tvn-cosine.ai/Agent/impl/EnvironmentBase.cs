@@ -115,7 +115,7 @@ namespace tvn.cosine.ai.agent.impl
 
         public virtual double GetPerformanceMeasure(IAgent forAgent)
         {
-            if (performanceMeasures.ContainsKey(forAgent))
+            if (!performanceMeasures.ContainsKey(forAgent))
             {
                 performanceMeasures.Put(forAgent, 0.0D);
             }

@@ -54,21 +54,26 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
+        public bool SequenceEqual(IQueue<T> other)
+        {
+            return backingSet.SequenceEqual(other);
+        }
+         
+        public T Get(int index)
+        {
+            return backingSet.Get(index);
+        }
+
+        public int IndexOf(T item)
+        {
+            return backingSet.IndexOf(item);
+        }
+
         void IQueue<T>.RemoveAt(int index)
         {
             throw new NotSupportedException("Not supported");
         }
-
-        T IQueue<T>.Get(int index)
-        {
-            throw new NotSupportedException("Not supported");
-        }
-
-        int IQueue<T>.IndexOf(T item)
-        {
-            throw new NotSupportedException("Not supported");
-        }
-
+         
         void IQueue<T>.Insert(int index, T item)
         {
             throw new NotSupportedException("Not supported");
@@ -118,7 +123,7 @@ namespace tvn.cosine.ai.common.collections
         {
             throw new NotSupportedException("Not supported");
         }
-         
+
         void IQueue<T>.Reverse()
         {
             throw new NotSupportedException("Not supported");

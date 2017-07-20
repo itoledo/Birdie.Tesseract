@@ -23,17 +23,16 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
         [TestMethod]
         public void test_getValue()
         {
-            Assert.IsTrue(0.0 == fitnessFunction
-                    .apply(new Individual<int>(Factory.CreateQueue<int>(new[] { 0, 0, 0, 0, 0, 0, 0, 0 }))));
-            Assert.IsTrue(0.0 == fitnessFunction
-                    .apply(new Individual<int>(Factory.CreateQueue<int>(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }))));
-            Assert.IsTrue(0.0 == fitnessFunction
-                    .apply(new Individual<int>(Factory.CreateQueue<int>(new[] { 7, 6, 5, 4, 3, 2, 1, 0 }))));
-
-            Assert.IsTrue(23.0 == fitnessFunction
-                    .apply(new Individual<int>(Factory.CreateQueue<int>(new[] { 5, 6, 1, 3, 6, 4, 7, 7 }))));
-            Assert.IsTrue(28.0 == fitnessFunction
-                    .apply(new Individual<int>(Factory.CreateQueue<int>(new[] { 0, 4, 7, 5, 2, 6, 1, 3 }))));
+            Assert.IsTrue(0.0 == fitnessFunction.apply(
+                new Individual<int>(Factory.CreateQueue<int>(new[] { 0, 0, 0, 0, 0, 0, 0, 0 }))));
+            Assert.IsTrue(0.0 == fitnessFunction.apply(
+                new Individual<int>(Factory.CreateQueue<int>(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }))));
+            Assert.IsTrue(0.0 == fitnessFunction.apply(
+                new Individual<int>(Factory.CreateQueue<int>(new[] { 7, 6, 5, 4, 3, 2, 1, 0 })))); 
+            Assert.IsTrue(23.0 == fitnessFunction.apply(
+                new Individual<int>(Factory.CreateQueue<int>(new[] { 5, 6, 1, 3, 6, 4, 7, 7 }))));
+            Assert.IsTrue(28.0 == fitnessFunction.apply(
+                new Individual<int>(Factory.CreateQueue<int>(new[] { 0, 4, 7, 5, 2, 6, 1, 3 }))));
         }
 
         [TestMethod]
@@ -66,7 +65,7 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
         [TestMethod]
         public void test_generateRandomIndividual()
         {
-            for (int i = 2; i <= 40;++i)
+            for (int i = 2; i <= 40; ++i)
             {
                 Individual<int> individual = NQueensGenAlgoUtil.generateRandomIndividual(i);
                 Assert.AreEqual(i, individual.length());
@@ -76,7 +75,7 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
         [TestMethod]
         public void test_getFiniteAlphabet()
         {
-            for (int i = 2; i <= 40;++i)
+            for (int i = 2; i <= 40; ++i)
             {
                 IQueue<int> fab = NQueensGenAlgoUtil.getFiniteAlphabetForBoardOfSize(i);
                 Assert.AreEqual(i, fab.Size());

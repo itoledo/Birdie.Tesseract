@@ -10,12 +10,7 @@ namespace tvn.cosine.ai.common.collections
         {
             backingList = new System.Collections.Generic.List<T>();
         }
-
-        void IQueue<T>.Sort(IComparer<T> comparer)
-        {
-            backingList.Sort(new ComparerAdaptor(comparer));
-        }
-
+         
         public Queue(IQueue<T> items)
             : this()
         {
@@ -34,6 +29,26 @@ namespace tvn.cosine.ai.common.collections
         public bool Add(T item)
         {
             backingList.Add(item);
+            return true;
+        }
+         
+        public bool SequenceEqual(IQueue<T> other)
+        {
+            if (null == other
+             || other.Size() != Size())
+            {
+                return false;
+            }
+
+            int counter = 0;
+            foreach (T item in backingList)
+            {
+                if (!item.Equals(other.Get(counter)))
+                {
+                    return false;
+                }
+                ++counter;
+            }
             return true;
         }
 
@@ -165,6 +180,11 @@ namespace tvn.cosine.ai.common.collections
         public void Set(int position, T item)
         {
             backingList[position] = item;
+        }
+
+        public void Sort(IComparer<T> comparer)
+        {
+            backingList.Sort(new ComparerAdaptor(comparer));
         }
 
         class Enumerator : IEnumerator<T>

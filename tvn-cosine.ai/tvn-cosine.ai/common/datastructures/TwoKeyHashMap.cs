@@ -21,7 +21,7 @@ namespace tvn.cosine.ai.common.datastructures
     public class TwoKeyHashMap<K1, K2, V> : IMap<Pair<K1, K2>, V>
     {
         private readonly IMap<Pair<K1, K2>, V> backingMap = Factory.CreateMap<Pair<K1, K2>, V>();
-         
+
         public bool IsReadonly()
         {
             return backingMap.IsReadonly();
@@ -127,8 +127,9 @@ namespace tvn.cosine.ai.common.datastructures
             return backingMap.Peek();
         }
 
+
         public void Clear()
-        { 
+        {
             backingMap.Clear();
         }
 
@@ -152,44 +153,49 @@ namespace tvn.cosine.ai.common.datastructures
             return backingMap.Equals(other);
         }
 
-        public void PutAll(IMap<Pair<K1, K2>, V> map)
+        public bool SequenceEqual(IQueue<KeyValuePair<Pair<K1, K2>, V>> queue)
         {
-            throw new NotImplementedException();
+            return backingMap.SequenceEqual(queue);
         }
 
-        public bool ContainsAll(IQueue<KeyValuePair<Pair<K1, K2>, V>> other)
+        void IMap<Pair<K1, K2>, V>.PutAll(IMap<Pair<K1, K2>, V> map)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public void RemoveAll(IQueue<KeyValuePair<Pair<K1, K2>, V>> items)
+        bool IQueue<KeyValuePair<Pair<K1, K2>, V>>.ContainsAll(IQueue<KeyValuePair<Pair<K1, K2>, V>> other)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public void Sort(IComparer<KeyValuePair<Pair<K1, K2>, V>> comparer)
+        void IQueue<KeyValuePair<Pair<K1, K2>, V>>.RemoveAll(IQueue<KeyValuePair<Pair<K1, K2>, V>> items)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Not supported");
+        }
+
+        void IQueue<KeyValuePair<Pair<K1, K2>, V>>.Sort(IComparer<KeyValuePair<Pair<K1, K2>, V>> comparer)
+        {
+            throw new NotSupportedException("Not supported");
         }
 
         public KeyValuePair<Pair<K1, K2>, V>[] ToArray()
         {
-            throw new NotImplementedException();
+            return backingMap.ToArray();
         }
 
-        public void Reverse()
+        void IQueue<KeyValuePair<Pair<K1, K2>, V>>.Reverse()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public IQueue<KeyValuePair<Pair<K1, K2>, V>> subList(int startPos, int endPos)
+        IQueue<KeyValuePair<Pair<K1, K2>, V>> IQueue<KeyValuePair<Pair<K1, K2>, V>>.subList(int startPos, int endPos)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public void Set(int position, KeyValuePair<Pair<K1, K2>, V> item)
+        void IQueue<KeyValuePair<Pair<K1, K2>, V>>.Set(int position, KeyValuePair<Pair<K1, K2>, V> item)
         {
-            throw new NotImplementedException();
-        }
-    } 
+            throw new NotSupportedException("Not supported");
+        } 
+    }
 }

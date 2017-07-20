@@ -112,40 +112,40 @@ namespace tvn_cosine.ai.test.unit.probability.util
 
 
             even.Put(X, true);
-            Assert.AreEqual(new int[] { 0, 1, 2, 3, 4, 5 },
+            CollectionAssert.AreEqual(new int[] { 0, 1, 2, 3, 4, 5 },
                     ProbUtil.indexesOfValue(vars, 0, even));
 
             even.Put(X, false);
-            Assert.AreEqual(new int[] { 6, 7, 8, 9, 10, 11 },
+            CollectionAssert.AreEqual(new int[] { 6, 7, 8, 9, 10, 11 },
                     ProbUtil.indexesOfValue(vars, 0, even));
 
 
             even.Put(Y, "A");
-            Assert.AreEqual(new int[] { 0, 1, 6, 7 },
+            CollectionAssert.AreEqual(new int[] { 0, 1, 6, 7 },
                     ProbUtil.indexesOfValue(vars, 1, even));
 
             even.Put(Y, "B");
-            Assert.AreEqual(new int[] { 2, 3, 8, 9 },
+            CollectionAssert.AreEqual(new int[] { 2, 3, 8, 9 },
                     ProbUtil.indexesOfValue(vars, 1, even));
 
             even.Put(Y, "C");
-            Assert.AreEqual(new int[] { 4, 5, 10, 11 },
+            CollectionAssert.AreEqual(new int[] { 4, 5, 10, 11 },
                     ProbUtil.indexesOfValue(vars, 1, even));
 
 
             even.Put(Z, true);
-            Assert.AreEqual(new int[] { 0, 2, 4, 6, 8, 10 },
+            CollectionAssert.AreEqual(new int[] { 0, 2, 4, 6, 8, 10 },
                     ProbUtil.indexesOfValue(vars, 2, even));
 
             even.Put(Z, false);
-            Assert.AreEqual(new int[] { 1, 3, 5, 7, 9, 11 },
+            CollectionAssert.AreEqual(new int[] { 1, 3, 5, 7, 9, 11 },
                     ProbUtil.indexesOfValue(vars, 2, even));
         }
 
         [TestMethod]
         public void test_randomVariableName()
         {
-            string[] names = new[] { null, "a ", " b", "_A1", "B\ta\t\nf", "B___\n?", "Aa \tb c d e", "12asb", "33", "-A\t\b", "-_-" };
+            string[] names = new[] { "B\ta\t\nf", "B___\n?", null, "a ", " b", "_A1",   "Aa \tb c d e", "12asb", "33", "-A\t\b", "-_-" };
             foreach (string name in names)
             {
                 try
@@ -154,9 +154,7 @@ namespace tvn_cosine.ai.test.unit.probability.util
                     Assert.Fail("Invalid name string not caught!");
                 }
                 catch (Exception)
-                {
-                    ;
-                }
+                { }
             }
             ProbUtil.checkValidRandomVariableName("A");
             ProbUtil.checkValidRandomVariableName("A1");

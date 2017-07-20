@@ -13,6 +13,7 @@ namespace tvn.cosine.ai.probability.util
     public class ProbUtil
     {
         private static readonly Regex LEGAL_RAND_VAR_NAME_PATTERN = new Regex("[A-Za-z0-9-_]+");
+        private static readonly Regex LEGAL_RAND_VAR_NAME_PATTERN_TABS = new Regex("^[^\t\n]+$");
         private static readonly Regex LEGAL_LEADING_CHAR_RAND_VAR_NAME_PATTERN = new Regex("^[A-Z].*");
 
         /**
@@ -25,7 +26,12 @@ namespace tvn.cosine.ai.probability.util
          */
         public static void checkValidRandomVariableName(string name)
         {
-            if (!LEGAL_RAND_VAR_NAME_PATTERN.IsMatch(name))
+            if (null == name)
+            {
+                throw new IllegalArgumentException("Name cannot be null.");
+            }
+            if (!LEGAL_RAND_VAR_NAME_PATTERN_TABS.IsMatch(name)
+             || !LEGAL_RAND_VAR_NAME_PATTERN.IsMatch(name))
             {
                 throw new IllegalArgumentException("Name of RandomVariable must be specified and contain no leading, trailing or embedded spaces or special characters.");
             }
@@ -129,7 +135,7 @@ namespace tvn.cosine.ai.probability.util
             double total = distribution[0];
             while (probabilityChoice > total)
             {
-               ++i;
+                ++i;
                 total += distribution[i];
             }
             return fd.getValueAt(i);
@@ -221,7 +227,7 @@ namespace tvn.cosine.ai.probability.util
                 generatedEvent.Put(entry.GetKey(), entry.GetValue());
             }
 
-            for (int i = 0; i < fd.size();++i)
+            for (int i = 0; i < fd.size(); ++i)
             {
                 /** P(x'<sub>i</sub>|mb(Xi)) =
                  * &alpha;P(x'<sub>i</sub>|parents(X<sub>i</sub>)) *
@@ -263,7 +269,7 @@ namespace tvn.cosine.ai.probability.util
             foreach (Node pn in Xi.getParents())
             {
                 parentValues[i] = even.Get(pn.getRandomVariable());
-               ++i;
+                ++i;
             }
             return parentValues;
         }
@@ -371,7 +377,7 @@ namespace tvn.cosine.ai.probability.util
             int[] radixValues = new int[X.Length];
             int[] radices = new int[X.Length];
             int j = X.Length - 1;
-            for (int i = 0; i < X.Length;++i)
+            for (int i = 0; i < X.Length; ++i)
             {
                 FiniteDomain fd = (FiniteDomain)X[i].getDomain();
                 radixValues[j] = fd.getOffset(x.Get(X[i]));
@@ -429,7 +435,7 @@ namespace tvn.cosine.ai.probability.util
             int[] indexes = new int[csize / vdosize];
 
             int blocksize = csize;
-            for (int i = 0; i < X.Length;++i)
+            for (int i = 0; i < X.Length; ++i)
             {
                 blocksize = blocksize / X[i].getDomain().size();
                 if (i == idx)

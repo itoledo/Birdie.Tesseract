@@ -31,6 +31,26 @@ namespace tvn.cosine.ai.common.collections
             }
         }
 
+        public bool SequenceEqual(IQueue<T> other)
+        {
+            if (null == other
+             || other.Size() != Size())
+            {
+                return false;
+            }
+
+            int counter = 0;
+            foreach (T item in backingStack)
+            {
+                if (!item.Equals(other.Get(counter)))
+                {
+                    return false;
+                }
+                ++counter;
+            }
+            return true;
+        }
+
         public void Clear()
         {
             backingStack.Clear();

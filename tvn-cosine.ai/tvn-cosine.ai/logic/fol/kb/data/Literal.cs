@@ -66,11 +66,9 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
             return strRep;
         }
-
-
+         
         public override bool Equals(object o)
-        {
-
+        { 
             if (this == o)
             {
                 return true;
@@ -90,7 +88,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             return l.isPositiveLiteral() == isPositiveLiteral()
                     && l.getAtomicSentence().getSymbolicName()
                             .Equals(atom.getSymbolicName())
-                    && l.getAtomicSentence().getArgs().Equals(atom.getArgs());
+                    && l.getAtomicSentence().getArgs().SequenceEqual(atom.getArgs());
         }
 
 

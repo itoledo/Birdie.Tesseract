@@ -8,8 +8,9 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn_cosine.ai.test.unit.logic.fol.kb
 {
-    [TestClass] public class FOLKnowledgeBaseTest
-    { 
+    [TestClass]
+    public class FOLKnowledgeBaseTest
+    {
         private FOLKnowledgeBase weaponsKB, kingsKB;
 
         [TestInitialize]
@@ -35,13 +36,12 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb
         [TestMethod]
         public void testAddComplexRule()
         {
-            weaponsKB
-                    .tell("( (((American(x) AND Weapon(y)) AND Sells(x,y,z)) AND Hostile(z)) => Criminal(x))");
+            weaponsKB.tell("( (((American(x) AND Weapon(y)) AND Sells(x,y,z)) AND Hostile(z)) => Criminal(x))");
             Assert.AreEqual(1, weaponsKB.getNumberRules());
             weaponsKB.tell("American(West)");
             Assert.AreEqual(1, weaponsKB.getNumberRules());
 
-         IQueue<Term> terms = Factory.CreateQueue<Term>();
+            IQueue<Term> terms = Factory.CreateQueue<Term>();
             terms.Add(new Variable("v0"));
 
             Clause dcRule = weaponsKB.getAllDefiniteClauseImplications().Get(0);

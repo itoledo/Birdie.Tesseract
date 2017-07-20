@@ -60,7 +60,7 @@ namespace tvn.cosine.ai.common.collections
         {
             return backingDictionary.ContainsKey(key);
         }
-         
+
         public VALUE Get(KEY key)
         {
             if (backingDictionary.ContainsKey(key))
@@ -226,6 +226,11 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException("Not supported");
         }
 
+        bool IQueue<KeyValuePair<KEY, VALUE>>.SequenceEqual(IQueue<KeyValuePair<KEY, VALUE>> queue)
+        {
+            throw new NotSupportedException("Not supported");
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -251,6 +256,7 @@ namespace tvn.cosine.ai.common.collections
             sb.Append(']');
             return sb.ToString();
         }
+
 
         class Enumerator : IEnumerator<KeyValuePair<KEY, VALUE>>
         {
