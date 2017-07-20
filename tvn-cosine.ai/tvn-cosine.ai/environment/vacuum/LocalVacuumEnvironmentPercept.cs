@@ -13,7 +13,7 @@ namespace tvn.cosine.ai.environment.vacuum
      * @author Mike Stampone
      * @author Andrew Brown
      */
-    public class LocalVacuumEnvironmentPercept : DynamicPercept, IToString
+    public class LocalVacuumEnvironmentPercept : DynamicPercept, IStringable
     {
         public const string ATTRIBUTE_AGENT_LOCATION = "agentLocation";
         public const string ATTRIBUTE_STATE = "state";

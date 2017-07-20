@@ -148,7 +148,7 @@ namespace tvn.cosine.ai.util
             double[] normalized = new double[len];
             if (total != 0)
             {
-                for (int i = 0; i < len; i++)
+                for (int i = 0; i < len;++i)
                 {
                     normalized[i] = probDist[i] / total;
                 }
@@ -160,7 +160,7 @@ namespace tvn.cosine.ai.util
         public static IQueue<double> normalize(IQueue<double> values)
         {
             double[] valuesAsArray = new double[values.Size()];
-            for (int i = 0; i < valuesAsArray.Length; i++)
+            for (int i = 0; i < valuesAsArray.Length;++i)
                 valuesAsArray[i] = values.Get(i);
             double[] normalized = normalize(valuesAsArray);
             IQueue<double> results = Factory.CreateQueue<double>();
@@ -265,7 +265,7 @@ namespace tvn.cosine.ai.util
         public static string ntimes(string s, int n)
         {
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n;++i)
             {
                 builder.Append(s);
             }

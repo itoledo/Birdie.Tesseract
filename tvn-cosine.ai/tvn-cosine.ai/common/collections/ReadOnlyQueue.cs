@@ -10,7 +10,7 @@ namespace tvn.cosine.ai.common.collections
         {
             this.backingQueue = backingQueue;
         }
-         
+
         public bool Contains(T item)
         {
             return backingQueue.Contains(item);
@@ -30,7 +30,7 @@ namespace tvn.cosine.ai.common.collections
         {
             return backingQueue.IndexOf(item);
         }
-         
+
         public bool IsEmpty()
         {
             return backingQueue.IsEmpty();
@@ -51,6 +51,21 @@ namespace tvn.cosine.ai.common.collections
             return backingQueue.Size();
         }
 
+        public T[] ToArray()
+        {
+            return backingQueue.ToArray();
+        }
+
+        public bool ContainsAll(IQueue<T> other)
+        {
+            return backingQueue.ContainsAll(other);
+        }
+
+        public IQueue<T> subList(int startPos, int endPos)
+        {
+            return backingQueue.subList(startPos, endPos);
+        }
+         
         void IQueue<T>.Sort(IComparer<T> comparer)
         {
             throw new NotSupportedException("Not supported");
@@ -58,67 +73,52 @@ namespace tvn.cosine.ai.common.collections
 
         T IQueue<T>.Pop()
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Not supported");
         }
-         
+
         bool IQueue<T>.Remove(T item)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Not supported");
         }
 
         void IQueue<T>.RemoveAt(int index)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Not supported");
         }
 
         bool IQueue<T>.Add(T item)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Not supported");
         }
 
         void IQueue<T>.AddAll(IQueue<T> items)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Not supported");
         }
 
         void IQueue<T>.Clear()
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Not supported");
         }
 
         void IQueue<T>.Insert(int index, T item)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public bool ContainsAll(IQueue<T> other)
+        void IQueue<T>.RemoveAll(IQueue<T> items)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public void RemoveAll(IQueue<T> items)
+        void IQueue<T>.Reverse()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public T[] ToArray()
+        void IQueue<T>.Set(int position, T item)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Reverse()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueue<T> subList(int startPos, int endPos)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Set(int position, T item)
-        {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
     }
 }

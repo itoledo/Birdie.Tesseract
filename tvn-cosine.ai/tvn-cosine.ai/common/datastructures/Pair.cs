@@ -5,7 +5,7 @@
      * @author Mike Stampone
      * 
      */
-    public class Pair<X, Y> : IEquatable, IHashable, IToString
+    public class Pair<X, Y> : IEquatable, IHashable, IStringable
     {
         private readonly X a;
         private readonly Y b;

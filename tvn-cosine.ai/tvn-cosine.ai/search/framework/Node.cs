@@ -30,7 +30,7 @@ namespace tvn.cosine.ai.search.framework
      * @author Mike Stampone
      * @author Ruediger Lunde
      */
-    public class Node<S, A> : IToString
+    public class Node<S, A> : IStringable
     {
 
         // n.STATE: the state in the state space to which the node corresponds;

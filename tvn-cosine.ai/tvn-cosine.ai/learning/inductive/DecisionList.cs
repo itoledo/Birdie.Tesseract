@@ -5,7 +5,7 @@ using tvn.cosine.ai.learning.framework;
 
 namespace tvn.cosine.ai.learning.inductive
 {
-    public class DecisionList : IToString
+    public class DecisionList : IStringable
     {
         private string positive, negative;
         private IQueue<DLTest> tests;

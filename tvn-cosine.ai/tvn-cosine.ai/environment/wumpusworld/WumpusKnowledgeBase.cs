@@ -357,7 +357,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             // For each pair of locations, we add a sentence saying
             // that at least one of them must be wumpus-free.
             int numRooms = (caveXDimension * caveYDimension);
-            for (int i = 0; i < numRooms; i++)
+            for (int i = 0; i < numRooms;++i)
             {
                 for (int j = i + 1; j < numRooms; j++)
                 {

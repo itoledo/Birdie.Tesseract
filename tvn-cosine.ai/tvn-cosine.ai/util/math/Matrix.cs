@@ -84,7 +84,7 @@ namespace tvn.cosine.ai.util.math
         public static Matrix createDiagonalMatrix(IQueue<double> values)
         {
             Matrix m = new Matrix(values.Size(), values.Size(), 0);
-            for (int i = 0; i < values.Size(); i++)
+            for (int i = 0; i < values.Size();++i)
             {
                 m.set(i, i, values.Get(i));
             }
@@ -123,7 +123,7 @@ namespace tvn.cosine.ai.util.math
             this.m = m;
             this.n = n;
             A = new double[m, n];
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -188,7 +188,7 @@ namespace tvn.cosine.ai.util.math
                 throw new IllegalArgumentException("Array length must be a multiple of m.");
             }
             A = new double[m, n];
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -216,7 +216,7 @@ namespace tvn.cosine.ai.util.math
             int n = A.GetLength(1);
             Matrix X = new Matrix(m, n);
             double[,] C = X.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -234,7 +234,7 @@ namespace tvn.cosine.ai.util.math
         {
             Matrix X = new Matrix(m, n);
             double[,] C = X.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -274,7 +274,7 @@ namespace tvn.cosine.ai.util.math
         public double[,] getArrayCopy()
         {
             double[,] C = new double[m, n];
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -293,7 +293,7 @@ namespace tvn.cosine.ai.util.math
         public double[] getColumnPackedCopy()
         {
             double[] vals = new double[m * n];
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -312,7 +312,7 @@ namespace tvn.cosine.ai.util.math
         public double[] getRowPackedCopy()
         {
             double[] vals = new double[m * n];
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -382,7 +382,7 @@ namespace tvn.cosine.ai.util.math
             double[,] B = X.getArray();
             try
             {
-                for (int i = i0; i <= i1; i++)
+                for (int i = i0; i <= i1;++i)
                 {
                     for (int j = j0; j <= j1; j++)
                     {
@@ -415,7 +415,7 @@ namespace tvn.cosine.ai.util.math
             double[,] B = X.getArray();
             try
             {
-                for (int i = 0; i < r.Length; i++)
+                for (int i = 0; i < r.Length;++i)
                 {
                     for (int j = 0; j < c.Length; j++)
                     {
@@ -450,7 +450,7 @@ namespace tvn.cosine.ai.util.math
             double[,] B = X.getArray();
             try
             {
-                for (int i = i0; i <= i1; i++)
+                for (int i = i0; i <= i1;++i)
                 {
                     for (int j = 0; j < c.Length; j++)
                     {
@@ -485,7 +485,7 @@ namespace tvn.cosine.ai.util.math
             double[,] B = X.getArray();
             try
             {
-                for (int i = 0; i < r.Length; i++)
+                for (int i = 0; i < r.Length;++i)
                 {
                     for (int j = j0; j <= j1; j++)
                     {
@@ -538,7 +538,7 @@ namespace tvn.cosine.ai.util.math
         {
             try
             {
-                for (int i = i0; i <= i1; i++)
+                for (int i = i0; i <= i1;++i)
                 {
                     for (int j = j0; j <= j1; j++)
                     {
@@ -569,7 +569,7 @@ namespace tvn.cosine.ai.util.math
         {
             try
             {
-                for (int i = 0; i < r.Length; i++)
+                for (int i = 0; i < r.Length;++i)
                 {
                     for (int j = 0; j < c.Length; j++)
                     {
@@ -602,7 +602,7 @@ namespace tvn.cosine.ai.util.math
         {
             try
             {
-                for (int i = 0; i < r.Length; i++)
+                for (int i = 0; i < r.Length;++i)
                 {
                     for (int j = j0; j <= j1; j++)
                     {
@@ -635,7 +635,7 @@ namespace tvn.cosine.ai.util.math
         {
             try
             {
-                for (int i = i0; i <= i1; i++)
+                for (int i = i0; i <= i1;++i)
                 {
                     for (int j = 0; j < c.Length; j++)
                     {
@@ -659,7 +659,7 @@ namespace tvn.cosine.ai.util.math
         {
             Matrix X = new Matrix(n, m);
             double[,] C = X.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -681,7 +681,7 @@ namespace tvn.cosine.ai.util.math
             for (int j = 0; j < n; j++)
             {
                 double s = 0;
-                for (int i = 0; i < m; i++)
+                for (int i = 0; i < m;++i)
                 {
                     s += System.Math.Abs(A[i, j]);
                 }
@@ -708,7 +708,7 @@ namespace tvn.cosine.ai.util.math
         public double normInf()
         {
             double f = 0;
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 double s = 0;
                 for (int j = 0; j < n; j++)
@@ -728,7 +728,7 @@ namespace tvn.cosine.ai.util.math
 
         // public double normF () {
         // double f = 0;
-        // for (int i = 0; i < m; i++) {
+        // for (int i = 0; i < m;++i) {
         // for (int j = 0; j < n; j++) {
         // f = Maths.hypot(f,A[i][j]);
         // }
@@ -745,7 +745,7 @@ namespace tvn.cosine.ai.util.math
         {
             Matrix X = new Matrix(m, n);
             double[,] C = X.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -768,7 +768,7 @@ namespace tvn.cosine.ai.util.math
             checkMatrixDimensions(B);
             Matrix X = new Matrix(m, n);
             double[,] C = X.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -789,7 +789,7 @@ namespace tvn.cosine.ai.util.math
         public Matrix plusEquals(Matrix B)
         {
             checkMatrixDimensions(B);
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -812,7 +812,7 @@ namespace tvn.cosine.ai.util.math
             checkMatrixDimensions(B);
             Matrix X = new Matrix(m, n);
             double[,] C = X.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -833,7 +833,7 @@ namespace tvn.cosine.ai.util.math
         public Matrix minusEquals(Matrix B)
         {
             checkMatrixDimensions(B);
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -856,7 +856,7 @@ namespace tvn.cosine.ai.util.math
             checkMatrixDimensions(B);
             Matrix X = new Matrix(m, n);
             double[,] C = X.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -877,7 +877,7 @@ namespace tvn.cosine.ai.util.math
         public Matrix arrayTimesEquals(Matrix B)
         {
             checkMatrixDimensions(B);
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -900,7 +900,7 @@ namespace tvn.cosine.ai.util.math
             checkMatrixDimensions(B);
             Matrix X = new Matrix(m, n);
             double[,] C = X.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -921,7 +921,7 @@ namespace tvn.cosine.ai.util.math
         public Matrix arrayRightDivideEquals(Matrix B)
         {
             checkMatrixDimensions(B);
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -944,7 +944,7 @@ namespace tvn.cosine.ai.util.math
             checkMatrixDimensions(B);
             Matrix X = new Matrix(m, n);
             double[,] C = X.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -965,7 +965,7 @@ namespace tvn.cosine.ai.util.math
         public Matrix arrayLeftDivideEquals(Matrix B)
         {
             checkMatrixDimensions(B);
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -987,7 +987,7 @@ namespace tvn.cosine.ai.util.math
         {
             Matrix X = new Matrix(m, n);
             double[,] C = X.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1007,7 +1007,7 @@ namespace tvn.cosine.ai.util.math
 
         public Matrix timesEquals(double s)
         {
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1042,7 +1042,7 @@ namespace tvn.cosine.ai.util.math
                 {
                     Bcolj[k] = B.A[k, j];
                 }
-                for (int i = 0; i < m; i++)
+                for (int i = 0; i < m;++i)
                 {
                     double s = 0;
                     for (int k = 0; k < n; k++)
@@ -1143,7 +1143,7 @@ namespace tvn.cosine.ai.util.math
         public double trace()
         {
             double t = 0;
-            for (int i = 0; i < System.Math.Min(m, n); i++)
+            for (int i = 0; i < System.Math.Min(m, n);++i)
             {
                 t += A[i, i];
             }
@@ -1165,7 +1165,7 @@ namespace tvn.cosine.ai.util.math
             IRandom _random = new DefaultRandom();
             Matrix A = new Matrix(m, n);
             double[,] X = A.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1189,7 +1189,7 @@ namespace tvn.cosine.ai.util.math
         {
             Matrix A = new Matrix(m, n);
             double[,] X = A.getArray();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1217,7 +1217,7 @@ namespace tvn.cosine.ai.util.math
         public void print(StringBuilder output, int width)
         {
             output.AppendLine(); // start on new line.
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < m;++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1238,7 +1238,7 @@ namespace tvn.cosine.ai.util.math
         public override string ToString()
         {
             StringBuilder buf = new StringBuilder();
-            for (int i = 0; i < getRowDimension(); i++)
+            for (int i = 0; i < getRowDimension();++i)
             {
 
                 for (int j = 0; j < getColumnDimension(); j++)

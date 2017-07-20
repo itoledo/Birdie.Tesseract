@@ -6,7 +6,7 @@ using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.environment.xyenv
 {
-    public class XYEnvironment : AbstractEnvironment
+    public class XYEnvironment : EnvironmentBase
     {
         private XYEnvironmentState envState = null;
 
@@ -93,7 +93,7 @@ namespace tvn.cosine.ai.environment.xyenv
 
         public void makePerimeter()
         {
-            for (int i = 0; i < envState.width; i++)
+            for (int i = 0; i < envState.width;++i)
             {
                 XYLocation loc = new XYLocation(i, 0);
                 XYLocation loc2 = new XYLocation(i, envState.height - 1);
@@ -101,7 +101,7 @@ namespace tvn.cosine.ai.environment.xyenv
                 envState.moveObjectToAbsoluteLocation(new Wall(), loc2);
             }
 
-            for (int i = 0; i < envState.height; i++)
+            for (int i = 0; i < envState.height;++i)
             {
                 XYLocation loc = new XYLocation(0, i);
                 XYLocation loc2 = new XYLocation(envState.width - 1, i);

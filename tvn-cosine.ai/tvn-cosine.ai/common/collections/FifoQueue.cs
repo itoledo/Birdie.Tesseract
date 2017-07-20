@@ -71,6 +71,24 @@ namespace tvn.cosine.ai.common.collections
             return backingQueue.Count;
         }
 
+        public T[] ToArray()
+        {
+            return backingQueue.ToArray();
+        }
+
+        public bool ContainsAll(IQueue<T> other)
+        {
+            foreach (T item in other)
+            {
+                if (!backingQueue.Contains(item))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         void IQueue<T>.RemoveAt(int index)
         {
             throw new NotSupportedException("Not supported");
@@ -100,35 +118,25 @@ namespace tvn.cosine.ai.common.collections
         {
             throw new NotSupportedException("Not supported");
         }
-
-        public bool ContainsAll(IQueue<T> other)
+         
+        void IQueue<T>.RemoveAll(IQueue<T> items)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
+        }
+         
+        void IQueue<T>.Reverse()
+        {
+            throw new NotSupportedException("Not supported");
         }
 
-        public void RemoveAll(IQueue<T> items)
+        IQueue<T> IQueue<T>.subList(int startPos, int endPos)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public T[] ToArray()
+        void IQueue<T>.Set(int position, T item)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void Reverse()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IQueue<T> subList(int startPos, int endPos)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Set(int position, T item)
-        {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
         class Enumerator : IEnumerator<T>

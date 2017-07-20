@@ -18,7 +18,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          */
         public override bool addRules(IQueue<Rule> ruleList)
         {
-            for (int i = 0; i < ruleList.Size(); i++)
+            for (int i = 0; i < ruleList.Size();++i)
             {
                 if (!base.validRule(ruleList.Get(i)) || !validRule(ruleList.Get(i)))
                 {
@@ -77,7 +77,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
         {
 
             // for each rule in the grammar 
-            for (int i = 0; i < rules.Size(); i++)
+            for (int i = 0; i < rules.Size();++i)
             {
                 Rule r = rules.Get(i);
                 if (r.lhs.Equals(lhs) && r.rhs.Equals(rhs))

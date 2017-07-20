@@ -6,7 +6,7 @@ namespace tvn.cosine.ai.agent.impl
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public abstract class AbstractEnvironment : IEnvironment
+    public abstract class EnvironmentBase : IEnvironment
     {
         // Note: Use LinkedHashSet's in order to ensure order is respected as provide
         // access to these elements via List interface.
@@ -95,7 +95,7 @@ namespace tvn.cosine.ai.agent.impl
 
         public virtual void Step(int n)
         {
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n;++i)
             {
                 Step();
             }

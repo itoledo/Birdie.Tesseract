@@ -66,7 +66,7 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
         [TestMethod]
         public void test_generateRandomIndividual()
         {
-            for (int i = 2; i <= 40; i++)
+            for (int i = 2; i <= 40;++i)
             {
                 Individual<int> individual = NQueensGenAlgoUtil.generateRandomIndividual(i);
                 Assert.AreEqual(i, individual.length());
@@ -76,7 +76,7 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
         [TestMethod]
         public void test_getFiniteAlphabet()
         {
-            for (int i = 2; i <= 40; i++)
+            for (int i = 2; i <= 40;++i)
             {
                 IQueue<int> fab = NQueensGenAlgoUtil.getFiniteAlphabetForBoardOfSize(i);
                 Assert.AreEqual(i, fab.Size());

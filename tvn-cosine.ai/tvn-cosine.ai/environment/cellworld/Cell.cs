@@ -13,7 +13,7 @@ namespace tvn.cosine.ai.environment.cellworld
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public class Cell<C> : IToString, IEquatable
+    public class Cell<C> : IStringable, IEquatable
     {
         private int x = 1;
         private int y = 1;

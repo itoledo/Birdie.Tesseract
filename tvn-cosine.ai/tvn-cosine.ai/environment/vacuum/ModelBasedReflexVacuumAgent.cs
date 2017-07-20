@@ -6,7 +6,7 @@ using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-    public class ModelBasedReflexVacuumAgent : AbstractAgent
+    public class ModelBasedReflexVacuumAgent : AgentBase
     {
         class ModelBasedReflexVacuumAgentProgram : ModelBasedReflexAgentProgram
         {

@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.learning.neural
          */
         public void trainOn(NNDataSet innds, int numberofEpochs)
         {
-            for (int i = 0; i < numberofEpochs; i++)
+            for (int i = 0; i < numberofEpochs;++i)
             {
                 innds.refreshDataset();
                 while (innds.hasMoreExamples())

@@ -21,7 +21,7 @@ namespace tvn.cosine.ai.environment.vacuum
      * @author Mike Stampone
      * @author Ruediger Lunde
      */
-    public class VacuumEnvironment : AbstractEnvironment
+    public class VacuumEnvironment : EnvironmentBase
     {
         // Allowable Actions within the Vacuum Environment
         public static readonly IAction ACTION_MOVE_LEFT = new DynamicAction("Left");
@@ -72,7 +72,7 @@ namespace tvn.cosine.ai.environment.vacuum
         {
             this.locations = locations;
             envState = new VacuumEnvironmentState();
-            for (int i = 0; i < locations.Size() && i < locStates.Length; i++)
+            for (int i = 0; i < locations.Size() && i < locStates.Length;++i)
                 envState.setLocationState(locations.Get(i), locStates[i]);
         }
 

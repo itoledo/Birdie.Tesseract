@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.search.csp
         {
             Assignment<VAR, VAL> current = generateRandomAssignment(csp);
             fireStateChanged(csp, current, null);
-            for (int i = 0; i < maxSteps && !currIsCancelled; i++)
+            for (int i = 0; i < maxSteps && !currIsCancelled;++i)
             {
                 if (current.isSolution(csp))
                 {

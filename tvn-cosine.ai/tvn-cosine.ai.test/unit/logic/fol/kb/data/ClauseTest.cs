@@ -307,7 +307,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
                 clauses.AddAll(newClauses);
                 newClauses.Clear();
                 Clause[] clausesA = clauses.ToArray();
-                for (int i = 0; i < clausesA.Length; i++)
+                for (int i = 0; i < clausesA.Length;++i)
                 {
                     Clause cI = clausesA[i];
                     for (int j = 0; j < clausesA.Length; j++)

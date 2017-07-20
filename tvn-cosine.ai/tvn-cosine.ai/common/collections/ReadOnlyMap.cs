@@ -62,6 +62,12 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
+        public bool ContainsAll(IQueue<KeyValuePair<KEY, VALUE>> other)
+        {
+            return backingMap.ContainsAll(other);
+        }
+
+
         void IQueue<KeyValuePair<KEY, VALUE>>.Sort(IComparer<KeyValuePair<KEY, VALUE>> comparer)
         {
             throw new NotSupportedException("Not supported");
@@ -127,39 +133,34 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException("Not supported");
         }
 
-        public void PutAll(IMap<KEY, VALUE> map)
+        void IMap<KEY, VALUE>.PutAll(IMap<KEY, VALUE> map)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public bool ContainsAll(IQueue<KeyValuePair<KEY, VALUE>> other)
+        void IQueue<KeyValuePair<KEY, VALUE>>.RemoveAll(IQueue<KeyValuePair<KEY, VALUE>> items)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void RemoveAll(IQueue<KeyValuePair<KEY, VALUE>> items)
-        {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
         public KeyValuePair<KEY, VALUE>[] ToArray()
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public void Reverse()
+        void IQueue<KeyValuePair<KEY, VALUE>>.Reverse()
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public IQueue<KeyValuePair<KEY, VALUE>> subList(int startPos, int endPos)
+        IQueue<KeyValuePair<KEY, VALUE>> IQueue<KeyValuePair<KEY, VALUE>>.subList(int startPos, int endPos)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public void Set(int position, KeyValuePair<KEY, VALUE> item)
+        void IQueue<KeyValuePair<KEY, VALUE>>.Set(int position, KeyValuePair<KEY, VALUE> item)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
     }
 }

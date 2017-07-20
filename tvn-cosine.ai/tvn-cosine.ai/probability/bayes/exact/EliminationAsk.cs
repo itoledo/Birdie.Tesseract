@@ -228,7 +228,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
         {
 
             Factor product = factors.Get(0);
-            for (int i = 1; i < factors.Size(); i++)
+            for (int i = 1; i < factors.Size();++i)
             {
                 product = product.pointwiseProduct(factors.Get(i));
             }

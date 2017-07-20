@@ -114,32 +114,57 @@ namespace tvn.cosine.ai.common.collections
 
         public bool ContainsAll(IQueue<T> other)
         {
-            throw new NotImplementedException();
+            foreach (T item in other)
+            {
+                if (!backingList.Contains(item))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public void RemoveAll(IQueue<T> items)
         {
-            throw new NotImplementedException();
+            foreach (T item in items)
+            {
+                backingList.Remove(item);
+            }
         }
 
         public T[] ToArray()
         {
-            throw new NotImplementedException();
+            return backingList.ToArray();
         }
 
         public void Reverse()
         {
-            throw new NotImplementedException();
+            backingList.Reverse();
         }
 
         public IQueue<T> subList(int startPos, int endPos)
         {
-            throw new NotImplementedException();
+            if (startPos < 0
+               || startPos > endPos
+               || endPos > backingList.Count - 1
+               || startPos > backingList.Count - 1)
+            {
+                throw new NotSupportedException("Not supported");
+            }
+
+            IQueue<T> obj = new Queue<T>();
+            for (int i = startPos; i < endPos; ++i)
+            {
+                obj.Add(backingList[i]);
+            }
+
+            return obj;
         }
 
         public void Set(int position, T item)
         {
-            throw new NotImplementedException();
+            backingList[position] = item;
         }
 
         class Enumerator : IEnumerator<T>

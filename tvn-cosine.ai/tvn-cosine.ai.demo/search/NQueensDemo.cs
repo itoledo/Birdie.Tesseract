@@ -168,7 +168,7 @@ namespace tvn_cosine.ai.demo.search
                 GoalTest<Individual<int>> goalTest = NQueensGenAlgoUtil.getGoalTest();
                 // Generate an initial population
                 ISet<Individual<int>> population = Factory.CreateSet<Individual<int>>();
-                for (int i = 0; i < 50; i++)
+                for (int i = 0; i < 50;++i)
                 {
                     population.Add(NQueensGenAlgoUtil.generateRandomIndividual(boardSize));
                 }

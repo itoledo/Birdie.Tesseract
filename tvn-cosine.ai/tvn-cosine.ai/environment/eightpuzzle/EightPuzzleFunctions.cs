@@ -58,7 +58,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             {
                 EightPuzzleBoard board = node.getState();
                 int retVal = 0;
-                for (int i = 1; i < 9; i++)
+                for (int i = 1; i < 9;++i)
                 {
                     XYLocation loc = board.getLocationOf(i);
                     retVal += evaluateManhattanDistanceOf(i, loc);

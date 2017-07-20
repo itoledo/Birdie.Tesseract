@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.search.online
      * @author Ruediger Lunde
      * 
      */
-    public class OnlineDFSAgent<S, A> : AbstractAgent
+    public class OnlineDFSAgent<S, A> : AgentBase
         where A : IAction
     {
 

@@ -52,7 +52,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
             IQueue<Matrix> sv = Factory.CreateQueue<Matrix>();
 
             // for i = 1 to t do
-            for (int i = 0; i < ev.Size(); i++)
+            for (int i = 0; i < ev.Size();++i)
             {
                 // fv[i] <- FORWARD(fv[i-1], ev[i])
                 f = forward(f, hmm.getEvidence(ev.Get(i)));

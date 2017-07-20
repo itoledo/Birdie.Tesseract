@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.util.math
         public Vector(IQueue<double> lst)
             : base(lst.Size(), 1)
         { 
-            for (int i = 0; i < lst.Size(); i++)
+            for (int i = 0; i < lst.Size();++i)
             {
                 setValue(i, lst.Get(i));
             }
@@ -71,7 +71,7 @@ namespace tvn.cosine.ai.util.math
         public Vector copyVector()
         {
             Vector result = new Vector(getRowDimension());
-            for (int i = 0; i < getRowDimension(); i++)
+            for (int i = 0; i < getRowDimension();++i)
             {
                 result.setValue(i, getValue(i));
             }
@@ -99,7 +99,7 @@ namespace tvn.cosine.ai.util.math
         public Vector minus(Vector v)
         {
             Vector result = new Vector(size());
-            for (int i = 0; i < size(); i++)
+            for (int i = 0; i < size();++i)
             {
                 result.setValue(i, getValue(i) - v.getValue(i));
             }
@@ -117,7 +117,7 @@ namespace tvn.cosine.ai.util.math
         public Vector plus(Vector v)
         {
             Vector result = new Vector(size());
-            for (int i = 0; i < size(); i++)
+            for (int i = 0; i < size();++i)
             {
                 result.setValue(i, getValue(i) + v.getValue(i));
             }
@@ -139,7 +139,7 @@ namespace tvn.cosine.ai.util.math
                 throw new RuntimeException("can't perform this op on empty vector");
             }
             int res = 0;
-            for (int i = 0; i < size(); i++)
+            for (int i = 0; i < size();++i)
             {
                 if (getValue(i) > getValue(res))
                 {

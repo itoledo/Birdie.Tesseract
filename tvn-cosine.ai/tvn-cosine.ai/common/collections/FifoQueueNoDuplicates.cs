@@ -81,6 +81,24 @@ namespace tvn.cosine.ai.common.collections
             return backingQueue.Count;
         }
 
+        public T[] ToArray()
+        {
+            return backingQueue.ToArray();
+        }
+
+        public bool ContainsAll(IQueue<T> other)
+        {
+            foreach (T item in other)
+            {
+                if (!elements.Contains(item))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         void IQueue<T>.Sort(IComparer<T> comparer)
         {
             throw new NotSupportedException("Not supported");
@@ -111,34 +129,24 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException("Not supported");
         }
 
-        public bool ContainsAll(IQueue<T> other)
+        void IQueue<T>.RemoveAll(IQueue<T> items)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public void RemoveAll(IQueue<T> items)
+        void IQueue<T>.Reverse()
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public T[] ToArray()
+        IQueue<T> IQueue<T>.subList(int startPos, int endPos)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
-        public void Reverse()
+        void IQueue<T>.Set(int position, T item)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public IQueue<T> subList(int startPos, int endPos)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Set(int position, T item)
-        {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Not supported");
         }
 
         class Enumerator : IEnumerator<T>

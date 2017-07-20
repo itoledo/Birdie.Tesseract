@@ -32,7 +32,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < conjunctionOfClauses.Size(); i++)
+            for (int i = 0; i < conjunctionOfClauses.Size();++i)
             {
                 if (i > 0)
                 {

@@ -5,7 +5,7 @@
      * @author Mike Stampone
      * 
      */
-    public class Triplet<X, Y, Z> : IEquatable, IHashable, IToString
+    public class Triplet<X, Y, Z> : IEquatable, IHashable, IStringable
     {
         private readonly X x;
         private readonly Y y;

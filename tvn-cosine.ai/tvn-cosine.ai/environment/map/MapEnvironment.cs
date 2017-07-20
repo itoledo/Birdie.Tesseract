@@ -9,7 +9,7 @@ namespace tvn.cosine.ai.environment.map
      * @author Ciaran O'Reilly
      * 
      */
-    public class MapEnvironment : AbstractEnvironment
+    public class MapEnvironment : EnvironmentBase
     {
         private Map map = null;
         private MapEnvironmentState state = new MapEnvironmentState();

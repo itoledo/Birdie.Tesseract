@@ -73,7 +73,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             {
                 // for each pair of clauses C_i, C_j in clauses do
                 IQueue<Clause> clausesAsList = Factory.CreateQueue<Clause>(clauses);
-                for (int i = 0; i < clausesAsList.Size() - 1; i++)
+                for (int i = 0; i < clausesAsList.Size() - 1;++i)
                 {
                     Clause ci = clausesAsList.Get(i);
                     for (int j = i + 1; j < clausesAsList.Size(); j++)

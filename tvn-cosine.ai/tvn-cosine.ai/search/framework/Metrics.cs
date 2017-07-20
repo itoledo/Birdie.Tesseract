@@ -7,7 +7,7 @@ namespace tvn.cosine.ai.search.framework
     /**
      * Stores key-value pairs for efficiency analysis. 
      */
-    public class Metrics : IToString
+    public class Metrics : IStringable
     {
         private IMap<string, string> hash;
 

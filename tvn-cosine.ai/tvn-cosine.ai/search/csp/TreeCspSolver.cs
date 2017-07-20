@@ -76,7 +76,7 @@ namespace tvn.cosine.ai.search.csp
             }
 
             // Assign values to variables from top to bottom.
-            for (int i = 0; i < orderedVars.Size(); i++)
+            for (int i = 0; i < orderedVars.Size();++i)
             {
                 VAR var = orderedVars.Get(i);
                 foreach (VAL value in csp.getDomain(var))

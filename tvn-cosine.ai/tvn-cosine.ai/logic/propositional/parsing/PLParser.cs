@@ -180,7 +180,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing
                 }
             }
 
-            for (int i = 0; i < parseNodes.Size(); i++)
+            for (int i = 0; i < parseNodes.Size();++i)
             {
                 ParseNode parseNode = parseNodes.Get(i);
                 if (parseNode != null)
@@ -336,7 +336,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing
         {
             Token[] result = new Token[parseNodes.Size()];
 
-            for (int i = 0; i < parseNodes.Size(); i++)
+            for (int i = 0; i < parseNodes.Size();++i)
             {
                 result[i] = parseNodes.Get(i).token;
             }

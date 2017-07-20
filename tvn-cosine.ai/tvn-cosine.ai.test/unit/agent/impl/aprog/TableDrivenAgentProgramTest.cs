@@ -14,7 +14,7 @@ namespace tvn_cosine.ai.test.unit.agent.impl.aprog
         private static readonly IAction ACTION_2 = new DynamicAction("action2");
         private static readonly IAction ACTION_3 = new DynamicAction("action3");
 
-        private AbstractAgent agent;
+        private AgentBase agent;
 
         [TestInitialize]
         public void setUp()

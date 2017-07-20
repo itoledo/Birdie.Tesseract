@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.probability.full
             distribution = new ProbabilityTable(values, vars);
 
             representation = Factory.CreateSet<RandomVariable>();
-            for (int i = 0; i < vars.Length; i++)
+            for (int i = 0; i < vars.Length;++i)
             {
                 representation.Add(vars[i]);
             }
@@ -112,7 +112,7 @@ namespace tvn.cosine.ai.probability.full
                     foreach (RandomVariable rv in vars)
                     {
                         values[i] = possibleWorld.Get(rv);
-                        i++;
+                       ++i;
                     }
                     int dIdx = ud.getIndex(values);
                     ud.setValue(dIdx, ud.getValues()[dIdx] + probability);

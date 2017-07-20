@@ -10,7 +10,7 @@ namespace tvn.cosine.ai.util
      * @author Ravi Mohan
      * @author Mike Stampone
      */
-    public class FrequencyCounter<T> : IToString
+    public class FrequencyCounter<T> : IStringable
     {
         private IMap<T, int> counter;
         private int total;

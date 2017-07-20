@@ -5,7 +5,7 @@ using tvn.cosine.ai.learning.framework;
 
 namespace tvn.cosine.ai.learning.inductive
 {
-    public class DLTest : IToString
+    public class DLTest : IStringable
     {
         // represents a single test in the Decision List
         private IMap<string, string> attrValues;

@@ -5,13 +5,18 @@ using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.collections
 {
-    public class Map<KEY, VALUE> : IMap<KEY, VALUE> , IToString, IHashable 
+    public class Map<KEY, VALUE> : IMap<KEY, VALUE>, IStringable, IHashable
     {
-        private readonly System.Collections.Generic.IDictionary<KEY, VALUE> backingMap;
+        private readonly System.Collections.Generic.IDictionary<KEY, VALUE> backingDictionary;
 
         public Map()
         {
-            backingMap = new System.Collections.Generic.Dictionary<KEY, VALUE>();
+            backingDictionary = new System.Collections.Generic.Dictionary<KEY, VALUE>();
+        }
+
+        public Map(IEqualityComparer<KEY> comparer)
+        {
+            backingDictionary = new System.Collections.Generic.Dictionary<KEY, VALUE>(new QueueBase<KEY>.EqualityComparerAdapter(comparer));
         }
 
         public Map(IQueue<KeyValuePair<KEY, VALUE>> items)
@@ -20,9 +25,15 @@ namespace tvn.cosine.ai.common.collections
             AddAll(items);
         }
 
+        public Map(IQueue<KeyValuePair<KEY, VALUE>> items, IEqualityComparer<KEY> comparer)
+            : this(comparer)
+        {
+            AddAll(items);
+        }
+
         public bool Add(KeyValuePair<KEY, VALUE> item)
         {
-            backingMap.Add(item.GetKey(), item.GetValue());
+            backingDictionary.Add(item.GetKey(), item.GetValue());
             return true;
         }
 
@@ -36,59 +47,37 @@ namespace tvn.cosine.ai.common.collections
 
         public void Clear()
         {
-            backingMap.Clear();
+            backingDictionary.Clear();
         }
 
         public bool Contains(KeyValuePair<KEY, VALUE> item)
         {
-            return backingMap.ContainsKey(item.GetKey())
-                && backingMap[item.GetKey()].Equals(item.GetValue());
+            return backingDictionary.ContainsKey(item.GetKey())
+                && backingDictionary[item.GetKey()].Equals(item.GetValue());
         }
 
         public bool ContainsKey(KEY key)
         {
-            return backingMap.ContainsKey(key);
+            return backingDictionary.ContainsKey(key);
         }
-
-        public bool Equals(IMap<KEY, VALUE> other)
-        {
-            if (null == other) return false;
-            if (Size() != other.Size()) return false;
-
-            foreach (var item in other)
-            {
-                if (!Contains(item))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-
+         
         public VALUE Get(KEY key)
         {
-            if (backingMap.ContainsKey(key))
-                return backingMap[key];
+            if (backingDictionary.ContainsKey(key))
+                return backingDictionary[key];
             else
                 return default(VALUE);
         }
 
         public IEnumerator<KeyValuePair<KEY, VALUE>> GetEnumerator()
         {
-            return new Enumerator(backingMap);
+            return new Enumerator(backingDictionary);
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.Sort(IComparer<KeyValuePair<KEY, VALUE>> comparer)
-        {
-            throw new NotSupportedException("Not supported");
-        }
-         
         public IQueue<KEY> GetKeys()
         {
             IQueue<KEY> obj = Factory.CreateSet<KEY>();
-            foreach (KEY key in backingMap.Keys)
+            foreach (KEY key in backingDictionary.Keys)
             {
                 obj.Add(key);
             }
@@ -98,7 +87,7 @@ namespace tvn.cosine.ai.common.collections
         public IQueue<VALUE> GetValues()
         {
             IQueue<VALUE> obj = Factory.CreateFifoQueue<VALUE>();
-            foreach (VALUE value in backingMap.Values)
+            foreach (VALUE value in backingDictionary.Values)
             {
                 obj.Add(value);
             }
@@ -107,7 +96,7 @@ namespace tvn.cosine.ai.common.collections
 
         public bool IsEmpty()
         {
-            return backingMap.Count == 0;
+            return backingDictionary.Count == 0;
         }
 
         public bool IsReadonly()
@@ -117,13 +106,13 @@ namespace tvn.cosine.ai.common.collections
 
         public void Put(KEY key, VALUE value)
         {
-            backingMap[key] = value;
+            backingDictionary[key] = value;
         }
 
         public bool Remove(KeyValuePair<KEY, VALUE> item)
         {
-            if (backingMap.ContainsKey(item.GetKey())
-             && backingMap[item.GetKey()].Equals(item.GetValue()))
+            if (backingDictionary.ContainsKey(item.GetKey())
+             && backingDictionary[item.GetKey()].Equals(item.GetValue()))
             {
                 Remove(item.GetKey());
             }
@@ -132,38 +121,79 @@ namespace tvn.cosine.ai.common.collections
 
         public bool Remove(KEY key)
         {
-            return backingMap.Remove(key);
+            return backingDictionary.Remove(key);
         }
 
         public int Size()
         {
-            return backingMap.Count;
+            return backingDictionary.Count;
         }
 
-        public override string ToString()
+        public void PutAll(IMap<KEY, VALUE> map)
         {
-            StringBuilder sb = new StringBuilder();
-            bool first = true;
-            sb.Append('[');
-            foreach (var item in this)
+            foreach (KeyValuePair<KEY, VALUE> pair in map)
             {
-                if (first)
+                backingDictionary[pair.GetKey()] = pair.GetValue();
+            }
+        }
+
+        public bool ContainsAll(IQueue<KeyValuePair<KEY, VALUE>> other)
+        {
+            foreach (KeyValuePair<KEY, VALUE> pair in other)
+            {
+                if (!(backingDictionary.ContainsKey(pair.GetKey())
+                    && backingDictionary[pair.GetKey()].Equals(pair.GetValue())))
                 {
-                    first = false;  
+                    return false;
                 }
-                else
-                {
-                    sb.Append(", ");
-                }
-                sb.Append('[');
-                sb.Append(item.GetKey().ToString());
-                sb.Append(", ");
-                sb.Append(item.GetValue().ToString());
-                sb.Append(']');
             }
 
-            sb.Append(']');
-            return sb.ToString();
+            return true;
+        }
+
+        public void RemoveAll(IQueue<KeyValuePair<KEY, VALUE>> items)
+        {
+            foreach (KeyValuePair<KEY, VALUE> pair in items)
+            {
+                if (backingDictionary.ContainsKey(pair.GetKey())
+                    && backingDictionary[pair.GetKey()].Equals(pair.GetValue()))
+                {
+                    backingDictionary.Remove(pair.GetKey());
+                }
+            }
+        }
+
+        public KeyValuePair<KEY, VALUE>[] ToArray()
+        {
+            KeyValuePair<KEY, VALUE>[] obj = new KeyValuePair<KEY, VALUE>[backingDictionary.Count];
+            int count = 0;
+            foreach (KeyValuePair<KEY, VALUE> pair in this)
+            {
+                obj[count] = pair;
+                ++count;
+            }
+
+            return obj;
+        }
+
+        IQueue<KeyValuePair<KEY, VALUE>> IQueue<KeyValuePair<KEY, VALUE>>.subList(int startPos, int endPos)
+        {
+            throw new NotSupportedException("Not supported");
+        }
+
+        void IQueue<KeyValuePair<KEY, VALUE>>.Set(int position, KeyValuePair<KEY, VALUE> item)
+        {
+            throw new NotSupportedException("Not supported");
+        }
+
+        void IQueue<KeyValuePair<KEY, VALUE>>.Reverse()
+        {
+            throw new NotSupportedException("Not supported");
+        }
+
+        void IQueue<KeyValuePair<KEY, VALUE>>.Sort(IComparer<KeyValuePair<KEY, VALUE>> comparer)
+        {
+            throw new NotSupportedException("Not supported");
         }
 
         KeyValuePair<KEY, VALUE> IQueue<KeyValuePair<KEY, VALUE>>.Get(int index)
@@ -196,39 +226,30 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException("Not supported");
         }
 
-        public void PutAll(IMap<KEY, VALUE> map)
+        public override string ToString()
         {
-            throw new System.NotImplementedException();
-        }
+            StringBuilder sb = new StringBuilder();
+            bool first = true;
+            sb.Append('[');
+            foreach (var item in this)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    sb.Append(", ");
+                }
+                sb.Append('[');
+                sb.Append(item.GetKey().ToString());
+                sb.Append(", ");
+                sb.Append(item.GetValue().ToString());
+                sb.Append(']');
+            }
 
-        public bool ContainsAll(IQueue<KeyValuePair<KEY, VALUE>> other)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void RemoveAll(IQueue<KeyValuePair<KEY, VALUE>> items)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public KeyValuePair<KEY, VALUE>[] ToArray()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Reverse()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IQueue<KeyValuePair<KEY, VALUE>> subList(int startPos, int endPos)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Set(int position, KeyValuePair<KEY, VALUE> item)
-        {
-            throw new System.NotImplementedException();
+            sb.Append(']');
+            return sb.ToString();
         }
 
         class Enumerator : IEnumerator<KeyValuePair<KEY, VALUE>>

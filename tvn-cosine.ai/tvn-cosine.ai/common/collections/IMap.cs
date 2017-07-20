@@ -4,7 +4,7 @@ namespace tvn.cosine.ai.common.collections
 {
     public interface IMap<KEY, VALUE> : IQueue<KeyValuePair<KEY, VALUE>>, 
         IEnumerable<KeyValuePair<KEY, VALUE>>, IHashable, 
-        IToString, IEquatable, IEquatable<IMap<KEY, VALUE>>
+        IStringable 
     {
         VALUE Get(KEY key);
         IQueue<KEY> GetKeys();

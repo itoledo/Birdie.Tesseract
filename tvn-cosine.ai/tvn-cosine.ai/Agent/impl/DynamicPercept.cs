@@ -64,7 +64,7 @@ namespace tvn.cosine.ai.agent.impl
                 throw new ArgumentOutOfRangeException("keys.Length != values.Length", null);
             }
 
-            for (int i = 0; i < keys.Length; i++)
+            for (int i = 0; i < keys.Length;++i)
             {
                 setAttribute(keys[i], values[i]);
             }

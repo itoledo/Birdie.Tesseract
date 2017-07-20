@@ -61,7 +61,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
             // fv[0] <- prior
             fv.Add(hmm.convert(prior));
             // for i = 1 to t do
-            for (int i = 0; i < ev.Size(); i++)
+            for (int i = 0; i < ev.Size();++i)
             {
                 // fv[i] <- FORWARD(fv[i-1], ev[i])
                 fv.Add(forward(fv.Get(i), hmm.getEvidence(ev.Get(i))));

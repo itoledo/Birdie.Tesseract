@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.search.framework.agent
      *
      * @author Ruediger Lunde
      */
-    public abstract class ProblemSolvingAgent<S, A> : AbstractAgent
+    public abstract class ProblemSolvingAgent<S, A> : AgentBase
         where A : IAction
     {
 

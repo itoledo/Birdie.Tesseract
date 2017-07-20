@@ -83,7 +83,7 @@ namespace tvn.cosine.ai.search.uninformed
         {
             clearMetrics();
             // for depth = 0 to infinity do
-            for (int i = 0; !currIsCancelled; i++)
+            for (int i = 0; !currIsCancelled;++i)
             {
                 // result <- DEPTH-LIMITED-SEARCH(problem, depth)
                 DepthLimitedSearch<S, A> dls = new DepthLimitedSearch<S, A>(i, nodeExpander);

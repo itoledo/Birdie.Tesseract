@@ -8,7 +8,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
      * @author Ciaran O'Reilly
      * 
      */
-    public abstract class Condition : IEquatable, IHashable, IToString
+    public abstract class Condition : IEquatable, IHashable, IStringable
     {
         public abstract bool evaluate(ObjectWithDynamicAttributes p); 
 

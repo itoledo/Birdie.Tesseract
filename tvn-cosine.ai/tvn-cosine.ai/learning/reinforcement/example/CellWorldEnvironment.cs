@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
      * @author Ciaran O'Reilly
      * 
      */
-    public class CellWorldEnvironment : AbstractEnvironment
+    public class CellWorldEnvironment : EnvironmentBase
     {
         private Cell<double> startingCell = null;
         private ISet<Cell<double>> allStates = Factory.CreateSet<Cell<double>>();
@@ -57,7 +57,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
          */
         public void executeTrials(int n)
         {
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n;++i)
             {
                 executeTrial();
             }

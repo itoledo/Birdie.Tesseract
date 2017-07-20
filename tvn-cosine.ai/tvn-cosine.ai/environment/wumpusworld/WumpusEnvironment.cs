@@ -8,7 +8,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
     * Implements an environment for the Wumpus World.
     * @author Ruediger Lunde
     */
-    public class WumpusEnvironment : AbstractEnvironment
+    public class WumpusEnvironment : EnvironmentBase
     {
 
         private WumpusCave cave;

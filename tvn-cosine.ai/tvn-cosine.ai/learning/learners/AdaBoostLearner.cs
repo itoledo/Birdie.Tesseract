@@ -139,7 +139,7 @@ namespace tvn.cosine.ai.learning.learners
             }
             double value = 1.0 / (1.0 * size);
             exampleWeights = new double[size];
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < size;++i)
             {
                 exampleWeights[i] = value;
             }
@@ -162,7 +162,7 @@ namespace tvn.cosine.ai.learning.learners
         private double calculateError(DataSet ds, Learner l)
         {
             double error = 0.0;
-            for (int i = 0; i < ds.examples.Size(); i++)
+            for (int i = 0; i < ds.examples.Size();++i)
             {
                 Example e = ds.getExample(i);
                 if (!(l.predict(e).Equals(e.targetValue())))

@@ -36,7 +36,7 @@ namespace tvn_cosine.ai.test.unit.probability
             CategoricalDistribution dJointDice1Dice2 = model.jointDistribution(
                     ExampleRV.DICE_1_RV, ExampleRV.DICE_2_RV);
             Assert.AreEqual(36, dJointDice1Dice2.getValues().Length);
-            for (int i = 0; i < dJointDice1Dice2.getValues().Length; i++)
+            for (int i = 0; i < dJointDice1Dice2.getValues().Length;++i)
             {
                 Assert.AreEqual(1.0 / 36.0, dJointDice1Dice2.getValues()[i],
                         DELTA_THRESHOLD);
@@ -45,7 +45,7 @@ namespace tvn_cosine.ai.test.unit.probability
             CategoricalDistribution dJointDice2Dice1 = model.jointDistribution(
                     ExampleRV.DICE_2_RV, ExampleRV.DICE_1_RV);
             Assert.AreEqual(36, dJointDice2Dice1.getValues().Length);
-            for (int i = 0; i < dJointDice2Dice1.getValues().Length; i++)
+            for (int i = 0; i < dJointDice2Dice1.getValues().Length;++i)
             {
                 Assert.AreEqual(1.0 / 36.0, dJointDice2Dice1.getValues()[i],
                         DELTA_THRESHOLD);
@@ -91,7 +91,7 @@ namespace tvn_cosine.ai.test.unit.probability
             CategoricalDistribution dPosteriorDice1GivenDice2 = model
                     .posteriorDistribution(ExampleRV.DICE_1_RV, ExampleRV.DICE_2_RV);
             Assert.AreEqual(36, dPosteriorDice1GivenDice2.getValues().Length);
-            for (int i = 0; i < dPosteriorDice1GivenDice2.getValues().Length; i++)
+            for (int i = 0; i < dPosteriorDice1GivenDice2.getValues().Length;++i)
             {
                 Assert.AreEqual(1.0 / 6.0,
                         dPosteriorDice1GivenDice2.getValues()[i]);
@@ -100,7 +100,7 @@ namespace tvn_cosine.ai.test.unit.probability
             CategoricalDistribution dPosteriorDice2GivenDice1 = model
                     .posteriorDistribution(ExampleRV.DICE_2_RV, ExampleRV.DICE_1_RV);
             Assert.AreEqual(36, dPosteriorDice2GivenDice1.getValues().Length);
-            for (int i = 0; i < dPosteriorDice2GivenDice1.getValues().Length; i++)
+            for (int i = 0; i < dPosteriorDice2GivenDice1.getValues().Length;++i)
             {
                 Assert.AreEqual(1.0 / 6.0,
                         dPosteriorDice2GivenDice1.getValues()[i]);

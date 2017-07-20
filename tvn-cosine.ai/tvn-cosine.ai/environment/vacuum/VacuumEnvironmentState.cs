@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.environment.vacuum
      */
     public class VacuumEnvironmentState : IEnvironmentState, IPercept,
         ICloneable<VacuumEnvironmentState>,
-        IEquatable, IToString, IHashable
+        IEquatable, IStringable, IHashable
     {
         private IMap<string, VacuumEnvironment.LocationState> state;
         private IMap<IAgent, string> agentLocations;

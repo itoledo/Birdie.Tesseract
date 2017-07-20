@@ -173,7 +173,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          */
         public static bool isVariable(string s)
         {
-            for (int i = 0; i < s.Length; i++)
+            for (int i = 0; i < s.Length;++i)
             {
                 if (!char.IsUpper(s[i]))
                     return false;
@@ -188,7 +188,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          */
         public static bool isTerminal(string s)
         {
-            for (int i = 0; i < s.Length; i++)
+            for (int i = 0; i < s.Length;++i)
             {
                 if (!char.IsLower(s[i]))
                     return false;

@@ -302,13 +302,13 @@ namespace tvn_cosine.ai.demo.probability
 
             System.Console.WriteLine("First Sample Set:");
             AssignmentProposition[][] S = pf.particleFiltering(e);
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < N;++i)
             {
                 System.Console.WriteLine("Sample " + (i + 1) + " = " + S[i][0]);
             }
             System.Console.WriteLine("Second Sample Set:");
             S = pf.particleFiltering(e);
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < N;++i)
             {
                 System.Console.WriteLine("Sample " + (i + 1) + " = " + S[i][0]);
             }

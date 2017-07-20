@@ -191,11 +191,11 @@ namespace tvn.cosine.ai.util.math.geom
     ////                    {
     ////                        double tx = parseNumber(matcher2.group(++i));
     ////                        double ty = 0.0d;
-    ////                        i++;
+    ////                       ++i;
     ////                        try
     ////                        {
     ////                            ty = parseNumber(matcher2.group(i));
-    ////                            i++;
+    ////                           ++i;
     ////                        }
     ////                        catch (NumberFormatException e)
     ////                        {
@@ -207,11 +207,11 @@ namespace tvn.cosine.ai.util.math.geom
     ////                    {
     ////                        double sx = parseNumber(matcher2.group(++i));
     ////                        double sy = sx;
-    ////                        i++;
+    ////                       ++i;
     ////                        try
     ////                        {
     ////                            sy = parseNumber(matcher2.group(i));
-    ////                            i++;
+    ////                           ++i;
     ////                        }
     ////                        catch (NumberFormatException e)
     ////                        {
@@ -224,13 +224,13 @@ namespace tvn.cosine.ai.util.math.geom
     ////                        double angle = Math.toRadians(parseNumber(matcher2.group(++i)));
     ////                        double cx = 0.0d;
     ////                        double cy = 0.0d;
-    ////                        i++;
+    ////                       ++i;
     ////                        try
     ////                        {
     ////                            cx = parseNumber(matcher2.group(i));
-    ////                            i++;
+    ////                           ++i;
     ////                            cy = parseNumber(matcher2.group(i));
-    ////                            i++;
+    ////                           ++i;
     ////                        }
     ////                        catch (NumberFormatException e)
     ////                        {
@@ -248,7 +248,7 @@ namespace tvn.cosine.ai.util.math.geom
     ////                    }
     ////                    else
     ////                    {
-    ////                        i++;
+    ////                       ++i;
     ////                    }
     ////                }
     ////            }

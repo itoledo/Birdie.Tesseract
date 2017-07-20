@@ -184,7 +184,7 @@ namespace tvn.cosine.ai.probability.bayes.model
                     foreach (RandomVariable rv in vars)
                     {
                         values[i] = possibleWorld.Get(rv);
-                        i++;
+                       ++i;
                     }
                     int dIdx = ud.getIndex(values);
                     ud.setValue(dIdx, ud.getValues()[dIdx] + probability);
@@ -205,7 +205,7 @@ namespace tvn.cosine.ai.probability.bayes.model
                 foreach (RandomVariable rv in vars)
                 {
                     distVars[i] = rv;
-                    i++;
+                   ++i;
                 }
 
                 ProbabilityTable ud = new ProbabilityTable(distVars);

@@ -9,7 +9,7 @@ namespace tvn_cosine.ai.test.unit.agent.impl
      * 
      */
     [TestClass]
-    public class MockAgent : AbstractAgent
+    public class MockAgent : AgentBase
     {
 
         public MockAgent()

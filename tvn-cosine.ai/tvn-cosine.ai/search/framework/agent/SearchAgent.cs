@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.search.framework.agent
      * @author Ravi Mohan
      * @author Ruediger Lunde
      */
-    public class SearchAgent<S, A> : AbstractAgent
+    public class SearchAgent<S, A> : AgentBase
         where A : IAction
     {
         private IQueue<A> actionList;

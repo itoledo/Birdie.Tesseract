@@ -114,7 +114,7 @@ namespace tvn.cosine.ai.robotics
                 if (map.isPoseValid(sample))
                 {
                     w[j] = 1.0d;
-                    for (int i = 0; i < rangeReadings.Length; i++)
+                    for (int i = 0; i < rangeReadings.Length;++i)
                     {
                         w[j] = w[j] * rangeReadings[i].calculateWeight(map.rayCast(sample.addAngle(rangeReadings[i].getAngle())));
                     }
@@ -137,7 +137,7 @@ namespace tvn.cosine.ai.robotics
         protected ISet<P> extendedWeightedSampleWithReplacement(ISet<P> samples, double[] w)
         {
             int i = 0;
-            for (; i < samples.Size(); i++)
+            for (; i < samples.Size();++i)
             {
                 if (w[i] > weightCutOff) break;
             }
@@ -146,7 +146,7 @@ namespace tvn.cosine.ai.robotics
             double[] normalizedW = Util.normalize(w);
             ISet<P> newSamples = Factory.CreateSet<P>();
             P[] array = samples.ToArray();
-            for (i = 0; i < samples.Size(); i++)
+            for (i = 0; i < samples.Size();++i)
             {
                 int selectedSample = (int)ProbUtil.sample(randomizer.NextDouble(), sampleIndexes, normalizedW);
                 newSamples.Add((array[selectedSample]).clone());
@@ -163,7 +163,7 @@ namespace tvn.cosine.ai.robotics
         {
             ISet<P> samples = Factory.CreateSet<P>();
             int[] indexes = new int[N];
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < N;++i)
             {
                 samples.Add(map.randomPose());
                 indexes[i] = i;

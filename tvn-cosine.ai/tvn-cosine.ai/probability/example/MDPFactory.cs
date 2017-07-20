@@ -83,7 +83,7 @@ namespace tvn.cosine.ai.probability.example
                 double prob = 0;
 
                 IQueue<Cell<double>> outcomes = possibleOutcomes(s, a);
-                for (int i = 0; i < outcomes.Size(); i++)
+                for (int i = 0; i < outcomes.Size();++i)
                 {
                     if (sDelta.Equals(outcomes.Get(i)))
                     {

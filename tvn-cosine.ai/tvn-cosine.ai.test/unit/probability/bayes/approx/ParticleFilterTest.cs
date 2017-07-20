@@ -55,7 +55,7 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
             AssignmentProposition[][] S = pf.particleFiltering(e);
 
             Assert.AreEqual(N, S.Length);
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < N;++i)
             {
                 Assert.AreEqual(1, S[i].Length);
                 AssignmentProposition ap = S[i][0];
@@ -74,7 +74,7 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
             // in this case with prefixed probabilities only expect 1 Rain_t=true
             S = pf.particleFiltering(e);
             Assert.AreEqual(N, S.Length);
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < N;++i)
             {
                 Assert.AreEqual(1, S[i].Length);
                 AssignmentProposition ap = S[i][0];

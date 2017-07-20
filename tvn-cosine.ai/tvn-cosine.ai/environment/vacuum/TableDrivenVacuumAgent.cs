@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.environment.vacuum
      * @author Ciaran O'Reilly
      * 
      */
-    public class TableDrivenVacuumAgent : AbstractAgent
+    public class TableDrivenVacuumAgent : AgentBase
     {
         public TableDrivenVacuumAgent()
             : base(new TableDrivenAgentProgram(getPerceptSequenceActions()))

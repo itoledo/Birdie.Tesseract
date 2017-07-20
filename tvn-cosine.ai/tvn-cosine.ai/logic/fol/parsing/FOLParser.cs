@@ -150,7 +150,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
 
             bool eoiEncountered = false;
-            for (int i = 0; i < _lookAhead - 1; i++)
+            for (int i = 0; i < _lookAhead - 1;++i)
             {
 
                 lookAheadBuffer[i] = lookAheadBuffer[i + 1];
@@ -181,7 +181,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
 
         protected void fillLookAheadBuffer()
         {
-            for (int i = 0; i < _lookAhead; i++)
+            for (int i = 0; i < _lookAhead;++i)
             {
                 lookAheadBuffer[i] = lexer.nextToken();
             }

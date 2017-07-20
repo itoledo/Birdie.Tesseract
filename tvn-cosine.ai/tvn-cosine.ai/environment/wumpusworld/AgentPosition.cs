@@ -10,7 +10,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
      * @author Alessandro Daniele
      * @author Ciaran O'Reilly
      */
-    public class AgentPosition : IToString, IEquatable
+    public class AgentPosition : IStringable, IEquatable
     {
         public class Orientation
         {

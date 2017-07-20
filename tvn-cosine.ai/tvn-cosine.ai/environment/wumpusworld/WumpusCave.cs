@@ -71,7 +71,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
 
             if (config.Length != 2 * caveXDimension * caveYDimension)
                 throw new IllegalStateException("Wrong configuration length.");
-            for (int i = 0; i < config.Length; i++)
+            for (int i = 0; i < config.Length;++i)
             {
                 char c = config[i];
                 Room r = new Room(i / 2 % caveXDimension + 1, caveYDimension - i / 2 / caveXDimension);

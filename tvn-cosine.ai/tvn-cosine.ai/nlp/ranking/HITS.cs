@@ -262,7 +262,7 @@ namespace tvn.cosine.ai.nlp.ranking
             // get current values from pages
             double[] currHubVals = new double[pages.Size()];
             double[] currAuthVals = new double[pages.Size()];
-            for (int i = 0; i < pages.Size(); i++)
+            for (int i = 0; i < pages.Size();++i)
             {
                 Page currPage = pages.Get(i);
                 currHubVals[i] = currPage.hub;

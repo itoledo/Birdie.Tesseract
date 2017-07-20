@@ -34,12 +34,12 @@ namespace tvn_cosine.ai.test.unit.util.math.geom.shapes
         public void testRandomPoint()
         {
             Point2D randomPoint = testPolylineOpen.randomPoint();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 1000;++i)
             {
                 randomPoint = testPolylineOpen.randomPoint();
                 Assert.IsTrue(testPolylineOpen.isInsideBorder(randomPoint));
             }
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 1000;++i)
             {
                 randomPoint = testPolylineClosed.randomPoint();
                 Assert.IsTrue(testPolylineClosed.isInsideBorder(testPolylineClosed.randomPoint()));
@@ -84,7 +84,7 @@ namespace tvn_cosine.ai.test.unit.util.math.geom.shapes
             Line2D currentEdge;
             int counter = 500;
             do {
-                for (int i = 1; i < testVertices.Length; i++){
+                for (int i = 1; i < testVertices.Length;++i){
                     currentEdge = new Line2D(testVertices[i], testVertices[i-1]);
                     randomPointOnEdge = currentEdge.randomPoint();
                     randomPoint = new Point2D(Util.generateRandomDoubleBetween(-1000.0d, 1000.0d), Util.generateRandomDoubleBetween(-1000.0d, 1000.0d));
@@ -118,12 +118,12 @@ namespace tvn_cosine.ai.test.unit.util.math.geom.shapes
         [TestMethod]
         public void testTransform()
         {
-            for (int i = 0; i < testPolylineOpen.getVertexes().Length; i++)
+            for (int i = 0; i < testPolylineOpen.getVertexes().Length;++i)
             {
                 Assert.AreEqual(  testPolylineOpen.transform(TransformMatrix2D.UNITY_MATRIX).getVertexes()[i].getX(), testPolylineOpen.getVertexes()[i].getX(), 0.000005d);
                 Assert.AreEqual(  testPolylineOpen.transform(TransformMatrix2D.UNITY_MATRIX).getVertexes()[i].getY(), testPolylineOpen.getVertexes()[i].getY(), 0.000005d);
             }
-            for (int i = 0; i < testPolylineClosed.getVertexes().Length; i++)
+            for (int i = 0; i < testPolylineClosed.getVertexes().Length;++i)
             {
                 Assert.AreEqual(  testPolylineClosed.transform(TransformMatrix2D.UNITY_MATRIX).getVertexes()[i].getX(), testPolylineClosed.getVertexes()[i].getX(), 0.000005d);
                 Assert.AreEqual(  testPolylineClosed.transform(TransformMatrix2D.UNITY_MATRIX).getVertexes()[i].getY(), testPolylineClosed.getVertexes()[i].getY(), 0.000005d);

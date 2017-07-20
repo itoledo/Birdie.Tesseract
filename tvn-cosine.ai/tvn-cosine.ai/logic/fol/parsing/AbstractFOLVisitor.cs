@@ -33,7 +33,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             IQueue<Term> terms = predicate.getTerms();
             IQueue<Term> newTerms = Factory.CreateQueue<Term>();
-            for (int i = 0; i < terms.Size(); i++)
+            for (int i = 0; i < terms.Size();++i)
             {
                 Term t = terms.Get(i);
                 Term subsTerm = (Term)t.accept(this, arg);
@@ -59,7 +59,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             IQueue<Term> terms = function.getTerms();
             IQueue<Term> newTerms = Factory.CreateQueue<Term>();
-            for (int i = 0; i < terms.Size(); i++)
+            for (int i = 0; i < terms.Size();++i)
             {
                 Term t = terms.Get(i);
                 Term subsTerm = (Term)t.accept(this, arg);

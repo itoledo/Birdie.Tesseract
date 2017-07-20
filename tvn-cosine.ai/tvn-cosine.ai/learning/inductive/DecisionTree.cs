@@ -7,7 +7,7 @@ using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.inductive
 {
-    public class DecisionTree : IToString
+    public class DecisionTree : IStringable
     {
         private string attributeName;
 

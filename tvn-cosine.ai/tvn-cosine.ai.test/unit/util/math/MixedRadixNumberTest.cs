@@ -73,7 +73,7 @@ namespace tvn_cosine.ai.test.unit.util.math
             int i = 0;
             while (mrn.increment())
             {
-                i++;
+               ++i;
             }
             Assert.AreEqual(i, mrn.getMaxAllowedValue());
         }
@@ -85,13 +85,13 @@ namespace tvn_cosine.ai.test.unit.util.math
             int i = 0;
             while (mrn.decrement())
             {
-                i++;
+               ++i;
             }
             Assert.AreEqual(i, mrn.getMaxAllowedValue());
             i = 0;
             while (mrn.increment())
             {
-                i++;
+               ++i;
             }
             while (mrn.decrement())
             {

@@ -22,7 +22,7 @@ namespace tvn.cosine.ai.environment.vacuum
      * @author Ciaran O'Reilly
      * 
      */
-    public class ReflexVacuumAgent : AbstractAgent
+    public class ReflexVacuumAgent : AgentBase
     {
         class ReflexVacuumAgentProgram : IAgentProgram
         {

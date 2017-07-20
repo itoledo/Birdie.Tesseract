@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         {
             ISet<Clause> paraExpressions = Factory.CreateSet<Clause>();
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 2;++i)
             {
                 Clause topClause, equalityClause;
                 if (i == 0)

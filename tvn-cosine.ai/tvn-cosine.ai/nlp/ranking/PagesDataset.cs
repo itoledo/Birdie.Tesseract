@@ -49,7 +49,7 @@ namespace tvn.cosine.ai.nlp.ranking
 
             // Access each .txt file to create a new Page object for that file's
             // article
-            for (int i = 0; i < listOfFiles.Length; i++)
+            for (int i = 0; i < listOfFiles.Length;++i)
             {
                 currPage = wikiPageFromFile(folderPath, new FileInfo(listOfFiles[i]));
                 pageTable.Put(currPage.getLocation(), currPage);

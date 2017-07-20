@@ -64,7 +64,7 @@ namespace tvn.cosine.ai.nlp.parsing
             string key = vargs[0].ToUpper();
             if (this.ContainsKey(key)) { containsKey = true; }
 
-            for (int i = 1; i < vargs.Length; i++)
+            for (int i = 1; i < vargs.Length;++i)
             {
                 try
                 {
@@ -72,7 +72,7 @@ namespace tvn.cosine.ai.nlp.parsing
                         this.Get(key).Add(new LexWord(vargs[i], float.Parse(vargs[i + 1])));
                     else
                         lexWords.Add(new LexWord(vargs[i], float.Parse(vargs[i + 1])));
-                    i++;
+                   ++i;
                 }
                 catch (NumberFormatException)
                 {

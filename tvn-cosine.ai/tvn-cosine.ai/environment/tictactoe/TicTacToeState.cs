@@ -12,7 +12,7 @@ namespace tvn.cosine.ai.environment.tictactoe
      * @author Ruediger Lunde
      * 
      */
-    public class TicTacToeState : ICloneable<TicTacToeState>, IEquatable, IHashable, IToString
+    public class TicTacToeState : ICloneable<TicTacToeState>, IEquatable, IHashable, IStringable
     {
         public const string O = "O";
         public const string X = "X";
@@ -173,7 +173,7 @@ namespace tvn.cosine.ai.environment.tictactoe
             if (anObj != null && anObj.GetType() == GetType())
             {
                 TicTacToeState anotherState = (TicTacToeState)anObj;
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < 9;++i)
                 {
                     if (!board[i].Equals(anotherState.board[i]))
                         return false;

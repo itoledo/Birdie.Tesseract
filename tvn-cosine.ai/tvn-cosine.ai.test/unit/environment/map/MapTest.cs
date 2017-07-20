@@ -88,7 +88,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
             locations.Add("D");
             locations.Add("E");
 
-            for (int i = 0; i < locations.Size(); i++)
+            for (int i = 0; i < locations.Size();++i)
             {
                 Assert.IsTrue(locations.Contains(aMap.randomlyGenerateDestination()));
             }

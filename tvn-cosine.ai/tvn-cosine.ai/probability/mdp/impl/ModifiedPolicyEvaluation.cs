@@ -65,7 +65,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
             IMap<S, double> U_i = Factory.CreateMap<S, double>(U);
             IMap<S, double> U_ip1 = Factory.CreateMap<S, double>(U);
             // repeat k times to produce the next utility estimate
-            for (int i = 0; i < k; i++)
+            for (int i = 0; i < k;++i)
             {
                 // U<sub>i+1</sub>(s) <- R(s) +
                 // &gamma;&Sigma;<sub>s'</sub>P(s'|s,&pi;<sub>i</sub>(s))U<sub>i</sub>(s')

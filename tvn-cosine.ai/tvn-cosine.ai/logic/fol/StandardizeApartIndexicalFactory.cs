@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.logic.fol
             }
             _assignedIndexicals.Put(preferredPrefix, currentPrefixCnt);
             sb.Append(preferredPrefix);
-            for (int i = 0; i < currentPrefixCnt; i++)
+            for (int i = 0; i < currentPrefixCnt;++i)
             {
                 sb.Append(preferredPrefix);
             }

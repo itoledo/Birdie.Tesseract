@@ -116,7 +116,7 @@ namespace tvn.cosine.ai.logic.common
         private void initializeLookAheadBuffer()
         {
             lookAheadBuffer = new Token[lookAheadBufferSize];
-            for (int i = 0; i < lookAheadBufferSize; i++)
+            for (int i = 0; i < lookAheadBufferSize;++i)
             {
                 // Now fill the buffer (if possible) from the input.
                 lookAheadBuffer[i] = getLexer().nextToken();
@@ -135,7 +135,7 @@ namespace tvn.cosine.ai.logic.common
         private void loadNextTokenFromInput()
         {
             bool eoiEncountered = false;
-            for (int i = 0; i < lookAheadBufferSize - 1; i++)
+            for (int i = 0; i < lookAheadBufferSize - 1;++i)
             {
                 lookAheadBuffer[i] = lookAheadBuffer[i + 1];
                 if (isEndOfInput(lookAheadBuffer[i]))

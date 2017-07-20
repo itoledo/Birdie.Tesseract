@@ -1,9 +1,5 @@
 ﻿namespace tvn.cosine.ai.agent.impl
-{
-    /**
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     */
+{ 
     public class DynamicAction : ObjectWithDynamicAttributes, IAction
     {
         public const string ATTRIBUTE_NAME = "name";
@@ -13,11 +9,10 @@
             this.setAttribute(ATTRIBUTE_NAME, name);
         }
 
-        /**
-         * Returns the value of the name attribute.
-         * 
-         * @return the value of the name attribute.
-         */
+        /// <summary>
+        /// Returns the value of the name attribute.
+        /// </summary>
+        /// <returns></returns>
         public virtual string getName()
         {
             return (string)getAttribute(ATTRIBUTE_NAME);

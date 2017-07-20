@@ -65,7 +65,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
         {
             if (rhs.Size() != sentForm.Size())
                 return false;
-            for (int i = 0; i < sentForm.Size(); i++)
+            for (int i = 0; i < sentForm.Size();++i)
             {
                 if (!rhs.Get(i).Equals(sentForm.Get(i)))
                     return false;

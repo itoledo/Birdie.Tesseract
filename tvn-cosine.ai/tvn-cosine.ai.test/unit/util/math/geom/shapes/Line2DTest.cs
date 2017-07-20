@@ -37,7 +37,7 @@ namespace tvn_cosine.ai.test.unit.util.math.geom.shapes
         {
             Assert.IsTrue(  testLine4.isInsideBorder(testLine4.randomPoint()));
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 1000;++i)
             {
                 Assert.IsTrue( testLine.isInsideBorder(testLine.randomPoint()));
             }

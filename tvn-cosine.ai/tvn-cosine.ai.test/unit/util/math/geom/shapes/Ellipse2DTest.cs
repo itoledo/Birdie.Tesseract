@@ -31,7 +31,7 @@ namespace tvn_cosine.ai.test.unit.util.math.geom.shapes
         [TestMethod]
         public void testRandomPoint()
         {
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 1000;++i)
             {
                 Assert.IsTrue(testEllipse.isInsideBorder(testEllipse.randomPoint()));
             }

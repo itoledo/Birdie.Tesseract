@@ -53,7 +53,7 @@ namespace tvn.cosine.ai.util.math
         {
             this.value = value;
             this.radices = new int[radices.Size()];
-            for (int i = 0; i < radices.Size(); i++)
+            for (int i = 0; i < radices.Size();++i)
             {
                 this.radices[i] = radices.Get(i);
             }
@@ -95,7 +95,7 @@ namespace tvn.cosine.ai.util.math
 
             long cvalue = 0;
             long mvalue = 1;
-            for (int i = 0; i < radixValues.Length; i++)
+            for (int i = 0; i < radixValues.Length;++i)
             {
                 if (radixValues[i] < 0 || radixValues[i] >= radices[i])
                 {
@@ -186,7 +186,7 @@ namespace tvn.cosine.ai.util.math
                 if (recalculate)
                 {
                     long quotient = value;
-                    for (int i = 0; i < radices.Length; i++)
+                    for (int i = 0; i < radices.Length;++i)
                     {
                         if (0 != quotient)
                         {
@@ -236,7 +236,7 @@ namespace tvn.cosine.ai.util.math
         {
             StringBuilder sb = new StringBuilder();
 
-            for (int i = 0; i < radices.Length; i++)
+            for (int i = 0; i < radices.Length;++i)
             {
                 sb.Append("[");
                 sb.Append(this.getCurrentNumeralValue(i));
@@ -261,7 +261,7 @@ namespace tvn.cosine.ai.util.math
             {
                 throw new IllegalArgumentException("At least 1 radix must be defined.");
             }
-            for (int i = 0; i < radices.Length; i++)
+            for (int i = 0; i < radices.Length;++i)
             {
                 if (radices[i] < 2)
                 {
@@ -271,7 +271,7 @@ namespace tvn.cosine.ai.util.math
 
             // Calculate the maxValue allowed
             maxValue = radices[0];
-            for (int i = 1; i < radices.Length; i++)
+            for (int i = 1; i < radices.Length;++i)
             {
                 maxValue *= radices[i];
             }

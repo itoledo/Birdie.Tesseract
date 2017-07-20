@@ -190,7 +190,7 @@ namespace tvn.cosine.ai.learning.neural
             {
                 IQueue<double> input = Factory.CreateQueue<double>();
                 IQueue<double> target = Factory.CreateQueue<double>();
-                for (int i = 0; i < dataLine.Size(); i++)
+                for (int i = 0; i < dataLine.Size();++i)
                 {
                     if (targetColumnNumbers.Contains(i))
                     {
@@ -216,7 +216,7 @@ namespace tvn.cosine.ai.learning.neural
 
             IQueue<IQueue<double>> normalizedColumns = Factory.CreateQueue<IQueue<double>>();
             // clculate means for each coponent of example data
-            for (int i = 0; i < rawDataLength; i++)
+            for (int i = 0; i < rawDataLength;++i)
             {
                 IQueue<double> columnValues = Factory.CreateQueue<double>();
                 foreach (IQueue<double> rawDatum in rds)
@@ -237,7 +237,7 @@ namespace tvn.cosine.ai.learning.neural
 
             int columnLength = normalizedColumns.Get(0).Size();
             int numberOfColumns = normalizedColumns.Size();
-            for (int i = 0; i < columnLength; i++)
+            for (int i = 0; i < columnLength;++i)
             {
                 IQueue<double> lst = Factory.CreateQueue<double>();
                 for (int j = 0; j < numberOfColumns; j++)
@@ -265,7 +265,7 @@ namespace tvn.cosine.ai.learning.neural
         {
             // assumes all values for inout and target are doubles
             IQueue<IQueue<double>> rds = Factory.CreateQueue<IQueue<double>>();
-            for (int i = 0; i < ds.size(); i++)
+            for (int i = 0; i < ds.size();++i)
             {
                 IQueue<double> rexample = Factory.CreateQueue<double>();
                 Example e = ds.getExample(i);

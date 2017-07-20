@@ -65,7 +65,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
     * @author Ciaran O'Reilly
     * @author Ruediger Lunde
     */
-    public class HybridWumpusAgent : AbstractAgent
+    public class HybridWumpusAgent : AgentBase
     {
 
         // persistent: KB, a knowledge base, initially the atemporal
@@ -270,14 +270,14 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 int x = p.getX();
                 int y = p.getY();
 
-                for (int i = 1; i <= kb.getCaveXDimension(); i++)
+                for (int i = 1; i <= kb.getCaveXDimension();++i)
                 {
                     if (i < x)
                         shootingPositions.Add(new AgentPosition(i, y, AgentPosition.Orientation.FACING_EAST));
                     if (i > x)
                         shootingPositions.Add(new AgentPosition(i, y, AgentPosition.Orientation.FACING_WEST));
                 }
-                for (int i = 1; i <= kb.getCaveYDimension(); i++)
+                for (int i = 1; i <= kb.getCaveYDimension();++i)
                 {
                     if (i < y)
                         shootingPositions.Add(new AgentPosition(x, i, AgentPosition.Orientation.FACING_NORTH));

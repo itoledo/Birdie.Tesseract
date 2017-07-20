@@ -53,8 +53,8 @@
     <Compile Include="agent\IEnvironmentState.cs" />
     <Compile Include="agent\IEnvironmentView.cs" />
     <Compile Include="agent\IEnvironmentViewNotifier.cs" />
-    <Compile Include="agent\impl\AbstractAgent.cs" />
-    <Compile Include="agent\impl\AbstractEnvironment.cs" />
+    <Compile Include="agent\impl\AgentBase.cs" />
+    <Compile Include="agent\impl\EnvironmentBase.cs" />
     <Compile Include="agent\impl\aprog\ModelBasedReflexAgentProgram.cs" />
     <Compile Include="agent\impl\aprog\SimpleReflexAgentProgram.cs" />
     <Compile Include="agent\impl\aprog\simplerule\ANDCondition.cs" />
@@ -80,6 +80,7 @@
     <Compile Include="common\collections\FifoQueue.cs" />
     <Compile Include="common\collections\IEnumerable.cs" />
     <Compile Include="common\collections\IEnumerator.cs" />
+    <Compile Include="common\collections\IEqualityComparer.cs" />
     <Compile Include="common\collections\IMap.cs" />
     <Compile Include="common\collections\IQueue.cs" />
     <Compile Include="common\collections\ISet.cs" />
@@ -122,7 +123,7 @@
     <Compile Include="common\IHashable.cs" />
     <Compile Include="common\INumber.cs" />
     <Compile Include="common\IRandom.cs" />
-    <Compile Include="common\IToString.cs" />
+    <Compile Include="common\IStringable.cs" />
     <Compile Include="common\MockRandom.cs" />
     <Compile Include="common\SourceVersion.cs" />
     <Compile Include="environment\cellworld\Cell.cs" />

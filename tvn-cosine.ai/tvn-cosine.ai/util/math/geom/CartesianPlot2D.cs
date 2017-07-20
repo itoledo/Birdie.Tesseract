@@ -114,7 +114,7 @@ namespace tvn.cosine.ai.util.math.geom
         {
             double result = double.PositiveInfinity;
             Rect2D rayBounding = new Rect2D(ray.getStart().getX() - rayRange, ray.getStart().getY() - rayRange, ray.getStart().getX() + rayRange, ray.getStart().getY() + rayRange);
-            for (int i = 0; i < shapes.Size(); i++)
+            for (int i = 0; i < shapes.Size();++i)
             {
                 Rect2D bounding = boundaries.Get(i);
                 if (rayBounding.isInsideBorder(bounding.getLowerLeft()) ||
@@ -136,7 +136,7 @@ namespace tvn.cosine.ai.util.math.geom
          */
         public bool isPointInsideBorderShape(Point2D point)
         {
-            for (int i = 0; i < shapes.Size(); i++)
+            for (int i = 0; i < shapes.Size();++i)
             {
                 if (boundaries.Get(i).isInsideBorder(point))
                 {
@@ -156,7 +156,7 @@ namespace tvn.cosine.ai.util.math.geom
          */
         public bool isPointInsideShape(Point2D point)
         {
-            for (int i = 0; i < shapes.Size(); i++)
+            for (int i = 0; i < shapes.Size();++i)
             {
                 if (boundaries.Get(i).isInside(point))
                 {

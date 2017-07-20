@@ -115,7 +115,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
             double[] W = new double[N];
 
             // for i = 1 to N do
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < N;++i)
             {
                 /* step 1 */
                 // S[i] <- sample from <b>P</b>(<b>X</b><sub>1</sub> |
@@ -154,7 +154,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
             S = new AssignmentProposition[N][];
             S_tp1 = new AssignmentProposition[N][];
             int[] indexes = new int[N];
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < N;++i)
             {
                 S[i] = new AssignmentProposition[this.dbn.getX_0().Size()];
                 S_tp1[i] = new AssignmentProposition[this.dbn.getX_0().Size()];
@@ -226,7 +226,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
 
             double[] normalizedW = Util.normalize(W);
 
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < N;++i)
             {
                 newS[i] = new AssignmentProposition[this.dbn.getX_0().Size()];
                 int sample = (int)ProbUtil.sample(randomizer.NextDouble(), sampleIndexes, normalizedW);

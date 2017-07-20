@@ -9,7 +9,7 @@ namespace tvn.cosine.ai.agent.impl
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public abstract class ObjectWithDynamicAttributes : IEquatable, IHashable, IToString
+    public abstract class ObjectWithDynamicAttributes : IEquatable, IHashable, IStringable
     {
         private IMap<object, object> attributes = Factory.CreateMap<object, object>();
 

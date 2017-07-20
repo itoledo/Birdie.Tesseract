@@ -1,6 +1,6 @@
 ﻿namespace tvn.cosine.ai.common
 {
-    public interface IToString
+    public interface IStringable
     {
         string ToString();
     }

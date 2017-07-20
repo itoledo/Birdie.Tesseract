@@ -10,7 +10,7 @@ namespace tvn.cosine.ai.learning.knowledge
      * @author Ciaran O'Reilly
      * 
      */
-    public class FOLExample : IToString
+    public class FOLExample : IStringable
     {
         private FOLDataSetDomain folDSDomain = null;
         private Example example = null;
@@ -108,7 +108,7 @@ namespace tvn.cosine.ai.learning.knowledge
             else if (descParts.Size() > 1)
             {
                 description = new ConnectedSentence(Connectors.AND, descParts.Get(0), descParts.Get(1));
-                for (int i = 2; i < descParts.Size(); i++)
+                for (int i = 2; i < descParts.Size();++i)
                 {
                     description = new ConnectedSentence(Connectors.AND, description, descParts.Get(i));
                 }

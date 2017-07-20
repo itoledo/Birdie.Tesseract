@@ -10,7 +10,7 @@ namespace tvn_cosine.ai.demo.search
             IRandom r = new DefaultRandom();
             EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 0, 1, 2, 3,
                 4, 5, 6, 7, 8 });
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 50;++i)
             {
                 int th = r.Next(4);
                 if (th == 0)

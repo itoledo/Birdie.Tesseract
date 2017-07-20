@@ -8,7 +8,7 @@ namespace tvn.cosine.ai.learning.framework
      * @author Ravi Mohan
      * 
      */
-    public class Example : IToString, IEquatable
+    public class Example : IStringable, IEquatable
     {
         IMap<string, Attribute> attributes;
 

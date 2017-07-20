@@ -9,7 +9,7 @@ namespace tvn.cosine.ai.common.datastructures
      * @author Ravi Mohan
      * @author Mike Stampone
      */
-    public class XYLocation : IEquatable, IHashable, IToString
+    public class XYLocation : IEquatable, IHashable, IStringable
     {
         public enum Direction
         {

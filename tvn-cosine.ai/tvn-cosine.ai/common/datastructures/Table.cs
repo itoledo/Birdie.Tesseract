@@ -3,7 +3,7 @@ using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.common.datastructures
 { 
-    public class Table<RowHeaderType, ColumnHeaderType, ValueType> : IToString
+    public class Table<RowHeaderType, ColumnHeaderType, ValueType> : IStringable
     {
         private IQueue<RowHeaderType> rowHeaders;
         private IQueue<ColumnHeaderType> columnHeaders;

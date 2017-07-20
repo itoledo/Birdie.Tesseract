@@ -103,7 +103,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             IQueue<Chain> contrapositives = Factory.CreateQueue<Chain>();
             IQueue<Literal> lits = Factory.CreateQueue<Literal>();
 
-            for (int i = 1; i < literals.Size(); i++)
+            for (int i = 1; i < literals.Size();++i)
             {
                 lits.Clear();
                 lits.Add(literals.Get(i));
@@ -122,7 +122,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             StringBuilder sb = new StringBuilder();
             sb.Append("<");
 
-            for (int i = 0; i < literals.Size(); i++)
+            for (int i = 0; i < literals.Size();++i)
             {
                 if (i > 0)
                 {

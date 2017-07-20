@@ -58,7 +58,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             // model <- a random assignment of true/false to the symbols in clauses
             Model model = randomAssignmentToSymbolsInClauses(clauses);
             // for i = 1 to max_flips do (Note: maxFlips < 0 means infinity)
-            for (int i = 0; i < maxFlips || maxFlips < 0; i++)
+            for (int i = 0; i < maxFlips || maxFlips < 0;++i)
             {
                 // if model satisfies clauses then return model
                 if (model.satisfies(clauses).Value)

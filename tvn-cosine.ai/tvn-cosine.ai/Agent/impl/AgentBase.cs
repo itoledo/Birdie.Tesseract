@@ -1,11 +1,11 @@
 ﻿namespace tvn.cosine.ai.agent.impl
 { 
-    public abstract class AbstractAgent : IAgent
+    public abstract class AgentBase : IAgent
     {
         protected IAgentProgram program;
         private bool alive = true;
 
-        public AbstractAgent()
+        public AgentBase()
         { }
 
         /**
@@ -14,7 +14,7 @@
          * @param aProgram
          *            the Agent's program, which maps any given percept sequences to an action.
          */
-        public AbstractAgent(IAgentProgram aProgram)
+        public AgentBase(IAgentProgram aProgram)
         {
             program = aProgram;
         }

@@ -6,7 +6,7 @@ namespace tvn.cosine.ai.search.csp.examples
     { 
         public NQueensCSP(int size)
         {
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < size;++i)
                 addVariable(new Variable("Q" + (i + 1)));
 
             IQueue<int> values = Factory.CreateQueue<int>();
@@ -17,7 +17,7 @@ namespace tvn.cosine.ai.search.csp.examples
             foreach (Variable var in getVariables())
                 setDomain(var, positions);
 
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < size;++i)
             {
                 Variable var1 = getVariables().Get(i);
                 for (int j = i + 1; j < size; j++)

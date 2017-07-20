@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.search.online
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class LRTAStarAgent<S, A> : AbstractAgent
+    public class LRTAStarAgent<S, A> : AgentBase
         where A : IAction
     {
         private OnlineSearchProblem<S, A> problem;

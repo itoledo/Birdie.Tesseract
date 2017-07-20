@@ -53,7 +53,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 
             int barWidth = 5 + maxStepWidth + maxProofWidth + maxJustificationWidth;
             StringBuilder bar = new StringBuilder();
-            for (int i = 0; i < barWidth; i++)
+            for (int i = 0; i < barWidth;++i)
             {
                 bar.Append("-");
             }

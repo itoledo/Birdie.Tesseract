@@ -16,7 +16,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public abstract class ReinforcementAgent<S, A> : AbstractAgent
+    public abstract class ReinforcementAgent<S, A> : AgentBase
         where A : IAction
     {
 

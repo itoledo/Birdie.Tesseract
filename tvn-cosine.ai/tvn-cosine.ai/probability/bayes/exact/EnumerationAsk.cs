@@ -74,7 +74,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
 			 */
             public void iterate(IMap<RandomVariable, object> possibleWorld, double probability)
             {
-                for (int i = 0; i < x.Length; i++)
+                for (int i = 0; i < x.Length;++i)
                 {
                     e.setExtendedValue(x[i], possibleWorld.Get(x[i]));
                 }
@@ -179,14 +179,14 @@ namespace tvn.cosine.ai.probability.bayes.exact
                 var = new RandomVariable[maxSize];
                 // query variables go first
                 int idx = 0;
-                for (int i = 0; i < queryVariables.Length; i++)
+                for (int i = 0; i < queryVariables.Length;++i)
                 {
                     var[idx] = queryVariables[i];
                     varIdxs.Put(var[idx], idx);
                     idx++;
                 }
                 // initial evidence variables go next
-                for (int i = 0; i < e.Length; i++)
+                for (int i = 0; i < e.Length;++i)
                 {
                     var[idx] = e[i].getTermVariable();
                     varIdxs.Put(var[idx], idx);

@@ -10,7 +10,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class Rule : IEquatable, IHashable, IToString
+    public class Rule : IEquatable, IHashable, IStringable
     {
         private Condition con;
         private IAction action;

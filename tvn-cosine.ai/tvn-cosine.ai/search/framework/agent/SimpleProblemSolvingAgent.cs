@@ -39,7 +39,7 @@ namespace tvn.cosine.ai.search.framework.agent
      * @author Mike Stampone
      * @author Ruediger Lunde
      */
-    public abstract class SimpleProblemSolvingAgent<S, A> : AbstractAgent
+    public abstract class SimpleProblemSolvingAgent<S, A> : AgentBase
         where A : IAction
     {
         // seq, an action sequence, initially empty
