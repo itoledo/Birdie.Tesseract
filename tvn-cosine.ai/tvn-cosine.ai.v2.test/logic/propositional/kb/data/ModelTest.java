@@ -1,14 +1,14 @@
-package aima.test.unit.logic.propositional.kb.data;
+namespace aima.test.unit.logic.propositional.kb.data;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
-import aima.core.logic.basic.propositional.kb.data.Model;
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.extra.logic.propositional.parser.PLParserWrapper;
+using aima.core.logic.basic.propositional.kb.data.Model;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.extra.logic.propositional.parser.PLParserWrapper;
 
 /**
  * @author Ravi Mohan
@@ -34,20 +34,20 @@ public class ModelTest {
 		m = new Model();
 	}
 
-	@Test
+	[TestMethod]
 	public void testEmptyModel() {
 		Assert.assertEquals(null, m.getValue(new PropositionSymbol("P")));
 		Assert.assertEquals(true, m.isUnknown(new PropositionSymbol("P")));
 	}
 
-	@Test
+	[TestMethod]
 	public void testExtendModel() {
 		String p = "P";
 		m = m.union(new PropositionSymbol(p), true);
 		Assert.assertEquals(Boolean.TRUE, m.getValue(new PropositionSymbol("P")));
 	}
 
-	@Test
+	[TestMethod]
 	public void testTrueFalseEvaluation() {
 		Assert.assertEquals(true, m.isTrue(trueSentence));
 		Assert.assertEquals(false, m.isFalse(trueSentence));
@@ -55,7 +55,7 @@ public class ModelTest {
 		Assert.assertEquals(true, m.isFalse(falseSentence));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSentenceStatusWhenPTrueAndQTrue() {
 		String p = "P";
 		String q = "Q";
@@ -67,7 +67,7 @@ public class ModelTest {
 		Assert.assertEquals(true, m.isTrue(biConditionalSentence));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSentenceStatusWhenPFalseAndQFalse() {
 		String p = "P";
 		String q = "Q";
@@ -79,7 +79,7 @@ public class ModelTest {
 		Assert.assertEquals(true, m.isTrue(biConditionalSentence));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSentenceStatusWhenPTrueAndQFalse() {
 		String p = "P";
 		String q = "Q";
@@ -91,7 +91,7 @@ public class ModelTest {
 		Assert.assertEquals(true, m.isFalse(biConditionalSentence));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSentenceStatusWhenPFalseAndQTrue() {
 		String p = "P";
 		String q = "Q";
@@ -103,7 +103,7 @@ public class ModelTest {
 		Assert.assertEquals(true, m.isFalse(biConditionalSentence));
 	}
 
-	@Test
+	[TestMethod]
 	public void testComplexSentence() {
 		String p = "P";
 		String q = "Q";

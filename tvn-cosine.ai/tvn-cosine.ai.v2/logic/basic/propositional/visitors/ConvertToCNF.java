@@ -1,6 +1,6 @@
 namespace aima.core.logic.basic.propositional.visitors;
 
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
 
 /**
  * Convert a Sentence into an equivalent Conjunctive Normal Form (CNF) Sentence.

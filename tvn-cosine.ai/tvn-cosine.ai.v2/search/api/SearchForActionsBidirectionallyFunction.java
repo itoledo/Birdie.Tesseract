@@ -1,7 +1,7 @@
 namespace aima.core.search.api;
 
 
-import java.util.function.BiFunction;
+using java.util.function.BiFunction;
 
 /**
  * @author manthan

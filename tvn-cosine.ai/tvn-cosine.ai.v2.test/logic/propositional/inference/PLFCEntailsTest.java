@@ -1,12 +1,12 @@
-package aima.test.unit.logic.propositional.inference;
+namespace aima.test.unit.logic.propositional.inference;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
-import aima.core.logic.basic.propositional.inference.PLFCEntails;
-import aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
-import aima.extra.logic.propositional.parser.PLParserWrapper;
+using aima.core.logic.basic.propositional.inference.PLFCEntails;
+using aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
+using aima.extra.logic.propositional.parser.PLParserWrapper;
 
 /**
  * @author Ravi Mohan
@@ -22,7 +22,7 @@ public class PLFCEntailsTest {
 		plfce = new PLFCEntails();
 	}
 	
-	@Test
+	[TestMethod]
 	public void testModusPonens() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("A => B");
@@ -31,7 +31,7 @@ public class PLFCEntailsTest {
 		Assert.assertEquals(true, plfce.plfcEntails(kb, "B", new PLParserWrapper()));
 	}
 	
-	@Test
+	[TestMethod]
 	public void testPLFCEntails1() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("A & B => C");
@@ -44,7 +44,7 @@ public class PLFCEntailsTest {
 		Assert.assertEquals(true, plfce.plfcEntails(kb, "E", new PLParserWrapper()));
 	}
 	
-	@Test
+	[TestMethod]
 	public void testAIMAExample() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("P => Q");
@@ -58,7 +58,7 @@ public class PLFCEntailsTest {
 		Assert.assertEquals(true, plfce.plfcEntails(kb, "Q", new PLParserWrapper()));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	[TestMethod](expected=IllegalArgumentException))]
 	public void testKBWithNonDefiniteClauses() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("P => Q");
@@ -73,7 +73,7 @@ public class PLFCEntailsTest {
 	}
 	
 	//TODO: Make Exception more specific
-	@Test(expected=Exception.class)
+	[TestMethod](expected=Exception.class)
 	public void testParserException() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("A => B");

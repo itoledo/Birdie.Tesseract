@@ -1,30 +1,30 @@
-package aima.test.unit.logic.firstorder;
+namespace aima.test.unit.logic.firstorder;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+using java.util.ArrayList;
+using java.util.Hashtable;
+using java.util.List;
+using java.util.Map;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using org.antlr.v4.runtime.ANTLRInputStream;
+using org.antlr.v4.runtime.CommonTokenStream;
+using org.antlr.v4.runtime.TokenStream;
+using org.antlr.v4.runtime.tree.ParseTree;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
-import aima.core.logic.basic.firstorder.Unifier;
-import aima.core.logic.basic.firstorder.domain.FOLDomain;
-import aima.core.logic.basic.firstorder.parsing.ast.Constant;
-import aima.core.logic.basic.firstorder.parsing.ast.Function;
-import aima.core.logic.basic.firstorder.parsing.ast.Predicate;
-import aima.core.logic.basic.firstorder.parsing.ast.Sentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Term;
-import aima.core.logic.basic.firstorder.parsing.ast.TermEquality;
-import aima.core.logic.basic.firstorder.parsing.ast.Variable;
-import aima.extra.logic.firstorder.parser.FirstOrderLogicLexer;
-import aima.extra.logic.firstorder.parser.FirstOrderLogicParser;
-import aima.extra.logic.firstorder.parser.FirstOrderVisitor;
+using aima.core.logic.basic.firstorder.Unifier;
+using aima.core.logic.basic.firstorder.domain.FOLDomain;
+using aima.core.logic.basic.firstorder.parsing.ast.Constant;
+using aima.core.logic.basic.firstorder.parsing.ast.Function;
+using aima.core.logic.basic.firstorder.parsing.ast.Predicate;
+using aima.core.logic.basic.firstorder.parsing.ast.Sentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Term;
+using aima.core.logic.basic.firstorder.parsing.ast.TermEquality;
+using aima.core.logic.basic.firstorder.parsing.ast.Variable;
+using aima.extra.logic.firstorder.parser.FirstOrderLogicLexer;
+using aima.extra.logic.firstorder.parser.FirstOrderLogicParser;
+using aima.extra.logic.firstorder.parser.FirstOrderVisitor;
 
 
 /**
@@ -44,7 +44,7 @@ public class UnifierTest {
 		theta = new Hashtable<Variable, Term>();
 	}
 	
-	@Test
+	[TestMethod]
 	public void testFailureIfThetaisNull() {
 		Variable var = new Variable("x");
 		Sentence sentence = parseToSentence("Knows(x)");
@@ -53,7 +53,7 @@ public class UnifierTest {
 		Assert.assertNull(result);
 	}
 
-	@Test
+	[TestMethod]
 	public void testUnificationFailure() {
 		Variable var = new Variable("x");
 		Sentence sentence = parseToSentence("Knows(y)");
@@ -62,7 +62,7 @@ public class UnifierTest {
 		Assert.assertNull(result);
 	}
 
-	@Test
+	[TestMethod]
 	public void testThetaPassedBackIfXEqualsYBothVariables() {
 		Variable var1 = new Variable("x");
 		Variable var2 = new Variable("x");
@@ -74,7 +74,7 @@ public class UnifierTest {
 		Assert.assertTrue(theta.containsKey(new Variable("dummy")));
 	}
 
-	@Test
+	[TestMethod]
 	public void testVariableEqualsConstant() {
 		Variable var1 = new Variable("x");
 		Constant constant = new Constant("John");
@@ -86,7 +86,7 @@ public class UnifierTest {
 		Assert.assertEquals(constant, theta.get(var1));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSimpleVariableUnification() {
 		Variable var1 = new Variable("x");
 		List<Term> terms1 = new ArrayList<Term>();
@@ -104,7 +104,7 @@ public class UnifierTest {
 		Assert.assertEquals(new Constant("John"), theta.get(var1)); // John
 	}
 
-	@Test
+	[TestMethod]
 	public void testKnows1() {
 		Sentence query = parseToSentence("Knows(John,x)");
 		Sentence johnKnowsJane = parseToSentence("Knows(John,Jane)");
@@ -114,7 +114,7 @@ public class UnifierTest {
 		Assert.assertEquals(new Constant("Jane"), theta.get(new Variable("x"))); // Jane
 	}
 
-	@Test
+	[TestMethod]
 	public void testKnows2() {
 		Sentence query = parseToSentence("Knows(John,x)");
 		Sentence johnKnowsJane = parseToSentence("Knows(y,Bill)");
@@ -130,7 +130,7 @@ public class UnifierTest {
 		// John
 	}
 
-	@Test
+	[TestMethod]
 	public void testKnows3() {
 		Sentence query = parseToSentence("Knows(John,x)");
 		Sentence johnKnowsJane = parseToSentence("Knows(y,Mother(y))");
@@ -145,7 +145,7 @@ public class UnifierTest {
 		Assert.assertEquals(new Constant("John"), theta.get(new Variable("y")));
 	}
 
-	@Test
+	[TestMethod]
 	public void testKnows5() {
 		Sentence query = parseToSentence("Knows(John,x)");
 		Sentence johnKnowsJane = parseToSentence("Knows(y,z)");
@@ -161,7 +161,7 @@ public class UnifierTest {
 		// John
 	}
 
-	@Test
+	[TestMethod]
 	public void testCascadedOccursCheck() {
 		FOLDomain domain = new FOLDomain();
 		domain.addPredicate("P");
@@ -203,7 +203,7 @@ public class UnifierTest {
 	 * which is incorrect as c1743 in the first function term needs to be c1751
 	 * as this is the second substitution.
 	 */
-	@Test
+	[TestMethod]
 	public void testBadCascadeSubstitution_LCL418_1() {
 		FOLDomain domain = new FOLDomain();
 		domain.addPredicate("ISATHEOREM");
@@ -219,7 +219,7 @@ public class UnifierTest {
 				result.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testAdditionalVariableMixtures() {
 		FOLDomain domain = new FOLDomain();
 		domain.addConstant("A");
@@ -277,7 +277,7 @@ public class UnifierTest {
 				result.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testTermEquality() {
 		FOLDomain domain = new FOLDomain();
 		domain.addConstant("A");
@@ -359,7 +359,7 @@ public class UnifierTest {
 		Assert.assertNull(result);
 	}
 
-	@Test
+	[TestMethod]
 	public void testNOTSentence() {
 		FOLDomain domain = new FOLDomain();
 		domain.addConstant("A");
@@ -395,7 +395,7 @@ public class UnifierTest {
 		Assert.assertEquals(new Constant("A"), result.get(new Variable("x")));
 	}
 
-	@Test
+	[TestMethod]
 	public void testConnectedSentence() {
 		FOLDomain domain = new FOLDomain();
 		domain.addConstant("A");
@@ -527,7 +527,7 @@ public class UnifierTest {
 		Assert.assertEquals(new Constant("C"), result.get(new Variable("x")));
 	}
 
-	@Test
+	[TestMethod]
 	public void testQuantifiedSentence() {
 		FOLDomain domain = new FOLDomain();
 		domain.addConstant("A");
@@ -602,7 +602,7 @@ public class UnifierTest {
 		Assert.assertEquals(new Constant("A"), result.get(new Variable("x")));
 	}
 	
-	private Sentence parseToSentence(String stringToBeParsed) {
+	private Sentence parseToSentence(string stringToBeParsed) {
 		FirstOrderLogicLexer lexer = new FirstOrderLogicLexer(new ANTLRInputStream(stringToBeParsed));
 		TokenStream tokens = new CommonTokenStream(lexer);
 		FirstOrderLogicParser parser = new FirstOrderLogicParser(tokens);

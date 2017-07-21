@@ -25,7 +25,7 @@ namespace aima.core.search.api;
 public interface OnlineSearchProblem<A, S> extends
 		// List<A> actions(S s)
 		ActionsFunction<A, S>,
-		// boolean isGoalState(S s)
+		// bool isGoalState(S s)
 		GoalTestPredicate<S>,
 		// double stepCost(S s, A a, S s')
 		StepCostFunction<A, S> {

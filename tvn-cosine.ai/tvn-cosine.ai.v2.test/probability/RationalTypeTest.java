@@ -1,14 +1,14 @@
-package aima.test.unit.probability;
+namespace aima.test.unit.probability;
 
-import aima.extra.probability.*;
-import aima.extra.probability.constructs.ProbabilityComputation;
-import aima.extra.probability.factory.ProbabilityFactory;
-import aima.extra.probability.factory.RationalProbabilityFactory;
-import static org.junit.Assert.*;
-import java.math.BigDecimal;
-import java.math.BigInteger;
+using aima.extra.probability.*;
+using aima.extra.probability.constructs.ProbabilityComputation;
+using aima.extra.probability.factory.ProbabilityFactory;
+using aima.extra.probability.factory.RationalProbabilityFactory;
+using static org.junit.Assert.*;
+using java.math.BigDecimal;
+using java.math.BigInteger;
 
-import org.junit.Test;
+using org.junit.Test;
 
 /**
  * ProbabilityTest to check the various functions of the RationalProbabilityNumber class
@@ -20,27 +20,27 @@ public class RationalTypeTest {
 	private ProbabilityFactory<?> probFactory = ProbabilityFactory.make(RationalProbabilityNumber.class);
 	private RationalProbabilityFactory rationalFactory = new RationalProbabilityFactory();
 	
-	@Test(expected = IllegalArgumentException.class)
+	[TestMethod][ExpectedException(typeof(IllegalArgumentException))]
     public void testInvalidProbabilityNumber1() {
 		probFactory.valueOf(BigDecimal.valueOf(4.1));
     }
 	
-	@Test(expected = IllegalArgumentException.class)
+	[TestMethod][ExpectedException(typeof(IllegalArgumentException))]
     public void testInvalidProbabilityNumber2() {
 		probFactory.valueOf(BigDecimal.valueOf(-0.1));
     }
 
-	@Test(expected = IllegalArgumentException.class)
+	[TestMethod][ExpectedException(typeof(IllegalArgumentException))]
     public void testInvalidProbabilityNumber3() {
 		rationalFactory.valueOf(-1, 6);
     }
 	
-	@Test
+	[TestMethod]
     public void testInvalidProbabilityNumber4() {
 		rationalFactory.valueOf(-1, -6);
     }
 	
-	@Test
+	[TestMethod]
 	public void testReducedFraction() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal("0.15"));
 		assertEquals(0.15, testValue2.getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
@@ -50,13 +50,13 @@ public class RationalTypeTest {
 	
 	// Check if zero
 	
-	@Test
+	[TestMethod]
 	public void testIsZero1() {
 		ProbabilityNumber testValue0 = probFactory.valueOf(new BigDecimal("0.000"));
 		assertEquals(testValue0.isZero(), true);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsZero2() {
 		ProbabilityNumber testValue0 = rationalFactory.valueOf(BigInteger.ZERO);
 		assertEquals(testValue0.isZero(), true);
@@ -64,7 +64,7 @@ public class RationalTypeTest {
 	
 	// Check if one
 	
-	@Test
+	[TestMethod]
 	public void testIsOne1() {
 		ProbabilityNumber testValue1 = probFactory.valueOf(
 				new BigDecimal("1.000000"));
@@ -72,7 +72,7 @@ public class RationalTypeTest {
 		assertEquals(testValue1.isOne(), true);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsOne2() {
 		ProbabilityNumber testValue1 = rationalFactory.valueOf(BigInteger.ONE);
 		assertEquals(testValue1.isOne(), true);
@@ -80,7 +80,7 @@ public class RationalTypeTest {
 	
 	// Check if two RationalProbabilityNumber values are equal or not
 	
-	@Test
+	[TestMethod]
 	public void testIfEquals1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal(0.15));
 		ProbabilityNumber testValue4 = probFactory.valueOf(
@@ -89,14 +89,14 @@ public class RationalTypeTest {
 		assertEquals(testValue2.equals(testValue4), false);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIfEquals2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal(0.15));
 		ProbabilityNumber testValue4 = probFactory.valueOf(new BigDecimal(0.1499999999));
 		assertEquals(testValue2.equals(testValue4), false);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIfEquals3() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal("0.15"));
 		ProbabilityNumber testValue4 = rationalFactory.valueOf(15, 100);
@@ -106,14 +106,14 @@ public class RationalTypeTest {
 
 	// Add RationalProbabilityNumber values
 
-	@Test
+	[TestMethod]
 	public void testAddition1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal(0.15));
 		ProbabilityNumber testValue5 = probFactory.valueOf(new BigDecimal(0.1));
 		assertEquals(0.15 + 0.1, testValue2.add(testValue5).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testAddition2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal(0.15));
 		ProbabilityNumber testValue6 = probFactory.valueOf(new BigDecimal(0.8));
@@ -122,14 +122,14 @@ public class RationalTypeTest {
 	
 	// Subtract RationalProbabilityNumber values
 
-	@Test
+	[TestMethod]
 	public void testSubtraction1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal(0.15));
 		ProbabilityNumber testValue5 = probFactory.valueOf(new BigDecimal(0.1));
 		assertEquals(0.15 - 0.1, testValue2.subtract(testValue5).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testSubtraction2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal(0.15));
 		ProbabilityNumber testValue6 = probFactory.valueOf(new BigDecimal(0.8));
@@ -138,14 +138,14 @@ public class RationalTypeTest {
 	
 	// Multiply RationalProbabilityNumber values
 
-	@Test
+	[TestMethod]
 	public void testMultiplication1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal(0.15));
 		ProbabilityNumber testValue5 = probFactory.valueOf(new BigDecimal(0.1));
 		assertEquals(0.15 * 0.1, testValue2.multiply(testValue5).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testMultiplication2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal(0.15));
 		ProbabilityNumber testValue6 = probFactory.valueOf(new BigDecimal(0.8));
@@ -154,14 +154,14 @@ public class RationalTypeTest {
 	
 	// Divide RationalProbabilityNumber values
 
-	@Test
+	[TestMethod]
 	public void testDivision1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal(0.15));
 		ProbabilityNumber testValue6 = probFactory.valueOf(new BigDecimal(0.8));
 		assertEquals(0.1875, testValue2.divide(testValue6).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testDivision2() {
 		// Check for computations with different precision values
 		ProbabilityNumber t1 = probFactory.valueOf(new BigDecimal(0.1), 3);
@@ -172,13 +172,13 @@ public class RationalTypeTest {
 	// Raise RationalProbabilityNumber values to powers (check for boundary conditions
 	// (positive infinity, negative infinity))
 	
-	@Test
+	[TestMethod]
 	public void testExponentiation1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(new BigDecimal(0.15));
 		assertEquals(0.15 * 0.15, testValue2.pow(2).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testExponentiation2() {
 		ProbabilityNumber testValue6 = probFactory.valueOf(new BigDecimal(0.8));
 		assertEquals(0.512, testValue6.pow(3).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
@@ -186,7 +186,7 @@ public class RationalTypeTest {
 	
 	// Check if valid ProbabilityNumber or not
 	
-	@Test (expected = IllegalArgumentException.class)
+	[TestMethod] (expected = IllegalArgumentException))]
 	public void testIfValid1() {
 		ProbabilityComputation adder = new ProbabilityComputation();
 		ProbabilityNumber testValue1 = probFactory.valueOf(0.8);
@@ -194,7 +194,7 @@ public class RationalTypeTest {
 		adder.add(testValue1, testValue2).isValid();
 	}
 	
-	@Test (expected = IllegalArgumentException.class)
+	[TestMethod] (expected = IllegalArgumentException))]
 	public void testIfValid2() {
 		ProbabilityComputation compute = new ProbabilityComputation();
 		ProbabilityNumber testValue1 = probFactory.valueOf(0.8);
@@ -203,7 +203,7 @@ public class RationalTypeTest {
 		compute.sub(compute.add(testValue1, testValue2), testValue3).isValid();
 	}
 	
-	@Test (expected = IllegalArgumentException.class)
+	[TestMethod] (expected = IllegalArgumentException))]
 	public void testIfValid3() {
 		ProbabilityNumber testValue1 = probFactory.valueOf(0.8);
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.7);
@@ -213,7 +213,7 @@ public class RationalTypeTest {
 	/**
 	 * Computation to test number representation precision
 	 */
-	@Test
+	[TestMethod]
 	public void testBigDecimal() {
 		// Consider two numbers of type double that are very close to each
 		// other.

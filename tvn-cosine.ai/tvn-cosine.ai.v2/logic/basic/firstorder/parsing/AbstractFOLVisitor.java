@@ -1,18 +1,18 @@
 namespace aima.core.logic.basic.firstorder.parsing;
 
-import java.util.ArrayList;
-import java.util.List;
+using java.util.ArrayList;
+using java.util.List;
 
-import aima.core.logic.basic.firstorder.parsing.ast.ConnectedSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Constant;
-import aima.core.logic.basic.firstorder.parsing.ast.Function;
-import aima.core.logic.basic.firstorder.parsing.ast.NotSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Predicate;
-import aima.core.logic.basic.firstorder.parsing.ast.QuantifiedSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Sentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Term;
-import aima.core.logic.basic.firstorder.parsing.ast.TermEquality;
-import aima.core.logic.basic.firstorder.parsing.ast.Variable;
+using aima.core.logic.basic.firstorder.parsing.ast.ConnectedSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Constant;
+using aima.core.logic.basic.firstorder.parsing.ast.Function;
+using aima.core.logic.basic.firstorder.parsing.ast.NotSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Predicate;
+using aima.core.logic.basic.firstorder.parsing.ast.QuantifiedSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Sentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Term;
+using aima.core.logic.basic.firstorder.parsing.ast.TermEquality;
+using aima.core.logic.basic.firstorder.parsing.ast.Variable;
 
 /**
  * @author Ravi Mohan

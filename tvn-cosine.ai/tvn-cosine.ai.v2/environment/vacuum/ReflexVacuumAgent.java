@@ -1,13 +1,13 @@
 namespace aima.core.environment.vacuum;
 
-import aima.core.agent.api.Agent;
+using aima.core.agent.api.Agent;
 
-import static aima.core.environment.vacuum.VacuumEnvironment.ACTION_LEFT;
-import static aima.core.environment.vacuum.VacuumEnvironment.ACTION_RIGHT;
-import static aima.core.environment.vacuum.VacuumEnvironment.ACTION_SUCK;
-import static aima.core.environment.vacuum.VacuumEnvironment.LOCATION_A;
-import static aima.core.environment.vacuum.VacuumEnvironment.LOCATION_B;
-import static aima.core.environment.vacuum.VacuumEnvironment.Status.Dirty;
+using static aima.core.environment.vacuum.VacuumEnvironment.ACTION_LEFT;
+using static aima.core.environment.vacuum.VacuumEnvironment.ACTION_RIGHT;
+using static aima.core.environment.vacuum.VacuumEnvironment.ACTION_SUCK;
+using static aima.core.environment.vacuum.VacuumEnvironment.LOCATION_A;
+using static aima.core.environment.vacuum.VacuumEnvironment.LOCATION_B;
+using static aima.core.environment.vacuum.VacuumEnvironment.Status.Dirty;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.

@@ -51,8 +51,8 @@
     <Content Include="agent\OnlineDFSAgentTest.java" />
     <Content Include="agent\SimpleProblemSolvingAgentTest.java" />
     <Content Include="agent\SimpleReflexAgentTest.java" />
-    <Content Include="agent\support\TestPercept.java" />
-    <Content Include="agent\support\TestState.java" />
+    <Compile Include="agent\support\TestPercept.cs" />
+    <Compile Include="agent\support\TestState.cs" />
     <Content Include="agent\TableDrivenAgentTest.java" />
     <Content Include="environment\vacuum\ReflexVacuumAgentTest.java" />
     <Content Include="environment\vacuum\TableDrivenVacuumAgentTest.java" />

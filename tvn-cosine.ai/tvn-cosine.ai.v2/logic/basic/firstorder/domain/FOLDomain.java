@@ -1,16 +1,16 @@
 namespace aima.core.logic.basic.firstorder.domain;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.HashSet;
+using java.util.List;
+using java.util.Set;
 
 /**
  * @author Ravi Mohan
  * @author Ciaran O'Reilly
  */
 public class FOLDomain {
-	private Set<String> constants, functions, predicates;
+	private ISet<String> constants, functions, predicates;
 	private int skolemConstantIndexical = 0;
 	private int skolemFunctionIndexical = 0;
 	private int answerLiteralIndexical = 0;
@@ -27,22 +27,22 @@ public class FOLDomain {
 				.getPredicates());
 	}
 
-	public FOLDomain(Set<String> constants, Set<String> functions,
+	public FOLDomain(Set<String> constants, ISet<String> functions,
 			Set<String> predicates) {
 		this.constants = new HashSet<String>(constants);
 		this.functions = new HashSet<String>(functions);
 		this.predicates = new HashSet<String>(predicates);
 	}
 
-	public Set<String> getConstants() {
+	public ISet<String> getConstants() {
 		return constants;
 	}
 
-	public Set<String> getFunctions() {
+	public ISet<String> getFunctions() {
 		return functions;
 	}
 
-	public Set<String> getPredicates() {
+	public ISet<String> getPredicates() {
 		return predicates;
 	}
 

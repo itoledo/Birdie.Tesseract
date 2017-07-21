@@ -1,12 +1,12 @@
 namespace aima.core.agent.basic;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+using java.util.Collection;
+using java.util.LinkedHashSet;
+using java.util.Optional;
+using java.util.Set;
 
-import aima.core.agent.api.Agent;
-import aima.core.agent.api.Rule;
+using aima.core.agent.api.Agent;
+using aima.core.agent.api.Rule;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.
@@ -41,7 +41,7 @@ public class ModelBasedReflexAgent<A, P, S, M> implements Agent<A, P> {
 	// persistent: 
 	private S state; // the agent's current conception of the world state
 	private M model; // a description of how the next state depends on current state and action
-	private Set<Rule<A, S>> rules = new LinkedHashSet<>(); // a set of condition-action rules
+	private ISet<Rule<A, S>> rules = new HashSet<>(); // a set of condition-action rules
 	private A action = null; // the most recent action, initially none
 
 	// function MODEL-BASED-REFLEX-AGENT(percept) returns an action
@@ -63,7 +63,7 @@ public class ModelBasedReflexAgent<A, P, S, M> implements Agent<A, P> {
 	}
 
 	// rule <- RULE-MATCH(state, rules)
-	public Optional<Rule<A, S>> ruleMatch(S state, Set<Rule<A, S>> rules) {
+	public Optional<Rule<A, S>> ruleMatch(S state, ISet<Rule<A, S>> rules) {
 		return getRules().stream().filter(rule -> rule.condition().test(state)).findFirst();
 	}
 
@@ -103,7 +103,7 @@ public class ModelBasedReflexAgent<A, P, S, M> implements Agent<A, P> {
 	}
 
 	//
-	public Set<Rule<A, S>> getRules() {
+	public ISet<Rule<A, S>> getRules() {
 		return rules;
 	}
 

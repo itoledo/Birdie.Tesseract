@@ -1,21 +1,21 @@
 namespace aima.core.logic.basic.propositional.inference;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+using java.util.ArrayList;
+using java.util.HashSet;
+using java.util.List;
+using java.util.Set;
+using java.util.stream.Collectors;
 
-import aima.core.logic.api.propositional.DPLL;
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.Literal;
-import aima.core.logic.basic.propositional.kb.data.Model;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
-import aima.core.logic.basic.propositional.visitors.SymbolCollector;
-import aima.core.util.Util;
-import aima.core.util.datastructure.Pair;
+using aima.core.logic.api.propositional.DPLL;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.Literal;
+using aima.core.logic.basic.propositional.kb.data.Model;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
+using aima.core.logic.basic.propositional.visitors.SymbolCollector;
+using aima.core.util.Util;
+using aima.core.util.datastructure.Pair;
 
 /**
  * Artificial Intelligence A Modern Approach 4th Edition): page ???.<br>
@@ -68,7 +68,7 @@ public class DPLLSatisfiable implements DPLL {
 	 * @return true if the sentence is satisfiable, false otherwise.
 	 */
 	 
-	public boolean dpllSatisfiable(Sentence s) {
+	public bool dpllSatisfiable(Sentence s) {
 		// clauses <- the set of clauses in the CNF representation of s
 		Set<Clause> clauses = ConvertToConjunctionOfClauses.convert(s)
 				.getClauses();
@@ -92,7 +92,7 @@ public class DPLLSatisfiable implements DPLL {
 	 *         otherwise.
 	 */
 	 
-	public boolean dpll(Set<Clause> clauses, List<PropositionSymbol> symbols,
+	public bool dpll(Set<Clause> clauses, List<PropositionSymbol> symbols,
 			Model model) {
 		// if every clause in clauses is true in model then return true
 		if (everyClauseTrue(clauses, model)) {
@@ -173,7 +173,7 @@ public class DPLLSatisfiable implements DPLL {
 	 *         can be identified.
 	 */
 	protected Pair<PropositionSymbol, Boolean> findPureSymbol(
-			List<PropositionSymbol> symbols, Set<Clause> clauses, Model model) {
+			List<PropositionSymbol> symbols, ISet<Clause> clauses, Model model) {
 		Pair<PropositionSymbol, Boolean> result = null;
 
 		Set<PropositionSymbol> symbolsToKeep = new HashSet<PropositionSymbol>(symbols);
@@ -300,11 +300,11 @@ public class DPLLSatisfiable implements DPLL {
 		return result;
 	}
 	
-	protected boolean everyClauseTrue(Set<Clause> clauses, Model model) {
+	protected bool everyClauseTrue(Set<Clause> clauses, Model model) {
 		return model.satisfies(clauses);
 	}
 
-	protected boolean someClauseFalse(Set<Clause> clauses, Model model) {
+	protected bool someClauseFalse(Set<Clause> clauses, Model model) {
 		for (Clause c : clauses) {
 			// Only 1 needs to be false
 			if (Boolean.FALSE.Equals(model.determineValue(c))) {

@@ -1,14 +1,14 @@
 namespace aima.core.logic.basic.propositional.inference;
 
-import java.util.List;
-import java.util.Set;
+using java.util.List;
+using java.util.Set;
 
-import aima.core.logic.api.propositional.SATSolver;
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.Model;
-import aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
+using aima.core.logic.api.propositional.SATSolver;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.Model;
+using aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>
@@ -105,7 +105,7 @@ public class SATPlan<A> {
 	//
 	// PROTECTED
 	//
-	protected Set<Clause> translateToSAT(Describe init, Describe transition, Describe goal, int t) {
+	protected ISet<Clause> translateToSAT(Describe init, Describe transition, Describe goal, int t) {
 		Sentence s = ComplexSentence.newConjunction(init.assertions(t), transition.assertions(t), goal.assertions(t));		
 		return ConvertToConjunctionOfClauses.convert(s).getClauses();
 	}

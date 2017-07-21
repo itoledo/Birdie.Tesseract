@@ -1,8 +1,8 @@
 namespace aima.core.environment.support;
 
-import aima.core.search.api.CSP;
-import aima.core.search.basic.support.BasicCSP;
-import aima.core.search.basic.support.BasicConstraint;
+using aima.core.search.api.CSP;
+using aima.core.search.basic.support.BasicCSP;
+using aima.core.search.basic.support.BasicConstraint;
 
 public class CSPFactory {
 	public static CSP mapColoringTerritoriesOfAustraliaCSP() {

@@ -1,8 +1,8 @@
 namespace aima.core.logic.basic.common;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
+using java.io.IOException;
+using java.io.Reader;
+using java.io.StringReader;
 
 /**
  * An abstract base class for constructing lexical analyzers for knowledge
@@ -84,7 +84,7 @@ public abstract class Lexer {
 	/**
 	 * Returns true if the end of the stream has been reached.
 	 */
-	private boolean isEndOfInput(int i) {
+	private bool isEndOfInput(int i) {
 		return (END_OF_INPUT == i);
 	}
 

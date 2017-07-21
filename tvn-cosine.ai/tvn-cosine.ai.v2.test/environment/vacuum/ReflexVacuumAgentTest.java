@@ -1,12 +1,12 @@
-package aima.test.unit.environment.vacuum;
+namespace aima.test.unit.environment.vacuum;
 
-import aima.core.environment.vacuum.ReflexVacuumAgent;
-import aima.core.environment.vacuum.VEPercept;
-import aima.core.environment.vacuum.VacuumEnvironment;
+using aima.core.environment.vacuum.ReflexVacuumAgent;
+using aima.core.environment.vacuum.VEPercept;
+using aima.core.environment.vacuum.VacuumEnvironment;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
 /**
  * @author Ciaran O'Reilly
@@ -19,7 +19,7 @@ public class ReflexVacuumAgentTest {
         agent = new ReflexVacuumAgent();
     }
 
-    @Test
+    [TestMethod]
     public void testACleanAClean() {
         Assert.assertEquals(
                 VacuumEnvironment.ACTION_RIGHT,
@@ -32,7 +32,7 @@ public class ReflexVacuumAgentTest {
     }
 
 
-    @Test
+    [TestMethod]
     public void testACleanBClean() {
         Assert.assertEquals(
                 VacuumEnvironment.ACTION_RIGHT,
@@ -48,7 +48,7 @@ public class ReflexVacuumAgentTest {
         );
     }
 
-    @Test
+    [TestMethod]
     public void testACleanBDirty() {
         Assert.assertEquals(
                 VacuumEnvironment.ACTION_RIGHT,
@@ -68,7 +68,7 @@ public class ReflexVacuumAgentTest {
         );
     }
 
-    @Test
+    [TestMethod]
     public void testADirtyBClean() {
         Assert.assertEquals(
                 VacuumEnvironment.ACTION_SUCK,
@@ -88,7 +88,7 @@ public class ReflexVacuumAgentTest {
         );
     }
 
-    @Test
+    [TestMethod]
     public void testADirtyBDirty() {
         Assert.assertEquals(
                 VacuumEnvironment.ACTION_SUCK,

@@ -1,6 +1,6 @@
 namespace aima.core.search.basic.support;
 
-import java.util.function.ToDoubleFunction;
+using java.util.function.ToDoubleFunction;
 
 /**
  * The Schedule for Simulated-Annealing.

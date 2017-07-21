@@ -1,11 +1,11 @@
 namespace aima.core.logic.basic.firstorder.parsing.ast;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+using java.util.ArrayList;
+using java.util.Collections;
+using java.util.List;
 
-import aima.core.logic.basic.firstorder.Connectors;
-import aima.core.logic.basic.firstorder.parsing.FOLVisitor;
+using aima.core.logic.basic.firstorder.Connectors;
+using aima.core.logic.basic.firstorder.parsing.FOLVisitor;
 
 /**
  * @author Ravi Mohan
@@ -32,7 +32,7 @@ public class NotSentence implements Sentence {
 		return Connectors.NOT;
 	}
 
-	public boolean isCompound() {
+	public bool isCompound() {
 		return true;
 	}
 

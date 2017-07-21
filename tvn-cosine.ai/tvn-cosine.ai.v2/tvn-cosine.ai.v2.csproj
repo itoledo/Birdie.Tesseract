@@ -40,14 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="agent\api\Agent.cs" />
-    <Compile Include="agent\api\Rule.cs" />
+    <Compile Include="common\collections\generic\LinkedHashMap.cs" />
+    <Compile Include="common\Consumer.cs" />
+    <Compile Include="common\exceptions\IllegalArgumentException.cs" />
     <Compile Include="common\Predicate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="agent\api\Agent.java" />
-    <Content Include="agent\api\Rule.java" />
+    <Compile Include="agent\api\Agent.cs" />
+    <Compile Include="agent\api\Rule.cs" />
     <Content Include="agent\basic\KBAgent.java" />
     <Content Include="agent\basic\LRTAStarAgent.java" />
     <Content Include="agent\basic\ModelBasedReflexAgent.java" />
@@ -216,12 +217,11 @@
     <Content Include="search\basic\uninformed\IterativeDeepeningSearch.java" />
     <Content Include="search\basic\uninformed\TreeSearch.java" />
     <Content Include="search\basic\uninformed\UniformCostSearch.java" />
-    <Content Include="util\collect\CartesianProduct.java" />
+    <Compile Include="util\collect\CartesianProduct.cs" />
     <Compile Include="util\datastructure\Pair.cs" />
     <Compile Include="util\datastructure\Point2D.cs" />
     <Compile Include="util\datastructure\TwoKeyLookup.cs" />
-    <Content Include="util\ExecutionController.java" />
-    <Content Include="util\math\MixedRadixInterval.java" />
+    <Compile Include="util\math\MixedRadixInterval.cs" />
     <Content Include="util\SetOps.java" />
     <Content Include="util\Util.java" />
   </ItemGroup>

@@ -1,15 +1,15 @@
 namespace aima.core.search.basic.uninformed;
 
-import java.util.List;
+using java.util.List;
 
-import aima.core.search.api.DepthLimitedSearch;
-import aima.core.search.api.Node;
-import aima.core.search.api.NodeFactory;
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForActionsFunction;
-import aima.core.search.api.SearchController;
-import aima.core.search.basic.support.BasicNodeFactory;
-import aima.core.search.basic.support.BasicSearchController;
+using aima.core.search.api.DepthLimitedSearch;
+using aima.core.search.api.Node;
+using aima.core.search.api.NodeFactory;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchForActionsFunction;
+using aima.core.search.api.SearchController;
+using aima.core.search.basic.support.BasicNodeFactory;
+using aima.core.search.basic.support.BasicSearchController;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.
@@ -100,7 +100,7 @@ public class DepthLimitedTreeSearch<A, S> implements SearchForActionsFunction<A,
 		return searchController.solution(node);
 	}
 	
-	public boolean isGoalState(Node<A, S> node, Problem<A, S> problem) {
+	public bool isGoalState(Node<A, S> node, Problem<A, S> problem) {
 		return searchController.isGoalState(node, problem);
 	}
 	

@@ -46,7 +46,7 @@ public interface Game<S, A, P> extends
 		ActionsFunction<A, S>,
 		// S result(S s, A a)
 		ResultFunction<A, S>,
-		// boolean isTerminalState(S)
+		// bool isTerminalState(S)
 		TerminalTestPredicate<S>,
 		// double terminalStateUtility(S, P)
 		TerminalStateUtilityFunction<S, P> {

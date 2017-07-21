@@ -1,11 +1,11 @@
 namespace aima.core.logic.basic.propositional.visitors;
 
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
 
 /**
  * Convert a Sentence into an equivalent Negation Normal Form (NNF) Sentence. A
  * Sentence is in NNF if negation is allowed only over atoms, and conjunction,
- * disjunction, and negation are the only allowed boolean connectives
+ * disjunction, and negation are the only allowed bool connectives
  * 
  * @author Ciaran O'Reilly
  * 

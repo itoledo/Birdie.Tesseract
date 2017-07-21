@@ -12,7 +12,7 @@ public class GoAction {
 	}
 
 	 
-	public boolean equals(Object obj) {
+	public bool equals(Object obj) {
 		if (obj != null && obj is GoAction) {
 			return this.getGoTo().Equals(((GoAction) obj).getGoTo());
 		}

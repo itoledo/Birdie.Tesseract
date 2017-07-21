@@ -1,11 +1,11 @@
-package aima.test.unit.logic.propositional.kb;
+namespace aima.test.unit.logic.propositional.kb;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
-import aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
-import aima.extra.logic.propositional.parser.PLParserWrapper;
+using aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
+using aima.extra.logic.propositional.parser.PLParserWrapper;
 
 /**
  * @author Ravi Mohan
@@ -19,13 +19,13 @@ public class BasicKnowledgeBaseTest {
 		kb = new BasicKnowledgeBase(new PLParserWrapper());
 	}
 
-	@Test
+	[TestMethod]
 	public void testTellInsertsSentence() {
 		kb.tell("(A & B)");
 		Assert.assertEquals(1, kb.size());
 	}
 
-	@Test
+	[TestMethod]
 	public void testTellDoesNotInsertSameSentenceTwice() {
 		kb.tell("(A & B)");
 		Assert.assertEquals(1, kb.size());
@@ -33,25 +33,25 @@ public class BasicKnowledgeBaseTest {
 		Assert.assertEquals(1, kb.size());
 	}
 
-	@Test
+	[TestMethod]
 	public void testEmptyKnowledgeBaseIsAnEmptyString() {
 		Assert.assertEquals("", kb.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testKnowledgeBaseWithOneSentenceToString() {
 		kb.tell("(A & B)");
 		Assert.assertEquals("A & B", kb.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testKnowledgeBaseWithTwoSentencesToString() {
 		kb.tell("(A & B)");
 		kb.tell("(C & D)");
 		Assert.assertEquals("A & B & C & D", kb.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testKnowledgeBaseWithThreeSentencesToString() {
 		kb.tell("(A & B)");
 		kb.tell("(C & D)");
@@ -61,7 +61,7 @@ public class BasicKnowledgeBaseTest {
 				kb.toString());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testKnowledgeBaseWithNestedSentencesToString() {
 		kb.tell("(A & B) & (C & D)");
 		kb.tell("(C & D)");

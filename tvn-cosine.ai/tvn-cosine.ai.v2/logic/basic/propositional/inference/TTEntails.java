@@ -1,15 +1,15 @@
 namespace aima.core.logic.basic.propositional.inference;
 
-import java.util.ArrayList;
-import java.util.List;
+using java.util.ArrayList;
+using java.util.List;
 
-import aima.core.logic.api.propositional.KnowledgeBase;
-import aima.core.logic.basic.propositional.kb.data.Model;
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.visitors.SymbolCollector;
-import aima.core.util.Util;
+using aima.core.logic.api.propositional.KnowledgeBase;
+using aima.core.logic.basic.propositional.kb.data.Model;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.visitors.SymbolCollector;
+using aima.core.util.Util;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ?.??, page
@@ -64,7 +64,7 @@ public class TTEntails {
 	 * @return the answer to the specified question using the TT-Entails
 	 *         algorithm.
 	 */
-	public boolean ttEntails(KnowledgeBase kb, String queryString, PLParser plparser) {
+	public bool ttEntails(KnowledgeBase kb, String queryString, PLParser plparser) {
 		
 		PLParser parser = plparser;
 		Sentence alpha = parser.parse(queryString);
@@ -81,7 +81,7 @@ public class TTEntails {
 	 * 
 	 * @return true if KB entails &alpha;, false otherwise.
 	 */
-	public boolean ttEntails(KnowledgeBase kb, Sentence alpha) {
+	public bool ttEntails(KnowledgeBase kb, Sentence alpha) {
 		// symbols <- a list of proposition symbols in KB and &alpha
 		List<PropositionSymbol> symbols = new ArrayList<PropositionSymbol>(
 				SymbolCollector.getSymbolsFrom(kb.asSentence(), alpha));
@@ -106,7 +106,7 @@ public class TTEntails {
 	 *            query.
 	 * @return true if KB entails &alpha;, false otherwise.
 	 */
-	public boolean ttCheckAll(KnowledgeBase kb, Sentence alpha,
+	public bool ttCheckAll(KnowledgeBase kb, Sentence alpha,
 			List<PropositionSymbol> symbols, Model model) {
 		// if EMPTY?(symbols) then
 		if (symbols.isEmpty()) {

@@ -1,25 +1,25 @@
 namespace aima.core.environment.wumpusworld;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.Iterator;
+using java.util.LinkedHashSet;
+using java.util.LinkedList;
+using java.util.List;
+using java.util.Queue;
+using java.util.Set;
 
-import aima.core.agent.api.Agent;
-import aima.core.environment.wumpusworld.action.Climb;
-import aima.core.environment.wumpusworld.action.Forward;
-import aima.core.environment.wumpusworld.action.Grab;
-import aima.core.environment.wumpusworld.action.Shoot;
-import aima.core.environment.wumpusworld.action.TurnLeft;
-import aima.core.environment.wumpusworld.action.WWAction;
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.search.api.GoalTestPredicate;
-import aima.core.search.basic.informed.AStarSearch;
-import aima.core.search.basic.support.BasicProblem;
-import aima.core.util.SetOps;
+using aima.core.agent.api.Agent;
+using aima.core.environment.wumpusworld.action.Climb;
+using aima.core.environment.wumpusworld.action.Forward;
+using aima.core.environment.wumpusworld.action.Grab;
+using aima.core.environment.wumpusworld.action.Shoot;
+using aima.core.environment.wumpusworld.action.TurnLeft;
+using aima.core.environment.wumpusworld.action.WWAction;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.search.api.GoalTestPredicate;
+using aima.core.search.basic.informed.AStarSearch;
+using aima.core.search.basic.support.BasicProblem;
+using aima.core.util.SetOps;
 
 /**
  * Artificial Intelligence WWAction Modern Approach (4th Edition): page ???.<br>
@@ -109,7 +109,7 @@ public class HybridWumpusAgent implements Agent<WWAction, AgentPercept> {
 		// if ASK(KB, Glitter<sup>t</sup>) = true then
 		if (kb.askGlitter(t)) {
 			// plan <- [Grab] + PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
-			Set<Room> goals = new LinkedHashSet<>();
+			Set<Room> goals = new HashSet<>();
 			goals.add(new Room(1, 1));
 
 			plan.add(new Grab());
@@ -146,7 +146,7 @@ public class HybridWumpusAgent implements Agent<WWAction, AgentPercept> {
 		// if plan is empty then
 		if (plan.isEmpty()) {
 			// plan PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
-			Set<Room> start = new LinkedHashSet<>();
+			Set<Room> start = new HashSet<>();
 			start.add(new Room(1, 1));
 			plan.addAll(planRoute(current, start, safe));
 			plan.add(new Climb());
@@ -174,12 +174,12 @@ public class HybridWumpusAgent implements Agent<WWAction, AgentPercept> {
 	 * @return the best sequence of actions that the agent have to do to reach a
 	 *         goal from the current position.
 	 */
-	public List<WWAction> planRoute(AgentPosition current, Set<Room> goals, Set<Room> allowed) {
+	public List<WWAction> planRoute(AgentPosition current, ISet<Room> goals, ISet<Room> allowed) {
 
 		// Every square represent 4 possible positions for the agent, it could
 		// be in different orientations. For every square in allowed and goals
 		// sets we add 4 squares.
-		Set<AgentPosition> allowedPositions = new LinkedHashSet<>();
+		Set<AgentPosition> allowedPositions = new HashSet<>();
 		for (Room allowedRoom : allowed) {
 			int x = allowedRoom.getX();
 			int y = allowedRoom.getY();
@@ -189,7 +189,7 @@ public class HybridWumpusAgent implements Agent<WWAction, AgentPercept> {
 			allowedPositions.add(new AgentPosition(x, y, AgentPosition.Orientation.FACING_NORTH));
 			allowedPositions.add(new AgentPosition(x, y, AgentPosition.Orientation.FACING_SOUTH));
 		}
-		final Set<AgentPosition> goalPositions = new LinkedHashSet<>();
+		final ISet<AgentPosition> goalPositions = new HashSet<>();
 		for (Room goalRoom : goals) {
 			int x = goalRoom.getX();
 			int y = goalRoom.getY();
@@ -243,9 +243,9 @@ public class HybridWumpusAgent implements Agent<WWAction, AgentPercept> {
 	 * @return the sequence of actions to reach the nearest square that is in
 	 *         line with a possible wumpus position. The last action is a shot.
 	 */
-	public List<WWAction> planShot(AgentPosition current, Set<Room> possibleWumpus, Set<Room> allowed) {
+	public List<WWAction> planShot(AgentPosition current, ISet<Room> possibleWumpus, ISet<Room> allowed) {
 
-		Set<AgentPosition> shootingPositions = new LinkedHashSet<>();
+		Set<AgentPosition> shootingPositions = new HashSet<>();
 
 		for (Room p : possibleWumpus) {
 			int x = p.getX();
@@ -276,7 +276,7 @@ public class HybridWumpusAgent implements Agent<WWAction, AgentPercept> {
 		}
 
 		Iterator<AgentPosition> it = shootingPositions.iterator();
-		Set<Room> shootingPositionsArray = new LinkedHashSet<>();
+		Set<Room> shootingPositionsArray = new HashSet<>();
 		while (it.hasNext()) {
 			AgentPosition tmp = it.next();
 			shootingPositionsArray.add(new Room(tmp.getX(), tmp.getY()));

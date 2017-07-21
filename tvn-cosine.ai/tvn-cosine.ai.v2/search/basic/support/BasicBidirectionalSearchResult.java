@@ -1,8 +1,8 @@
 namespace aima.core.search.basic.support;
 
-import aima.core.search.api.BidirectionalSearchResult;
+using aima.core.search.api.BidirectionalSearchResult;
 
-import java.util.List;
+using java.util.List;
 
 /**
  * @author manthan.

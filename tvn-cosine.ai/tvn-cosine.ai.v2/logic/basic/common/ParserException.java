@@ -1,7 +1,7 @@
 namespace aima.core.logic.basic.common;
 
-import java.util.ArrayList;
-import java.util.List;
+using java.util.ArrayList;
+using java.util.List;
 
 /**
  * A runtime exception to be used to describe Parser exceptions. In particular

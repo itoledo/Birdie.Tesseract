@@ -1,17 +1,17 @@
-package aima.test.unit.search.support;
+namespace aima.test.unit.search.support;
 
-import aima.core.search.basic.support.BasicBidirectionalSearchResult;
-import org.junit.Assert;
-import org.junit.Test;
+using aima.core.search.basic.support.BasicBidirectionalSearchResult;
+using org.junit.Assert;
+using org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
+using java.util.Arrays;
+using java.util.List;
 
 /**
  * @author manthan.
  */
 public class BasicBidirectionalSearchResultTest {
-    @Test
+    [TestMethod]
     public void testBasicBidirectionalSearchresult() {
         List<String> fromInitialStatePartList = Arrays.asList("start", "second", "third");
         List<String> fromGoalStatePartList = Arrays.asList("goal", "fifth", "fourth");

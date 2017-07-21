@@ -1,32 +1,32 @@
-package aima.test.unit.search.uninformed;
+namespace aima.test.unit.search.uninformed;
 
-import aima.core.environment.map2d.GoAction;
-import aima.core.environment.map2d.InState;
-import aima.core.environment.support.ProblemFactory;
-import aima.core.search.api.BidirectionalSearchResult;
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForActionsBidirectionallyFunction;
-import aima.core.util.datastructure.Pair;
-import aima.extra.search.uninformed.BidirectionalSearchGW;
+using aima.core.environment.map2d.GoAction;
+using aima.core.environment.map2d.InState;
+using aima.core.environment.support.ProblemFactory;
+using aima.core.search.api.BidirectionalSearchResult;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchForActionsBidirectionallyFunction;
+using aima.core.util.datastructure.Pair;
+using aima.extra.search.uninformed.BidirectionalSearchGW;
 
-import aima.extra.search.uninformed.BidirectionalSearchMRS;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+using aima.extra.search.uninformed.BidirectionalSearchMRS;
+using org.junit.Test;
+using org.junit.runner.RunWith;
+using org.junit.runners.Parameterized;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+using java.util.Arrays;
+using java.util.Collection;
+using java.util.List;
 
-import static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.ARAD;
-import static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.BUCHAREST;
-import static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.FAGARAS;
-import static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.ORADEA;
-import static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.SIBIU;
-import static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.TIMISOARA;
-import static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.URZICENI;
-import static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.ZERIND;
-import static org.junit.Assert.assertEquals;
+using static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.ARAD;
+using static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.BUCHAREST;
+using static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.FAGARAS;
+using static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.ORADEA;
+using static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.SIBIU;
+using static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.TIMISOARA;
+using static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.URZICENI;
+using static aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania.ZERIND;
+using static org.junit.Assert.assertEquals;
 
 /**
  * @author manthan.
@@ -39,7 +39,7 @@ public class BidirectionalSearchTest {
     }
 
     @Parameterized.Parameter
-    public String searchFunctionName;
+    public string searchFunctionName;
 
     public <A, S> BidirectionalSearchResult<A> searchForActions(Pair<Problem<A, S>, Problem<A, S>> pair) {
         SearchForActionsBidirectionallyFunction<A, S> search;
@@ -56,7 +56,7 @@ public class BidirectionalSearchTest {
         return search.apply(pair.getFirst(), pair.getSecond());
     }
 
-    @Test
+    [TestMethod]
     public void aradToArad() throws Exception {
         Pair<Problem<GoAction, InState>, Problem<GoAction, InState>> pair =
             ProblemFactory.getSimpleBidirectionalSearchProblem(ARAD, ARAD);
@@ -64,7 +64,7 @@ public class BidirectionalSearchTest {
         assertEquals(null, searchForActions(pair).fromGoalStateToInitialState());
     }
 
-    @Test
+    [TestMethod]
     public void timisoaraToUrziceni() throws Exception {
         Pair<Problem<GoAction, InState>, Problem<GoAction, InState>> pair =
             ProblemFactory.getSimpleBidirectionalSearchProblem(TIMISOARA, URZICENI);
@@ -87,7 +87,7 @@ public class BidirectionalSearchTest {
             reverse);
     }
 
-    @Test
+    [TestMethod]
     public void zerindToSibiu() throws Exception {
         Pair<Problem<GoAction, InState>, Problem<GoAction, InState>> pair =
             ProblemFactory.getSimpleBidirectionalSearchProblem(ZERIND, SIBIU);
@@ -100,7 +100,7 @@ public class BidirectionalSearchTest {
 
     }
 
-    @Test
+    [TestMethod]
     public void aradToBucharest() throws Exception {
         Pair<Problem<GoAction, InState>, Problem<GoAction, InState>> pair =
             ProblemFactory.getSimpleBidirectionalSearchProblem(ARAD, BUCHAREST);
@@ -114,7 +114,7 @@ public class BidirectionalSearchTest {
 
     }
 
-    @Test
+    [TestMethod]
     public void aradToSibiu() throws Exception {
         Pair<Problem<GoAction, InState>, Problem<GoAction, InState>> pair =
             ProblemFactory.getSimpleBidirectionalSearchProblem(ARAD, SIBIU);
@@ -131,7 +131,7 @@ public class BidirectionalSearchTest {
 
     }
 
-    @Test
+    [TestMethod]
     public void aradToFagras() throws Exception {
         Pair<Problem<GoAction, InState>, Problem<GoAction, InState>> pair =
             ProblemFactory.getSimpleBidirectionalSearchProblem(ARAD, FAGARAS);

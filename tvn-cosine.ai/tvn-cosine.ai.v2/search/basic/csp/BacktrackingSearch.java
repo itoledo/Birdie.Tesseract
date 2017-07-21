@@ -1,21 +1,21 @@
 namespace aima.core.search.basic.csp;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.BiFunction;
-import java.util.stream.Collectors;
+using java.util.ArrayList;
+using java.util.Comparator;
+using java.util.HashMap;
+using java.util.List;
+using java.util.Map;
+using java.util.Set;
+using java.util.function.BiFunction;
+using java.util.stream.Collectors;
 
-import aima.core.search.api.Assignment;
-import aima.core.search.api.CSP;
-import aima.core.search.api.Constraint;
-import aima.core.search.api.SearchForAssignmentFunction;
-import aima.core.search.basic.support.BasicAssignment;
-import aima.core.search.basic.support.BasicCSPUtil;
-import aima.core.util.Util;
+using aima.core.search.api.Assignment;
+using aima.core.search.api.CSP;
+using aima.core.search.api.Constraint;
+using aima.core.search.api.SearchForAssignmentFunction;
+using aima.core.search.basic.support.BasicAssignment;
+using aima.core.search.basic.support.BasicCSPUtil;
+using aima.core.util.Util;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Ed.): Figure ??, Page ??.<br>
@@ -295,7 +295,7 @@ public class BacktrackingSearch implements SearchForAssignmentFunction {
 					// not satisfy the given constraints.
 					Util.permuteArguments(Object.class, possibleValues, (Object[] args) -> {
 						if (!constraint.getRelation().isMember(args)) {
-							for (int i = 0; i < args.length; i++) {
+							for (int i = 0; i < args.Length; i++) {
 								String scopeVar = constraint.getScope().get(i);
 								if (unassignedNeighborVariables.contains(scopeVar)) {
 									csp.getDomain(scopeVar).delete(args[i]);

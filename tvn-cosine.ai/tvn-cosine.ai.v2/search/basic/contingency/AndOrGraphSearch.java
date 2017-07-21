@@ -1,13 +1,13 @@
 namespace aima.core.search.basic.contingency;
 
-import java.util.ArrayList;
-import java.util.List;
+using java.util.ArrayList;
+using java.util.List;
 
-import aima.core.search.api.ConditionalPlan;
-import aima.core.search.api.NondeterministicProblem;
-import aima.core.search.api.SearchForConditionalPlanFunction;
-import aima.core.search.basic.support.BasicConditionalPlan;
-import aima.core.util.datastructure.Pair;
+using aima.core.search.api.ConditionalPlan;
+using aima.core.search.api.NondeterministicProblem;
+using aima.core.search.api.SearchForConditionalPlanFunction;
+using aima.core.search.basic.support.BasicConditionalPlan;
+using aima.core.util.datastructure.Pair;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page

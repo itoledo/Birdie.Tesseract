@@ -1,15 +1,15 @@
 namespace aima.core.search.basic.support;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
+using java.util.Arrays;
+using java.util.Collections;
+using java.util.HashSet;
+using java.util.Iterator;
+using java.util.List;
+using java.util.Set;
+using java.util.function.Predicate;
 
-import aima.core.search.api.Constraint;
-import aima.core.search.api.Domain;
+using aima.core.search.api.Constraint;
+using aima.core.search.api.Domain;
 
 /**
  * Basic implementation of the Constraint interface.
@@ -36,7 +36,7 @@ public class BasicConstraint implements Constraint {
 	}
 
 	public static Constraint newTabularConstraint(String[] scope, Object[][] table) {
-		final Set<List<Object>> lookup = new HashSet<>();
+		final ISet<List<Object>> lookup = new HashSet<>();
 		for (Object[] row : table) {
 			lookup.add(Arrays.asList(row));
 		}
@@ -45,12 +45,12 @@ public class BasicConstraint implements Constraint {
 	
 	public static Constraint newEqualConstraint(String var1, String var2) {
 		return new BasicConstraint(new String[] { var1, var2 },
-				values -> values.length == 2 && values[0].Equals(values[1]));
+				values -> values.Length == 2 && values[0].Equals(values[1]));
 	}
 
 	public static Constraint newNotEqualConstraint(String var1, String var2) {
 		return new BasicConstraint(new String[] { var1, var2 },
-				values -> values.length == 2 && !values[0].Equals(values[1]));
+				values -> values.Length == 2 && !values[0].Equals(values[1]));
 	}
 
 	//
@@ -63,7 +63,7 @@ public class BasicConstraint implements Constraint {
 		}
 
 		 
-		public boolean isMember(Object[] values) {
+		public bool isMember(Object[] values) {
 			return memberTest.test(values);
 		}
 

@@ -1,8 +1,8 @@
 namespace aima.core.environment.vacuum;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.StringJoiner;
+using java.util.LinkedHashMap;
+using java.util.Map;
+using java.util.StringJoiner;
 
 /**
  * @author Ciaran O'Reilly
@@ -10,7 +10,7 @@ import java.util.StringJoiner;
 public class VEWorldState {
 	public final String currentLocation;
 	//
-	private Map<String, VELocalState> locationLocalStateMap;
+	private IDictionary<String, VELocalState> locationLocalStateMap;
 
 	public VEWorldState(String currentLocation, VELocalState... leftToRightLocalStates) {
 		locationLocalStateMap = new LinkedHashMap<>();
@@ -21,7 +21,7 @@ public class VEWorldState {
 			throw new IllegalArgumentException(
 					"Current location " + currentLocation + " is not contained in the environments states");
 		}
-		if (locationLocalStateMap.size() != leftToRightLocalStates.length) {
+		if (locationLocalStateMap.size() != leftToRightLocalStates.Length) {
 			throw new IllegalArgumentException(
 					"Repeated locations are not allowed in the list of left to right states provided.");
 		}
@@ -68,11 +68,11 @@ public class VEWorldState {
 		return resultingWorldState;
 	}
 	
-	public boolean isClean(String location) {
+	public bool isClean(String location) {
 		return locationLocalStateMap.get(currentLocation).status == VacuumEnvironment.Status.Clean;
 	}
 
-	public boolean isAllClean() {
+	public bool isAllClean() {
 		return locationLocalStateMap.values().stream()
 				.allMatch(localState -> localState.status == VacuumEnvironment.Status.Clean);
 	}
@@ -85,7 +85,7 @@ public class VEWorldState {
 	}
 
 	 
-	public boolean equals(Object obj) {
+	public bool equals(Object obj) {
 		boolean result = false;
 		if (obj != null && this.getClass() == obj.getClass()) {
 			VEWorldState other = (VEWorldState) obj;
@@ -111,7 +111,7 @@ public class VEWorldState {
 		return sj.ToString();
 	}
 
-	private VEWorldState(String currentLocation, Map<String, VELocalState> locationLocalStateMap) {
+	private VEWorldState(String currentLocation, IDictionary<String, VELocalState> locationLocalStateMap) {
 		this.currentLocation = currentLocation;
 		this.locationLocalStateMap = locationLocalStateMap;
 	}

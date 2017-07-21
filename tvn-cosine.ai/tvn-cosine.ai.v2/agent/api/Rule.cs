@@ -1,12 +1,17 @@
-﻿using tvn_cosine.ai.v2.common;
+using tvn_cosine.ai.v2.common;
 
-namespace tvn_cosine.ai.v2.agent.api
-{
-    /// <summary>
-    /// A simple condition-action rule definition.
-    /// </summary>
-    /// <typeparam name="A">the action type that the rule triggers.</typeparam>
-    /// <typeparam name="S">the state type that the condition predicate tests.</typeparam>
+namespace aima.core.agent.api
+{ 
+    /**
+     * A simple condition-action rule definition.
+     *
+     * @param <A>
+     *            the action type that the rule triggers.
+     * @param <S>
+     *            the state type that the condition predicate tests.
+     *
+     * @author Ciaran O'Reilly
+     */
     public interface Rule<A, S>
     {
         Predicate<S> condition();

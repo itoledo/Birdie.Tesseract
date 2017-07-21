@@ -1,10 +1,10 @@
 namespace aima.core.logic.basic.propositional.kb.data;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.StringJoiner;
+using java.util.Collection;
+using java.util.Collections;
+using java.util.LinkedHashSet;
+using java.util.Set;
+using java.util.StringJoiner;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): page 253.<br>
@@ -18,7 +18,7 @@ import java.util.StringJoiner;
  * 
  */
 public class ConjunctionOfClauses {
-	private Set<Clause> clauses = new LinkedHashSet<Clause>();
+	private ISet<Clause> clauses = new HashSet<Clause>();
 	//
 	private String cachedStringRep = null;
 	private int cachedHashCode = -1;
@@ -47,7 +47,7 @@ public class ConjunctionOfClauses {
 	 * 
 	 * @return the set of clauses contained by this conjunction.
 	 */
-	public Set<Clause> getClauses() {
+	public ISet<Clause> getClauses() {
 		return clauses;
 	}
 
@@ -62,7 +62,7 @@ public class ConjunctionOfClauses {
 	 *         additional clauses passed in.
 	 */
 	public ConjunctionOfClauses extend(Collection<Clause> additionalClauses) {
-		Set<Clause> extendedClauses = new LinkedHashSet<Clause>();
+		Set<Clause> extendedClauses = new HashSet<Clause>();
 		extendedClauses.addAll(clauses);
 		extendedClauses.addAll(additionalClauses);
 
@@ -90,7 +90,7 @@ public class ConjunctionOfClauses {
 	}
 
 	 
-	public boolean equals(Object othObj) {
+	public bool equals(Object othObj) {
 		if (null == othObj) {
 			return false;
 		}

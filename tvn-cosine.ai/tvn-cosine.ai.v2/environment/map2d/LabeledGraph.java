@@ -1,9 +1,9 @@
 namespace aima.core.environment.map2d;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+using java.util.ArrayList;
+using java.util.LinkedHashMap;
+using java.util.List;
+using java.util.Map;
 
 /**
  * Represents a directed labeled graph. Vertices are represented by their unique
@@ -21,7 +21,7 @@ import java.util.Map;
 public class LabeledGraph<V, E> {
 
 	// Lookup for edge label information. Contains an entry for every vertex label.
-	private readonly Map<V, Map<V, E>> globalEdgeLookup;
+	private readonly IDictionary<V, IDictionary<V, E>> globalEdgeLookup;
 	// List of the labels of all vertices within the graph.
 	private readonly List<V> vertexLabels;
 
@@ -127,7 +127,7 @@ public class LabeledGraph<V, E> {
 	 * @return true if the given vertex label is contained within the graph,
 	 *         false otherwise.
 	 */
-	public boolean isVertexLabel(V v) {
+	public bool isVertexLabel(V v) {
 		return globalEdgeLookup.get(v) != null;
 	}
 
@@ -144,7 +144,7 @@ public class LabeledGraph<V, E> {
 	//
 
 	// Handles new vertices
-	private Map<V, E> checkForNewVertex(V v) {
+	private IDictionary<V, E> checkForNewVertex(V v) {
 		Map<V, E> result = globalEdgeLookup.get(v);
 		if (result == null) {
 			result = new LinkedHashMap<>();

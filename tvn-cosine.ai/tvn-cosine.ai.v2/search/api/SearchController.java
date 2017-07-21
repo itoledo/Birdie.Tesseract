@@ -1,10 +1,10 @@
 namespace aima.core.search.api;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+using java.util.Collections;
+using java.util.LinkedList;
+using java.util.List;
 
-import aima.core.util.ExecutionController;
+using aima.core.util.ExecutionController;
 
 /**
  * Coarse grain search control. Provides basic API methods for different
@@ -20,11 +20,11 @@ import aima.core.util.ExecutionController;
  */
 public interface SearchController<A, S> extends ExecutionController {
 
-	default boolean isGoalState(Node<A, S> node, Problem<A, S> problem) {
+	default bool isGoalState(Node<A, S> node, Problem<A, S> problem) {
 		return problem.isGoalState(node.state());
 	}
 
-	default boolean isFailure(List<A> seq) {
+	default bool isFailure(List<A> seq) {
 		// An empty list represents failure
 		return seq.isEmpty();
 	}

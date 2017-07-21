@@ -1,24 +1,24 @@
 namespace aima.core.environment.wumpusworld;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.LinkedHashSet;
+using java.util.List;
+using java.util.Set;
 
-import aima.core.environment.wumpusworld.action.Climb;
-import aima.core.environment.wumpusworld.action.Forward;
-import aima.core.environment.wumpusworld.action.Grab;
-import aima.core.environment.wumpusworld.action.Shoot;
-import aima.core.environment.wumpusworld.action.TurnLeft;
-import aima.core.environment.wumpusworld.action.TurnRight;
-import aima.core.logic.api.propositional.DPLL;
-import aima.core.logic.basic.propositional.inference.OptimizedDPLL;
-import aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
-import aima.core.logic.basic.propositional.parsing.ast.Connective;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.environment.wumpusworld.action.Climb;
+using aima.core.environment.wumpusworld.action.Forward;
+using aima.core.environment.wumpusworld.action.Grab;
+using aima.core.environment.wumpusworld.action.Shoot;
+using aima.core.environment.wumpusworld.action.TurnLeft;
+using aima.core.environment.wumpusworld.action.TurnRight;
+using aima.core.logic.api.propositional.DPLL;
+using aima.core.logic.basic.propositional.inference.OptimizedDPLL;
+using aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
+using aima.core.logic.basic.propositional.parsing.ast.Connective;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
 
 /**
  * A Knowledge base tailored to the Wumpus World environment.
@@ -174,8 +174,8 @@ public class WumpusKnowledgeBase<A> extends BasicKnowledgeBase {
 	}
 
 	// safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
-	public Set<Room> askSafeRooms(int t) {
-		Set<Room> safe = new LinkedHashSet<Room>();
+	public ISet<Room> askSafeRooms(int t) {
+		Set<Room> safe = new HashSet<Room>();
 		for (int x = 1; x <= getCaveXDimension(); x++) {
 			for (int y = 1; y <= getCaveYDimension(); y++) {
 				if (ask(newSymbol(OK_TO_MOVE_INTO, t, x, y))) {
@@ -186,14 +186,14 @@ public class WumpusKnowledgeBase<A> extends BasicKnowledgeBase {
 		return safe;
 	}
 
-	public boolean askGlitter(int t) {
+	public bool askGlitter(int t) {
 		return ask(newSymbol(PERCEPT_GLITTER, t));
 	}
 
 	// unvisited <- {[x, y] : ASK(KB, L<sup>t'</sup><sub>x,y</sub>) = false for
 	// all t' &le; t}
-	public Set<Room> askUnvisitedRooms(int t) {
-		Set<Room> unvisited = new LinkedHashSet<Room>();
+	public ISet<Room> askUnvisitedRooms(int t) {
+		Set<Room> unvisited = new HashSet<Room>();
 
 		for (int x = 1; x <= getCaveXDimension(); x++) {
 			for (int y = 1; y <= getCaveYDimension(); y++) {
@@ -212,13 +212,13 @@ public class WumpusKnowledgeBase<A> extends BasicKnowledgeBase {
 		return unvisited;
 	}
 
-	public boolean askHaveArrow(int t) {
+	public bool askHaveArrow(int t) {
 		return ask(newSymbol(HAVE_ARROW, t));
 	}
 
 	// possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}
-	public Set<Room> askPossibleWumpusRooms(int t) {
-		Set<Room> possible = new LinkedHashSet<Room>();
+	public ISet<Room> askPossibleWumpusRooms(int t) {
+		Set<Room> possible = new HashSet<Room>();
 
 		for (int x = 1; x <= getCaveXDimension(); x++) {
 			for (int y = 1; y <= getCaveYDimension(); y++) {
@@ -232,8 +232,8 @@ public class WumpusKnowledgeBase<A> extends BasicKnowledgeBase {
 	}
 
 	// not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}
-	public Set<Room> askNotUnsafeRooms(int t) {
-		Set<Room> notUnsafe = new LinkedHashSet<Room>();
+	public ISet<Room> askNotUnsafeRooms(int t) {
+		Set<Room> notUnsafe = new HashSet<Room>();
 
 		for (int x = 1; x <= getCaveXDimension(); x++) {
 			for (int y = 1; y <= getCaveYDimension(); y++) {
@@ -246,11 +246,11 @@ public class WumpusKnowledgeBase<A> extends BasicKnowledgeBase {
 		return notUnsafe;
 	}
 
-	public boolean askOK(int t, int x, int y) {
+	public bool askOK(int t, int x, int y) {
 		return ask(newSymbol(OK_TO_MOVE_INTO, t, x, y));
 	}
 
-	public boolean ask(Sentence query) {
+	public bool ask(Sentence query) {
 		return dpll.isEntailed(this, query);
 	}
 

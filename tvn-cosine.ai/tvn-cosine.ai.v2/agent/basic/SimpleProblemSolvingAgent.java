@@ -1,13 +1,13 @@
 namespace aima.core.agent.basic;
 
-import aima.core.agent.api.Agent;
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchController;
+using aima.core.agent.api.Agent;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+using java.util.ArrayList;
+using java.util.List;
+using java.util.function.BiFunction;
+using java.util.function.Function;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.
@@ -94,7 +94,7 @@ public class SimpleProblemSolvingAgent<A, P, S, G> implements Agent<A, P> {
 		return searchFn.apply(problem);
 	}
 
-	public boolean isFailure(List<A> seq) {
+	public bool isFailure(List<A> seq) {
 		return searchController.isFailure(seq);
 	}
 	

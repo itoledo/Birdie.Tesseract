@@ -1,14 +1,14 @@
 namespace aima.core.search.basic.support;
 
-import java.util.List;
+using java.util.List;
 
-import aima.core.search.api.ActionsFunction;
-import aima.core.search.api.Game;
-import aima.core.search.api.InitialStateFunction;
-import aima.core.search.api.PlayerFunction;
-import aima.core.search.api.ResultFunction;
-import aima.core.search.api.TerminalStateUtilityFunction;
-import aima.core.search.api.TerminalTestPredicate;
+using aima.core.search.api.ActionsFunction;
+using aima.core.search.api.Game;
+using aima.core.search.api.InitialStateFunction;
+using aima.core.search.api.PlayerFunction;
+using aima.core.search.api.ResultFunction;
+using aima.core.search.api.TerminalStateUtilityFunction;
+using aima.core.search.api.TerminalTestPredicate;
 
 /**
  * Basic implementation of the Game interface.
@@ -55,7 +55,7 @@ public class BasicGame<S, A, P> implements Game<S, A, P> {
 	}
 
 	 
-	public boolean isTerminalState(S state) {
+	public bool isTerminalState(S state) {
 		return terminalTestPredicate.isTerminalState(state);
 	}
 

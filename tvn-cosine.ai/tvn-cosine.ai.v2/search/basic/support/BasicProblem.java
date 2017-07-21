@@ -1,14 +1,14 @@
 namespace aima.core.search.basic.support;
 
-import aima.core.search.api.NondeterministicProblem;
-import aima.core.search.api.OnlineSearchProblem;
-import aima.core.search.api.Problem;
-import aima.core.search.api.ActionsFunction;
-import aima.core.search.api.ResultFunction;
-import aima.core.search.api.GoalTestPredicate;
-import aima.core.search.api.StepCostFunction;
-import aima.core.search.api.ResultsFunction;
-import java.util.List;
+using aima.core.search.api.NondeterministicProblem;
+using aima.core.search.api.OnlineSearchProblem;
+using aima.core.search.api.Problem;
+using aima.core.search.api.ActionsFunction;
+using aima.core.search.api.ResultFunction;
+using aima.core.search.api.GoalTestPredicate;
+using aima.core.search.api.StepCostFunction;
+using aima.core.search.api.ResultsFunction;
+using java.util.List;
 
 /**
  * Basic implementation of the Problem, NondeterministicProblem, and
@@ -93,7 +93,7 @@ public class BasicProblem<A, S> implements Problem<A, S>, NondeterministicProble
 	}
 
 	 
-	public boolean isGoalState(S state) {
+	public bool isGoalState(S state) {
 		return goalTestPredicate.isGoalState(state);
 	}
 

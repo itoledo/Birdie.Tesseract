@@ -1,11 +1,11 @@
 namespace aima.core.search.basic.support;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+using java.util.ArrayList;
+using java.util.LinkedHashMap;
+using java.util.List;
+using java.util.Map;
 
-import aima.core.search.api.Assignment;
+using aima.core.search.api.Assignment;
 
 /**
  * Basic implementation of the Assignment interface.
@@ -14,8 +14,8 @@ import aima.core.search.api.Assignment;
  *
  */
 public class BasicAssignment implements Assignment {
-	private Map<String, Object> assignments = new LinkedHashMap<String, Object>();
-	private Map<String, List<Object>> domainsReducedBy = new LinkedHashMap<>();
+	private IDictionary<String, Object> assignments = new LinkedHashMap<String, Object>();
+	private IDictionary<String, List<Object>> domainsReducedBy = new LinkedHashMap<>();
 	
 	public BasicAssignment() {
 	}
@@ -27,7 +27,7 @@ public class BasicAssignment implements Assignment {
 	//
 	// Assignment tracking
 	 
-	public Map<String, Object> getAssignments() {
+	public IDictionary<String, Object> getAssignments() {
 		return assignments;
 	}
 
@@ -37,14 +37,14 @@ public class BasicAssignment implements Assignment {
 	}
 	
 	 
-	public boolean remove(String var, Object value) {
+	public bool remove(String var, Object value) {
 		return assignments.remove(var, value);
 	}
 	
 	//
 	// Domain tracking
 	 
-	public boolean reducedDomain(String var, Object value) {
+	public bool reducedDomain(String var, Object value) {
 		boolean reduced = false;
 		
 		List<Object> varReducedBy = domainsReducedBy.get(var);
@@ -60,7 +60,7 @@ public class BasicAssignment implements Assignment {
 	}
 
 	 
-	public boolean restoredDomain(String var, Object value) {
+	public bool restoredDomain(String var, Object value) {
 		boolean restored = false;
 		List<Object> varReducedBy = domainsReducedBy.get(var);
 		if (varReducedBy != null) {
@@ -70,7 +70,7 @@ public class BasicAssignment implements Assignment {
 	}
 
 	 
-	public Map<String, List<Object>> getDomainsReducedBy() {
+	public IDictionary<String, List<Object>> getDomainsReducedBy() {
 		return domainsReducedBy;
 	}
 }

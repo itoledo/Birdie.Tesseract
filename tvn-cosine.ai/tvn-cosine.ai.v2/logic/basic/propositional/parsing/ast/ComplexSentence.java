@@ -31,7 +31,7 @@ public class ComplexSentence extends Sentence {
 		
 		this.connective = connective;
 		simplerSentences = new Sentence[sentences.length];
-		for (int i = 0; i < sentences.length; i++) {
+		for (int i = 0; i < sentences.Length; i++) {
 			simplerSentences[i] = sentences[i];
 		}
 	}
@@ -57,7 +57,7 @@ public class ComplexSentence extends Sentence {
 
 	 
 	public int getNumberSimplerSentences() {
-		return simplerSentences.length;
+		return simplerSentences.Length;
 	}
 
 	 
@@ -136,13 +136,13 @@ public class ComplexSentence extends Sentence {
 			throw new IllegalArgumentException("> 0 simpler sentences must be specified.");
 		}
 		if (connective == Connective.NOT) {
-			if (sentences.length != 1) {
-				throw new IllegalArgumentException("A not (~) complex sentence only take 1 simpler sentence not "+sentences.length);
+			if (sentences.Length != 1) {
+				throw new IllegalArgumentException("A not (~) complex sentence only take 1 simpler sentence not "+sentences.Length);
 			}
 		}
 		else {
-			if (sentences.length != 2) {
-				throw new IllegalArgumentException("Connective is binary ("+connective+") but only "+sentences.length + " simpler sentences provided");
+			if (sentences.Length != 2) {
+				throw new IllegalArgumentException("Connective is binary ("+connective+") but only "+sentences.Length + " simpler sentences provided");
 			}
 		}
 	}

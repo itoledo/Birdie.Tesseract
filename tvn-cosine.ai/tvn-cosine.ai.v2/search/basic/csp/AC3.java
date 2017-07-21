@@ -1,13 +1,13 @@
 namespace aima.core.search.basic.csp;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.function.Predicate;
+using java.util.ArrayList;
+using java.util.LinkedList;
+using java.util.List;
+using java.util.Queue;
+using java.util.function.Predicate;
 
-import aima.core.search.api.CSP;
-import aima.core.search.api.Constraint;
+using aima.core.search.api.CSP;
+using aima.core.search.api.Constraint;
 
 /**
  * 
@@ -57,14 +57,14 @@ public class AC3 implements Predicate<CSP> {
 	// otherwise
 	// inputs: csp, a binary CSP with components (X, D, C)
 	 
-	public boolean test(CSP csp) {
+	public bool test(CSP csp) {
 		// local variables: queue, a queue of arcs,
 		// initially all the arcs in csp
 		Queue<Arc> queue = allArcs(csp);
 		return test(csp, queue);
 	}
 
-	public boolean test(CSP csp, Queue<Arc> queue) {
+	public bool test(CSP csp, Queue<Arc> queue) {
 		// while queue is not empty do
 		while (!queue.isEmpty()) {
 			// (X_i, X_j) = REMOVE-FIRST(queue)
@@ -87,7 +87,7 @@ public class AC3 implements Predicate<CSP> {
 
 	// function REVISE(csp, X_i, X_j) returns true iff we revise the domain of
 	// X_i
-	public boolean revise(CSP csp, Arc X) {
+	public bool revise(CSP csp, Arc X) {
 		boolean revised = false;
 		// for each x in D_i do
 		for (Object x : csp.getDomains().get(X.i).getValues()) {
@@ -117,7 +117,7 @@ public class AC3 implements Predicate<CSP> {
 			this.jScopeIdx = constraint.getScope().indexOf(csp.getVariables().get(j));
 		}
 
-		public boolean isMember(Object[] values) {
+		public bool isMember(Object[] values) {
 			return constraint.getRelation().isMember(new Object[] { values[iScopeIdx], values[jScopeIdx] });
 		}
 	}

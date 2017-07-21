@@ -1,20 +1,20 @@
 namespace aima.core.logic.basic.propositional.kb;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.Arrays;
+using java.util.Collections;
+using java.util.LinkedHashSet;
+using java.util.List;
+using java.util.Set;
 
-import aima.core.logic.api.propositional.KnowledgeBase;
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.ConjunctionOfClauses;
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
-import aima.core.logic.basic.propositional.visitors.SymbolCollector;
+using aima.core.logic.api.propositional.KnowledgeBase;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.ConjunctionOfClauses;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
+using aima.core.logic.basic.propositional.visitors.SymbolCollector;
 
 /**
  * @author Ravi Mohan
@@ -25,7 +25,7 @@ import aima.core.logic.basic.propositional.visitors.SymbolCollector;
 public class BasicKnowledgeBase implements KnowledgeBase {
 	private List<Sentence>         sentences = new ArrayList<Sentence>();
 	private ConjunctionOfClauses   asCNF     = new ConjunctionOfClauses(Collections.<Clause>emptySet());
-	private Set<PropositionSymbol> symbols   = new LinkedHashSet<PropositionSymbol>();
+	private ISet<PropositionSymbol> symbols   = new HashSet<PropositionSymbol>();
 	private PLParser               parser;
 	
 	public BasicKnowledgeBase(PLParser plparser) {

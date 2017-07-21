@@ -1,6 +1,6 @@
 namespace aima.core.search.api;
 
-import java.util.function.Function;
+using java.util.function.Function;
 
 /**
  * Description of an adversarial search function for Games. Since players can

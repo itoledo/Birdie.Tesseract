@@ -1,8 +1,8 @@
-package aima.test.unit.logic.propositional.parsing;
+namespace aima.test.unit.logic.propositional.parsing;
 
-import org.antlr.v4.runtime.BaseErrorListener;
-import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.Recognizer;
+using org.antlr.v4.runtime.BaseErrorListener;
+using org.antlr.v4.runtime.RecognitionException;
+using org.antlr.v4.runtime.Recognizer;
 
 /**
  * Error handler which throws exception on any parsing error.
@@ -14,7 +14,7 @@ public class ExceptionThrowingErrorListener extends BaseErrorListener {
             Object offendingSymbol,
             int line,
             int charPositionInLine,
-            String msg,
+            string msg,
             RecognitionException e) {
 		throw new RuntimeException(e);
 	}

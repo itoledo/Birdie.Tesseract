@@ -1,18 +1,18 @@
 namespace aima.core.environment.support;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.LinkedHashSet;
+using java.util.List;
+using java.util.Set;
 
-import aima.core.environment.vacuum.VELocalState;
-import aima.core.environment.vacuum.VEWorldState;
-import aima.core.environment.vacuum.VacuumEnvironment;
-import aima.core.search.api.ActionsFunction;
-import aima.core.search.api.GoalTestPredicate;
-import aima.core.search.api.NondeterministicProblem;
-import aima.core.search.api.ResultsFunction;
-import aima.core.search.basic.support.BasicProblem;
+using aima.core.environment.vacuum.VELocalState;
+using aima.core.environment.vacuum.VEWorldState;
+using aima.core.environment.vacuum.VacuumEnvironment;
+using aima.core.search.api.ActionsFunction;
+using aima.core.search.api.GoalTestPredicate;
+using aima.core.search.api.NondeterministicProblem;
+using aima.core.search.api.ResultsFunction;
+using aima.core.search.basic.support.BasicProblem;
 
 public class NondeterministicProblemFactory {
 
@@ -28,7 +28,7 @@ public class NondeterministicProblemFactory {
 		};
 
 		ResultsFunction<String, VEWorldState> resultsFn = (worldState, action) -> {
-			Set<VEWorldState> possibleStates = new LinkedHashSet<>();
+			Set<VEWorldState> possibleStates = new HashSet<>();
 			VEWorldState expected = worldState.performDeterministic(action);
 			possibleStates.add(expected);
 			if (action == VacuumEnvironment.ACTION_SUCK) {
@@ -48,7 +48,7 @@ public class NondeterministicProblemFactory {
 						bothAdjacentClean = bothAdjacentClean.performDeterministic(VacuumEnvironment.ACTION_RIGHT);
 					}
 					if (!bothAdjacentClean.currentLocation
-							.Equals(leftToRightLocalStates[leftToRightLocalStates.length - 1].location)) {
+							.Equals(leftToRightLocalStates[leftToRightLocalStates.Length - 1].location)) {
 						bothAdjacentClean = bothAdjacentClean.performDeterministic(VacuumEnvironment.ACTION_RIGHT);
 						bothAdjacentClean = bothAdjacentClean.performDeterministic(VacuumEnvironment.ACTION_SUCK);
 						bothAdjacentClean = bothAdjacentClean.performDeterministic(VacuumEnvironment.ACTION_LEFT);

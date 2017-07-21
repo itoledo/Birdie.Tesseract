@@ -1,13 +1,13 @@
 namespace aima.core.logic.basic.firstorder;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+using java.util.LinkedHashMap;
+using java.util.List;
+using java.util.Map;
 
-import aima.core.logic.basic.firstorder.parsing.ast.FOLNode;
-import aima.core.logic.basic.firstorder.parsing.ast.Function;
-import aima.core.logic.basic.firstorder.parsing.ast.Term;
-import aima.core.logic.basic.firstorder.parsing.ast.Variable;
+using aima.core.logic.basic.firstorder.parsing.ast.FOLNode;
+using aima.core.logic.basic.firstorder.parsing.ast.Function;
+using aima.core.logic.basic.firstorder.parsing.ast.Term;
+using aima.core.logic.basic.firstorder.parsing.ast.Variable;
 
 
 /**
@@ -62,7 +62,7 @@ public class Unifier {
 	}
 
 	/**
-	 * Returns a Map<Variable, Term> representing the substitution (i.e. a set
+	 * Returns a IDictionary<Variable, Term> representing the substitution (i.e. a set
 	 * of variable/term pairs) or null which is used to indicate a failure to
 	 * unify.
 	 * 
@@ -71,16 +71,16 @@ public class Unifier {
 	 * @param y
 	 *            a variable, constant, list, or compound
 	 * 
-	 * @return a Map<Variable, Term> representing the substitution (i.e. a set
+	 * @return a IDictionary<Variable, Term> representing the substitution (i.e. a set
 	 *         of variable/term pairs) or null which is used to indicate a
 	 *         failure to unify.
 	 */
-	public Map<Variable, Term> unify(FOLNode x, FOLNode y) {
+	public IDictionary<Variable, Term> unify(FOLNode x, FOLNode y) {
 		return unify(x, y, new LinkedHashMap<Variable, Term>());
 	}
 
 	/**
-	 * Returns a Map<Variable, Term> representing the substitution (i.e. a set
+	 * Returns a IDictionary<Variable, Term> representing the substitution (i.e. a set
 	 * of variable/term pairs) or null which is used to indicate a failure to
 	 * unify.
 	 * 
@@ -91,11 +91,11 @@ public class Unifier {
 	 * @param theta
 	 *            the substitution built up so far
 	 * 
-	 * @return a Map<Variable, Term> representing the substitution (i.e. a set
+	 * @return a IDictionary<Variable, Term> representing the substitution (i.e. a set
 	 *         of variable/term pairs) or null which is used to indicate a
 	 *         failure to unify.
 	 */
-	public Map<Variable, Term> unify(FOLNode x, FOLNode y,
+	public IDictionary<Variable, Term> unify(FOLNode x, FOLNode y,
 			Map<Variable, Term> theta) {
 		// if theta = failure then return failure
 		if (theta == null) {
@@ -120,7 +120,7 @@ public class Unifier {
 	}
 
 	/**
-	 * Returns a Map<Variable, Term> representing the substitution (i.e. a set
+	 * Returns a IDictionary<Variable, Term> representing the substitution (i.e. a set
 	 * of variable/term pairs) or null which is used to indicate a failure to
 	 * unify.
 	 * 
@@ -131,14 +131,14 @@ public class Unifier {
 	 * @param theta
 	 *            the substitution built up so far
 	 * 
-	 * @return a Map<Variable, Term> representing the substitution (i.e. a set
+	 * @return a IDictionary<Variable, Term> representing the substitution (i.e. a set
 	 *         of variable/term pairs) or null which is used to indicate a
 	 *         failure to unify.
 	 */
 	// else if LIST?(x) and LIST?(y) then
 	// return UNIFY(x.REST, y.REST, UNIFY(x.FIRST, y.FIRST, theta))
-	public Map<Variable, Term> unify(List<? extends FOLNode> x,
-			List<? extends FOLNode> y, Map<Variable, Term> theta) {
+	public IDictionary<Variable, Term> unify(List<? extends FOLNode> x,
+			List<? extends FOLNode> y, IDictionary<Variable, Term> theta) {
 		if (theta == null) {
 			return null;
 		} else if (x.size() != y.size()) {
@@ -163,7 +163,7 @@ public class Unifier {
 	// behavior, as is the case with Prolog.
 	// Note: Implementation is based on unify-bug.pdf document by Peter Norvig:
 	// http://norvig.com/unify-bug.pdf
-	protected boolean occurCheck(Map<Variable, Term> theta, Variable var,
+	protected bool occurCheck(Map<Variable, Term> theta, Variable var,
 			FOLNode x) {
 		// ((equal var x) t)
 		if (var.Equals(x)) {
@@ -199,7 +199,7 @@ public class Unifier {
 	 *       theta, the substitution built up so far
 	 * </code>
 	 */
-	private Map<Variable, Term> unifyVar(Variable var, FOLNode x,
+	private IDictionary<Variable, Term> unifyVar(Variable var, FOLNode x,
 			Map<Variable, Term> theta) {
 
 		if (!Term.class.isInstance(x)) {
@@ -220,7 +220,7 @@ public class Unifier {
 		}
 	}
 
-	private Map<Variable, Term> unifyOps(String x, String y,
+	private IDictionary<Variable, Term> unifyOps(String x, String y,
 			Map<Variable, Term> theta) {
 		if (theta == null) {
 			return null;
@@ -239,14 +239,14 @@ public class Unifier {
 		return x.getSymbolicName();
 	}
 
-	private boolean isCompound(FOLNode x) {
+	private bool isCompound(FOLNode x) {
 		return x.isCompound();
 	}
 
 	// See:
 	// http://logic.stanford.edu/classes/cs157/2008/miscellaneous/faq.html#jump165
 	// for need for this.
-	private Map<Variable, Term> cascadeSubstitution(Map<Variable, Term> theta,
+	private IDictionary<Variable, Term> cascadeSubstitution(Map<Variable, Term> theta,
 			Variable var, Term x) {
 		theta.put(var, x);
 		for (Variable v : theta.keySet()) {

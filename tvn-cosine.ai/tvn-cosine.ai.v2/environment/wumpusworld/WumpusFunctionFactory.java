@@ -1,14 +1,14 @@
 namespace aima.core.environment.wumpusworld;
 
-import java.util.LinkedList;
-import java.util.List;
+using java.util.LinkedList;
+using java.util.List;
 
-import aima.core.environment.wumpusworld.action.Forward;
-import aima.core.environment.wumpusworld.action.TurnLeft;
-import aima.core.environment.wumpusworld.action.TurnRight;
-import aima.core.environment.wumpusworld.action.WWAction;
-import aima.core.search.api.ActionsFunction;
-import aima.core.search.api.ResultFunction;
+using aima.core.environment.wumpusworld.action.Forward;
+using aima.core.environment.wumpusworld.action.TurnLeft;
+using aima.core.environment.wumpusworld.action.TurnRight;
+using aima.core.environment.wumpusworld.action.WWAction;
+using aima.core.search.api.ActionsFunction;
+using aima.core.search.api.ResultFunction;
 
 /**
  * Factory class for constructing functions for use in the Wumpus World

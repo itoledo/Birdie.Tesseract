@@ -1,7 +1,7 @@
 namespace aima.core.search.api;
 
-import java.util.Comparator;
-import java.util.function.ToDoubleFunction;
+using java.util.Comparator;
+using java.util.function.ToDoubleFunction;
 
 /**
  * A Node Factory, used to construct implementations of the Node interface.

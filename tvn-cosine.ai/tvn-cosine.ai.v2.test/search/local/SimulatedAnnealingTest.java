@@ -1,18 +1,18 @@
-package aima.test.unit.search.local;
+namespace aima.test.unit.search.local;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.function.ToDoubleFunction;
+using java.util.Arrays;
+using java.util.Collection;
+using java.util.function.ToDoubleFunction;
 
-import org.junit.Test;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+using org.junit.Test;
+using org.junit.runners.Parameterized.Parameter;
+using org.junit.runners.Parameterized.Parameters;
 
-import aima.core.environment.support.ProblemFactory;
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForStateFunction;
-import aima.core.search.basic.local.SimulatedAnnealingSearch;
-import aima.core.util.datastructure.Pair;
+using aima.core.environment.support.ProblemFactory;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchForStateFunction;
+using aima.core.search.basic.local.SimulatedAnnealingSearch;
+using aima.core.util.datastructure.Pair;
 
 /**
  * 
@@ -26,7 +26,7 @@ public class SimulatedAnnealingTest {
 	}
 	
 	@Parameter
-	public String searchForStateFunctionName;
+	public string searchForStateFunctionName;
 
 	// The state value function will be represented by the ascii value of the
 	// first character in the state name.
@@ -36,7 +36,7 @@ public class SimulatedAnnealingTest {
 	
 	ToDoubleFunction<Pair<Integer, Integer>> y_valueFn = x_y -> x_y.getSecond().doubleValue();
 
-	public <A, S> S searchForState(Problem<A, S> problem, ToDoubleFunction<S> stateValueFn, boolean isGradientAscentVersion) {
+	public <A, S> S searchForState(Problem<A, S> problem, ToDoubleFunction<S> stateValueFn, bool isGradientAscentVersion) {
 		SearchForStateFunction<A, S> searchForStateFunction;
 		
 		searchForStateFunction = new SimulatedAnnealingSearch<A, S>(stateValueFn, isGradientAscentVersion);
@@ -46,7 +46,7 @@ public class SimulatedAnnealingTest {
 	
 	//
 	// NOTE: We use timeouts as simulated-annealing selects a random action so in most cases you cannot predetermine its result.
-	@Test(timeout=1000)
+	[TestMethod](timeout=1000)
 	public void testReachableGlobalMaximum() {
 		while (!"Z".equals(searchForState(ProblemFactory.getSimpleBinaryTreeProblem("F", "Z"), asciiChar0StateValueFn, true)));
 		
@@ -62,12 +62,12 @@ public class SimulatedAnnealingTest {
 		}
 	}
 
-	@Test(timeout=1000)
+	[TestMethod](timeout=1000)
 	public void testReachableLocalMaximum() {
 		while(!"O".equals(searchForState(ProblemFactory.getSimpleBinaryTreeProblem("A", "Z"), asciiChar0StateValueFn, true)));
 	}
 
-	@Test(timeout=1000)
+	[TestMethod](timeout=1000)
 	public void testNoSuccessors() {
 		while (!"P".equals(searchForState(ProblemFactory.getSimpleBinaryTreeProblem("P", "Z"), asciiChar0StateValueFn, true)));
 	}

@@ -1,24 +1,24 @@
-package aima.test.unit.search.uninformed;
+namespace aima.test.unit.search.uninformed;
 
-import aima.core.environment.map2d.GoAction;
-import aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania;
-import aima.core.environment.support.ProblemFactory;
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForActionsFunction;
-import aima.core.search.basic.uninformed.UniformCostSearch;
-import aima.extra.search.pqueue.uninformed.GraphPriorityQueueSearch;
-import aima.extra.search.pqueue.uninformed.GraphRLPriorityQueueSearch;
-import aima.extra.search.pqueue.uninformed.TreePriorityQueueSearch;
-import aima.extra.search.pqueue.uninformed.UniformCostQueueSearch;
+using aima.core.environment.map2d.GoAction;
+using aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania;
+using aima.core.environment.support.ProblemFactory;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchForActionsFunction;
+using aima.core.search.basic.uninformed.UniformCostSearch;
+using aima.extra.search.pqueue.uninformed.GraphPriorityQueueSearch;
+using aima.extra.search.pqueue.uninformed.GraphRLPriorityQueueSearch;
+using aima.extra.search.pqueue.uninformed.TreePriorityQueueSearch;
+using aima.extra.search.pqueue.uninformed.UniformCostQueueSearch;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+using org.junit.Assert;
+using org.junit.Test;
+using org.junit.runner.RunWith;
+using org.junit.runners.Parameterized;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+using java.util.Arrays;
+using java.util.Collection;
+using java.util.List;
 
 /**
  * @author manthan.
@@ -36,7 +36,7 @@ public class UniformCostSearchTest {
     }
 
     @Parameterized.Parameter
-    public String searchFunctionName;
+    public string searchFunctionName;
 
     public <A, S> List<A> searchForActions(Problem<A, S> problem) {
         SearchForActionsFunction<A, S> searchForActionsFunction;
@@ -59,7 +59,7 @@ public class UniformCostSearchTest {
         return searchForActionsFunction.apply(problem);
     }
 
-    @Test
+    [TestMethod]
     public void testUniformCostSearch() {
         Assert.assertEquals(
                 Arrays.asList(new GoAction(SimplifiedRoadMapOfPartOfRomania.SIBIU),

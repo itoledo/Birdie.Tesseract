@@ -1,19 +1,19 @@
 namespace aima.core.search.basic.uninformed;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
+using java.util.Comparator;
+using java.util.HashSet;
+using java.util.List;
+using java.util.PriorityQueue;
+using java.util.Queue;
+using java.util.Set;
 
-import aima.core.search.api.Node;
-import aima.core.search.api.NodeFactory;
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchController;
-import aima.core.search.api.SearchForActionsFunction;
-import aima.core.search.basic.support.BasicNodeFactory;
-import aima.core.search.basic.support.BasicSearchController;
+using aima.core.search.api.Node;
+using aima.core.search.api.NodeFactory;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchController;
+using aima.core.search.api.SearchForActionsFunction;
+using aima.core.search.basic.support.BasicNodeFactory;
+using aima.core.search.basic.support.BasicSearchController;
 
 /**
  * <pre>
@@ -109,7 +109,7 @@ public class UniformCostSearch<A, S> implements SearchForActionsFunction<A, S> {
 		return frontier;
 	}
 
-	public Set<S> newExploredSet() {
+	public ISet<S> newExploredSet() {
 		return new HashSet<>();
 	}
 
@@ -121,16 +121,16 @@ public class UniformCostSearch<A, S> implements SearchForActionsFunction<A, S> {
 		return searchController.solution(node);
 	}
 
-	public boolean isGoalState(Node<A, S> node, Problem<A, S> problem) {
+	public bool isGoalState(Node<A, S> node, Problem<A, S> problem) {
 		return searchController.isGoalState(node, problem);
 	}
 	
-	public boolean containsState(Queue<Node<A, S>> frontier, S state) {
+	public bool containsState(Queue<Node<A, S>> frontier, S state) {
 		// NOTE: Not very efficient (i.e. linear in the size of the frontier)
 		return frontier.stream().anyMatch(frontierNode -> frontierNode.state().Equals(state));
 	}
 
-	public boolean removedNodeFromFrontierWithSameStateAndHigherPathCost(Node<A, S> child, Queue<Node<A, S>> frontier) {
+	public bool removedNodeFromFrontierWithSameStateAndHigherPathCost(Node<A, S> child, Queue<Node<A, S>> frontier) {
 		// NOTE: Not very efficient (i.e. linear in the size of the frontier)
 		return frontier.removeIf(n -> n.state().Equals(child.state()) && n.pathCost() > child.pathCost());
 	}

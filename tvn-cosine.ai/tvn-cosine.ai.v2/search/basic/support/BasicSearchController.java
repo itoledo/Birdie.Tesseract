@@ -1,6 +1,6 @@
 namespace aima.core.search.basic.support;
 
-import aima.core.search.api.SearchController;
+using aima.core.search.api.SearchController;
 
 /**
  * 

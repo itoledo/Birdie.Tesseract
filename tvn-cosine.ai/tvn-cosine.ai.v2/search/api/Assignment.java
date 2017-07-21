@@ -1,12 +1,12 @@
 namespace aima.core.search.api;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+using java.util.ArrayList;
+using java.util.Collection;
+using java.util.HashMap;
+using java.util.LinkedHashMap;
+using java.util.List;
+using java.util.Map;
+using java.util.stream.Collectors;
 
 /**
  * Each state in a CSP is defined by an assignment. An assignment assigns values
@@ -23,36 +23,36 @@ public interface Assignment {
 	 *            the CSP for which the assignment is to be tested.
 	 * @return true if the assignment is complete, false otherwise.
 	 */
-	default boolean isComplete(CSP csp) {
+	default bool isComplete(CSP csp) {
 		return getAssignments().keySet().containsAll(csp.getVariables());
 	}
 
-	default boolean isPartial(CSP csp) {
+	default bool isPartial(CSP csp) {
 		return !isComplete(csp);
 	}
 
-	default boolean isConsistent(CSP csp) {
+	default bool isConsistent(CSP csp) {
 		return !violates(getAssignments(), csp);
 	}
 
-	default boolean isSolution(CSP csp) {
+	default bool isSolution(CSP csp) {
 		return isComplete(csp) && isConsistent(csp);
 	}
 
-	default boolean isConsistent(String var, Object value, CSP csp) {
+	default bool isConsistent(String var, Object value, CSP csp) {
 		Map<String, Object> assignments = new HashMap<>(getAssignments());
 		assignments.put(var, value);
 		return !violates(assignments, csp);
 	}
 
-	default boolean violates(Map<String, Object> assignedValues, CSP csp) {
+	default bool violates(Map<String, Object> assignedValues, CSP csp) {
 		return csp.getConstraints().stream()
 				// An assignment can only violate a constraint if it has values
 				// for all the variables in its scope.
 				.filter(constraint -> assignedValues.keySet().containsAll(constraint.getScope()))
 				.anyMatch(constraint -> {
 					Object[] values = new Object[constraint.getScope().size()];
-					for (int i = 0; i < values.length; i++) {
+					for (int i = 0; i < values.Length; i++) {
 						values[i] = assignedValues.get(constraint.getScope().get(i));
 					}
 					return !constraint.getRelation().isMember(values);
@@ -69,7 +69,7 @@ public interface Assignment {
 		return getAssignments().get(var);
 	}
 
-	default Map<String, List<Object>> getAllowedAssignments(CSP csp, Collection<String> variables) {
+	default IDictionary<String, List<Object>> getAllowedAssignments(CSP csp, Collection<String> variables) {
 		Map<String, List<Object>> allowedAssignments = new LinkedHashMap<>();
 		for (String var : variables) {
 			List<Object> allowed = new ArrayList<>();
@@ -89,7 +89,7 @@ public interface Assignment {
 
 	boolean remove(String var, Object value);
 
-	default boolean contains(String var) {
+	default bool contains(String var) {
 		return getAssignments().containsKey(var);
 	}
 	
@@ -106,7 +106,7 @@ public interface Assignment {
 
 	Map<String, List<Object>> getDomainsReducedBy();
 
-	default boolean add(Assignment otherAssignment) {
+	default bool add(Assignment otherAssignment) {
 		boolean added = false;
 		// Track the assignments from the other assignment
 		for (Map.Entry<String, Object> entry : otherAssignment.getAssignments().entrySet()) {
@@ -128,7 +128,7 @@ public interface Assignment {
 	//
 	// Remove the effects of an assignment from this assignment and the
 	// corresponding CSP (in order to restore domains).
-	default boolean remove(Assignment assignment, CSP csp) {
+	default bool remove(Assignment assignment, CSP csp) {
 		// Set to true if any changes in this assignment or the CSP occur as a
 		// result of removing the given assignment's values.
 		boolean removed = false;
@@ -171,7 +171,7 @@ public interface Assignment {
 	default void executeInCSPListenerBlock(CSP csp, Runnable executionBlockRunner) {
 		// Add domain listeners in order to track any changes in the domains
 		// of the CSP
-		final Map<Domain, Domain.Listener> domainListeners = new HashMap<>();
+		final IDictionary<Domain, Domain.Listener> domainListeners = new HashMap<>();
 		csp.getVariables().forEach(var -> {
 			Domain domain = csp.getDomain(var);
 			Domain.Listener l = new Domain.Listener() {

@@ -1,15 +1,15 @@
 namespace aima.core.logic.basic.propositional.visitors;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.LinkedHashSet;
+using java.util.List;
+using java.util.Set;
 
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.Literal;
-import aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.Literal;
+using aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
 
 /**
  * Utility class for collecting clauses from CNF Sentences.
@@ -28,8 +28,8 @@ public class ClauseCollector extends BasicGatherer<Clause> {
 	 * @throws IllegalArgumentException
 	 *             if any of the given sentences are not in CNF.
 	 */
-	public static Set<Clause> getClausesFrom(Sentence... cnfSentences) {
-		Set<Clause> result = new LinkedHashSet<Clause>();
+	public static ISet<Clause> getClausesFrom(Sentence... cnfSentences) {
+		Set<Clause> result = new HashSet<Clause>();
 
 		ClauseCollector clauseCollector = new ClauseCollector();
 		for (Sentence cnfSentence : cnfSentences) {			
@@ -40,7 +40,7 @@ public class ClauseCollector extends BasicGatherer<Clause> {
 	}
 	
 	 
-	public Set<Clause> visitPropositionSymbol(PropositionSymbol s, Set<Clause> arg) {
+	public ISet<Clause> visitPropositionSymbol(PropositionSymbol s, ISet<Clause> arg) {
 		// a positive unit clause
 		Literal positiveLiteral = new Literal(s);
 		arg.add(new Clause(positiveLiteral));
@@ -49,7 +49,7 @@ public class ClauseCollector extends BasicGatherer<Clause> {
 	}
 	
 	 
-	public Set<Clause> visitUnarySentence(ComplexSentence s, Set<Clause> arg) {
+	public ISet<Clause> visitUnarySentence(ComplexSentence s, ISet<Clause> arg) {
 		
 		if (!s.getSimplerSentence(0).isPropositionSymbol()) {
 			throw new IllegalStateException("Sentence is not in CNF: "+s);
@@ -63,7 +63,7 @@ public class ClauseCollector extends BasicGatherer<Clause> {
 	}
 	
 	 
-	public Set<Clause> visitBinarySentence(ComplexSentence s, Set<Clause> arg) {
+	public ISet<Clause> visitBinarySentence(ComplexSentence s, ISet<Clause> arg) {
 		
 		if (s.isAndSentence()) {
 			s.getSimplerSentence(0).accept(this, arg);
@@ -83,8 +83,8 @@ public class ClauseCollector extends BasicGatherer<Clause> {
 	//
 	private static class LiteralCollector extends BasicGatherer<Literal> {
 		
-		private static Set<Literal> getLiterals(Sentence disjunctiveSentence) {
-			Set<Literal> result = new LinkedHashSet<Literal>();
+		private static ISet<Literal> getLiterals(Sentence disjunctiveSentence) {
+			Set<Literal> result = new HashSet<Literal>();
 			
 			LiteralCollector literalCollector = new LiteralCollector();
 			result = disjunctiveSentence.accept(literalCollector, result);
@@ -93,7 +93,7 @@ public class ClauseCollector extends BasicGatherer<Clause> {
 		}
 		
 		 
-		public Set<Literal> visitPropositionSymbol(PropositionSymbol s, Set<Literal> arg) {
+		public ISet<Literal> visitPropositionSymbol(PropositionSymbol s, ISet<Literal> arg) {
 			// a positive literal
 			Literal positiveLiteral = new Literal(s);
 			arg.add(positiveLiteral);
@@ -102,7 +102,7 @@ public class ClauseCollector extends BasicGatherer<Clause> {
 		}
 		
 		 
-		public Set<Literal> visitUnarySentence(ComplexSentence s, Set<Literal> arg) {
+		public ISet<Literal> visitUnarySentence(ComplexSentence s, ISet<Literal> arg) {
 			
 			if (!s.getSimplerSentence(0).isPropositionSymbol()) {
 				throw new IllegalStateException("Sentence is not in CNF: "+s);
@@ -117,7 +117,7 @@ public class ClauseCollector extends BasicGatherer<Clause> {
 		}
 		
 		 
-		public Set<Literal> visitBinarySentence(ComplexSentence s, Set<Literal> arg) {
+		public ISet<Literal> visitBinarySentence(ComplexSentence s, ISet<Literal> arg) {
 			if (s.isOrSentence()) {
 				s.getSimplerSentence(0).accept(this, arg);
 				s.getSimplerSentence(1).accept(this, arg);

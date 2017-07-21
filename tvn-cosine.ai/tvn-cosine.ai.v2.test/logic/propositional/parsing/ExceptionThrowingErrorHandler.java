@@ -1,10 +1,10 @@
-package aima.test.unit.logic.propositional.parsing;
+namespace aima.test.unit.logic.propositional.parsing;
 
-import org.antlr.v4.runtime.DefaultErrorStrategy;
-import org.antlr.v4.runtime.InputMismatchException;
-import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.Token;
+using org.antlr.v4.runtime.DefaultErrorStrategy;
+using org.antlr.v4.runtime.InputMismatchException;
+using org.antlr.v4.runtime.Parser;
+using org.antlr.v4.runtime.RecognitionException;
+using org.antlr.v4.runtime.Token;
 
 public class ExceptionThrowingErrorHandler extends DefaultErrorStrategy {
 	@Override

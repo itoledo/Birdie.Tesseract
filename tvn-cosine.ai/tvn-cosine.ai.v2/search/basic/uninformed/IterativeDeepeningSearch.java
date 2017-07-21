@@ -1,10 +1,10 @@
 namespace aima.core.search.basic.uninformed;
 
-import java.util.List;
+using java.util.List;
 
-import aima.core.search.api.DepthLimitedSearch;
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForActionsFunction;
+using aima.core.search.api.DepthLimitedSearch;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchForActionsFunction;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.

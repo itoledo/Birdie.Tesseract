@@ -1,29 +1,29 @@
-package aima.test.unit.search.adversarial;
+namespace aima.test.unit.search.adversarial;
 
-import java.util.Arrays;
-import java.util.Collection;
+using java.util.Arrays;
+using java.util.Collection;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+using org.junit.Assert;
+using org.junit.Test;
+using org.junit.runner.RunWith;
+using org.junit.runners.Parameterized;
+using org.junit.runners.Parameterized.Parameter;
+using org.junit.runners.Parameterized.Parameters;
 
-import aima.core.environment.map2d.ExtendableMap2D;
-import aima.core.environment.map2d.GoAction;
-import aima.core.environment.map2d.InState;
-import aima.core.environment.map2d.Map2D;
-import aima.core.environment.map2d.Map2DFunctionFactory;
-import aima.core.search.api.Game;
-import aima.core.search.api.PlayerFunction;
-import aima.core.search.api.SearchForAdversarialActionFunction;
-import aima.core.search.api.TerminalStateUtilityFunction;
-import aima.core.search.api.TerminalTestPredicate;
-import aima.core.search.basic.adversarial.AlphaBetaSearch;
-import aima.core.search.basic.adversarial.MinimaxDecision;
-import aima.core.search.basic.support.BasicGame;
-import aima.extra.search.adversarial.IterativeDeepeningAlphaBetaSearch;
+using aima.core.environment.map2d.ExtendableMap2D;
+using aima.core.environment.map2d.GoAction;
+using aima.core.environment.map2d.InState;
+using aima.core.environment.map2d.Map2D;
+using aima.core.environment.map2d.Map2DFunctionFactory;
+using aima.core.search.api.Game;
+using aima.core.search.api.PlayerFunction;
+using aima.core.search.api.SearchForAdversarialActionFunction;
+using aima.core.search.api.TerminalStateUtilityFunction;
+using aima.core.search.api.TerminalTestPredicate;
+using aima.core.search.basic.adversarial.AlphaBetaSearch;
+using aima.core.search.basic.adversarial.MinimaxDecision;
+using aima.core.search.basic.support.BasicGame;
+using aima.extra.search.adversarial.IterativeDeepeningAlphaBetaSearch;
 
 @RunWith(Parameterized.class)
 public class SearchForAdversarialActionFunctionTest {
@@ -33,7 +33,7 @@ public class SearchForAdversarialActionFunctionTest {
 	}
 
 	@Parameter
-	public String searchFunctionName;
+	public string searchFunctionName;
 
 	public <S, A, P> A searchForAdversarialAction(Game<S, A, P> game, Integer... params) {
 		SearchForAdversarialActionFunction<S, A> searchFn;
@@ -105,7 +105,7 @@ public class SearchForAdversarialActionFunctionTest {
 		}
 	};
 
-	@Test
+	[TestMethod]
 	public void testAIMA3eFig5_2() {
 		Game<InState, GoAction, String> game = new BasicGame<>(() -> new InState("A"), aima3eFig5_2PlayerFn,
 				Map2DFunctionFactory.getActionsFunction(aima3eFig5_2),

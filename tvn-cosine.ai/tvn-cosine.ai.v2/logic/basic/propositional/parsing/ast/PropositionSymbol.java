@@ -1,6 +1,6 @@
 namespace aima.core.logic.basic.propositional.parsing.ast;
 
-import javax.lang.model.SourceVersion;
+using javax.lang.model.SourceVersion;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>
@@ -55,7 +55,7 @@ public class PropositionSymbol extends AtomicSentence {
 	 * @return true if this is the always 'True' proposition symbol, false
 	 *         otherwise.
 	 */
-	public boolean isAlwaysTrue() {
+	public bool isAlwaysTrue() {
 		return TRUE_SYMBOL.Equals(symbol);
 	}
 
@@ -64,7 +64,7 @@ public class PropositionSymbol extends AtomicSentence {
 	 * @return true if the symbol passed in is the always 'True' proposition
 	 *         symbol, false otherwise.
 	 */
-	public static boolean isAlwaysTrueSymbol(String symbol) {
+	public static bool isAlwaysTrueSymbol(String symbol) {
 		return TRUE_SYMBOL.equalsIgnoreCase(symbol);
 	}
 
@@ -73,7 +73,7 @@ public class PropositionSymbol extends AtomicSentence {
 	 * @return true if this is the always 'False' proposition symbol, false
 	 *         other.
 	 */
-	public boolean isAlwaysFalse() {
+	public bool isAlwaysFalse() {
 		return FALSE_SYMBOL.Equals(symbol);
 	}
 
@@ -82,7 +82,7 @@ public class PropositionSymbol extends AtomicSentence {
 	 * @return true if the symbol passed in is the always 'False' proposition
 	 *         symbol, false other.
 	 */
-	public static boolean isAlwaysFalseSymbol(String symbol) {
+	public static bool isAlwaysFalseSymbol(String symbol) {
 		return FALSE_SYMBOL.equalsIgnoreCase(symbol);
 	}
 
@@ -94,7 +94,7 @@ public class PropositionSymbol extends AtomicSentence {
 	 * @return true if the given symbol is a legal proposition symbol, false
 	 *         otherwise.
 	 */
-	public static boolean isPropositionSymbol(String symbol) {
+	public static bool isPropositionSymbol(String symbol) {
 		return SourceVersion.isIdentifier(symbol);
 	}
 
@@ -107,7 +107,7 @@ public class PropositionSymbol extends AtomicSentence {
 	 * @return true if the given character can be at the beginning of a
 	 *         proposition symbol representation, false otherwise.
 	 */
-	public static boolean isPropositionSymbolIdentifierStart(char ch) {
+	public static bool isPropositionSymbolIdentifierStart(char ch) {
 		return Character.isJavaIdentifierStart(ch);
 	}
 
@@ -119,7 +119,7 @@ public class PropositionSymbol extends AtomicSentence {
 	 * @return true if the given character is part of a proposition symbols
 	 *         representation, false otherwise.
 	 */
-	public static boolean isPropositionSymbolIdentifierPart(char ch) {
+	public static bool isPropositionSymbolIdentifierPart(char ch) {
 		return Character.isJavaIdentifierPart(ch);
 	}
 

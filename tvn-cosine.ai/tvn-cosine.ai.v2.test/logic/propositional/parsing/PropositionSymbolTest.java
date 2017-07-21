@@ -1,13 +1,13 @@
-package aima.test.unit.logic.propositional.parsing;
+namespace aima.test.unit.logic.propositional.parsing;
 
-import org.junit.Assert;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Test;
 
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
 
 public class PropositionSymbolTest {
 
-	@Test
+	[TestMethod]
 	public void test_isAlwaysTrueSymbol() {
 		Assert.assertTrue(PropositionSymbol.isAlwaysTrueSymbol("True"));
 		Assert.assertTrue(PropositionSymbol.isAlwaysTrueSymbol("tRue"));
@@ -21,7 +21,7 @@ public class PropositionSymbolTest {
 		Assert.assertFalse(PropositionSymbol.isAlwaysTrueSymbol(" True"));
 	}
 	
-	@Test
+	[TestMethod]
 	public void test_isAlwaysFalseSymbol() {
 		Assert.assertTrue(PropositionSymbol.isAlwaysFalseSymbol("False"));
 		Assert.assertTrue(PropositionSymbol.isAlwaysFalseSymbol("fAlse"));
@@ -36,7 +36,7 @@ public class PropositionSymbolTest {
 		Assert.assertFalse(PropositionSymbol.isAlwaysFalseSymbol(" False"));
 	}
 	
-	@Test
+	[TestMethod]
 	public void test_isPropositionSymbol() {
 		Assert.assertTrue(PropositionSymbol.isPropositionSymbol("True"));
 		Assert.assertTrue(PropositionSymbol.isPropositionSymbol("False"));
@@ -60,7 +60,7 @@ public class PropositionSymbolTest {
 		Assert.assertFalse(PropositionSymbol.isPropositionSymbol("A B"));
 	}
 	
-	@Test
+	[TestMethod]
 	public void test_isPropositionSymbolDoesNotContainConnectiveChars() {
 		// '~', '&', '|', '=', '<', '>'
 		Assert.assertFalse(PropositionSymbol.isPropositionSymbol("~"));
@@ -78,7 +78,7 @@ public class PropositionSymbolTest {
 		Assert.assertFalse(PropositionSymbol.isPropositionSymbol("A>"));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	[TestMethod][ExpectedException(typeof(IllegalArgumentException))]
 	public void test_IllegalArgumentOnConstruction() {
 		new PropositionSymbol("A_1,2");
 	}

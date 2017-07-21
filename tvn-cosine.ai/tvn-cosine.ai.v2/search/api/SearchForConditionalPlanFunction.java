@@ -1,6 +1,6 @@
 namespace aima.core.search.api;
 
-import java.util.function.Function;
+using java.util.function.Function;
 
 /**
  * Description of a Search function that looks for a conditional plan (due to nondeterministic outcome of actions).

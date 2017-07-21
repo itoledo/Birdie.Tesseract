@@ -1,8 +1,8 @@
 namespace aima.core.logic.basic.propositional.parsing;
 
-import aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
 
 /**
  * Abstract implementation of the PLVisitor interface that provides default

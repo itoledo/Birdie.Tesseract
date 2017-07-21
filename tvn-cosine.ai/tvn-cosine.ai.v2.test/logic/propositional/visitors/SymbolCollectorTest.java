@@ -1,16 +1,16 @@
-package aima.test.unit.logic.propositional.visitors;
+namespace aima.test.unit.logic.propositional.visitors;
 
-import java.util.Set;
+using java.util.Set;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.visitors.SymbolCollector;
-import aima.extra.logic.propositional.parser.PLParserWrapper;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.visitors.SymbolCollector;
+using aima.extra.logic.propositional.parser.PLParserWrapper;
 
 /**
  * @author Ravi Mohan
@@ -24,7 +24,7 @@ public class SymbolCollectorTest {
 		parser = new PLParserWrapper();
 	}
 
-	@Test
+	[TestMethod]
 	public void testCollectSymbolsFromComplexSentence() {
 		Sentence sentence = (Sentence) parser.parse("(~B11 | P12 | P21) & (B11 | ~P12) & (B11 | ~P21)");
 		Set<PropositionSymbol> s = SymbolCollector.getSymbolsFrom(sentence);

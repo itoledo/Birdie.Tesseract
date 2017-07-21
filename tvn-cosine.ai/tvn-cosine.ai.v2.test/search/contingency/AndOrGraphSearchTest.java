@@ -1,26 +1,26 @@
-package aima.test.unit.search.contingency;
+namespace aima.test.unit.search.contingency;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+using java.util.ArrayList;
+using java.util.Arrays;
+using java.util.Collection;
+using java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+using org.junit.Assert;
+using org.junit.Test;
+using org.junit.runner.RunWith;
+using org.junit.runners.Parameterized;
+using org.junit.runners.Parameterized.Parameter;
+using org.junit.runners.Parameterized.Parameters;
 
-import aima.core.environment.support.NondeterministicProblemFactory;
-import aima.core.environment.vacuum.VELocalState;
-import aima.core.environment.vacuum.VEWorldState;
-import static aima.core.environment.vacuum.VacuumEnvironment.Status.Clean;
-import static aima.core.environment.vacuum.VacuumEnvironment.Status.Dirty;
-import aima.core.search.api.ConditionalPlan;
-import aima.core.search.api.NondeterministicProblem;
-import aima.core.search.api.SearchForConditionalPlanFunction;
-import aima.core.search.basic.contingency.AndOrGraphSearch;
+using aima.core.environment.support.NondeterministicProblemFactory;
+using aima.core.environment.vacuum.VELocalState;
+using aima.core.environment.vacuum.VEWorldState;
+using static aima.core.environment.vacuum.VacuumEnvironment.Status.Clean;
+using static aima.core.environment.vacuum.VacuumEnvironment.Status.Dirty;
+using aima.core.search.api.ConditionalPlan;
+using aima.core.search.api.NondeterministicProblem;
+using aima.core.search.api.SearchForConditionalPlanFunction;
+using aima.core.search.basic.contingency.AndOrGraphSearch;
 
 @RunWith(Parameterized.class)
 public class AndOrGraphSearchTest {
@@ -31,7 +31,7 @@ public class AndOrGraphSearchTest {
 	}
 
 	@Parameter
-	public String searchFunctionName;
+	public string searchFunctionName;
 
 	public <A, S> ConditionalPlan<A, S> searchForConditionalPlan(NondeterministicProblem<A, S> problem) {
 		SearchForConditionalPlanFunction<A, S> cpSearch = new AndOrGraphSearch<>();
@@ -41,7 +41,7 @@ public class AndOrGraphSearchTest {
 		return cp;
 	}
 
-	@Test
+	[TestMethod]
 	public void testErraticVacuumWorld() {
 		// State 1 [*_/][* ]
 		ConditionalPlan<String, VEWorldState> cp;
@@ -175,7 +175,7 @@ public class AndOrGraphSearchTest {
 				Arrays.asList((String) null));
 	}
 	
-	@Test
+	[TestMethod]
 	public void testBadStateToConditionalPlan() {
 		ConditionalPlan<String, VEWorldState> cp;
 		

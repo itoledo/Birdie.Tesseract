@@ -1,21 +1,21 @@
 namespace aima.core.logic.basic.firstorder.parsing;
 
-import java.util.ArrayList;
-import java.util.List;
+using java.util.ArrayList;
+using java.util.List;
 
-import aima.core.logic.basic.firstorder.domain.FOLDomain;
-import aima.core.logic.basic.firstorder.parsing.ast.ConnectedSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Constant;
-import aima.core.logic.basic.firstorder.parsing.ast.Function;
-import aima.core.logic.basic.firstorder.parsing.ast.NotSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Predicate;
-import aima.core.logic.basic.firstorder.parsing.ast.QuantifiedSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Sentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Term;
-import aima.core.logic.basic.firstorder.parsing.ast.TermEquality;
-import aima.core.logic.basic.firstorder.parsing.ast.Variable;
-import aima.core.logic.basic.common.LogicTokenTypes;
-import aima.core.logic.basic.common.Token;
+using aima.core.logic.basic.firstorder.domain.FOLDomain;
+using aima.core.logic.basic.firstorder.parsing.ast.ConnectedSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Constant;
+using aima.core.logic.basic.firstorder.parsing.ast.Function;
+using aima.core.logic.basic.firstorder.parsing.ast.NotSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Predicate;
+using aima.core.logic.basic.firstorder.parsing.ast.QuantifiedSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Sentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Term;
+using aima.core.logic.basic.firstorder.parsing.ast.TermEquality;
+using aima.core.logic.basic.firstorder.parsing.ast.Variable;
+using aima.core.logic.basic.common.LogicTokenTypes;
+using aima.core.logic.basic.common.Token;
 
 /**
  * @author Ravi Mohan
@@ -160,7 +160,7 @@ public class FOLParser {
 
 	}
 
-	protected boolean isEndOfInput(Token t) {
+	protected bool isEndOfInput(Token t) {
 		return (t.getType() == LogicTokenTypes.EOI);
 	}
 
@@ -233,7 +233,7 @@ public class FOLParser {
 
 	}
 
-	private boolean binaryConnector(Token t) {
+	private bool binaryConnector(Token t) {
 		if ((t.getType() == LogicTokenTypes.CONNECTIVE)
 				&& (!(t.getText().Equals("NOT")))) {
 			return true;
@@ -242,7 +242,7 @@ public class FOLParser {
 		}
 	}
 
-	private boolean lParen(Token t) {
+	private bool lParen(Token t) {
 		if (t.getType() == LogicTokenTypes.LPAREN) {
 			return true;
 		} else {
@@ -250,7 +250,7 @@ public class FOLParser {
 		}
 	}
 
-	private boolean term(Token t) {
+	private bool term(Token t) {
 		if ((t.getType() == LogicTokenTypes.FUNCTION)
 				|| (t.getType() == LogicTokenTypes.CONSTANT)
 				|| (t.getType() == LogicTokenTypes.VARIABLE)) {
@@ -261,7 +261,7 @@ public class FOLParser {
 
 	}
 
-	private boolean predicate(Token t) {
+	private bool predicate(Token t) {
 		if ((t.getType() == LogicTokenTypes.PREDICATE)) {
 			return true;
 		} else {
@@ -269,7 +269,7 @@ public class FOLParser {
 		}
 	}
 
-	private boolean notToken(Token t) {
+	private bool notToken(Token t) {
 		if ((t.getType() == LogicTokenTypes.CONNECTIVE)
 				&& (t.getText().Equals("~"))) {
 			return true;

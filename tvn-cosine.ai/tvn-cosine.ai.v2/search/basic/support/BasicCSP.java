@@ -1,16 +1,16 @@
 namespace aima.core.search.basic.support;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+using java.util.ArrayList;
+using java.util.Arrays;
+using java.util.Collections;
+using java.util.HashMap;
+using java.util.List;
+using java.util.Map;
+using java.util.StringJoiner;
 
-import aima.core.search.api.CSP;
-import aima.core.search.api.Constraint;
-import aima.core.search.api.Domain;
+using aima.core.search.api.CSP;
+using aima.core.search.api.Constraint;
+using aima.core.search.api.Domain;
 
 /**
  * Basic implementation of the CSP interface.
@@ -19,21 +19,21 @@ import aima.core.search.api.Domain;
  */
 public class BasicCSP implements CSP {
 	private List<String> variables;
-	private Map<String, Integer> variableIndexes = new HashMap<>();
+	private IDictionary<String, Integer> variableIndexes = new HashMap<>();
 	private List<Domain> domains;
 	private List<Constraint> constraints;
 	
 	public BasicCSP(String[] variables, Object[][] domains, Constraint...constraints) {
-		if (variables.length != domains.length) {
+		if (variables.Length != domains.Length) {
 			throw new IllegalArgumentException("Variable and Domain lengths must match");
 		}
 		
 		this.variables = Collections.unmodifiableList(Arrays.asList(variables));
-		for (int i = 0; i < variables.length; i++) {
+		for (int i = 0; i < variables.Length; i++) {
 			variableIndexes.put(variables[i], i);
 		}
 		this.domains = new ArrayList<>();
-		for (int i = 0; i < domains.length; i++) {
+		for (int i = 0; i < domains.Length; i++) {
 			this.domains.add(new BasicDomain(domains[i]));
 		}
 		this.domains = Collections.unmodifiableList(this.domains);

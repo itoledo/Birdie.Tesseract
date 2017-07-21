@@ -1,6 +1,6 @@
 namespace aima.core.environment.wumpusworld.action;
 
-import aima.core.environment.wumpusworld.AgentPosition;
+using aima.core.environment.wumpusworld.AgentPosition;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>

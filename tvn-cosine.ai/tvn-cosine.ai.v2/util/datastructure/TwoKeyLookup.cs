@@ -1,6 +1,5 @@
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+using System.Collections.Generic;
+using tvn_cosine.ai.v2.common.collections.generic;
 
 namespace aima.core.util.datastructure
 {/**
@@ -19,7 +18,7 @@ namespace aima.core.util.datastructure
  */
     public class TwoKeyLookup<K1, K2, V>
     {
-        private Map<K1, Map<K2, V>> k1Map = new LinkedHashMap<>();
+        private IDictionary<K1, IDictionary<K2, V>> k1Map = new LinkedHashMap<K1, IDictionary<K2, V>>();
 
         /**
          * Associates the specified value with the specified key pair in this map.
@@ -38,7 +37,11 @@ namespace aima.core.util.datastructure
          */
         public void put(K1 key1, K2 key2, V value)
         {
-            k1Map.computeIfAbsent(key1, k1-> new LinkedHashMap<>()).put(key2, value);
+            if (!k1Map.ContainsKey(key1))
+            {
+                k1Map[key1] = new LinkedHashMap<K2, V>();
+            }
+            k1Map[key1][key2] = value;
         }
 
         /**
@@ -63,13 +66,11 @@ namespace aima.core.util.datastructure
          */
         public V get(K1 key1, K2 key2)
         {
-            V value = null;
-            Map<K2, V> k2Map = k1Map.get(key1);
-            if (k2Map != null)
+            if (containsKey(key1, key2))
             {
-                value = k2Map.get(key2);
+                return k1Map[key1][key2];
             }
-            return value;
+            return default(V);
         }
 
         /**
@@ -86,15 +87,10 @@ namespace aima.core.util.datastructure
          * @return <code>true</code> if this map contains a mapping for the
          *         specified key.
          */
-        public boolean containsKey(K1 key1, K2 key2)
+        public bool containsKey(K1 key1, K2 key2)
         {
-            boolean contains = false;
-            Map<K2, V> k2Map = k1Map.get(key1);
-            if (k2Map != null)
-            {
-                contains = k2Map.containsKey(key2);
-            }
-            return contains;
+            return k1Map.ContainsKey(key1)
+                && k1Map[key1].ContainsKey(key2);
         }
 
         /**
@@ -115,11 +111,14 @@ namespace aima.core.util.datastructure
          */
         public V removeKey(K1 key1, K2 key2)
         {
-            V value = null;
-            Map<K2, V> k2Map = k1Map.remove(key1);
-            if (k2Map != null)
+            V value = get(key1, key2);
+            if (k1Map.ContainsKey(key1))
             {
-                value = k2Map.remove(k1Map);
+                if (k1Map[key1].ContainsKey(key2))
+                {
+                    k1Map[key1].Remove(key2);
+                }
+                k1Map.Remove(key1);
             }
             return value;
         }
@@ -131,15 +130,13 @@ namespace aima.core.util.datastructure
          *            the first key of the lookup.
          * @return the entry set of K2 and V pairs contained within K1.
          */
-        public Set<Map.Entry<K2, V>> getEntrySetForK1(K1 key1)
+        public ISet<KeyValuePair<K2, V>> getEntrySetForK1(K1 key1)
         {
-            Set<Map.Entry<K2, V>> entrySet = null;
-            Map<K2, V> k2Map = k1Map.get(key1);
-            if (k2Map != null)
+            if (k1Map.ContainsKey(key1))
             {
-                entrySet = k2Map.entrySet();
+                return new HashSet<KeyValuePair<K2, V>>(k1Map[key1]);
             }
-            return entrySet;
+            return null;
         }
     }
 }

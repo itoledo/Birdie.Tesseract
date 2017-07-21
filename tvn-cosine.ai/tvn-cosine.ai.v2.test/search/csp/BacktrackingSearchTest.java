@@ -1,20 +1,20 @@
-package aima.test.unit.search.csp;
+namespace aima.test.unit.search.csp;
 
-import java.util.Arrays;
-import java.util.Collection;
+using java.util.Arrays;
+using java.util.Collection;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+using org.junit.Assert;
+using org.junit.Test;
+using org.junit.runner.RunWith;
+using org.junit.runners.Parameterized;
+using org.junit.runners.Parameterized.Parameter;
+using org.junit.runners.Parameterized.Parameters;
 
-import aima.core.environment.support.CSPFactory;
-import aima.core.search.api.Assignment;
-import aima.core.search.api.CSP;
-import aima.core.search.api.SearchForAssignmentFunction;
-import aima.core.search.basic.csp.BacktrackingSearch;
+using aima.core.environment.support.CSPFactory;
+using aima.core.search.api.Assignment;
+using aima.core.search.api.CSP;
+using aima.core.search.api.SearchForAssignmentFunction;
+using aima.core.search.basic.csp.BacktrackingSearch;
 
 @RunWith(Parameterized.class)
 public class BacktrackingSearchTest {
@@ -30,7 +30,7 @@ public class BacktrackingSearchTest {
 	}
 
 	@Parameter
-	public String searchFunctionName;
+	public string searchFunctionName;
 
 	public Assignment searchForAssignment(CSP csp) {
 		SearchForAssignmentFunction searchFn;
@@ -80,7 +80,7 @@ public class BacktrackingSearchTest {
 		return searchFn.apply(csp);
 	}
 
-	@Test
+	[TestMethod]
 	public void testMapColoringTerritoriesOfAustraliaCSP() {
 		CSP csp = CSPFactory.mapColoringTerritoriesOfAustraliaCSP();
 

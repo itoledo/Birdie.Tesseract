@@ -1,14 +1,14 @@
-package aima.test.unit.logic.propositional.kb.data;
+namespace aima.test.unit.logic.propositional.kb.data;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
-import aima.core.logic.basic.propositional.kb.data.ConjunctionOfClauses;
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
-import aima.extra.logic.propositional.parser.PLParserWrapper;
+using aima.core.logic.basic.propositional.kb.data.ConjunctionOfClauses;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
+using aima.extra.logic.propositional.parser.PLParserWrapper;
 
 /**
  * @author Ravi Mohan
@@ -20,14 +20,14 @@ public class ConvertToConjunctionOfClausesTest {
 	public void setUp() {
 	}
 
-	@Test
+	[TestMethod]
 	public void testSymbolTransform() {
 		Sentence symbol = parser.parse("A");
 		ConjunctionOfClauses transformed = ConvertToConjunctionOfClauses.convert(symbol);
 		Assert.assertEquals("{{A}}", transformed.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testBasicSentenceTransformation() {
 		Sentence and = parser.parse("A & B");
 		ConjunctionOfClauses transformedAnd = ConvertToConjunctionOfClauses.convert(and);
@@ -42,77 +42,77 @@ public class ConvertToConjunctionOfClausesTest {
 		Assert.assertEquals("{{~C}}", transformedNot.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testImplicationTransformation() {
 		Sentence impl = parser.parse("A => B");
 		ConjunctionOfClauses transformedImpl = ConvertToConjunctionOfClauses.convert(impl);
 		Assert.assertEquals("{{~A, B}}", transformedImpl.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testBiConditionalTransformation() {
 		Sentence bic = parser.parse("A <=> B");
 		ConjunctionOfClauses transformedBic = ConvertToConjunctionOfClauses.convert(bic);
 		Assert.assertEquals("{{~A, B}, {~B, A}}", transformedBic.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testTwoSuccessiveNotsTransformation() {
 		Sentence twoNots = parser.parse("~~A");
 		ConjunctionOfClauses transformed = ConvertToConjunctionOfClauses.convert(twoNots);
 		Assert.assertEquals("{{A}}", transformed.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testThreeSuccessiveNotsTransformation() {
 		Sentence threeNots = parser.parse("~~~A");
 		ConjunctionOfClauses transformed = ConvertToConjunctionOfClauses.convert(threeNots);
 		Assert.assertEquals("{{~A}}", transformed.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testFourSuccessiveNotsTransformation() {
 		Sentence fourNots = parser.parse("~~~~A");
 		ConjunctionOfClauses transformed = ConvertToConjunctionOfClauses.convert(fourNots);
 		Assert.assertEquals("{{A}}", transformed.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testDeMorgan1() {
 		Sentence dm = parser.parse("~(A & B)");
 		ConjunctionOfClauses transformed = ConvertToConjunctionOfClauses.convert(dm);
 		Assert.assertEquals("{{~A, ~B}}", transformed.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testDeMorgan2() {
 		Sentence dm = parser.parse("~(A | B)");
 		ConjunctionOfClauses transformed = ConvertToConjunctionOfClauses.convert(dm);
 		Assert.assertEquals("{{~A}, {~B}}", transformed.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testOrDistribution1() {
 		Sentence or =  parser.parse("A & B | C)");
 		ConjunctionOfClauses transformed = ConvertToConjunctionOfClauses.convert(or);
 		Assert.assertEquals("{{A, C}, {B, C}}", transformed.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testOrDistribution2() {
 		Sentence or = parser.parse("A | B & C");
 		ConjunctionOfClauses transformed = ConvertToConjunctionOfClauses.convert(or);
 		Assert.assertEquals("{{A, B}, {A, C}}", transformed.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testAimaExample() {
 		Sentence aimaEg = parser.parse("B11 <=> P12 | P21");
 		ConjunctionOfClauses transformed = ConvertToConjunctionOfClauses.convert(aimaEg);
 		Assert.assertEquals("{{~B11, P12, P21}, {~P12, B11}, {~P21, B11}}", transformed.toString());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testNested() {
 		Sentence nested = parser.parse("A | (B | (C | (D & E)))");
 		ConjunctionOfClauses transformed = ConvertToConjunctionOfClauses.convert(nested);
@@ -139,7 +139,7 @@ public class ConvertToConjunctionOfClausesTest {
 		Assert.assertEquals("{{P, ~P}, {Q, ~P}, {P, ~Q}, {Q, ~Q}, {~R}}", transformed.toString());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIssue78() {
 		// (  ( NOT J1007 )  OR  ( NOT ( OR J1008 J1009 J1010 J1011 J1012 J1013 J1014 J1015  )  )  )
 		Sentence issue78Eg = parser.parse("(  ( ~ J1007 )  |  ( ~ ( J1008 | J1009 | J1010 | J1011 | J1012 | J1013 | J1014 | J1015  )  ) )");

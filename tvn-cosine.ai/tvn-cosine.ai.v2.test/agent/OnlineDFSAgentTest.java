@@ -1,19 +1,19 @@
-package aima.test.unit.agent;
+namespace aima.test.unit.agent;
 
-import java.util.StringJoiner;
-import java.util.function.Function;
+using java.util.StringJoiner;
+using java.util.function.Function;
 
-import org.junit.Assert;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Test;
 
-import aima.core.agent.basic.OnlineDFSAgent;
-import aima.core.environment.map2d.ExtendableMap2D;
-import aima.core.environment.map2d.GoAction;
-import aima.core.environment.map2d.InState;
-import aima.core.environment.map2d.Map2D;
-import aima.core.environment.map2d.Map2DFunctionFactory;
-import aima.core.search.api.OnlineSearchProblem;
-import aima.core.search.basic.support.BasicProblem;
+using aima.core.agent.basic.OnlineDFSAgent;
+using aima.core.environment.map2d.ExtendableMap2D;
+using aima.core.environment.map2d.GoAction;
+using aima.core.environment.map2d.InState;
+using aima.core.environment.map2d.Map2D;
+using aima.core.environment.map2d.Map2DFunctionFactory;
+using aima.core.search.api.OnlineSearchProblem;
+using aima.core.search.basic.support.BasicProblem;
 
 /*
  * @author Anurag Rai
@@ -49,7 +49,7 @@ public class OnlineDFSAgentTest {
 		return inState.getLocation().charAt(0) - 'A';
 	};
 
-	@Test
+	[TestMethod]
 	public void testAlreadyAtGoal() {
 		OnlineSearchProblem<GoAction, InState> osp = new BasicProblem<>(
 				Map2DFunctionFactory.getActionsFunction(mapAtoG), inState -> "A".equals(inState.getLocation()),
@@ -60,7 +60,7 @@ public class OnlineDFSAgentTest {
 		Assert.assertEquals(odfsa.perceive(0), (GoAction) null);
 	}
 
-	@Test
+	[TestMethod]
 	public void testNormalSearch() {
 		OnlineSearchProblem<GoAction, InState> osp = new BasicProblem<>(
 				Map2DFunctionFactory.getActionsFunction(mapAtoG), inState -> "G".equals(inState.getLocation()),
@@ -81,7 +81,7 @@ public class OnlineDFSAgentTest {
 		}
 	};
 
-	@Test
+	[TestMethod]
 	public void testNoPath() {
 		OnlineSearchProblem<GoAction, InState> osp = new BasicProblem<>(
 				Map2DFunctionFactory.getActionsFunction(mapAtoB), state -> false,
@@ -112,7 +112,7 @@ public class OnlineDFSAgentTest {
 		return ((inState.getLocation().charAt(0) - '1') * 3) + (inState.getLocation().charAt(2) - '1');
 	};
 
-	@Test
+	[TestMethod]
 	public void testAIMA3eFig4_19() {
 		OnlineSearchProblem<GoAction, InState> osp = new BasicProblem<>(
 				Map2DFunctionFactory.getActionsFunction(mazeFigure4_19), inState -> "3,3".equals(inState.getLocation()),
@@ -125,7 +125,7 @@ public class OnlineDFSAgentTest {
 	}
 
 	public void testExpectedActionSequence(OnlineDFSAgent<GoAction, Integer, InState> odfsa, int initialPercept,
-			Function<InState, Integer> stateToPerceptFn, String expected) {
+			Function<InState, Integer> stateToPerceptFn, string expected) {
 		int percept = initialPercept;
 		GoAction action;
 		StringJoiner result = new StringJoiner(" ");

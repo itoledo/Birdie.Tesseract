@@ -1,20 +1,20 @@
-package aima.test.unit.search.csp;
+namespace aima.test.unit.search.csp;
 
-import java.util.Arrays;
+using java.util.Arrays;
 
-import org.junit.Assert;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Test;
 
-import aima.core.search.api.CSP;
-import aima.core.search.basic.csp.AC3;
-import aima.core.search.basic.support.BasicCSP;
-import aima.core.search.basic.support.BasicConstraint;
+using aima.core.search.api.CSP;
+using aima.core.search.basic.csp.AC3;
+using aima.core.search.basic.support.BasicCSP;
+using aima.core.search.basic.support.BasicConstraint;
 
 public class AC3Test {
 
 	public AC3 ac3 = new AC3();
 
-	@Test
+	[TestMethod]
 	public void testBasicAC3() {
 		Object[] digits = new Object[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		CSP csp = new BasicCSP(new String[] { "X", "Y" }, new Object[][] { digits, digits },

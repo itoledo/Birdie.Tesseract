@@ -1,9 +1,9 @@
 namespace aima.core.logic.basic.propositional.visitors;
 
-import aima.core.logic.basic.propositional.parsing.AbstractPLVisitor;
-import aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
-import aima.core.logic.basic.propositional.parsing.ast.Connective;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.parsing.AbstractPLVisitor;
+using aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
+using aima.core.logic.basic.propositional.parsing.ast.Connective;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>

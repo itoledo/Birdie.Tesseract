@@ -1,7 +1,7 @@
 namespace aima.core.environment.wumpusworld.action;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+using java.util.LinkedHashMap;
+using java.util.Map;
 
 /**
  * Base class for Wumpus World Actions.
@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class WWAction {
 	public static final String ATTRIBUTE_NAME = "name";
-	private Map<Object, Object> attributes = new LinkedHashMap<Object, Object>();
+	private IDictionary<Object, Object> attributes = new LinkedHashMap<Object, Object>();
 
 	public WWAction(String name) {
 		this.setAttribute(ATTRIBUTE_NAME, name);

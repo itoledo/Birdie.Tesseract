@@ -1,15 +1,15 @@
-package aima.test.unit.agent;
+namespace aima.test.unit.agent;
 
-import aima.core.agent.api.Rule;
-import aima.core.agent.basic.SimpleReflexAgent;
-import aima.test.unit.agent.support.TestPercept;
-import aima.test.unit.agent.support.TestState;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using aima.core.agent.api.Rule;
+using aima.core.agent.basic.SimpleReflexAgent;
+using aima.test.unit.agent.support.TestPercept;
+using aima.test.unit.agent.support.TestState;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
-import java.util.Arrays;
-import java.util.function.Predicate;
+using java.util.Arrays;
+using java.util.function.Predicate;
 
 /**
  * @author Ciaran O'Reilly
@@ -25,7 +25,7 @@ public class SimpleReflexAgentTest {
 				return state -> state.dirty;
 			}
 
-			public String action() {
+			public string action() {
 				return "Sweep";
 			}
 		}, new Rule<String, TestState>() {
@@ -33,18 +33,18 @@ public class SimpleReflexAgentTest {
 				return state -> !state.dirty;
 			}
 
-			public String action() {
+			public string action() {
 				return "Drink Tea";
 			}
 		}), percept -> new TestState(percept.location, percept.floorIsDirty));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSweep() {
 		Assert.assertEquals("Sweep", agent.perceive(new TestPercept("A", true)));
 	}
 
-	@Test
+	[TestMethod]
 	public void tetDrinkTea() {
 		Assert.assertEquals("Drink Tea", agent.perceive(new TestPercept("A", false)));
 	}

@@ -1,17 +1,17 @@
 namespace aima.core.search.basic.csp;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
+using java.util.ArrayList;
+using java.util.HashMap;
+using java.util.LinkedList;
+using java.util.List;
+using java.util.Map;
+using java.util.Queue;
 
-import aima.core.search.api.Assignment;
-import aima.core.search.api.CSP;
-import aima.core.search.api.Constraint;
-import aima.core.search.api.SearchForAssignmentFunction;
-import aima.core.search.basic.support.BasicAssignment;
+using aima.core.search.api.Assignment;
+using aima.core.search.api.CSP;
+using aima.core.search.api.Constraint;
+using aima.core.search.api.SearchForAssignmentFunction;
+using aima.core.search.basic.support.BasicAssignment;
 
 /**
  * 
@@ -93,7 +93,7 @@ public class TreeCSPSolver implements SearchForAssignmentFunction {
 	// Supporting Code
 	public static class TopologicalSort {
 		public List<String> variables = new ArrayList<>();
-		public Map<String, String> parents = new HashMap<>();
+		public IDictionary<String, String> parents = new HashMap<>();
 
 		public String parent(String childVariable) {
 			return parents.get(childVariable);

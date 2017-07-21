@@ -1,10 +1,10 @@
-package aima.test.unit.logic.propositional.kb.data;
+namespace aima.test.unit.logic.propositional.kb.data;
 
-import org.junit.Assert;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Test;
 
-import aima.core.logic.basic.propositional.kb.data.Literal;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.kb.data.Literal;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
 
 /**
  * 
@@ -14,7 +14,7 @@ public class LiteralTest {
 	private final PropositionSymbol SYMBOL_P = new PropositionSymbol("P");
 	private final PropositionSymbol SYMBOL_Q = new PropositionSymbol("Q");
 	
-	@Test
+	[TestMethod]
 	public void testIsPositiveLiteral() {
 		Literal literal = new Literal(SYMBOL_P);
 		Assert.assertTrue(literal.isPositiveLiteral());
@@ -27,7 +27,7 @@ public class LiteralTest {
 		
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsNegativeLiteral() {
 		Literal literal = new Literal(SYMBOL_P);
 		Assert.assertFalse(literal.isNegativeLiteral());
@@ -39,13 +39,13 @@ public class LiteralTest {
 		Assert.assertTrue(literal.isNegativeLiteral());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testGetAtomicSentence() {
 		Literal literal = new Literal(SYMBOL_P);
 		Assert.assertSame(literal.getAtomicSentence(), SYMBOL_P);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsAlwaysTrue() {
 		Literal literal = new Literal(SYMBOL_P);
 		Assert.assertFalse(literal.isAlwaysTrue());
@@ -63,7 +63,7 @@ public class LiteralTest {
 		Assert.assertTrue(literal.isAlwaysTrue());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsAlwaysFalse() {
 		Literal literal = new Literal(SYMBOL_P);
 		Assert.assertFalse(literal.isAlwaysFalse());
@@ -81,7 +81,7 @@ public class LiteralTest {
 		Assert.assertFalse(literal.isAlwaysFalse());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testToString() {
 		Literal literal = new Literal(SYMBOL_P);
 		Assert.assertEquals("P", literal.toString());
@@ -90,7 +90,7 @@ public class LiteralTest {
 		Assert.assertEquals("~P", literal.toString());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testEquals() {
 		Literal literal1 = new Literal(SYMBOL_P);
 		Literal literal2 = new Literal(SYMBOL_P);
@@ -112,7 +112,7 @@ public class LiteralTest {
 		Assert.assertFalse(literal1.equals(SYMBOL_P));
 	}
 	
-	@Test
+	[TestMethod]
 	public void testHashCode() {
 		Literal literal1 = new Literal(SYMBOL_P);
 		Literal literal2 = new Literal(SYMBOL_P);

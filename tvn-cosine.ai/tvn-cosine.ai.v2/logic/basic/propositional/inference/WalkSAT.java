@@ -1,16 +1,16 @@
 namespace aima.core.logic.basic.propositional.inference;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.HashMap;
+using java.util.LinkedHashSet;
+using java.util.List;
+using java.util.Map;
+using java.util.Random;
+using java.util.Set;
 
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.Model;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.Model;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>
@@ -120,7 +120,7 @@ public class WalkSAT {
 	
 	protected Model randomAssignmentToSymbolsInClauses(Set<Clause> clauses) {
 		// Collect the symbols in clauses
-		Set<PropositionSymbol> symbols = new LinkedHashSet<PropositionSymbol>();
+		Set<PropositionSymbol> symbols = new HashSet<PropositionSymbol>();
 		for (Clause c : clauses) {
 			symbols.addAll(c.getSymbols());
 		}
@@ -162,7 +162,7 @@ public class WalkSAT {
 	}
 
 	protected Model flipSymbolInClauseMaximizesNumberSatisfiedClauses(
-			Clause clause, Set<Clause> clauses, Model model) {
+			Clause clause, ISet<Clause> clauses, Model model) {
 		Model result = model;
 
 		// all the symbols in clause

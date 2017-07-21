@@ -1,11 +1,11 @@
 namespace aima.core.logic.basic.propositional.visitors;
 
-import java.util.ArrayList;
-import java.util.List;
+using java.util.ArrayList;
+using java.util.List;
 
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.ConjunctionOfClauses;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.ConjunctionOfClauses;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>

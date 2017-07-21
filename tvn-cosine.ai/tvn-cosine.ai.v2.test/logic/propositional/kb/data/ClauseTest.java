@@ -1,14 +1,14 @@
-package aima.test.unit.logic.propositional.kb.data;
+namespace aima.test.unit.logic.propositional.kb.data;
 
-import java.util.HashSet;
+using java.util.HashSet;
 
-import org.junit.Assert;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Test;
 
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.Literal;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.util.Util;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.Literal;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.util.Util;
 
 /**
  * 
@@ -23,7 +23,7 @@ public class ClauseTest {
 	private final Literal LITERAL_NOT_Q = new Literal(new PropositionSymbol("Q"), false);
 	private final Literal LITERAL_R     = new Literal(new PropositionSymbol("R"));
 	
-	@Test
+	[TestMethod]
 	public void testAlwaysFalseLiteralsExcludedOnConstruction() {
 		Clause clause = new Clause();
 		Assert.assertEquals(0, clause.getNumberLiterals());
@@ -48,7 +48,7 @@ public class ClauseTest {
 		Assert.assertEquals(Util.createSet(LITERAL_P, new Literal(PropositionSymbol.TRUE)), clause.getLiterals());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsFalse() {
 		Clause clause = new Clause();
 		Assert.assertTrue(clause.isFalse());
@@ -57,7 +57,7 @@ public class ClauseTest {
 		Assert.assertFalse(clause.isFalse());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsEmpty() {
 		Clause clause = new Clause();
 		Assert.assertTrue(clause.isEmpty());
@@ -66,7 +66,7 @@ public class ClauseTest {
 		Assert.assertFalse(clause.isEmpty());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsUnitClause() {
 		Clause clause = new Clause();
 		Assert.assertFalse(clause.isUnitClause());
@@ -78,7 +78,7 @@ public class ClauseTest {
 		Assert.assertFalse(clause.isUnitClause());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsDefiniteClause() {
 		Clause clause = new Clause();
 		Assert.assertFalse(clause.isDefiniteClause());
@@ -93,7 +93,7 @@ public class ClauseTest {
 		Assert.assertFalse(clause.isDefiniteClause());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsImplicationDefiniteClause() {
 		Clause clause = new Clause();
 		Assert.assertFalse(clause.isImplicationDefiniteClause());
@@ -117,7 +117,7 @@ public class ClauseTest {
 		Assert.assertFalse(clause.isImplicationDefiniteClause());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsHornClause() {
 		Clause clause = new Clause();
 		Assert.assertFalse(clause.isHornClause());
@@ -141,7 +141,7 @@ public class ClauseTest {
 		Assert.assertFalse(clause.isHornClause());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsGoalClause() {
 		Clause clause = new Clause();
 		Assert.assertFalse(clause.isGoalClause());
@@ -165,7 +165,7 @@ public class ClauseTest {
 		Assert.assertTrue(clause.isGoalClause());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsTautology() {
 		Clause clause = new Clause();
 		Assert.assertFalse(clause.isTautology());
@@ -195,7 +195,7 @@ public class ClauseTest {
 		Assert.assertFalse(clause.isTautology());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testGetNumberLiterals() {
 		Clause clause = new Clause();
 		Assert.assertEquals(0, clause.getNumberLiterals());
@@ -225,7 +225,7 @@ public class ClauseTest {
 		Assert.assertEquals(3, clause.getNumberLiterals());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testGetNumberPositiveLiterals() {
 		Clause clause = new Clause();
 		Assert.assertEquals(0, clause.getNumberPositiveLiterals());
@@ -243,7 +243,7 @@ public class ClauseTest {
 		Assert.assertEquals(2, clause.getNumberPositiveLiterals());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testGetNumberNegativeLiterals() {
 		Clause clause = new Clause();
 		Assert.assertEquals(0, clause.getNumberNegativeLiterals());
@@ -264,7 +264,7 @@ public class ClauseTest {
 		Assert.assertEquals(2, clause.getNumberNegativeLiterals());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testGetLiterals() {
 		Clause clause = new Clause();
 		Assert.assertEquals(new HashSet<Literal>(), clause.getLiterals());
@@ -276,7 +276,7 @@ public class ClauseTest {
 		Assert.assertEquals(Util.createSet(LITERAL_P, LITERAL_NOT_Q, LITERAL_R), clause.getLiterals());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testGetPositiveSymbols() {
 		Clause clause = new Clause();
 		Assert.assertEquals(new HashSet<PropositionSymbol>(), clause.getPositiveSymbols());
@@ -288,7 +288,7 @@ public class ClauseTest {
 		Assert.assertEquals(Util.createSet(new PropositionSymbol("P"), new PropositionSymbol("R")), clause.getPositiveSymbols());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testGetNegativeSymbols() {
 		Clause clause = new Clause();
 		Assert.assertEquals(new HashSet<PropositionSymbol>(), clause.getNegativeSymbols());
@@ -300,7 +300,7 @@ public class ClauseTest {
 		Assert.assertEquals(Util.createSet(new PropositionSymbol("P"), new PropositionSymbol("Q")), clause.getNegativeSymbols());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testToString() {
 		Clause clause = new Clause();
 		Assert.assertEquals("{}", clause.toString());
@@ -315,7 +315,7 @@ public class ClauseTest {
 		Assert.assertEquals("{~P, ~Q, R}", clause.toString());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testEquals() {
 		Clause clause1 = new Clause();
 		Clause clause2 = new Clause();
@@ -345,7 +345,7 @@ public class ClauseTest {
 		Assert.assertFalse(clause1.equals(LITERAL_P));
 	}
 	
-	@Test
+	[TestMethod]
 	public void testHashCode() {
 		Clause clause1 = new Clause();
 		Clause clause2 = new Clause();
@@ -372,19 +372,19 @@ public class ClauseTest {
 		Assert.assertFalse(clause1.hashCode() == clause2.hashCode());
 	}
 	
-	@Test(expected=UnsupportedOperationException.class)
+	[TestMethod](expected=UnsupportedOperationException.class)
 	public void testLiteralsImmutable() {
 		Clause clause = new Clause(LITERAL_P);
 		clause.getLiterals().add(LITERAL_Q);
 	}
 	
-	@Test(expected=UnsupportedOperationException.class)
+	[TestMethod](expected=UnsupportedOperationException.class)
 	public void testPostivieSymbolsImmutable() {
 		Clause clause = new Clause(LITERAL_P);
 		clause.getPositiveSymbols().add(new PropositionSymbol("Q"));
 	}
 	
-	@Test(expected=UnsupportedOperationException.class)
+	[TestMethod](expected=UnsupportedOperationException.class)
 	public void testNegativeSymbolsImmutable() {
 		Clause clause = new Clause(LITERAL_P);
 		clause.getNegativeSymbols().add(new PropositionSymbol("Q"));

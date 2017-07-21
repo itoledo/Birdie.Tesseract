@@ -1,22 +1,22 @@
 namespace aima.core.logic.basic.propositional.inference;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+using java.util.ArrayList;
+using java.util.HashSet;
+using java.util.LinkedHashSet;
+using java.util.List;
+using java.util.Set;
+using java.util.stream.Collectors;
 
-import aima.core.logic.api.propositional.KnowledgeBase;
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.Literal;
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
-import aima.core.logic.basic.propositional.parsing.ast.Connective;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
-import aima.core.util.SetOps;
+using aima.core.logic.api.propositional.KnowledgeBase;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.Literal;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
+using aima.core.logic.basic.propositional.parsing.ast.Connective;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
+using aima.core.util.SetOps;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>
@@ -73,7 +73,7 @@ public class PLResolution {
 	 *            the query, a sentence in propositional logic.
 	 * @return true if KB |= &alpha;, false otherwise.
 	 */
-	public boolean plResolution(KnowledgeBase kb, String queryString, PLParser plparser) {
+	public bool plResolution(KnowledgeBase kb, String queryString, PLParser plparser) {
 		PLParser parser = plparser;
 		Sentence alpha = parser.parse(queryString);
 		return plResolution(kb, alpha);
@@ -88,13 +88,13 @@ public class PLResolution {
 	 *            the query, a sentence in propositional logic.
 	 * @return true if KB |= &alpha;, false otherwise.
 	 */
-	public boolean plResolution(KnowledgeBase kb, Sentence alpha) {
+	public bool plResolution(KnowledgeBase kb, Sentence alpha) {
 		// clauses <- the set of clauses in the CNF representation
 		// of KB & ~alpha
 		Set<Clause> clauses = setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(
 				kb, alpha);
 		// new <- {}
-		Set<Clause> newClauses = new LinkedHashSet<Clause>();
+		Set<Clause> newClauses = new HashSet<Clause>();
 		// loop do
 		do {
 			// for each pair of clauses C_i, C_j in clauses do
@@ -136,8 +136,8 @@ public class PLResolution {
 	 * @return the set of all possible clauses obtained by resolving its two
 	 *         inputs.
 	 */
-	public Set<Clause> plResolve(Clause ci, Clause cj) {
-		Set<Clause> resolvents = new LinkedHashSet<Clause>();
+	public ISet<Clause> plResolve(Clause ci, Clause cj) {
+		Set<Clause> resolvents = new HashSet<Clause>();
 
 		// The complementary positive literals from C_i
 		resolvePositiveWithNegative(ci, cj, resolvents);
@@ -151,7 +151,7 @@ public class PLResolution {
 	// SUPPORTING CODE
 	//
 
-	private boolean discardTautologies;
+	private bool discardTautologies;
 
 	/**
 	 * Default constructor, which will set the algorithm to discard tautologies
@@ -176,7 +176,7 @@ public class PLResolution {
 	 * @return true if the algorithm will discard tautological clauses during
 	 *         processing.
 	 */
-	public boolean isDiscardTautologies() {
+	public bool isDiscardTautologies() {
 		return discardTautologies;
 	}
 
@@ -193,14 +193,14 @@ public class PLResolution {
 	//
 	// PROTECTED
 	//
-	protected Set<Clause> setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(
+	protected ISet<Clause> setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(
 			KnowledgeBase kb, Sentence alpha) {
 
 		// KB & ~alpha;
 		Sentence isContradiction = new ComplexSentence(Connective.AND,
 				kb.asSentence(), new ComplexSentence(Connective.NOT, alpha));
 		// the set of clauses in the CNF representation
-		Set<Clause> clauses = new LinkedHashSet<Clause>(
+		Set<Clause> clauses = new HashSet<Clause>(
 				ConvertToConjunctionOfClauses.convert(isContradiction)
 						.getClauses());
 
@@ -209,7 +209,7 @@ public class PLResolution {
 		return clauses;
 	}
 
-	protected void resolvePositiveWithNegative(Clause c1, Clause c2, Set<Clause> resolvents) {
+	protected void resolvePositiveWithNegative(Clause c1, Clause c2, ISet<Clause> resolvents) {
 		// Calculate the complementary positive literals from c1 with
 		// the negative literals from c2
 		Set<PropositionSymbol> complementary = SetOps.intersection(

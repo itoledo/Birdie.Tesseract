@@ -1,27 +1,27 @@
-package aima.test.unit.environment.wumpusworld;
+namespace aima.test.unit.environment.wumpusworld;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
+using java.util.Arrays;
+using java.util.Collection;
+using java.util.HashSet;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+using org.junit.Assert;
+using org.junit.Test;
+using org.junit.runner.RunWith;
+using org.junit.runners.Parameterized;
+using org.junit.runners.Parameterized.Parameters;
 
-import aima.core.environment.wumpusworld.AgentPercept;
-import aima.core.environment.wumpusworld.AgentPosition;
-import aima.core.environment.wumpusworld.Room;
-import aima.core.environment.wumpusworld.WumpusKnowledgeBase;
-import aima.core.environment.wumpusworld.action.Forward;
-import aima.core.environment.wumpusworld.action.TurnLeft;
-import aima.core.environment.wumpusworld.action.TurnRight;
-import aima.core.environment.wumpusworld.action.WWAction;
-import aima.core.logic.api.propositional.DPLL;
-import aima.core.logic.basic.propositional.inference.DPLLSatisfiable;
-import aima.core.logic.basic.propositional.inference.OptimizedDPLL;
-import aima.extra.logic.propositional.parser.PLParserWrapper;
+using aima.core.environment.wumpusworld.AgentPercept;
+using aima.core.environment.wumpusworld.AgentPosition;
+using aima.core.environment.wumpusworld.Room;
+using aima.core.environment.wumpusworld.WumpusKnowledgeBase;
+using aima.core.environment.wumpusworld.action.Forward;
+using aima.core.environment.wumpusworld.action.TurnLeft;
+using aima.core.environment.wumpusworld.action.TurnRight;
+using aima.core.environment.wumpusworld.action.WWAction;
+using aima.core.logic.api.propositional.DPLL;
+using aima.core.logic.basic.propositional.inference.DPLLSatisfiable;
+using aima.core.logic.basic.propositional.inference.OptimizedDPLL;
+using aima.extra.logic.propositional.parser.PLParserWrapper;
 
 /**
  * 
@@ -45,7 +45,7 @@ public class WumpusKnowledgeBaseTest {
     	this.dpll = dpll;
     }
 	
-	@Test
+	[TestMethod]
 	public void testAskCurrentPosition() {	
 		WumpusKnowledgeBase<WWAction> KB =  new WumpusKnowledgeBase<WWAction>(dpll, 2, new PLParserWrapper()); // Create very small cave in order to make inference for tests faster.
 		// NOTE: in the 2x2 cave for this set of assertion tests, 
@@ -89,7 +89,7 @@ public class WumpusKnowledgeBaseTest {
 	}
 	
 	@SuppressWarnings("serial")
-	@Test
+	[TestMethod]
 	public void testAskSafeRooms() {
 		WumpusKnowledgeBase<WWAction> KB;
 		int t = 0;
@@ -111,7 +111,7 @@ public class WumpusKnowledgeBaseTest {
 		Assert.assertEquals(new HashSet<Room>() {{add(new Room(1,1));}}, KB.askSafeRooms(t));
 	}
 	
-	@Test
+	[TestMethod]
 	public void testAskGlitter() {
 		WumpusKnowledgeBase<WWAction> KB =  new WumpusKnowledgeBase<WWAction>(dpll, 2, new PLParserWrapper()); 
 		step(KB, new AgentPercept(false, false, false, false, false), 0);
@@ -125,7 +125,7 @@ public class WumpusKnowledgeBaseTest {
 	}
 	
 	@SuppressWarnings("serial")
-	@Test
+	[TestMethod]
 	public void testAskUnvistedRooms() {
 		WumpusKnowledgeBase<WWAction> KB;
 		int t = 0;
@@ -141,7 +141,7 @@ public class WumpusKnowledgeBaseTest {
 	}
 	
 	@SuppressWarnings("serial")
-	@Test
+	[TestMethod]
 	public void testAskPossibleWumpusRooms() {
 		WumpusKnowledgeBase<WWAction> KB;
 		int t = 0;
@@ -161,7 +161,7 @@ public class WumpusKnowledgeBaseTest {
 	}
 	
 	@SuppressWarnings("serial")
-	@Test
+	[TestMethod]
 	public void testAskNotUnsafeRooms() {
 		WumpusKnowledgeBase<WWAction> KB;
 		int t = 0;
@@ -175,7 +175,7 @@ public class WumpusKnowledgeBaseTest {
 		Assert.assertEquals(new HashSet<Room>() {{add(new Room(1,1)); add(new Room(1,2)); add(new Room(2, 1)); add(new Room(2,2));}}, KB.askNotUnsafeRooms(t));		
 	}
 	
-	@Test
+	[TestMethod]
 	public void testExampleInSection7_2_described_pg268_AIMA3e() {
 		// Make smaller in order to reduce the inference time required, this still covers all the relevant rooms for the example
 		WumpusKnowledgeBase<WWAction> KB = new WumpusKnowledgeBase<WWAction>(dpll, 3, new PLParserWrapper()); 

@@ -1,15 +1,15 @@
 namespace aima.core.environment.map2d;
 
-import aima.core.util.datastructure.Point2D;
+using aima.core.util.datastructure.Point2D;
 
-import javax.imageio.ImageIO;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.List;
+using javax.imageio.ImageIO;
+using java.awt.Color;
+using java.awt.Graphics;
+using java.awt.image.BufferedImage;
+using java.io.File;
+using java.io.IOException;
+using java.net.URISyntaxException;
+using java.util.List;
 
 /**
  * I was sceptic if the java implementation matches the images I found. Now one can compare.
@@ -26,7 +26,7 @@ public class Print2DMap {
   private static int border = 300;
 
   public static void main (String[] args) throws URISyntaxException, IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
-    if (args.length < 2) {
+    if (args.Length < 2) {
       System.err.println("run Print2DMap through your IDE," +
           " `Map2DClassSimpleName yourOutPath [zoom] [border]` as arguments\n" +
           " e.g `SimplifiedRoadMapOfPartOfRomania /tmp 1.4 100`\n" +
@@ -34,10 +34,10 @@ public class Print2DMap {
           "and must reside in the same package");
       System.exit(1);
     }
-    if (args.length >= 3) {
+    if (args.Length >= 3) {
       zoom = Double.parseDouble(args[2]);
     }
-    if (args.length >= 4) {
+    if (args.Length >= 4) {
       border = Integer.parseInt(args[3]);
     }
 

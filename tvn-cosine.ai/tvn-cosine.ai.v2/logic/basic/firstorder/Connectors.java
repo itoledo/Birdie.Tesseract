@@ -15,23 +15,23 @@ public class Connectors {
 
 	public static final String BICOND = "<=>";
 
-	public static boolean isAND(String connector) {
+	public static bool isAND(String connector) {
 		return AND.Equals(connector);
 	}
 
-	public static boolean isOR(String connector) {
+	public static bool isOR(String connector) {
 		return OR.Equals(connector);
 	}
 
-	public static boolean isNOT(String connector) {
+	public static bool isNOT(String connector) {
 		return NOT.Equals(connector);
 	}
 
-	public static boolean isIMPLIES(String connector) {
+	public static bool isIMPLIES(String connector) {
 		return IMPLIES.Equals(connector);
 	}
 
-	public static boolean isBICOND(String connector) {
+	public static bool isBICOND(String connector) {
 		return BICOND.Equals(connector);
 	}
 }

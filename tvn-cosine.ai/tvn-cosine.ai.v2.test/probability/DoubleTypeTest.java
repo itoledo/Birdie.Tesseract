@@ -1,11 +1,11 @@
-package aima.test.unit.probability;
+namespace aima.test.unit.probability;
 
-import aima.extra.probability.*;
-import aima.extra.probability.constructs.ProbabilityComputation;
-import aima.extra.probability.factory.ProbabilityFactory;
-import static org.junit.Assert.*;
-import java.math.BigDecimal;
-import org.junit.Test;
+using aima.extra.probability.*;
+using aima.extra.probability.constructs.ProbabilityComputation;
+using aima.extra.probability.factory.ProbabilityFactory;
+using static org.junit.Assert.*;
+using java.math.BigDecimal;
+using org.junit.Test;
 
 /**
  * ProbabilityTest to check the various functions of the DoubleProbabilityNumber class
@@ -16,31 +16,31 @@ public class DoubleTypeTest {
 	
 	private ProbabilityFactory<?> probFactory = ProbabilityFactory.make(DoubleProbabilityNumber.class);
 	
-	@Test(expected = IllegalArgumentException.class)
+	[TestMethod][ExpectedException(typeof(IllegalArgumentException))]
     public void testInvalidProbabilityNumber1() {
 		new DoubleProbabilityNumber(4.0);
     }
 	
-	@Test(expected = IllegalArgumentException.class)
+	[TestMethod][ExpectedException(typeof(IllegalArgumentException))]
     public void testInvalidProbabilityNumber2() {
 		new DoubleProbabilityNumber(-5.1);
     }
 	
-	@Test(expected = IllegalArgumentException.class)
+	[TestMethod][ExpectedException(typeof(IllegalArgumentException))]
     public void testInvalidProbabilityNumber3() {
 		new DoubleProbabilityNumber(-0.1);
     }
 	
 	// Check if zero
 	
-	@Test
+	[TestMethod]
 	public void testIsZero1() {
 		ProbabilityNumber testValue0 = probFactory.valueOf(0.00000001);
 		// Check if zero
 		assertEquals(testValue0.isZero(), true);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsZero2() {
 		ProbabilityNumber testValue0 = probFactory.valueOf(0.0);
 		assertEquals(testValue0.isZero(), true);
@@ -48,13 +48,13 @@ public class DoubleTypeTest {
 	
 	// Check if one
 	
-	@Test
+	[TestMethod]
 	public void testIsOne1() {
 		ProbabilityNumber testValue1 = probFactory.valueOf(0.999999999);
 		assertEquals(testValue1.isOne(), true);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsOne2() {
 		ProbabilityNumber testValue1 = probFactory.valueOf(BigDecimal.ONE);
 		assertEquals(testValue1.isOne(), true);
@@ -62,21 +62,21 @@ public class DoubleTypeTest {
 	
 	// Check if two DoubleProbabilityNumber values are equal or not
 	
-	@Test
+	[TestMethod]
 	public void testIfEquals1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue4 = probFactory.valueOf(0.150000001);
 		assertEquals(testValue2.equals(testValue4), true);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIfEquals2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue4 = probFactory.valueOf(0.1499999999);
 		assertEquals(testValue2.equals(testValue4), true);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIfEquals3() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.1);
 		ProbabilityNumber testValue4 = probFactory.valueOf(0.23);
@@ -85,14 +85,14 @@ public class DoubleTypeTest {
 	
 	// Add DoubleProbabilityNumber values
 
-	@Test
+	[TestMethod]
 	public void testAddition1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue5 = probFactory.valueOf(0.1);
 		assertEquals(0.15 + 0.1, testValue2.add(testValue5).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testAddition2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue6 = probFactory.valueOf(0.8);
@@ -101,14 +101,14 @@ public class DoubleTypeTest {
 	
 	// Subtract DoubleProbabilityNumber values
 
-	@Test
+	[TestMethod]
 	public void testSubtraction1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue5 = probFactory.valueOf(0.1);
 		assertEquals(0.15 - 0.1, testValue2.subtract(testValue5).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testSubtraction2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue6 = probFactory.valueOf(0.8);
@@ -117,14 +117,14 @@ public class DoubleTypeTest {
 	
 	// Multiply DoubleProbabilityNumber values
 
-	@Test
+	[TestMethod]
 	public void testMultiplication1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue5 = probFactory.valueOf(0.1);
 		assertEquals(0.15 * 0.1, testValue2.multiply(testValue5).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testMultiplication2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue6 = probFactory.valueOf(0.8);
@@ -133,7 +133,7 @@ public class DoubleTypeTest {
 	
 	// Divide DoubleProbabilityNumber values
 
-	@Test
+	[TestMethod]
 	public void testDivision() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue6 = probFactory.valueOf(0.8);
@@ -143,13 +143,13 @@ public class DoubleTypeTest {
 	// Raise DoubleProbabilityNumber values to powers (check for boundary conditions
 	// (positive infinity, negative infinity))
 	
-	@Test
+	[TestMethod]
 	public void testExponentiation1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		assertEquals(0.15 * 0.15, testValue2.pow(2).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testExponentiation2() {
 		ProbabilityNumber testValue6 = probFactory.valueOf(0.8);
 		assertEquals(0.8 * 0.8 * 0.8, testValue6.pow(3).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
@@ -157,7 +157,7 @@ public class DoubleTypeTest {
 	
 	// Check if valid ProbabilityNumber or not
 	
-	@Test (expected = IllegalArgumentException.class)
+	[TestMethod] (expected = IllegalArgumentException))]
 	public void testIfValid1() {
 		ProbabilityComputation adder = new ProbabilityComputation();
 		ProbabilityNumber testValue1 = probFactory.valueOf(0.8);
@@ -165,7 +165,7 @@ public class DoubleTypeTest {
 		adder.add(testValue1, testValue2).isValid();
 	}
 	
-	@Test (expected = IllegalArgumentException.class)
+	[TestMethod] (expected = IllegalArgumentException))]
 	public void testIfValid2() {
 		ProbabilityComputation compute = new ProbabilityComputation();
 		ProbabilityNumber testValue1 = probFactory.valueOf(0.8);
@@ -174,7 +174,7 @@ public class DoubleTypeTest {
 		compute.sub(compute.add(testValue1, testValue2), testValue3).isValid();
 	}
 	
-	@Test (expected = IllegalArgumentException.class)
+	[TestMethod] (expected = IllegalArgumentException))]
 	public void testIfValid3() {
 		ProbabilityNumber testValue1 = probFactory.valueOf(0.8);
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.7);

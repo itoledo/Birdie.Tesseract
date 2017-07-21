@@ -1,7 +1,7 @@
 namespace aima.core.search.api;
 
-import java.util.ArrayList;
-import java.util.List;
+using java.util.ArrayList;
+using java.util.List;
 
 /**
  * A domain consists of a set of allowable values {v1, ... , vk} for a variable.
@@ -56,7 +56,7 @@ public interface Domain {
 	 */
 	boolean delete(Object value);
 	
-	default boolean reduceDomainTo(Object value) {
+	default bool reduceDomainTo(Object value) {
 		boolean reducedTo = false;
 		
 		List<Object> valuesToDelete = new ArrayList<>(getValues());

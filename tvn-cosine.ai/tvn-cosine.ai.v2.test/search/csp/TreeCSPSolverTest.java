@@ -1,24 +1,24 @@
-package aima.test.unit.search.csp;
+namespace aima.test.unit.search.csp;
 
-import java.util.Arrays;
+using java.util.Arrays;
 
-import org.junit.Assert;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Test;
 
-import aima.core.environment.support.CSPFactory;
-import aima.core.search.api.Assignment;
-import aima.core.search.api.CSP;
-import aima.core.search.basic.csp.TreeCSPSolver;
+using aima.core.environment.support.CSPFactory;
+using aima.core.search.api.Assignment;
+using aima.core.search.api.CSP;
+using aima.core.search.basic.csp.TreeCSPSolver;
 
 public class TreeCSPSolverTest {
 
-	@Test
+	[TestMethod]
 	public void testIsTree() {
 		Assert.assertFalse(CSPFactory.mapColoringTerritoriesOfAustraliaCSP().isTree());
 		Assert.assertTrue(CSPFactory.aima3eFig6_10_treeCSP().isTree());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testTopoligicalSort() {
 		TreeCSPSolver tcs = new TreeCSPSolver();
 		
@@ -32,7 +32,7 @@ public class TreeCSPSolverTest {
 		Assert.assertEquals("D", topologicalSort.parents.get("F"));
 	}
 	
-	@Test
+	[TestMethod]
 	public void testShouldFindAssignment() {
 		TreeCSPSolver tcs = new TreeCSPSolver();
 		
@@ -47,7 +47,7 @@ public class TreeCSPSolverTest {
 		Assert.assertTrue(assignment.isSolution(csp));
 	}
 	
-	@Test
+	[TestMethod]
 	public void testShouldNotFindAssignment() {
 		TreeCSPSolver tcs = new TreeCSPSolver();
 		

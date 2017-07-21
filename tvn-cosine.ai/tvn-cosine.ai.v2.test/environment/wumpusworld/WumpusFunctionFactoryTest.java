@@ -1,20 +1,20 @@
-package aima.test.unit.environment.wumpusworld;
+namespace aima.test.unit.environment.wumpusworld;
 
-import java.util.ArrayList;
+using java.util.ArrayList;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
-import aima.core.environment.wumpusworld.AgentPosition;
-import aima.core.environment.wumpusworld.WumpusCave;
-import aima.core.environment.wumpusworld.WumpusFunctionFactory;
-import aima.core.environment.wumpusworld.action.Forward;
-import aima.core.environment.wumpusworld.action.TurnLeft;
-import aima.core.environment.wumpusworld.action.TurnRight;
-import aima.core.environment.wumpusworld.action.WWAction;
-import aima.core.search.api.ActionsFunction;
-import aima.core.search.api.ResultFunction;
+using aima.core.environment.wumpusworld.AgentPosition;
+using aima.core.environment.wumpusworld.WumpusCave;
+using aima.core.environment.wumpusworld.WumpusFunctionFactory;
+using aima.core.environment.wumpusworld.action.Forward;
+using aima.core.environment.wumpusworld.action.TurnLeft;
+using aima.core.environment.wumpusworld.action.TurnRight;
+using aima.core.environment.wumpusworld.action.WWAction;
+using aima.core.search.api.ActionsFunction;
+using aima.core.search.api.ResultFunction;
 
 /**
  * 
@@ -36,7 +36,7 @@ public class WumpusFunctionFactoryTest {
 		resultFunction = WumpusFunctionFactory.getResultFunction();
 	}
 
-	@Test
+	[TestMethod]
 	public void testSuccessors() {
 		ArrayList<AgentPosition> succPositions = new ArrayList<>();
 		ArrayList<AgentPosition.Orientation> succOrientation = new ArrayList<>();

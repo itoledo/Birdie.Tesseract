@@ -1,9 +1,9 @@
 namespace aima.core.environment.wumpusworld;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.HashSet;
+using java.util.List;
+using java.util.Set;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>
@@ -22,7 +22,7 @@ public class WumpusCave {
 	private int caveXDimension; // starts bottom left -> right
 	private int caveYDimension; // starts bottom left ^ up
 
-	private Set<AgentPosition> allowedPositions = new HashSet<AgentPosition>();
+	private ISet<AgentPosition> allowedPositions = new HashSet<AgentPosition>();
 
 	/**
 	 * Default Constructor. Create a Wumpus Case of default dimensions 4x4.
@@ -56,7 +56,7 @@ public class WumpusCave {
 	 *            the set of legal agent positions that can be reached within
 	 *            the cave.
 	 */
-	public WumpusCave(int caveXDimension, int caveYDimension, Set<AgentPosition> allowedPositions) {
+	public WumpusCave(int caveXDimension, int caveYDimension, ISet<AgentPosition> allowedPositions) {
 		if (caveXDimension < 1) {
 			throw new IllegalArgumentException("Cave must have x dimension >= 1");
 		}
@@ -122,7 +122,7 @@ public class WumpusCave {
 	//
 	// PRIVATE
 	//
-	private static Set<AgentPosition> defaultAllowedPositions(int caveXDimension, int caveYDimension) {
+	private static ISet<AgentPosition> defaultAllowedPositions(int caveXDimension, int caveYDimension) {
 		Set<AgentPosition> allowedPositions = new HashSet<AgentPosition>();
 		// Create the default set of allowed positions within the cave that
 		// an agent may occupy.

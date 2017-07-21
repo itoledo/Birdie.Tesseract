@@ -1,13 +1,13 @@
 namespace aima.core.agent.basic;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
+using java.util.Collection;
+using java.util.LinkedHashSet;
+using java.util.Optional;
+using java.util.Set;
+using java.util.function.Function;
 
-import aima.core.agent.api.Agent;
-import aima.core.agent.api.Rule;
+using aima.core.agent.api.Agent;
+using aima.core.agent.api.Rule;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.
@@ -34,7 +34,7 @@ import aima.core.agent.api.Rule;
  */
 public class SimpleReflexAgent<A, P, S> implements Agent<A, P> {
 	// persistent: rules, a set of condition-action rules
-	private Set<Rule<A, S>> rules = new LinkedHashSet<>();
+	private ISet<Rule<A, S>> rules = new HashSet<>();
 
 	// function SIMPLE-RELEX-AGENT(percept) returns an action
 	 
@@ -55,7 +55,7 @@ public class SimpleReflexAgent<A, P, S> implements Agent<A, P> {
 	}
 
 	// rule <- RULE-MATCH(state, rules)
-	public Optional<Rule<A, S>> ruleMatch(S state, Set<Rule<A, S>> rules) {
+	public Optional<Rule<A, S>> ruleMatch(S state, ISet<Rule<A, S>> rules) {
 		return getRules().stream().filter(rule -> rule.condition().test(state)).findFirst();
 	}
 	
@@ -73,7 +73,7 @@ public class SimpleReflexAgent<A, P, S> implements Agent<A, P> {
 
 	//
 	// Getters
-	public Set<Rule<A, S>> getRules() {
+	public ISet<Rule<A, S>> getRules() {
 		return rules;
 	}
 }

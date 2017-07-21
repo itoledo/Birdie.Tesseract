@@ -1,8 +1,8 @@
 namespace aima.core.logic.basic.firstorder.parsing.ast;
 
-import java.util.List;
+using java.util.List;
 
-import aima.core.logic.basic.firstorder.parsing.FOLVisitor;
+using aima.core.logic.basic.firstorder.parsing.FOLVisitor;
 
 /**
  * @author Ravi Mohan

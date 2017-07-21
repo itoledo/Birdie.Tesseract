@@ -1,15 +1,15 @@
 namespace aima.core.search.basic.local;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.function.ToDoubleFunction;
+using java.util.HashSet;
+using java.util.Iterator;
+using java.util.List;
+using java.util.Random;
+using java.util.Set;
+using java.util.function.Predicate;
+using java.util.function.ToDoubleFunction;
 
-import aima.core.util.ExecutionController;
-import aima.core.util.Util;
+using aima.core.util.ExecutionController;
+using aima.core.util.Util;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page
@@ -149,7 +149,7 @@ public class GeneticAlgorithm<A> {
 		return selection;
 	}
 
-	public boolean isSmallRandomProbabilityOfMutation() {
+	public bool isSmallRandomProbabilityOfMutation() {
 		return random.nextDouble() <= mutationProbability;
 	}
 

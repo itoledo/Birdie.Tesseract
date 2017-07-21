@@ -1,22 +1,22 @@
 namespace aima.core.logic.basic.propositional.inference;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+using java.util.ArrayList;
+using java.util.HashSet;
+using java.util.LinkedHashSet;
+using java.util.List;
+using java.util.Set;
+using java.util.stream.Collectors;
 
-import aima.core.logic.api.propositional.DPLL;
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.Literal;
-import aima.core.logic.basic.propositional.kb.data.Model;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
-import aima.core.logic.basic.propositional.visitors.SymbolCollector;
-import aima.core.util.Util;
-import aima.core.util.datastructure.Pair;
+using aima.core.logic.api.propositional.DPLL;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.Literal;
+using aima.core.logic.basic.propositional.kb.data.Model;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
+using aima.core.logic.basic.propositional.visitors.SymbolCollector;
+using aima.core.util.Util;
+using aima.core.util.datastructure.Pair;
 
 public class OptimizedDPLL implements DPLL {
 
@@ -24,7 +24,7 @@ public class OptimizedDPLL implements DPLL {
 	// START-DPLL
 	
 	 
-	public boolean dpllSatisfiable(Sentence s) {
+	public bool dpllSatisfiable(Sentence s) {
 		// clauses <- the set of clauses in the CNF representation of s
 		Set<Clause> clauses = ConvertToConjunctionOfClauses.convert(s)
 				.getClauses();
@@ -48,14 +48,14 @@ public class OptimizedDPLL implements DPLL {
 	 *         otherwise.
 	 */
 	 
-	public boolean dpll(Set<Clause> clauses, List<PropositionSymbol> symbols,
+	public bool dpll(Set<Clause> clauses, List<PropositionSymbol> symbols,
 			Model model) {
 		// if every clause in clauses is true in model then return true
 		// if some clause in clauses is false in model then return false
 		// NOTE: for optimization reasons we only want to determine the
 		// values of clauses once on each call to dpll
 		boolean allTrue = true;			
-		Set<Clause> unknownClauses = new LinkedHashSet<Clause>();
+		Set<Clause> unknownClauses = new HashSet<Clause>();
 		for (Clause c : clauses) {
 			Boolean value = model.determineValue(c);
 			if (!Boolean.TRUE.Equals(value)) {
@@ -121,8 +121,8 @@ public class OptimizedDPLL implements DPLL {
 		return result;
 	}
 	
-	protected boolean callDPLL(Set<Clause> clauses, List<PropositionSymbol> symbols,
-			Model model, PropositionSymbol p, boolean value) {
+	protected bool callDPLL(Set<Clause> clauses, List<PropositionSymbol> symbols,
+			Model model, PropositionSymbol p, bool value) {
 		// We update the model in place with the assignment p=value,
 		boolean result = dpll(clauses, symbols, model.unionInPlace(p, value));
 		// as backtracking can occur during the recursive calls we
@@ -157,7 +157,7 @@ public class OptimizedDPLL implements DPLL {
 	 *         can be identified.
 	 */
 	protected Pair<PropositionSymbol, Boolean> findPureSymbol(
-			List<PropositionSymbol> symbols, Set<Clause> clauses, Model model) {
+			List<PropositionSymbol> symbols, ISet<Clause> clauses, Model model) {
 		Pair<PropositionSymbol, Boolean> result = null;
 
 		Set<PropositionSymbol> symbolsToKeep = new HashSet<PropositionSymbol>(symbols);

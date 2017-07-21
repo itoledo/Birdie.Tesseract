@@ -1,24 +1,24 @@
-package aima.test.unit.logic.firstorder;
+namespace aima.test.unit.logic.firstorder;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+using java.util.LinkedHashMap;
+using java.util.Map;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using org.antlr.v4.runtime.ANTLRInputStream;
+using org.antlr.v4.runtime.CommonTokenStream;
+using org.antlr.v4.runtime.TokenStream;
+using org.antlr.v4.runtime.tree.ParseTree;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
-import aima.core.logic.basic.firstorder.SubstVisitor;
-import aima.core.logic.basic.firstorder.parsing.ast.Constant;
-import aima.core.logic.basic.firstorder.parsing.ast.Sentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Term;
-import aima.core.logic.basic.firstorder.parsing.ast.Variable;
-import aima.extra.logic.firstorder.parser.FirstOrderLogicLexer;
-import aima.extra.logic.firstorder.parser.FirstOrderLogicParser;
-import aima.extra.logic.firstorder.parser.FirstOrderVisitor;
+using aima.core.logic.basic.firstorder.SubstVisitor;
+using aima.core.logic.basic.firstorder.parsing.ast.Constant;
+using aima.core.logic.basic.firstorder.parsing.ast.Sentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Term;
+using aima.core.logic.basic.firstorder.parsing.ast.Variable;
+using aima.extra.logic.firstorder.parser.FirstOrderLogicLexer;
+using aima.extra.logic.firstorder.parser.FirstOrderLogicParser;
+using aima.extra.logic.firstorder.parser.FirstOrderVisitor;
 
 /**
  * @author Ravi Mohan
@@ -34,7 +34,7 @@ public class SubstVisitorTest {
 		sv = new SubstVisitor();
 	}
 
-	@Test
+	[TestMethod]
 	public void testSubstSingleVariableSucceedsWithPredicate() {
 		Sentence beforeSubst = parseToSentence("King(x)");
 		Sentence expectedAfterSubst = parseToSentence(" King(John) ");
@@ -49,7 +49,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(beforeSubst, parseToSentence("King(x)"));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSubstSingleVariableFailsWithPredicate() {
 		Sentence beforeSubst = parseToSentence("King(x)");
 		Sentence expectedAfterSubst = parseToSentence(" King(x) ");
@@ -62,7 +62,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(beforeSubst, parseToSentence("King(x)"));
 	}
 
-	@Test
+	[TestMethod]
 	public void testMultipleVariableSubstitutionWithPredicate() {
 		Sentence beforeSubst = parseToSentence("King(x,y)");
 		Sentence expectedAfterSubst = parseToSentence(" King(John ,England) ");
@@ -76,7 +76,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(beforeSubst, parseToSentence("King(x,y)"));
 	}
 
-	@Test
+	[TestMethod]
 	public void testMultipleVariablePartiallySucceedsWithPredicate() {
 		Sentence beforeSubst = parseToSentence("King(x,y)");
 		Sentence expectedAfterSubst = parseToSentence(" King(John ,y) ");
@@ -90,7 +90,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(beforeSubst, parseToSentence("King(x,y)"));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSubstSingleVariableSucceedsWithTermEquality() {
 		Sentence beforeSubst = parseToSentence("BrotherOf(x) = EnemyOf(y)");
 		Sentence expectedAfterSubst = parseToSentence("BrotherOf(John) = EnemyOf(Saladin)");
@@ -104,7 +104,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(beforeSubst, parseToSentence("BrotherOf(x) = EnemyOf(y)"));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSubstSingleVariableSucceedsWithTermEquality2() {
 		Sentence beforeSubst = parseToSentence("BrotherOf(John) = x");
 		Sentence expectedAfterSubst = parseToSentence("BrotherOf(John) = Richard");
@@ -118,7 +118,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(parseToSentence("BrotherOf(John) = x"), beforeSubst);
 	}
 
-	@Test
+	[TestMethod]
 	public void testSubstWithUniversalQuantifierAndSngleVariable() {
 		Sentence beforeSubst = parseToSentence("FORALL x King(x)");
 		Sentence expectedAfterSubst = parseToSentence("King(John)");
@@ -131,7 +131,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(parseToSentence("FORALL x King(x)"), beforeSubst);
 	}
 
-	@Test
+	[TestMethod]
 	public void testSubstWithUniversalQuantifierAndZeroVariablesMatched() {
 		Sentence beforeSubst = parseToSentence("FORALL x King(x)");
 		Sentence expectedAfterSubst = parseToSentence("FORALL x King(x)");
@@ -144,7 +144,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(parseToSentence("FORALL x King(x)"), beforeSubst);
 	}
 
-	@Test
+	[TestMethod]
 	public void testSubstWithUniversalQuantifierAndOneOfTwoVariablesMatched() {
 		Sentence beforeSubst = parseToSentence("FORALL x,y King(x,y)");
 		Sentence expectedAfterSubst = parseToSentence("FORALL x King(x,John)");
@@ -157,7 +157,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(parseToSentence("FORALL x,y King(x,y)"), beforeSubst);
 	}
 
-	@Test
+	[TestMethod]
 	public void testSubstWithExistentialQuantifierAndSngleVariable() {
 		Sentence beforeSubst = parseToSentence("EXISTS x King(x)");
 		Sentence expectedAfterSubst = parseToSentence("King(John)");
@@ -171,7 +171,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(parseToSentence("EXISTS x King(x)"), beforeSubst);
 	}
 
-	@Test
+	[TestMethod]
 	public void testSubstWithNOTSentenceAndSngleVariable() {
 		Sentence beforeSubst = parseToSentence("~ King(x)");
 		Sentence expectedAfterSubst = parseToSentence("~ King(John)");
@@ -184,7 +184,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(parseToSentence("~ King(x)"), beforeSubst);
 	}
 
-	@Test
+	[TestMethod]
 	public void testConnectiveANDSentenceAndSngleVariable() {
 		Sentence beforeSubst = parseToSentence("EXISTS x ( King(x) & BrotherOf(x) = EnemyOf(y) )");
 		Sentence expectedAfterSubst = parseToSentence("( King(John) & BrotherOf(John) = EnemyOf(Saladin) )");
@@ -198,7 +198,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(parseToSentence("EXISTS x ( King(x) & BrotherOf(x) = EnemyOf(y) )"), beforeSubst);
 	}
 
-	@Test
+	[TestMethod]
 	public void testParanthisedSingleVariable() {
 		Sentence beforeSubst = parseToSentence("((( King(x) )))");
 		Sentence expectedAfterSubst = parseToSentence("King(John) ");
@@ -211,7 +211,7 @@ public class SubstVisitorTest {
 		Assert.assertEquals(parseToSentence("((( King(x))))"), beforeSubst);
 	}
 	
-	private Sentence parseToSentence(String stringToBeParsed) {
+	private Sentence parseToSentence(string stringToBeParsed) {
 		FirstOrderLogicLexer lexer = new FirstOrderLogicLexer(new ANTLRInputStream(stringToBeParsed));
 		TokenStream tokens = new CommonTokenStream(lexer);
 		FirstOrderLogicParser parser = new FirstOrderLogicParser(tokens);

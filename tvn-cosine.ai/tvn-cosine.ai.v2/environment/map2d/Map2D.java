@@ -1,8 +1,8 @@
 namespace aima.core.environment.map2d;
 
-import java.util.List;
+using java.util.List;
 
-import aima.core.util.datastructure.Point2D;
+using aima.core.util.datastructure.Point2D;
 
 /**
  * Provides a general interface for two dimensional maps.

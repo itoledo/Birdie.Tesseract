@@ -1,15 +1,15 @@
-package aima.test.unit.logic.propositional.inference;
+namespace aima.test.unit.logic.propositional.inference;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
-import aima.core.logic.basic.propositional.inference.TTEntails;
-import aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
-import aima.core.logic.basic.propositional.kb.data.Model;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.extra.logic.propositional.parser.PLParserWrapper;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.inference.TTEntails;
+using aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
+using aima.core.logic.basic.propositional.kb.data.Model;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.extra.logic.propositional.parser.PLParserWrapper;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
 
 /**
  * @author Ravi Mohan
@@ -26,49 +26,49 @@ public class TTEntailsTest {
 		kb = new BasicKnowledgeBase(new PLParserWrapper());
 	}
 
-	@Test
+	[TestMethod]
 	public void testSimpleSentence1() {
 		kb.tell("A & B");
 		Assert.assertEquals(true, tte.ttEntails(kb, "A", new PLParserWrapper()));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSimpleSentence2() {
 		kb.tell("A | B");
 		Assert.assertEquals(false, tte.ttEntails(kb, "A", new PLParserWrapper()));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSimpleSentence3() {
 		kb.tell("(A => B) & A");
 		Assert.assertEquals(true, tte.ttEntails(kb, "B", new PLParserWrapper()));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSimpleSentence4() {
 		kb.tell("(A => B) & B");
 		Assert.assertEquals(false, tte.ttEntails(kb, "A", new PLParserWrapper()));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSimpleSentence5() {
 		kb.tell("A");
 		Assert.assertEquals(false, tte.ttEntails(kb, "~A", new PLParserWrapper()));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSUnkownSymbol() {
 		kb.tell("(A => B) & B");
 		Assert.assertEquals(false, tte.ttEntails(kb, "X", new PLParserWrapper()));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSimpleSentence6() {
 		kb.tell("~A");
 		Assert.assertEquals(false, tte.ttEntails(kb, "A", new PLParserWrapper()));
 	}
 
-	@Test
+	[TestMethod]
 	public void testNewAIMAExample() {
 		kb.tell("~P11");
 		kb.tell("B11 <=> P12 | P21");
@@ -80,7 +80,7 @@ public class TTEntailsTest {
 		Assert.assertEquals(false, tte.ttEntails(kb, "P22", new PLParserWrapper()));
 	}
 
-	@Test
+	[TestMethod]
 	public void testTTEntailsSucceedsWithChadCarffsBugReport() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("B12 <=> P11 | P13 | P22 | P02");
@@ -96,7 +96,7 @@ public class TTEntailsTest {
 		Assert.assertFalse(tte.ttEntails(kb, "~P00", new PLParserWrapper()));
 	}
 
-	@Test
+	[TestMethod]
 	public void testDoesNotKnow() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("A");
@@ -110,7 +110,7 @@ public class TTEntailsTest {
 		Assert.assertTrue(tte.ttEntails(kb, "((A | (~ A)) & (A | B))", new PLParserWrapper()));
 	}
 
-	@Test
+	[TestMethod]
 	public void testModelEvaluation() {
 		kb.tell("~P11");
 		kb.tell("B11 <=> P12 | P21");

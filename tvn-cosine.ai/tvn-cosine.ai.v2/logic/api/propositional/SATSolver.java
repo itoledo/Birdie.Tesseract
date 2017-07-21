@@ -1,9 +1,9 @@
 namespace aima.core.logic.api.propositional;
 
-import java.util.Set;
+using java.util.Set;
 
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.Model;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.Model;
 
 /**
  * Basic interface to a SAT Solver.

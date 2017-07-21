@@ -1,8 +1,8 @@
 namespace aima.core.agent.basic;
 
-import aima.core.agent.api.Agent;
-import aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.agent.api.Agent;
+using aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ?.?, page

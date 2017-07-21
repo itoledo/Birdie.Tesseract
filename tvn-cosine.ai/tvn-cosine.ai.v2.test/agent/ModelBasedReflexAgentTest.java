@@ -1,8 +1,8 @@
-package aima.test.unit.agent;
+namespace aima.test.unit.agent;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Ignore;
+using org.junit.Test;
 
 /**
  * @author Ciaran O'Reilly
@@ -10,7 +10,7 @@ import org.junit.Test;
 public class ModelBasedReflexAgentTest {
 
     @Ignore("TODO")
-    @Test
+    [TestMethod]
     public void testTODO() {
         Assert.fail("TODO");
     }

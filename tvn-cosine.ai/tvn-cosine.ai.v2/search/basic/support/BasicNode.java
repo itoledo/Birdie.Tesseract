@@ -1,8 +1,8 @@
 namespace aima.core.search.basic.support;
 
-import java.util.StringJoiner;
+using java.util.StringJoiner;
 
-import aima.core.search.api.Node;
+using aima.core.search.api.Node;
 
 /**
  * Basic implementation of the Node interface.

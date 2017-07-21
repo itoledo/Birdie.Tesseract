@@ -1,32 +1,32 @@
-package aima.test.unit.logic.firstorder.parsing;
+namespace aima.test.unit.logic.firstorder.parsing;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.HashSet;
+using java.util.List;
+using java.util.Set;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.junit.Assert;
-import org.junit.Test;
+using org.antlr.v4.runtime.ANTLRInputStream;
+using org.antlr.v4.runtime.CommonTokenStream;
+using org.antlr.v4.runtime.TokenStream;
+using org.antlr.v4.runtime.tree.ParseTree;
+using org.junit.Assert;
+using org.junit.Test;
 
-import aima.core.logic.basic.firstorder.domain.FOLDomain;
-import aima.core.logic.basic.firstorder.parsing.ast.ConnectedSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Constant;
-import aima.core.logic.basic.firstorder.parsing.ast.FOLNode;
-import aima.core.logic.basic.firstorder.parsing.ast.Function;
-import aima.core.logic.basic.firstorder.parsing.ast.NotSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Predicate;
-import aima.core.logic.basic.firstorder.parsing.ast.QuantifiedSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Sentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Term;
-import aima.core.logic.basic.firstorder.parsing.ast.TermEquality;
-import aima.core.logic.basic.firstorder.parsing.ast.Variable;
-import aima.extra.logic.firstorder.parser.FirstOrderLogicLexer;
-import aima.extra.logic.firstorder.parser.FirstOrderLogicParser;
-import aima.extra.logic.firstorder.parser.FirstOrderVisitor;
+using aima.core.logic.basic.firstorder.domain.FOLDomain;
+using aima.core.logic.basic.firstorder.parsing.ast.ConnectedSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Constant;
+using aima.core.logic.basic.firstorder.parsing.ast.FOLNode;
+using aima.core.logic.basic.firstorder.parsing.ast.Function;
+using aima.core.logic.basic.firstorder.parsing.ast.NotSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Predicate;
+using aima.core.logic.basic.firstorder.parsing.ast.QuantifiedSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Sentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Term;
+using aima.core.logic.basic.firstorder.parsing.ast.TermEquality;
+using aima.core.logic.basic.firstorder.parsing.ast.Variable;
+using aima.extra.logic.firstorder.parser.FirstOrderLogicLexer;
+using aima.extra.logic.firstorder.parser.FirstOrderLogicParser;
+using aima.extra.logic.firstorder.parser.FirstOrderVisitor;
 
 /**
  * @author Ravi Mohan
@@ -36,13 +36,13 @@ public class FOLParserTest {
 	
 	FirstOrderLogicParser parser;
 	
-	@Test
+	[TestMethod]
 	public void testAtomicSentenceTrueParse() {
 		FOLNode v = parseToSentence("King(John)");
 		Assert.assertEquals(v, getKingPredicate(new Constant("John")));
 	}
 
-	@Test
+	[TestMethod]
 	public void testTermEquality() {
 		try {
 			TermEquality te = (TermEquality) parseToSentence("BrotherOf(John) = EnemyOf(Saladin)");
@@ -52,7 +52,7 @@ public class FOLParserTest {
 		}
 	}
 
-	@Test
+	[TestMethod]
 	public void testNotSentence() {
 		NotSentence ns = (NotSentence) parseToSentence("~ BrotherOf(John) = EnemyOf(Saladin)");
 		Assert.assertEquals(ns.getNegated(),
@@ -73,19 +73,19 @@ public class FOLParserTest {
 		Assert.assertEquals(domain.getConstants(),constants);
 	}
 
-	@Test
+	[TestMethod]
 	public void testSimpleParanthizedSentence() {
 		Sentence ps = (Sentence) parseToSentence("(~ King(John))");
 		Assert.assertEquals(ps, new NotSentence(getKingPredicate(new Constant("John"))));
 	}
 
-	@Test
+	[TestMethod]
 	public void testExtraParanthizedSentence() {
 		Sentence ps = (Sentence) parseToSentence("(((~ King(John))))");
 		Assert.assertEquals(ps, new NotSentence(getKingPredicate(new Constant("John"))));
 	}
 
-	@Test
+	[TestMethod]
 	public void testParseComplexParanthizedSentence() {
 		Sentence ps = (Sentence) parseToSentence("(~ BrotherOf(John) = EnemyOf(Saladin))");
 		Assert.assertEquals(ps,
@@ -105,7 +105,7 @@ public class FOLParserTest {
 		Assert.assertEquals(domain.getConstants(),constants);
 	}
 
-	@Test
+	[TestMethod]
 	public void testParseSimpleConnectedSentence() {
 		Sentence ps = (Sentence) parseToSentence("(King(John) & ~ King(Richard))");
 
@@ -117,7 +117,7 @@ public class FOLParserTest {
 				getKingPredicate(new Constant("Saladin"))));
 	}
 
-	@Test
+	[TestMethod]
 	public void testComplexConnectedSentence1() {
 		Sentence ps = (Sentence) parseToSentence("((King(John) & ~ King(Richard)) | King(Saladin))");
 
@@ -142,7 +142,7 @@ public class FOLParserTest {
 		Assert.assertEquals(domain.getConstants(),constants);
 	}
 
-	@Test
+	[TestMethod]
 	public void testQuantifiedSentenceWithSingleVariable() {
 		Sentence qs = (Sentence) parseToSentence("FORALL x  King(x)");
 		List<Variable> vars = new ArrayList<Variable>();
@@ -161,7 +161,7 @@ public class FOLParserTest {
 		Assert.assertEquals(domain.getConstants(),constants);
 	}
 
-	@Test
+	[TestMethod]
 	public void testQuantifiedSentenceWithTwoVariables() {
 		Sentence qs = (Sentence) parseToSentence("EXISTS x,y  (King(x) & BrotherOf(x) = y)");
 		List<Variable> vars = new ArrayList<Variable>();
@@ -184,7 +184,7 @@ public class FOLParserTest {
 		Assert.assertEquals(domain.getConstants(),constants);
 	}
 
-	@Test
+	[TestMethod]
 	public void testQuantifiedSentenceWithPathologicalParanthising() {
 		Sentence qs = (Sentence) parseToSentence("(( (EXISTS x,y  (King(x) & (BrotherOf(x) = y)) ) ))");
 		List<Variable> vars = new ArrayList<Variable>();
@@ -207,7 +207,7 @@ public class FOLParserTest {
 		Assert.assertEquals(domain.getConstants(),constants);
 	}
 	/*
-	 * @Test public void testParseMultiArityFunctionEquality() {
+	 * [TestMethod] public void testParseMultiArityFunctionEquality() {
 	 * parser.setUpToParse("LegsOf(John,Saladin,Richard)"); Term f =
 	 * parser.parseFunction();
 	 * 
@@ -215,7 +215,7 @@ public class FOLParserTest {
 	 * parser.parseFunction(); Assert.assertEquals(f, f2);
 	 * Assert.assertEquals(3, ((Function) f).getTerms().size()); }
 	 * 
-	 * @Test public void testConnectedImplication() { parser = new
+	 * [TestMethod] public void testConnectedImplication() { parser = new
 	 * FOLParser(DomainFactory.weaponsDomain()); parser.parse(
 	 * "((Missile(m) & Owns(Nono,m)) => Sells(West , m ,Nono))"); }
 	 */
@@ -224,7 +224,7 @@ public class FOLParserTest {
 	// PRIVATE METHODS
 	//
 		
-	private FOLNode parseToSentence(String stringToBeParsed) {
+	private FOLNode parseToSentence(string stringToBeParsed) {
 		FirstOrderLogicLexer lexer = new FirstOrderLogicLexer(new ANTLRInputStream(stringToBeParsed));
 		TokenStream tokens = new CommonTokenStream(lexer);
 		parser = new FirstOrderLogicParser(tokens);

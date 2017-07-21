@@ -1,18 +1,18 @@
 namespace aima.core.logic.basic.propositional.inference;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
+using java.util.HashMap;
+using java.util.HashSet;
+using java.util.LinkedList;
+using java.util.Map;
+using java.util.Queue;
+using java.util.Set;
 
-import aima.core.logic.api.propositional.KnowledgeBase;
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
-import aima.core.logic.basic.propositional.visitors.SymbolCollector;
+using aima.core.logic.api.propositional.KnowledgeBase;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
+using aima.core.logic.basic.propositional.visitors.SymbolCollector;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): page 258.<br>
@@ -71,7 +71,7 @@ public class PLFCEntails {
 	 * @throws IllegalArgumentException
 	 *             if KB contains any non-definite clauses.
 	 */
-	public boolean plfcEntails(KnowledgeBase kb, String query, PLParser plparser) {
+	public bool plfcEntails(KnowledgeBase kb, String query, PLParser plparser) {
 		PLParser parser = plparser;
 		PropositionSymbol q = (PropositionSymbol) parser.parse(query);
 		return plfcEntails(kb, q);
@@ -88,7 +88,7 @@ public class PLFCEntails {
 	 * @throws IllegalArgumentException
 	 *             if KB contains any non-definite clauses.
 	 */
-	public boolean plfcEntails(KnowledgeBase kb, PropositionSymbol q) {
+	public bool plfcEntails(KnowledgeBase kb, PropositionSymbol q) {
 		// count <- a table, where count[c] is the number of symbols in c's
 		// premise
 		Map<Clause, Integer> count = initializeCount(kb);
@@ -99,7 +99,7 @@ public class PLFCEntails {
 		// KB
 		Queue<PropositionSymbol> agenda = initializeAgenda(count);
 		// Note: an index for p to the clauses where p appears in the premise
-		Map<PropositionSymbol, Set<Clause>> pToClausesWithPInPremise = initializeIndex(
+		Map<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = initializeIndex(
 				count, inferred);
 
 		// while agenda is not empty do
@@ -137,7 +137,7 @@ public class PLFCEntails {
 	//
 	// PROTECTED
 	//
-	protected Map<Clause, Integer> initializeCount(KnowledgeBase kb) {
+	protected IDictionary<Clause, Integer> initializeCount(KnowledgeBase kb) {
 		// count <- a table, where count[c] is the number of symbols in c's
 		// premise
 		Map<Clause, Integer> count = new HashMap<Clause, Integer>();
@@ -157,7 +157,7 @@ public class PLFCEntails {
 		return count;
 	}
 
-	protected Map<PropositionSymbol, Boolean> initializeInferred(KnowledgeBase kb) {
+	protected IDictionary<PropositionSymbol, Boolean> initializeInferred(KnowledgeBase kb) {
 		// inferred <- a table, where inferred[s] is initially false for all
 		// symbols
 		Map<PropositionSymbol, Boolean> inferred = new HashMap<PropositionSymbol, Boolean>();
@@ -185,9 +185,9 @@ public class PLFCEntails {
 
 	// Note: at the point of calling this routine, count will contain all the
 	// clauses in KB while inferred will contain all the proposition symbols.
-	protected Map<PropositionSymbol, Set<Clause>> initializeIndex(
-			Map<Clause, Integer> count, Map<PropositionSymbol, Boolean> inferred) {
-		Map<PropositionSymbol, Set<Clause>> pToClausesWithPInPremise = new HashMap<PropositionSymbol, Set<Clause>>();
+	protected IDictionary<PropositionSymbol, ISet<Clause>> initializeIndex(
+			Map<Clause, Integer> count, IDictionary<PropositionSymbol, Boolean> inferred) {
+		Map<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = new HashMap<PropositionSymbol, ISet<Clause>>();
 		for (PropositionSymbol p : inferred.keySet()) {
 			Set<Clause> clausesWithPInPremise = new HashSet<Clause>();
 			for (Clause c : count.keySet()) {

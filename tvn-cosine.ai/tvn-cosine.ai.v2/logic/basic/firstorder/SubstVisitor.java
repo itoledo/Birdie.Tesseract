@@ -1,17 +1,17 @@
 namespace aima.core.logic.basic.firstorder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+using java.util.ArrayList;
+using java.util.List;
+using java.util.Map;
 
-import aima.core.logic.basic.firstorder.kb.data.Literal;
-import aima.core.logic.basic.firstorder.parsing.AbstractFOLVisitor;
-import aima.core.logic.basic.firstorder.parsing.ast.AtomicSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Function;
-import aima.core.logic.basic.firstorder.parsing.ast.QuantifiedSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Sentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Term;
-import aima.core.logic.basic.firstorder.parsing.ast.Variable;
+using aima.core.logic.basic.firstorder.kb.data.Literal;
+using aima.core.logic.basic.firstorder.parsing.AbstractFOLVisitor;
+using aima.core.logic.basic.firstorder.parsing.ast.AtomicSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Function;
+using aima.core.logic.basic.firstorder.parsing.ast.QuantifiedSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Sentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Term;
+using aima.core.logic.basic.firstorder.parsing.ast.Variable;
 
 /**
  * @author Ravi Mohan
@@ -52,7 +52,7 @@ public class SubstVisitor extends AbstractFOLVisitor {
 				.getAtomicSentence().accept(this, theta));
 	}
 
-	@SuppressWarnings("unchecked")
+	 
 	 
 	public Object visitVariable(Variable variable, Object arg) {
 		Map<Variable, Term> substitution = (Map<Variable, Term>) arg;
@@ -62,7 +62,7 @@ public class SubstVisitor extends AbstractFOLVisitor {
 		return variable.copy();
 	}
 
-	@SuppressWarnings("unchecked")
+	 
 	 
 	public Object visitQuantifiedSentence(QuantifiedSentence sentence,
 			Object arg) {

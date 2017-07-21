@@ -1,25 +1,25 @@
-package aima.test.unit.environment.wumpusworld;
+namespace aima.test.unit.environment.wumpusworld;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.Arrays;
+using java.util.Collections;
+using java.util.LinkedHashSet;
+using java.util.Set;
 
-import org.junit.Assert;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Test;
 
-import aima.core.environment.wumpusworld.AgentPercept;
-import aima.core.environment.wumpusworld.AgentPosition;
-import aima.core.environment.wumpusworld.HybridWumpusAgent;
-import aima.core.environment.wumpusworld.Room;
-import aima.core.environment.wumpusworld.action.Climb;
-import aima.core.environment.wumpusworld.action.Forward;
-import aima.core.environment.wumpusworld.action.Grab;
-import aima.core.environment.wumpusworld.action.Shoot;
-import aima.core.environment.wumpusworld.action.TurnLeft;
-import aima.core.environment.wumpusworld.action.WWAction;
-import aima.extra.logic.propositional.parser.PLParserWrapper;
+using aima.core.environment.wumpusworld.AgentPercept;
+using aima.core.environment.wumpusworld.AgentPosition;
+using aima.core.environment.wumpusworld.HybridWumpusAgent;
+using aima.core.environment.wumpusworld.Room;
+using aima.core.environment.wumpusworld.action.Climb;
+using aima.core.environment.wumpusworld.action.Forward;
+using aima.core.environment.wumpusworld.action.Grab;
+using aima.core.environment.wumpusworld.action.Shoot;
+using aima.core.environment.wumpusworld.action.TurnLeft;
+using aima.core.environment.wumpusworld.action.WWAction;
+using aima.extra.logic.propositional.parser.PLParserWrapper;
 
 /**
  * 
@@ -29,7 +29,7 @@ import aima.extra.logic.propositional.parser.PLParserWrapper;
 public class HybridWumpusAgentTest {
 
 	@SuppressWarnings("serial")
-	@Test
+	[TestMethod]
 	public void testPlanRoute() {
 		HybridWumpusAgent hwa = new HybridWumpusAgent(4, new PLParserWrapper());
 		
@@ -77,7 +77,7 @@ public class HybridWumpusAgentTest {
 	}
 	
 	@SuppressWarnings("serial")
-	@Test
+	[TestMethod]
 	public void testPlanShot() {
 		HybridWumpusAgent hwa = new HybridWumpusAgent(4, new PLParserWrapper());
 		
@@ -114,7 +114,7 @@ public class HybridWumpusAgentTest {
 		));	
 	}
 	
-	@Test
+	[TestMethod]
 	public void testGrabAndClimb() {
 		HybridWumpusAgent hwa = new HybridWumpusAgent(2, new PLParserWrapper());
 		// The gold is in the first square

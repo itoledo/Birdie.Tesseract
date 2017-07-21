@@ -1,17 +1,17 @@
 namespace aima.core.search.basic.support;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+using java.io.Serializable;
+using java.util.Collection;
+using java.util.HashMap;
+using java.util.Iterator;
+using java.util.LinkedList;
+using java.util.Map;
+using java.util.Objects;
+using java.util.Queue;
+using java.util.function.Predicate;
+using java.util.function.Supplier;
 
-import aima.core.search.api.Node;
+using aima.core.search.api.Node;
 
 /**
  * An implementation of the Queue interface that wraps an underlying queue
@@ -27,7 +27,7 @@ public class BasicFrontierQueue<A, S> implements Queue<Node<A, S>>, Serializable
 	private static final long serialVersionUID = 1L;
 	//
 	private Queue<Node<A, S>> queue;
-	private Map<S, Integer> states;
+	private IDictionary<S, Integer> states;
 
 	public BasicFrontierQueue() {
 		this(LinkedList::new, HashMap::new);
@@ -42,7 +42,7 @@ public class BasicFrontierQueue<A, S> implements Queue<Node<A, S>>, Serializable
 	//
 	// Queue
 	 
-	public boolean add(Node<A, S> node) {
+	public bool add(Node<A, S> node) {
 		boolean inserted = queue.add(node);
 		if (inserted) {
 			incrementState(node.state());
@@ -52,7 +52,7 @@ public class BasicFrontierQueue<A, S> implements Queue<Node<A, S>>, Serializable
 	}
 
 	 
-	public boolean offer(Node<A, S> node) {
+	public bool offer(Node<A, S> node) {
 		boolean inserted = queue.offer(node);
 		if (inserted) {
 			incrementState(node.state());
@@ -96,12 +96,12 @@ public class BasicFrontierQueue<A, S> implements Queue<Node<A, S>>, Serializable
 	}
 
 	 
-	public boolean isEmpty() {
+	public bool isEmpty() {
 		return queue.isEmpty();
 	}
 
 	 
-	public boolean contains(Object o) {
+	public bool contains(Object o) {
 		if (o is Node) {
 			return queue.contains(o);
 		} else {
@@ -126,30 +126,30 @@ public class BasicFrontierQueue<A, S> implements Queue<Node<A, S>>, Serializable
 	}
 
 	 
-	public boolean remove(Object o) {
+	public bool remove(Object o) {
 		// TODO - add support for
 		throw new UnsupportedOperationException("Use remove()");
 	}
 
 	 
-	public boolean containsAll(Collection<?> c) {
+	public bool containsAll(Collection<?> c) {
 		return queue.containsAll(c);
 	}
 
 	 
-	public boolean addAll(Collection<? extends Node<A, S>> c) {
+	public bool addAll(Collection<? extends Node<A, S>> c) {
 		// TODO - add support for
 		throw new UnsupportedOperationException("Use add(node)");
 	}
 
 	 
-	public boolean removeAll(Collection<?> c) {
+	public bool removeAll(Collection<?> c) {
 		// TODO - add support for
 		throw new UnsupportedOperationException("Use remove()");
 	}
 
 	 
-	public boolean removeIf(Predicate<? super Node<A, S>> filter) {
+	public bool removeIf(Predicate<? super Node<A, S>> filter) {
 		Objects.requireNonNull(filter);
 		boolean removed = false;
 		final Iterator<Node<A, S>> each = iterator();
@@ -165,7 +165,7 @@ public class BasicFrontierQueue<A, S> implements Queue<Node<A, S>>, Serializable
 	}
 
 	 
-	public boolean retainAll(Collection<?> c) {
+	public bool retainAll(Collection<?> c) {
 		// TODO - add support for
 		throw new UnsupportedOperationException("Not supported currently");
 	}

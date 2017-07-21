@@ -1,9 +1,9 @@
 namespace aima.core.search.basic.local;
 
-import java.util.function.ToDoubleFunction;
+using java.util.function.ToDoubleFunction;
 
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForStateFunction;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchForStateFunction;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.
@@ -91,7 +91,7 @@ public class HillClimbingSearch<A, S> implements SearchForStateFunction<A, S> {
 		this(stateValueFn, true);
 	}
 
-	public HillClimbingSearch(ToDoubleFunction<S> stateValueFn, boolean isSteepestAscentVersion) {
+	public HillClimbingSearch(ToDoubleFunction<S> stateValueFn, bool isSteepestAscentVersion) {
 		this.stateValueFn = stateValueFn;
 		if (!isSteepestAscentVersion) {
 			// Convert from one to the other by switching the sign

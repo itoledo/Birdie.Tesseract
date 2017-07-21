@@ -1,8 +1,8 @@
 namespace aima.core.logic.basic.propositional.parsing.ast;
 
-import java.util.Set;
+using java.util.Set;
 
-import aima.core.util.Util;
+using aima.core.util.Util;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>
@@ -61,7 +61,7 @@ public enum Connective {
 	 *            connective.
 	 * @return true if the symbol passed in is representative of a connective.
 	 */
-	public static boolean isConnective(String symbol) {
+	public static bool isConnective(String symbol) {
 		if (NOT.getSymbol().Equals(symbol)) {
 			return true;
 		} else if (AND.getSymbol().Equals(symbol)) {
@@ -111,7 +111,7 @@ public enum Connective {
 	 * @return true if the given character is at the beginning of a connective's
 	 *         symbolic representation, false otherwise.
 	 */
-	public static boolean isConnectiveIdentifierStart(char ch) {
+	public static bool isConnectiveIdentifierStart(char ch) {
 		return _connectiveLeadingChars.contains(ch);
 	}
 
@@ -123,15 +123,15 @@ public enum Connective {
 	 * @return true if the given character is part of a connective's symbolic
 	 *         representation, false otherwise.
 	 */
-	public static boolean isConnectiveIdentifierPart(char ch) {
+	public static bool isConnectiveIdentifierPart(char ch) {
 		return _connectiveChars.contains(ch);
 	}
 
 	//
 	// PRIVATE
 	//
-	private static final Set<Character> _connectiveLeadingChars = Util.createSet('~', '&', '|', '=', '<');
-	private static final Set<Character> _connectiveChars        = Util.createSet('~', '&', '|', '=', '<', '>');
+	private static final ISet<Character> _connectiveLeadingChars = Util.createSet('~', '&', '|', '=', '<');
+	private static final ISet<Character> _connectiveChars        = Util.createSet('~', '&', '|', '=', '<', '>');
 
 	private readonly String symbol;
 	private readonly int precedence;

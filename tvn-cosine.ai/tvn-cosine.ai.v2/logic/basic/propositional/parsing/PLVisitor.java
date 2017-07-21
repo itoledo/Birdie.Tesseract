@@ -1,7 +1,7 @@
 namespace aima.core.logic.basic.propositional.parsing;
 
-import aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
 
 /**
  * <b>Propositional Logic Visitor:</b> A <a

@@ -1,6 +1,6 @@
 namespace aima.core.logic.basic.firstorder.domain;
 
-import java.util.EventObject;
+using java.util.EventObject;
 
 /**
  * @author Ciaran O'Reilly

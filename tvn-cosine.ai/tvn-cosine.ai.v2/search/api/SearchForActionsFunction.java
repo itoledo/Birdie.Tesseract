@@ -1,7 +1,7 @@
 namespace aima.core.search.api;
 
-import java.util.List;
-import java.util.function.Function;
+using java.util.List;
+using java.util.function.Function;
 
 /**
  * Description of a Search function that looks for a sequence of actions from an

@@ -1,16 +1,16 @@
 namespace aima.core.environment.vacuum;
 
-import aima.core.agent.basic.TableDrivenAgent;
+using aima.core.agent.basic.TableDrivenAgent;
 
-import java.util.*;
+using java.util.*;
 
-import static aima.core.environment.vacuum.VacuumEnvironment.ACTION_LEFT;
-import static aima.core.environment.vacuum.VacuumEnvironment.ACTION_RIGHT;
-import static aima.core.environment.vacuum.VacuumEnvironment.ACTION_SUCK;
-import static aima.core.environment.vacuum.VacuumEnvironment.LOCATION_A;
-import static aima.core.environment.vacuum.VacuumEnvironment.LOCATION_B;
-import static aima.core.environment.vacuum.VacuumEnvironment.Status.Clean;
-import static aima.core.environment.vacuum.VacuumEnvironment.Status.Dirty;
+using static aima.core.environment.vacuum.VacuumEnvironment.ACTION_LEFT;
+using static aima.core.environment.vacuum.VacuumEnvironment.ACTION_RIGHT;
+using static aima.core.environment.vacuum.VacuumEnvironment.ACTION_SUCK;
+using static aima.core.environment.vacuum.VacuumEnvironment.LOCATION_A;
+using static aima.core.environment.vacuum.VacuumEnvironment.LOCATION_B;
+using static aima.core.environment.vacuum.VacuumEnvironment.Status.Clean;
+using static aima.core.environment.vacuum.VacuumEnvironment.Status.Dirty;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.
@@ -26,7 +26,7 @@ public class TableDrivenVacuumAgent extends TableDrivenAgent<String, VEPercept> 
 		super(generatePartialTabulationOfActionFunction());
 	}
 
-	public static Map<List<VEPercept>, String> generatePartialTabulationOfActionFunction() {
+	public static IDictionary<List<VEPercept>, String> generatePartialTabulationOfActionFunction() {
 		Map<List<VEPercept>, String> perceptSequenceToAction = new HashMap<>();
 
 		// NOTE: While this particular table could be setup simply

@@ -1,7 +1,7 @@
 namespace aima.core.search.basic.local;
 
-import java.util.ArrayList;
-import java.util.List;
+using java.util.ArrayList;
+using java.util.List;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ??.<br>
@@ -56,7 +56,7 @@ public class Individual<A> {
 		return representation.size();
 	}
 
-	@SuppressWarnings("unchecked")
+	 
 	 
 	public override bool Equals(object o) {
 		if (o == null || getClass() != o.getClass()) {

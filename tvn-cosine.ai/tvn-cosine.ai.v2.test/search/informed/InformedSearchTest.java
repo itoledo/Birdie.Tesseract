@@ -1,34 +1,34 @@
-package aima.test.unit.search.informed;
+namespace aima.test.unit.search.informed;
 
-import aima.core.environment.map2d.GoAction;
-import aima.core.environment.map2d.InState;
-import aima.core.environment.map2d.Map2D;
-import aima.core.environment.map2d.Map2DFunctionFactory;
-import aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania;
-import aima.core.environment.support.ProblemFactory;
-import aima.core.search.api.Node;
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForActionsFunction;
-import aima.core.search.basic.informed.AStarSearch;
-import aima.core.search.basic.informed.RecursiveBestFirstSearch;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+using aima.core.environment.map2d.GoAction;
+using aima.core.environment.map2d.InState;
+using aima.core.environment.map2d.Map2D;
+using aima.core.environment.map2d.Map2DFunctionFactory;
+using aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania;
+using aima.core.environment.support.ProblemFactory;
+using aima.core.search.api.Node;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchForActionsFunction;
+using aima.core.search.basic.informed.AStarSearch;
+using aima.core.search.basic.informed.RecursiveBestFirstSearch;
+using org.junit.Test;
+using org.junit.runner.RunWith;
+using org.junit.runners.Parameterized;
+using org.junit.runners.Parameterized.Parameter;
+using org.junit.runners.Parameterized.Parameters;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.ToDoubleFunction;
+using java.util.Arrays;
+using java.util.Collection;
+using java.util.List;
+using java.util.function.ToDoubleFunction;
 
-import static org.junit.Assert.assertEquals;
+using static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class InformedSearchTest {
 
-	private static final String A_STAR = "AStarSearch";
-	private static final String RBFS = "RecursiveBestFirstSearch";
+	private static final string A_STAR = "AStarSearch";
+	private static final string RBFS = "RecursiveBestFirstSearch";
 
 	@Parameters(name = "{index}: {0}")
 	public static Collection<Object[]> implementations() {
@@ -36,7 +36,7 @@ public class InformedSearchTest {
 	}
 
 	@Parameter
-	public String searchFunctionName;
+	public string searchFunctionName;
 
 	public <A, S> List<A> searchForActions(Problem<A, S> problem, ToDoubleFunction<Node<A, S>> hf) {
 
@@ -51,7 +51,7 @@ public class InformedSearchTest {
 		return searchForActionsFunction.apply(problem);
 	}
 
-	@Test
+	[TestMethod]
 	public void testSimplifiedRoadMapOfPartOfRomania() {
 		Map2D map = new SimplifiedRoadMapOfPartOfRomania();
 		String initialLocation = SimplifiedRoadMapOfPartOfRomania.ARAD;

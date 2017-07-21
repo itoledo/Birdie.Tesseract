@@ -1,8 +1,8 @@
 namespace aima.core.logic.api.propositional;
 
-import java.util.List;
+using java.util.List;
 
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
 
 /**
  * @author Anurag Rai

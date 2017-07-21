@@ -60,7 +60,7 @@ public class AgentPosition {
 	}
 
 	 
-	public boolean equals(Object obj) {
+	public bool equals(Object obj) {
 		if (obj != null && obj is AgentPosition) {
 			AgentPosition othAgent = (AgentPosition) obj;
 			if ((getX() == othAgent.getX()) && (getY() == othAgent.getY())

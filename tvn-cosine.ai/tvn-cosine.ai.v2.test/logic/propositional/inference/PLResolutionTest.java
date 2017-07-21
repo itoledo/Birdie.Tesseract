@@ -1,23 +1,23 @@
-package aima.test.unit.logic.propositional.inference;
+namespace aima.test.unit.logic.propositional.inference;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Set;
+using java.util.Arrays;
+using java.util.Collection;
+using java.util.Set;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+using org.junit.Assert;
+using org.junit.Test;
+using org.junit.runner.RunWith;
+using org.junit.runners.Parameterized;
+using org.junit.runners.Parameterized.Parameters;
 
-import aima.core.logic.basic.propositional.inference.PLResolution;
-import aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
-import aima.core.util.SetOps;
-import aima.extra.logic.propositional.parser.PLParserWrapper;
+using aima.core.logic.basic.propositional.inference.PLResolution;
+using aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
+using aima.core.util.SetOps;
+using aima.extra.logic.propositional.parser.PLParserWrapper;
 
 /**
  * @author Ravi Mohan
@@ -43,7 +43,7 @@ public class PLResolutionTest {
 		parser = new PLParserWrapper();
 	}
 
-	@Test
+	[TestMethod]
 	public void testPLResolveWithOneLiteralMatching() {
 		Clause one = ConvertToConjunctionOfClauses
 				.convert(parser.parse("A | B")).getClauses().iterator().next();
@@ -57,7 +57,7 @@ public class PLResolutionTest {
 		Assert.assertTrue(resolvents.contains(expected));
 	}
 
-	@Test
+	[TestMethod]
 	public void testPLResolveWithNoLiteralMatching() {
 		Clause one = ConvertToConjunctionOfClauses
 				.convert(parser.parse("A | B")).getClauses().iterator().next();
@@ -68,7 +68,7 @@ public class PLResolutionTest {
 		Assert.assertEquals(0, resolvents.size());
 	}
 
-	@Test
+	[TestMethod]
 	public void testPLResolveWithOneLiteralSentencesMatching() {
 		Clause one = ConvertToConjunctionOfClauses.convert(parser.parse("A"))
 				.getClauses().iterator().next();
@@ -81,7 +81,7 @@ public class PLResolutionTest {
 		Assert.assertTrue(resolvents.iterator().next().isFalse());
 	}
 
-	@Test
+	[TestMethod]
 	public void testPLResolveWithTwoLiteralsMatching() {
 		Clause one = ConvertToConjunctionOfClauses
 				.convert(parser.parse("~P21 | B11")).getClauses().iterator()
@@ -103,7 +103,7 @@ public class PLResolutionTest {
 		Assert.assertEquals(numberExpectedResolvents, SetOps.intersection(expected, resolvents).size());
 	}
 
-	@Test
+	[TestMethod]
 	public void testPLResolve1() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("(B11 => ~P11) & B11");
@@ -117,7 +117,7 @@ public class PLResolutionTest {
 		
 	}
 
-	@Test
+	[TestMethod]
 	public void testPLResolve2() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("A & B");
@@ -130,7 +130,7 @@ public class PLResolutionTest {
 		Assert.assertEquals(true, resolution.plResolution(kb, query));
 	}
 
-	@Test
+	[TestMethod]
 	public void testPLResolve3() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("(B11 => ~P11) & B11");
@@ -143,7 +143,7 @@ public class PLResolutionTest {
 		Assert.assertEquals(true, resolution.plResolution(kb, query));
 	}
 
-	@Test
+	[TestMethod]
 	public void testPLResolve4() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("A | B");
@@ -156,7 +156,7 @@ public class PLResolutionTest {
 		Assert.assertEquals(false, resolution.plResolution(kb, query));
 	}
 
-	@Test
+	[TestMethod]
 	public void testPLResolve5() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("(B11 => ~P11) & B11");
@@ -169,7 +169,7 @@ public class PLResolutionTest {
 		Assert.assertEquals(false, resolution.plResolution(kb, query));
 	}
 	
-	@Test
+	[TestMethod]
 	public void testPLResolve6() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		// e.g. from AIMA3e pg. 254
@@ -183,7 +183,7 @@ public class PLResolutionTest {
 		Assert.assertEquals(true, resolution.plResolution(kb, query));
 	}
 	
-	@Test
+	[TestMethod]
 	public void testPLResolve7() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("P");
@@ -198,7 +198,7 @@ public class PLResolutionTest {
 		Assert.assertEquals(true, resolution.plResolution(kb, query));
 	}
 
-	@Test
+	[TestMethod]
 	public void testMultipleClauseResolution() {
 		// test (and fix) suggested by Huy Dinh. Thanks Huy!
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
@@ -213,7 +213,7 @@ public class PLResolutionTest {
 		Assert.assertEquals(false, resolution.plResolution(kb, query));
 	}
 
-	@Test
+	[TestMethod]
 	public void testPLResolutionWithChadCarfBugReportData() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("B12 <=> P11 | P13 | P22 | P02");
@@ -233,7 +233,7 @@ public class PLResolutionTest {
 		Assert.assertEquals(true, resolution.plResolution(kb, query));
 	}
 	
-	@Test
+	[TestMethod]
 	public void testPLResolutionSucceedsWithChadCarffsBugReport2() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("B10 <=> P11 | P20 | P00");

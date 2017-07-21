@@ -1,15 +1,15 @@
 namespace aima.core.logic.basic.propositional.kb.data;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.StringJoiner;
+using java.util.ArrayList;
+using java.util.Arrays;
+using java.util.Collection;
+using java.util.Collections;
+using java.util.LinkedHashSet;
+using java.util.Set;
+using java.util.StringJoiner;
 
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.util.SetOps;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.util.SetOps;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>
@@ -27,11 +27,11 @@ import aima.core.util.SetOps;
 public class Clause {
 	public static final Clause EMPTY = new Clause();
 	//
-	private Set<Literal> literals = new LinkedHashSet<Literal>();
+	private ISet<Literal> literals = new HashSet<Literal>();
 	//
-	private Set<PropositionSymbol> cachedPositiveSymbols = new LinkedHashSet<PropositionSymbol>();
-	private Set<PropositionSymbol> cachedNegativeSymbols = new LinkedHashSet<PropositionSymbol>();
-	private Set<PropositionSymbol> cachedSymbols         = new LinkedHashSet<PropositionSymbol>();
+	private ISet<PropositionSymbol> cachedPositiveSymbols = new HashSet<PropositionSymbol>();
+	private ISet<PropositionSymbol> cachedNegativeSymbols = new HashSet<PropositionSymbol>();
+	private ISet<PropositionSymbol> cachedSymbols         = new HashSet<PropositionSymbol>();
 	//
 	private Boolean cachedIsTautologyResult = null;
 	private String  cachedStringRep         = null;
@@ -98,7 +98,7 @@ public class Clause {
 	 * 
 	 * @return true if an empty clause, false otherwise.
 	 */
-	public boolean isFalse() {
+	public bool isFalse() {
 		return isEmpty();
 	}
 
@@ -106,7 +106,7 @@ public class Clause {
 	 * 
 	 * @return true if the clause is empty (i.e. 'False'), false otherwise.
 	 */
-	public boolean isEmpty() {
+	public bool isEmpty() {
 		return literals.size() == 0;
 	}
 
@@ -115,7 +115,7 @@ public class Clause {
 	 * 
 	 * @return true if the clause is unit, false otherwise.
 	 */
-	public boolean isUnitClause() {
+	public bool isUnitClause() {
 		return literals.size() == 1;
 	}
 
@@ -129,7 +129,7 @@ public class Clause {
 	 * 
 	 * @return true if a definite clause, false otherwise.
 	 */
-	public boolean isDefiniteClause() {
+	public bool isDefiniteClause() {
 		return cachedPositiveSymbols.size() == 1;
 	}
 
@@ -140,7 +140,7 @@ public class Clause {
 	 * 
 	 * @return true if an implication definite clause, false otherwise.
 	 */
-	public boolean isImplicationDefiniteClause() {
+	public bool isImplicationDefiniteClause() {
 		return isDefiniteClause() && cachedNegativeSymbols.size() >= 1;
 	}
 
@@ -150,7 +150,7 @@ public class Clause {
 	 * 
 	 * @return true if a Horn clause, false otherwise.
 	 */
-	public boolean isHornClause() {
+	public bool isHornClause() {
 		return !isEmpty() && cachedPositiveSymbols.size() <= 1;
 	}
 
@@ -159,7 +159,7 @@ public class Clause {
 	 * 
 	 * @return true if a Goal clause, false otherwise.
 	 */
-	public boolean isGoalClause() {
+	public bool isGoalClause() {
 		return !isEmpty() && cachedPositiveSymbols.size() == 0;
 	}
 
@@ -175,7 +175,7 @@ public class Clause {
 	 * 
 	 * @return true if the clause represents a tautology, false otherwise.
 	 */
-	public boolean isTautology() {
+	public bool isTautology() {
 		if (cachedIsTautologyResult == null) {
 			for (Literal l : literals) {
 				if (l.isAlwaysTrue()) {
@@ -230,7 +230,7 @@ public class Clause {
 	 * 
 	 * @return the set of literals making up the clause.
 	 */
-	public Set<Literal> getLiterals() {
+	public ISet<Literal> getLiterals() {
 		return literals;
 	}
 	
@@ -238,7 +238,7 @@ public class Clause {
 	 * 
 	 * @return the set of symbols from the clause's positive and negative literals.
 	 */
-	public Set<PropositionSymbol> getSymbols() {
+	public ISet<PropositionSymbol> getSymbols() {
 		return cachedSymbols;
 	}
 
@@ -246,7 +246,7 @@ public class Clause {
 	 * 
 	 * @return the set of symbols from the clause's positive literals.
 	 */
-	public Set<PropositionSymbol> getPositiveSymbols() {
+	public ISet<PropositionSymbol> getPositiveSymbols() {
 		return cachedPositiveSymbols;
 	}
 
@@ -254,7 +254,7 @@ public class Clause {
 	 * 
 	 * @return the set of symbols from the clause's negative literals.
 	 */
-	public Set<PropositionSymbol> getNegativeSymbols() {
+	public ISet<PropositionSymbol> getNegativeSymbols() {
 		return cachedNegativeSymbols;
 	}
 
@@ -269,7 +269,7 @@ public class Clause {
 	}
 
 	 
-	public boolean equals(Object othObj) {
+	public bool equals(Object othObj) {
 		if (null == othObj) {
 			return false;
 		}

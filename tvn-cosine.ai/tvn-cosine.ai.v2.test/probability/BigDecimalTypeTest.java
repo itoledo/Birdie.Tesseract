@@ -1,11 +1,11 @@
-package aima.test.unit.probability;
+namespace aima.test.unit.probability;
 
-import aima.extra.probability.*;
-import aima.extra.probability.constructs.ProbabilityComputation;
-import aima.extra.probability.factory.ProbabilityFactory;
-import static org.junit.Assert.*;
-import java.math.*;
-import org.junit.Test;
+using aima.extra.probability.*;
+using aima.extra.probability.constructs.ProbabilityComputation;
+using aima.extra.probability.factory.ProbabilityFactory;
+using static org.junit.Assert.*;
+using java.math.*;
+using org.junit.Test;
 
 /**
  * ProbabilityTest to check various functions of the BigDecimalProbabilityNumber class
@@ -16,17 +16,17 @@ public class BigDecimalTypeTest {
 	
 	private ProbabilityFactory<?> probFactory = ProbabilityFactory.make(BigDecimalProbabilityNumber.class);
 
-	@Test(expected = IllegalArgumentException.class)
+	[TestMethod][ExpectedException(typeof(IllegalArgumentException))]
     public void testInvalidProbabilityNumber1() {
 		probFactory.valueOf(4.0);
     }
 	
-	@Test(expected = IllegalArgumentException.class)
+	[TestMethod][ExpectedException(typeof(IllegalArgumentException))]
     public void testInvalidProbabilityNumber2() {
 		probFactory.valueOf(-5.1);
     }
 	
-	@Test(expected = IllegalArgumentException.class)
+	[TestMethod][ExpectedException(typeof(IllegalArgumentException))]
     public void testInvalidProbabilityNumber3() {
 		probFactory.valueOf(-0.1);
     }
@@ -42,13 +42,13 @@ public class BigDecimalTypeTest {
 	
 	// Check if zero
 	
-	@Test
+	[TestMethod]
 	public void testIsZero1() {
 		ProbabilityNumber testValue0 = probFactory.valueOf(new BigDecimal("0.000"));
 		assertEquals(testValue0.isZero(), true);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsZero2() {
 		ProbabilityNumber testValue0 = probFactory.valueOf(0.0);
 		assertEquals(testValue0.isZero(), true);
@@ -56,7 +56,7 @@ public class BigDecimalTypeTest {
 	
 	// Check if one
 	
-	@Test
+	[TestMethod]
 	public void testIsOne1() {
 		ProbabilityNumber testValue1 = probFactory.valueOf(
 				new BigDecimal("1.000000"));
@@ -64,7 +64,7 @@ public class BigDecimalTypeTest {
 		assertEquals(testValue1.isOne(), true);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIsOne2() {
 		ProbabilityNumber testValue1 = probFactory.valueOf(1.0);
 		assertEquals(testValue1.isOne(), true);
@@ -72,7 +72,7 @@ public class BigDecimalTypeTest {
 	
 	// Check if two BigDecimalProbabilityNumber values are equal or not
 	
-	@Test
+	[TestMethod]
 	public void testIfEquals1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue4 = probFactory.valueOf(
@@ -81,14 +81,14 @@ public class BigDecimalTypeTest {
 		assertEquals(testValue2.equals(testValue4), true);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIfEquals2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue4 = probFactory.valueOf(0.1499999999);
 		assertEquals(testValue2.equals(testValue4), true);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIfEquals3() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.1);
 		ProbabilityNumber testValue4 = probFactory.valueOf(0.23);
@@ -98,14 +98,14 @@ public class BigDecimalTypeTest {
 	// Add BigDecimalProbabilityNumber values
 
 
-	@Test
+	[TestMethod]
 	public void testAddition1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue5 = probFactory.valueOf(0.1);
 		assertEquals(0.15 + 0.1, testValue2.add(testValue5).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testAddition2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue6 = probFactory.valueOf(0.8);
@@ -114,14 +114,14 @@ public class BigDecimalTypeTest {
 	
 	// Subtract BigDecimalProbabilityNumber values
 
-	@Test
+	[TestMethod]
 	public void testSubtraction1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue5 = probFactory.valueOf(0.1);
 		assertEquals(0.15 - 0.1, testValue2.subtract(testValue5).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testSubtraction2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue6 = probFactory.valueOf(0.8);
@@ -130,14 +130,14 @@ public class BigDecimalTypeTest {
 	
 	// Multiply BigDecimalProbabilityNumber values
 
-	@Test
+	[TestMethod]
 	public void testMultiplication1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue5 = probFactory.valueOf(0.1);
 		assertEquals(0.15 * 0.1, testValue2.multiply(testValue5).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testMultiplication2() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue6 = probFactory.valueOf(0.8);
@@ -146,7 +146,7 @@ public class BigDecimalTypeTest {
 	
 	// Divide BigDecimalProbabilityNumber values
 
-	@Test
+	[TestMethod]
 	public void testDivision1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		ProbabilityNumber testValue6 = probFactory.valueOf(0.8);
@@ -154,7 +154,7 @@ public class BigDecimalTypeTest {
 	}
 	
 	/*
-	@Test
+	[TestMethod]
 	public void testDivision2() {
 		// Unlimited precision (non terminating decimal value)
 		ProbabilityNumber t1 = probFactory.valueOf(new BigDecimal("0.1"));
@@ -164,7 +164,7 @@ public class BigDecimalTypeTest {
 	}
 	*/
 	
-	@Test
+	[TestMethod]
 	public void testDivision3() {
 		// Check for computations with different precision values
 		ProbabilityNumber t1 = probFactory.valueOf(new BigDecimal(0.1), 3);
@@ -175,13 +175,13 @@ public class BigDecimalTypeTest {
 	// Raise BigDecimalProbabilityNumber values to powers (check for boundary conditions
 	// (positive infinity, negative infinity))
 	
-	@Test
+	[TestMethod]
 	public void testExponentiation1() {
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.15);
 		assertEquals(0.15 * 0.15, testValue2.pow(2).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testExponentiation2() {
 		ProbabilityNumber testValue6 = probFactory.valueOf(0.8);
 		assertEquals(0.51, testValue6.pow(3).getValue().doubleValue(), DEFAULT_ROUNDING_THRESHOLD);
@@ -189,7 +189,7 @@ public class BigDecimalTypeTest {
 	
 	// Check if valid ProbabilityNumber or not
 	
-	@Test (expected = IllegalArgumentException.class)
+	[TestMethod] (expected = IllegalArgumentException))]
 	public void testIfValid1() {
 		ProbabilityComputation adder = new ProbabilityComputation();
 		ProbabilityNumber testValue1 = probFactory.valueOf(0.8);
@@ -197,7 +197,7 @@ public class BigDecimalTypeTest {
 		adder.add(testValue1, testValue2).isValid();
 	}
 	
-	@Test (expected = IllegalArgumentException.class)
+	[TestMethod] (expected = IllegalArgumentException))]
 	public void testIfValid2() {
 		ProbabilityComputation compute = new ProbabilityComputation();
 		ProbabilityNumber testValue1 = probFactory.valueOf(0.8);
@@ -206,7 +206,7 @@ public class BigDecimalTypeTest {
 		compute.sub(compute.add(testValue1, testValue2), testValue3).isValid();
 	}
 	
-	@Test (expected = IllegalArgumentException.class)
+	[TestMethod] (expected = IllegalArgumentException))]
 	public void testIfValid3() {
 		ProbabilityNumber testValue1 = probFactory.valueOf(0.8);
 		ProbabilityNumber testValue2 = probFactory.valueOf(0.7);
@@ -216,7 +216,7 @@ public class BigDecimalTypeTest {
 	/**
 	 * Computation to test number representation precision
 	 */
-	@Test
+	[TestMethod]
 	public void testBigDecimal() {
 		// Consider two numbers of type double that are very close to each
 		// other.

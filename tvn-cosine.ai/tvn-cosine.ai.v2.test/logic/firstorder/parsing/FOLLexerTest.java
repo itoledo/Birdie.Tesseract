@@ -1,13 +1,13 @@
-package aima.test.unit.logic.firstorder.parsing;
+namespace aima.test.unit.logic.firstorder.parsing;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Before;
+using org.junit.Test;
 
-import aima.core.logic.basic.common.LogicTokenTypes;
-import aima.core.logic.basic.common.Token;
-import aima.core.logic.basic.firstorder.domain.FOLDomain;
-import aima.core.logic.basic.firstorder.parsing.FOLLexer;
+using aima.core.logic.basic.common.LogicTokenTypes;
+using aima.core.logic.basic.common.Token;
+using aima.core.logic.basic.firstorder.domain.FOLDomain;
+using aima.core.logic.basic.firstorder.parsing.FOLLexer;
 
 /**
  * @author Ravi Mohan
@@ -30,7 +30,7 @@ public class FOLLexerTest {
 		lexer = new FOLLexer(domain);
 	}
 
-	@Test
+	[TestMethod]
 	public void testLexBasicExpression() {
 		lexer.setInput("( P )");
 		Assert.assertEquals(new Token(LogicTokenTypes.LPAREN, "(", 0),
@@ -43,7 +43,7 @@ public class FOLLexerTest {
 				lexer.nextToken());
 	}
 
-	@Test
+	[TestMethod]
 	public void testConnectors() {
 		lexer.setInput(" p  & q");
 		Assert.assertEquals(new Token(LogicTokenTypes.VARIABLE, "p", 1),
@@ -56,7 +56,7 @@ public class FOLLexerTest {
 				lexer.nextToken());
 	}
 
-	@Test
+	[TestMethod]
 	public void testFunctions() {
 		lexer.setInput(" LeftLeg(q)");
 		Assert.assertEquals(new Token(LogicTokenTypes.FUNCTION, "LeftLeg", 1),
@@ -71,7 +71,7 @@ public class FOLLexerTest {
 				lexer.nextToken());
 	}
 
-	@Test
+	[TestMethod]
 	public void testPredicate() {
 		lexer.setInput(" HasColor(r)");
 		Assert.assertEquals(new Token(LogicTokenTypes.PREDICATE, "HasColor", 1),
@@ -86,7 +86,7 @@ public class FOLLexerTest {
 				lexer.nextToken());
 	}
 
-	@Test
+	[TestMethod]
 	public void testMultiArgPredicate() {
 		lexer.setInput(" King(x,y)");
 		Assert.assertEquals(new Token(LogicTokenTypes.PREDICATE, "King", 1),
@@ -103,7 +103,7 @@ public class FOLLexerTest {
 				lexer.nextToken());
 	}
 
-	@Test
+	[TestMethod]
 	public void testQuantifier() {
 		lexer.setInput("FORALL x,y");
 		Assert.assertEquals(new Token(LogicTokenTypes.QUANTIFIER, "FORALL", 0),
@@ -118,7 +118,7 @@ public class FOLLexerTest {
 				lexer.nextToken());
 	}
 
-	@Test
+	[TestMethod]
 	public void testTermEquality() {
 		lexer.setInput("BrotherOf(John) = EnemyOf(Saladin)");
 		Assert.assertEquals(new Token(LogicTokenTypes.FUNCTION, "BrotherOf", 0),

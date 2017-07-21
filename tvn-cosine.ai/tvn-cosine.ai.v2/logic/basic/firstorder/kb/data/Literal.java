@@ -1,7 +1,7 @@
 namespace aima.core.logic.basic.firstorder.kb.data;
 
-import aima.core.logic.basic.firstorder.parsing.ast.AtomicSentence;
-import aima.core.logic.basic.firstorder.parsing.ast.Term;
+using aima.core.logic.basic.firstorder.parsing.ast.AtomicSentence;
+using aima.core.logic.basic.firstorder.parsing.ast.Term;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>
@@ -14,7 +14,7 @@ import aima.core.logic.basic.firstorder.parsing.ast.Term;
  */
 public class Literal {
 	private AtomicSentence atom = null;
-	private boolean negativeLiteral = false;
+	private bool negativeLiteral = false;
 	private String strRep = null;
 	private int hashCode = 0;
 
@@ -22,7 +22,7 @@ public class Literal {
 		this.atom = atom;
 	}
 
-	public Literal(AtomicSentence atom, boolean negated) {
+	public Literal(AtomicSentence atom, bool negated) {
 		this.atom = atom;
 		this.negativeLiteral = negated;
 	}
@@ -31,11 +31,11 @@ public class Literal {
 		return new Literal(atom, negativeLiteral);
 	}
 
-	public boolean isPositiveLiteral() {
+	public bool isPositiveLiteral() {
 		return !negativeLiteral;
 	}
 
-	public boolean isNegativeLiteral() {
+	public bool isNegativeLiteral() {
 		return negativeLiteral;
 	}
 

@@ -1,11 +1,11 @@
 namespace aima.core.logic.basic.firstorder.parsing.ast;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.StringJoiner;
+using java.util.ArrayList;
+using java.util.Collections;
+using java.util.List;
+using java.util.StringJoiner;
 
-import aima.core.logic.basic.firstorder.parsing.FOLVisitor;
+using aima.core.logic.basic.firstorder.parsing.FOLVisitor;
 
 /**
  * @author Ravi Mohan
@@ -36,7 +36,7 @@ public class Predicate implements AtomicSentence {
 		return getPredicateName();
 	}
 
-	public boolean isCompound() {
+	public bool isCompound() {
 		return true;
 	}
 

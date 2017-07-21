@@ -1,11 +1,11 @@
 namespace aima.core.agent.basic;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+using java.util.ArrayList;
+using java.util.HashMap;
+using java.util.List;
+using java.util.Map;
 
-import aima.core.agent.api.Agent;
+using aima.core.agent.api.Agent;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.
@@ -31,7 +31,7 @@ import aima.core.agent.api.Agent;
 public class TableDrivenAgent<A, P> implements Agent<A, P> {
 	// persistent: 
 	private List<P> percepts = new ArrayList<>(); // a sequence, initially empty
-	private Map<List<P>, A> table = new HashMap<>(); // a table of actions, indexed by percept sequences, initially fully specified
+	private IDictionary<List<P>, A> table = new HashMap<>(); // a table of actions, indexed by percept sequences, initially fully specified
 
 	// function TABLE-DRIVEN-AGENT(percept) returns an action
 	 
@@ -44,7 +44,7 @@ public class TableDrivenAgent<A, P> implements Agent<A, P> {
 		return action;
 	}
 
-	public A lookup(List<P> percepts, Map<List<P>, A> table) {
+	public A lookup(List<P> percepts, IDictionary<List<P>, A> table) {
 		A action = table.get(percepts);
 		return action;
 	}
@@ -61,7 +61,7 @@ public class TableDrivenAgent<A, P> implements Agent<A, P> {
 		return percepts;
 	}
 
-	public Map<List<P>, A> getTable() {
+	public IDictionary<List<P>, A> getTable() {
 		return table;
 	}
 }

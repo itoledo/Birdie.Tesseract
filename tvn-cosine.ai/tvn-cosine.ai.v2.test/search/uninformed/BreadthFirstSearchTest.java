@@ -1,31 +1,31 @@
-package aima.test.unit.search.uninformed;
+namespace aima.test.unit.search.uninformed;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+using java.util.Arrays;
+using java.util.Collection;
+using java.util.Collections;
+using java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+using org.junit.Assert;
+using org.junit.Test;
+using org.junit.runner.RunWith;
+using org.junit.runners.Parameterized;
+using org.junit.runners.Parameterized.Parameter;
+using org.junit.runners.Parameterized.Parameters;
 
-import aima.core.environment.map2d.GoAction;
-import aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania;
-import aima.core.environment.support.ProblemFactory;
-import aima.core.environment.vacuum.VELocalState;
-import aima.core.environment.vacuum.VacuumEnvironment;
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForActionsFunction;
-import aima.core.search.basic.uninformed.BreadthFirstSearch;
-import aima.extra.search.pqueue.QueueSearchForActions;
-import aima.extra.search.pqueue.uninformed.BreadthFirstQueueSearch;
-import aima.extra.search.pqueue.uninformed.GraphGoalTestedFirstQueueSearch;
-import aima.extra.search.pqueue.uninformed.GraphQueueSearch;
-import aima.extra.search.pqueue.uninformed.TreeGoalTestedFirstQueueSearch;
-import aima.extra.search.pqueue.uninformed.TreeQueueSearch;
+using aima.core.environment.map2d.GoAction;
+using aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania;
+using aima.core.environment.support.ProblemFactory;
+using aima.core.environment.vacuum.VELocalState;
+using aima.core.environment.vacuum.VacuumEnvironment;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchForActionsFunction;
+using aima.core.search.basic.uninformed.BreadthFirstSearch;
+using aima.extra.search.pqueue.QueueSearchForActions;
+using aima.extra.search.pqueue.uninformed.BreadthFirstQueueSearch;
+using aima.extra.search.pqueue.uninformed.GraphGoalTestedFirstQueueSearch;
+using aima.extra.search.pqueue.uninformed.GraphQueueSearch;
+using aima.extra.search.pqueue.uninformed.TreeGoalTestedFirstQueueSearch;
+using aima.extra.search.pqueue.uninformed.TreeQueueSearch;
 
 @RunWith(Parameterized.class)
 public class BreadthFirstSearchTest {
@@ -38,7 +38,7 @@ public class BreadthFirstSearchTest {
 	}
 
 	@Parameter
-	public String searchFunctionName;
+	public string searchFunctionName;
 
 	public <A, S> List<A> searchForActions(Problem<A, S> problem) {
 		SearchForActionsFunction<A, S> searchForActionsFunction;
@@ -63,7 +63,7 @@ public class BreadthFirstSearchTest {
 		return searchForActionsFunction.apply(problem);
 	}
 
-	@Test
+	[TestMethod]
 	public void testSimplifiedRoadmapOfPartOfRomania() {
 		Assert.assertEquals(Arrays.asList((String) null),
 				searchForActions(ProblemFactory.getSimplifiedRoadMapOfPartOfRomaniaProblem(
@@ -77,7 +77,7 @@ public class BreadthFirstSearchTest {
 						SimplifiedRoadMapOfPartOfRomania.ARAD, SimplifiedRoadMapOfPartOfRomania.BUCHAREST)));
 	}
 
-	@Test
+	[TestMethod]
 	public void testSimpleVacuumEnvironment() {
 		Assert.assertEquals(Arrays.asList((String) null),
 				searchForActions(ProblemFactory.getSimpleVacuumWorldProblem("A",
@@ -154,7 +154,7 @@ public class BreadthFirstSearchTest {
 						new VELocalState("C", VacuumEnvironment.Status.Dirty))));
 	}
 
-	@Test
+	[TestMethod]
 	public void testReachableSimpleBinaryTreeGoals() {
 		Assert.assertEquals(Arrays.asList((String) null),
 				searchForActions(ProblemFactory.getSimpleBinaryTreeProblem("A", "A")));
@@ -170,7 +170,7 @@ public class BreadthFirstSearchTest {
 				searchForActions(ProblemFactory.getSimpleBinaryTreeProblem("A", "L")));
 	}
 
-	@Test
+	[TestMethod]
 	public void testUnreachableSimpleBinaryTreeGoals() {
 		Assert.assertEquals(Collections.<String>emptyList(),
 				searchForActions(ProblemFactory.getSimpleBinaryTreeProblem("B", "A")));

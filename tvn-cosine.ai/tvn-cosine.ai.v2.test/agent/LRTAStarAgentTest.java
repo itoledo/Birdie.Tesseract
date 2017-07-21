@@ -1,19 +1,19 @@
-package aima.test.unit.agent;
+namespace aima.test.unit.agent;
 
-import java.util.StringJoiner;
-import java.util.function.Function;
+using java.util.StringJoiner;
+using java.util.function.Function;
 
-import org.junit.Assert;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Test;
 
-import aima.core.agent.basic.LRTAStarAgent;
-import aima.core.environment.map2d.ExtendableMap2D;
-import aima.core.environment.map2d.GoAction;
-import aima.core.environment.map2d.InState;
-import aima.core.environment.map2d.Map2D;
-import aima.core.environment.map2d.Map2DFunctionFactory;
-import aima.core.search.api.OnlineSearchProblem;
-import aima.core.search.basic.support.BasicProblem;
+using aima.core.agent.basic.LRTAStarAgent;
+using aima.core.environment.map2d.ExtendableMap2D;
+using aima.core.environment.map2d.GoAction;
+using aima.core.environment.map2d.InState;
+using aima.core.environment.map2d.Map2D;
+using aima.core.environment.map2d.Map2DFunctionFactory;
+using aima.core.search.api.OnlineSearchProblem;
+using aima.core.search.basic.support.BasicProblem;
 
 public class LRTAStarAgentTest {
 	Map2D mapAtoF= new ExtendableMap2D() {
@@ -33,7 +33,7 @@ public class LRTAStarAgentTest {
 		return inState.getLocation().charAt(0) - 'A';
 	};
 	
-	@Test
+	[TestMethod]
 	public void testAlreadyAtGoal() {
 		OnlineSearchProblem<GoAction, InState> osp = new BasicProblem<>(
 				Map2DFunctionFactory.getActionsFunction(mapAtoF), inState -> "A".equals(inState.getLocation()),
@@ -44,7 +44,7 @@ public class LRTAStarAgentTest {
 		Assert.assertEquals(lrtasa.perceive(0), (GoAction) null);
 	}
 	
-	@Test
+	[TestMethod]
 	public void testNormalSearch() {
 		OnlineSearchProblem<GoAction, InState> osp = new BasicProblem<>(
 				Map2DFunctionFactory.getActionsFunction(mapAtoF), inState -> "F".equals(inState.getLocation()),
@@ -66,7 +66,7 @@ public class LRTAStarAgentTest {
 	}
 	
 	public void testExpectedActionSequence(LRTAStarAgent<GoAction, Integer, InState> lrtasa, int initialPercept,
-			Function<InState, Integer> stateToPerceptFn, String expected) {
+			Function<InState, Integer> stateToPerceptFn, string expected) {
 		int percept = initialPercept;
 		GoAction action;
 		StringJoiner result = new StringJoiner(" ");

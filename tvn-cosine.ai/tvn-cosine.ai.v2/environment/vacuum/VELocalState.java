@@ -13,7 +13,7 @@ public class VELocalState {
 	}
 
 	 
-	public boolean equals(Object obj) {
+	public bool equals(Object obj) {
 		boolean result = false;
 		if (obj != null && this.getClass() == obj.getClass()) {
 			VELocalState other = (VELocalState) obj;

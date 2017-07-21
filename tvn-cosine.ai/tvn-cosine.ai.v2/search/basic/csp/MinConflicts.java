@@ -1,17 +1,17 @@
 namespace aima.core.search.basic.csp;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.Random;
-import java.util.Set;
-import java.util.function.Function;
+using java.util.ArrayList;
+using java.util.Comparator;
+using java.util.LinkedHashSet;
+using java.util.Random;
+using java.util.Set;
+using java.util.function.Function;
 
-import aima.core.search.api.Assignment;
-import aima.core.search.api.CSP;
-import aima.core.search.api.Constraint;
-import aima.core.search.api.SearchForAssignmentFunction;
-import aima.core.search.basic.support.BasicAssignment;
+using aima.core.search.api.Assignment;
+using aima.core.search.api.CSP;
+using aima.core.search.api.Constraint;
+using aima.core.search.api.SearchForAssignmentFunction;
+using aima.core.search.basic.support.BasicAssignment;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Ed.): Figure ??, Page ???.<br>
@@ -134,10 +134,10 @@ public class MinConflicts implements SearchForAssignmentFunction {
 	}
 
 	public String randomlyChooseConflictedVariable(CSP csp, Assignment completeAssignment) {
-		Set<String> conflictedVariables = new LinkedHashSet<>();
+		Set<String> conflictedVariables = new HashSet<>();
 		for (Constraint c : csp.getConstraints()) {
 			Object[] values = new Object[c.getScope().size()];
-			for (int i = 0; i < values.length; i++) {
+			for (int i = 0; i < values.Length; i++) {
 				values[i] = completeAssignment.getAssignment(c.getScope().get(i));
 			}
 			if (!c.getRelation().isMember(values)) {
@@ -152,7 +152,7 @@ public class MinConflicts implements SearchForAssignmentFunction {
 
 		for (Constraint c : csp.getNeighboringConstraints(var)) {
 			Object[] values = new Object[c.getScope().size()];
-			for (int i = 0; i < values.length; i++) {
+			for (int i = 0; i < values.Length; i++) {
 				String scopeVar = c.getScope().get(i);
 				if (var.Equals(scopeVar)) {
 					values[i] = value;

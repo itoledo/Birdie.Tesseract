@@ -1,18 +1,18 @@
 namespace aima.core.search.basic.informed;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.ToDoubleFunction;
+using java.util.ArrayList;
+using java.util.Comparator;
+using java.util.List;
+using java.util.function.Function;
+using java.util.function.ToDoubleFunction;
 
-import aima.core.search.api.Node;
-import aima.core.search.api.NodeFactory;
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForActionsFunction;
-import aima.core.search.api.SearchController;
-import aima.core.search.basic.support.BasicNodeFactory;
-import aima.core.search.basic.support.BasicSearchController;
+using aima.core.search.api.Node;
+using aima.core.search.api.NodeFactory;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchForActionsFunction;
+using aima.core.search.api.SearchController;
+using aima.core.search.basic.support.BasicNodeFactory;
+using aima.core.search.basic.support.BasicSearchController;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.
@@ -146,11 +146,11 @@ public class RecursiveBestFirstSearch<A, S> implements SearchForActionsFunction<
 		return nodes.stream().filter(x -> x != lowest).min(Comparator.comparing(s -> s.f)).orElse(lowest).f;
 	}
 	
-	public boolean isGoalState(Node<A, S> node, Problem<A, S> problem) {
+	public bool isGoalState(Node<A, S> node, Problem<A, S> problem) {
 		return searchController.isGoalState(node, problem);
 	}
 	
-	public boolean isExecuting() {
+	public bool isExecuting() {
 		return searchController.isExecuting();
 	}
 	

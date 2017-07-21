@@ -1,10 +1,10 @@
 namespace aima.core.logic.basic.propositional.parsing.ast;
 
-import java.util.Arrays;
-import java.util.List;
+using java.util.Arrays;
+using java.util.List;
 
-import aima.core.logic.basic.propositional.parsing.PLVisitor;
-import aima.core.util.Util;
+using aima.core.logic.basic.propositional.parsing.PLVisitor;
+using aima.core.util.Util;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>
@@ -56,7 +56,7 @@ public abstract class Sentence {
 	 * @return true if a complex sentence with a Not connective, false
 	 *         otherwise.
 	 */
-	public boolean isNotSentence() {
+	public bool isNotSentence() {
 		return hasConnective(Connective.NOT);
 	}
 
@@ -65,7 +65,7 @@ public abstract class Sentence {
 	 * @return true if a complex sentence with an And connective, false
 	 *         otherwise.
 	 */
-	public boolean isAndSentence() {
+	public bool isAndSentence() {
 		return hasConnective(Connective.AND);
 	}
 
@@ -74,7 +74,7 @@ public abstract class Sentence {
 	 * @return true if a complex sentence with an Or connective, false
 	 *         otherwise.
 	 */
-	public boolean isOrSentence() {
+	public bool isOrSentence() {
 		return hasConnective(Connective.OR);
 	}
 
@@ -83,7 +83,7 @@ public abstract class Sentence {
 	 * @return true if a complex sentence with an Implication connective, false
 	 *         otherwise.
 	 */
-	public boolean isImplicationSentence() {
+	public bool isImplicationSentence() {
 		return hasConnective(Connective.IMPLICATION);
 	}
 
@@ -92,7 +92,7 @@ public abstract class Sentence {
 	 * @return true if a complex sentence with a Biconditional connective, false
 	 *         otherwise.
 	 */
-	public boolean isBiconditionalSentence() {
+	public bool isBiconditionalSentence() {
 		return hasConnective(Connective.BICONDITIONAL);
 	}
 
@@ -100,7 +100,7 @@ public abstract class Sentence {
 	 * 
 	 * @return true if a proposition symbol, false otherwise.
 	 */
-	public boolean isPropositionSymbol() {
+	public bool isPropositionSymbol() {
 		return getConnective() == null;
 	}
 
@@ -109,7 +109,7 @@ public abstract class Sentence {
 	 * @return true if a complex sentence containing a single simpler sentence,
 	 *         false otherwise.
 	 */
-	public boolean isUnarySentence() {
+	public bool isUnarySentence() {
 		return hasConnective(Connective.NOT);
 	}
 
@@ -118,7 +118,7 @@ public abstract class Sentence {
 	 * @return true if a complex sentence containing two simpler sentences,
 	 *         false otherwise.
 	 */
-	public boolean isBinarySentence() {
+	public bool isBinarySentence() {
 		return getConnective() != null && !hasConnective(Connective.NOT);
 	}
 
@@ -234,7 +234,7 @@ public abstract class Sentence {
 	//
 	// PROTECTED
 	//
-	protected boolean hasConnective(Connective connective) {
+	protected bool hasConnective(Connective connective) {
 		// Note: can use '==' as Connective is an enum.
 		return getConnective() == connective;
 	}

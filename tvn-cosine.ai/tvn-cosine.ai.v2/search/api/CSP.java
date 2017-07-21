@@ -1,9 +1,9 @@
 namespace aima.core.search.api;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+using java.util.LinkedHashSet;
+using java.util.List;
+using java.util.Set;
+using java.util.stream.Collectors;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Ed.): Section ??, Page
@@ -69,11 +69,11 @@ public interface CSP {
 	 * 
 	 * @return true if any of the domains are empty.
 	 */
-	default boolean isInconsistent() {
+	default bool isInconsistent() {
 		return getDomains().stream().anyMatch(domain -> domain.size() == 0);
 	}
 
-	default boolean isTree() {
+	default bool isTree() {
 		// Must be n-1 constraints.
 		if (getConstraints().size() == getVariables().size() - 1) {
 			// All the constraints need to be binary.
@@ -92,8 +92,8 @@ public interface CSP {
 	 *            the variable whose neighbors are sought.
 	 * @return the set of neighboring variables (including the input variable).
 	 */
-	default Set<String> getNeighbors(String variable) {
-		Set<String> neighbors = new LinkedHashSet<>();
+	default ISet<String> getNeighbors(String variable) {
+		Set<String> neighbors = new HashSet<>();
 
 		for (Constraint constraint : getConstraints()) {
 			if (constraint.getScope().contains(variable)) {

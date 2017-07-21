@@ -1,16 +1,16 @@
 namespace aima.core.logic.basic.propositional.kb.data;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+using java.util.HashMap;
+using java.util.Map;
+using java.util.Set;
 
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.parsing.PLVisitor;
-import aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
-import aima.core.logic.basic.propositional.parsing.ast.Connective;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.kb.data.Model;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.parsing.PLVisitor;
+using aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
+using aima.core.logic.basic.propositional.parsing.ast.Connective;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.kb.data.Model;
 
 
 /**
@@ -46,39 +46,39 @@ public class Model implements PLVisitor<Boolean, Boolean> {
 		return assignments.get(symbol);
 	}
 
-	public boolean isTrue(PropositionSymbol symbol) {
+	public bool isTrue(PropositionSymbol symbol) {
 		return Boolean.TRUE.Equals(assignments.get(symbol));
 	}
 
-	public boolean isFalse(PropositionSymbol symbol) {
+	public bool isFalse(PropositionSymbol symbol) {
 		return Boolean.FALSE.Equals(assignments.get(symbol));
 	}
 
-	public Model union(PropositionSymbol symbol, boolean b) {
+	public Model union(PropositionSymbol symbol, bool b) {
 		Model m = new Model();
 		m.assignments.putAll(this.assignments);
 		m.assignments.put(symbol, b);
 		return m;
 	}
 	
-	public Model unionInPlace(PropositionSymbol symbol, boolean b) {
+	public Model unionInPlace(PropositionSymbol symbol, bool b) {
 		assignments.put(symbol, b);
 		return this;
 	}
 		
-	public boolean isTrue(Sentence s) {
+	public bool isTrue(Sentence s) {
 		return Boolean.TRUE.Equals(s.accept(this, null));
 	}
 
-	public boolean isFalse(Sentence s) {
+	public bool isFalse(Sentence s) {
 		return Boolean.FALSE.Equals(s.accept(this, null));
 	}
 
-	public boolean isUnknown(Sentence s) {
+	public bool isUnknown(Sentence s) {
 		return null == s.accept(this, null);
 	}
 	
-	public boolean remove(PropositionSymbol p) {
+	public bool remove(PropositionSymbol p) {
 		return assignments.remove(p);
 	}
 	
@@ -99,7 +99,7 @@ public class Model implements PLVisitor<Boolean, Boolean> {
 	 *            a set of propositional clauses.
 	 * @return if the model satisfies the clauses, false otherwise.
 	 */
-	public boolean satisfies(Set<Clause> clauses) {
+	public bool satisfies(Set<Clause> clauses) {
 		for (Clause c : clauses) {
 			// All must to be true
 			if (!Boolean.TRUE.Equals(determineValue(c))) {

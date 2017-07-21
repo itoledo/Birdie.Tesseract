@@ -1,16 +1,16 @@
-package aima.test.unit.logic.propositional.parsing;
+namespace aima.test.unit.logic.propositional.parsing;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.junit.Assert;
-import org.junit.Test;
+using org.antlr.v4.runtime.ANTLRInputStream;
+using org.antlr.v4.runtime.CommonTokenStream;
+using org.antlr.v4.runtime.TokenStream;
+using org.antlr.v4.runtime.tree.ParseTree;
+using org.junit.Assert;
+using org.junit.Test;
 
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.extra.logic.propositional.parser.PropositionalLogicLexer;
-import aima.extra.logic.propositional.parser.PropositionalLogicParser;
-import aima.extra.logic.propositional.parser.PropositionalVisitor;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.extra.logic.propositional.parser.PropositionalLogicLexer;
+using aima.extra.logic.propositional.parser.PropositionalLogicParser;
+using aima.extra.logic.propositional.parser.PropositionalVisitor;
 
 /*
  * @author Anurag Rai
@@ -18,9 +18,9 @@ import aima.extra.logic.propositional.parser.PropositionalVisitor;
 public class AntlrParserTest {
 	
 	private Sentence sentence = null;
-	private String   expected = null;
+	private string   expected = null;
 	
-	@Test
+	[TestMethod]
 	public void testAtomicSentenceTrueParse() {
 			
 		sentence = parseToSentence("true");	
@@ -40,7 +40,7 @@ public class AntlrParserTest {
 		Assert.assertEquals(expected, sentence.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testAtomicSentenceFalseParse() {
 		sentence = parseToSentence("faLse");
 		expected = prettyPrintF("False");
@@ -48,7 +48,7 @@ public class AntlrParserTest {
 		Assert.assertEquals(expected, sentence.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testAtomicSentenceSymbolParse() {
 		sentence = parseToSentence("AIMA");
 		expected = prettyPrintF("AIMA");
@@ -56,7 +56,7 @@ public class AntlrParserTest {
 		Assert.assertEquals(expected, sentence.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testNotSentenceParse() {
 		sentence = parseToSentence("~ AIMA");
 		expected = prettyPrintF("~AIMA");
@@ -64,7 +64,7 @@ public class AntlrParserTest {
 		Assert.assertEquals(expected, sentence.toString());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testDoubleNegation() {
 		sentence = parseToSentence("~~AIMA");
 		expected = prettyPrintF("~~AIMA");
@@ -74,7 +74,7 @@ public class AntlrParserTest {
 		Assert.assertEquals(expected, sentence.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testBinarySentenceParse() {
 		sentence = parseToSentence("PETER  &  NORVIG");
 		expected = prettyPrintF("PETER & NORVIG");
@@ -84,7 +84,7 @@ public class AntlrParserTest {
 		Assert.assertEquals(expected, sentence.toString());
 	}
 
-	@Test
+	[TestMethod]
 	public void testComplexSentenceParse() {		
 		sentence = parseToSentence("(NORVIG | AIMA | LISP) & TRUE");
 		expected = prettyPrintF("(NORVIG | AIMA | LISP) & True");
@@ -131,7 +131,7 @@ public class AntlrParserTest {
 		Assert.assertEquals(expected, sentence.toString());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testSquareBracketsParse() {
 		// Instead of
 		sentence = parseToSentence("[NORVIG | AIMA | LISP] & TRUE");
@@ -144,7 +144,7 @@ public class AntlrParserTest {
 		Assert.assertEquals(expected, sentence.toString());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testMultipleSentences() {
 		sentence = parseToSentence("(A & B) (C | D)");
 		expected = prettyPrintF("A & B & (C | D)");
@@ -169,7 +169,7 @@ public class AntlrParserTest {
 	}
 	
 	
-	@Test
+	[TestMethod]
 	public void testParserException() {
 		/*try {
 			sentence = parseToSentence("");
@@ -189,7 +189,7 @@ public class AntlrParserTest {
 		} catch (RuntimeException e) {}
 	}
 	
-	@Test
+	[TestMethod]
 	public void testIssue72() {
 		// filter1 AND filter2 AND filter3 AND filter4
 		sentence = parseToSentence("filter1 & filter2 & filter3 & filter4");
@@ -207,7 +207,7 @@ public class AntlrParserTest {
 		Assert.assertEquals(expected, sentence.toString());
 	}
 	
-	private String prettyPrintF(String prettyPrintedFormula) {
+	private string prettyPrintF(string prettyPrintedFormula) {
 		Sentence s = parseToSentence(prettyPrintedFormula);
 		
 		Assert.assertEquals("The pretty print formula should parse and print the same.", prettyPrintedFormula, ""+s);
@@ -215,7 +215,7 @@ public class AntlrParserTest {
 		return prettyPrintedFormula;
 	}
 	
-	private Sentence parseToSentence( String stringToBeParsed ) {
+	private Sentence parseToSentence( string stringToBeParsed ) {
 		ANTLRInputStream input = new ANTLRInputStream(stringToBeParsed);
 		PropositionalLogicLexer lexer = new PropositionalLogicLexer(input);
 		TokenStream tokens = new CommonTokenStream(lexer);

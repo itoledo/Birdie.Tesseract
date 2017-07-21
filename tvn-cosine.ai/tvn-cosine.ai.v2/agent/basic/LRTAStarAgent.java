@@ -1,15 +1,15 @@
 namespace aima.core.agent.basic;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.function.ToDoubleFunction;
+using java.util.Comparator;
+using java.util.HashMap;
+using java.util.List;
+using java.util.Map;
+using java.util.function.Function;
+using java.util.function.ToDoubleFunction;
 
-import aima.core.agent.api.Agent;
-import aima.core.search.api.OnlineSearchProblem;
-import aima.core.util.datastructure.TwoKeyLookup;
+using aima.core.agent.api.Agent;
+using aima.core.search.api.OnlineSearchProblem;
+using aima.core.util.datastructure.TwoKeyLookup;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ???.
@@ -58,7 +58,7 @@ public class LRTAStarAgent<A, P, S> implements Agent<A, P> {
 	// persistent: result, a table, indexed by state and action, initially empty
 	protected final TwoKeyLookup<S, A, S> result = new TwoKeyLookup<S, A, S>();
 	// H, a table of cost estimates indexed by state, initiallly empy
-	protected final Map<S, Double> H = new HashMap<S, Double>();
+	protected final IDictionary<S, Double> H = new HashMap<S, Double>();
 	// s, a, the previous state and action, initially null
 	protected S s = null;
 	protected A a = null;
@@ -92,7 +92,7 @@ public class LRTAStarAgent<A, P, S> implements Agent<A, P> {
 	}
 
 	// function LRTA*-COST(s, a, s', H) returns a cost estimate
-	public double lrtaCost(S s, A a, S sPrime, Map<S, Double> H) {
+	public double lrtaCost(S s, A a, S sPrime, IDictionary<S, Double> H) {
 		// if s' is undefined then return h(s)
 		if (null == sPrime) {
 			return h.applyAsDouble(s);
@@ -125,7 +125,7 @@ public class LRTAStarAgent<A, P, S> implements Agent<A, P> {
 		return identifyStateFunction.apply(percept);
 	}
 
-	public boolean isGoalState(S state) {
+	public bool isGoalState(S state) {
 		return onlineProblem.isGoalState(state);
 	}
 

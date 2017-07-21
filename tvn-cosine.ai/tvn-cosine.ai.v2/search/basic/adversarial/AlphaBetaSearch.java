@@ -1,9 +1,9 @@
 namespace aima.core.search.basic.adversarial;
 
-import java.util.List;
+using java.util.List;
 
-import aima.core.search.api.Game;
-import aima.core.search.api.SearchForAdversarialActionFunction;
+using aima.core.search.api.Game;
+using aima.core.search.api.SearchForAdversarialActionFunction;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): page ???.<br>
@@ -132,7 +132,7 @@ public class AlphaBetaSearch<S, A, P> implements SearchForAdversarialActionFunct
 		return game.result(s, a);
 	}
 
-	public boolean terminalTest(S s) {
+	public bool terminalTest(S s) {
 		return game.isTerminalState(s);
 	}
 

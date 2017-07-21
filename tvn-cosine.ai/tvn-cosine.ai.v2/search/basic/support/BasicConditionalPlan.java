@@ -1,11 +1,11 @@
 namespace aima.core.search.basic.support;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+using java.util.ArrayList;
+using java.util.List;
+using java.util.stream.Collectors;
 
-import aima.core.search.api.ConditionalPlan;
-import aima.core.util.datastructure.Pair;
+using aima.core.search.api.ConditionalPlan;
+using aima.core.util.datastructure.Pair;
 
 /**
  * Basic implementation of a conditional plan.
@@ -168,7 +168,7 @@ public class BasicConditionalPlan<A, S> implements ConditionalPlan<A, S> {
 		}
 
 		 
-		public boolean isConditionedSubPlan() {
+		public bool isConditionedSubPlan() {
 			return true;
 		}
 

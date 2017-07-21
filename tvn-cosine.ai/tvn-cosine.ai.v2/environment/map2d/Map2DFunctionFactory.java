@@ -1,15 +1,15 @@
 namespace aima.core.environment.map2d;
 
-import java.util.Arrays;
-import java.util.function.ToDoubleFunction;
-import java.util.stream.Collectors;
+using java.util.Arrays;
+using java.util.function.ToDoubleFunction;
+using java.util.stream.Collectors;
 
-import aima.core.search.api.ActionsFunction;
-import aima.core.search.api.GoalTestPredicate;
-import aima.core.search.api.Node;
-import aima.core.search.api.ResultFunction;
-import aima.core.search.api.StepCostFunction;
-import aima.core.util.datastructure.Point2D;
+using aima.core.search.api.ActionsFunction;
+using aima.core.search.api.GoalTestPredicate;
+using aima.core.search.api.Node;
+using aima.core.search.api.ResultFunction;
+using aima.core.search.api.StepCostFunction;
+using aima.core.util.datastructure.Point2D;
 
 /**
  * Utility/convenience class for creating Problem description functions for

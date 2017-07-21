@@ -1,13 +1,13 @@
 namespace aima.core.search.basic.support;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+using java.util.ArrayList;
+using java.util.Collections;
+using java.util.LinkedHashMap;
+using java.util.List;
+using java.util.Map;
+using java.util.stream.Collectors;
 
-import aima.core.search.api.Domain;
+using aima.core.search.api.Domain;
 
 /**
  * Basic implementation of the Domain interface.
@@ -16,7 +16,7 @@ import aima.core.search.api.Domain;
  */
 public class BasicDomain implements Domain {
 	// Value, visible (true/false)
-	private Map<Object, Boolean> originalValues = new LinkedHashMap<>();
+	private IDictionary<Object, Boolean> originalValues = new LinkedHashMap<>();
 	// The currently visible values
 	private List<Object> currentValues;
 	private List<Domain.Listener> listeners = new ArrayList<>();
@@ -34,7 +34,7 @@ public class BasicDomain implements Domain {
 	}
 
 	 
-	public boolean delete(Object value) {
+	public bool delete(Object value) {
 		boolean deleted = false;
 		if (originalValues.containsKey(value)) {
 			// If the previous value is visible then we deleted it on this call
@@ -48,7 +48,7 @@ public class BasicDomain implements Domain {
 	}
 
 	 
-	public boolean restore(Object value) {
+	public bool restore(Object value) {
 		boolean restored = false;
 		if (!originalValues.containsKey(value)) {
 			throw new IllegalArgumentException(

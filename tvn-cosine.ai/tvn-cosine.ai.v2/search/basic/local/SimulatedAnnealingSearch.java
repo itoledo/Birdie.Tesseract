@@ -1,12 +1,12 @@
 namespace aima.core.search.basic.local;
 
-import java.util.List;
-import java.util.Random;
-import java.util.function.ToDoubleFunction;
+using java.util.List;
+using java.util.Random;
+using java.util.function.ToDoubleFunction;
 
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForStateFunction;
-import aima.core.search.basic.support.BasicSchedule;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchForStateFunction;
+using aima.core.search.basic.support.BasicSchedule;
 
 /**
  * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.
@@ -114,11 +114,11 @@ public class SimulatedAnnealingSearch<A, S> implements SearchForStateFunction<A,
 		this(stateValueFn, true);
 	}
 
-	public SimulatedAnnealingSearch(ToDoubleFunction<S> stateValueFn, boolean isGradientAscentVersion) {
+	public SimulatedAnnealingSearch(ToDoubleFunction<S> stateValueFn, bool isGradientAscentVersion) {
 		this(stateValueFn, isGradientAscentVersion, new BasicSchedule());
 	}
 
-	public SimulatedAnnealingSearch(ToDoubleFunction<S> stateValueFn, boolean isGradientAscentVersion,
+	public SimulatedAnnealingSearch(ToDoubleFunction<S> stateValueFn, bool isGradientAscentVersion,
 			ToDoubleFunction<Integer> scheduler) {
 		this.stateValueFn = stateValueFn;
 		if (!isGradientAscentVersion) {

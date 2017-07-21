@@ -21,11 +21,11 @@ namespace aima.core.environment.wumpusworld;
  * @authro Anurag Rai
  */
 public class AgentPercept {
-	private boolean stench;
-	private boolean breeze;
-	private boolean glitter;
-	private boolean bump;
-	private boolean scream;
+	private bool stench;
+	private bool breeze;
+	private bool glitter;
+	private bool bump;
+	private bool scream;
 
 	/**
 	 * Default Constructor. All sensor inputs are considered false.
@@ -47,7 +47,7 @@ public class AgentPercept {
 	 * @param bump
 	 * @param scream
 	 */
-	public AgentPercept(boolean stench, boolean breeze, boolean glitter, boolean bump, boolean scream) {
+	public AgentPercept(boolean stench, bool breeze, bool glitter, bool bump, bool scream) {
 		setStench(stench);
 		setBreeze(breeze);
 		setGlitter(glitter);
@@ -55,7 +55,7 @@ public class AgentPercept {
 		setScream(scream);
 	}
 
-	public boolean isStench() {
+	public bool isStench() {
 		return stench;
 	}
 
@@ -63,7 +63,7 @@ public class AgentPercept {
 		this.stench = stench;
 	}
 
-	public boolean isBreeze() {
+	public bool isBreeze() {
 		return breeze;
 	}
 
@@ -71,7 +71,7 @@ public class AgentPercept {
 		this.breeze = breeze;
 	}
 
-	public boolean isGlitter() {
+	public bool isGlitter() {
 		return glitter;
 	}
 
@@ -79,7 +79,7 @@ public class AgentPercept {
 		this.glitter = glitter;
 	}
 
-	public boolean isBump() {
+	public bool isBump() {
 		return bump;
 	}
 
@@ -87,7 +87,7 @@ public class AgentPercept {
 		this.bump = bump;
 	}
 
-	public boolean isScream() {
+	public bool isScream() {
 		return scream;
 	}
 

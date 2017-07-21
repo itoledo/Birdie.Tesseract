@@ -1,22 +1,22 @@
-package aima.test.unit.search.local;
+namespace aima.test.unit.search.local;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.function.ToDoubleFunction;
+using java.util.Arrays;
+using java.util.Collection;
+using java.util.function.ToDoubleFunction;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+using org.junit.Assert;
+using org.junit.Test;
+using org.junit.runner.RunWith;
+using org.junit.runners.Parameterized;
+using org.junit.runners.Parameterized.Parameter;
+using org.junit.runners.Parameterized.Parameters;
 
-import aima.core.environment.support.ProblemFactory;
-import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForStateFunction;
-import aima.core.search.basic.local.HillClimbingSearch;
-import aima.core.util.datastructure.Pair;
-import aima.extra.search.local.HillClimbingSearchWithSidewaysMoves;
+using aima.core.environment.support.ProblemFactory;
+using aima.core.search.api.Problem;
+using aima.core.search.api.SearchForStateFunction;
+using aima.core.search.basic.local.HillClimbingSearch;
+using aima.core.util.datastructure.Pair;
+using aima.extra.search.local.HillClimbingSearchWithSidewaysMoves;
 
 /**
  * @author Ciaran O'Reilly
@@ -31,7 +31,7 @@ public class HillClimbingSearchTest {
 	}
 
 	@Parameter
-	public String searchForStateFunctionName;
+	public string searchForStateFunctionName;
 
 	// The state value function will be represented by the ascii value of the
 	// first character in the state name.
@@ -53,7 +53,7 @@ public class HillClimbingSearchTest {
 		return searchForStateFunction.apply(problem);
 	}
 
-	@Test
+	[TestMethod]
 	public void testReachableGlobalMaximum() {
 		Assert.assertEquals("Z",
 				searchForState(ProblemFactory.getSimpleBinaryTreeProblem("F", "Z"), asciiChar0StateValueFn, true));
@@ -67,7 +67,7 @@ public class HillClimbingSearchTest {
 						.getSecond().intValue());
 	}
 
-	@Test
+	[TestMethod]
 	public void testReachableLocalMaximum() {
 		Assert.assertEquals("O",
 				searchForState(ProblemFactory.getSimpleBinaryTreeProblem("A", "Z"), asciiChar0StateValueFn, true));
@@ -77,7 +77,7 @@ public class HillClimbingSearchTest {
 						.getSecond().intValue());
 	}
 
-	@Test
+	[TestMethod]
 	public void testNoSuccessors() {
 		Assert.assertEquals("P",
 				searchForState(ProblemFactory.getSimpleBinaryTreeProblem("P", "Z"), asciiChar0StateValueFn, true));
@@ -89,7 +89,7 @@ public class HillClimbingSearchTest {
 						.getSecond().intValue());
 	}
 	
-	@Test
+	[TestMethod]
 	public void testSidewaysMoves() {
 		if ("HillClimbingSearch".equals(searchForStateFunctionName)) {
 			// Not supported by simple example implementation

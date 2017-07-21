@@ -1,10 +1,10 @@
 namespace aima.core.search.basic.support;
 
-import java.util.function.ToDoubleFunction;
+using java.util.function.ToDoubleFunction;
 
-import aima.core.search.api.Node;
-import aima.core.search.api.NodeFactory;
-import aima.core.search.api.Problem;
+using aima.core.search.api.Node;
+using aima.core.search.api.NodeFactory;
+using aima.core.search.api.Problem;
 
 /**
  * Basic implementation of the NodeFactory interface.

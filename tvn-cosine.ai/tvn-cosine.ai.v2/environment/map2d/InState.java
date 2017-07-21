@@ -12,7 +12,7 @@ public class InState {
 	}
 
 	 
-	public boolean equals(Object obj) {
+	public bool equals(Object obj) {
 		if (obj != null && obj is InState) {
 			return this.getLocation().Equals(((InState) obj).getLocation());
 		}

@@ -1,7 +1,7 @@
 namespace aima.core.search.api;
 
-import java.util.Iterator;
-import java.util.List;
+using java.util.Iterator;
+using java.util.List;
 
 /**
  * A constraint consists of a pair <scope, rel>, where scope is a tuple of
@@ -47,7 +47,7 @@ public interface Constraint {
 	 * 
 	 * @return true if a unary constraint, false otherwise.
 	 */
-	default boolean isUnary() {
+	default bool isUnary() {
 		return getScope().size() == 1;
 	}
 	
@@ -55,7 +55,7 @@ public interface Constraint {
 	 * 
 	 * @return true if a binary constraint, false otherwise.
 	 */
-	default boolean isBinary() {
+	default bool isBinary() {
 		return getScope().size() == 2;
 	}
 }

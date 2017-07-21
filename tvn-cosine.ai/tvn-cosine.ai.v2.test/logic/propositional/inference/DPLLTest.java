@@ -1,29 +1,29 @@
-package aima.test.unit.logic.propositional.inference;
+namespace aima.test.unit.logic.propositional.inference;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.Arrays;
+using java.util.Collection;
+using java.util.List;
+using java.util.Set;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+using org.junit.Assert;
+using org.junit.Test;
+using org.junit.runner.RunWith;
+using org.junit.runners.Parameterized;
+using org.junit.runners.Parameterized.Parameters;
 
-import aima.core.logic.api.propositional.DPLL;
-import aima.core.logic.basic.propositional.inference.DPLLSatisfiable;
-import aima.core.logic.basic.propositional.inference.OptimizedDPLL;
-import aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.Model;
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
-import aima.core.logic.basic.propositional.visitors.SymbolCollector;
-import aima.extra.logic.propositional.parser.PLParserWrapper;
+using aima.core.logic.api.propositional.DPLL;
+using aima.core.logic.basic.propositional.inference.DPLLSatisfiable;
+using aima.core.logic.basic.propositional.inference.OptimizedDPLL;
+using aima.core.logic.basic.propositional.kb.BasicKnowledgeBase;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.Model;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
+using aima.core.logic.basic.propositional.visitors.SymbolCollector;
+using aima.extra.logic.propositional.parser.PLParserWrapper;
 
 /**
  * @author Ravi Mohan
@@ -48,7 +48,7 @@ public class DPLLTest {
 		this.parser = new PLParserWrapper();
 	}
 
-	@Test
+	[TestMethod]
 	public void testDPLLReturnsTrueWhenAllClausesTrueInModel() {
 		Model model = new Model();
 		model = model.union(new PropositionSymbol("A"), true).union(
@@ -63,7 +63,7 @@ public class DPLLTest {
 		Assert.assertEquals(true, satisfiable);
 	}
 
-	@Test
+	[TestMethod]
 	public void testDPLLReturnsFalseWhenOneClauseFalseInModel() {
 		Model model = new Model();
 		model = model.union(new PropositionSymbol("A"), true).union(
@@ -78,14 +78,14 @@ public class DPLLTest {
 		Assert.assertEquals(false, satisfiable);
 	}
 
-	@Test
+	[TestMethod]
 	public void testDPLLSucceedsWithAandNotA() {
 		Sentence sentence = parser.parse("A & ~A");
 		boolean satisfiable = dpll.dpllSatisfiable(sentence);
 		Assert.assertEquals(false, satisfiable);
 	}
 
-	@Test
+	[TestMethod]
 	public void testDPLLSucceedsWithChadCarffsBugReport() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 
@@ -102,13 +102,13 @@ public class DPLLTest {
 		Assert.assertFalse(dpll.isEntailed(kb, parser.parse("~P00")));
 	}
 
-	@Test
+	[TestMethod]
 	public void testDPLLSucceedsWithStackOverflowBugReport1() {
 		Sentence sentence = (Sentence) parser.parse("(A | ~A) & (A | B)");
 		Assert.assertTrue(dpll.dpllSatisfiable(sentence));
 	}
 
-	@Test
+	[TestMethod]
 	public void testDPLLSucceedsWithChadCarffsBugReport2() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("B10 <=> P11 | P20 | P00");
@@ -124,7 +124,7 @@ public class DPLLTest {
 		Assert.assertFalse(dpll.isEntailed(kb, parser.parse("~P00")));
 	}
 
-	@Test
+	[TestMethod]
 	public void testIssue66() {
 		// http://code.google.com/p/aima-java/issues/detail?id=66
 		Model model = new Model();
@@ -141,7 +141,7 @@ public class DPLLTest {
 		Assert.assertEquals(true, satisfiable);
 	}
 
-	@Test
+	[TestMethod]
 	public void testDoesNotKnow() {
 		BasicKnowledgeBase kb = new BasicKnowledgeBase(new PLParserWrapper());
 		kb.tell("A");

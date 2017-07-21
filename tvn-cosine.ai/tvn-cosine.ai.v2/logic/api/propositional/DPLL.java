@@ -1,20 +1,20 @@
 namespace aima.core.logic.api.propositional;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+using java.util.ArrayList;
+using java.util.LinkedHashSet;
+using java.util.List;
+using java.util.Set;
 
-import aima.core.logic.api.propositional.KnowledgeBase;
-import aima.core.logic.basic.propositional.kb.data.Clause;
-import aima.core.logic.basic.propositional.kb.data.Model;
-import aima.core.logic.basic.propositional.parsing.PLParser;
-import aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
-import aima.core.logic.basic.propositional.parsing.ast.Connective;
-import aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
-import aima.core.logic.basic.propositional.parsing.ast.Sentence;
-import aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
-import aima.core.logic.basic.propositional.visitors.SymbolCollector;
+using aima.core.logic.api.propositional.KnowledgeBase;
+using aima.core.logic.basic.propositional.kb.data.Clause;
+using aima.core.logic.basic.propositional.kb.data.Model;
+using aima.core.logic.basic.propositional.parsing.PLParser;
+using aima.core.logic.basic.propositional.parsing.ast.ComplexSentence;
+using aima.core.logic.basic.propositional.parsing.ast.Connective;
+using aima.core.logic.basic.propositional.parsing.ast.PropositionSymbol;
+using aima.core.logic.basic.propositional.parsing.ast.Sentence;
+using aima.core.logic.basic.propositional.visitors.ConvertToConjunctionOfClauses;
+using aima.core.logic.basic.propositional.visitors.SymbolCollector;
 
 /**
  * Interface describing main API of the DPLL algorithm as described in Figure
@@ -38,7 +38,7 @@ public interface DPLL {
 	 *            a string representing a sentence in propositional logic.
 	 * @return true if the sentence is satisfiable, false otherwise.
 	 */
-	default boolean dpllSatisfiable(String s, PLParser plparser) {
+	default bool dpllSatisfiable(String s, PLParser plparser) {
 		PLParser parser = plparser;
 		Sentence sentence = parser.parse(s);
 		return dpllSatisfiable(sentence);
@@ -77,7 +77,7 @@ public interface DPLL {
 	 *            a propositional sentence.
 	 * @return true, if &alpha; is entailed by KB, false otherwise.
 	 */
-	default boolean isEntailed(KnowledgeBase kb, Sentence alpha) {
+	default bool isEntailed(KnowledgeBase kb, Sentence alpha) {
 		// AIMA4e p.g. ???: kb |= alpha, can be done by testing
 		// unsatisfiability of kb & ~alpha.
 		
@@ -85,9 +85,9 @@ public interface DPLL {
 		Sentence queryKbAndNotAlpha = new ComplexSentence(Connective.AND,
 						kb.asSentence(), new ComplexSentence(Connective.NOT, alpha));
 		
-		Set<Clause> kbAndNotAlpha = new LinkedHashSet<Clause>(
+		Set<Clause> kbAndNotAlpha = new HashSet<Clause>(
 						ConvertToConjunctionOfClauses.convert(queryKbAndNotAlpha).getClauses());
-		Set<PropositionSymbol>  symbols       = new LinkedHashSet<PropositionSymbol>(
+		Set<PropositionSymbol>  symbols       = new HashSet<PropositionSymbol>(
 						SymbolCollector.getSymbolsFrom(queryKbAndNotAlpha));
 
 		return !dpll(kbAndNotAlpha, new ArrayList<PropositionSymbol>(symbols), new Model());

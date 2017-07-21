@@ -1,12 +1,12 @@
 namespace aima.core.util;
 
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Consumer;
+using java.util.Iterator;
+using java.util.LinkedHashSet;
+using java.util.List;
+using java.util.Set;
+using java.util.function.Consumer;
 
-import aima.core.util.collect.CartesianProduct;
+using aima.core.util.collect.CartesianProduct;
 
 /**
  * @author Ravi Mohan
@@ -44,8 +44,8 @@ public class Util {
 	 * @return a Set of the provided values.
 	 */
 	@SafeVarargs
-	public static <V> Set<V> createSet(V... values) {
-		Set<V> set = new LinkedHashSet<V>();
+	public static <V> ISet<V> createSet(V... values) {
+		Set<V> set = new HashSet<V>();
 
 		for (V v : values) {
 			set.add(v);
@@ -55,7 +55,7 @@ public class Util {
 	}
 
 	public static double[] normalize(double[] probDist) {
-		int len = probDist.length;
+		int len = probDist.Length;
 		double total = 0.0;
 		for (double d : probDist) {
 			total = total + d;

@@ -1,15 +1,15 @@
 namespace aima.core.logic.basic.firstorder.parsing;
 
-import java.util.HashSet;
-import java.util.Set;
+using java.util.HashSet;
+using java.util.Set;
 
-import aima.core.logic.basic.firstorder.Connectors;
-import aima.core.logic.basic.firstorder.Quantifiers;
-import aima.core.logic.basic.firstorder.domain.FOLDomain;
-import aima.core.logic.basic.common.Lexer;
-import aima.core.logic.basic.common.LexerException;
-import aima.core.logic.basic.common.LogicTokenTypes;
-import aima.core.logic.basic.common.Token;
+using aima.core.logic.basic.firstorder.Connectors;
+using aima.core.logic.basic.firstorder.Quantifiers;
+using aima.core.logic.basic.firstorder.domain.FOLDomain;
+using aima.core.logic.basic.common.Lexer;
+using aima.core.logic.basic.common.LexerException;
+using aima.core.logic.basic.common.LogicTokenTypes;
+using aima.core.logic.basic.common.Token;
 
 /**
  * @author Ciaran O'Reilly
@@ -18,7 +18,7 @@ import aima.core.logic.basic.common.Token;
  */
 public class FOLLexer extends Lexer {
 	private FOLDomain domain;
-	private Set<String> connectors, quantifiers;
+	private ISet<String> connectors, quantifiers;
 
 	public FOLLexer(FOLDomain domain) {
 		this.domain = domain;
@@ -99,15 +99,15 @@ public class FOLLexer extends Lexer {
 		}
 	}
 
-	private boolean isVariable(String s) {
+	private bool isVariable(String s) {
 		return (Character.isLowerCase(s.charAt(0)));
 	}
 
-	private boolean identifierDetected() {
+	private bool identifierDetected() {
 		return (Character.isJavaIdentifierStart(lookAhead(1))) || partOfConnector();
 	}
 
-	private boolean partOfConnector() {
+	private bool partOfConnector() {
 		return (lookAhead(1) == '=') || (lookAhead(1) == '<')
 				|| (lookAhead(1) == '>' || (lookAhead(1) == '&') || (lookAhead(1) == '|') || (lookAhead(1) == '~'));
 	}

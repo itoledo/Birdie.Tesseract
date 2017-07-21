@@ -1,15 +1,15 @@
 namespace aima.core.search.basic.support;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
+using java.util.ArrayList;
+using java.util.List;
+using java.util.Map;
+using java.util.Set;
+using java.util.concurrent.atomic.AtomicInteger;
 
-import aima.core.search.api.Assignment;
-import aima.core.search.api.CSP;
-import aima.core.search.api.Constraint;
-import aima.core.util.Util;
+using aima.core.search.api.Assignment;
+using aima.core.search.api.CSP;
+using aima.core.search.api.Constraint;
+using aima.core.util.Util;
 
 /**
  * Some basic utility routines for CSPs.

@@ -1,17 +1,17 @@
-package aima.test.unit.search.basic;
+namespace aima.test.unit.search.basic;
 
-import java.util.ArrayList;
-import java.util.List;
+using java.util.ArrayList;
+using java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+using org.junit.Assert;
+using org.junit.Test;
 
-import aima.core.search.api.ConditionalPlan;
-import aima.core.search.basic.support.BasicConditionalPlan;
-import aima.core.util.datastructure.Pair;
+using aima.core.search.api.ConditionalPlan;
+using aima.core.search.basic.support.BasicConditionalPlan;
+using aima.core.util.datastructure.Pair;
 
 public class BasicConditionalPlanTest {
-	@Test
+	[TestMethod]
 	public void testBasicConfitionalPlan() {
 		BasicConditionalPlan<String, Integer> cp = new BasicConditionalPlan<>();
 		Assert.assertEquals("[]", cp.toString());

@@ -1,7 +1,7 @@
 namespace aima.core.logic.basic.common;
 
-import java.io.Reader;
-import java.io.StringReader;
+using java.io.Reader;
+using java.io.StringReader;
 
 /**
  * An abstract base class for constructing parsers for knowledge representation
@@ -143,7 +143,7 @@ public abstract class Parser<S> {
 	/*
 	 * Returns true if the end of the stream has been reached.
 	 */
-	private boolean isEndOfInput(Token t) {
+	private bool isEndOfInput(Token t) {
 		return (t == null || t.getType() == LogicTokenTypes.EOI);
 	}
 }

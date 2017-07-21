@@ -1,11 +1,11 @@
 namespace aima.core.environment.map2d;
 
-import java.util.Map;
+using java.util.Map;
 
-import aima.core.util.datastructure.Point2D;
+using aima.core.util.datastructure.Point2D;
 
-import java.util.LinkedHashMap;
-import java.util.List;
+using java.util.LinkedHashMap;
+using java.util.List;
 
 /**
  * Implements a Map2D with locations, distance labeled links between the
@@ -26,7 +26,7 @@ public class ExtendableMap2D implements Map2D {
 	private readonly LabeledGraph<String, Double> links;
 
 	/** Stores xy-coordinates for each location. */
-	private readonly Map<String, Point2D> locationPositions;
+	private readonly IDictionary<String, Point2D> locationPositions;
 
 	/** Default constructor. Creates an empty map. */
 	public ExtendableMap2D() {

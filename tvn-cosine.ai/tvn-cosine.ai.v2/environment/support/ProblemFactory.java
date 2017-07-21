@@ -1,38 +1,38 @@
 namespace aima.core.environment.support;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.stream.IntStream;
+using java.util.ArrayList;
+using java.util.Arrays;
+using java.util.Collections;
+using java.util.HashMap;
+using java.util.HashSet;
+using java.util.LinkedHashSet;
+using java.util.LinkedList;
+using java.util.List;
+using java.util.Map;
+using java.util.Queue;
+using java.util.Set;
+using java.util.stream.IntStream;
 
-import aima.core.environment.map2d.GoAction;
-import aima.core.environment.map2d.InState;
-import aima.core.environment.map2d.Map2DFunctionFactory;
-import aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania;
-import aima.core.environment.vacuum.VELocalState;
-import aima.core.environment.vacuum.VEWorldState;
-import aima.core.environment.vacuum.VacuumEnvironment;
-import aima.core.search.api.ActionsFunction;
-import aima.core.search.api.GoalTestPredicate;
-import aima.core.search.api.Problem;
-import aima.core.search.api.ResultFunction;
-import aima.core.search.basic.support.BasicProblem;
-import aima.core.util.datastructure.Pair;
+using aima.core.environment.map2d.GoAction;
+using aima.core.environment.map2d.InState;
+using aima.core.environment.map2d.Map2DFunctionFactory;
+using aima.core.environment.map2d.SimplifiedRoadMapOfPartOfRomania;
+using aima.core.environment.vacuum.VELocalState;
+using aima.core.environment.vacuum.VEWorldState;
+using aima.core.environment.vacuum.VacuumEnvironment;
+using aima.core.search.api.ActionsFunction;
+using aima.core.search.api.GoalTestPredicate;
+using aima.core.search.api.Problem;
+using aima.core.search.api.ResultFunction;
+using aima.core.search.basic.support.BasicProblem;
+using aima.core.util.datastructure.Pair;
 
 public class ProblemFactory {
 
 	public static Problem<GoAction, InState> getSimplifiedRoadMapOfPartOfRomaniaProblem(String initialState,
 																						final String... goalLocations) {
 		final SimplifiedRoadMapOfPartOfRomania simplifidRoadMapOfPartOfRomania = new SimplifiedRoadMapOfPartOfRomania();
-		final Set<String> locationSet = new HashSet<>(simplifidRoadMapOfPartOfRomania.getLocations());
+		final ISet<String> locationSet = new HashSet<>(simplifidRoadMapOfPartOfRomania.getLocations());
 		if (!locationSet.contains(initialState)) {
 			throw new IllegalArgumentException(
 					"Initial State " + initialState + " is not a member of the state space.");
@@ -53,7 +53,7 @@ public class ProblemFactory {
 
 	public static Pair<Problem<GoAction, InState>, Problem<GoAction, InState>> getSimpleBidirectionalSearchProblem(String initialState, final String goalLocation) {
 		final SimplifiedRoadMapOfPartOfRomania simplifidRoadMapOfPartOfRomania = new SimplifiedRoadMapOfPartOfRomania();
-		final Set<String> locationSet = new HashSet<>(simplifidRoadMapOfPartOfRomania.getLocations());
+		final ISet<String> locationSet = new HashSet<>(simplifidRoadMapOfPartOfRomania.getLocations());
 		if (!locationSet.contains(initialState)) {
 			throw new IllegalArgumentException(
 					"Initial State " + initialState + " is not a member of the state space.");
@@ -102,7 +102,7 @@ public class ProblemFactory {
 
 	public static Problem<String, String> getSimpleBinaryTreeProblem(String initialState, List<String> states,
 			final String... goalStates) {
-		Set<String> stateSet = new LinkedHashSet<>(states);
+		Set<String> stateSet = new HashSet<>(states);
 		if (stateSet.size() != states.size()) {
 			throw new IllegalArgumentException("States provided contain duplicates");
 		}
@@ -115,7 +115,7 @@ public class ProblemFactory {
 				throw new IllegalArgumentException("Goal State " + goalState + " is not a member of the state space.");
 			}
 		}
-		final Map<String, List<String>> simpleBinaryTreeStateSpace = new HashMap<>();
+		final IDictionary<String, List<String>> simpleBinaryTreeStateSpace = new HashMap<>();
 		Queue<String> children = new LinkedList<>(states.subList(1, states.size()));
 		for (int i = 0; i < states.size(); i++) {
 			String node = states.get(i);
@@ -193,19 +193,19 @@ public class ProblemFactory {
 	 *         AIMA3e.
 	 */
 	public static Problem<String, Pair<Integer, Integer>> getDefaultSimpleDiscreteFunctionProblem(
-			int xInitialStateValue, boolean goalIsGlobalMaximum) {
+			int xInitialStateValue, bool goalIsGlobalMaximum) {
 		return getSimpleDiscreteFunctionProblem(xInitialStateValue, DEFAULT_DISCRETE_FUNCTION_DEPENDENT_VALUES,
 				goalIsGlobalMaximum);
 	}
 
 	public static Problem<String, Pair<Integer, Integer>> getSimpleDiscreteFunctionProblem(int xInitialStateValue,
-			final int[] dependentValues, boolean goalIsGlobalMaximum) {
-		if (xInitialStateValue < 0 || xInitialStateValue >= dependentValues.length) {
+			final int[] dependentValues, bool goalIsGlobalMaximum) {
+		if (xInitialStateValue < 0 || xInitialStateValue >= dependentValues.Length) {
 			throw new IllegalArgumentException(
-					"x initial value is outside legal range of [0, " + (dependentValues.length - 1) + "]");
+					"x initial value is outside legal range of [0, " + (dependentValues.Length - 1) + "]");
 		}
 		final List<Pair<Integer, Integer>> x_y_functionTable = new ArrayList<>();
-		for (int x = 0; x < dependentValues.length; x++) {
+		for (int x = 0; x < dependentValues.Length; x++) {
 			x_y_functionTable.add(new Pair<>(x, dependentValues[x]));
 		}
 		final Pair<Integer, Integer> initialState = x_y_functionTable.get(xInitialStateValue);
