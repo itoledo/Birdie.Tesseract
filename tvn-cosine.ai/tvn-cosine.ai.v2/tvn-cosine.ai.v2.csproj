@@ -46,6 +46,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="agent\api\Agent.java" />
+    <Content Include="agent\api\Rule.java" />
     <Content Include="agent\basic\KBAgent.java" />
     <Content Include="agent\basic\LRTAStarAgent.java" />
     <Content Include="agent\basic\ModelBasedReflexAgent.java" />
