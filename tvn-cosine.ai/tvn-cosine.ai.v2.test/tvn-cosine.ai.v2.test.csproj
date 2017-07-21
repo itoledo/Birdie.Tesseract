@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A111DF9B-D56C-44E5-92C4-9998DA5DEF79}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>tvn_cosine.ai.v2.test</RootNamespace>
+    <AssemblyName>tvn-cosine.ai.v2.test</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="agent\LRTAStarAgentTest.java" />
+    <Content Include="agent\ModelBasedReflexAgentTest.java" />
+    <Content Include="agent\OnlineDFSAgentTest.java" />
+    <Content Include="agent\SimpleProblemSolvingAgentTest.java" />
+    <Content Include="agent\SimpleReflexAgentTest.java" />
+    <Content Include="agent\support\TestPercept.java" />
+    <Content Include="agent\support\TestState.java" />
+    <Content Include="agent\TableDrivenAgentTest.java" />
+    <Content Include="environment\vacuum\ReflexVacuumAgentTest.java" />
+    <Content Include="environment\vacuum\TableDrivenVacuumAgentTest.java" />
+    <Content Include="environment\wumpusworld\HybridWumpusAgentTest.java" />
+    <Content Include="environment\wumpusworld\WumpusFunctionFactoryTest.java" />
+    <Content Include="environment\wumpusworld\WumpusKnowledgeBaseTest.java" />
+    <Content Include="logic\firstorder\parsing\FOLLexerTest.java" />
+    <Content Include="logic\firstorder\parsing\FOLParserTest.java" />
+    <Content Include="logic\firstorder\SubstVisitorTest.java" />
+    <Content Include="logic\firstorder\UnifierTest.java" />
+    <Content Include="logic\propositional\inference\DPLLTest.java" />
+    <Content Include="logic\propositional\inference\PLFCEntailsTest.java" />
+    <Content Include="logic\propositional\inference\PLResolutionTest.java" />
+    <Content Include="logic\propositional\inference\TTEntailsTest.java" />
+    <Content Include="logic\propositional\kb\BasicKnowledgeBaseTest.java" />
+    <Content Include="logic\propositional\kb\data\ClauseTest.java" />
+    <Content Include="logic\propositional\kb\data\ConvertToConjunctionOfClausesTest.java" />
+    <Content Include="logic\propositional\kb\data\LiteralTest.java" />
+    <Content Include="logic\propositional\kb\data\ModelTest.java" />
+    <Content Include="logic\propositional\parsing\AntlrParserTest.java" />
+    <Content Include="logic\propositional\parsing\ComplexSentenceTest.java" />
+    <Content Include="logic\propositional\parsing\ExceptionThrowingErrorHandler.java" />
+    <Content Include="logic\propositional\parsing\ExceptionThrowingErrorListener.java" />
+    <Content Include="logic\propositional\parsing\PropositionSymbolTest.java" />
+    <Content Include="logic\propositional\visitors\ConvertToCNFTest.java" />
+    <Content Include="logic\propositional\visitors\SymbolCollectorTest.java" />
+    <Content Include="probability\BigDecimalTypeTest.java" />
+    <Content Include="probability\DoubleTypeTest.java" />
+    <Content Include="probability\LogTypeTest.java" />
+    <Content Include="probability\RationalTypeTest.java" />
+    <Content Include="search\adversarial\SearchForAdversarialActionFunctionTest.java" />
+    <Content Include="search\basic\BasicConditionalPlanTest.java" />
+    <Content Include="search\contingency\AndOrGraphSearchTest.java" />
+    <Content Include="search\csp\AC3Test.java" />
+    <Content Include="search\csp\BacktrackingSearchTest.java" />
+    <Content Include="search\csp\MinConflictsTest.java" />
+    <Content Include="search\csp\TreeCSPSolverTest.java" />
+    <Content Include="search\informed\InformedSearchTest.java" />
+    <Content Include="search\local\HillClimbingSearchTest.java" />
+    <Content Include="search\local\SimulatedAnnealingTest.java" />
+    <Content Include="search\support\BasicBidirectionalSearchResultTest.java" />
+    <Content Include="search\uninformed\BidirectionalSearchTest.java" />
+    <Content Include="search\uninformed\BreadthFirstSearchTest.java" />
+    <Content Include="search\uninformed\UniformCostSearchTest.java" />
+    <Content Include="util\collect\CartesianProductTest.java" />
+    <Content Include="util\math\MixedRadixIntervalTest.java" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+    <Folder Include="bin\Release\" />
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
