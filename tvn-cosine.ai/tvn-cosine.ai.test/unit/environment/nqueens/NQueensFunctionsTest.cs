@@ -25,29 +25,29 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
             eightBoard = new NQueensBoard(8);
             board = new NQueensBoard(8);
 
-            actionsFn = NQueensFunctions.getIFActions;
-            resultFn = NQueensFunctions.getResult;
+            actionsFn = NQueensFunctions.getIFActionsFunction();
+            resultFn = NQueensFunctions.getResultFunction();
             goalTest = NQueensFunctions.testGoal;
         }
 
         [TestMethod]
         public void testSimpleBoardSuccessorGenerator()
         {
-            IQueue<QueenAction> actions = Factory.CreateQueue<QueenAction>(actionsFn(oneBoard));
+            IQueue<QueenAction> actions = Factory.CreateQueue<QueenAction>(actionsFn.apply(oneBoard));
             Assert.AreEqual(1, actions.Size());
-            NQueensBoard next = resultFn(oneBoard, actions.Get(0));
+            NQueensBoard next = resultFn.apply(oneBoard, actions.Get(0));
             Assert.AreEqual(1, next.getNumberOfQueensOnBoard());
         }
 
         [TestMethod]
         public void testComplexBoardSuccessorGenerator()
         {
-            IQueue<QueenAction> actions = Factory.CreateQueue<QueenAction>(actionsFn(eightBoard));
+            IQueue<QueenAction> actions = Factory.CreateQueue<QueenAction>(actionsFn.apply(eightBoard));
             Assert.AreEqual(8, actions.Size());
-            NQueensBoard next = resultFn(eightBoard, actions.Get(0));
+            NQueensBoard next = resultFn.apply(eightBoard, actions.Get(0));
             Assert.AreEqual(1, next.getNumberOfQueensOnBoard());
 
-            actions = Factory.CreateQueue<QueenAction>(actionsFn(next));
+            actions = Factory.CreateQueue<QueenAction>(actionsFn.apply(next));
             Assert.AreEqual(6, actions.Size());
         }
 

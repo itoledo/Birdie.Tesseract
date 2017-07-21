@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.nondeterministic;
 
 namespace tvn.cosine.ai.environment.vacuum
@@ -25,17 +26,25 @@ namespace tvn.cosine.ai.environment.vacuum
             return (VacuumEnvironmentState)p;
         }
 
+        public class ActionsFunction : ActionsFunction<VacuumEnvironmentState, IAction>
+        {
+            public IQueue<IAction> apply(VacuumEnvironmentState state)
+            {
+                IQueue<IAction> actions = Factory.CreateQueue<IAction>();
+                actions.Add(VacuumEnvironment.ACTION_SUCK);
+                actions.Add(VacuumEnvironment.ACTION_MOVE_LEFT);
+                actions.Add(VacuumEnvironment.ACTION_MOVE_RIGHT);
+                // Ensure cannot be modified.
+                return Factory.CreateReadOnlyQueue<IAction>(actions);
+            }
+        }
+
         /**
          * Specifies the actions available to the agent at state s
          */
-        public static IQueue<IAction> getActions(object state)
+        public static ActionsFunction<VacuumEnvironmentState, IAction> getActionsFunction()
         {
-            IQueue<IAction> actions = Factory.CreateQueue<IAction>();
-            actions.Add(VacuumEnvironment.ACTION_SUCK);
-            actions.Add(VacuumEnvironment.ACTION_MOVE_LEFT);
-            actions.Add(VacuumEnvironment.ACTION_MOVE_RIGHT);
-            // Ensure cannot be modified.
-            return Factory.CreateReadOnlyQueue<IAction>(actions);
+            return new ActionsFunction();
         }
 
         public static bool testGoal(VacuumEnvironmentState state)

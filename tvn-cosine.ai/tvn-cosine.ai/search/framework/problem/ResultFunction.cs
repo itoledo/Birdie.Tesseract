@@ -13,6 +13,8 @@
      *
      * @author Ruediger Lunde
      */
-    public delegate S ResultFunction<S, A>(S s, A a);
-
+    public interface ResultFunction<S, A>
+    {
+        S apply(S state, A action);
+    }
 }

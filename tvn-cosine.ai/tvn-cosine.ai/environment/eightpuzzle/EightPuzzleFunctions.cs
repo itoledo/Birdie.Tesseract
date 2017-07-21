@@ -1,7 +1,9 @@
-﻿using tvn.cosine.ai.agent;
+﻿using System;
+using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.environment.eightpuzzle
@@ -10,35 +12,51 @@ namespace tvn.cosine.ai.environment.eightpuzzle
     {
         public static readonly EightPuzzleBoard GOAL_STATE = new EightPuzzleBoard(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
 
-        public static IQueue<IAction> getActions(EightPuzzleBoard state)
+        public class ActionsFunctions : ActionsFunction<EightPuzzleBoard, IAction>
         {
-            IQueue<IAction> actions = Factory.CreateQueue<IAction>();
+            public IQueue<IAction> apply(EightPuzzleBoard state)
+            {
+                IQueue<IAction> actions = Factory.CreateQueue<IAction>();
 
-            if (state.canMoveGap(EightPuzzleBoard.UP))
-                actions.Add(EightPuzzleBoard.UP);
-            if (state.canMoveGap(EightPuzzleBoard.DOWN))
-                actions.Add(EightPuzzleBoard.DOWN);
-            if (state.canMoveGap(EightPuzzleBoard.LEFT))
-                actions.Add(EightPuzzleBoard.LEFT);
-            if (state.canMoveGap(EightPuzzleBoard.RIGHT))
-                actions.Add(EightPuzzleBoard.RIGHT);
+                if (state.canMoveGap(EightPuzzleBoard.UP))
+                    actions.Add(EightPuzzleBoard.UP);
+                if (state.canMoveGap(EightPuzzleBoard.DOWN))
+                    actions.Add(EightPuzzleBoard.DOWN);
+                if (state.canMoveGap(EightPuzzleBoard.LEFT))
+                    actions.Add(EightPuzzleBoard.LEFT);
+                if (state.canMoveGap(EightPuzzleBoard.RIGHT))
+                    actions.Add(EightPuzzleBoard.RIGHT);
 
-            return actions;
+                return actions;
+            }
         }
 
-        public static EightPuzzleBoard getResult(EightPuzzleBoard state, IAction action)
+        public static ActionsFunction<EightPuzzleBoard, IAction> getActionsFunction()
         {
-            EightPuzzleBoard result = new EightPuzzleBoard(state);
+            return new ActionsFunctions();
+        }
 
-            if (EightPuzzleBoard.UP.Equals(action) && state.canMoveGap(EightPuzzleBoard.UP))
-                result.moveGapUp();
-            else if (EightPuzzleBoard.DOWN.Equals(action) && state.canMoveGap(EightPuzzleBoard.DOWN))
-                result.moveGapDown();
-            else if (EightPuzzleBoard.LEFT.Equals(action) && state.canMoveGap(EightPuzzleBoard.LEFT))
-                result.moveGapLeft();
-            else if (EightPuzzleBoard.RIGHT.Equals(action) && state.canMoveGap(EightPuzzleBoard.RIGHT))
-                result.moveGapRight();
-            return result;
+        public class ResutsFunction : ResultFunction<EightPuzzleBoard, IAction>
+        {
+            public EightPuzzleBoard apply(EightPuzzleBoard state, IAction action)
+            {
+                EightPuzzleBoard result = new EightPuzzleBoard(state);
+
+                if (EightPuzzleBoard.UP.Equals(action) && state.canMoveGap(EightPuzzleBoard.UP))
+                    result.moveGapUp();
+                else if (EightPuzzleBoard.DOWN.Equals(action) && state.canMoveGap(EightPuzzleBoard.DOWN))
+                    result.moveGapDown();
+                else if (EightPuzzleBoard.LEFT.Equals(action) && state.canMoveGap(EightPuzzleBoard.LEFT))
+                    result.moveGapLeft();
+                else if (EightPuzzleBoard.RIGHT.Equals(action) && state.canMoveGap(EightPuzzleBoard.RIGHT))
+                    result.moveGapRight();
+                return result;
+            }
+        }
+
+        public static ResutsFunction getResultFunction()
+        {
+            return new ResutsFunction();
         }
 
         public static ToDoubleFunction<Node<EightPuzzleBoard, IAction>> createManhattanHeuristicFunction()
@@ -58,7 +76,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             {
                 EightPuzzleBoard board = node.getState();
                 int retVal = 0;
-                for (int i = 1; i < 9;++i)
+                for (int i = 1; i < 9; ++i)
                 {
                     XYLocation loc = board.getLocationOf(i);
                     retVal += evaluateManhattanDistanceOf(i, loc);

@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using System;
+using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.environment.wumpusworld
@@ -10,10 +11,16 @@ namespace tvn.cosine.ai.environment.wumpusworld
      */
     public class WumpusFunctions
     {
-
-        public static ActionsFunction<AgentPosition, WumpusAction> createActionsFunction(WumpusCave cave)
+        public class ActionsFunction : ActionsFunction<AgentPosition, WumpusAction>
         {
-            return (state) =>
+            private WumpusCave cave;
+
+            public ActionsFunction(WumpusCave cave)
+            {
+                this.cave = cave;
+            }
+
+            public IQueue<WumpusAction> apply(AgentPosition state)
             {
                 IQueue<WumpusAction> actions = Factory.CreateQueue<WumpusAction>();
 
@@ -25,12 +32,24 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 actions.Add(WumpusAction.TURN_RIGHT);
 
                 return actions;
-            };
+            }
         }
 
-        public static ResultFunction<AgentPosition, WumpusAction> createResultFunction(WumpusCave cave)
+        public static ActionsFunction<AgentPosition, WumpusAction> createActionsFunction(WumpusCave cave)
         {
-            return (state, action) =>
+            return new ActionsFunction(cave);
+        }
+
+        public class ResultFunction : ResultFunction<AgentPosition, WumpusAction>
+        {
+            private WumpusCave cave;
+
+            public ResultFunction(WumpusCave cave)
+            {
+                this.cave = cave;
+            }
+
+            public AgentPosition apply(AgentPosition state, WumpusAction action)
             {
                 AgentPosition result = state;
                 if (action == WumpusAction.FORWARD)
@@ -46,7 +65,12 @@ namespace tvn.cosine.ai.environment.wumpusworld
                     result = cave.turnRight(state);
                 }
                 return result;
-            };
+            }
+        }
+
+        public static ResultFunction<AgentPosition, WumpusAction> createResultFunction(WumpusCave cave)
+        {
+            return new ResultFunction(cave);
         } 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.environment.vacuum;
+using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.nondeterministic;
 
 namespace tvn_cosine.ai.demo.agent
@@ -31,14 +32,15 @@ namespace tvn_cosine.ai.demo.agent
             state.setLocationState(VacuumEnvironment.LOCATION_B, VacuumEnvironment.LocationState.Dirty);
             state.setAgentLocation(agent, VacuumEnvironment.LOCATION_A);
             // create problem
-            NondeterministicProblem<VacuumEnvironmentState, IAction> problem = new NondeterministicProblem<VacuumEnvironmentState, IAction>(
+            NondeterministicProblem<VacuumEnvironmentState, IAction> problem
+                = new NondeterministicProblem<VacuumEnvironmentState, IAction>(
                     state,
-                    VacuumWorldFunctions.getActions,
+                    VacuumWorldFunctions.getActionsFunction(),
                     VacuumWorldFunctions.createResultsFunction(agent),
                     VacuumWorldFunctions.testGoal,
-                    (s, a, sPrimed) => 1.0);
+                    new DefaultStepCostFunction<VacuumEnvironmentState, IAction>());
             // set the problem and agent
-         //   agent.setProblem(problem);
+            //   agent.setProblem(problem);
 
             // create world
             NondeterministicVacuumEnvironment world = new NondeterministicVacuumEnvironment(VacuumEnvironment.LocationState.Dirty, VacuumEnvironment.LocationState.Dirty);

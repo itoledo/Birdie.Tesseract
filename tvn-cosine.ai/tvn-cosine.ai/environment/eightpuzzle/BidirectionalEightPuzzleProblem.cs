@@ -3,22 +3,23 @@ using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.environment.eightpuzzle
 {
-    public class BidirectionalEightPuzzleProblem : 
-        GeneralProblem<EightPuzzleBoard, IAction>, BidirectionalProblem<EightPuzzleBoard, IAction> {
+    public class BidirectionalEightPuzzleProblem :
+        GeneralProblem<EightPuzzleBoard, IAction>, BidirectionalProblem<EightPuzzleBoard, IAction>
+    {
 
         private readonly Problem<EightPuzzleBoard, IAction> reverseProblem;
 
         public BidirectionalEightPuzzleProblem(EightPuzzleBoard initialState)
             : base(initialState,
-                  EightPuzzleFunctions.getActions, 
-                  EightPuzzleFunctions.getResult,
+                  EightPuzzleFunctions.getActionsFunction(),
+                  EightPuzzleFunctions.getResultFunction(),
                   EightPuzzleFunctions.GOAL_STATE.Equals)
         {
-            
+
             reverseProblem = new GeneralProblem<EightPuzzleBoard, IAction>(
                 EightPuzzleFunctions.GOAL_STATE,
-                EightPuzzleFunctions.getActions, 
-                EightPuzzleFunctions.getResult,
+                EightPuzzleFunctions.getActionsFunction(),
+                EightPuzzleFunctions.getResultFunction(),
                 initialState.Equals);
         }
 

@@ -13,5 +13,8 @@ namespace tvn.cosine.ai.search.framework.problem
      *
      * @author Ruediger Lunde
      */
-    public delegate IQueue<A> ActionsFunction<S, A>(S state); 
+    public interface ActionsFunction<S, A>
+    {
+        IQueue<A> apply(S state);
+    }
 }

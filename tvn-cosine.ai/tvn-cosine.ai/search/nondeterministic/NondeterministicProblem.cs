@@ -12,7 +12,7 @@ namespace tvn.cosine.ai.search.nondeterministic
      * @author Ruediger Lunde
      */
     public class NondeterministicProblem<S, A>
-    { 
+    {
         protected S initialState;
         protected ActionsFunction<S, A> actionsFn;
         protected GoalTest<S> goalTest;
@@ -25,8 +25,8 @@ namespace tvn.cosine.ai.search.nondeterministic
         public NondeterministicProblem(S initialState,
                 ActionsFunction<S, A> actionsFn, ResultsFunction<S, A> resultsFn,
                 GoalTest<S> goalTest)
-            : this(initialState, actionsFn, resultsFn, goalTest, (s, a, sPrimed) => 1.0)
-        {  }
+            : this(initialState, actionsFn, resultsFn, goalTest, new DefaultStepCostFunction<S, A>())
+        { }
 
         /**
          * Constructor
@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.search.nondeterministic
          */
         public IQueue<A> getActions(S state)
         {
-            return actionsFn(state);
+            return actionsFn.apply(state);
         }
 
         /**
@@ -86,7 +86,7 @@ namespace tvn.cosine.ai.search.nondeterministic
          */
         double getStepCosts(S state, A action, S stateDelta)
         {
-            return stepCostFn(state, action, stateDelta);
+            return stepCostFn.applyAsDouble(state, action, stateDelta);
         }
-    } 
+    }
 }

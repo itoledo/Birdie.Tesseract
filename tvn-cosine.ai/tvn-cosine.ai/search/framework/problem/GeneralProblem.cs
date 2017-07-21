@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using System;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.search.framework.problem
 {
@@ -72,7 +73,7 @@ namespace tvn.cosine.ai.search.framework.problem
                               ActionsFunction<S, A> actionsFn,
                               ResultFunction<S, A> resultFn,
                               GoalTest<S> goalTest)
-            : this(initialState, actionsFn, resultFn, goalTest, (s, a, sPrimed) => 1.0)
+            : this(initialState, actionsFn, resultFn, goalTest, new DefaultStepCostFunction<S, A>())
         { }
 
         public S getInitialState()
@@ -82,12 +83,12 @@ namespace tvn.cosine.ai.search.framework.problem
 
         public IQueue<A> getActions(S state)
         {
-            return actionsFn(state);
+            return actionsFn.apply(state);
         }
 
         public S getResult(S state, A action)
         {
-            return resultFn(state, action);
+            return resultFn.apply(state, action);
         }
 
         public bool testGoal(S state)
@@ -97,7 +98,7 @@ namespace tvn.cosine.ai.search.framework.problem
 
         public double getStepCosts(S state, A action, S statePrimed)
         {
-            return stepCostFn(state, action, statePrimed);
+            return stepCostFn.applyAsDouble(state, action, statePrimed);
         }
     }
 }
