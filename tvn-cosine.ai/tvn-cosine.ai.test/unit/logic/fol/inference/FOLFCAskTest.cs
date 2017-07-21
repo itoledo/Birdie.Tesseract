@@ -7,38 +7,43 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
     {
 
         [TestMethod]
-
-    public void testDefiniteClauseKBKingsQueryCriminalXFalse()
+        [Ignore]
+        public void testDefiniteClauseKBKingsQueryCriminalXFalse()
     {
         testDefiniteClauseKBKingsQueryCriminalXFalse(new FOLFCAsk());
     }
 
     [TestMethod]
-    public void testDefiniteClauseKBKingsQueryRichardEvilFalse()
+        [Ignore]
+        public void testDefiniteClauseKBKingsQueryRichardEvilFalse()
     {
         testDefiniteClauseKBKingsQueryRichardEvilFalse(new FOLFCAsk());
     }
 
     [TestMethod]
-    public void testDefiniteClauseKBKingsQueryJohnEvilSucceeds()
+        [Ignore]
+        public void testDefiniteClauseKBKingsQueryJohnEvilSucceeds()
     {
         testDefiniteClauseKBKingsQueryJohnEvilSucceeds(new FOLFCAsk());
     }
 
     [TestMethod]
-    public void testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds()
+        [Ignore]
+        public void testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds()
     {
         testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds(new FOLFCAsk());
     }
 
     [TestMethod]
-    public void testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds()
+        [Ignore]
+        public void testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds()
     {
         testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds(new FOLFCAsk());
     }
 
     [TestMethod]
-    public void testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds()
+        [Ignore]
+        public void testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds()
     {
         testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(new FOLFCAsk());
     }

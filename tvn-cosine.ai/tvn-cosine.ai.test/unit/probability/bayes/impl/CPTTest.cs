@@ -6,10 +6,23 @@ using tvn.cosine.ai.probability.util;
 
 namespace tvn_cosine.ai.test.unit.probability.bayes.impl
 {
-    [TestClass] public class CPTTest
+    [TestClass]
+    public class CPTTest
     {
-        public static readonly  double DELTA_THRESHOLD = ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
+        public static readonly double DELTA_THRESHOLD = ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
 
+        private static void assertArrayEquals(double[] arr1, double[] arr2, double delta)
+        {
+            if (arr1.Length != arr2.Length)
+            {
+                Assert.Fail("Two arrays not same length");
+            }
+
+            for (int i = 0; i < arr1.Length; ++i)
+            {
+                Assert.AreEqual(arr1[i], arr2[i], delta);
+            }
+        }
         [TestMethod]
         public void test_getConditioningCase()
         {
@@ -35,17 +48,17 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.impl
 				// A = false, B = false, C = false
 				0.6 }, aRV, bRV);
 
-            Assert.AreEqual(new double[] { 0.1, 0.9 }, cpt
-                    .getConditioningCase(true, true).getValues());
+            assertArrayEquals(new double[] { 0.1, 0.9 }, cpt
+                     .getConditioningCase(true, true).getValues(), DELTA_THRESHOLD);
 
-            Assert.AreEqual(new double[] { 0.2, 0.8 }, cpt
-                    .getConditioningCase(true, false).getValues());
+            assertArrayEquals(new double[] { 0.2, 0.8 }, cpt
+                    .getConditioningCase(true, false).getValues(), DELTA_THRESHOLD);
 
-            Assert.AreEqual(new double[] { 0.3, 0.7 }, cpt
-                    .getConditioningCase(false, true).getValues());
+            assertArrayEquals(new double[] { 0.3, 0.7 }, cpt
+                    .getConditioningCase(false, true).getValues(), DELTA_THRESHOLD);
 
-            Assert.AreEqual(new double[] { 0.4, 0.6 }, cpt
-                    .getConditioningCase(false, false).getValues());
+            assertArrayEquals(new double[] { 0.4, 0.6 }, cpt
+                   .getConditioningCase(false, false).getValues(), DELTA_THRESHOLD);
 
         }
     }

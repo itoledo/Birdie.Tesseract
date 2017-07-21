@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.logic.fol
             // Keep track of the min and max # of literals.
             int min = int.MaxValue;
             int max = 0;
-            IMap<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateMap<int, ISet<Clause>>();
+            IMap<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateInsertionOrderedMap<int, ISet<Clause>>();
             foreach (Clause c in clauses)
             {
                 int size = c.getNumberLiterals();

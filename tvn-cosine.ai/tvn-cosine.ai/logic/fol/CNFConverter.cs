@@ -316,7 +316,7 @@ namespace tvn.cosine.ai.logic.fol
 
             // Keep track of what I have to subst locally and
             // what my renamed variables will be.
-            IMap<Variable, Term> localSubst = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> localSubst = Factory.CreateInsertionOrderedMap<Variable, Term>();
             IQueue<Variable> replVariables = Factory.CreateQueue<Variable>();
             foreach (Variable v in sentence.getVariables())
             {
@@ -410,7 +410,7 @@ namespace tvn.cosine.ai.logic.fol
             // scope the existential quantifier appears.
             if (Quantifiers.isEXISTS(sentence.getQuantifier()))
             {
-                IMap<Variable, Term> skolemSubst = Factory.CreateMap<Variable, Term>();
+                IMap<Variable, Term> skolemSubst = Factory.CreateInsertionOrderedMap<Variable, Term>();
                 foreach (Variable eVar in sentence.getVariables())
                 {
                     if (universalScope.Size() > 0)

@@ -29,13 +29,13 @@ namespace tvn.cosine.ai.agent.impl.aprog
      * @author Mike Stampone
      * 
      */
-    public abstract class ModelBasedReflexAgentProgram : IAgentProgram
+    public abstract class ModelBasedReflexAgentProgram<MODEL> : IAgentProgram
     { 
         // persistent: state, the agent's current conception of the world state
         private DynamicState state = null;
 
         // model, a description of how the next state depends on current state and action
-        private IModel model = null;
+        private MODEL model ;
 
         // rules, a set of condition-action rules
         private ISet<Rule> rules = null;
@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
          *            a description of how the next state depends on the current
          *            state and action.
          */
-        public void setModel(IModel model)
+        public void setModel(MODEL model)
         {
             this.model = model;
         }
@@ -102,7 +102,7 @@ namespace tvn.cosine.ai.agent.impl.aprog
          */
         protected abstract void init();
 
-        protected abstract DynamicState updateState(DynamicState state, IAction action, IPercept percept, IModel model);
+        protected abstract DynamicState updateState(DynamicState state, IAction action, IPercept percept, MODEL model);
 
         protected Rule ruleMatch(DynamicState state, ISet<Rule> rules)
         {

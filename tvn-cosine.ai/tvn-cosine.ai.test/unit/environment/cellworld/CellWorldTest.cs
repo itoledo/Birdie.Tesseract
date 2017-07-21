@@ -5,8 +5,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
 {
     [TestClass]
     public class CellWorldTest
-    {
-
+    { 
         private CellWorld<double> cw;
 
         [TestInitialize]

@@ -211,7 +211,7 @@ namespace tvn_cosine.ai.demo.learning
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
                     new DefaultRandom());
 
-            IMap<Cell<double>, CellWorldAction> fixedPolicy = Factory.CreateMap<Cell<double>, CellWorldAction>();
+            IMap<Cell<double>, CellWorldAction> fixedPolicy = Factory.CreateInsertionOrderedMap<Cell<double>, CellWorldAction>();
             fixedPolicy.Put(cw.getCellAt(1, 1), CellWorldAction.Up);
             fixedPolicy.Put(cw.getCellAt(1, 2), CellWorldAction.Up);
             fixedPolicy.Put(cw.getCellAt(1, 3), CellWorldAction.Right);
@@ -249,7 +249,7 @@ namespace tvn_cosine.ai.demo.learning
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
                     new DefaultRandom());
 
-            IMap<Cell<double>, CellWorldAction> fixedPolicy = Factory.CreateMap<Cell<double>, CellWorldAction>();
+            IMap<Cell<double>, CellWorldAction> fixedPolicy = Factory.CreateInsertionOrderedMap<Cell<double>, CellWorldAction>();
             fixedPolicy.Put(cw.getCellAt(1, 1), CellWorldAction.Up);
             fixedPolicy.Put(cw.getCellAt(1, 2), CellWorldAction.Up);
             fixedPolicy.Put(cw.getCellAt(1, 3), CellWorldAction.Right);
@@ -320,7 +320,7 @@ namespace tvn_cosine.ai.demo.learning
 
             cwe.AddAgent(reinforcementAgent);
 
-            IMap<int, IQueue<IMap<Cell<double>, double>>> runs = Factory.CreateMap<int, IQueue<IMap<Cell<double>, double>>>();
+            IMap<int, IQueue<IMap<Cell<double>, double>>> runs = Factory.CreateInsertionOrderedMap<int, IQueue<IMap<Cell<double>, double>>>();
             for (int r = 0; r < numRuns; r++)
             {
                 reinforcementAgent.reset();

@@ -27,8 +27,8 @@ namespace tvn.cosine.ai.search.framework
             this.impl = impl;
             this.frontier = queue;
         }
-         
-        public IQueue<A> findActions(Problem<S, A> p)
+
+        public virtual IQueue<A> findActions(Problem<S, A> p)
         {
             impl.getNodeExpander().useParentLinks(true);
             frontier.Clear();
@@ -36,8 +36,7 @@ namespace tvn.cosine.ai.search.framework
             return SearchUtils.toActions(node);
         }
 
-
-        public S findState(Problem<S, A> p)
+        public virtual S findState(Problem<S, A> p)
         {
             impl.getNodeExpander().useParentLinks(false);
             frontier.Clear();
@@ -45,20 +44,17 @@ namespace tvn.cosine.ai.search.framework
             return SearchUtils.toState(node);
         }
 
-
-        public Metrics getMetrics()
+        public virtual Metrics getMetrics()
         {
             return impl.getMetrics();
         }
 
-
-        public void addNodeListener(Consumer<Node<S, A>> listener)
+        public virtual void addNodeListener(Consumer<Node<S, A>> listener)
         {
             impl.getNodeExpander().addNodeListener(listener);
         }
 
-
-        public bool removeNodeListener(Consumer<Node<S, A>> listener)
+        public virtual bool removeNodeListener(Consumer<Node<S, A>> listener)
         {
             return impl.getNodeExpander().removeNodeListener(listener);
         }

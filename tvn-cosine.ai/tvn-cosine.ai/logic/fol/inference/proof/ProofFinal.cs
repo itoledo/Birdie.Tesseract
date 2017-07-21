@@ -5,7 +5,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofFinal : Proof
     {
-        private IMap<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
+        private IMap<Variable, Term> answerBindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
         private ProofStep finalStep = null;
         private IQueue<ProofStep> proofSteps = null;
 

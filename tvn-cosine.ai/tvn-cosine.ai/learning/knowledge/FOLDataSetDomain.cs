@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.learning.knowledge
         private string examplePrefix = "X";
         private IQueue<string> descriptionPredicateNames = Factory.CreateQueue<string>();
         private IQueue<string> descriptionDataSetNames = Factory.CreateQueue<string>();
-        private IMap<string, string> dsToFOLNameMap = Factory.CreateMap<string, string>();
+        private IMap<string, string> dsToFOLNameMap = Factory.CreateInsertionOrderedMap<string, string>();
 
         //
         // PUBLIC METHODS

@@ -23,7 +23,7 @@ namespace tvn.cosine.ai.common.datastructures
         /** Creates a new empty graph. */
         public LabeledGraph()
         {
-            globalEdgeLookup = Factory.CreateMap<VertexLabelType, IMap<VertexLabelType, EdgeLabelType>>();
+            globalEdgeLookup = Factory.CreateInsertionOrderedMap<VertexLabelType, IMap<VertexLabelType, EdgeLabelType>>();
             vertexLabels = Factory.CreateFifoQueue<VertexLabelType>();
         }
 
@@ -64,7 +64,7 @@ namespace tvn.cosine.ai.common.datastructures
             IMap<VertexLabelType, EdgeLabelType> result = globalEdgeLookup.Get(v);
             if (result == null)
             {
-                result = Factory.CreateMap<VertexLabelType, EdgeLabelType>();
+                result = Factory.CreateInsertionOrderedMap<VertexLabelType, EdgeLabelType>();
                 globalEdgeLookup.Put(v, result);
                 vertexLabels.Add(v);
             }
@@ -110,7 +110,7 @@ namespace tvn.cosine.ai.common.datastructures
          */
         public IQueue<VertexLabelType> getSuccessors(VertexLabelType v)
         {
-            IQueue<VertexLabelType> result = Factory.CreateFifoQueue<VertexLabelType>();
+            IQueue<VertexLabelType> result = Factory.CreateQueue<VertexLabelType>();
             IMap<VertexLabelType, EdgeLabelType> localEdgeLookup = globalEdgeLookup.Get(v);
             if (localEdgeLookup != null)
             {

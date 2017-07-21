@@ -12,7 +12,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
      */
     public class CellWorldEnvironmentState : IEnvironmentState
     { 
-        private IMap<IAgent, CellWorldPercept> agentLocations = Factory.CreateMap<IAgent, CellWorldPercept>();
+        private IMap<IAgent, CellWorldPercept> agentLocations = Factory.CreateInsertionOrderedMap<IAgent, CellWorldPercept>();
 
         /**
          * Default Constructor.

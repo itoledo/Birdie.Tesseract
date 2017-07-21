@@ -6,12 +6,16 @@ using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.environment.eightpuzzle
 {
-    public class EightPuzzleBoard : IEquatable, IStringable
+    public class EightPuzzleBoard
     {
-        public static readonly IAction LEFT = new DynamicAction("Left");
-        public static readonly IAction RIGHT = new DynamicAction("Right");
-        public static readonly IAction UP = new DynamicAction("Up");
-        public static readonly IAction DOWN = new DynamicAction("Down");
+
+        public static IAction LEFT = new DynamicAction("Left");
+
+        public static IAction RIGHT = new DynamicAction("Right");
+
+        public static IAction UP = new DynamicAction("Up");
+
+        public static IAction DOWN = new DynamicAction("Down");
 
         private int[] state;
 
@@ -32,7 +36,9 @@ namespace tvn.cosine.ai.environment.eightpuzzle
 
         public EightPuzzleBoard(EightPuzzleBoard copyBoard)
             : this(copyBoard.getState())
-        { }
+        {
+
+        }
 
         public int[] getState()
         {
@@ -61,6 +67,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
                 setValue(x, ypos, valueOnRight);
                 setValue(x, ypos + 1, 0);
             }
+
         }
 
         public void moveGapLeft()
@@ -74,6 +81,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
                 setValue(x, ypos, valueOnLeft);
                 setValue(x, ypos - 1, 0);
             }
+
         }
 
         public void moveGapDown()
@@ -106,10 +114,11 @@ namespace tvn.cosine.ai.environment.eightpuzzle
         public IQueue<XYLocation> getPositions()
         {
             IQueue<XYLocation> retVal = Factory.CreateQueue<XYLocation>();
-            for (int i = 0; i < 9;++i)
+            for (int i = 0; i < 9; i++)
             {
                 int absPos = getPositionOf(i);
-                XYLocation loc = new XYLocation(getXCoord(absPos), getYCoord(absPos));
+                XYLocation loc = new XYLocation(getXCoord(absPos),
+                        getYCoord(absPos));
                 retVal.Add(loc);
 
             }
@@ -119,8 +128,9 @@ namespace tvn.cosine.ai.environment.eightpuzzle
         public void setBoard(IQueue<XYLocation> locs)
         {
             int count = 0;
-            foreach (XYLocation loc in locs)
+            for (int i = 0; i < locs.Size(); i++)
             {
+                XYLocation loc = locs.Get(i);
                 this.setValue(loc.getXCoOrdinate(), loc.getYCoOrdinate(), count);
                 count = count + 1;
             }
@@ -148,7 +158,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             if (o != null && GetType() == o.GetType())
             {
                 EightPuzzleBoard aBoard = (EightPuzzleBoard)o;
-                for (int i = 0; i < 8;++i)
+                for (int i = 0; i < 8; i++)
                 {
                     if (this.getPositionOf(i) != aBoard.getPositionOf(i))
                         return false;
@@ -161,12 +171,13 @@ namespace tvn.cosine.ai.environment.eightpuzzle
         public override int GetHashCode()
         {
             int result = 17;
-            for (int i = 0; i < 8;++i)
+            for (int i = 0; i < 8; i++)
             {
                 int position = this.getPositionOf(i);
                 result = 37 * result + position;
             }
             return result;
+            //    return ToString().GetHashCode();
         }
 
         public override string ToString()
@@ -216,9 +227,13 @@ namespace tvn.cosine.ai.environment.eightpuzzle
 
         private int getPositionOf(int val)
         {
-            for (int i = 0; i < 9;++i)
+            for (int i = 0; i < 9; i++)
+            {
                 if (state[i] == val)
+                {
                     return i;
+                }
+            }
             return -1;
         }
 
@@ -226,6 +241,8 @@ namespace tvn.cosine.ai.environment.eightpuzzle
         {
             int absPos = getAbsPosition(x, y);
             state[absPos] = val;
+
         }
     }
+
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using tvn.cosine.ai.agent;
+﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework;
@@ -12,51 +11,51 @@ namespace tvn.cosine.ai.environment.eightpuzzle
     {
         public static readonly EightPuzzleBoard GOAL_STATE = new EightPuzzleBoard(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
 
-        public class ActionsFunctions : ActionsFunction<EightPuzzleBoard, IAction>
+        public class ActionFunctionEB : ActionsFunction<EightPuzzleBoard, IAction>
         {
             public IQueue<IAction> apply(EightPuzzleBoard state)
             {
-                IQueue<IAction> actions = Factory.CreateQueue<IAction>();
-
-                if (state.canMoveGap(EightPuzzleBoard.UP))
-                    actions.Add(EightPuzzleBoard.UP);
-                if (state.canMoveGap(EightPuzzleBoard.DOWN))
-                    actions.Add(EightPuzzleBoard.DOWN);
-                if (state.canMoveGap(EightPuzzleBoard.LEFT))
-                    actions.Add(EightPuzzleBoard.LEFT);
-                if (state.canMoveGap(EightPuzzleBoard.RIGHT))
-                    actions.Add(EightPuzzleBoard.RIGHT);
-
-                return actions;
+                return getActions(state);
             }
         }
 
-        public static ActionsFunction<EightPuzzleBoard, IAction> getActionsFunction()
-        {
-            return new ActionsFunctions();
-        }
-
-        public class ResutsFunction : ResultFunction<EightPuzzleBoard, IAction>
+        public class ResultFunctionEB : ResultFunction<EightPuzzleBoard, IAction>
         {
             public EightPuzzleBoard apply(EightPuzzleBoard state, IAction action)
             {
-                EightPuzzleBoard result = new EightPuzzleBoard(state);
-
-                if (EightPuzzleBoard.UP.Equals(action) && state.canMoveGap(EightPuzzleBoard.UP))
-                    result.moveGapUp();
-                else if (EightPuzzleBoard.DOWN.Equals(action) && state.canMoveGap(EightPuzzleBoard.DOWN))
-                    result.moveGapDown();
-                else if (EightPuzzleBoard.LEFT.Equals(action) && state.canMoveGap(EightPuzzleBoard.LEFT))
-                    result.moveGapLeft();
-                else if (EightPuzzleBoard.RIGHT.Equals(action) && state.canMoveGap(EightPuzzleBoard.RIGHT))
-                    result.moveGapRight();
-                return result;
+                return getResult(state, action);
             }
         }
 
-        public static ResutsFunction getResultFunction()
+        public static IQueue<IAction> getActions(EightPuzzleBoard state)
         {
-            return new ResutsFunction();
+            IQueue<IAction> actions = Factory.CreateQueue<IAction>();
+
+            if (state.canMoveGap(EightPuzzleBoard.UP))
+                actions.Add(EightPuzzleBoard.UP);
+            if (state.canMoveGap(EightPuzzleBoard.DOWN))
+                actions.Add(EightPuzzleBoard.DOWN);
+            if (state.canMoveGap(EightPuzzleBoard.LEFT))
+                actions.Add(EightPuzzleBoard.LEFT);
+            if (state.canMoveGap(EightPuzzleBoard.RIGHT))
+                actions.Add(EightPuzzleBoard.RIGHT);
+
+            return actions;
+        }
+
+        public static EightPuzzleBoard getResult(EightPuzzleBoard state, IAction action)
+        {
+            EightPuzzleBoard result = new EightPuzzleBoard(state);
+
+            if (EightPuzzleBoard.UP.Equals(action) && state.canMoveGap(EightPuzzleBoard.UP))
+                result.moveGapUp();
+            else if (EightPuzzleBoard.DOWN.Equals(action) && state.canMoveGap(EightPuzzleBoard.DOWN))
+                result.moveGapDown();
+            else if (EightPuzzleBoard.LEFT.Equals(action) && state.canMoveGap(EightPuzzleBoard.LEFT))
+                result.moveGapLeft();
+            else if (EightPuzzleBoard.RIGHT.Equals(action) && state.canMoveGap(EightPuzzleBoard.RIGHT))
+                result.moveGapRight();
+            return result;
         }
 
         public static ToDoubleFunction<Node<EightPuzzleBoard, IAction>> createManhattanHeuristicFunction()
@@ -68,7 +67,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
         {
             return new MisplacedTileHeuristicFunction();
         }
-
+         
         private class ManhattanHeuristicFunction : ToDoubleFunction<Node<EightPuzzleBoard, IAction>>
         {
 
@@ -76,12 +75,13 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             {
                 EightPuzzleBoard board = node.getState();
                 int retVal = 0;
-                for (int i = 1; i < 9; ++i)
+                for (int i = 1; i < 9; i++)
                 {
                     XYLocation loc = board.getLocationOf(i);
                     retVal += evaluateManhattanDistanceOf(i, loc);
                 }
                 return retVal;
+
             }
 
             private int evaluateManhattanDistanceOf(int i, XYLocation loc)
@@ -90,8 +90,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
                 int xpos = loc.getXCoOrdinate();
                 int ypos = loc.getYCoOrdinate();
                 switch (i)
-                {
-
+                { 
                     case 1:
                         retVal = System.Math.Abs(xpos - 0) + System.Math.Abs(ypos - 1);
                         break;
@@ -121,9 +120,10 @@ namespace tvn.cosine.ai.environment.eightpuzzle
                 return retVal;
             }
         }
-
+         
         private class MisplacedTileHeuristicFunction : ToDoubleFunction<Node<EightPuzzleBoard, IAction>>
         {
+
             public double applyAsDouble(Node<EightPuzzleBoard, IAction> node)
             {
                 EightPuzzleBoard board = (EightPuzzleBoard)node.getState();
@@ -172,7 +172,9 @@ namespace tvn.cosine.ai.environment.eightpuzzle
                 // Subtract the gap position from the # of misplaced tiles
                 // as its not actually a tile (see issue 73).
                 if (numberOfMisplacedTiles > 0)
+                {
                     numberOfMisplacedTiles--;
+                }
                 return numberOfMisplacedTiles;
             }
         }

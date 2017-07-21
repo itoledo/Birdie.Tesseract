@@ -15,7 +15,7 @@ namespace tvn_cosine.ai.test.unit.nlp.rank
         public void setUp()
         {
             testPage = new Page("tester");
-            pageTable = Factory.CreateMap<string, Page>();
+            pageTable = Factory.CreateInsertionOrderedMap<string, Page>();
             wLF = new WikiLinkFinder();
         }
 

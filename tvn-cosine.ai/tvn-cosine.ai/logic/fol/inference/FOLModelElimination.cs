@@ -364,7 +364,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     if (nearParent.isEmpty())
                     {
                         proofs.Add(new ProofFinal(nearParent.getProofStep(),
-                                Factory.CreateMap<Variable, Term>()));
+                                Factory.CreateInsertionOrderedMap<Variable, Term>()));
                         complete = true;
                         isAns = true;
                     }
@@ -387,7 +387,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                                     .Equals(answerChain.getHead()
                                             .getAtomicSentence().getSymbolicName()))
                     {
-                        IMap<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
+                        IMap<Variable, Term> answerBindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
                         IQueue<Term> answerTerms = nearParent.getHead()
                                 .getAtomicSentence().getArgs();
                         int idx = 0;
@@ -443,8 +443,8 @@ namespace tvn.cosine.ai.logic.fol.inference
         private Unifier unifier = new Unifier();
         private SubstVisitor substVisitor = new SubstVisitor();
         //
-        private IMap<string, IQueue<Chain>> posHeads = Factory.CreateMap<string, IQueue<Chain>>();
-        private IMap<string, IQueue<Chain>> negHeads = Factory.CreateMap<string, IQueue<Chain>>();
+        private IMap<string, IQueue<Chain>> posHeads = Factory.CreateInsertionOrderedMap<string, IQueue<Chain>>();
+        private IMap<string, IQueue<Chain>> negHeads = Factory.CreateInsertionOrderedMap<string, IQueue<Chain>>();
 
         public IndexedFarParents(IQueue<Chain> sos, IQueue<Chain> background)
         {

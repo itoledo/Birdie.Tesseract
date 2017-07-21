@@ -10,7 +10,7 @@ namespace tvn.cosine.ai.probability.example
         public static HiddenMarkovModel getUmbrellaWorldModel()
         {
             Matrix transitionModel = new Matrix(new double[,] { { 0.7, 0.3 }, { 0.3, 0.7 } });
-            IMap<object, Matrix> sensorModel = Factory.CreateMap<object, Matrix>();
+            IMap<object, Matrix> sensorModel = Factory.CreateInsertionOrderedMap<object, Matrix>();
             sensorModel.Put(true, new Matrix(new double[,] { { 0.9, 0.0 }, { 0.0, 0.2 } }));
             sensorModel.Put(false, new Matrix(new double[,] { { 0.1, 0.0 }, { 0.0, 0.8 } }));
             Matrix prior = new Matrix(new double[] { 0.5, 0.5 }, 2);

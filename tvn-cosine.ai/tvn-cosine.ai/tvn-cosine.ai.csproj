@@ -68,10 +68,24 @@
     <Compile Include="agent\impl\DynamicEnvironmentState.cs" />
     <Compile Include="agent\impl\DynamicPercept.cs" />
     <Compile Include="agent\impl\DynamicState.cs" />
+    <Compile Include="common\collections\InsertionOrderedMap.cs" />
+    <Compile Include="environment\wumpusworld\action\Climb.cs" />
+    <Compile Include="environment\wumpusworld\action\Forward.cs" />
+    <Compile Include="environment\wumpusworld\action\Grab.cs" />
+    <Compile Include="environment\wumpusworld\action\Shoot.cs" />
+    <Compile Include="environment\wumpusworld\action\TurnLeft.cs" />
+    <Compile Include="environment\wumpusworld\action\TurnRight.cs" />
+    <Compile Include="environment\wumpusworld\AgentPercept.cs" />
+    <Compile Include="environment\wumpusworld\AgentPosition.cs" />
+    <Compile Include="environment\wumpusworld\HybridWumpusAgent.cs" />
+    <Compile Include="environment\wumpusworld\ManhattanHeuristicFunction.cs" />
+    <Compile Include="environment\wumpusworld\Room.cs" />
+    <Compile Include="environment\wumpusworld\WumpusCave.cs" />
+    <Compile Include="environment\wumpusworld\WumpusFunctionFunctions.cs" />
+    <Compile Include="environment\wumpusworld\WumpusKnowledgeBase.cs" />
     <Compile Include="search\framework\problem\DefaultStepCostFunction.cs" />
     <Compile Include="util\ObjectWithDynamicAttributes.cs" />
     <Compile Include="agent\impl\SimpleEnvironmentView.cs" />
-    <Compile Include="agent\IModel.cs" />
     <Compile Include="agent\IPercept.cs" />
     <Compile Include="agent\IState.cs" />
     <Compile Include="agent\PerceptToStateFunction.cs" />
@@ -168,17 +182,6 @@
     <Compile Include="environment\vacuum\VacuumEnvironmentState.cs" />
     <Compile Include="environment\vacuum\VacuumEnvironmentViewActionTracker.cs" />
     <Compile Include="environment\vacuum\VacuumWorldFunctions.cs" />
-    <Compile Include="environment\wumpusworld\AgentPosition.cs" />
-    <Compile Include="environment\wumpusworld\EfficientHybridWumpusAgent.cs" />
-    <Compile Include="environment\wumpusworld\HybridWumpusAgent.cs" />
-    <Compile Include="environment\wumpusworld\ManhattanHeuristicFunction.cs" />
-    <Compile Include="environment\wumpusworld\Room.cs" />
-    <Compile Include="environment\wumpusworld\WumpusAction.cs" />
-    <Compile Include="environment\wumpusworld\WumpusCave.cs" />
-    <Compile Include="environment\wumpusworld\WumpusEnvironment.cs" />
-    <Compile Include="environment\wumpusworld\WumpusFunctions.cs" />
-    <Compile Include="environment\wumpusworld\WumpusKnowledgeBase.cs" />
-    <Compile Include="environment\wumpusworld\WumpusPercept.cs" />
     <Compile Include="environment\xyenv\Wall.cs" />
     <Compile Include="environment\xyenv\XYEnvironment.cs" />
     <Compile Include="learning\data\DataResource.cs" />
@@ -592,6 +595,48 @@
     <Compile Include="util\ToDoubleFunction.cs" />
     <Compile Include="util\Util.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="data\ascii-robotdata1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\iris.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\orings.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\rabbiteyes.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\readme.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\zoo.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\DataResource.class">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="data\iris.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="data\orings.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="data\rabbiteyes.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="data\restaurant.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="data\wordlist">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="data\zoo.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

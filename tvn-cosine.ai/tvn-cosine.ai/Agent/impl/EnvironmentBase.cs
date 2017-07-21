@@ -8,7 +8,7 @@ namespace tvn.cosine.ai.agent.impl
         protected IQueue<IEnvironmentObject> envObjects = Factory.CreateFifoQueueNoDuplicates<IEnvironmentObject>();
         protected ISet<IAgent> agents = Factory.CreateSet<IAgent>();
         protected ISet<IEnvironmentView> views = Factory.CreateSet<IEnvironmentView>();
-        protected IMap<IAgent, double> performanceMeasures = Factory.CreateMap<IAgent, double>();
+        protected IMap<IAgent, double> performanceMeasures = Factory.CreateInsertionOrderedMap<IAgent, double>();
 
         // Methods to be implemented by subclasses. 
         public abstract void executeAction(IAgent agent, IAction action);

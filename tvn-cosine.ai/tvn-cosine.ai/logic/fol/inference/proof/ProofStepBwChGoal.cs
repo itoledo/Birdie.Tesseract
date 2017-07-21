@@ -11,7 +11,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
         //
         private Clause toProve = null;
         private Literal currentGoal = null;
-        private IMap<Variable, Term> bindings = Factory.CreateMap<Variable, Term>();
+        private IMap<Variable, Term> bindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
 
         public ProofStepBwChGoal(Clause toProve, Literal currentGoal, IMap<Variable, Term> bindings)
         {

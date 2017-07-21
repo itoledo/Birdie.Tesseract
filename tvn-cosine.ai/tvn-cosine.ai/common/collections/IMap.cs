@@ -7,7 +7,7 @@ namespace tvn.cosine.ai.common.collections
         IStringable 
     {
         VALUE Get(KEY key);
-        IQueue<KEY> GetKeys();
+        ISet<KEY> GetKeys();
         IQueue<VALUE> GetValues();
        
         void Put(KEY key, VALUE value);

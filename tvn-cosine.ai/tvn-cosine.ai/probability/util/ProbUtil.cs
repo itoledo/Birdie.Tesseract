@@ -221,7 +221,7 @@ namespace tvn.cosine.ai.probability.util
              * probabilities. 
              */
             //Copy contents of event to generatedEvent so as to leave event untouched
-            IMap<RandomVariable, object> generatedEvent = Factory.CreateMap<RandomVariable, object>();
+            IMap<RandomVariable, object> generatedEvent = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
             foreach (var entry in even)
             {
                 generatedEvent.Put(entry.GetKey(), entry.GetValue());
@@ -460,7 +460,6 @@ namespace tvn.cosine.ai.probability.util
         //
         // PRIVATE METHODS
         //
-
         private static Proposition constructConjunction(Proposition[] props, int idx)
         {
             if ((idx + 1) == props.Length)
@@ -470,6 +469,5 @@ namespace tvn.cosine.ai.probability.util
 
             return new ConjunctiveProposition(props[idx], constructConjunction(props, idx + 1));
         }
-    }
-
+    } 
 }

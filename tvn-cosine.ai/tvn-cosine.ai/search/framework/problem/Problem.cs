@@ -49,7 +49,7 @@
          * access the goal test via this method to support solution acceptance testing.
          */
         public static bool testSolution<S, A>(this Problem<S, A> problem, Node<S, A> node)
-        {
+        { 
             return problem.testGoal(node.getState());
         }
     }

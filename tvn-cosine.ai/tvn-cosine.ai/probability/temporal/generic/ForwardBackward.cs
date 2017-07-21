@@ -39,7 +39,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
     public class ForwardBackward : ForwardBackwardInference
     {
         private FiniteProbabilityModel transitionModel = null;
-        private IMap<RandomVariable, RandomVariable> tToTm1StateVarMap = Factory.CreateMap<RandomVariable, RandomVariable>();
+        private IMap<RandomVariable, RandomVariable> tToTm1StateVarMap = Factory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
         private FiniteProbabilityModel sensorModel = null;
 
         /**
@@ -146,7 +146,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
             }
             Proposition Xtp1 = ProbUtil.constructConjunction(props);
             AssignmentProposition[] xt = new AssignmentProposition[tToTm1StateVarMap.Size()];
-            IMap<RandomVariable, AssignmentProposition> xtVarAssignMap = Factory.CreateMap<RandomVariable, AssignmentProposition>();
+            IMap<RandomVariable, AssignmentProposition> xtVarAssignMap = Factory.CreateInsertionOrderedMap<RandomVariable, AssignmentProposition>();
             i = 0;
             foreach (RandomVariable rv in tToTm1StateVarMap.GetKeys())
             {
@@ -227,7 +227,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
             }
             Proposition Xk = ProbUtil.constructConjunction(props);
             AssignmentProposition[] ax_kp1 = new AssignmentProposition[tToTm1StateVarMap.Size()];
-            IMap<RandomVariable, AssignmentProposition> x_kp1VarAssignMap = Factory.CreateMap<RandomVariable, AssignmentProposition>();
+            IMap<RandomVariable, AssignmentProposition> x_kp1VarAssignMap = Factory.CreateInsertionOrderedMap<RandomVariable, AssignmentProposition>();
             i = 0;
             foreach (RandomVariable rv in b_kp1t.getFor())
             {

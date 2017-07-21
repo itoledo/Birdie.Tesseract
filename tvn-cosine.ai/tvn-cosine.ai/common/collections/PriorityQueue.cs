@@ -5,23 +5,30 @@ namespace tvn.cosine.ai.common.collections
 {
     public class PriorityQueue<T> : QueueBase<T>, IQueue<T>
     {
-        private readonly System.Collections.Generic.SortedList<T, T> backingSortedList;
+        private readonly System.Collections.Generic.List<T> backingList;
         private readonly IComparer<T> comparer;
 
         public PriorityQueue(IComparer<T> comparer)
         {
             this.comparer = comparer;
-            backingSortedList = new System.Collections.Generic.SortedList<T, T>(new ComparerAdaptor(comparer));
+            backingList = new System.Collections.Generic.List<T>();
         }
 
         public bool Add(T item)
         {
-            if (!backingSortedList.ContainsKey(item))
+            backingList.Add(item);
+            int ci = backingList.Count - 1; // child index; start at end
+            while (ci > 0)
             {
-                backingSortedList.Add(item, item);
-                return true;
+                int pi = (ci - 1) / 2; // parent index
+                if (comparer.Compare(backingList[ci], backingList[pi]) >= 0)
+                    break; // child item is larger than (or equal) parent so we're done
+                T tmp = backingList[ci];
+                backingList[ci] = backingList[pi];
+                backingList[pi] = tmp;
+                ci = pi;
             }
-            return false;
+            return true;
         }
 
         public void AddAll(IQueue<T> items)
@@ -34,6 +41,7 @@ namespace tvn.cosine.ai.common.collections
 
         public bool SequenceEqual(IQueue<T> other)
         {
+            Sort(comparer);
             if (null == other
              || other.Size() != Size())
             {
@@ -41,7 +49,7 @@ namespace tvn.cosine.ai.common.collections
             }
 
             int counter = 0;
-            foreach (T item in backingSortedList.Keys)
+            foreach (T item in backingList)
             {
                 if (!item.Equals(other.Get(counter)))
                 {
@@ -59,32 +67,33 @@ namespace tvn.cosine.ai.common.collections
 
         public void Clear()
         {
-            backingSortedList.Clear();
+            backingList.Clear();
         }
 
         public bool Contains(T item)
         {
-            return backingSortedList.ContainsKey(item);
+            return backingList.Contains(item);
         }
 
         public T Get(int index)
         {
-            return backingSortedList.Keys[index];
+            return backingList[index];
         }
 
         public override IEnumerator<T> GetEnumerator()
         {
-            return new Enumerator(backingSortedList);
+            Sort(comparer);
+            return new Enumerator(backingList);
         }
 
         public int IndexOf(T item)
         {
-            return backingSortedList.IndexOfKey(item);
+            return backingList.IndexOf(item);
         }
 
         public bool IsEmpty()
         {
-            return backingSortedList.Count == 0;
+            return backingList.Count == 0;
         }
 
         public bool IsReadonly()
@@ -94,34 +103,54 @@ namespace tvn.cosine.ai.common.collections
 
         public T Peek()
         {
-            return backingSortedList.Keys[0];
+            return backingList[0];
         }
 
         public T Pop()
         {
-            T obj = backingSortedList.Keys[0];
-            backingSortedList.Remove(obj);
-            return obj;
+            // assumes pq is not empty; up to calling code
+            int li = backingList.Count - 1; // last index (before removal)
+            T frontItem = backingList[0];   // fetch the front
+            backingList[0] = backingList[li];
+            backingList.RemoveAt(li);
+
+            --li; // last index (after removal)
+            int pi = 0; // parent index. start at front of pq
+            while (true)
+            {
+                int ci = pi * 2 + 1; // left child index of parent
+                if (ci > li) break;  // no children so done
+                int rc = ci + 1;     // right child
+                if (rc <= li && comparer.Compare(backingList[rc], backingList[ci]) < 0) // if there is a rc (ci + 1), and it is smaller than left child, use the rc instead
+                    ci = rc;
+                if (comparer.Compare(backingList[pi], backingList[ci]) <= 0)
+                    break; // parent is smaller than (or equal to) smallest child so done
+                T tmp = backingList[pi];
+                backingList[pi] = backingList[ci];
+                backingList[ci] = tmp; // swap parent and child
+                pi = ci;
+            }
+            return frontItem;
         }
 
         public bool Remove(T item)
         {
-            return backingSortedList.Remove(item);
+            return backingList.Remove(item);
         }
 
         public void RemoveAt(int index)
         {
-            backingSortedList.RemoveAt(index);
+            backingList.RemoveAt(index);
         }
 
         public int Size()
         {
-            return backingSortedList.Count();
+            return backingList.Count();
         }
 
-        void IQueue<T>.Sort(IComparer<T> comparer)
+        public void Sort(IComparer<T> comparer)
         {
-            throw new NotSupportedException("Not supported");
+            backingList.Sort(new ComparerAdaptor(comparer));
         }
 
         void IQueue<T>.Insert(int index, T item)
@@ -131,17 +160,22 @@ namespace tvn.cosine.ai.common.collections
 
         public bool ContainsAll(IQueue<T> other)
         {
-            throw new System.NotImplementedException();
+            foreach (T item in other)
+                if (!backingList.Contains(item))
+                    return false;
+            return true;
         }
 
         public void RemoveAll(IQueue<T> items)
         {
-            throw new System.NotImplementedException();
+            foreach (T item in items)
+                backingList.Remove(item);
         }
 
         public T[] ToArray()
         {
-            throw new System.NotImplementedException();
+            Sort(comparer);
+            return backingList.ToArray();
         }
 
         public void Reverse()
@@ -173,9 +207,10 @@ namespace tvn.cosine.ai.common.collections
                 }
             }
 
-            public Enumerator(System.Collections.Generic.SortedList<T, T> backingSortedList)
+            public Enumerator(System.Collections.Generic.List<T> backingSortedList)
             {
-                this.values = backingSortedList.Keys.ToArray();
+
+                this.values = backingSortedList.ToArray();
             }
 
             public T GetCurrent()

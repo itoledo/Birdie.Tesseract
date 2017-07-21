@@ -8,7 +8,7 @@ namespace tvn.cosine.ai.search.framework
      * @author Ruediger Lunde
      */
     public class SearchUtils
-    { 
+    {
         /**
          * Returns the path from the root node to this node.
          *
@@ -35,7 +35,7 @@ namespace tvn.cosine.ai.search.framework
         public static IQueue<A> getSequenceOfActions<S, A>(Node<S, A> node)
         {
             IQueue<A> actions = Factory.CreateQueue<A>();
-            while (!node.isRootNode())
+            while (node != null && !node.isRootNode())
             {
                 actions.Insert(0, node.getAction());
                 node = node.getParent();

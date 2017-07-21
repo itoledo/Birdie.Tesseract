@@ -11,8 +11,8 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
         private Literal posLiteral = null;
         private Literal negLiteral = null;
         private Clause parent1, parent2 = null;
-        private IMap<Variable, Term> subst = Factory.CreateMap<Variable, Term>();
-        private IMap<Variable, Term> renameSubst = Factory.CreateMap<Variable, Term>();
+        private IMap<Variable, Term> subst = Factory.CreateInsertionOrderedMap<Variable, Term>();
+        private IMap<Variable, Term> renameSubst = Factory.CreateInsertionOrderedMap<Variable, Term>();
 
         public ProofStepClauseBinaryResolvent(Clause resolvent, Literal pl,
                 Literal nl, Clause parent1, Clause parent2,

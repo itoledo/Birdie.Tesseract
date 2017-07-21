@@ -16,7 +16,7 @@ namespace tvn.cosine.ai.search.csp
         /**
          * Maps variables to their assigned values.
          */
-        private IMap<VAR, VAL> variableToValueMap = Factory.CreateMap<VAR, VAL>();
+        private IMap<VAR, VAL> variableToValueMap = Factory.CreateInsertionOrderedMap<VAR, VAL>();
 
         public IQueue<VAR> getVariables()
         {

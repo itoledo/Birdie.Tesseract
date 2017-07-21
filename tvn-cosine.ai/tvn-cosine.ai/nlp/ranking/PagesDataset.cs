@@ -33,7 +33,7 @@ namespace tvn.cosine.ai.nlp.ranking
         public static IMap<string, Page> loadPages(string folderPath)
         {
 
-            IMap<string, Page> pageTable = Factory.CreateMap<string, Page>();
+            IMap<string, Page> pageTable = Factory.CreateInsertionOrderedMap<string, Page>();
             Page currPage;
             string[] listOfFiles;
             wlf = new WikiLinkFinder();

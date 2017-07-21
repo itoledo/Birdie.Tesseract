@@ -14,8 +14,8 @@ namespace tvn.cosine.ai.probability.bayes.impl
         private ISet<RandomVariable> X_0 = Factory.CreateSet<RandomVariable>();
         private ISet<RandomVariable> X_1 = Factory.CreateSet<RandomVariable>();
         private ISet<RandomVariable> E_1 = Factory.CreateSet<RandomVariable>();
-        private IMap<RandomVariable, RandomVariable> X_0_to_X_1 = Factory.CreateMap<RandomVariable, RandomVariable>();
-        private IMap<RandomVariable, RandomVariable> X_1_to_X_0 = Factory.CreateMap<RandomVariable, RandomVariable>();
+        private IMap<RandomVariable, RandomVariable> X_0_to_X_1 = Factory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
+        private IMap<RandomVariable, RandomVariable> X_1_to_X_0 = Factory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
         private BayesianNetwork priorNetwork = null;
         private IQueue<RandomVariable> X_1_VariablesInTopologicalOrder = Factory.CreateQueue<RandomVariable>();
 

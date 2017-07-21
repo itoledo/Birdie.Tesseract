@@ -11,7 +11,7 @@ namespace tvn.cosine.ai.environment.map
 
         public MapEnvironmentState()
         {
-            agentLocationAndTravelDistance = Factory.CreateMap<IAgent, Pair<string, double>>();
+            agentLocationAndTravelDistance = Factory.CreateInsertionOrderedMap<IAgent, Pair<string, double>>();
         }
 
         public string getAgentLocation(IAgent a)

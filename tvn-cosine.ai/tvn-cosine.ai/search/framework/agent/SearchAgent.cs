@@ -7,20 +7,17 @@ using tvn.cosine.ai.util;
 namespace tvn.cosine.ai.search.framework.agent
 {
     /**
-     *
-     * @param <S> The type used to represent states
-     * @param <A> The type of the actions to be used to navigate through the state space
-     *
-     * @author Ravi Mohan
-     * @author Ruediger Lunde
-     */
+  *
+  * @param <S> The type used to represent states
+  * @param <A> The type of the actions to be used to navigate through the state space
+  *
+  * @author Ravi Mohan
+  * @author Ruediger Lunde
+  */
     public class SearchAgent<S, A> : AgentBase
         where A : IAction
-    {
-        private IQueue<A> actionList;
-        private bool hasNext = false;
-        private IEnumerator<A> actionIterator;
-
+    { 
+        private IQueue<A> actionList; 
         private Metrics searchMetrics;
 
         public SearchAgent(Problem<S, A> p, SearchForActions<S, A> search)
@@ -30,22 +27,20 @@ namespace tvn.cosine.ai.search.framework.agent
             if (null != actions)
                 actionList.AddAll(actions);
 
-            actionIterator = actionList.GetEnumerator();
+            //   actionIterator = actionList.iterator();
             searchMetrics = search.getMetrics();
         }
 
-
         public override IAction Execute(IPercept p)
         {
-            hasNext = actionIterator.MoveNext();
-            if (hasNext)
-                return actionIterator.Current;
+            if (!actionList.IsEmpty())
+                return actionList.Pop();
             return DynamicAction.NO_OP; // no success or at goal
         }
 
         public bool isDone()
         {
-            return !hasNext;
+            return actionList.IsEmpty();
         }
 
         public IQueue<A> getActions()

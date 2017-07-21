@@ -62,7 +62,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             BCAskAnswerHandler ansHandler = new BCAskAnswerHandler();
 
-            IQueue<IQueue<ProofStepBwChGoal>> allProofSteps = folbcask(KB, ansHandler, goals, Factory.CreateMap<Variable, Term>());
+            IQueue<IQueue<ProofStepBwChGoal>> allProofSteps = folbcask(KB, ansHandler, goals, Factory.CreateInsertionOrderedMap<Variable, Term>());
 
             ansHandler.setAllProofSteps(allProofSteps);
 
@@ -130,7 +130,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         // SUBST(COMPOSE(theta1, theta2), p) = SUBST(theta2, SUBST(theta1, p))
         private IMap<Variable, Term> compose(FOLKnowledgeBase KB, IMap<Variable, Term> theta1, IMap<Variable, Term> theta2)
         {
-            IMap<Variable, Term> composed = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> composed = Factory.CreateInsertionOrderedMap<Variable, Term>();
 
             // So that it behaves like:
             // SUBST(theta2, SUBST(theta1, p))

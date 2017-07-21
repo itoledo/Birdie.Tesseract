@@ -51,10 +51,10 @@ namespace tvn.cosine.ai.search.online
         // persistent: result, a table, indexed by state and action, initially empty
         private TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<S, A, S>();
         // untried, a table that lists, for each state, the actions not yet tried
-        private IMap<S, IQueue<A>> untried = Factory.CreateMap<S, IQueue<A>>();
+        private IMap<S, IQueue<A>> untried = Factory.CreateInsertionOrderedMap<S, IQueue<A>>();
         // unbacktracked, a table that lists,
         // for each state, the backtracks not yet tried
-        private IMap<S, IQueue<S>> unbacktracked = Factory.CreateMap<S, IQueue<S>>();
+        private IMap<S, IQueue<S>> unbacktracked = Factory.CreateInsertionOrderedMap<S, IQueue<S>>();
         // s, a, the previous state and action, initially null
         private S s;
         private A a;

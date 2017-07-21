@@ -22,10 +22,10 @@ namespace tvn.cosine.ai.common.datastructures
         {
             this.rowHeaders = rowHeaders;
             this.columnHeaders = columnHeaders;
-            this.rows = Factory.CreateMap<RowHeaderType, IMap<ColumnHeaderType, ValueType>>();
+            this.rows = Factory.CreateInsertionOrderedMap<RowHeaderType, IMap<ColumnHeaderType, ValueType>>();
             foreach (RowHeaderType rowHeader in rowHeaders)
             {
-                rows.Put(rowHeader, Factory.CreateMap<ColumnHeaderType, ValueType>());
+                rows.Put(rowHeader, Factory.CreateInsertionOrderedMap<ColumnHeaderType, ValueType>());
             }
         }
 
@@ -95,7 +95,7 @@ namespace tvn.cosine.ai.common.datastructures
             public Row()
             {
 
-                this._cells = Factory.CreateMap<ColumnHeaderType, ValueType>();
+                this._cells = Factory.CreateInsertionOrderedMap<ColumnHeaderType, ValueType>();
             }
 
             public IMap<ColumnHeaderType, ValueType> cells()

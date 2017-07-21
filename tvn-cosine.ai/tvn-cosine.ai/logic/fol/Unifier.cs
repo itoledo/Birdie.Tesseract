@@ -64,7 +64,7 @@ namespace tvn.cosine.ai.logic.fol
          */
         public IMap<Variable, Term> unify(FOLNode x, FOLNode y)
         {
-            return unify(x, y, Factory.CreateMap<Variable, Term>());
+            return unify(x, y, Factory.CreateInsertionOrderedMap<Variable, Term>());
         }
 
         /**
@@ -183,14 +183,14 @@ namespace tvn.cosine.ai.logic.fol
                 return true;
                 // ((bound? x subst)
             }
-            else if (theta.ContainsKey(x as Variable))
+            else if (x is Variable && theta.ContainsKey(x as Variable))
             {
                 // (occurs-in? var (lookup x subst) subst))
                 return occurCheck(theta, var, theta.Get(x as Variable));
                 // ((consp x) (or (occurs-in? var (first x) subst) (occurs-in? var
                 // (rest x) subst)))
             }
-            else if (x is Function)
+            else if (x is Function && x is Function)
             {
                 // (or (occurs-in? var (first x) subst) (occurs-in? var (rest x)
                 // subst)))
@@ -205,7 +205,7 @@ namespace tvn.cosine.ai.logic.fol
             }
             return false;
         }
-         
+
         /**
          * <code>
          * function UNIFY-VAR(var, x, theta) returns a substitution
@@ -220,12 +220,12 @@ namespace tvn.cosine.ai.logic.fol
             {
                 return null;
             }
-            else if (theta.GetKeys().Contains(var))
+            else if (theta.ContainsKey(var))
             {
                 // if {var/val} E theta then return UNIFY(val, x, theta)
                 return unify(theta.Get(var), x, theta);
             }
-            else if (theta.GetKeys().Contains(x as Variable))
+            else if (x is Variable && theta.ContainsKey(x as Variable))
             {
                 // else if {x/val} E theta then return UNIFY(var, val, theta)
                 return unify(var, theta.Get(x as Variable), theta);

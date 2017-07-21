@@ -33,7 +33,7 @@ namespace tvn.cosine.ai.util
      */
     public class DisjointSets<E>
     { 
-        private IMap<E, ISet<E>> elementToSet = Factory.CreateMap<E, ISet<E>>();
+        private IMap<E, ISet<E>> elementToSet = Factory.CreateInsertionOrderedMap<E, ISet<E>>();
         private ISet<ISet<E>> disjointSets = Factory.CreateSet<ISet<E>>();
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace tvn.cosine.ai.util
             // is not exposed outside of this class.
             // This also ensures the internal logic cannot
             // be corrupted externally due to changing sets.
-            IMap<E, ISet<E>> result = Factory.CreateMap<E, ISet<E>>();
+            IMap<E, ISet<E>> result = Factory.CreateInsertionOrderedMap<E, ISet<E>>();
             foreach (KeyValuePair<E, ISet<E>> entry in elementToSet)
             {
                 result.Put(entry.GetKey(), Factory.CreateSet<E>(entry.GetValue()));

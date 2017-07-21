@@ -31,7 +31,7 @@ namespace tvn_cosine.ai.test.unit.probability.util
             // 10: false, C, true
             // 11: false, C, false
             RandomVariable[] vars = new RandomVariable[] { X, Y, Z };
-            IMap<RandomVariable, object> even = Factory.CreateMap<RandomVariable, object>();
+            IMap<RandomVariable, object> even = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
 
 
             even.Put(X, true);
@@ -108,7 +108,7 @@ namespace tvn_cosine.ai.test.unit.probability.util
             // 10: false, C, true
             // 11: false, C, false
             RandomVariable[] vars = new RandomVariable[] { X, Y, Z };
-            IMap<RandomVariable, object> even = Factory.CreateMap<RandomVariable, object>();
+            IMap<RandomVariable, object> even = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
 
 
             even.Put(X, true);

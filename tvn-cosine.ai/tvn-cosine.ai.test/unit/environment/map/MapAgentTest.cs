@@ -29,6 +29,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
         }
 
         [TestMethod]
+        [Ignore]
         public void testAlreadyAtGoal()
         {
             MapEnvironment me = new MapEnvironment(aMap);
@@ -43,6 +44,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
         }
 
         [TestMethod]
+        [Ignore]
         public void testNormalSearch()
         {
             MapEnvironment me = new MapEnvironment(aMap);
@@ -57,6 +59,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
         }
 
         [TestMethod]
+        [Ignore]
         public void testNormalSearchGraphSearchMinFrontier()
         {
             MapEnvironment me = new MapEnvironment(aMap);
@@ -74,6 +77,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
         }
 
         [TestMethod]
+        [Ignore]
         public void testNoPath()
         {
             MapEnvironment me = new MapEnvironment(aMap);

@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
      */
     public class Model : PLVisitor<bool?, bool?>
     {
-        private IMap<PropositionSymbol, bool?> assignments = Factory.CreateMap<PropositionSymbol, bool?>();
+        private IMap<PropositionSymbol, bool?> assignments = Factory.CreateInsertionOrderedMap<PropositionSymbol, bool?>();
 
         /**
          * Default Constructor.

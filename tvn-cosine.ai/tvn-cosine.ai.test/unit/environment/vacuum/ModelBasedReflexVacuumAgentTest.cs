@@ -7,14 +7,14 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
     [TestClass]
     public class ModelBasedReflexVacuumAgentTest
     {
-        private ModelBasedReflexVacuumAgent agent;
+        private ModelBasedReflexVacuumAgent<object> agent;
 
         private StringBuilder envChanges;
 
         [TestInitialize]
         public void setUp()
         {
-            agent = new ModelBasedReflexVacuumAgent();
+            agent = new ModelBasedReflexVacuumAgent<object>();
             envChanges = new StringBuilder();
         }
 

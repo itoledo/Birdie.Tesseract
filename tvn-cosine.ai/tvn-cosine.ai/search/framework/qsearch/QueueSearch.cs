@@ -27,7 +27,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
         public const string METRIC_MAX_QUEUE_SIZE = "maxQueueSize";
         public const string METRIC_PATH_COST = "pathCost";
 
-        readonly protected NodeExpander<S, A> nodeExpander;
+        protected NodeExpander<S, A> nodeExpander;
         protected IQueue<Node<S, A>> frontier;
         protected bool earlyGoalTest = false;
         protected Metrics metrics = new Metrics();
@@ -37,18 +37,6 @@ namespace tvn.cosine.ai.search.framework.qsearch
         {
             this.nodeExpander = nodeExpander;
             nodeExpander.addNodeListener((node) => metrics.incrementInt(METRIC_NODES_EXPANDED));
-        }
-
-        private bool currIsCancelled;
-
-        public bool GetCurrIsCancelled()
-        {
-            return currIsCancelled;
-        }
-
-        public void SetCurrIsCancelled(bool currIsCancelled)
-        {
-            this.currIsCancelled = currIsCancelled;
         }
 
         /**
@@ -68,7 +56,6 @@ namespace tvn.cosine.ai.search.framework.qsearch
          */
         public virtual Node<S, A> findNode(Problem<S, A> problem, IQueue<Node<S, A>> frontier)
         {
-            currIsCancelled = false;
             this.frontier = frontier;
             clearMetrics();
             // initialize the frontier using the initial state of the problem
@@ -167,6 +154,18 @@ namespace tvn.cosine.ai.search.framework.qsearch
         {
             metrics.set(METRIC_PATH_COST, node.getPathCost());
             return node;
+        }
+
+        private bool currIsCancelled;
+
+        public bool GetCurrIsCancelled()
+        {
+            return currIsCancelled;
+        }
+
+        public void SetCurrIsCancelled(bool currIsCancelled)
+        {
+            this.currIsCancelled = currIsCancelled;
         }
     }
 }

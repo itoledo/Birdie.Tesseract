@@ -1,41 +1,36 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.environment.wumpusworld
 {
     /**
-     * Representation of an Agent's [x,y] position and orientation [up, down, right, or left] within a Wumpus World cave.
-     * 
-     * @author Federico Baron
-     * @author Alessandro Daniele
-     * @author Ciaran O'Reilly
+     * Representation of an Agent's [x,y] position and orientation [up, down, right, or left] within a Wumpus World cave. 
      */
-    public class AgentPosition : IStringable, IEquatable
+    public class AgentPosition
     {
         public class Orientation
         {
-            private static readonly ISet<Orientation> _values = Factory.CreateSet<Orientation>();
-             
-            public static readonly Orientation FACING_NORTH = new Orientation("FacingNorth");
-            public static readonly Orientation FACING_SOUTH = new Orientation("FacingSouth");
-            public static readonly Orientation FACING_EAST = new Orientation("FacingEast");
-            public static readonly Orientation FACING_WEST = new Orientation("FacingWest");
+            private static IQueue<Orientation> _values = Factory.CreateQueue<Orientation>();
 
-            public string getSymbol()
+            public static Orientation FACING_NORTH = new Orientation("FacingNorth");
+            public static Orientation FACING_SOUTH = new Orientation("FacingSouth");
+            public static Orientation FACING_EAST = new Orientation("FacingEast");
+            public static Orientation FACING_WEST = new Orientation("FacingWest");
+
+            public override string ToString()
             {
-                return symbol;
+                return name;
             }
-
-            private readonly string symbol;
 
             public static IQueue<Orientation> values()
             {
-                return Factory.CreateReadOnlySet<Orientation>(_values);
+                return _values;
             }
 
-            Orientation(string sym)
+            private readonly string name;
+
+            Orientation(string name)
             {
-                symbol = sym;
+                this.name = name;
                 _values.Add(this);
             }
         }
@@ -75,7 +70,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
 
         public override string ToString()
         {
-            return room.ToString() + "->" + orientation.getSymbol();
+            return room.ToString() + "->" + orientation;
         }
 
         public override bool Equals(object obj)

@@ -48,14 +48,14 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         where A : IAction
     {
         // persistent: &pi;, a fixed policy
-        private IMap<S, A> pi = Factory.CreateMap<S, A>();
+        private IMap<S, A> pi = Factory.CreateInsertionOrderedMap<S, A>();
         // mdp, an MDP with model P, rewards R, discount &gamma;
         private MDP<S, A> mdp = null;
-        private IMap<Pair<S, Pair<S, A>>, double> P = Factory.CreateMap<Pair<S, Pair<S, A>>, double>();
-        private IMap<S, double> R = Factory.CreateMap<S, double>();
+        private IMap<Pair<S, Pair<S, A>>, double> P = Factory.CreateInsertionOrderedMap<Pair<S, Pair<S, A>>, double>();
+        private IMap<S, double> R = Factory.CreateInsertionOrderedMap<S, double>();
         private PolicyEvaluation<S, A> policyEvaluation = null;
         // U, a table of utilities, initially empty
-        private IMap<S, double> U = Factory.CreateMap<S, double>();
+        private IMap<S, double> U = Factory.CreateInsertionOrderedMap<S, double>();
         // N<sub>sa</sub>, a table of frequencies for state-action pairs, initially
         // zero
         private FrequencyCounter<Pair<S, A>> Nsa = new FrequencyCounter<Pair<S, A>>();
@@ -193,7 +193,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         {
             P.Clear();
             R.Clear();
-            U = Factory.CreateMap<S, double>();
+            U = Factory.CreateInsertionOrderedMap<S, double>();
             Nsa.clear();
             NsDelta_sa.clear();
             s = default(S);

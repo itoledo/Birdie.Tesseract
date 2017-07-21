@@ -8,7 +8,20 @@ namespace tvn_cosine.ai.test.unit.probability
 {
     public abstract class CommonProbabilityModelTests
     {
-        public static readonly  double DELTA_THRESHOLD = ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
+        protected static void assertArrayEquals(double[] arr1, double[] arr2, double delta)
+        {
+            if (arr1.Length != arr2.Length)
+            {
+                Assert.Fail("Two arrays not same length");
+            }
+
+            for (int i = 0; i < arr1.Length; ++i)
+            {
+                Assert.AreEqual(arr1[i], arr2[i], delta);
+            }
+        }
+
+        public const double DELTA_THRESHOLD = ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
 
         //
         // PROTECTED METHODS
@@ -25,8 +38,8 @@ namespace tvn_cosine.ai.test.unit.probability
                 AssignmentProposition ad2 = new AssignmentProposition(
                         ExampleRV.DICE_2_RV, d);
 
-                Assert.AreEqual(1.0 / 6.0, model.prior(ad1) );
-                Assert.AreEqual(1.0 / 6.0, model.prior(ad2) );
+                Assert.AreEqual(1.0 / 6.0, model.prior(ad1), DELTA_THRESHOLD);
+                Assert.AreEqual(1.0 / 6.0, model.prior(ad2), DELTA_THRESHOLD);
             }
 
             // Ensure each combination is 1/36
@@ -63,16 +76,16 @@ namespace tvn_cosine.ai.test.unit.probability
             IntegerSumProposition total11 = new IntegerSumProposition("Total11",
                     new FiniteIntegerDomain(11), ExampleRV.DICE_1_RV,
                     ExampleRV.DICE_2_RV);
-            Assert.AreEqual(2.0 / 36.0, model.prior(total11) );
+            Assert.AreEqual(2.0 / 36.0, model.prior(total11), DELTA_THRESHOLD);
             EquivalentProposition doubles = new EquivalentProposition("Doubles",
                     ExampleRV.DICE_1_RV, ExampleRV.DICE_2_RV);
-            Assert.AreEqual(1.0 / 6.0, model.prior(doubles) );
+            Assert.AreEqual(1.0 / 6.0, model.prior(doubles), DELTA_THRESHOLD);
             SubsetProposition evenDice1 = new SubsetProposition("EvenDice1",
                     new FiniteIntegerDomain(2, 4, 6), ExampleRV.DICE_1_RV);
-            Assert.AreEqual(0.5, model.prior(evenDice1) );
+            Assert.AreEqual(0.5, model.prior(evenDice1), DELTA_THRESHOLD);
             SubsetProposition oddDice2 = new SubsetProposition("OddDice2",
                     new FiniteIntegerDomain(1, 3, 5), ExampleRV.DICE_2_RV);
-            Assert.AreEqual(0.5, model.prior(oddDice2) );
+            Assert.AreEqual(0.5, model.prior(oddDice2), DELTA_THRESHOLD);
 
             // pg. 485 AIMA3e
             AssignmentProposition dice1Is5 = new AssignmentProposition(
@@ -99,7 +112,7 @@ namespace tvn_cosine.ai.test.unit.probability
             DisjunctiveProposition dice1Is5OrDice2Is5 = new DisjunctiveProposition(
                     dice1Is5, dice2Is5);
             Assert.AreEqual(1.0 / 6.0 + 1.0 / 6.0 - 1.0 / 36.0,
-                    model.prior(dice1Is5OrDice2Is5) );
+                    model.prior(dice1Is5OrDice2Is5), DELTA_THRESHOLD);
         }
 
         protected void test_ToothacheCavityCatchModel(ProbabilityModel model)
@@ -120,7 +133,7 @@ namespace tvn_cosine.ai.test.unit.probability
                     ExampleRV.CATCH_RV, false);
 
             // AIMA3e pg. 485
-            Assert.AreEqual(0.2, model.prior(acavity) );
+            Assert.AreEqual(0.2, model.prior(acavity), DELTA_THRESHOLD);
             Assert.AreEqual(0.6, model.posterior(acavity, atoothache),
                     DELTA_THRESHOLD);
             ConjunctiveProposition toothacheAndNotCavity = new ConjunctiveProposition(
@@ -155,7 +168,7 @@ namespace tvn_cosine.ai.test.unit.probability
                     model.posterior(ExampleRV.TOOTHACHE_RV, ExampleRV.CATCH_RV),
                     DELTA_THRESHOLD);
             Assert.AreEqual(1.0, model.posterior(ExampleRV.TOOTHACHE_RV,
-                    ExampleRV.CAVITY_RV, ExampleRV.CATCH_RV) );
+                    ExampleRV.CAVITY_RV, ExampleRV.CATCH_RV), DELTA_THRESHOLD);
             Assert.AreEqual(1.0,
                     model.posterior(ExampleRV.CAVITY_RV, ExampleRV.TOOTHACHE_RV),
                     DELTA_THRESHOLD);
@@ -163,7 +176,7 @@ namespace tvn_cosine.ai.test.unit.probability
                     model.posterior(ExampleRV.CAVITY_RV, ExampleRV.CATCH_RV),
                     DELTA_THRESHOLD);
             Assert.AreEqual(1.0, model.posterior(ExampleRV.CAVITY_RV,
-                    ExampleRV.TOOTHACHE_RV, ExampleRV.CATCH_RV) );
+                    ExampleRV.TOOTHACHE_RV, ExampleRV.CATCH_RV), DELTA_THRESHOLD);
             Assert.AreEqual(1.0,
                     model.posterior(ExampleRV.CATCH_RV, ExampleRV.CAVITY_RV),
                     DELTA_THRESHOLD);
@@ -171,17 +184,17 @@ namespace tvn_cosine.ai.test.unit.probability
                     model.posterior(ExampleRV.CATCH_RV, ExampleRV.TOOTHACHE_RV),
                     DELTA_THRESHOLD);
             Assert.AreEqual(1.0, model.posterior(ExampleRV.CATCH_RV,
-                    ExampleRV.CAVITY_RV, ExampleRV.TOOTHACHE_RV) );
+                    ExampleRV.CAVITY_RV, ExampleRV.TOOTHACHE_RV), DELTA_THRESHOLD);
 
             // AIMA3e pg. 495 - Bayes' Rule
             // P(b|a) = P(a|b)P(b)/P(a)
             Assert.AreEqual(model.posterior(acavity, atoothache),
                     (model.posterior(atoothache, acavity) * model.prior(acavity))
-                            / model.prior(atoothache) );
+                            / model.prior(atoothache), DELTA_THRESHOLD);
             Assert.AreEqual(
                     model.posterior(acavity, anottoothache),
                     (model.posterior(anottoothache, acavity) * model.prior(acavity))
-                            / model.prior(anottoothache) );
+                            / model.prior(anottoothache), DELTA_THRESHOLD);
             Assert.AreEqual(
                     model.posterior(anotcavity, atoothache),
                     (model.posterior(atoothache, anotcavity) * model
@@ -195,13 +208,13 @@ namespace tvn_cosine.ai.test.unit.probability
             //
             Assert.AreEqual(model.posterior(acavity, acatch),
                     (model.posterior(acatch, acavity) * model.prior(acavity))
-                            / model.prior(acatch) );
+                            / model.prior(acatch), DELTA_THRESHOLD);
             Assert.AreEqual(model.posterior(acavity, anotcatch),
                     (model.posterior(anotcatch, acavity) * model.prior(acavity))
-                            / model.prior(anotcatch) );
+                            / model.prior(anotcatch), DELTA_THRESHOLD);
             Assert.AreEqual(model.posterior(anotcavity, acatch),
                     (model.posterior(acatch, anotcavity) * model.prior(anotcavity))
-                            / model.prior(acatch) );
+                            / model.prior(acatch), DELTA_THRESHOLD);
             Assert.AreEqual(
                     model.posterior(anotcavity, anotcatch),
                     (model.posterior(anotcatch, anotcavity) * model
@@ -227,10 +240,10 @@ namespace tvn_cosine.ai.test.unit.probability
             AssignmentProposition asnow = new AssignmentProposition(
                     ExampleRV.WEATHER_RV, "snow");
 
-            Assert.AreEqual(0.6, model.prior(asunny) );
-            Assert.AreEqual(0.1, model.prior(arain) );
-            Assert.AreEqual(0.29, model.prior(acloudy) );
-            Assert.AreEqual(0.01, model.prior(asnow) );
+            Assert.AreEqual(0.6, model.prior(asunny), DELTA_THRESHOLD);
+            Assert.AreEqual(0.1, model.prior(arain), DELTA_THRESHOLD);
+            Assert.AreEqual(0.29, model.prior(acloudy), DELTA_THRESHOLD);
+            Assert.AreEqual(0.01, model.prior(asnow), DELTA_THRESHOLD);
 
             // AIMA3e pg. 488
             // P(sunny, cavity)
@@ -245,8 +258,8 @@ namespace tvn_cosine.ai.test.unit.probability
                     asunny, acavity);
 
             // 0.6 (sunny) * 0.2 (cavity) = 0.12
-            Assert.AreEqual(0.12, model.prior(asunny, acavity) );
-            Assert.AreEqual(0.12, model.prior(sunnyAndCavity) );
+            Assert.AreEqual(0.12, model.prior(asunny, acavity), DELTA_THRESHOLD);
+            Assert.AreEqual(0.12, model.prior(sunnyAndCavity), DELTA_THRESHOLD);
 
             // AIMA3e pg. 494
             // P(toothache, catch, cavity, cloudy) =
@@ -271,7 +284,7 @@ namespace tvn_cosine.ai.test.unit.probability
             // (13.10)
             Assert.AreEqual(
                     model.posterior(acloudy, atoothache, acatch, acavity),
-                    model.prior(acloudy) );
+                    model.prior(acloudy), DELTA_THRESHOLD);
 
             // P(toothache, catch, cavity, cloudy) =
             // P(cloudy)P(tootache, catch, cavity)
@@ -282,17 +295,17 @@ namespace tvn_cosine.ai.test.unit.probability
 
             // P(a | b) = P(a)
             Assert.AreEqual(model.posterior(acavity, acloudy),
-                    model.prior(acavity) );
+                    model.prior(acavity), DELTA_THRESHOLD);
             // P(b | a) = P(b)
             Assert.AreEqual(model.posterior(acloudy, acavity),
-                    model.prior(acloudy) );
+                    model.prior(acloudy), DELTA_THRESHOLD);
             // P(a AND b) = P(a)P(b)
             Assert.AreEqual(model.prior(acavity, acloudy), model.prior(acavity)
-                    * model.prior(acloudy) );
+                    * model.prior(acloudy), DELTA_THRESHOLD);
             ConjunctiveProposition acavityAndacloudy = new ConjunctiveProposition(
                     acavity, acloudy);
             Assert.AreEqual(model.prior(acavityAndacloudy),
-                    model.prior(acavity) * model.prior(acloudy) );
+                    model.prior(acavity) * model.prior(acloudy), DELTA_THRESHOLD);
         }
 
         // AIMA3e pg. 496
@@ -314,14 +327,14 @@ namespace tvn_cosine.ai.test.unit.probability
             Assert.AreEqual(0.7, model.posterior(astiffNeck, ameningitis),
                     DELTA_THRESHOLD);
             // P(meningitis) = 1/50000
-            Assert.AreEqual(0.00002, model.prior(ameningitis) );
+            Assert.AreEqual(0.00002, model.prior(ameningitis), DELTA_THRESHOLD);
             // P(~meningitis) = 1-1/50000
             Assert.AreEqual(0.99998, model.prior(anotmeningitis),
                     DELTA_THRESHOLD);
             // P(stiffNeck) = 0.01
-            Assert.AreEqual(0.01, model.prior(astiffNeck) );
+            Assert.AreEqual(0.01, model.prior(astiffNeck), DELTA_THRESHOLD);
             // P(~stiffNeck) = 0.99
-            Assert.AreEqual(0.99, model.prior(anotstiffNeck) );
+            Assert.AreEqual(0.99, model.prior(anotstiffNeck), DELTA_THRESHOLD);
             // P(meningitis | stiffneck)
             // = P(stiffneck | meningitis)P(meningitis)/P(stiffneck)
             // = (0.7 * 0.00002)/0.01
@@ -337,7 +350,7 @@ namespace tvn_cosine.ai.test.unit.probability
             // = (0.3 * 0.00002)/0.99
             // = 0.000006060606
             Assert.AreEqual(0.000006060606,
-                    model.posterior(ameningitis, anotstiffNeck) );
+                    model.posterior(ameningitis, anotstiffNeck), DELTA_THRESHOLD);
         }
 
         // AIMA3e pg. 512
@@ -362,14 +375,14 @@ namespace tvn_cosine.ai.test.unit.probability
 
             // AIMA3e pg. 514
             Assert.AreEqual(0.00062811126, model.prior(ajohnCalls, amaryCalls,
-                    aalarm, anotburglary, anotearthquake) );
+                    aalarm, anotburglary, anotearthquake), DELTA_THRESHOLD);
             Assert.AreEqual(0.00049800249, model.prior(ajohnCalls, amaryCalls,
-                    anotalarm, anotburglary, anotearthquake) );
+                    anotalarm, anotburglary, anotearthquake), DELTA_THRESHOLD);
 
             // AIMA3e pg. 524
             // P(Burglary = true | JohnCalls = true, MaryCalls = true) = 0.00059224
             Assert.AreEqual(0.00059224,
-                    model.prior(aburglary, ajohnCalls, amaryCalls) );
+                    model.prior(aburglary, ajohnCalls, amaryCalls), DELTA_THRESHOLD);
             // P(Burglary = false | JohnCalls = true, MaryCalls = true) = 0.0014919
             Assert.AreEqual(0.00149185764899,
                     model.prior(anotburglary, ajohnCalls, amaryCalls),

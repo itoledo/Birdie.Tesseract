@@ -109,7 +109,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
             // w <- 1;
             double w = 1.0;
             // <b>x</b> <- an event with n elements initialized from e
-            IMap<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
+            IMap<RandomVariable, object> x = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
             foreach (AssignmentProposition ap in e)
             {
                 x.Put(ap.getTermVariable(), ap.getValue());

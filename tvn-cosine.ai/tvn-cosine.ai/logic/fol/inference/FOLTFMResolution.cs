@@ -84,8 +84,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             // Want to use an answer literal to pull
             // query variables where necessary
             Literal answerLiteral = KB.createAnswerLiteral(notAlpha);
-            ISet<Variable> answerLiteralVariables = KB
-                    .collectAllVariables(answerLiteral.getAtomicSentence());
+            ISet<Variable> answerLiteralVariables = KB.collectAllVariables(answerLiteral.getAtomicSentence());
             Clause answerClause = new Clause();
 
             if (answerLiteralVariables.Size() > 0)
@@ -134,7 +133,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 Clause[] clausesA = clauses.ToArray();
 
                 // Basically, using the simple T)wo F)inger M)ethod here.
-                for (int i = 0; i < clausesA.Length;++i)
+                for (int i = 0; i < clausesA.Length; ++i)
                 {
                     Clause cI = clausesA[i];
                     if (null != tracer)
@@ -211,9 +210,9 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             return ansHandler;
         }
-         
+
         class TFMAnswerHandler : InferenceResult
-        { 
+        {
             private Literal answerLiteral = null;
             private ISet<Variable> answerLiteralVariables = null;
             private Clause answerClause = null;
@@ -275,7 +274,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     {
                         if (aClause.isEmpty())
                         {
-                            proofs.Add(new ProofFinal(aClause.getProofStep(), Factory.CreateMap<Variable, Term>()));
+                            proofs.Add(new ProofFinal(aClause.getProofStep(), Factory.CreateInsertionOrderedMap<Variable, Term>()));
                             complete = true;
                         }
                     }
@@ -300,7 +299,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                                         .Equals(answerLiteral.getAtomicSentence()
                                                 .getSymbolicName()))
                         {
-                            IMap<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
+                            IMap<Variable, Term> answerBindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
                             IQueue<Term> answerTerms = aClause.getPositiveLiterals()
                                     .Get(0).getAtomicSentence().getArgs();
                             int idx = 0;

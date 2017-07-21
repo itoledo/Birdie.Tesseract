@@ -19,7 +19,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         {
             parser = new FOLParser(DomainFactory.knowsDomain());
             unifier = new Unifier();
-            theta = Factory.CreateMap<Variable, Term>();
+            theta = Factory.CreateInsertionOrderedMap<Variable, Term>();
         }
 
         [TestMethod]
@@ -208,7 +208,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             IMap<Variable, Term> result = unifier.unify(s1, s2);
 
             Assert.AreEqual(
-                    "{c1744=EQUIVALENT(c1742,c1751), c1743=c1751, c1752=EQUIVALENT(c1742,c1751)}",
+                    "[[c1744, EQUIVALENT(c1742,c1751)], [c1743, c1751], [c1752, EQUIVALENT(c1742,c1751)]]",
                     result.ToString());
         }
 
@@ -230,31 +230,31 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence s2 = parser.parse("P(x, a)");
             IMap<Variable, Term> result = unifier.unify(s1, s2);
 
-            Assert.AreEqual("{z=a, x=a}", result.ToString());
+            Assert.AreEqual("[[z, a], [x, a]]", result.ToString());
 
             s1 = parser.parse("P(x, z)");
             s2 = parser.parse("P(a, x)");
             result = unifier.unify(s1, s2);
 
-            Assert.AreEqual("{x=a, z=a}", result.ToString());
+            Assert.AreEqual("[[x, a], [z, a]]", result.ToString());
 
             s1 = parser.parse("P(w, w, w)");
             s2 = parser.parse("P(x, y, z)");
             result = unifier.unify(s1, s2);
 
-            Assert.AreEqual("{w=z, x=z, y=z}", result.ToString());
+            Assert.AreEqual("[[w, z], [x, z], [y, z]]", result.ToString());
 
             s1 = parser.parse("P(x, y, z)");
             s2 = parser.parse("P(w, w, w)");
             result = unifier.unify(s1, s2);
 
-            Assert.AreEqual("{x=w, y=w, z=w}", result.ToString());
+            Assert.AreEqual("[[x, w], [y, w], [z, w]]", result.ToString());
 
             s1 = parser.parse("P(x, B, F(y))");
             s2 = parser.parse("P(A, y, F(z))");
             result = unifier.unify(s1, s2);
 
-            Assert.AreEqual("{x=A, y=B, z=B}", result.ToString());
+            Assert.AreEqual("[[x, A], [y, B], [z, B]]", result.ToString());
 
             s1 = parser.parse("P(F(x,B), G(y),         F(z,A))");
             s2 = parser.parse("P(y,      G(F(G(w),w)), F(w,z))");
@@ -266,8 +266,8 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             s2 = parser.parse("P(y,       G(z), F(v     ), H(F(w), x   ))");
             result = unifier.unify(s1, s2);
 
-            Assert.AreEqual(
-                    "{y=F(G(A)), x=G(G(A)), v=H(G(A),G(A)), w=G(A), z=G(A)}",
+            Assert.AreEqual( 
+                    "[[y, F(G(A))], [x, G(G(A))], [v, H(G(A),G(A))], [w, G(A)], [z, G(A)]]",
                     result.ToString());
         }
 

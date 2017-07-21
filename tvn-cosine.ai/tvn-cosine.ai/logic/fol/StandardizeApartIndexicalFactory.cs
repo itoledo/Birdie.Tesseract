@@ -12,7 +12,7 @@ namespace tvn.cosine.ai.logic.fol
      */
     public class StandardizeApartIndexicalFactory
     {
-        private static IMap<char, int> _assignedIndexicals = Factory.CreateMap<char, int>();
+        private static IMap<char, int> _assignedIndexicals = Factory.CreateInsertionOrderedMap<char, int>();
 
         // For use in test cases, where predictable behavior is expected.
         public static void flush()

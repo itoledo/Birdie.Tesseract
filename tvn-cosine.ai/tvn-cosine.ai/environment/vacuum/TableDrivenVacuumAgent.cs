@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.environment.vacuum
         private static IMap<IQueue<IPercept>, IAction> getPerceptSequenceActions()
         {
             IMap<IQueue<IPercept>, IAction> perceptSequenceActions
-                = Factory.CreateMap<IQueue<IPercept>, IAction>();
+                = Factory.CreateInsertionOrderedMap<IQueue<IPercept>, IAction>();
 
             // NOTE: While this particular table could be setup simply
             // using a few loops, the intent is to show how quickly a table

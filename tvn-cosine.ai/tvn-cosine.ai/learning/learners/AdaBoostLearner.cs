@@ -152,7 +152,7 @@ namespace tvn.cosine.ai.learning.learners
                 throw new RuntimeException("cannot initialize Ensemble learning with Zero Learners");
             }
 
-            learnerWeights = Factory.CreateMap<Learner, double>();
+            learnerWeights = Factory.CreateInsertionOrderedMap<Learner, double>();
             foreach (Learner le in learners)
             {
                 learnerWeights.Put(le, 1.0);

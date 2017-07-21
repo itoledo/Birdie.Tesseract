@@ -2,11 +2,22 @@
 {
     public static class Factory
     {
+        public static IMap<KEY, VALUE> CreateInsertionOrderedMap<KEY, VALUE>()
+        {
+            return new InsertionOrderedMap<KEY, VALUE>();
+        }
+
+
+        public static IMap<KEY, VALUE> CreateInsertionOrderedMap<KEY, VALUE>(IMap<KEY, VALUE> map)
+        {
+            return new InsertionOrderedMap<KEY, VALUE>(map);
+        }
+
         public static IMap<KEY, VALUE> CreateMap<KEY, VALUE>()
         {
             return new Map<KEY, VALUE>();
         }
-
+         
         public static IMap<KEY, VALUE> CreateMap<KEY, VALUE>(IMap<KEY, VALUE> map)
         {
             return new Map<KEY, VALUE>(map);
@@ -37,6 +48,11 @@
             return new Set<T>(collection);
         }
 
+        public static ISet<T> CreateSet<T>(params T[] collection)
+        {
+           return new Set<T>(collection); 
+        }
+
         public static IQueue<T> CreateFifoQueueNoDuplicates<T>()
         {
             return new FifoQueueNoDuplicates<T>();
@@ -62,7 +78,7 @@
             return new Queue<T>(collection);
         }
 
-        public static IQueue<T> CreateQueue<T>(T[] collection)
+        public static IQueue<T> CreateQueue<T>(params T[] collection)
         {
             return new Queue<T>(collection);
         }

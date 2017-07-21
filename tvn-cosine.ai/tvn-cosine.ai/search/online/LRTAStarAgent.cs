@@ -54,7 +54,7 @@ namespace tvn.cosine.ai.search.online
         // persistent: result, a table, indexed by state and action, initially empty
         private TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<S, A, S>();
         // H, a table of cost estimates indexed by state, initially empty
-        private IMap<S, double> H = Factory.CreateMap<S, double>();
+        private IMap<S, double> H = Factory.CreateInsertionOrderedMap<S, double>();
         // s, a, the previous state and action, initially null
         private S s = default(S);
         private A a = default(A);

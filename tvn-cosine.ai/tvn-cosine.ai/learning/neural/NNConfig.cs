@@ -19,7 +19,7 @@ namespace tvn.cosine.ai.learning.neural
 
         public NNConfig()
         {
-            this.hash = Factory.CreateMap<string, object>();
+            this.hash = Factory.CreateInsertionOrderedMap<string, object>();
         }
 
         public double getParameterAsDouble(string key)

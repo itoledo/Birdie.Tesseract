@@ -57,8 +57,7 @@ namespace tvn.cosine.ai.environment.map
 
         public override IPercept getPerceptSeenBy(IAgent anAgent)
         {
-            return new DynamicPercept(DynAttributeNames.PERCEPT_IN,
-                    getAgentLocation(anAgent));
+            return new DynamicPercept(DynAttributeNames.PERCEPT_IN, getAgentLocation(anAgent));
         }
 
         public Map getMap()

@@ -9,12 +9,21 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
 {
     [TestClass]
     public class ClauseTest
-    { 
+    {
         private readonly Literal LITERAL_P = new Literal(new PropositionSymbol("P"));
         private readonly Literal LITERAL_NOT_P = new Literal(new PropositionSymbol("P"), false);
         private readonly Literal LITERAL_Q = new Literal(new PropositionSymbol("Q"));
         private readonly Literal LITERAL_NOT_Q = new Literal(new PropositionSymbol("Q"), false);
         private readonly Literal LITERAL_R = new Literal(new PropositionSymbol("R"));
+
+        private void testClauseLiterals(ISet<Literal> s1, ISet<Literal> s2)
+        {
+            Assert.AreEqual(s1.Size(), s2.Size());
+            foreach (Literal c in s1)
+            {
+                Assert.IsTrue(s2.Contains(c));
+            }
+        }
 
         [TestMethod]
         public void testAlwaysFalseLiteralsExcludedOnConstruction()
@@ -27,19 +36,26 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.FALSE));
             Assert.AreEqual(1, clause.getNumberLiterals());
-            Assert.AreEqual(Util.createSet(LITERAL_P), clause.getLiterals());
+             
+            testClauseLiterals(Util.createSet(LITERAL_P), clause.getLiterals());
+
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.TRUE, false));
             Assert.AreEqual(1, clause.getNumberLiterals());
-            Assert.AreEqual(Util.createSet(LITERAL_P), clause.getLiterals());
+
+            testClauseLiterals(Util.createSet(LITERAL_P), clause.getLiterals()); 
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.FALSE, false));
             Assert.AreEqual(2, clause.getNumberLiterals());
-            Assert.AreEqual(Util.createSet(LITERAL_P, new Literal(PropositionSymbol.FALSE, false)), clause.getLiterals());
+
+            testClauseLiterals(Util.createSet(LITERAL_P, new Literal(PropositionSymbol.FALSE, false)), 
+                clause.getLiterals()); 
 
             clause = new Clause(LITERAL_P, new Literal(PropositionSymbol.TRUE));
             Assert.AreEqual(2, clause.getNumberLiterals());
-            Assert.AreEqual(Util.createSet(LITERAL_P, new Literal(PropositionSymbol.TRUE)), clause.getLiterals());
+
+            testClauseLiterals(Util.createSet(LITERAL_P, new Literal(PropositionSymbol.TRUE)),
+                clause.getLiterals()); 
         }
 
         [TestMethod]

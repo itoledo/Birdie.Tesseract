@@ -33,7 +33,7 @@ namespace tvn_cosine.ai.demo.logic
         {
             FOLParser parser = new FOLParser(DomainFactory.knowsDomain());
             Unifier unifier = new Unifier();
-            IMap<Variable, Term> theta = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> theta = Factory.CreateInsertionOrderedMap<Variable, Term>();
 
             Sentence query = parser.parse("Knows(John,x)");
             Sentence johnKnowsJane = parser.parse("Knows(y,Mother(y))");

@@ -176,7 +176,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
         private void sampleFromTransitionModel(int i)
         {
             // x <- an event initialized with S[i]
-            IMap<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
+            IMap<RandomVariable, object> x = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
             for (int n = 0; n < S[i].Length; n++)
             {
                 AssignmentProposition x1 = S[i][n];

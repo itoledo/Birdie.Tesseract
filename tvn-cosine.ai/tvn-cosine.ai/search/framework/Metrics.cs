@@ -13,7 +13,7 @@ namespace tvn.cosine.ai.search.framework
 
         public Metrics()
         {
-            this.hash = Factory.CreateMap<string, string>();
+            this.hash = Factory.CreateInsertionOrderedMap<string, string>();
         }
 
         public void set(string name, int i)
@@ -38,18 +38,17 @@ namespace tvn.cosine.ai.search.framework
 
         public int getInt(string name)
         {
-            return hash.ContainsKey(name) ? int.Parse(name, NumberStyles.Any, CultureInfo.InvariantCulture) : 0;
+            return hash.ContainsKey(name) ? int.Parse(hash.Get(name), NumberStyles.Any, CultureInfo.InvariantCulture) : 0;
         }
 
         public double getDouble(string name)
         {
-            return hash.ContainsKey(name) ? double.Parse(name, NumberStyles.Any, CultureInfo.InvariantCulture) : double.NaN;
+            return hash.ContainsKey(name) ? double.Parse(hash.Get(name), NumberStyles.Any, CultureInfo.InvariantCulture) : double.NaN;
         }
 
         public long getLong(string name)
-        {
-            string value = hash.Get(name);
-            return value != null ? long.Parse(value, NumberStyles.Any, CultureInfo.InvariantCulture) : 0L;
+        { 
+            return hash.ContainsKey(name) ? long.Parse(hash.Get(name), NumberStyles.Any, CultureInfo.InvariantCulture) : 0L;
         }
 
         public string get(string name)

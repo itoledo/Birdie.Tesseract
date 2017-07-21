@@ -12,6 +12,15 @@ namespace tvn.cosine.ai.common.collections
             backingSet = new System.Collections.Generic.HashSet<T>();
         }
 
+        public Set(params T[] items)
+            : this()
+        {
+            foreach (T item in items)
+            {
+                Add(item);
+            }
+        }
+
         public Set(IQueue<T> items)
             : this()
         {
@@ -70,7 +79,7 @@ namespace tvn.cosine.ai.common.collections
         {
             return backingSet.Count;
         }
-         
+
         public bool ContainsAll(IQueue<T> other)
         {
             foreach (T item in other)
@@ -104,8 +113,8 @@ namespace tvn.cosine.ai.common.collections
 
         T IQueue<T>.Get(int index)
         {
-           if (index > backingSet.Count 
-            || index < 0)
+            if (index > backingSet.Count
+             || index < 0)
             {
                 throw new NotSupportedException("Not supported");
             }
@@ -131,15 +140,13 @@ namespace tvn.cosine.ai.common.collections
             {
                 return false;
             }
-
-            int counter = 0;
+             
             foreach (T item in backingSet)
             {
-                if (!item.Equals(other.Get(counter)))
+                if (!other.Contains(item))
                 {
                     return false;
-                }
-                ++counter;
+                } 
             }
             return true;
         }

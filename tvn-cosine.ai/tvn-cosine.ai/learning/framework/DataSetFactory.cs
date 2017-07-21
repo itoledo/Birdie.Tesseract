@@ -23,7 +23,11 @@ namespace tvn.cosine.ai.learning.framework
 
                 while (!reader.EndOfStream)
                 {
-                    ds.add(exampleFromString(line, spec, separator));
+                    line = reader.ReadLine().Trim();
+                    if (!string.IsNullOrEmpty(line))
+                    {
+                        ds.add(exampleFromString(line, spec, separator));
+                    }
                 }
 
             }
@@ -34,7 +38,7 @@ namespace tvn.cosine.ai.learning.framework
         public static Example exampleFromString(string data, DataSetSpecification dataSetSpec, string separator)
         {
             Regex splitter = new Regex(separator);
-            IMap<string, Attribute> attributes = Factory.CreateMap<string, Attribute>();
+            IMap<string, Attribute> attributes = Factory.CreateInsertionOrderedMap<string, Attribute>();
             IQueue<string> attributeValues = Factory.CreateQueue<string>(splitter.Split(data));
             if (dataSetSpec.isValid(attributeValues))
             {

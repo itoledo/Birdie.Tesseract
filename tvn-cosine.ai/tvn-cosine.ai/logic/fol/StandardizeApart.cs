@@ -26,16 +26,15 @@ namespace tvn.cosine.ai.logic.fol
         public StandardizeApartResult standardizeApart(Sentence sentence, StandardizeApartIndexical standardizeApartIndexical)
         {
             ISet<Variable> toRename = variableCollector.collectAllVariables(sentence);
-            IMap<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
-            IMap<Variable, Term> reverseSubstitution = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> renameSubstitution = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> reverseSubstitution = Factory.CreateInsertionOrderedMap<Variable, Term>();
 
             foreach (Variable var in toRename)
             {
                 Variable v = null;
                 do
                 {
-                    v = new Variable(standardizeApartIndexical.getPrefix()
-                            + standardizeApartIndexical.getNextIndex());
+                    v = new Variable(standardizeApartIndexical.getPrefix() + standardizeApartIndexical.getNextIndex());
                     // Ensure the new variable name is not already
                     // accidentally used in the sentence
                 } while (toRename.Contains(v));
@@ -44,25 +43,22 @@ namespace tvn.cosine.ai.logic.fol
                 reverseSubstitution.Put(v, var);
             }
 
-            Sentence standardized = substVisitor.subst(renameSubstitution,
-                    sentence);
+            Sentence standardized = substVisitor.subst(renameSubstitution, sentence);
 
-            return new StandardizeApartResult(sentence, standardized,
-                    renameSubstitution, reverseSubstitution);
+            return new StandardizeApartResult(sentence, standardized, renameSubstitution, reverseSubstitution);
         }
 
         public Clause standardizeApart(Clause clause, StandardizeApartIndexical standardizeApartIndexical)
         {
             ISet<Variable> toRename = variableCollector.collectAllVariables(clause);
-            IMap<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> renameSubstitution = Factory.CreateInsertionOrderedMap<Variable, Term>();
 
             foreach (Variable var in toRename)
             {
                 Variable v = null;
                 do
                 {
-                    v = new Variable(standardizeApartIndexical.getPrefix()
-                            + standardizeApartIndexical.getNextIndex());
+                    v = new Variable(standardizeApartIndexical.getPrefix() + standardizeApartIndexical.getNextIndex());
                     // Ensure the new variable name is not already
                     // accidentally used in the sentence
                 } while (toRename.Contains(v));
@@ -89,7 +85,7 @@ namespace tvn.cosine.ai.logic.fol
         public Chain standardizeApart(Chain chain, StandardizeApartIndexical standardizeApartIndexical)
         {
             ISet<Variable> toRename = variableCollector.collectAllVariables(chain);
-            IMap<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> renameSubstitution = Factory.CreateInsertionOrderedMap<Variable, Term>();
 
             foreach (Variable var in toRename)
             {
@@ -141,7 +137,7 @@ namespace tvn.cosine.ai.logic.fol
                 toRename.AddAll(variableCollector.collectAllVariables(nl.getAtomicSentence()));
             }
 
-            IMap<Variable, Term> renameSubstitution = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> renameSubstitution = Factory.CreateInsertionOrderedMap<Variable, Term>();
 
             foreach (Variable var in toRename)
             {

@@ -44,8 +44,8 @@ namespace tvn.cosine.ai.search.csp
             variables = Factory.CreateQueue<VAR>();
             domains = Factory.CreateQueue<Domain<VAL>>();
             constraints = Factory.CreateQueue<Constraint<VAR, VAL>>();
-            varIndexHash = Factory.CreateMap<Variable, int>();
-            cnet = Factory.CreateMap<Variable, IQueue<Constraint<VAR, VAL>>>();
+            varIndexHash = Factory.CreateInsertionOrderedMap<Variable, int>();
+            cnet = Factory.CreateInsertionOrderedMap<Variable, IQueue<Constraint<VAR, VAL>>>();
         }
 
         /**
@@ -175,7 +175,12 @@ namespace tvn.cosine.ai.search.csp
             result = new CSP<VAR, VAL>();
             result.domains = Factory.CreateQueue<Domain<VAL>>();
             result.domains.AddAll(domains);
-            return result;
+            result.variables.AddAll(variables);
+            result.constraints.AddAll(constraints);
+            result.varIndexHash.AddAll(varIndexHash);
+            result.cnet.AddAll(cnet);
+            return result; 
+             
         }
     }
 }

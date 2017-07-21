@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
     public class GraphSearchReducedFrontier<S, A> : QueueSearch<S, A>
     {
         private ISet<S> explored = Factory.CreateSet<S>();
-        private IMap<S, Node<S, A>> frontierNodeLookup = Factory.CreateMap<S, Node<S, A>>();
+        private IMap<S, Node<S, A>> frontierNodeLookup = Factory.CreateInsertionOrderedMap<S, Node<S, A>>();
         private IComparer<Node<S, A>> nodeComparator = null;
 
         public GraphSearchReducedFrontier()

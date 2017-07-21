@@ -63,8 +63,10 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.model
         {
             foreach (BayesInference bi in getBayesInferenceImplementations())
             {
-                test_BurglaryAlarmModel(new FiniteBayesModel(
-                        BayesNetExampleFactory.constructBurglaryAlarmNetwork(), bi));
+                test_BurglaryAlarmModel(
+                    new FiniteBayesModel(
+                        BayesNetExampleFactory.constructBurglaryAlarmNetwork(), 
+                        bi));
             }
         }
 

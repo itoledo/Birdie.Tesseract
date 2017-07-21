@@ -20,7 +20,7 @@ namespace tvn_cosine.ai.demo.agent
             env.AddEnvironmentView(view);
 
             IAgent a = null;
-            a = new ModelBasedReflexVacuumAgent();
+            a = new ModelBasedReflexVacuumAgent<object>();
             // a = new ReflexVacuumAgent();
             // a = new SimpleReflexVacuumAgent();
             // a = new TableDrivenVacuumAgent();

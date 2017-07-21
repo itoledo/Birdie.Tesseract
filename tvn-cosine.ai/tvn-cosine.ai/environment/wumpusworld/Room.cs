@@ -47,22 +47,24 @@
             return y;
         }
 
-         
         public override string ToString()
         {
             return "[" + x + "," + y + "]";
         }
 
-         
         public override bool Equals(object o)
         {
-            if (o != null && o is Room) {
+            if (o != null && o is Room)
+            {
                 Room r = (Room)o;
-                return x == r.x && y == r.y;
+                if (x == r.x && y == r.y)
+                {
+                    return true;
+                }
+                return false;
             }
             return false;
         }
-
          
         public override int GetHashCode()
         {
@@ -71,5 +73,5 @@
             result = 43 * result + getY();
             return result;
         }
-    }
+    } 
 }

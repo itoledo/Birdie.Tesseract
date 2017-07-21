@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.probability.example
 						// R_t = false, U_t = false
 						0.8 }, rain_t);
 
-            IMap<RandomVariable, RandomVariable> X_0_to_X_1 = Factory.CreateMap<RandomVariable, RandomVariable>();
+            IMap<RandomVariable, RandomVariable> X_0_to_X_1 = Factory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
             X_0_to_X_1.Put(ExampleRV.RAIN_tm1_RV, ExampleRV.RAIN_t_RV);
             ISet<RandomVariable> E_1 = Factory.CreateSet<RandomVariable>();
             E_1.Add(ExampleRV.UMBREALLA_t_RV);

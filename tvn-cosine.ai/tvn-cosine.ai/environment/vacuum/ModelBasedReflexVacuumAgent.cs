@@ -6,9 +6,9 @@ using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-    public class ModelBasedReflexVacuumAgent : AgentBase
+    public class ModelBasedReflexVacuumAgent<MODEL> : AgentBase
     {
-        class ModelBasedReflexVacuumAgentProgram : ModelBasedReflexAgentProgram
+        class ModelBasedReflexVacuumAgentProgram : ModelBasedReflexAgentProgram<MODEL>
         {
             protected override void init()
             {
@@ -17,7 +17,7 @@ namespace tvn.cosine.ai.environment.vacuum
             }
 
             protected override DynamicState updateState(DynamicState state,
-                    IAction anAction, IPercept percept, IModel model)
+                    IAction anAction, IPercept percept, MODEL model)
             {
 
                 LocalVacuumEnvironmentPercept vep = (LocalVacuumEnvironmentPercept)percept;
@@ -48,9 +48,7 @@ namespace tvn.cosine.ai.environment.vacuum
 
         public ModelBasedReflexVacuumAgent()
             : base(new ModelBasedReflexVacuumAgentProgram())
-        {
-
-        }
+        { }
 
         //
         // PRIVATE METHODS

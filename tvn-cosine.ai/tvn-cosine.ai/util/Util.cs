@@ -75,7 +75,7 @@ namespace tvn.cosine.ai.util
          */
         public static IMap<K, V> create<K, V>(IQueue<K> keys, V value)
         {
-            IMap<K, V> map = Factory.CreateMap<K, V>();
+            IMap<K, V> map = Factory.CreateInsertionOrderedMap<K, V>();
 
             foreach (K k in keys)
             {
@@ -191,7 +191,7 @@ namespace tvn.cosine.ai.util
 
         public static T mode<T>(IQueue<T> l)
         {
-            IMap<T, int> hash = Factory.CreateMap<T, int>();
+            IMap<T, int> hash = Factory.CreateInsertionOrderedMap<T, int>();
             foreach (T obj in l)
             {
                 if (hash.ContainsKey(obj))

@@ -411,7 +411,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         {
             private LightestClauseHeuristic lightestClauseHeuristic = null;
             // Group the clauses by their # of literals.
-            private IMap<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateMap<int, ISet<Clause>>();
+            private IMap<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateInsertionOrderedMap<int, ISet<Clause>>();
             // Keep track of the min and max # of literals.
             private int minNoLiterals = int.MaxValue;
             private int maxNoLiterals = 0;
@@ -605,7 +605,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 {
                     if (clause.isEmpty())
                     {
-                        proofs.Add(new ProofFinal(clause.getProofStep(), Factory.CreateMap<Variable, Term>()));
+                        proofs.Add(new ProofFinal(clause.getProofStep(), Factory.CreateInsertionOrderedMap<Variable, Term>()));
                         complete = true;
                         isAns = true;
                     }
@@ -631,7 +631,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                                     .Equals(answerLiteral.getAtomicSentence()
                                             .getSymbolicName()))
                     {
-                        IMap<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
+                        IMap<Variable, Term> answerBindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
                         IQueue<Term> answerTerms = clause.getPositiveLiterals()
                                 .Get(0).getAtomicSentence().getArgs();
                         int idx = 0;

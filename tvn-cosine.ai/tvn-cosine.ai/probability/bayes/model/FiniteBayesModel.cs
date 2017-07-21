@@ -59,7 +59,14 @@ namespace tvn.cosine.ai.probability.bayes.model
         public virtual bool isValid()
         {
             // Handle rounding 
-            return System.Math.Abs(1 - prior(new Proposition[representation.Size()])) <= ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
+            int counter = 0;
+            Proposition[] propositionArray = new Proposition[representation.Size()];
+            foreach (Proposition prop in representation)
+            {
+                propositionArray[counter] = prop;
+                ++counter;
+            }
+            return System.Math.Abs(1 - prior(propositionArray)) <= ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
         }
 
         class CategoricalDistributionIteraorPrior : CategoricalDistributionIterator

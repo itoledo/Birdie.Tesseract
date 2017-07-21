@@ -11,8 +11,8 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
         private Clause factorOf = null;
         private Literal lx = null;
         private Literal ly = null;
-        private IMap<Variable, Term> subst = Factory.CreateMap<Variable, Term>();
-        private IMap<Variable, Term> renameSubst = Factory.CreateMap<Variable, Term>();
+        private IMap<Variable, Term> subst = Factory.CreateInsertionOrderedMap<Variable, Term>();
+        private IMap<Variable, Term> renameSubst = Factory.CreateInsertionOrderedMap<Variable, Term>();
 
         public ProofStepClauseFactor(Clause factor, Clause factorOf, Literal lx,
                 Literal ly, IMap<Variable, Term> subst,

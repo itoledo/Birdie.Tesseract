@@ -51,7 +51,7 @@ namespace tvn.cosine.ai.learning.framework
         public double getInformationFor()
         {
             string attributeName = specification.getTarget();
-            IMap<string, int> counts = Factory.CreateMap<string, int>();
+            IMap<string, int> counts = Factory.CreateInsertionOrderedMap<string, int>();
             foreach (Example e in examples)
             {
                 string val = e.getAttributeValueAsString(attributeName);
@@ -79,7 +79,7 @@ namespace tvn.cosine.ai.learning.framework
 
         public IMap<string, DataSet> splitByAttribute(string attributeName)
         {
-            IMap<string, DataSet> results = Factory.CreateMap<string, DataSet>();
+            IMap<string, DataSet> results = Factory.CreateInsertionOrderedMap<string, DataSet>();
             foreach (Example e in examples)
             {
                 string val = e.getAttributeValueAsString(attributeName);

@@ -118,8 +118,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Assert.IsTrue(gotRichard);
         }
 
-        protected void testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(
-                InferenceProcedure infp)
+        protected void testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(InferenceProcedure infp)
         {
             FOLKnowledgeBase wkb = FOLKnowledgeBaseFactory.createWeaponsKnowledgeBase(infp);
             IQueue<Term> terms = Factory.CreateQueue<Term>();

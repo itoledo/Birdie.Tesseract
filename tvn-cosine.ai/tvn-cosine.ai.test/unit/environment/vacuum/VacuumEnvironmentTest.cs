@@ -7,7 +7,7 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
     {
         VacuumEnvironment tve, tve2, tve3, tve4;
 
-        ModelBasedReflexVacuumAgent a;
+        ModelBasedReflexVacuumAgent<object> a;
 
         [TestInitialize]
         public void setUp()
@@ -20,7 +20,7 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
                     VacuumEnvironment.LocationState.Dirty);
             tve4 = new VacuumEnvironment(VacuumEnvironment.LocationState.Dirty,
                     VacuumEnvironment.LocationState.Clean);
-            a = new ModelBasedReflexVacuumAgent();
+            a = new ModelBasedReflexVacuumAgent<object>();
         }
 
         [TestMethod]

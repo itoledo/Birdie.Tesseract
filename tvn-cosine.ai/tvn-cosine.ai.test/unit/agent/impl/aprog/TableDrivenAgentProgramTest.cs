@@ -19,13 +19,16 @@ namespace tvn_cosine.ai.test.unit.agent.impl.aprog
         [TestInitialize]
         public void setUp()
         {
-            IMap<IQueue<IPercept>, IAction> perceptSequenceActions = Factory.CreateMap<IQueue<IPercept>, IAction>();
-            perceptSequenceActions.Put(createPerceptSequence(new DynamicPercept("key1", "value1")), ACTION_1);
-            perceptSequenceActions.Put(createPerceptSequence(new DynamicPercept("key1", "value1"),
-                            new DynamicPercept("key1", "value2")), ACTION_2);
-            perceptSequenceActions.Put(createPerceptSequence(new DynamicPercept("key1", "value1"),
-                            new DynamicPercept("key1", "value2"),
-                            new DynamicPercept("key1", "value3")), ACTION_3);
+            IMap<IQueue<IPercept>, IAction> perceptSequenceActions = Factory.CreateInsertionOrderedMap<IQueue<IPercept>, IAction>();
+            perceptSequenceActions.Put(createPerceptSequence(
+                new DynamicPercept("key1", "value1")), ACTION_1);
+            perceptSequenceActions.Put(createPerceptSequence(
+                new DynamicPercept("key1", "value1"),
+                new DynamicPercept("key1", "value2")), ACTION_2);
+            perceptSequenceActions.Put(createPerceptSequence(
+                new DynamicPercept("key1", "value1"),
+                new DynamicPercept("key1", "value2"),
+                new DynamicPercept("key1", "value3")), ACTION_3);
 
             agent = new MockAgent(new TableDrivenAgentProgram(perceptSequenceActions));
         }

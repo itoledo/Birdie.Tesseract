@@ -75,7 +75,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
                 Z.Remove(ap.getTermVariable());
             }
             // <b>x</b>, the current state of the network, initially copied from e
-            IMap<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
+            IMap<RandomVariable, object> x = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
             foreach (AssignmentProposition ap in e)
             {
                 x.Put(ap.getTermVariable(), ap.getValue());

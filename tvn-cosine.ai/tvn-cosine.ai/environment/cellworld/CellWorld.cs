@@ -23,7 +23,7 @@ namespace tvn.cosine.ai.environment.cellworld
     public class CellWorld<C>
     {
         private ISet<Cell<C>> cells = Factory.CreateSet<Cell<C>>();
-        private IMap<int, IMap<int, Cell<C>>> cellLookup = Factory.CreateMap<int, IMap<int, Cell<C>>>();
+        private IMap<int, IMap<int, Cell<C>>> cellLookup = Factory.CreateInsertionOrderedMap<int, IMap<int, Cell<C>>>();
 
         /**
          * Construct a Cell World with size xDimension * y Dimension cells, all with
@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.environment.cellworld
         {
             for (int x = 1; x <= xDimension; x++)
             {
-                IMap<int, Cell<C>> xCol = Factory.CreateMap<int, Cell<C>>();
+                IMap<int, Cell<C>> xCol = Factory.CreateInsertionOrderedMap<int, Cell<C>>();
                 for (int y = 1; y <= yDimension; y++)
                 {
                     Cell<C> c = new Cell<C>(x, y, defaultCellContent);

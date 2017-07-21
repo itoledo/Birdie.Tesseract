@@ -17,7 +17,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
     public class LookupPolicy<S, A> : Policy<S, A>
         where A : IAction
     {
-        private IMap<S, A> policy = Factory.CreateMap<S, A>();
+        private IMap<S, A> policy = Factory.CreateInsertionOrderedMap<S, A>();
 
         public LookupPolicy(IMap<S, A> aPolicy)
         {

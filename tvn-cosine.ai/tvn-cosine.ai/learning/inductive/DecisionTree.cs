@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.learning.inductive
         public DecisionTree(string attributeName)
         {
             this.attributeName = attributeName;
-            nodes = Factory.CreateMap<string, DecisionTree>();
+            nodes = Factory.CreateInsertionOrderedMap<string, DecisionTree>();
         }
 
         public virtual void addLeaf(string attributeValue, string decision)

@@ -12,6 +12,19 @@ namespace tvn_cosine.ai.test.unit.probability.util
     {
         public static readonly double DELTA_THRESHOLD = ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
 
+        private static void assertArrayEquals(double[] arr1, double[] arr2, double delta)
+        {
+            if (arr1.Length != arr2.Length)
+            {
+                Assert.Fail("Two arrays not same length");
+            }
+
+            for (int i = 0; i < arr1.Length; ++i)
+            {
+                Assert.AreEqual(arr1[i], arr2[i], delta);
+            }
+        }
+
         [TestMethod]
         public void test_divideBy()
         {
@@ -75,10 +88,12 @@ namespace tvn_cosine.ai.test.unit.probability.util
             ProbabilityTable iD = new ProbabilityTable(new double[] { 1.0 });
             // Ensure the order of the dividends
             // makes no difference to the result
-            Assert.AreEqual(xyzD.divideBy(zD).getValues(),
-                    xzyD.divideBy(zD).pointwiseProductPOS(iD, xRV, yRV, zRV).getValues());
-            Assert.AreEqual(xzyD.divideBy(zD).getValues(),
-                    zxyD.divideBy(zD).pointwiseProductPOS(iD, xRV, zRV, yRV).getValues());
+             assertArrayEquals(xyzD.divideBy(zD).getValues(),
+                xzyD.divideBy(zD).pointwiseProductPOS(iD, xRV, yRV, zRV)
+                        .getValues(), DELTA_THRESHOLD);
+             assertArrayEquals(xzyD.divideBy(zD).getValues(),
+                    zxyD.divideBy(zD).pointwiseProductPOS(iD, xRV, zRV, yRV)
+                            .getValues(), DELTA_THRESHOLD);
         }
 
         [TestMethod]
@@ -101,10 +116,12 @@ namespace tvn_cosine.ai.test.unit.probability.util
                     zRV);
 
             // Not commutative
-            CollectionAssert.AreEqual(new double[] { 3.0, 7.0, 6.0, 14.0, 9.0, 21.0,
-                12.0, 28.0 }, xyD.pointwiseProduct(zD).getValues());
-            CollectionAssert.AreEqual(new double[] { 3.0, 6.0, 9.0, 12.0, 7.0, 14.0,
-                21.0, 28.0 }, zD.pointwiseProduct(xyD).getValues());
+            assertArrayEquals(new double[] { 3.0, 7.0, 6.0, 14.0, 9.0, 21.0,
+                12.0, 28.0 }, xyD.pointwiseProduct(zD).getValues(),
+                    DELTA_THRESHOLD);
+           assertArrayEquals(new double[] { 3.0, 6.0, 9.0, 12.0, 7.0, 14.0,
+                21.0, 28.0 }, zD.pointwiseProduct(xyD).getValues(),
+                    DELTA_THRESHOLD);
         }
 
         [TestMethod]
@@ -127,8 +144,9 @@ namespace tvn_cosine.ai.test.unit.probability.util
                     zRV);
 
             // Make commutative by specifying an order for the product
-            CollectionAssert.AreEqual(xyD.pointwiseProduct(zD).getValues(), zD
-                    .pointwiseProductPOS(xyD, xRV, yRV, zRV).getValues());
+             assertArrayEquals(xyD.pointwiseProduct(zD).getValues(), zD
+                    .pointwiseProductPOS(xyD, xRV, yRV, zRV).getValues(),
+                    DELTA_THRESHOLD);
         }
 
         class iter : ProbabilityTable.ProbabilityTableIterator
@@ -176,32 +194,32 @@ namespace tvn_cosine.ai.test.unit.probability.util
 
             answer.Clear();
             ptABC.iterateOverTable(pti, new AssignmentProposition(aRV, true));
-            Assert.AreEqual(1111.0, sumOf(answer));
+            Assert.AreEqual(1111.0, sumOf(answer), DELTA_THRESHOLD);
 
             answer.Clear();
             ptABC.iterateOverTable(pti, new AssignmentProposition(aRV, false));
-            Assert.AreEqual(11110000.0, sumOf(answer));
+            Assert.AreEqual(11110000.0, sumOf(answer), DELTA_THRESHOLD);
 
             answer.Clear();
             ptABC.iterateOverTable(pti, new AssignmentProposition(bRV, true));
-            Assert.AreEqual(110011.0, sumOf(answer));
+            Assert.AreEqual(110011.0, sumOf(answer), DELTA_THRESHOLD);
 
             answer.Clear();
             ptABC.iterateOverTable(pti, new AssignmentProposition(bRV, false));
-            Assert.AreEqual(11001100.0, sumOf(answer));
+            Assert.AreEqual(11001100.0, sumOf(answer), DELTA_THRESHOLD);
 
             answer.Clear();
             ptABC.iterateOverTable(pti, new AssignmentProposition(cRV, true));
-            Assert.AreEqual(1010101.0, sumOf(answer));
+            Assert.AreEqual(1010101.0, sumOf(answer), DELTA_THRESHOLD);
 
             answer.Clear();
             ptABC.iterateOverTable(pti, new AssignmentProposition(cRV, false));
-            Assert.AreEqual(10101010.0, sumOf(answer));
+            Assert.AreEqual(10101010.0, sumOf(answer), DELTA_THRESHOLD);
 
             answer.Clear();
             ptABC.iterateOverTable(pti, new AssignmentProposition(bRV, true),
                     new AssignmentProposition(cRV, true));
-            Assert.AreEqual(10001.0, sumOf(answer));
+            Assert.AreEqual(10001.0, sumOf(answer), DELTA_THRESHOLD);
         }
 
         //

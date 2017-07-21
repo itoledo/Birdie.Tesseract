@@ -55,7 +55,7 @@ namespace tvn.cosine.ai.search.csp
             VAR root = _useRandom ? Util.selectRandomlyFromList(csp.getVariables()) : csp.getVariables().Get(0);
             // Sort the variables in topological order
             IQueue<VAR> orderedVars = Factory.CreateQueue<VAR>();
-            IMap<VAR, Constraint<VAR, VAL>> parentConstraints = Factory.CreateMap<VAR, Constraint<VAR, VAL>>();
+            IMap<VAR, Constraint<VAR, VAL>> parentConstraints = Factory.CreateInsertionOrderedMap<VAR, Constraint<VAR, VAL>>();
             topologicalSort(csp, root, orderedVars, parentConstraints);
             if (csp.getDomain(root).isEmpty())
                 return null; // CSP has no solution! (needed if orderedVars.size() == 1)

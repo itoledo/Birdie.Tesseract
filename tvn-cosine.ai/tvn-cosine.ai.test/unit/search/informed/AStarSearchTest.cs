@@ -26,13 +26,18 @@ namespace tvn_cosine.ai.test.unit.search.informed
             // {2,0,5,6,4,8,3,7,1});
             // EightPuzzleBoard extreme = new EightPuzzleBoard(new int[]
             // {0,8,7,6,5,4,3,2,1});
-            EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 7, 1, 8,
-                    0, 4, 6, 2, 3, 5 });
+            EightPuzzleBoard board = new EightPuzzleBoard(new int[]
+            { 7, 1, 8, 0, 4, 6, 2, 3, 5 });
+            //EightPuzzleBoard board = new EightPuzzleBoard(new int[]
+            //{ 1, 0, 2, 3, 4, 5, 6, 7, 8 });
 
             Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(board);
-            SearchForActions<EightPuzzleBoard, IAction> search = new AStarSearch<EightPuzzleBoard, IAction>(new GraphSearch<EightPuzzleBoard, IAction>(),
+            SearchForActions<EightPuzzleBoard, IAction> search 
+                = new AStarSearch<EightPuzzleBoard, IAction>(
+                    new GraphSearch<EightPuzzleBoard, IAction>(),
                     EightPuzzleFunctions.createManhattanHeuristicFunction());
-            SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
+            SearchAgent<EightPuzzleBoard, IAction> agent 
+                = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
             Assert.AreEqual(23, agent.getActions().Size());
             Assert.AreEqual("1133", // "926" GraphSearchReduced Frontier
                     agent.getInstrumentation().getProperty("nodesExpanded"));
@@ -54,8 +59,12 @@ namespace tvn_cosine.ai.test.unit.search.informed
                      SimplifiedRoadMapOfPartOfRomania.BUCHAREST.Equals,
                     MapFunctions.createDistanceStepCostFunction(romaniaMap));
 
-            SearchForActions<string, MoveToAction> search = new AStarSearch<string, MoveToAction>(new GraphSearch<string, MoveToAction>(),
-                    MapFunctions.createSLDHeuristicFunction(SimplifiedRoadMapOfPartOfRomania.BUCHAREST, romaniaMap));
+            SearchForActions<string, MoveToAction> search 
+                = new AStarSearch<string, MoveToAction>(
+                    new GraphSearch<string, MoveToAction>(),
+                    MapFunctions.createSLDHeuristicFunction(
+                        SimplifiedRoadMapOfPartOfRomania.BUCHAREST, 
+                        romaniaMap));
             SearchAgent<string, MoveToAction> agent = new SearchAgent<string, MoveToAction>(problem, search);
 
             IQueue<MoveToAction> actions = agent.getActions();
@@ -63,7 +72,7 @@ namespace tvn_cosine.ai.test.unit.search.informed
             Assert.AreEqual(
                     "[Action[name==moveTo, location==RimnicuVilcea], Action[name==moveTo, location==Pitesti], Action[name==moveTo, location==Bucharest]]",
                     actions.ToString());
-            Assert.AreEqual("278.0",
+            Assert.AreEqual("278",
                     search.getMetrics().get(QueueSearch<string, MoveToAction>.METRIC_PATH_COST));
         }
 

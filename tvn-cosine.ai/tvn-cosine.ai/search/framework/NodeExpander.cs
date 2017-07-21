@@ -1,19 +1,19 @@
 ﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections; 
+using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.search.framework
 {
     /**
-     * Instances of this class are responsible for node creation and expansion. They
-     * compute path costs, support progress tracking, and count the number of
-     * {@link #expand(Node, Problem)} calls.
-     *
-     * @param <S> The type used to represent states
-     * @param <A> The type of the actions to be used to navigate through the state space
-     *
-     * @author Ruediger Lunde
-     */
+  * Instances of this class are responsible for node creation and expansion. They
+  * compute path costs, support progress tracking, and count the number of
+  * {@link #expand(Node, Problem)} calls.
+  *
+  * @param <S> The type used to represent states
+  * @param <A> The type of the actions to be used to navigate through the state space
+  *
+  * @author Ruediger Lunde
+  */
     public class NodeExpander<S, A>
     {
         protected bool _useParentLinks = true;
@@ -72,6 +72,7 @@ namespace tvn.cosine.ai.search.framework
             {
                 S successorState = problem.getResult(node.getState(), action);
 
+                System.Diagnostics.Debug.WriteLine(successorState.ToString());
                 double stepCost = problem.getStepCosts(node.getState(), action, successorState);
                 successors.Add(createNode(successorState, node, action, stepCost));
             }
@@ -108,7 +109,10 @@ namespace tvn.cosine.ai.search.framework
         protected void notifyNodeListeners(Node<S, A> node)
         {
             foreach (Consumer<Node<S, A>> listener in nodeListeners)
+            {
                 listener(node);
+            }
         }
     }
+
 }

@@ -129,7 +129,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             }
 
             // Make initial set of assignments
-            IMap<PropositionSymbol, bool?> values = Factory.CreateMap<PropositionSymbol, bool?>();
+            IMap<PropositionSymbol, bool?> values = Factory.CreateInsertionOrderedMap<PropositionSymbol, bool?>();
             foreach (PropositionSymbol symbol in symbols)
             {
                 // a random assignment of true/false to the symbols in clauses

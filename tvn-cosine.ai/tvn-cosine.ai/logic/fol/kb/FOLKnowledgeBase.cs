@@ -39,7 +39,7 @@ namespace tvn.cosine.ai.logic.fol.kb
         private IQueue<Clause> allDefiniteClauses = Factory.CreateQueue<Clause>();
         private IQueue<Clause> implicationDefiniteClauses = Factory.CreateQueue<Clause>();
         // All the facts in the KB indexed by Atomic Sentence name (Note: pg. 279)
-        private IMap<string, IQueue<Literal>> indexFacts = Factory.CreateMap<string, IQueue<Literal>>();
+        private IMap<string, IQueue<Literal>> indexFacts = Factory.CreateInsertionOrderedMap<string, IQueue<Literal>>();
         // Keep track of indexical keys for uniquely standardizing apart sentences
         private StandardizeApartIndexical variableIndexical = StandardizeApartIndexicalFactory
                 .newStandardizeApartIndexical('v');
@@ -135,7 +135,7 @@ namespace tvn.cosine.ai.logic.fol.kb
             foreach (Proof p in infResult.getProofs())
             {
                 IMap<Variable, Term> im = p.getAnswerBindings();
-                IMap<Variable, Term> em = Factory.CreateMap<Variable, Term>();
+                IMap<Variable, Term> em = Factory.CreateInsertionOrderedMap<Variable, Term>();
                 foreach (Variable rev in saResult.getReverseSubstitution().GetKeys())
                 {
                     em.Put((Variable)saResult.getReverseSubstitution().Get(rev), im.Get(rev));
@@ -208,7 +208,7 @@ namespace tvn.cosine.ai.logic.fol.kb
                 Literal first = literals.Get(0);
                 IQueue<Literal> rest = literals.subList(1, literals.Size());
 
-                recursiveFetch(Factory.CreateMap<Variable, Term>(), first, rest, possibleSubstitutions);
+                recursiveFetch(Factory.CreateInsertionOrderedMap<Variable, Term>(), first, rest, possibleSubstitutions);
             }
 
             return possibleSubstitutions;

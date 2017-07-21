@@ -25,8 +25,8 @@ namespace tvn.cosine.ai.environment.vacuum
          */
         public VacuumEnvironmentState()
         {
-            state = Factory.CreateMap<string, VacuumEnvironment.LocationState>();
-            agentLocations = Factory.CreateMap<IAgent, string>();
+            state = Factory.CreateInsertionOrderedMap<string, VacuumEnvironment.LocationState>();
+            agentLocations = Factory.CreateInsertionOrderedMap<IAgent, string>();
         }
 
         public string getAgentLocation(IAgent a)

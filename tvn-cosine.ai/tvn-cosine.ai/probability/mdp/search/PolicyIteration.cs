@@ -131,7 +131,7 @@ namespace tvn.cosine.ai.probability.mdp.search
          */
         public static IMap<S, A> initialPolicyVector(MarkovDecisionProcess<S, A> mdp)
         {
-            IMap<S, A> pi = Factory.CreateMap<S, A>();
+            IMap<S, A> pi = Factory.CreateInsertionOrderedMap<S, A>();
             IQueue<A> actions = Factory.CreateQueue<A>();
             foreach (S s in mdp.states())
             {

@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.common.datastructures
      */
     public class TwoKeyHashMap<K1, K2, V> : IMap<Pair<K1, K2>, V>
     {
-        private readonly IMap<Pair<K1, K2>, V> backingMap = Factory.CreateMap<Pair<K1, K2>, V>();
+        private readonly IMap<Pair<K1, K2>, V> backingMap = Factory.CreateInsertionOrderedMap<Pair<K1, K2>, V>();
 
         public bool IsReadonly()
         {
@@ -37,7 +37,7 @@ namespace tvn.cosine.ai.common.datastructures
             return backingMap.Get(key);
         }
 
-        public IQueue<Pair<K1, K2>> GetKeys()
+        public ISet<Pair<K1, K2>> GetKeys()
         {
             return backingMap.GetKeys();
         }

@@ -51,8 +51,8 @@ namespace tvn.cosine.ai.search.framework.qsearch
             : base(nodeExpander)
         {
             explored = Factory.CreateQueue<IMap<S, ExtendedNode>>();
-            explored.Add(Factory.CreateMap<S, ExtendedNode>());
-            explored.Add(Factory.CreateMap<S, ExtendedNode>());
+            explored.Add(Factory.CreateInsertionOrderedMap<S, ExtendedNode>());
+            explored.Add(Factory.CreateInsertionOrderedMap<S, ExtendedNode>());
         }
 
         public bool GetIsCancelled()

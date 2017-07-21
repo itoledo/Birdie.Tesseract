@@ -345,7 +345,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 }
 
                 // Now check to see if they resolve
-                IMap<Variable, Term> copyRBindings = Factory.CreateMap<Variable, Term>();
+                IMap<Variable, Term> copyRBindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
                 foreach (Literal pl in trPosLits)
                 {
                     foreach (Literal nl in trNegLits)
@@ -477,7 +477,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         {
             nonTrivialFactors = Factory.CreateSet<Clause>();
 
-            IMap<Variable, Term> theta = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> theta = Factory.CreateInsertionOrderedMap<Variable, Term>();
             IQueue<Literal> lits = Factory.CreateQueue<Literal>();
             for (int i = 0; i < 2;++i)
             {
@@ -602,7 +602,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
         private IMap<string, IQueue<Literal>> collectLikeLiterals(ISet<Literal> literals)
         {
-            IMap<string, IQueue<Literal>> likeLiterals = Factory.CreateMap<string, IQueue<Literal>>();
+            IMap<string, IQueue<Literal>> likeLiterals = Factory.CreateInsertionOrderedMap<string, IQueue<Literal>>();
             foreach (Literal l in literals)
             {
                 // Want to ensure P(a, b) is considered different than P(a, b, c)
@@ -674,7 +674,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             // this indicates it is not a legal subsumption.
             ISet<Variable> othCVariables = _variableCollector
                     .collectAllVariables(othC);
-            IMap<Variable, Term> theta = Factory.CreateMap<Variable, Term>();
+            IMap<Variable, Term> theta = Factory.CreateInsertionOrderedMap<Variable, Term>();
             IQueue<Literal> literalPermuations = Factory.CreateQueue<Literal>();
             for (long l = 0L; l < numPermutations; l++)
             {
@@ -865,7 +865,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         private int noVarPositions = 0;
         private int[] clauseVarCounts = null;
         private int currentLiteral = 0;
-        private IMap<string, IQueue<int>> varPositions = Factory.CreateMap<string, IQueue<int>>();
+        private IMap<string, IQueue<int>> varPositions = Factory.CreateInsertionOrderedMap<string, IQueue<int>>();
 
         public ClauseEqualityIdentityConstructor(IQueue<Literal> literals, LiteralsSorter sorter)
         {

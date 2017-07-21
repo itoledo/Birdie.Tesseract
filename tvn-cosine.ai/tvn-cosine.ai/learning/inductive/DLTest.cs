@@ -12,7 +12,7 @@ namespace tvn.cosine.ai.learning.inductive
 
         public DLTest()
         {
-            attrValues = Factory.CreateMap<string, string>();
+            attrValues = Factory.CreateInsertionOrderedMap<string, string>();
         }
 
         public void add(string nta, string ntaValue)

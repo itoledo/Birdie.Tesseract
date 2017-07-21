@@ -10,14 +10,14 @@ namespace tvn.cosine.ai.common.collections
         {
             backingList = new System.Collections.Generic.List<T>();
         }
-         
+
         public Queue(IQueue<T> items)
             : this()
         {
             AddAll(items);
         }
 
-        public Queue(T[] items)
+        public Queue(params T[] items)
             : this()
         {
             foreach (var item in items)
@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.common.collections
             backingList.Add(item);
             return true;
         }
-         
+
         public bool SequenceEqual(IQueue<T> other)
         {
             if (null == other
@@ -161,9 +161,8 @@ namespace tvn.cosine.ai.common.collections
         public IQueue<T> subList(int startPos, int endPos)
         {
             if (startPos < 0
-               || startPos > endPos
-               || endPos > backingList.Count
-               || startPos > backingList.Count)
+               || startPos >= endPos
+               || endPos > backingList.Count)
             {
                 throw new NotSupportedException("Not supported");
             }

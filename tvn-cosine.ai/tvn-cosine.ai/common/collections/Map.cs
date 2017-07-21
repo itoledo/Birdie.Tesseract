@@ -9,9 +9,12 @@ namespace tvn.cosine.ai.common.collections
     {
         private readonly System.Collections.Generic.IDictionary<KEY, VALUE> backingDictionary;
 
-        public Map()
+        public Map(bool isSorted = false)
         {
-            backingDictionary = new System.Collections.Generic.Dictionary<KEY, VALUE>();
+            if (isSorted)
+                backingDictionary = new System.Collections.Generic.SortedDictionary<KEY, VALUE>();
+            else
+                backingDictionary = new System.Collections.Generic.Dictionary<KEY, VALUE>();
         }
 
         public Map(IEqualityComparer<KEY> comparer)
@@ -74,9 +77,9 @@ namespace tvn.cosine.ai.common.collections
             return new Enumerator(backingDictionary);
         }
 
-        public IQueue<KEY> GetKeys()
+        public ISet<KEY> GetKeys()
         {
-            IQueue<KEY> obj = Factory.CreateSet<KEY>();
+            ISet<KEY> obj = Factory.CreateSet<KEY>();
             foreach (KEY key in backingDictionary.Keys)
             {
                 obj.Add(key);

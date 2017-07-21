@@ -6,8 +6,8 @@ namespace tvn.cosine.ai.probability.domain
     public abstract class AbstractFiniteDomain : FiniteDomain
     {
         private string toString = null;
-        private IMap<object, int> valueToIdx = Factory.CreateMap<object, int>();
-        private IMap<int, object> idxToValue = Factory.CreateMap<int, object>();
+        private IMap<object, int> valueToIdx = Factory.CreateInsertionOrderedMap<object, int>();
+        private IMap<int, object> idxToValue = Factory.CreateInsertionOrderedMap<int, object>();
 
         public AbstractFiniteDomain()
         { }

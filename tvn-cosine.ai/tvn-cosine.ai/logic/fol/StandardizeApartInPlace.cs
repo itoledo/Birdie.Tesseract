@@ -34,7 +34,7 @@ namespace tvn.cosine.ai.logic.fol
 
         private static int standardizeApart(IQueue<Variable> variables, object expr, int saIdx)
         {
-            IMap<string, int> indexicals = Factory.CreateMap<string, int>();
+            IMap<string, int> indexicals = Factory.CreateInsertionOrderedMap<string, int>();
             foreach (Variable v in variables)
             {
                 if (!indexicals.ContainsKey(v.getIndexedValue()))

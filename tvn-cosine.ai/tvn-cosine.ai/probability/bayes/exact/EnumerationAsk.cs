@@ -167,7 +167,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
             private int hiddenStart = 0;
             private int extendedIdx = 0;
             private RandomVariable[] var = null;
-            private IMap<RandomVariable, int> varIdxs = Factory.CreateMap<RandomVariable, int>();
+            private IMap<RandomVariable, int> varIdxs = Factory.CreateInsertionOrderedMap<RandomVariable, int>();
 
             public ObservedEvidence(RandomVariable[] queryVariables,
                     AssignmentProposition[] e, BayesianNetwork bn)

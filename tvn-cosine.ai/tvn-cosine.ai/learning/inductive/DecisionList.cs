@@ -16,7 +16,7 @@ namespace tvn.cosine.ai.learning.inductive
             this.positive = positive;
             this.negative = negative;
             this.tests = Factory.CreateQueue<DLTest>();
-            testOutcomes = Factory.CreateMap<DLTest, string>();
+            testOutcomes = Factory.CreateInsertionOrderedMap<DLTest, string>();
         }
 
         public string predict(Example example)

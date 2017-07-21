@@ -49,7 +49,7 @@ namespace tvn.cosine.ai.probability.example
 
         public static IMap<RandomVariable, RandomVariable> getUmbrellaWorld_Xt_to_Xtm1_Map()
         {
-            IMap<RandomVariable, RandomVariable> tToTm1StateVarMap = Factory.CreateMap<RandomVariable, RandomVariable>();
+            IMap<RandomVariable, RandomVariable> tToTm1StateVarMap = Factory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
             tToTm1StateVarMap.Put(ExampleRV.RAIN_t_RV, ExampleRV.RAIN_tm1_RV);
 
             return tToTm1StateVarMap;

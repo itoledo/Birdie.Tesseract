@@ -67,7 +67,7 @@ namespace tvn.cosine.ai.learning.framework
 
         public Example numerize(IMap<string, IMap<string, int>> attrValueToNumber)
         {
-            IMap<string, Attribute> numerizedExampleData = Factory.CreateMap<string, Attribute>();
+            IMap<string, Attribute> numerizedExampleData = Factory.CreateInsertionOrderedMap<string, Attribute>();
             foreach (string key in attributes.GetKeys())
             {
                 Attribute attribute = attributes.Get(key);

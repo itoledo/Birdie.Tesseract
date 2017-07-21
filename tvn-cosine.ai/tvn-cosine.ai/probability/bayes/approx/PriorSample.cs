@@ -54,7 +54,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
         public IMap<RandomVariable, object> priorSample(BayesianNetwork bn)
         {
             // x <- an event with n elements
-            IMap<RandomVariable, object> x = Factory.CreateMap<RandomVariable, object>();
+            IMap<RandomVariable, object> x = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
             // foreach variable X<sub>i</sub> in X<sub>1</sub>,...,X<sub>n</sub> do
             foreach (RandomVariable Xi in bn.getVariablesInTopologicalOrder())
             {

@@ -116,7 +116,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         {
             // count <- a table, where count[c] is the number of symbols in c's
             // premise
-            IMap<Clause, int> count = Factory.CreateMap<Clause, int>();
+            IMap<Clause, int> count = Factory.CreateInsertionOrderedMap<Clause, int>();
 
             ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(kb.asSentence()).getClauses();
             foreach (Clause c in clauses)
@@ -136,7 +136,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         {
             // inferred <- a table, where inferred[s] is initially false for all
             // symbols
-            IMap<PropositionSymbol, bool?> inferred = Factory.CreateMap<PropositionSymbol, bool?>();
+            IMap<PropositionSymbol, bool?> inferred = Factory.CreateInsertionOrderedMap<PropositionSymbol, bool?>();
             foreach (PropositionSymbol p in SymbolCollector.getSymbolsFrom(kb.asSentence()))
             {
                 inferred.Put(p, false);
@@ -165,7 +165,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         // clauses in KB while inferred will contain all the proposition symbols.
         protected IMap<PropositionSymbol, ISet<Clause>> initializeIndex(IMap<Clause, int> count, IMap<PropositionSymbol, bool?> inferred)
         {
-            IMap<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = Factory.CreateMap<PropositionSymbol, ISet<Clause>>();
+            IMap<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = Factory.CreateInsertionOrderedMap<PropositionSymbol, ISet<Clause>>();
             foreach (PropositionSymbol p in inferred.GetKeys())
             {
                 ISet<Clause> clausesWithPInPremise = Factory.CreateSet<Clause>();

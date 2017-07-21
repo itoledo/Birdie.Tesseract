@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.util
          */
         public FrequencyCounter()
         {
-            counter = Factory.CreateMap<T, int>();
+            counter = Factory.CreateInsertionOrderedMap<T, int>();
             total = 0;
         }
 

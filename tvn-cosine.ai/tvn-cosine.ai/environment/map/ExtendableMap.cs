@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.environment.map
         public ExtendableMap()
         {
             links = new LabeledGraph<string, double>();
-            locationPositions = Factory.CreateMap<string, Point2D>();
+            locationPositions = Factory.CreateInsertionOrderedMap<string, Point2D>();
         }
 
         /** Removes everything. */

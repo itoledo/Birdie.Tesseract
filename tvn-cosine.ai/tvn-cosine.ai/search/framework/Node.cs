@@ -135,6 +135,16 @@ namespace tvn.cosine.ai.search.framework
             return parent == null;
         }
 
+        public override bool Equals(object obj)
+        {
+            return state.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return state.GetHashCode();
+        }
+
         public override string ToString()
         {
             return "[parent=" + parent + ", action=" + action + ", state=" + getState() + ", pathCost=" + pathCost + "]";

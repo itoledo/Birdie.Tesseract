@@ -43,7 +43,7 @@ namespace tvn.cosine.ai.common.collections
             return backingMap.GetEnumerator();
         }
 
-        public IQueue<KEY> GetKeys()
+        public ISet<KEY> GetKeys()
         {
             return backingMap.GetKeys();
         }

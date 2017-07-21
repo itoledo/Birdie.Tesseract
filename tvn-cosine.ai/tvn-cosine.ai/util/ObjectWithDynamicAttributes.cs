@@ -11,7 +11,7 @@ namespace tvn.cosine.ai.util
      */
     public abstract class ObjectWithDynamicAttributes : IEquatable, IHashable, IStringable
     {
-        private IMap<object, object> attributes = Factory.CreateMap<object, object>();
+        private IMap<object, object> attributes = Factory.CreateInsertionOrderedMap<object, object>();
 
         /**
          * By default, returns the simple name of the underlying class as given in the source code.

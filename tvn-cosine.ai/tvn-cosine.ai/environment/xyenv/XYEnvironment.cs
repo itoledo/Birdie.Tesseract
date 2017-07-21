@@ -116,7 +116,7 @@ namespace tvn.cosine.ai.environment.xyenv
         public int width;
         public int height;
 
-        private IMap<XYLocation, ISet<IEnvironmentObject>> objsAtLocation = Factory.CreateMap<XYLocation, ISet<IEnvironmentObject>>();
+        private IMap<XYLocation, ISet<IEnvironmentObject>> objsAtLocation = Factory.CreateInsertionOrderedMap<XYLocation, ISet<IEnvironmentObject>>();
 
         public XYEnvironmentState(int width, int height)
         {
