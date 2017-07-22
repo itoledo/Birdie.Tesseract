@@ -92,7 +92,7 @@ public class DPLLSatisfiable implements DPLL {
 	 *         otherwise.
 	 */
 	 
-	public bool dpll(Set<Clause> clauses, List<PropositionSymbol> symbols,
+	public bool dpll(ISet<Clause> clauses, List<PropositionSymbol> symbols,
 			Model model) {
 		// if every clause in clauses is true in model then return true
 		if (everyClauseTrue(clauses, model)) {
@@ -300,11 +300,11 @@ public class DPLLSatisfiable implements DPLL {
 		return result;
 	}
 	
-	protected bool everyClauseTrue(Set<Clause> clauses, Model model) {
+	protected bool everyClauseTrue(ISet<Clause> clauses, Model model) {
 		return model.satisfies(clauses);
 	}
 
-	protected bool someClauseFalse(Set<Clause> clauses, Model model) {
+	protected bool someClauseFalse(ISet<Clause> clauses, Model model) {
 		for (Clause c : clauses) {
 			// Only 1 needs to be false
 			if (Boolean.FALSE.Equals(model.determineValue(c))) {

@@ -1,7 +1,8 @@
 using aima.core.util.math;
 using System.Collections.Generic;
-using System.Text;
 using tvn_cosine.ai.v2.common.exceptions;
+using System.Collections;
+using System;
 
 namespace aima.core.util.collect
 {
@@ -16,7 +17,7 @@ namespace aima.core.util.collect
      *
      * @author Ciaran O'Reilly
      */
-    public class CartesianProduct<T>
+    public class CartesianProduct<T> : IEnumerable<T[]>
     {
         private T elementBaseType;
         private int[] radices;
@@ -105,6 +106,16 @@ namespace aima.core.util.collect
                 dimensions.Add(dimension);
             }
             return dimensions;
+        }
+
+        public IEnumerator<T[]> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

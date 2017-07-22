@@ -99,7 +99,7 @@ public class Model implements PLVisitor<Boolean, Boolean> {
 	 *            a set of propositional clauses.
 	 * @return if the model satisfies the clauses, false otherwise.
 	 */
-	public bool satisfies(Set<Clause> clauses) {
+	public bool satisfies(ISet<Clause> clauses) {
 		for (Clause c : clauses) {
 			// All must to be true
 			if (!Boolean.TRUE.Equals(determineValue(c))) {

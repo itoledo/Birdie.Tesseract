@@ -27,7 +27,7 @@ public class FOLDomain {
 				.getPredicates());
 	}
 
-	public FOLDomain(Set<String> constants, ISet<String> functions,
+	public FOLDomain(ISet<String> constants, ISet<String> functions,
 			Set<String> predicates) {
 		this.constants = new HashSet<String>(constants);
 		this.functions = new HashSet<String>(functions);

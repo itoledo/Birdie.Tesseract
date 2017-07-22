@@ -48,7 +48,7 @@ public class OptimizedDPLL implements DPLL {
 	 *         otherwise.
 	 */
 	 
-	public bool dpll(Set<Clause> clauses, List<PropositionSymbol> symbols,
+	public bool dpll(ISet<Clause> clauses, List<PropositionSymbol> symbols,
 			Model model) {
 		// if every clause in clauses is true in model then return true
 		// if some clause in clauses is false in model then return false
@@ -121,7 +121,7 @@ public class OptimizedDPLL implements DPLL {
 		return result;
 	}
 	
-	protected bool callDPLL(Set<Clause> clauses, List<PropositionSymbol> symbols,
+	protected bool callDPLL(ISet<Clause> clauses, List<PropositionSymbol> symbols,
 			Model model, PropositionSymbol p, bool value) {
 		// We update the model in place with the assignment p=value,
 		boolean result = dpll(clauses, symbols, model.unionInPlace(p, value));

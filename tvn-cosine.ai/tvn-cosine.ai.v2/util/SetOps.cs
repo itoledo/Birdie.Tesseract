@@ -52,8 +52,14 @@ namespace aima.core.util
             {
                 return s1;
             }
-            Set<T> intersection = new HashSet<T>(s1);
-            intersection.retainAll(s2);
+            ISet<T> intersection = new HashSet<T>();
+            foreach (T item in s1)
+            {
+                if (s2.Contains(item))
+                {
+                    intersection.Add(item);
+                }
+            }
             return intersection;
         }
 
@@ -66,14 +72,17 @@ namespace aima.core.util
          *         set difference of s1 minus s2 is the set containing all of the
          *         elements found in s1 but not in s2.)
          */
-        public static <T> ISet<T> difference(Set<T> s1, ISet<T> s2)
+        public static  ISet<T> difference<T>(ISet<T> s1, ISet<T> s2)
         {
             if (s1 == s2)
             {
                 return new HashSet<T>();
             }
-            Set<T> difference = new HashSet<T>(s1);
-            difference.removeAll(s2);
+            ISet<T> difference = new HashSet<T>(s1);
+            foreach (T item in s2)
+            {
+                difference.Remove(item);
+            }
             return difference;
         }
     }

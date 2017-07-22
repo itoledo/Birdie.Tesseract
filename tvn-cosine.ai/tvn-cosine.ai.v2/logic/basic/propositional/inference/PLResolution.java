@@ -238,7 +238,7 @@ public class PLResolution {
 
 	// Utility routine for removing the tautological clauses from a set (in
 	// place).
-	protected void discardTautologies(Set<Clause> clauses) {
+	protected void discardTautologies(ISet<Clause> clauses) {
 		if (isDiscardTautologies()) {
 			Set<Clause> toDiscard = new HashSet<Clause>();
 			for (Clause c : clauses) {

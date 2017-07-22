@@ -19,5 +19,5 @@ public interface SATSolver {
 	 *        a CNF representation of the problem to be solved.
 	 * @return a satisfiable model or null if it cannot be satisfied.
 	 */
-	Model solve(Set<Clause> cnf);
+	Model solve(ISet<Clause> cnf);
 }

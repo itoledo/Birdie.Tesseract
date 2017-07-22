@@ -21,7 +21,7 @@ public class ManhattanHeuristicFunction implements ToDoubleFunction<Node<WWActio
 
 	List<Room> goals = new ArrayList<>();
 
-	public ManhattanHeuristicFunction(Set<Room> goals) {
+	public ManhattanHeuristicFunction(ISet<Room> goals) {
 		this.goals.addAll(goals);
 	}
 

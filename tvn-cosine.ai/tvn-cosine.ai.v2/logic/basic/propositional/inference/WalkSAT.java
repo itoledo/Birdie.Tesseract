@@ -56,7 +56,7 @@ public class WalkSAT {
 	 * 
 	 * @return a satisfying model or failure (null).
 	 */
-	public Model walkSAT(Set<Clause> clauses, double p, int maxFlips) {
+	public Model walkSAT(ISet<Clause> clauses, double p, int maxFlips) {
 		assertLegalProbability(p);
 		
 		// model <- a random assignment of true/false to the symbols in clauses
@@ -118,7 +118,7 @@ public class WalkSAT {
 		}
 	}
 	
-	protected Model randomAssignmentToSymbolsInClauses(Set<Clause> clauses) {
+	protected Model randomAssignmentToSymbolsInClauses(ISet<Clause> clauses) {
 		// Collect the symbols in clauses
 		Set<PropositionSymbol> symbols = new HashSet<PropositionSymbol>();
 		for (Clause c : clauses) {
@@ -137,7 +137,7 @@ public class WalkSAT {
 		return result;
 	}
 
-	protected Clause randomlySelectFalseClause(Set<Clause> clauses, Model model) {
+	protected Clause randomlySelectFalseClause(ISet<Clause> clauses, Model model) {
 		// Collect the clauses that are false in the model
 		List<Clause> falseClauses = new ArrayList<Clause>();
 		for (Clause c : clauses) {

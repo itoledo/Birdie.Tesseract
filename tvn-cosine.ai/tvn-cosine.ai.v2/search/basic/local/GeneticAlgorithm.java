@@ -65,7 +65,7 @@ public class GeneticAlgorithm<A> {
 	 * @return the best individual in the specified population, according to the
 	 *         specified FITNESS-FN.
 	 */
-	public Individual<A> geneticAlgorithm(Set<Individual<A>> population, ToDoubleFunction<Individual<A>> fitnessFN) {
+	public Individual<A> geneticAlgorithm(ISet<Individual<A>> population, ToDoubleFunction<Individual<A>> fitnessFN) {
 		Individual<A> bestIndividual;
 		// repeat
 		do {
@@ -121,7 +121,7 @@ public class GeneticAlgorithm<A> {
 		this.executionController = executionController;
 	}
 
-	public Individual<A> randomSelection(Set<Individual<A>> population, ToDoubleFunction<Individual<A>> fitnessFN) {
+	public Individual<A> randomSelection(ISet<Individual<A>> population, ToDoubleFunction<Individual<A>> fitnessFN) {
 		Individual<A> selection = null;
 
 		// Determine all of the fitness values
@@ -159,7 +159,7 @@ public class GeneticAlgorithm<A> {
 		return child;
 	}
 
-	public Individual<A> selectBestIndividualIfReady(Set<Individual<A>> population,
+	public Individual<A> selectBestIndividualIfReady(ISet<Individual<A>> population,
 			ToDoubleFunction<Individual<A>> fitnessFN) {
 		Individual<A> best = null;
 
