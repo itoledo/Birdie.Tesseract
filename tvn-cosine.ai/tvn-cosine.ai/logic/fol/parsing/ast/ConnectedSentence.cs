@@ -82,8 +82,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
         }
          
         public override bool Equals(object o)
-        {
-
+        { 
             if (this == o)
             {
                 return true;

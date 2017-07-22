@@ -25,7 +25,7 @@ namespace tvn.cosine.ai.environment.map
         {
             return new MapResultFunction();
         }
-         
+
         public static StepCostFunction<string, MoveToAction> createDistanceStepCostFunction(Map map)
         {
             return new DistanceStepCostFunction(map);
@@ -127,12 +127,11 @@ namespace tvn.cosine.ai.environment.map
 
             public double applyAsDouble(string state, MoveToAction action, string statePrimed)
             {
-                double distance = map.getDistance(state, statePrimed);
-                if (distance <= 0)
+                double? distance = map.getDistance(state, statePrimed);
+                if (null == distance || distance <= 0)
                     return constantCost;
-                return distance;
+                return distance.Value;
             }
         }
-    }
-
+    } 
 }

@@ -6,6 +6,7 @@ using tvn.cosine.ai.search.adversarial;
 namespace tvn_cosine.ai.test.unit.environment.tictactoe
 {
     [TestClass]
+    [Ignore]
     public class TicTacToeTest
     {
         private TicTacToeGame game;

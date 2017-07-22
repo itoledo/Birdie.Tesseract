@@ -92,7 +92,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             Function f = (Function)o;
 
             return f.getFunctionName().Equals(getFunctionName())
-                    && f.getTerms().Equals(getTerms());
+                    && f.getTerms().SequenceEqual(getTerms());
         }
          
         public override int GetHashCode()

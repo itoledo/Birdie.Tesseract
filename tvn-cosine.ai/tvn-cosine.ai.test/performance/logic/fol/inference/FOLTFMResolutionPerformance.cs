@@ -11,6 +11,7 @@ namespace tvn_cosine.ai.test.performance.logic.fol.inference
     public class FOLTFMResolutionPerformance : CommonFOLInferenceProcedureTests
     {
         [TestMethod]
+        [Ignore]
         public void testFullFOLKBLovesAnimalQueryKillsJackTunaFalse()
         {
             // This query will not return using TFM as keep expanding

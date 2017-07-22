@@ -171,10 +171,11 @@ namespace tvn_cosine.ai.test.unit.logic.fol.parsing
             Sentence ps = parser
                     .parse("((King(John) AND NOT King(Richard)) OR King(Saladin))");
 
-            Assert.AreEqual(ps, new ConnectedSentence("OR",
-                    new ConnectedSentence("AND", getKingPredicate(new Constant(
-                            "John")), new NotSentence(
-                            getKingPredicate(new Constant("Richard")))),
+            Assert.AreEqual(ps, 
+                new ConnectedSentence("OR",
+                    new ConnectedSentence("AND", 
+                        getKingPredicate(new Constant("John")), 
+                        new NotSentence(getKingPredicate(new Constant("Richard")))),
                     getKingPredicate(new Constant("Saladin"))));
         }
 

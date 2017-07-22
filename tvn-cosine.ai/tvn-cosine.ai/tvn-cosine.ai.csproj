@@ -84,6 +84,7 @@
     <Compile Include="environment\wumpusworld\WumpusFunctionFunctions.cs" />
     <Compile Include="environment\wumpusworld\WumpusKnowledgeBase.cs" />
     <Compile Include="search\framework\problem\DefaultStepCostFunction.cs" />
+    <Compile Include="util\ObjectBase.cs" />
     <Compile Include="util\ObjectWithDynamicAttributes.cs" />
     <Compile Include="agent\impl\SimpleEnvironmentView.cs" />
     <Compile Include="agent\IPercept.cs" />

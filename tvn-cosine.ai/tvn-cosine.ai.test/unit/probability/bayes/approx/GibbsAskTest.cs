@@ -13,6 +13,7 @@ using tvn.cosine.ai.util;
 namespace tvn_cosine.ai.test.unit.probability.bayes.approx
 {
     [TestClass]
+    [Ignore]
     public class GibbsAskTest
     {
         public static readonly double DELTA_THRESHOLD = 0.1;

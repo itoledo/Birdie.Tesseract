@@ -22,7 +22,7 @@ namespace tvn.cosine.ai.environment.map
          * Stores map data. Locations are represented as vertices and connections
          * (links) as directed edges labeled with corresponding travel distances.
          */
-        private readonly LabeledGraph<string, double> links;
+        private readonly LabeledGraph<string, double?> links;
 
         /** Stores xy-coordinates for each location. */
         private readonly IMap<string, Point2D> locationPositions;
@@ -30,7 +30,7 @@ namespace tvn.cosine.ai.environment.map
         /** Creates an empty map. */
         public ExtendableMap()
         {
-            links = new LabeledGraph<string, double>();
+            links = new LabeledGraph<string, double?>();
             locationPositions = Factory.CreateInsertionOrderedMap<string, Point2D>();
         }
 
@@ -85,7 +85,7 @@ namespace tvn.cosine.ai.environment.map
          * Returns the travel distance between the two specified locations if they
          * are linked by a connection and null otherwise.
          */
-        public double getDistance(string  fromLocation, string toLocation)
+        public double? getDistance(string  fromLocation, string toLocation)
         {
             return links.get(fromLocation, toLocation);
         }

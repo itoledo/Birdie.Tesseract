@@ -159,12 +159,17 @@ namespace tvn.cosine.ai.common.collections
         }
 
         public IQueue<T> subList(int startPos, int endPos)
-        {
+        { 
             if (startPos < 0
-               || startPos >= endPos
+               || startPos > endPos
                || endPos > backingList.Count)
             {
                 throw new NotSupportedException("Not supported");
+            }
+
+            if (startPos == endPos)
+            {
+                return new Queue<T>();
             }
 
             IQueue<T> obj = new Queue<T>();

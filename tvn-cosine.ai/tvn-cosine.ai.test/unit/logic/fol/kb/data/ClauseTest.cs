@@ -286,8 +286,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             // loves animal domain as it contains functions
             // new clauses will always be created (i.e. is an
             // infinite universe of discourse).
-            FOLKnowledgeBase kb = new FOLKnowledgeBase(
-                    DomainFactory.lovesAnimalDomain());
+            FOLKnowledgeBase kb = new FOLKnowledgeBase(DomainFactory.lovesAnimalDomain());
 
             kb.tell("FORALL x (FORALL y (Animal(y) => Loves(x, y)) => EXISTS y Loves(y, x))");
             kb.tell("FORALL x (EXISTS y (Animal(y) AND Kills(x, y)) => FORALL z NOT(Loves(z, x)))");
@@ -319,7 +318,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
 
                         ISet<Clause> cIresolvents = cI.binaryResolvents(cJ);
                         ISet<Clause> cJresolvents = cJ.binaryResolvents(cI);
-                        if (!cIresolvents.Equals(cJresolvents))
+                        if (!cIresolvents.SequenceEqual(cJresolvents))
                         {
                             System.Console.WriteLine("cI=" + cI);
                             System.Console.WriteLine("cJ=" + cJ);

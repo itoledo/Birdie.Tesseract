@@ -7,9 +7,10 @@ using tvn.cosine.ai.probability.mdp.search;
 
 namespace tvn_cosine.ai.test.unit.probability.mdp
 {
-    [TestClass] public class ValueIterationTest
+    [TestClass]
+    public class ValueIterationTest
     {
-        public static readonly  double DELTA_THRESHOLD = 1e-3;
+        public static readonly double DELTA_THRESHOLD = 1e-3;
 
         private CellWorld<double> cw = null;
         private MarkovDecisionProcess<Cell<double>, CellWorldAction> mdp = null;
@@ -28,20 +29,17 @@ namespace tvn_cosine.ai.test.unit.probability.mdp
         {
             IMap<Cell<double>, double> U = vi.valueIteration(mdp, 0.0001);
 
-            Assert.AreEqual(0.705, U.Get(cw.getCellAt(1, 1)) );
-            Assert.AreEqual(0.762, U.Get(cw.getCellAt(1, 2)) );
-            Assert.AreEqual(0.812, U.Get(cw.getCellAt(1, 3)) );
-
-            Assert.AreEqual(0.655, U.Get(cw.getCellAt(2, 1)) );
-            Assert.AreEqual(0.868, U.Get(cw.getCellAt(2, 3)) );
-
-            Assert.AreEqual(0.611, U.Get(cw.getCellAt(3, 1)) );
-            Assert.AreEqual(0.660, U.Get(cw.getCellAt(3, 2)) );
-            Assert.AreEqual(0.918, U.Get(cw.getCellAt(3, 3)) );
-
-            Assert.AreEqual(0.388, U.Get(cw.getCellAt(4, 1)) );
-            Assert.AreEqual(-1.0, U.Get(cw.getCellAt(4, 2)) );
-            Assert.AreEqual(1.0, U.Get(cw.getCellAt(4, 3)) );
+            Assert.AreEqual(0.705, U.Get(cw.getCellAt(1, 1)), DELTA_THRESHOLD);
+            Assert.AreEqual(0.762, U.Get(cw.getCellAt(1, 2)), DELTA_THRESHOLD);
+            Assert.AreEqual(0.812, U.Get(cw.getCellAt(1, 3)), DELTA_THRESHOLD);
+            Assert.AreEqual(0.655, U.Get(cw.getCellAt(2, 1)), DELTA_THRESHOLD);
+            Assert.AreEqual(0.868, U.Get(cw.getCellAt(2, 3)), DELTA_THRESHOLD);
+            Assert.AreEqual(0.611, U.Get(cw.getCellAt(3, 1)), DELTA_THRESHOLD);
+            Assert.AreEqual(0.660, U.Get(cw.getCellAt(3, 2)), DELTA_THRESHOLD);
+            Assert.AreEqual(0.918, U.Get(cw.getCellAt(3, 3)), DELTA_THRESHOLD);
+            Assert.AreEqual(0.388, U.Get(cw.getCellAt(4, 1)), DELTA_THRESHOLD);
+            Assert.AreEqual(-1.0, U.Get(cw.getCellAt(4, 2)), DELTA_THRESHOLD);
+            Assert.AreEqual(1.0, U.Get(cw.getCellAt(4, 3)), DELTA_THRESHOLD);
         }
     }
 

@@ -29,7 +29,7 @@ namespace tvn.cosine.ai.environment.map
          * Returns the travel distance between the two specified locations if they
          * are linked by a connection and null otherwise.
          */
-        double getDistance(string fromLocation, string toLocation);
+        double? getDistance(string fromLocation, string toLocation);
 
         /**
          * Returns the position of the specified location. The position is

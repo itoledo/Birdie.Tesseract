@@ -82,8 +82,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
         }
 
         public override bool Equals(object o)
-        {
-
+        { 
             if (this == o)
             {
                 return true;
@@ -94,7 +93,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             }
             Predicate p = (Predicate)o;
             return p.getPredicateName().Equals(getPredicateName())
-                    && p.getTerms().Equals(getTerms());
+                 && p.getTerms().SequenceEqual(getTerms());
         }
 
         public override int GetHashCode()

@@ -275,8 +275,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
         {
             return cachedNegativeSymbols;
         }
-
-
+         
         public override string ToString()
         {
             if (cachedStringRep == null)
@@ -301,8 +300,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
             }
             return cachedStringRep;
         }
-
-
+         
         public override bool Equals(object othObj)
         {
             if (null == othObj)
@@ -319,7 +317,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
             }
             Clause othClause = (Clause)othObj;
 
-            return othClause.literals.Equals(this.literals);
+            return othClause.literals.SequenceEqual(this.literals);
         }
 
 

@@ -16,10 +16,10 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
         private readonly Literal LITERAL_NOT_Q = new Literal(new PropositionSymbol("Q"), false);
         private readonly Literal LITERAL_R = new Literal(new PropositionSymbol("R"));
 
-        private void testClauseLiterals(ISet<Literal> s1, ISet<Literal> s2)
+        private void testClauseLiterals<T>(ISet<T> s1, ISet<T> s2)
         {
             Assert.AreEqual(s1.Size(), s2.Size());
-            foreach (Literal c in s1)
+            foreach (T c in s1)
             {
                 Assert.IsTrue(s2.Contains(c));
             }
@@ -289,39 +289,39 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
         public void testGetLiterals()
         {
             Clause clause = new Clause();
-            Assert.AreEqual(Factory.CreateSet<Literal>(), clause.getLiterals());
+            testClauseLiterals(Factory.CreateSet<Literal>(), clause.getLiterals());
 
             clause = new Clause(LITERAL_P);
-            Assert.AreEqual(Util.createSet(LITERAL_P), clause.getLiterals());
+            testClauseLiterals(Util.createSet(LITERAL_P), clause.getLiterals());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_Q, LITERAL_R);
-            Assert.AreEqual(Util.createSet(LITERAL_P, LITERAL_NOT_Q, LITERAL_R), clause.getLiterals());
+            testClauseLiterals(Util.createSet(LITERAL_P, LITERAL_NOT_Q, LITERAL_R), clause.getLiterals());
         }
 
         [TestMethod]
         public void testGetPositiveSymbols()
         {
             Clause clause = new Clause();
-            Assert.AreEqual(Factory.CreateSet<PropositionSymbol>(), clause.getPositiveSymbols());
+            testClauseLiterals(Factory.CreateSet<PropositionSymbol>(), clause.getPositiveSymbols());
 
             clause = new Clause(LITERAL_P);
-            Assert.AreEqual(Util.createSet(new PropositionSymbol("P")), clause.getPositiveSymbols());
+            testClauseLiterals(Util.createSet(new PropositionSymbol("P")), clause.getPositiveSymbols());
 
             clause = new Clause(LITERAL_P, LITERAL_NOT_Q, LITERAL_R);
-            Assert.AreEqual(Util.createSet(new PropositionSymbol("P"), new PropositionSymbol("R")), clause.getPositiveSymbols());
+            testClauseLiterals(Util.createSet(new PropositionSymbol("P"), new PropositionSymbol("R")), clause.getPositiveSymbols());
         }
 
         [TestMethod]
         public void testGetNegativeSymbols()
         {
             Clause clause = new Clause();
-            Assert.AreEqual(Factory.CreateSet<PropositionSymbol>(), clause.getNegativeSymbols());
+            testClauseLiterals(Factory.CreateSet<PropositionSymbol>(), clause.getNegativeSymbols());
 
             clause = new Clause(LITERAL_NOT_P);
-            Assert.AreEqual(Util.createSet(new PropositionSymbol("P")), clause.getNegativeSymbols());
+            testClauseLiterals(Util.createSet(new PropositionSymbol("P")), clause.getNegativeSymbols());
 
             clause = new Clause(LITERAL_NOT_P, LITERAL_NOT_Q, LITERAL_R);
-            Assert.AreEqual(Util.createSet(new PropositionSymbol("P"), new PropositionSymbol("Q")), clause.getNegativeSymbols());
+            testClauseLiterals(Util.createSet(new PropositionSymbol("P"), new PropositionSymbol("Q")), clause.getNegativeSymbols());
         }
 
         [TestMethod]

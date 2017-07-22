@@ -43,7 +43,7 @@ namespace tvn.cosine.ai.search.framework
 
         public double getDouble(string name)
         {
-            return hash.ContainsKey(name) ? double.Parse(hash.Get(name), NumberStyles.Any, CultureInfo.InvariantCulture) : double.NaN;
+            return hash.ContainsKey(name) ? double.Parse(hash.Get(name).Replace(',','.'), NumberStyles.Any, CultureInfo.InvariantCulture) : double.NaN;
         }
 
         public long getLong(string name)

@@ -45,13 +45,13 @@ namespace tvn.cosine.ai.environment.map
                 MoveToAction act = (MoveToAction)a;
 
                 string currLoc = getAgentLocation(agent);
-                double distance = map.getDistance(currLoc, act.getToLocation());
-                //if (distance != null)
-                //{
-                double currTD = getAgentTravelDistance(agent);
-                state.setAgentLocationAndTravelDistance(agent,
-                        act.getToLocation(), currTD + distance);
-                //}
+                double? distance = map.getDistance(currLoc, act.getToLocation());
+                if (distance != null)
+                {
+                    double currTD = getAgentTravelDistance(agent);
+                    state.setAgentLocationAndTravelDistance(agent,
+                            act.getToLocation(), currTD + distance.Value);
+                }
             }
         }
 

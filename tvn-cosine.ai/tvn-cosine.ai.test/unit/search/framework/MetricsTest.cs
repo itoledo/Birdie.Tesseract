@@ -26,7 +26,7 @@ namespace tvn_cosine.ai.test.unit.search.framework
         [TestMethod]
         public void testGetDouble()
         {
-            double x = 1231397235234.48467865326;
+            double x = 1231397235234.48 ;
             metrics.set("abcd", x);
             Assert.AreEqual(x, metrics.getDouble("abcd"), 0);
             Assert.AreNotEqual(1234.56789, metrics.getDouble("abcd"), 0);
