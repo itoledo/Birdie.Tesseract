@@ -13,7 +13,7 @@ namespace tvn.cosine.ai.common.collections
         {
             backingDictionary = new System.Collections.Generic.Dictionary<KEY, VALUE>();
         }
-          
+
         public InsertionOrderedMap(IEqualityComparer<KEY> comparer)
         {
             backingDictionary = new System.Collections.Generic.Dictionary<KEY, VALUE>(new QueueBase<KEY>.EqualityComparerAdapter(comparer));
@@ -240,7 +240,20 @@ namespace tvn.cosine.ai.common.collections
 
         bool IQueue<KeyValuePair<KEY, VALUE>>.SequenceEqual(IQueue<KeyValuePair<KEY, VALUE>> queue)
         {
-            throw new NotSupportedException("Not supported");
+            if (this.Size() != queue.Size())
+            {
+                return false;
+            }
+
+            foreach (KeyValuePair<KEY, VALUE> pair in queue)
+            {
+                if (!this.ContainsKey(pair.GetKey())
+                 || !this.Get(pair.GetKey()).Equals(pair.GetValue()))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public override string ToString()

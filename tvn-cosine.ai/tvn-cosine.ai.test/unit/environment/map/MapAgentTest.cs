@@ -8,11 +8,10 @@ using tvn.cosine.ai.search.uninformed;
 namespace tvn_cosine.ai.test.unit.environment.map
 {
     [TestClass]
+    // [Ignore]
     public class MapAgentTest
-    {
-
-        private ExtendableMap aMap;
-
+    { 
+        private ExtendableMap aMap; 
         private StringBuilder envChanges;
 
         [TestInitialize]
@@ -28,8 +27,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
             envChanges = new StringBuilder();
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testAlreadyAtGoal()
         {
             MapEnvironment me = new MapEnvironment(aMap);
@@ -39,12 +37,11 @@ namespace tvn_cosine.ai.test.unit.environment.map
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(A):Action[name==NoOp]:METRIC[pathCost]=0.0:METRIC[maxQueueSize]=1:METRIC[queueSize]=0:METRIC[nodesExpanded]=0:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(A):Action[name==NoOp]:METRIC[nodesExpanded]=0:METRIC[queueSize]=0:METRIC[maxQueueSize]=1:METRIC[pathCost]=0:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
         [TestMethod]
-        [Ignore]
         public void testNormalSearch()
         {
             MapEnvironment me = new MapEnvironment(aMap);
@@ -54,12 +51,11 @@ namespace tvn_cosine.ai.test.unit.environment.map
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(D):Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:METRIC[pathCost]=13.0:METRIC[maxQueueSize]=3:METRIC[queueSize]=1:METRIC[nodesExpanded]=3:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(D):Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:METRIC[nodesExpanded]=3:METRIC[queueSize]=1:METRIC[maxQueueSize]=3:METRIC[pathCost]=13:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testNormalSearchGraphSearchMinFrontier()
         {
             MapEnvironment me = new MapEnvironment(aMap);
@@ -72,12 +68,11 @@ namespace tvn_cosine.ai.test.unit.environment.map
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(D):Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:METRIC[pathCost]=13.0:METRIC[maxQueueSize]=2:METRIC[queueSize]=1:METRIC[nodesExpanded]=3:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(D):Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:METRIC[nodesExpanded]=3:METRIC[queueSize]=1:METRIC[maxQueueSize]=2:METRIC[pathCost]=13:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testNoPath()
         {
             MapEnvironment me = new MapEnvironment(aMap);
@@ -87,7 +82,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(E), Goal=In(A):Action[name==NoOp]:METRIC[pathCost]=0:METRIC[maxQueueSize]=1:METRIC[queueSize]=0:METRIC[nodesExpanded]=1:Action[name==NoOp]:",
+                    "CurrentLocation=In(E), Goal=In(A):Action[name==NoOp]:METRIC[nodesExpanded]=1:METRIC[queueSize]=0:METRIC[maxQueueSize]=1:METRIC[pathCost]=0:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 

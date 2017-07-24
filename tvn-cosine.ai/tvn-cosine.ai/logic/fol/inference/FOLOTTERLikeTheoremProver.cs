@@ -67,6 +67,7 @@ namespace tvn.cosine.ai.logic.fol.inference
      */
     public class FOLOTTERLikeTheoremProver : InferenceProcedure
     {
+        //
         // Ten seconds is default maximum query time permitted
         private long maxQueryTime = 10 * 1000;
         private bool useParamodulation = true;
@@ -77,7 +78,9 @@ namespace tvn.cosine.ai.logic.fol.inference
         private Paramodulation paramodulation = new Paramodulation();
 
         public FOLOTTERLikeTheoremProver()
-        { }
+        {
+
+        }
 
         public FOLOTTERLikeTheoremProver(long maxQueryTime)
         {
@@ -120,8 +123,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             return lightestClauseHeuristic;
         }
 
-        public void setLightestClauseHeuristic(
-                LightestClauseHeuristic lightestClauseHeuristic)
+        public void setLightestClauseHeuristic(LightestClauseHeuristic lightestClauseHeuristic)
         {
             this.lightestClauseHeuristic = lightestClauseHeuristic;
         }
@@ -180,13 +182,13 @@ namespace tvn.cosine.ai.logic.fol.inference
             // Want to use an answer literal to pull
             // query variables where necessary
             Literal answerLiteral = KB.createAnswerLiteral(notAlpha);
-            ISet<Variable> answerLiteralVariables = KB
-                    .collectAllVariables(answerLiteral.getAtomicSentence());
+            ISet<Variable> answerLiteralVariables = KB.collectAllVariables(answerLiteral.getAtomicSentence());
             Clause answerClause = new Clause();
 
             if (answerLiteralVariables.Size() > 0)
             {
-                Sentence notAlphaWithAnswer = new ConnectedSentence(Connectors.OR, notAlpha, answerLiteral.getAtomicSentence());
+                Sentence notAlphaWithAnswer = new ConnectedSentence(Connectors.OR,
+                        notAlpha, answerLiteral.getAtomicSentence());
                 foreach (Clause cIter in KB.convertToClauses(notAlphaWithAnswer))
                 {
                     Clause c = cIter;
@@ -214,9 +216,11 @@ namespace tvn.cosine.ai.logic.fol.inference
             usable.RemoveAll(SubsumptionElimination.findSubsumedClauses(usable));
             sos.RemoveAll(SubsumptionElimination.findSubsumedClauses(sos));
 
-            OTTERAnswerHandler ansHandler = new OTTERAnswerHandler(answerLiteral, answerLiteralVariables, answerClause, maxQueryTime);
+            OTTERAnswerHandler ansHandler = new OTTERAnswerHandler(answerLiteral,
+                    answerLiteralVariables, answerClause, maxQueryTime);
 
-            IndexedClauses idxdClauses = new IndexedClauses(getLightestClauseHeuristic(), sos, usable);
+            IndexedClauses idxdClauses = new IndexedClauses(
+                    getLightestClauseHeuristic(), sos, usable);
 
             return otter(ansHandler, idxdClauses, sos, usable);
         }
@@ -231,6 +235,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         private InferenceResult otter(OTTERAnswerHandler ansHandler,
                 IndexedClauses idxdClauses, ISet<Clause> sos, ISet<Clause> usable)
         {
+
             getLightestClauseHeuristic().initialSOS(sos);
 
             // * repeat
@@ -295,8 +300,8 @@ namespace tvn.cosine.ai.logic.fol.inference
             // * for each clause in clauses do
             foreach (Clause clauseIter in clauses)
             {
-                // * clause <- SIMPLIFY(clause)
                 Clause clause = clauseIter;
+                // * clause <- SIMPLIFY(clause)
                 clause = getClauseSimplifier().simplify(clause);
 
                 // * merge identical literals
@@ -411,7 +416,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         {
             private LightestClauseHeuristic lightestClauseHeuristic = null;
             // Group the clauses by their # of literals.
-            private IMap<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateInsertionOrderedMap<int, ISet<Clause>>();
+            private IMap<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateMap<int, ISet<Clause>>();
             // Keep track of the min and max # of literals.
             private int minNoLiterals = int.MaxValue;
             private int maxNoLiterals = 0;
@@ -434,7 +439,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             {
                 // Perform forward subsumption elimination
                 bool addToSOS = true;
-                for (int i = minNoLiterals; i < c.getNumberLiterals();++i)
+                for (int i = minNoLiterals; i < c.getNumberLiterals(); i++)
                 {
                     ISet<Clause> fs = clausesGroupedBySize.Get(i);
                     if (null != fs)
@@ -462,7 +467,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     // Have added clause, therefore
                     // perform backward subsumption elimination
                     ISet<Clause> subsumed = Factory.CreateSet<Clause>();
-                    for (int i = c.getNumberLiterals() + 1; i <= maxNoLiterals;++i)
+                    for (int i = c.getNumberLiterals() + 1; i <= maxNoLiterals; i++)
                     {
                         subsumed.Clear();
                         ISet<Clause> bs = clausesGroupedBySize.Get(i);
@@ -514,9 +519,9 @@ namespace tvn.cosine.ai.logic.fol.inference
 
         class OTTERAnswerHandler : InferenceResult
         {
-            private Literal answerLiteral = null;
-            private ISet<Variable> answerLiteralVariables = null;
-            private Clause answerClause = null;
+            private Literal answerLiteral;
+            private ISet<Variable> answerLiteralVariables;
+            private Clause answerClause;
             private System.DateTime finishTime;
             private bool complete = false;
             private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
@@ -559,6 +564,9 @@ namespace tvn.cosine.ai.logic.fol.inference
             {
                 return proofs;
             }
+
+            // END-InferenceResult
+            //
 
             public bool isComplete()
             {
@@ -605,7 +613,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 {
                     if (clause.isEmpty())
                     {
-                        proofs.Add(new ProofFinal(clause.getProofStep(), Factory.CreateInsertionOrderedMap<Variable, Term>()));
+                        proofs.Add(new ProofFinal(clause.getProofStep(), Factory.CreateMap<Variable, Term>()));
                         complete = true;
                         isAns = true;
                     }
@@ -628,12 +636,10 @@ namespace tvn.cosine.ai.logic.fol.inference
                                     .Get(0)
                                     .getAtomicSentence()
                                     .getSymbolicName()
-                                    .Equals(answerLiteral.getAtomicSentence()
-                                            .getSymbolicName()))
+                                    .Equals(answerLiteral.getAtomicSentence().getSymbolicName()))
                     {
-                        IMap<Variable, Term> answerBindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
-                        IQueue<Term> answerTerms = clause.getPositiveLiterals()
-                                .Get(0).getAtomicSentence().getArgs();
+                        IMap<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
+                        IQueue<Term> answerTerms = clause.getPositiveLiterals().Get(0).getAtomicSentence().getArgs();
                         int idx = 0;
                         foreach (Variable v in answerLiteralVariables)
                         {
@@ -643,7 +649,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                         bool addNewAnswer = true;
                         foreach (Proof p in proofs)
                         {
-                            if (p.getAnswerBindings().Equals(answerBindings))
+                            if (p.getAnswerBindings().SequenceEqual(answerBindings))
                             {
                                 addNewAnswer = false;
                                 break;
@@ -651,8 +657,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                         }
                         if (addNewAnswer)
                         {
-                            proofs.Add(new ProofFinal(clause.getProofStep(),
-                                    answerBindings));
+                            proofs.Add(new ProofFinal(clause.getProofStep(), answerBindings));
                         }
                         isAns = true;
                     }
@@ -667,7 +672,6 @@ namespace tvn.cosine.ai.logic.fol.inference
 
                 return isAns;
             }
-
 
             public override string ToString()
             {

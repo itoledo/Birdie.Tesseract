@@ -46,8 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="agent\NondeterministicVacuumEnvironmentDemo.cs" />
-    <Compile Include="agent\TrivialVacuumDemo.cs" />
+    <Compile Include="agent\nondeterministicvacuumenvironment\AndOrSearch.cs" />
+    <Compile Include="agent\trivial\ModelBasedReflexVacuumAgentDemo.cs" />
+    <Compile Include="agent\trivial\ReflexVacuumAgentDemo.cs" />
+    <Compile Include="agent\trivial\SimpleReflexVacuumAgentDemo.cs" />
+    <Compile Include="agent\trivial\TableDrivenVacuumAgentDemo.cs" />
     <Compile Include="learning\LearningDemo.cs" />
     <Compile Include="logic\DpllDemo.cs" />
     <Compile Include="logic\FolDemo.cs" />

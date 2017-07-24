@@ -7,43 +7,37 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
     public class FOLBCAskTest : CommonFOLInferenceProcedureTests
     {
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryCriminalXFalse()
         {
             testDefiniteClauseKBKingsQueryCriminalXFalse(new FOLBCAsk());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryRichardEvilFalse()
         {
             testDefiniteClauseKBKingsQueryRichardEvilFalse(new FOLBCAsk());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryJohnEvilSucceeds()
         {
             testDefiniteClauseKBKingsQueryJohnEvilSucceeds(new FOLBCAsk());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds()
         {
             testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds(new FOLBCAsk());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds()
         {
             testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds(new FOLBCAsk());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds()
         {
             testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(new FOLBCAsk());

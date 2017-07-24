@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting; 
 using tvn.cosine.ai.probability;
 using tvn.cosine.ai.probability.bayes;
 using tvn.cosine.ai.probability.bayes.approx;
@@ -13,31 +12,38 @@ using tvn.cosine.ai.util;
 namespace tvn_cosine.ai.test.unit.probability.bayes.approx
 {
     [TestClass]
-    [Ignore]
     public class GibbsAskTest
     {
-        public static readonly double DELTA_THRESHOLD = 0.1;
+        public const double DELTA_THRESHOLD = 0.1;
+
+        protected static void assertArrayEquals(double[] arr1, double[] arr2, double delta)
+        {
+            if (arr1.Length != arr2.Length)
+            {
+                Assert.Fail("Two arrays not same length");
+            }
+
+            for (int i = 0; i < arr1.Length; ++i)
+            {
+                Assert.AreEqual(arr1[i], arr2[i], delta);
+            }
+        }
 
         /** Mock randomizer - A very skewed distribution results from the choice of 
-         * IRandom that always favours one type of sample over others
+         * MockRandomizer that always favours one type of sample over others
          */
         [TestMethod]
         public void testGibbsAsk_mock()
         {
-            BayesianNetwork bn = BayesNetExampleFactory
-                    .constructCloudySprinklerRainWetGrassNetwork();
-            AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(
-                ExampleRV.SPRINKLER_RV, true) };
-            IRandom r = new MockRandomizer(new double[] { 0.5, 0.5, 0.5,
-                0.5, 0.5, 0.5, 0.6, 0.5, 0.5, 0.6, 0.5, 0.5 });
+            BayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
+            AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(ExampleRV.SPRINKLER_RV, true) };
+            MockRandomizer r = new MockRandomizer(new double[] { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.6, 0.5, 0.5, 0.6, 0.5, 0.5 });
 
             GibbsAsk ga = new GibbsAsk(r);
 
-            double[] estimate = ga.gibbsAsk(
-                    new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 1000)
-                    .getValues();
+            double[] estimate = ga.gibbsAsk(new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 1000).getValues();
 
-            Assert.AreEqual(new double[] { 0, 1 }, estimate);
+            assertArrayEquals(new double[] { 0, 1 }, estimate, DELTA_THRESHOLD);
         }
 
         /** Same test as above but with JavaRandomizer
@@ -49,18 +55,14 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
         [TestMethod]
         public void testGibbsAsk_basic()
         {
-            BayesianNetwork bn = BayesNetExampleFactory
-                    .constructCloudySprinklerRainWetGrassNetwork();
-            AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(
-                ExampleRV.SPRINKLER_RV, true) };
+            BayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
+            AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(ExampleRV.SPRINKLER_RV, true) };
 
             GibbsAsk ga = new GibbsAsk();
 
-            double[] estimate = ga.gibbsAsk(
-                    new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 1000)
-                    .getValues();
+            double[] estimate = ga.gibbsAsk(new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 1000).getValues();
 
-            Assert.AreEqual(new double[] { 0.3, 0.7 }, estimate);
+            assertArrayEquals(new double[] { 0.3, 0.7 }, estimate, DELTA_THRESHOLD);
         }
 
         [TestMethod]
@@ -83,15 +85,15 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
 
             // sample with LikelihoodWeighting
             CategoricalDistribution samplesLW = new LikelihoodWeighting().ask(rvX, propE, net, 1000);
-            Assert.AreEqual(0.9, samplesLW.getValue(true) );
+            Assert.AreEqual(0.9, samplesLW.getValue(true), DELTA_THRESHOLD);
 
             // sample with RejectionSampling
             CategoricalDistribution samplesRS = new RejectionSampling().ask(rvX, propE, net, 1000);
-            Assert.AreEqual(0.9, samplesRS.getValue(true) );
+            Assert.AreEqual(0.9, samplesRS.getValue(true), DELTA_THRESHOLD);
 
             // sample with GibbsAsk
             CategoricalDistribution samplesGibbs = new GibbsAsk().ask(rvX, propE, net, 1000);
-            Assert.AreEqual(0.9, samplesGibbs.getValue(true) );
+            Assert.AreEqual(0.9, samplesGibbs.getValue(true), DELTA_THRESHOLD);
         }
     }
 

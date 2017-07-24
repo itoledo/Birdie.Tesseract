@@ -9,10 +9,6 @@ namespace tvn_cosine.ai.test.unit.logic.fol
 {
     public abstract class CommonFOLInferenceProcedureTests
     {
-
-        //
-        // Protected Methods
-        //
         protected void testDefiniteClauseKBKingsQueryCriminalXFalse(InferenceProcedure infp)
         {
             FOLKnowledgeBase kkb = FOLKnowledgeBaseFactory.createKingsKnowledgeBase(infp);
@@ -28,8 +24,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Assert.IsTrue(0 == answer.getProofs().Size());
         }
 
-        protected void testDefiniteClauseKBKingsQueryRichardEvilFalse(
-                InferenceProcedure infp)
+        protected void testDefiniteClauseKBKingsQueryRichardEvilFalse(InferenceProcedure infp)
         {
             FOLKnowledgeBase kkb = FOLKnowledgeBaseFactory.createKingsKnowledgeBase(infp);
             IQueue<Term> terms = Factory.CreateQueue<Term>();
@@ -44,8 +39,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Assert.IsTrue(0 == answer.getProofs().Size());
         }
 
-        protected void testDefiniteClauseKBKingsQueryJohnEvilSucceeds(
-                InferenceProcedure infp)
+        protected void testDefiniteClauseKBKingsQueryJohnEvilSucceeds(InferenceProcedure infp)
         {
             FOLKnowledgeBase kkb = FOLKnowledgeBaseFactory.createKingsKnowledgeBase(infp);
             IQueue<Term> terms = Factory.CreateQueue<Term>();
@@ -137,8 +131,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Assert.AreEqual(new Constant("West"), answer.getProofs().Get(0).getAnswerBindings().Get(new Variable("x")));
         }
 
-        protected void testHornClauseKBRingOfThievesQuerySkisXReturnsNancyRedBertDrew(
-                InferenceProcedure infp)
+        protected void testHornClauseKBRingOfThievesQuerySkisXReturnsNancyRedBertDrew(InferenceProcedure infp)
         {
             FOLKnowledgeBase rotkb = FOLKnowledgeBaseFactory.createRingOfThievesKnowledgeBase(infp);
             IQueue<Term> terms = Factory.CreateQueue<Term>();

@@ -18,8 +18,7 @@ namespace tvn.cosine.ai.environment.tictactoe
         public const string X = "X";
         public const string EMPTY = "-";
         //
-        private string[] board = new string[] { EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-            EMPTY, EMPTY, EMPTY, EMPTY };
+        private string[] board = new string[] { EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY };
 
         private string playerToMove = X;
         private double utility = -1; // 1: win for X, 0: win for O, 0.5: draw
@@ -51,7 +50,8 @@ namespace tvn.cosine.ai.environment.tictactoe
 
         public void mark(int col, int row)
         {
-            if (utility == -1 && getValue(col, row).Equals(EMPTY))
+            if (-1 == utility
+             && getValue(col, row).Equals(EMPTY))
             {
                 board[getAbsPosition(col, row)] = playerToMove;
                 analyzeUtility();
@@ -81,9 +81,7 @@ namespace tvn.cosine.ai.environment.tictactoe
             for (int row = 0; row < 3; row++)
             {
                 string val = getValue(0, row);
-                if (!val.Equals(EMPTY)
-                    && val.Equals(getValue(1, row))
-                    && val.Equals(getValue(2, row)))
+                if (!val.Equals(EMPTY) && val.Equals(getValue(1, row)) && val.Equals(getValue(2, row)))
                 {
                     return true;
                 }
@@ -97,8 +95,8 @@ namespace tvn.cosine.ai.environment.tictactoe
             {
                 string val = getValue(col, 0);
                 if (!val.Equals(EMPTY)
-                    && val.Equals(getValue(col, 1))
-                    && val.Equals(getValue(col, 2)))
+                  && val.Equals(getValue(col, 1))
+                  && val.Equals(getValue(col, 2)))
                 {
                     return true;
                 }
@@ -110,15 +108,15 @@ namespace tvn.cosine.ai.environment.tictactoe
         {
             string val = getValue(0, 0);
             if (!val.Equals(EMPTY)
-                && val.Equals(getValue(1, 1))
-                && val.Equals(getValue(2, 2)))
+              && val.Equals(getValue(1, 1))
+              && val.Equals(getValue(2, 2)))
             {
                 return true;
             }
             val = getValue(0, 2);
             if (!val.Equals(EMPTY)
-                && val.Equals(getValue(1, 1))
-                && val.Equals(getValue(2, 0)))
+             && val.Equals(getValue(1, 1))
+             && val.Equals(getValue(2, 0)))
             {
                 return true;
             }
@@ -160,10 +158,10 @@ namespace tvn.cosine.ai.environment.tictactoe
         public TicTacToeState clone()
         {
             TicTacToeState copy = new TicTacToeState();
-            for (int i = 0; i < board.Length; ++i)
-            {
-                copy.board[i] = board[i];
-            }
+            copy.playerToMove = playerToMove;
+            copy.utility = utility;
+            copy.board = new string[board.Length];
+            System.Array.Copy(board, 0, copy.board, 0, board.Length);
 
             return copy;
         }
@@ -173,7 +171,7 @@ namespace tvn.cosine.ai.environment.tictactoe
             if (anObj != null && anObj.GetType() == GetType())
             {
                 TicTacToeState anotherState = (TicTacToeState)anObj;
-                for (int i = 0; i < 9;++i)
+                for (int i = 0; i < 9; i++)
                 {
                     if (!board[i].Equals(anotherState.board[i]))
                         return false;
@@ -191,16 +189,16 @@ namespace tvn.cosine.ai.environment.tictactoe
 
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder buffer = new StringBuilder();
             for (int row = 0; row < 3; row++)
             {
                 for (int col = 0; col < 3; col++)
                 {
-                    builder.Append(getValue(col, row)).Append(" ");
+                    buffer.Append(getValue(col, row)).Append(" ");
                 }
-                builder.Append("\n");
+                buffer.Append("\n");
             }
-            return builder.ToString();
+            return buffer.ToString();
         }
 
         //

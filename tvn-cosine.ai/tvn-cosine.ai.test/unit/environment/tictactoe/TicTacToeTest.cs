@@ -5,8 +5,7 @@ using tvn.cosine.ai.search.adversarial;
 
 namespace tvn_cosine.ai.test.unit.environment.tictactoe
 {
-    [TestClass]
-    [Ignore]
+    [TestClass]  
     public class TicTacToeTest
     {
         private TicTacToeGame game;
@@ -115,10 +114,8 @@ namespace tvn_cosine.ai.test.unit.environment.tictactoe
         public void testMinmaxValueCalculation()
         {
             MinimaxSearch<TicTacToeState, XYLocation, string> search = MinimaxSearch<TicTacToeState, XYLocation, string>.createFor(game);
-            Assert.IsTrue(epsilon > System.Math.Abs(search.maxValue(state,
-                    TicTacToeState.X) - 0.5));
-            Assert.IsTrue(epsilon > System.Math.Abs(search.minValue(state,
-                    TicTacToeState.O) - 0.5));
+            Assert.IsTrue(epsilon > System.Math.Abs(search.maxValue(state,                    TicTacToeState.X) - 0.5));
+            Assert.IsTrue(epsilon > System.Math.Abs(search.minValue(state,                    TicTacToeState.O) - 0.5));
 
             // x o x
             // o o x
@@ -132,27 +129,22 @@ namespace tvn_cosine.ai.test.unit.environment.tictactoe
             state.mark(2, 1); // x
             state.mark(1, 1); // o
 
-            Assert.IsTrue(epsilon > System.Math.Abs(search.maxValue(state,
-                    TicTacToeState.X) - 1));
-            Assert.IsTrue(epsilon > System.Math.Abs(search.minValue(state,
-                    TicTacToeState.O)));
+            Assert.IsTrue(epsilon > System.Math.Abs(search.maxValue(state, TicTacToeState.X) - 1));
+            Assert.IsTrue(epsilon > System.Math.Abs(search.minValue(state, TicTacToeState.O)));
             XYLocation action = search.makeDecision(state);
             Assert.AreEqual(new XYLocation(2, 2), action);
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testMinmaxDecision()
         {
-            MinimaxSearch<TicTacToeState, XYLocation, string> search = MinimaxSearch<TicTacToeState, XYLocation, string>
-                    .createFor(game);
+            MinimaxSearch<TicTacToeState, XYLocation, string> search = MinimaxSearch<TicTacToeState, XYLocation, string>                    .createFor(game);
             search.makeDecision(state);
             int expandedNodes = search.getMetrics().getInt(MinimaxSearch<TicTacToeState, XYLocation, string>.METRICS_NODES_EXPANDED);
             Assert.AreEqual(549945, expandedNodes);
         }
 
         [TestMethod]
-        [Ignore]
         public void testAlphaBetaDecision()
         {
             AlphaBetaSearch<TicTacToeState, XYLocation, string> search = AlphaBetaSearch<TicTacToeState, XYLocation, string>.createFor(game);
@@ -164,12 +156,12 @@ namespace tvn_cosine.ai.test.unit.environment.tictactoe
         [TestMethod]
         public void testIterativeDeepeningAlphaBetaDecision()
         {
-            IterativeDeepeningAlphaBetaSearch<TicTacToeState, XYLocation, string> search = IterativeDeepeningAlphaBetaSearch<TicTacToeState, XYLocation, string>
+            IterativeDeepeningAlphaBetaSearch<TicTacToeState, XYLocation, string> 
+                search = IterativeDeepeningAlphaBetaSearch<TicTacToeState, XYLocation, string>
                     .createFor(game, 0.0, 1.0, 100);
             search.makeDecision(state);
             int expandedNodes = search.getMetrics().getInt(MinimaxSearch<TicTacToeState, XYLocation, string>.METRICS_NODES_EXPANDED);
             Assert.AreEqual(76035, expandedNodes);
         }
-    }
-
+    } 
 }

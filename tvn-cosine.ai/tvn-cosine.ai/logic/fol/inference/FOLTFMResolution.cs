@@ -89,7 +89,8 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             if (answerLiteralVariables.Size() > 0)
             {
-                Sentence notAlphaWithAnswer = new ConnectedSentence(Connectors.OR, notAlpha, answerLiteral.getAtomicSentence());
+                Sentence notAlphaWithAnswer = new ConnectedSentence(Connectors.OR,
+                        notAlpha, answerLiteral.getAtomicSentence());
                 foreach (Clause cIter in KB.convertToClauses(notAlphaWithAnswer))
                 {
                     Clause c = cIter;
@@ -113,7 +114,8 @@ namespace tvn.cosine.ai.logic.fol.inference
                 }
             }
 
-            TFMAnswerHandler ansHandler = new TFMAnswerHandler(answerLiteral, answerLiteralVariables, answerClause, maxQueryTime);
+            TFMAnswerHandler ansHandler = new TFMAnswerHandler(answerLiteral,
+                    answerLiteralVariables, answerClause, maxQueryTime);
 
             // new <- {}
             ISet<Clause> newClauses = Factory.CreateSet<Clause>();
@@ -133,7 +135,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 Clause[] clausesA = clauses.ToArray();
 
                 // Basically, using the simple T)wo F)inger M)ethod here.
-                for (int i = 0; i < clausesA.Length; ++i)
+                for (int i = 0; i < clausesA.Length; i++)
                 {
                     Clause cI = clausesA[i];
                     if (null != tracer)
@@ -211,6 +213,12 @@ namespace tvn.cosine.ai.logic.fol.inference
             return ansHandler;
         }
 
+        // END-InferenceProcedure
+        //
+
+        //
+        // PRIVATE METHODS
+        //
         class TFMAnswerHandler : InferenceResult
         {
             private Literal answerLiteral = null;
@@ -259,6 +267,9 @@ namespace tvn.cosine.ai.logic.fol.inference
                 return proofs;
             }
 
+            // END-InferenceResult
+            //
+
             public bool isComplete()
             {
                 return complete;
@@ -274,7 +285,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     {
                         if (aClause.isEmpty())
                         {
-                            proofs.Add(new ProofFinal(aClause.getProofStep(), Factory.CreateInsertionOrderedMap<Variable, Term>()));
+                            proofs.Add(new ProofFinal(aClause.getProofStep(), Factory.CreateMap<Variable, Term>()));
                             complete = true;
                         }
                     }
@@ -299,9 +310,8 @@ namespace tvn.cosine.ai.logic.fol.inference
                                         .Equals(answerLiteral.getAtomicSentence()
                                                 .getSymbolicName()))
                         {
-                            IMap<Variable, Term> answerBindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
-                            IQueue<Term> answerTerms = aClause.getPositiveLiterals()
-                                    .Get(0).getAtomicSentence().getArgs();
+                            IMap<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
+                            IQueue<Term> answerTerms = aClause.getPositiveLiterals().Get(0).getAtomicSentence().getArgs();
                             int idx = 0;
                             foreach (Variable v in answerLiteralVariables)
                             {
@@ -311,7 +321,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                             bool addNewAnswer = true;
                             foreach (Proof p in proofs)
                             {
-                                if (p.getAnswerBindings().Equals(answerBindings))
+                                if (p.getAnswerBindings().SequenceEqual(answerBindings))
                                 {
                                     addNewAnswer = false;
                                     break;
@@ -319,8 +329,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                             }
                             if (addNewAnswer)
                             {
-                                proofs.Add(new ProofFinal(aClause.getProofStep(),
-                                        answerBindings));
+                                proofs.Add(new ProofFinal(aClause.getProofStep(), answerBindings));
                             }
                         }
                     }
@@ -333,7 +342,6 @@ namespace tvn.cosine.ai.logic.fol.inference
                     }
                 }
             }
-
 
             public override string ToString()
             {

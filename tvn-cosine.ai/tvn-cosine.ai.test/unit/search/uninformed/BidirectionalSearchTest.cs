@@ -25,8 +25,7 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
 
         //
         // Test IG(A)
-        [TestMethod] 
-        [Ignore]
+        [TestMethod]  
         public void test_A_StartingAtGoal()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -38,14 +37,13 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(A):Action[name==NoOp]:METRIC[pathCost]=0.0:METRIC[maxQueueSize]=0:METRIC[queueSize]=0:METRIC[nodesExpanded]=0:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(A):Action[name==NoOp]:METRIC[nodesExpanded]=0:METRIC[queueSize]=0:METRIC[maxQueueSize]=0:METRIC[pathCost]=0:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
         //
         // Test IG(A)<->(B)<->(C)
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_ABC_StartingAtGoal()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -59,14 +57,13 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(A):Action[name==NoOp]:METRIC[pathCost]=0.0:METRIC[maxQueueSize]=0:METRIC[queueSize]=0:METRIC[nodesExpanded]=0:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(A):Action[name==NoOp]:METRIC[nodesExpanded]=0:METRIC[queueSize]=0:METRIC[maxQueueSize]=0:METRIC[pathCost]=0:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
         //
         // Test I(A)<->G(B)
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_AB_BothWaysPath()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -79,14 +76,13 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(B):Action[name==moveTo, location==B]:METRIC[pathCost]=5.0:METRIC[maxQueueSize]=2:METRIC[queueSize]=1:METRIC[nodesExpanded]=1:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(B):Action[name==moveTo, location==B]:METRIC[nodesExpanded]=1:METRIC[queueSize]=1:METRIC[maxQueueSize]=2:METRIC[pathCost]=5:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
         //
         // Test I(A)<->(B)<->G(C)
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_ABC_BothWaysPath()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -100,14 +96,13 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(C):Action[name==moveTo, location==B]:Action[name==moveTo, location==C]:METRIC[pathCost]=10.0:METRIC[maxQueueSize]=2:METRIC[queueSize]=1:METRIC[nodesExpanded]=3:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(C):Action[name==moveTo, location==B]:Action[name==moveTo, location==C]:METRIC[nodesExpanded]=3:METRIC[queueSize]=1:METRIC[maxQueueSize]=2:METRIC[pathCost]=10:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
         //
         // Test I(A)<->(B)<->(C)<->G(D)
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_ABCD_BothWaysPath()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -122,14 +117,13 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(D):Action[name==moveTo, location==B]:Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:METRIC[pathCost]=15.0:METRIC[maxQueueSize]=2:METRIC[queueSize]=1:METRIC[nodesExpanded]=4:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(D):Action[name==moveTo, location==B]:Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:METRIC[nodesExpanded]=4:METRIC[queueSize]=1:METRIC[maxQueueSize]=2:METRIC[pathCost]=15:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
         //
         // Test I(A)->G(B)
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_AB_OriginalOnlyPath()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -142,14 +136,13 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(B):Action[name==moveTo, location==B]:METRIC[pathCost]=5.0:METRIC[maxQueueSize]=2:METRIC[queueSize]=1:METRIC[nodesExpanded]=1:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(B):Action[name==moveTo, location==B]:METRIC[nodesExpanded]=1:METRIC[queueSize]=1:METRIC[maxQueueSize]=2:METRIC[pathCost]=5:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
         //
         // Test I(A)->(B)->G(C)
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_ABC_OriginalOnlyPath()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -163,15 +156,14 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(C):Action[name==moveTo, location==B]:Action[name==moveTo, location==C]:METRIC[pathCost]=10.0:METRIC[maxQueueSize]=2:METRIC[queueSize]=0:METRIC[nodesExpanded]=3:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(C):Action[name==moveTo, location==B]:Action[name==moveTo, location==C]:METRIC[nodesExpanded]=3:METRIC[queueSize]=0:METRIC[maxQueueSize]=2:METRIC[pathCost]=10:Action[name==NoOp]:",
                     envChanges.ToString());
 
         }
 
         //
         // Test I(A)->(B)->(C)<->(D)<->G(E)
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_ABCDE_OriginalOnlyPath()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -187,14 +179,13 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(E):Action[name==moveTo, location==B]:Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:Action[name==moveTo, location==E]:METRIC[pathCost]=20.0:METRIC[maxQueueSize]=2:METRIC[queueSize]=1:METRIC[nodesExpanded]=5:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(E):Action[name==moveTo, location==B]:Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:Action[name==moveTo, location==E]:METRIC[nodesExpanded]=5:METRIC[queueSize]=1:METRIC[maxQueueSize]=2:METRIC[pathCost]=20:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
         //
         // Test I(A)<-G(B)
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_AB_ReverseOnlyPath()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -207,14 +198,13 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(B):Action[name==NoOp]:METRIC[pathCost]=0:METRIC[maxQueueSize]=2:METRIC[queueSize]=0:METRIC[nodesExpanded]=2:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(B):Action[name==NoOp]:METRIC[nodesExpanded]=2:METRIC[queueSize]=0:METRIC[maxQueueSize]=2:METRIC[pathCost]=0:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
         //
         // Test I(A)<-(B)<-G(C)
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_ABC_ReverseOnlyPath()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -228,13 +218,12 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(C):Action[name==NoOp]:METRIC[pathCost]=0:METRIC[maxQueueSize]=2:METRIC[queueSize]=0:METRIC[nodesExpanded]=2:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(C):Action[name==NoOp]:METRIC[nodesExpanded]=2:METRIC[queueSize]=0:METRIC[maxQueueSize]=2:METRIC[pathCost]=0:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
         // Test I(A)<->(B)<->(C)<-(D)<-G(E)
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_ABCDE_ReverseOnlyPath()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -250,7 +239,7 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(E):Action[name==NoOp]:METRIC[pathCost]=0:METRIC[maxQueueSize]=2:METRIC[queueSize]=0:METRIC[nodesExpanded]=4:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(E):Action[name==NoOp]:METRIC[nodesExpanded]=4:METRIC[queueSize]=0:METRIC[maxQueueSize]=2:METRIC[pathCost]=0:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
@@ -261,8 +250,7 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
          *              --------------------------------------
          * </code>
          */
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_ABCDEF_OriginalFirst()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -282,7 +270,7 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(H):Action[name==moveTo, location==B]:Action[name==moveTo, location==H]:METRIC[pathCost]=10.0:METRIC[maxQueueSize]=2:METRIC[queueSize]=2:METRIC[nodesExpanded]=3:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(H):Action[name==moveTo, location==B]:Action[name==moveTo, location==H]:METRIC[nodesExpanded]=3:METRIC[queueSize]=2:METRIC[maxQueueSize]=2:METRIC[pathCost]=10:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
@@ -293,8 +281,7 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
          *        -------------------------
          * </code>
          */
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_ABCDEF_ReverseFirstButNotFromOriginal()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -312,7 +299,7 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(F):Action[name==moveTo, location==B]:Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:Action[name==moveTo, location==E]:Action[name==moveTo, location==F]:METRIC[pathCost]=25.0:METRIC[maxQueueSize]=2:METRIC[queueSize]=1:METRIC[nodesExpanded]=6:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(F):Action[name==moveTo, location==B]:Action[name==moveTo, location==C]:Action[name==moveTo, location==D]:Action[name==moveTo, location==E]:Action[name==moveTo, location==F]:METRIC[nodesExpanded]=6:METRIC[queueSize]=1:METRIC[maxQueueSize]=2:METRIC[pathCost]=25:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 
@@ -325,8 +312,7 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
          *        -------------------------
          * </code>
          */
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void test_ABCDEF_MoreComplexReverseFirstButNotFromOriginal()
         {
             ExtendableMap aMap = new ExtendableMap();
@@ -345,7 +331,7 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
             me.StepUntilDone();
 
             Assert.AreEqual(
-                    "CurrentLocation=In(A), Goal=In(F):Action[name==moveTo, location==E]:Action[name==moveTo, location==D]:Action[name==moveTo, location==F]:METRIC[pathCost]=15.0:METRIC[maxQueueSize]=3:METRIC[queueSize]=3:METRIC[nodesExpanded]=5:Action[name==NoOp]:",
+                    "CurrentLocation=In(A), Goal=In(F):Action[name==moveTo, location==E]:Action[name==moveTo, location==D]:Action[name==moveTo, location==F]:METRIC[nodesExpanded]=5:METRIC[queueSize]=3:METRIC[maxQueueSize]=3:METRIC[pathCost]=15:Action[name==NoOp]:",
                     envChanges.ToString());
         }
 

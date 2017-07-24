@@ -20,7 +20,6 @@ namespace tvn.cosine.ai.logic.fol.inference
      */
     public class FOLModelElimination : InferenceProcedure
     {
-
         // Ten seconds is default maximum query time permitted
         private long maxQueryTime = 10 * 1000;
         //
@@ -57,10 +56,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         {
             this.maxQueryTime = maxQueryTime;
         }
-
-        //
-        // START-InferenceProcedure
-
+         
         public InferenceResult ask(FOLKnowledgeBase kb, Sentence query)
         {
             //
@@ -133,7 +129,8 @@ namespace tvn.cosine.ai.logic.fol.inference
                 return;
             }
 
-            int noCandidateFarParents = indexedFarParents.getNumberCandidateFarParents(nearParent);
+            int noCandidateFarParents = indexedFarParents
+                    .getNumberCandidateFarParents(nearParent);
             if (null != tracer)
             {
                 tracer.increment(currentDepth, noCandidateFarParents);
@@ -149,7 +146,8 @@ namespace tvn.cosine.ai.logic.fol.inference
                 }
 
                 // Reduction
-                Chain nextNearParent = indexedFarParents.attemptReduction(nearParent, farParentIdx);
+                Chain nextNearParent = indexedFarParents.attemptReduction(
+                        nearParent, farParentIdx);
 
                 if (null == nextNearParent)
                 {
@@ -184,16 +182,19 @@ namespace tvn.cosine.ai.logic.fol.inference
                 {
                     // Keep track of the current # of
                     // far parents that are possible for the next near parent.
-                    int noNextFarParents = indexedFarParents.getNumberFarParents(nextNearParent);
+                    int noNextFarParents = indexedFarParents
+                            .getNumberFarParents(nextNearParent);
                     // Add to indexed far parents
                     nextNearParent = indexedFarParents.addToIndex(nextNearParent);
 
                     // Check the next level
-                    recursiveDLS(maxDepth, currentDepth + 1, nextNearParent, indexedFarParents, ansHandler);
+                    recursiveDLS(maxDepth, currentDepth + 1, nextNearParent,
+                            indexedFarParents, ansHandler);
 
                     // Reset the number of far parents possible
                     // when recursing back up.
-                    indexedFarParents.resetNumberFarParentsTo(nextNearParent, noNextFarParents);
+                    indexedFarParents.resetNumberFarParentsTo(nextNearParent,
+                            noNextFarParents);
                 }
             }
         }
@@ -227,7 +228,9 @@ namespace tvn.cosine.ai.logic.fol.inference
                                     cancLits.Add(lfc.newInstance(a));
                                 }
                                 Chain cancellation = new Chain(cancLits);
-                                cancellation.setProofStep(new ProofStepChainCancellation(cancellation, c, subst));
+                                cancellation
+                                        .setProofStep(new ProofStepChainCancellation(
+                                                cancellation, c, subst));
                                 return cancellation;
                             }
                         }
@@ -253,6 +256,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
         class AnswerHandler : InferenceResult
         {
+
             private Chain answerChain = new Chain();
             private ISet<Variable> answerLiteralVariables;
             private IQueue<Chain> sos = null;
@@ -261,12 +265,10 @@ namespace tvn.cosine.ai.logic.fol.inference
             private int maxDepthReached = 0;
             private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
             private bool timedOut = false;
-            private FOLModelElimination fOLModelElimination;
 
-            public AnswerHandler(FOLKnowledgeBase kb, Sentence query, long maxQueryTime,
-                FOLModelElimination fOLModelElimination)
+            public AnswerHandler(FOLKnowledgeBase kb, Sentence query, long maxQueryTime, FOLModelElimination fOLModelElimination)
             {
-                this.fOLModelElimination = fOLModelElimination;
+
                 finishTime = System.DateTime.Now.AddMilliseconds(maxQueryTime);
 
                 Sentence refutationQuery = new NotSentence(query);
@@ -363,8 +365,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 {
                     if (nearParent.isEmpty())
                     {
-                        proofs.Add(new ProofFinal(nearParent.getProofStep(),
-                                Factory.CreateInsertionOrderedMap<Variable, Term>()));
+                        proofs.Add(new ProofFinal(nearParent.getProofStep(), Factory.CreateMap<Variable, Term>()));
                         complete = true;
                         isAns = true;
                     }
@@ -377,7 +378,8 @@ namespace tvn.cosine.ai.logic.fol.inference
                         // as added an answer literal to sos, which
                         // implies the database (i.e. premises) are
                         // unsatisfiable to begin with.
-                        throw new IllegalStateException("Generated an empty chain while looking for an answer, implies original KB is unsatisfiable");
+                        throw new IllegalStateException(
+                                "Generated an empty chain while looking for an answer, implies original KB is unsatisfiable");
                     }
                     if (1 == nearParent.getNumberLiterals()
                             && nearParent
@@ -387,7 +389,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                                     .Equals(answerChain.getHead()
                                             .getAtomicSentence().getSymbolicName()))
                     {
-                        IMap<Variable, Term> answerBindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
+                        IMap<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
                         IQueue<Term> answerTerms = nearParent.getHead()
                                 .getAtomicSentence().getArgs();
                         int idx = 0;
@@ -399,7 +401,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                         bool addNewAnswer = true;
                         foreach (Proof p in proofs)
                         {
-                            if (p.getAnswerBindings().Equals(answerBindings))
+                            if (p.getAnswerBindings().SequenceEqual(answerBindings))
                             {
                                 addNewAnswer = false;
                                 break;
@@ -407,8 +409,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                         }
                         if (addNewAnswer)
                         {
-                            proofs.Add(new ProofFinal(nearParent.getProofStep(),
-                                    answerBindings));
+                            proofs.Add(new ProofFinal(nearParent.getProofStep(), answerBindings));
                         }
                         isAns = true;
                     }
@@ -423,7 +424,6 @@ namespace tvn.cosine.ai.logic.fol.inference
 
                 return isAns;
             }
-
 
             public override string ToString()
             {
@@ -443,8 +443,8 @@ namespace tvn.cosine.ai.logic.fol.inference
         private Unifier unifier = new Unifier();
         private SubstVisitor substVisitor = new SubstVisitor();
         //
-        private IMap<string, IQueue<Chain>> posHeads = Factory.CreateInsertionOrderedMap<string, IQueue<Chain>>();
-        private IMap<string, IQueue<Chain>> negHeads = Factory.CreateInsertionOrderedMap<string, IQueue<Chain>>();
+        private IMap<string, IQueue<Chain>> posHeads = Factory.CreateMap<string, IQueue<Chain>>();
+        private IMap<string, IQueue<Chain>> negHeads = Factory.CreateMap<string, IQueue<Chain>>();
 
         public IndexedFarParents(IQueue<Chain> sos, IQueue<Chain> background)
         {
@@ -573,7 +573,8 @@ namespace tvn.cosine.ai.logic.fol.inference
                     }
 
                     nnpc = new Chain(reduction);
-                    nnpc.setProofStep(new ProofStepChainReduction(nnpc, nearParent, farParent, subst));
+                    nnpc.setProofStep(new ProofStepChainReduction(nnpc, nearParent,
+                            farParent, subst));
                 }
             }
 
@@ -642,6 +643,9 @@ namespace tvn.cosine.ai.logic.fol.inference
             return sb.ToString();
         }
 
+        //
+        // PRIVATE METHODS
+        //
         private void constructInternalDataStructures(IQueue<Chain> sos, IQueue<Chain> background)
         {
             IQueue<Chain> toIndex = Factory.CreateQueue<Chain>();

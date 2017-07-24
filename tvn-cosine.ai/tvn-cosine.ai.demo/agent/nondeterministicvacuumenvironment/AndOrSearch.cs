@@ -4,17 +4,11 @@ using tvn.cosine.ai.environment.vacuum;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.nondeterministic;
 
-namespace tvn_cosine.ai.demo.agent
+namespace tvn_cosine.ai.demo.agent.nondeterministicvacuumenvironment
 {
-    /**
-     * Applies AND-OR-GRAPH-SEARCH to a non-deterministic version of the Vacuum World.
-     * 
-     * 
-     * @author Andrew Brown
-     */
-    public class NondeterministicVacuumEnvironmentDemo
+    public class AndOrSearch
     {
-        public static void Main(params string[] args)
+        static void Main(params string[] args)
         {
             System.Console.WriteLine("NON-DETERMINISTIC-VACUUM-ENVIRONMENT DEMO");
             System.Console.WriteLine("");
@@ -25,7 +19,9 @@ namespace tvn_cosine.ai.demo.agent
         {
             System.Console.WriteLine("AND-OR-GRAPH-SEARCH");
 
-            NondeterministicVacuumAgent agent = new NondeterministicVacuumAgent(VacuumWorldFunctions.FullyObservableVacuumEnvironmentPerceptToStateFunction);
+            NondeterministicVacuumAgent
+                agent = new NondeterministicVacuumAgent(
+                    VacuumWorldFunctions.FullyObservableVacuumEnvironmentPerceptToStateFunction);
             // create state: both rooms are dirty and the vacuum is in room A
             VacuumEnvironmentState state = new VacuumEnvironmentState();
             state.setLocationState(VacuumEnvironment.LOCATION_A, VacuumEnvironment.LocationState.Dirty);
@@ -43,7 +39,10 @@ namespace tvn_cosine.ai.demo.agent
             //   agent.setProblem(problem);
 
             // create world
-            NondeterministicVacuumEnvironment world = new NondeterministicVacuumEnvironment(VacuumEnvironment.LocationState.Dirty, VacuumEnvironment.LocationState.Dirty);
+            NondeterministicVacuumEnvironment
+                world = new NondeterministicVacuumEnvironment(
+                    VacuumEnvironment.LocationState.Dirty,
+                    VacuumEnvironment.LocationState.Dirty);
             world.addAgent(agent, VacuumEnvironment.LOCATION_A);
 
             // execute and show plan

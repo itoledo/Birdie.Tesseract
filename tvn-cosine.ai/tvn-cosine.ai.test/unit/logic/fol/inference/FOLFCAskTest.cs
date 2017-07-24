@@ -3,49 +3,43 @@ using tvn.cosine.ai.logic.fol.inference;
 
 namespace tvn_cosine.ai.test.unit.logic.fol.inference
 {
-    [TestClass] public class FOLFCAskTest :  CommonFOLInferenceProcedureTests
-    {
-
-        [TestMethod]
-        [Ignore]
+    [TestClass]
+    public class FOLFCAskTest : CommonFOLInferenceProcedureTests
+    { 
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryCriminalXFalse()
-    {
-        testDefiniteClauseKBKingsQueryCriminalXFalse(new FOLFCAsk());
-    }
+        {
+            testDefiniteClauseKBKingsQueryCriminalXFalse(new FOLFCAsk());
+        }
 
-    [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryRichardEvilFalse()
-    {
-        testDefiniteClauseKBKingsQueryRichardEvilFalse(new FOLFCAsk());
-    }
+        {
+            testDefiniteClauseKBKingsQueryRichardEvilFalse(new FOLFCAsk());
+        }
 
-    [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryJohnEvilSucceeds()
-    {
-        testDefiniteClauseKBKingsQueryJohnEvilSucceeds(new FOLFCAsk());
-    }
+        {
+            testDefiniteClauseKBKingsQueryJohnEvilSucceeds(new FOLFCAsk());
+        }
 
-    [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds()
-    {
-        testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds(new FOLFCAsk());
-    }
+        {
+            testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds(new FOLFCAsk());
+        }
 
-    [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds()
-    {
-        testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds(new FOLFCAsk());
-    }
+        {
+            testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds(new FOLFCAsk());
+        }
 
-    [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds()
-    {
-        testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(new FOLFCAsk());
+        {
+            testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(new FOLFCAsk());
+        }
     }
-}
 }

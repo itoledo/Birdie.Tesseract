@@ -5,79 +5,68 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
 {
     [TestClass]
     public class FOLModelEliminationTest : CommonFOLInferenceProcedureTests
-    {
-
-        [TestMethod]
-        [Ignore]
+    { 
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryCriminalXFalse()
         {
             testDefiniteClauseKBKingsQueryCriminalXFalse(new FOLModelElimination());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryRichardEvilFalse()
         {
             testDefiniteClauseKBKingsQueryRichardEvilFalse(new FOLModelElimination());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryJohnEvilSucceeds()
         {
             testDefiniteClauseKBKingsQueryJohnEvilSucceeds(new FOLModelElimination());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds()
         {
             testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds(new FOLModelElimination());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds()
         {
             testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds(new FOLModelElimination());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds()
         {
             testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(new FOLModelElimination());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testHornClauseKBRingOfThievesQuerySkisXReturnsNancyRedBertDrew()
         {
             // This KB ends up being infinite when resolving, however 2
             // seconds is more than enough to extract the 4 answers
             // that are expected
-            testHornClauseKBRingOfThievesQuerySkisXReturnsNancyRedBertDrew(new FOLModelElimination(
-                    2 * 1000));
+            testHornClauseKBRingOfThievesQuerySkisXReturnsNancyRedBertDrew(
+                new FOLModelElimination(3 * 1000));
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testFullFOLKBLovesAnimalQueryKillsCuriosityTunaSucceeds()
         {
             testFullFOLKBLovesAnimalQueryKillsCuriosityTunaSucceeds(
                     new FOLModelElimination(), false);
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testFullFOLKBLovesAnimalQueryNotKillsJackTunaSucceeds()
         {
             testFullFOLKBLovesAnimalQueryNotKillsJackTunaSucceeds(
                     new FOLModelElimination(), false);
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testFullFOLKBLovesAnimalQueryKillsJackTunaFalse()
         {
             // Note: While the KB expands infinitely, the answer
@@ -87,61 +76,53 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
                     new FOLModelElimination(), false);
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testEqualityAxiomsKBabcAEqualsCSucceeds()
         {
             testEqualityAxiomsKBabcAEqualsCSucceeds(new FOLModelElimination());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testEqualityAndSubstitutionAxiomsKBabcdFFASucceeds()
         {
             testEqualityAndSubstitutionAxiomsKBabcdFFASucceeds(new FOLModelElimination());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testEqualityAndSubstitutionAxiomsKBabcdPDSucceeds()
         {
             testEqualityAndSubstitutionAxiomsKBabcdPDSucceeds(new FOLModelElimination());
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testEqualityAndSubstitutionAxiomsKBabcdPFFASucceeds()
         {
             testEqualityAndSubstitutionAxiomsKBabcdPFFASucceeds(
                     new FOLModelElimination(), false);
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testEqualityNoAxiomsKBabcAEqualsCSucceeds()
         {
             testEqualityNoAxiomsKBabcAEqualsCSucceeds(new FOLModelElimination(),
                     true);
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testEqualityAndSubstitutionNoAxiomsKBabcdFFASucceeds()
         {
             testEqualityAndSubstitutionNoAxiomsKBabcdFFASucceeds(
                     new FOLModelElimination(), true);
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testEqualityAndSubstitutionNoAxiomsKBabcdPDSucceeds()
         {
             testEqualityAndSubstitutionNoAxiomsKBabcdPDSucceeds(
                     new FOLModelElimination(), true);
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod] 
         public void testEqualityAndSubstitutionNoAxiomsKBabcdPFFASucceeds()
         {
             testEqualityAndSubstitutionNoAxiomsKBabcdPFFASucceeds(

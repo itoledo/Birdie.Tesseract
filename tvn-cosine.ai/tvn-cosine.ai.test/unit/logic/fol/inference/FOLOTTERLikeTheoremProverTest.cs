@@ -12,12 +12,9 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 namespace tvn_cosine.ai.test.unit.logic.fol.inference
 {
     [TestClass]
-    public class FOLOTTERLikeTheoremProverTest :
-            CommonFOLInferenceProcedureTests
+    public class FOLOTTERLikeTheoremProverTest : CommonFOLInferenceProcedureTests
     {
-
         [TestMethod]
-        [Ignore]
         public void testDefaultClauseSimplifier()
         {
             FOLDomain domain = new FOLDomain();
@@ -46,15 +43,13 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
 
             Clause simplified = simplifier.simplify(cnf.getConjunctionOfClauses().Get(0));
 
-            Assert.AreEqual("[P(y,y), P(y,ONE), P(ONE,y)]",
-                    simplified.ToString());
+            Assert.AreEqual("[P(y,y), P(y,ONE), P(ONE,y)]", simplified.ToString());
         }
 
         // This tests to ensure the OTTERLike theorem prover
         // uses subsumption correctly so that it exhausts
         // its search space.
         [TestMethod]
-        [Ignore]
         public void testExhaustsSearchSpace()
         {
             // Taken from AIMA pg 679
@@ -108,152 +103,116 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
         }
 
         [TestMethod]
-        [Ignore]
         public void testDefiniteClauseKBKingsQueryCriminalXFalse()
         {
-            testDefiniteClauseKBKingsQueryCriminalXFalse(new FOLOTTERLikeTheoremProver(
-                    false));
+            testDefiniteClauseKBKingsQueryCriminalXFalse(new FOLOTTERLikeTheoremProver(false));
         }
 
         [TestMethod]
-        [Ignore]
         public void testDefiniteClauseKBKingsQueryRichardEvilFalse()
         {
-            testDefiniteClauseKBKingsQueryRichardEvilFalse(
-                new FOLOTTERLikeTheoremProver(false));
+            testDefiniteClauseKBKingsQueryRichardEvilFalse(new FOLOTTERLikeTheoremProver(false));
         }
 
         [TestMethod]
-        [Ignore]
         public void testDefiniteClauseKBKingsQueryJohnEvilSucceeds()
         {
-            testDefiniteClauseKBKingsQueryJohnEvilSucceeds(
-                new FOLOTTERLikeTheoremProver(false));
+            testDefiniteClauseKBKingsQueryJohnEvilSucceeds(new FOLOTTERLikeTheoremProver(false));
         }
 
         [TestMethod]
-        [Ignore]
         public void testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds()
         {
-            testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds(
-                new FOLOTTERLikeTheoremProver(false));
+            testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds(new FOLOTTERLikeTheoremProver(false));
         }
 
         [TestMethod]
-        [Ignore]
         public void testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds()
         {
-            testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds(
-                new FOLOTTERLikeTheoremProver(false));
+            testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds(new FOLOTTERLikeTheoremProver(false));
         }
 
         [TestMethod]
-        [Ignore]
         public void testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds()
         {
-            testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(
-                new FOLOTTERLikeTheoremProver(false));
+            testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(new FOLOTTERLikeTheoremProver(false));
         }
 
         [TestMethod]
-        [Ignore]
         public void testHornClauseKBRingOfThievesQuerySkisXReturnsNancyRedBertDrew()
         {
             // This KB ends up being infinite when resolving, however 2
             // seconds is more than enough to extract the 4 answers
             // that are expected
-            testHornClauseKBRingOfThievesQuerySkisXReturnsNancyRedBertDrew(
-                new FOLOTTERLikeTheoremProver(2 * 1000, false));
+            testHornClauseKBRingOfThievesQuerySkisXReturnsNancyRedBertDrew(new FOLOTTERLikeTheoremProver(2 * 1000, false));
         }
 
         [TestMethod]
-        [Ignore]
         public void testFullFOLKBLovesAnimalQueryKillsCuriosityTunaSucceeds()
         {
-            testFullFOLKBLovesAnimalQueryKillsCuriosityTunaSucceeds(
-                    new FOLOTTERLikeTheoremProver(false), false);
+            testFullFOLKBLovesAnimalQueryKillsCuriosityTunaSucceeds(new FOLOTTERLikeTheoremProver(false), false);
         }
 
         [TestMethod]
-        [Ignore]
         public void testFullFOLKBLovesAnimalQueryNotKillsJackTunaSucceeds()
         {
-            testFullFOLKBLovesAnimalQueryNotKillsJackTunaSucceeds(
-                    new FOLOTTERLikeTheoremProver(false), false);
+            testFullFOLKBLovesAnimalQueryNotKillsJackTunaSucceeds(new FOLOTTERLikeTheoremProver(false), false);
         }
 
         [TestMethod]
-        [Ignore]
         public void testFullFOLKBLovesAnimalQueryKillsJackTunaFalse()
         {
             // This query will not return using OTTER Like resolution
             // as keep expanding clauses through resolution for this KB.
-            testFullFOLKBLovesAnimalQueryKillsJackTunaFalse(
-                    new FOLOTTERLikeTheoremProver(false), true);
+            testFullFOLKBLovesAnimalQueryKillsJackTunaFalse(new FOLOTTERLikeTheoremProver(false), true);
         }
 
         [TestMethod]
-        [Ignore]
         public void testEqualityAxiomsKBabcAEqualsCSucceeds()
         {
-            testEqualityAxiomsKBabcAEqualsCSucceeds(new FOLOTTERLikeTheoremProver(
-                    false));
+            testEqualityAxiomsKBabcAEqualsCSucceeds(new FOLOTTERLikeTheoremProver(false));
         }
 
         [TestMethod]
-        [Ignore]
         public void testEqualityAndSubstitutionAxiomsKBabcdFFASucceeds()
         {
-            testEqualityAndSubstitutionAxiomsKBabcdFFASucceeds(new FOLOTTERLikeTheoremProver(
-                    false));
+            testEqualityAndSubstitutionAxiomsKBabcdFFASucceeds(new FOLOTTERLikeTheoremProver(false));
         }
 
         [TestMethod]
-        [Ignore]
         public void testEqualityAndSubstitutionAxiomsKBabcdPDSucceeds()
         {
-            testEqualityAndSubstitutionAxiomsKBabcdPDSucceeds(new FOLOTTERLikeTheoremProver(
-                    false));
+            testEqualityAndSubstitutionAxiomsKBabcdPDSucceeds(new FOLOTTERLikeTheoremProver(false));
         }
 
         [TestMethod]
-        [Ignore]
         public void testEqualityAndSubstitutionAxiomsKBabcdPFFASucceeds()
         {
-            testEqualityAndSubstitutionAxiomsKBabcdPFFASucceeds(
-                    new FOLOTTERLikeTheoremProver(false), false);
+            testEqualityAndSubstitutionAxiomsKBabcdPFFASucceeds(new FOLOTTERLikeTheoremProver(false), false);
         }
 
         [TestMethod]
-        [Ignore]
         public void testEqualityNoAxiomsKBabcAEqualsCSucceeds()
         {
-            testEqualityNoAxiomsKBabcAEqualsCSucceeds(
-                    new FOLOTTERLikeTheoremProver(true), false);
+            testEqualityNoAxiomsKBabcAEqualsCSucceeds(new FOLOTTERLikeTheoremProver(true), false);
         }
 
         [TestMethod]
-        [Ignore]
         public void testEqualityAndSubstitutionNoAxiomsKBabcdFFASucceeds()
         {
-            testEqualityAndSubstitutionNoAxiomsKBabcdFFASucceeds(
-                    new FOLOTTERLikeTheoremProver(true), false);
+            testEqualityAndSubstitutionNoAxiomsKBabcdFFASucceeds(new FOLOTTERLikeTheoremProver(true), false);
         }
 
         [TestMethod]
-        [Ignore]
         public void testEqualityAndSubstitutionNoAxiomsKBabcdPDSucceeds()
         {
-            testEqualityAndSubstitutionNoAxiomsKBabcdPDSucceeds(
-                    new FOLOTTERLikeTheoremProver(true), false);
+            testEqualityAndSubstitutionNoAxiomsKBabcdPDSucceeds(new FOLOTTERLikeTheoremProver(true), false);
         }
 
         [TestMethod]
-        [Ignore]
         public void testEqualityAndSubstitutionNoAxiomsKBabcdPFFASucceeds()
         {
-            testEqualityAndSubstitutionNoAxiomsKBabcdPFFASucceeds(
-                    new FOLOTTERLikeTheoremProver(true), false);
+            testEqualityAndSubstitutionNoAxiomsKBabcdPFFASucceeds(new FOLOTTERLikeTheoremProver(true), false);
         }
     }
 }
