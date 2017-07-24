@@ -7,7 +7,7 @@ namespace tvn_cosine.ai.test.unit.util.datastructure
     [TestClass]
     public class TableTest
     {
-        private Table<string, string, int> table;
+        private Table<string, string, int?> table;
 
         [TestInitialize]
         public void setUp()
@@ -22,7 +22,7 @@ namespace tvn_cosine.ai.test.unit.util.datastructure
             columnHeaders.Add("col1");
             columnHeaders.Add("iq");
             columnHeaders.Add("age");
-            table = new Table<string, string, int>(rowHeaders, columnHeaders);
+            table = new Table<string, string, int?>(rowHeaders, columnHeaders);
 
         }
 
@@ -31,7 +31,7 @@ namespace tvn_cosine.ai.test.unit.util.datastructure
         {
             Assert.IsNull(table.get("ravi", "iq"));
             table.set("ravi", "iq", 50);
-            int i = table.get("ravi", "iq");
+            int? i = table.get("ravi", "iq");
             Assert.AreEqual(50, i);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.parsing;
 using tvn.cosine.ai.logic.fol.parsing.ast;
@@ -41,7 +42,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.parsing
 
 
         [TestMethod]
-        [ExpectedException(typeof(RuntimeException))]
+        [ExpectedException(typeof(LexerException))]
         public void testNotAllowedParseLeadingIndexedVariable()
         {
             parser.setUpToParse("1x");

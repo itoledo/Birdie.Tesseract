@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common;
 using tvn.cosine.ai.probability;
 using tvn.cosine.ai.probability.bayes;
 using tvn.cosine.ai.probability.bayes.approx;
@@ -12,25 +11,32 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
     [TestClass]
     public class RejectionSamplingTest
     {
-
         public static readonly double DELTA_THRESHOLD = ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
+
+        protected static void assertArrayEquals(double[] arr1, double[] arr2, double delta)
+        {
+            if (arr1.Length != arr2.Length)
+            {
+                Assert.Fail("Two arrays not same length");
+            }
+
+            for (int i = 0; i < arr1.Length; ++i)
+            {
+                Assert.AreEqual(arr1[i], arr2[i], delta);
+            }
+        }
 
         [TestMethod]
         public void testPriorSample_basic()
         {
-
-            BayesianNetwork bn = BayesNetExampleFactory
-                    .constructCloudySprinklerRainWetGrassNetwork();
-            AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(
-                ExampleRV.SPRINKLER_RV, true) };
-            IRandom r = new MockRandomizer(new double[] { 0.1 });
+            BayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
+            AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(ExampleRV.SPRINKLER_RV, true) };
+            MockRandomizer r = new MockRandomizer(new double[] { 0.1 });
             RejectionSampling rs = new RejectionSampling(new PriorSample(r));
 
-            double[] estimate = rs.rejectionSampling(
-                    new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 100)
-                    .getValues();
+            double[] estimate = rs.rejectionSampling(new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 100).getValues();
 
-            Assert.AreEqual(new double[] { 1.0, 0.0 }, estimate);
+            assertArrayEquals(new double[] { 1.0, 0.0 }, estimate, DELTA_THRESHOLD);
         }
 
         [TestMethod]
@@ -38,10 +44,8 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
         {
             // AIMA3e pg. 532
 
-            BayesianNetwork bn = BayesNetExampleFactory
-                    .constructCloudySprinklerRainWetGrassNetwork();
-            AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(
-                ExampleRV.SPRINKLER_RV, true) };
+            BayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
+            AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(ExampleRV.SPRINKLER_RV, true) };
 
             // 400 required as 4 variables and 100 samples planned
             double[] ma = new double[400];
@@ -75,16 +79,14 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
                     ma[i + 3] = 0.1; // i.e. WetGrass=true
                 }
             }
-            IRandom r = new MockRandomizer(ma);
+            MockRandomizer r = new MockRandomizer(ma);
             RejectionSampling rs = new RejectionSampling(new PriorSample(r));
 
             double[] estimate = rs.rejectionSampling(
                     new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 100)
                     .getValues();
 
-            Assert.AreEqual(new double[] { 0.2962962962962963,
-                0.7037037037037037 }, estimate);
+            assertArrayEquals(new double[] { 0.2962962962962963, 0.7037037037037037 }, estimate, DELTA_THRESHOLD);
         }
     }
-
 }

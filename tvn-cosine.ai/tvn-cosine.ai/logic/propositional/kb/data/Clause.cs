@@ -325,7 +325,11 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
         {
             if (cachedHashCode == -1)
             {
-                cachedHashCode = literals.GetHashCode();
+                cachedHashCode = 17;
+                foreach (Literal literal in literals)
+                {
+                    cachedHashCode += 31 * literal.GetHashCode();
+                } 
             }
             return cachedHashCode;
         }

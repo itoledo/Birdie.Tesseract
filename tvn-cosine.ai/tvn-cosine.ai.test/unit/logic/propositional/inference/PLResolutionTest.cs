@@ -15,19 +15,10 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.inference
     {
         private PLResolution resolution;
         private PLParser parser;
-
-
-        public static IQueue<object> inferenceAlgorithmSettings()
+         
+        public PLResolutionTest()
         {
-            return Factory.CreateQueue<object>(new object[] {
-                 false , // will not discard tautological clauses - slower!
-        		 true    // will discard tautological clauses - faster!
-        });
-        }
-
-        public PLResolutionTest(bool discardTautologies)
-        {
-            this.resolution = new PLResolution(discardTautologies);
+            this.resolution = new PLResolution(false);
             parser = new PLParser();
         }
 

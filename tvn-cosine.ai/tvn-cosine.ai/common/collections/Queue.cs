@@ -72,6 +72,12 @@ namespace tvn.cosine.ai.common.collections
 
         public T Get(int index)
         {
+            if (0 > index
+             || backingList.Count <= index)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
             return backingList[index];
         }
 

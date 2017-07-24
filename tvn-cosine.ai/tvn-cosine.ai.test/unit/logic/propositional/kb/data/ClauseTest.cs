@@ -401,7 +401,7 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
 
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(NotSupportedException))]
         public void testLiteralsImmutable()
         {
             Clause clause = new Clause(LITERAL_P);
@@ -410,7 +410,7 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
 
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(NotSupportedException))]
         public void testPostivieSymbolsImmutable()
         {
             Clause clause = new Clause(LITERAL_P);
@@ -419,12 +419,11 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
 
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(NotSupportedException))]
         public void testNegativeSymbolsImmutable()
         {
             Clause clause = new Clause(LITERAL_P);
             clause.getNegativeSymbols().Add(new PropositionSymbol("Q"));
         }
-    }
-
+    } 
 }

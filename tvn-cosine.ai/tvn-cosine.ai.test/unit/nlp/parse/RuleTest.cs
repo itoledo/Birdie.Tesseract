@@ -12,7 +12,7 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
         [TestMethod]
         public void testStringSplitConstructor()
         {
-            testR = new Rule("A,B", "a,bb,c", (float)0.50);
+            testR = new Rule("A,B", "a,bb,c", 0.50F);
             Assert.AreEqual(testR.lhs.Size(), 2);
             Assert.AreEqual(testR.rhs.Size(), 3);
             Assert.AreEqual(testR.lhs.Get(1), "B");
@@ -22,7 +22,7 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
         [TestMethod]
         public void testStringSplitConstructorOnEmptyStrings()
         {
-            testR = new Rule("", "", (float)0.50);
+            testR = new Rule("", "", 0.50F);
             Assert.AreEqual(testR.lhs.Size(), 0);
             Assert.AreEqual(testR.rhs.Size(), 0);
         }
@@ -30,17 +30,17 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
         [TestMethod]
         public void testStringSplitConstructorOnCommas()
         {
-            testR = new Rule(",", ",", (float)0.50);
+            testR = new Rule(",", ",", 0.50F);
             Assert.AreEqual(testR.lhs.Size(), 0);
             Assert.AreEqual(testR.rhs.Size(), 0);
         }
 
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void testStringSplitConstructorElementAccess()
         {
-            testR = new Rule(",", "", (float)0.50);
+            testR = new Rule(",", "", 0.50F);
             testR.lhs.Get(0);
         }
     }

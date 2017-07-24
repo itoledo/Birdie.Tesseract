@@ -72,7 +72,7 @@ namespace tvn_cosine.ai.test.unit.learning.framework
 
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(FileNotFoundException))]
         public void testThrowsExceptionForNonExistentFile()
         {
             new DataSetFactory().fromFile("nonexistent", null, null);
@@ -83,7 +83,7 @@ namespace tvn_cosine.ai.test.unit.learning.framework
         {
             DataSet ds = DataSetFactory.getIrisDataSet();
             Example first = ds.getExample(0);
-            Assert.AreEqual("5.1", first.getAttributeValueAsString("sepal_length"));
+            Assert.AreEqual("5,1", first.getAttributeValueAsString("sepal_length"));
         }
 
         [TestMethod]

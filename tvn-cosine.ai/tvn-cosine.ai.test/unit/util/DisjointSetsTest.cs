@@ -8,6 +8,18 @@ namespace tvn_cosine.ai.test.unit.util
     [TestClass]
     public class DisjointSetsTest
     {
+        protected static void assertArrayEquals<T>(ISet<T> arr1, ISet<T> arr2)
+        {
+            if (arr1.Size() != arr2.Size())
+            {
+                Assert.Fail("Two arrays not same length");
+            }
+
+            for (int i = 0; i < arr1.Size(); ++i)
+            {
+                Assert.AreEqual(arr1.Get(i), arr2.Get(i));
+            }
+        }
 
         [TestMethod]
         public void testConstructors()
@@ -40,17 +52,16 @@ namespace tvn_cosine.ai.test.unit.util
         [TestMethod]
         public void testUnion()
         {
-            DisjointSets<string> disjSets = new DisjointSets<string>(
-                    "a", "b", "c", "d");
+            DisjointSets<string> disjSets = new DisjointSets<string>("a", "b", "c", "d");
             Assert.AreEqual(4, disjSets.numberDisjointSets());
 
             disjSets.union("a", "b");
             Assert.AreEqual(3, disjSets.numberDisjointSets());
-            Assert.AreEqual(disjSets.find("a"), disjSets.find("b"));
+            assertArrayEquals(disjSets.find("a"), disjSets.find("b"));
 
             disjSets.union("c", "d");
             Assert.AreEqual(2, disjSets.numberDisjointSets());
-            Assert.AreEqual(disjSets.find("c"), disjSets.find("d"));
+            assertArrayEquals(disjSets.find("c"), disjSets.find("d"));
 
             disjSets.union("b", "c");
             Assert.AreEqual(1, disjSets.numberDisjointSets());
@@ -71,8 +82,7 @@ namespace tvn_cosine.ai.test.unit.util
         [ExpectedException(typeof(IllegalArgumentException))]
         public void testUnionIllegalArgumentException2()
         {
-            DisjointSets<string> disjSets = new DisjointSets<string>(
-                    "a");
+            DisjointSets<string> disjSets = new DisjointSets<string>("a");
             disjSets.union("a", "b");
         }
 
@@ -87,8 +97,7 @@ namespace tvn_cosine.ai.test.unit.util
             // {a, b, c, d}, {e, f, g}, {h, i}, and {j}
 
             // 1. initial sets
-            DisjointSets<string> disjSets = new DisjointSets<string>(
-                    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j");
+            DisjointSets<string> disjSets = new DisjointSets<string>("a", "b", "c", "d", "e", "f", "g", "h", "i", "j");
 
             Assert.AreEqual(10, disjSets.numberDisjointSets());
             Assert.AreEqual(1, disjSets.find("a").Size());
@@ -105,42 +114,42 @@ namespace tvn_cosine.ai.test.unit.util
             // 2. (b, d)
             disjSets.union("b", "d");
             Assert.AreEqual(9, disjSets.numberDisjointSets());
-            Assert.AreEqual(disjSets.find("b"), disjSets.find("d"));
+            assertArrayEquals(disjSets.find("b"), disjSets.find("d"));
 
             // 3. (e, g)
             disjSets.union("e", "g");
             Assert.AreEqual(8, disjSets.numberDisjointSets());
-            Assert.AreEqual(disjSets.find("e"), disjSets.find("g"));
+            assertArrayEquals(disjSets.find("e"), disjSets.find("g"));
 
             // 4. (a, c)
             disjSets.union("a", "c");
             Assert.AreEqual(7, disjSets.numberDisjointSets());
-            Assert.AreEqual(disjSets.find("a"), disjSets.find("c"));
+            assertArrayEquals(disjSets.find("a"), disjSets.find("c"));
 
             // 5. (h, i)
             disjSets.union("h", "i");
             Assert.AreEqual(6, disjSets.numberDisjointSets());
-            Assert.AreEqual(disjSets.find("h"), disjSets.find("i"));
+            assertArrayEquals(disjSets.find("h"), disjSets.find("i"));
 
             // 6. (a, b)
             disjSets.union("a", "b");
             Assert.AreEqual(5, disjSets.numberDisjointSets());
-            Assert.AreEqual(disjSets.find("a"), disjSets.find("b"));
-            Assert.AreEqual(disjSets.find("b"), disjSets.find("c"));
-            Assert.AreEqual(disjSets.find("c"), disjSets.find("d"));
+            assertArrayEquals(disjSets.find("a"), disjSets.find("b"));
+            assertArrayEquals(disjSets.find("b"), disjSets.find("c"));
+            assertArrayEquals(disjSets.find("c"), disjSets.find("d"));
 
             // 7. (e, f)
             disjSets.union("e", "f");
             Assert.AreEqual(4, disjSets.numberDisjointSets());
-            Assert.AreEqual(disjSets.find("e"), disjSets.find("f"));
-            Assert.AreEqual(disjSets.find("f"), disjSets.find("g"));
+            assertArrayEquals(disjSets.find("e"), disjSets.find("f"));
+            assertArrayEquals(disjSets.find("f"), disjSets.find("g"));
 
             // 8. (b, c)
             disjSets.union("b", "c");
             Assert.AreEqual(4, disjSets.numberDisjointSets());
-            Assert.AreEqual(disjSets.find("a"), disjSets.find("b"));
-            Assert.AreEqual(disjSets.find("b"), disjSets.find("c"));
-            Assert.AreEqual(disjSets.find("c"), disjSets.find("d"));
+            assertArrayEquals(disjSets.find("a"), disjSets.find("b"));
+            assertArrayEquals(disjSets.find("b"), disjSets.find("c"));
+            assertArrayEquals(disjSets.find("c"), disjSets.find("d"));
         }
     }
 

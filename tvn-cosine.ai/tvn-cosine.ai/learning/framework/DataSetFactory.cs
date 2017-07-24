@@ -17,6 +17,10 @@ namespace tvn.cosine.ai.learning.framework
             // assumed file in data directory and ends in .csv
             DataSet ds = new DataSet(spec);
 
+            if (!System.IO.File.Exists(filename + ".csv"))
+            {
+                throw new FileNotFoundException(filename + ".csv" + "does not exist.");
+            }
             using (System.IO.StreamReader reader = new System.IO.StreamReader(filename + ".csv"))
             {
                 string line = string.Empty;

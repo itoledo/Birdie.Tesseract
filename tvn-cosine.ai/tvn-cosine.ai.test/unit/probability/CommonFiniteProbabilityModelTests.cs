@@ -7,48 +7,37 @@ using tvn.cosine.ai.probability.proposition;
 namespace tvn_cosine.ai.test.unit.probability
 {
     public abstract class CommonFiniteProbabilityModelTests : CommonProbabilityModelTests
-    { 
+    {
         //
         // PROTECTED
         //
-        protected void test_RollingPairFairDiceModel_Distributions(
-                FiniteProbabilityModel model)
+        protected void test_RollingPairFairDiceModel_Distributions(FiniteProbabilityModel model)
         {
 
-            AssignmentProposition ad1_1 = new AssignmentProposition(
-                    ExampleRV.DICE_1_RV, 1);
+            AssignmentProposition ad1_1 = new AssignmentProposition(ExampleRV.DICE_1_RV, 1);
             CategoricalDistribution dD1_1 = model.priorDistribution(ad1_1);
-            assertArrayEquals(new double[] { 1.0 / 6.0 }, dD1_1.getValues(),
-                    DELTA_THRESHOLD);
+            assertArrayEquals(new double[] { 1.0 / 6.0 }, dD1_1.getValues(), DELTA_THRESHOLD);
 
-            CategoricalDistribution dPriorDice1 = model
-                    .priorDistribution(ExampleRV.DICE_1_RV);
-            assertArrayEquals(new double[] { 1.0 / 6.0, 1.0 / 6.0,
-                1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0 },
+            CategoricalDistribution dPriorDice1 = model.priorDistribution(ExampleRV.DICE_1_RV);
+            assertArrayEquals(new double[] { 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0 },
                     dPriorDice1.getValues(), DELTA_THRESHOLD);
 
-            CategoricalDistribution dPriorDice2 = model
-                    .priorDistribution(ExampleRV.DICE_2_RV);
-            assertArrayEquals(new double[] { 1.0 / 6.0, 1.0 / 6.0,
-                1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0 },
+            CategoricalDistribution dPriorDice2 = model.priorDistribution(ExampleRV.DICE_2_RV);
+            assertArrayEquals(new double[] { 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0 },
                     dPriorDice2.getValues(), DELTA_THRESHOLD);
 
-            CategoricalDistribution dJointDice1Dice2 = model.jointDistribution(
-                    ExampleRV.DICE_1_RV, ExampleRV.DICE_2_RV);
+            CategoricalDistribution dJointDice1Dice2 = model.jointDistribution(ExampleRV.DICE_1_RV, ExampleRV.DICE_2_RV);
             Assert.AreEqual(36, dJointDice1Dice2.getValues().Length);
             for (int i = 0; i < dJointDice1Dice2.getValues().Length; i++)
             {
-                Assert.AreEqual(1.0 / 36.0, dJointDice1Dice2.getValues()[i],
-                        DELTA_THRESHOLD);
+                Assert.AreEqual(1.0 / 36.0, dJointDice1Dice2.getValues()[i], DELTA_THRESHOLD);
             }
 
-            CategoricalDistribution dJointDice2Dice1 = model.jointDistribution(
-                    ExampleRV.DICE_2_RV, ExampleRV.DICE_1_RV);
+            CategoricalDistribution dJointDice2Dice1 = model.jointDistribution(ExampleRV.DICE_2_RV, ExampleRV.DICE_1_RV);
             Assert.AreEqual(36, dJointDice2Dice1.getValues().Length);
             for (int i = 0; i < dJointDice2Dice1.getValues().Length; i++)
             {
-                Assert.AreEqual(1.0 / 36.0, dJointDice2Dice1.getValues()[i],
-                        DELTA_THRESHOLD);
+                Assert.AreEqual(1.0 / 36.0, dJointDice2Dice1.getValues()[i], DELTA_THRESHOLD);
             }
 
             //
@@ -57,13 +46,11 @@ namespace tvn_cosine.ai.test.unit.probability
                     new FiniteIntegerDomain(11), ExampleRV.DICE_1_RV,
                     ExampleRV.DICE_2_RV);
             // P<>(Total = 11) = <2.0/36.0>
-            assertArrayEquals(new double[] { 2.0 / 36.0 }, model
-                    .priorDistribution(total11).getValues(), DELTA_THRESHOLD);
+            assertArrayEquals(new double[] { 2.0 / 36.0 }, model.priorDistribution(total11).getValues(), DELTA_THRESHOLD);
 
             // P<>(Dice1, Total = 11)
             // = <0.0, 0.0, 0.0, 0.0, 1.0/36.0, 1.0/36.0>
-            assertArrayEquals(new double[] { 0, 0, 0, 0, 1.0 / 36.0,
-                1.0 / 36.0 },
+            assertArrayEquals(new double[] { 0, 0, 0, 0, 1.0 / 36.0, 1.0 / 36.0 },
                     model.priorDistribution(ExampleRV.DICE_1_RV, total11)
                             .getValues(), DELTA_THRESHOLD);
 
@@ -83,8 +70,7 @@ namespace tvn_cosine.ai.test.unit.probability
                     .getValues(), DELTA_THRESHOLD);
 
             // P<>(Dice1 | Doubles) = <1/6, 1/6, 1/6, 1/6, 1/6, 1/6>
-            assertArrayEquals(new double[] { 1.0 / 6.0, 1.0 / 6.0,
-                1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0 }, model
+            assertArrayEquals(new double[] { 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0 }, model
                     .posteriorDistribution(ExampleRV.DICE_1_RV, doubles)
                     .getValues(), DELTA_THRESHOLD);
 
@@ -93,8 +79,7 @@ namespace tvn_cosine.ai.test.unit.probability
             Assert.AreEqual(36, dPosteriorDice1GivenDice2.getValues().Length);
             for (int i = 0; i < dPosteriorDice1GivenDice2.getValues().Length; i++)
             {
-                Assert.AreEqual(1.0 / 6.0,
-                        dPosteriorDice1GivenDice2.getValues()[i], DELTA_THRESHOLD);
+                Assert.AreEqual(1.0 / 6.0, dPosteriorDice1GivenDice2.getValues()[i], DELTA_THRESHOLD);
             }
 
             CategoricalDistribution dPosteriorDice2GivenDice1 = model
@@ -102,23 +87,17 @@ namespace tvn_cosine.ai.test.unit.probability
             Assert.AreEqual(36, dPosteriorDice2GivenDice1.getValues().Length);
             for (int i = 0; i < dPosteriorDice2GivenDice1.getValues().Length; i++)
             {
-                Assert.AreEqual(1.0 / 6.0,
-                        dPosteriorDice2GivenDice1.getValues()[i], DELTA_THRESHOLD);
+                Assert.AreEqual(1.0 / 6.0, dPosteriorDice2GivenDice1.getValues()[i], DELTA_THRESHOLD);
             }
         }
 
-        protected void test_ToothacheCavityCatchModel_Distributions(
-                FiniteProbabilityModel model)
+        protected void test_ToothacheCavityCatchModel_Distributions(FiniteProbabilityModel model)
         {
 
-            AssignmentProposition atoothache = new AssignmentProposition(
-                    ExampleRV.TOOTHACHE_RV, true);
-            AssignmentProposition anottoothache = new AssignmentProposition(
-                    ExampleRV.TOOTHACHE_RV, false);
-            AssignmentProposition acatch = new AssignmentProposition(
-                    ExampleRV.CATCH_RV, true);
-            AssignmentProposition anotcatch = new AssignmentProposition(
-                    ExampleRV.CATCH_RV, false);
+            AssignmentProposition atoothache = new AssignmentProposition(ExampleRV.TOOTHACHE_RV, true);
+            AssignmentProposition anottoothache = new AssignmentProposition(ExampleRV.TOOTHACHE_RV, false);
+            AssignmentProposition acatch = new AssignmentProposition(ExampleRV.CATCH_RV, true);
+            AssignmentProposition anotcatch = new AssignmentProposition(ExampleRV.CATCH_RV, false);
 
             // AIMA3e pg. 493
             // P<>(Cavity | toothache) = <0.6, 0.4>
@@ -128,8 +107,7 @@ namespace tvn_cosine.ai.test.unit.probability
 
             // AIMA3e pg. 497
             // P<>(Cavity | toothache AND catch) = <0.871, 0.129>
-            assertArrayEquals(
-                    new double[] { 0.8709677419354839, 0.12903225806451615 },
+            assertArrayEquals(new double[] { 0.8709677419354839, 0.12903225806451615 },
                     model.posteriorDistribution(ExampleRV.CAVITY_RV, atoothache,
                             acatch).getValues(), DELTA_THRESHOLD);
 
@@ -137,10 +115,8 @@ namespace tvn_cosine.ai.test.unit.probability
             // (13.17)
             // P<>(toothache AND catch | Cavity)
             // = P<>(toothache | Cavity)P<>(catch | Cavity)
-            ConjunctiveProposition toothacheAndCatch = new ConjunctiveProposition(
-                    atoothache, acatch);
-            assertArrayEquals(
-                    model.posteriorDistribution(toothacheAndCatch,
+            ConjunctiveProposition toothacheAndCatch = new ConjunctiveProposition(atoothache, acatch);
+            assertArrayEquals(model.posteriorDistribution(toothacheAndCatch,
                             ExampleRV.CAVITY_RV).getValues(),
                     model.posteriorDistribution(atoothache, ExampleRV.CAVITY_RV)
                             .multiplyBy(
@@ -151,8 +127,7 @@ namespace tvn_cosine.ai.test.unit.probability
             // (13.18)
             // P<>(Cavity | toothache AND catch)
             // = &alpha;P<>(toothache | Cavity)P<>(catch | Cavity)P(Cavity)
-            assertArrayEquals(
-                    model.posteriorDistribution(ExampleRV.CAVITY_RV,
+            assertArrayEquals(model.posteriorDistribution(ExampleRV.CAVITY_RV,
                             toothacheAndCatch).getValues(),
                     model.posteriorDistribution(atoothache, ExampleRV.CAVITY_RV)
                             .multiplyBy(
@@ -165,10 +140,8 @@ namespace tvn_cosine.ai.test.unit.probability
             // (13.19)
             // P<>(Toothache, Catch | Cavity)
             // = P<>(Toothache | Cavity)P<>(Catch | Cavity)
-            ConjunctiveProposition toothacheAndCatchRV = new ConjunctiveProposition(
-                    ExampleRV.TOOTHACHE_RV, ExampleRV.CATCH_RV);
-            assertArrayEquals(
-                    model.posteriorDistribution(toothacheAndCatchRV,
+            ConjunctiveProposition toothacheAndCatchRV = new ConjunctiveProposition(ExampleRV.TOOTHACHE_RV, ExampleRV.CATCH_RV);
+            assertArrayEquals(model.posteriorDistribution(toothacheAndCatchRV,
                             ExampleRV.CAVITY_RV).getValues(),
                     model.posteriorDistribution(ExampleRV.TOOTHACHE_RV,
                             ExampleRV.CAVITY_RV)
@@ -182,8 +155,7 @@ namespace tvn_cosine.ai.test.unit.probability
             // (product rule)
             // P<>(Toothache, Catch, Cavity)
             // = P<>(Toothache, Catch | Cavity)P<>(Cavity)
-            assertArrayEquals(
-                    model.priorDistribution(ExampleRV.TOOTHACHE_RV,
+            assertArrayEquals(model.priorDistribution(ExampleRV.TOOTHACHE_RV,
                             ExampleRV.CATCH_RV, ExampleRV.CAVITY_RV).getValues(),
                     model.posteriorDistribution(toothacheAndCatchRV,
                             ExampleRV.CAVITY_RV)
@@ -194,8 +166,7 @@ namespace tvn_cosine.ai.test.unit.probability
             // (using 13.19)
             // P<>(Toothache, Catch | Cavity)P<>(Cavity)
             // = P<>(Toothache | Cavity)P<>(Catch | Cavity)P<>(Cavity)
-            assertArrayEquals(
-                    model.posteriorDistribution(toothacheAndCatchRV,
+            assertArrayEquals(model.posteriorDistribution(toothacheAndCatchRV,
                             ExampleRV.CAVITY_RV)
                             .multiplyBy(
                                     model.priorDistribution(ExampleRV.CAVITY_RV))
@@ -213,8 +184,7 @@ namespace tvn_cosine.ai.test.unit.probability
             //
             // P<>(Toothache, Catch, Cavity)
             // = P<>(Toothache | Cavity)P<>(Catch | Cavity)P<>(Cavity)
-            assertArrayEquals(
-                    model.priorDistribution(ExampleRV.TOOTHACHE_RV,
+            assertArrayEquals(model.priorDistribution(ExampleRV.TOOTHACHE_RV,
                             ExampleRV.CATCH_RV, ExampleRV.CAVITY_RV).getValues(),
                     model.posteriorDistribution(ExampleRV.TOOTHACHE_RV,
                             ExampleRV.CAVITY_RV)
@@ -234,8 +204,7 @@ namespace tvn_cosine.ai.test.unit.probability
             // P<>(Y | X) = (P<>(Y)P<>(X | Y))/P<>(X)
             // as default multiplication of distributions are not commutative (could
             // also use pointwiseProductPOS() to specify the order).
-            assertArrayEquals(
-                    model.posteriorDistribution(ExampleRV.CAVITY_RV,
+            assertArrayEquals(model.posteriorDistribution(ExampleRV.CAVITY_RV,
                             ExampleRV.TOOTHACHE_RV).getValues(),
                     model.priorDistribution(ExampleRV.CAVITY_RV)
                             .multiplyBy(

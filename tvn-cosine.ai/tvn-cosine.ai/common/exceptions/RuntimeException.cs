@@ -3,7 +3,7 @@
     public class RuntimeException : Exception
     {
         public RuntimeException()
-            : this("")
+            : this(string.Empty)
         { }
 
         public RuntimeException(string message)

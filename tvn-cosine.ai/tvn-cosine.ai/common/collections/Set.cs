@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.collections
@@ -184,6 +185,27 @@ namespace tvn.cosine.ai.common.collections
         void IQueue<T>.Set(int position, T item)
         {
             throw new NotSupportedException("Not supported");
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append('[');
+            bool first = true;
+            foreach (var item in this)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    sb.Append(", ");
+                }
+                sb.Append(item.ToString());
+            }
+            sb.Append(']');
+            return sb.ToString();
         }
 
         class Enumerator : IEnumerator<T>

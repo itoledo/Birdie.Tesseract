@@ -3,7 +3,7 @@
     public class IllegalStateException : Exception
     {
         public IllegalStateException()
-            : this("")
+            : this(string.Empty)
         { }
 
         public IllegalStateException(string message)

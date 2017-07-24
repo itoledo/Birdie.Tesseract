@@ -3,7 +3,7 @@
     public class ArgumentNullException : Exception
     {
         public ArgumentNullException()
-            : this("")
+            : this(string.Empty)
         { }
 
         public ArgumentNullException(string message)

@@ -129,8 +129,9 @@ namespace tvn.cosine.ai.util
                     set2.AddAll(set1);
                     foreach (E element in set1)
                     {
+                        ISet<E> previousElement = elementToSet.Get(element);
                         elementToSet.Put(element, set2);
-                        disjointSets.Remove(set2);
+                        disjointSets.Remove(previousElement);
                     }
                 }
                 else
@@ -139,8 +140,9 @@ namespace tvn.cosine.ai.util
                     set1.AddAll(set2);
                     foreach (E element in set2)
                     {
+                        ISet<E> previousElement = elementToSet.Get(element);
                         elementToSet.Put(element, set1);
-                        disjointSets.Remove(set1);
+                        disjointSets.Remove(previousElement);
                     }
                 }
             }

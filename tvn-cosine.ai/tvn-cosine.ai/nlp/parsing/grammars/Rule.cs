@@ -36,15 +36,31 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
         // string split constructor
         public Rule(string lhs, string rhs, float probability)
         {
-            if ("".Equals(lhs))
-                this.lhs = Factory.CreateQueue<string>();
-            else
-                this.lhs = Factory.CreateQueue<string>(Regex.Split(lhs, "\\s*,\\s*"));
+            this.lhs = Factory.CreateQueue<string>();
+            this.rhs = Factory.CreateQueue<string>();
 
-            if ("".Equals(rhs))
-                this.rhs = Factory.CreateQueue<string>();
-            else
-                this.rhs = Factory.CreateQueue<string>(Regex.Split(rhs, "\\s*,\\s*"));
+            if (!string.IsNullOrEmpty(lhs)) 
+            {
+                this.lhs = Factory.CreateQueue<string>();
+                foreach (string input in Regex.Split(lhs, "\\s*,\\s*"))
+                {
+                    if (!string.IsNullOrEmpty(input))
+                    {
+                        this.lhs.Add(input);
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(rhs)) 
+            {
+                foreach (string input in Regex.Split(rhs, "\\s*,\\s*"))
+                {
+                    if (!string.IsNullOrEmpty(input))
+                    {
+                        this.rhs.Add(input);
+                    }
+                }
+            }
 
             this.PROB = validateProb(probability);
         }
@@ -65,7 +81,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
         {
             if (rhs.Size() != sentForm.Size())
                 return false;
-            for (int i = 0; i < sentForm.Size();++i)
+            for (int i = 0; i < sentForm.Size(); ++i)
             {
                 if (!rhs.Get(i).Equals(sentForm.Get(i)))
                     return false;

@@ -26,7 +26,7 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.parsing
          IQueue<int> one = Factory.CreateQueue<int>();
             one.Add(1);
             Assert.AreEqual(1, one.Size());
-            one.Remove(0);
+            one.RemoveAt(0);
             Assert.AreEqual(0, one.Size());
         }
     }

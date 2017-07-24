@@ -3,7 +3,7 @@
     public class ArgumentOutOfRangeException : Exception
     {
         public ArgumentOutOfRangeException()
-            : this("")
+            : this(string.Empty)
         { }
 
         public ArgumentOutOfRangeException(string message)

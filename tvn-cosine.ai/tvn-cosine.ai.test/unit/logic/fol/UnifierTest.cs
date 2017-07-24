@@ -7,7 +7,8 @@ using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn_cosine.ai.test.unit.logic.fol
 {
-    [TestClass] public class UnifierTest
+    [TestClass]
+    public class UnifierTest
     {
 
         private FOLParser parser;
@@ -72,11 +73,11 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         public void testSimpleVariableUnification()
         {
             Variable var1 = new Variable("x");
-         IQueue<Term> terms1 = Factory.CreateQueue<Term>();
+            IQueue<Term> terms1 = Factory.CreateQueue<Term>();
             terms1.Add(var1);
             Predicate p1 = new Predicate("King", terms1); // King(x)
 
-         IQueue<Term> terms2 = Factory.CreateQueue<Term>();
+            IQueue<Term> terms2 = Factory.CreateQueue<Term>();
             terms2.Add(new Constant("John"));
             Predicate p2 = new Predicate("King", terms2); // King(John)
 
@@ -108,11 +109,11 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Assert.AreEqual(2, result.Size());
 
             Assert.AreEqual(new Constant("Bill"), theta.Get(new Variable("x"))); // x
-                                                                                     // =
-                                                                                     // Bill
+                                                                                 // =
+                                                                                 // Bill
             Assert.AreEqual(new Constant("John"), theta.Get(new Variable("y"))); // y
-                                                                                     // =
-                                                                                     // John
+                                                                                 // =
+                                                                                 // John
         }
 
         [TestMethod]
@@ -124,7 +125,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
 
             Assert.AreEqual(2, result.Size());
 
-         IQueue<Term> terms = Factory.CreateQueue<Term>();
+            IQueue<Term> terms = Factory.CreateQueue<Term>();
             terms.Add(new Constant("John"));
             Function mother = new Function("Mother", terms);
             Assert.AreEqual(mother, theta.Get(new Variable("x")));
@@ -141,11 +142,11 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Assert.AreEqual(2, result.Size());
 
             Assert.AreEqual(new Variable("z"), theta.Get(new Variable("x"))); // x
-                                                                                  // =
-                                                                                  // z
+                                                                              // =
+                                                                              // z
             Assert.AreEqual(new Constant("John"), theta.Get(new Variable("y"))); // y
-                                                                                     // =
-                                                                                     // John
+                                                                                 // =
+                                                                                 // John
         }
 
         [TestMethod]
@@ -266,7 +267,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             s2 = parser.parse("P(y,       G(z), F(v     ), H(F(w), x   ))");
             result = unifier.unify(s1, s2);
 
-            Assert.AreEqual( 
+            Assert.AreEqual(
                     "[[y, F(G(A))], [x, G(G(A))], [v, H(G(A),G(A))], [w, G(A)], [z, G(A)]]",
                     result.ToString());
         }
@@ -299,7 +300,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Size());
-            Assert.AreEqual("{x1=x2}", result.ToString());
+            Assert.AreEqual("[[x1, x2]]", result.ToString());
 
             // Test simple unification with reflexivity axiom
             te1 = (TermEquality)parser.parse("x1 = x1");
@@ -310,7 +311,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Assert.IsNotNull(result);
 
             Assert.AreEqual(1, result.Size());
-            Assert.AreEqual("{x1=Plus(A,B)}", result.ToString());
+            Assert.AreEqual("[[x1, Plus(A,B)]]", result.ToString());
 
             // Test more complex unification with reflexivity axiom
             te1 = (TermEquality)parser.parse("x1 = x1");
@@ -321,7 +322,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Assert.IsNotNull(result);
 
             Assert.AreEqual(2, result.Size());
-            Assert.AreEqual("{x1=Plus(A,B), z1=B}", result.ToString());
+            Assert.AreEqual("[[x1, Plus(A,B)], [z1, B]]", result.ToString());
 
             // Test reverse of previous unification with reflexivity axiom
             // Should still be the same.
@@ -333,13 +334,11 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Assert.IsNotNull(result);
 
             Assert.AreEqual(2, result.Size());
-            Assert.AreEqual("{x1=Plus(A,B), z1=B}", result.ToString());
+            Assert.AreEqual("[[x1, Plus(A,B)], [z1, B]]", result.ToString());
 
             // Test with nested terms
-            te1 = (TermEquality)parser
-                    .parse("Plus(Plus(Plus(A,B),B, A)) = Plus(Plus(Plus(A,B),B, A))");
-            te2 = (TermEquality)parser
-                    .parse("Plus(Plus(Plus(A,B),B, A)) = Plus(Plus(Plus(A,B),B, A))");
+            te1 = (TermEquality)parser.parse("Plus(Plus(Plus(A,B),B, A)) = Plus(Plus(Plus(A,B),B, A))");
+            te2 = (TermEquality)parser.parse("Plus(Plus(Plus(A,B),B, A)) = Plus(Plus(Plus(A,B),B, A))");
 
             result = unifier.unify(te1, te2);
 

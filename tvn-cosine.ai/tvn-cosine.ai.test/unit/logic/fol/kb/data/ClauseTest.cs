@@ -600,8 +600,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             c.addNegativeLiteral((Predicate)parser.parse("P(B,A)"));
             c.addPositiveLiteral((Predicate)parser.parse("Q(y,x)"));
 
-            Assert.AreEqual("[[~P(B,A), P(B,A), Q(A,B)]]", c
-                    .getNonTrivialFactors().ToString());
+            Assert.AreEqual("[[~P(B,A), P(B,A), Q(A,B)]]", c.getNonTrivialFactors().ToString());
 
             // p(x,y), q(a,b), p(b,a), q(y,x)
             c = new Clause();
@@ -649,8 +648,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             c.addPositiveLiteral((Predicate)parser.parse("P(G(F(x)))"));
             c.addPositiveLiteral((Predicate)parser.parse("Q(F(A))"));
 
-            Assert.AreEqual("[[P(F(A)), P(G(F(F(A)))), P(G(F(A))), Q(F(A))]]",
-                    c.getNonTrivialFactors().ToString());
+            Assert.AreEqual("[[P(F(A)), P(G(F(F(A)))), P(G(F(A))), Q(F(A))]]", c.getNonTrivialFactors().ToString());
         }
 
         // Note: Tests derived from:

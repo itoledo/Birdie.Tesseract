@@ -3,7 +3,7 @@
     public class ArrayIndexOutOfBoundsException : Exception
     {
         public ArrayIndexOutOfBoundsException()
-            : this("")
+            : this(string.Empty)
         { }
 
         public ArrayIndexOutOfBoundsException(string message)

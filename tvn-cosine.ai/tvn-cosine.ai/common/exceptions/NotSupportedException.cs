@@ -3,7 +3,7 @@
     public class NotSupportedException : Exception
     {
         public NotSupportedException()
-            : this("")
+            : this(string.Empty)
         { }
 
         public NotSupportedException(string message)

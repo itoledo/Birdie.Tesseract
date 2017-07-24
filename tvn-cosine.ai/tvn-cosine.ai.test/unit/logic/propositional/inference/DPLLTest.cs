@@ -14,18 +14,10 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.inference
     {
         private DPLL dpll;
         private PLParser parser;
-
-
-        public static IQueue<object> inferenceAlgorithmSettings()
+         
+        public DPLLTest()
         {
-            return Factory.CreateQueue<object>(new object[] {
-                 new DPLLSatisfiable() ,
-                new OptimizedDPLL()});
-        }
-
-        public DPLLTest(DPLL dpll)
-        {
-            this.dpll = dpll;
+            this.dpll = new DPLLSatisfiable();
             this.parser = new PLParser();
         }
 

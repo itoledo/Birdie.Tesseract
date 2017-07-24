@@ -3,7 +3,7 @@
     public class IOException : Exception
     {
         public IOException()
-            : this("")
+            : this(string.Empty)
         { }
 
         public IOException(string message)

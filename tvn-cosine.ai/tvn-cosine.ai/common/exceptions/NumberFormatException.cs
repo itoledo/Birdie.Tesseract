@@ -3,7 +3,7 @@
     public class NumberFormatException : Exception
     {
         public NumberFormatException()
-            : this("")
+            : this(string.Empty)
         { }
 
         public NumberFormatException(string message)

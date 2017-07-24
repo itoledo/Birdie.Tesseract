@@ -3,7 +3,7 @@
     public class IllegalArgumentException : Exception
     {
         public IllegalArgumentException()
-            : this("")
+            : this(string.Empty)
         { }
 
         public IllegalArgumentException(string message)

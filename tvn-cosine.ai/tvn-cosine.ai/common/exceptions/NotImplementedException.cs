@@ -3,7 +3,7 @@
     public class NotImplementedException : Exception
     {
         public NotImplementedException()
-            : this("")
+            : this(string.Empty)
         { }
 
         public NotImplementedException(string message)
