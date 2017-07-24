@@ -23,7 +23,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
             {
                 DataSet ds = DataSetFactory.getRestaurantDataSet();
                 IQueue<DecisionTree> stumps = DecisionTree.getStumpsFor(ds, "Yes", "No");
-                IQueue<Learner> learners = Factory.CreateQueue<Learner>();
+                IQueue<ILearner> learners = Factory.CreateQueue<ILearner>();
 
                 System.Console.WriteLine("\nStump Learners vote to decide in this algorithm");
                 foreach (object stump in stumps)
@@ -34,7 +34,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
                 }
                 AdaBoostLearner learner = new AdaBoostLearner(learners, ds);
                 learner.train(ds);
-                int[] result = learner.test(ds);
+                int[] result = learner.Test(ds);
                 System.Console.WriteLine("\nThis Ensemble Learner  classifies the data set with "
                             + result[0]
                             + " successes"

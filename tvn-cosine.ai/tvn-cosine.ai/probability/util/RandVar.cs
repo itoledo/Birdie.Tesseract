@@ -5,15 +5,13 @@ using tvn.cosine.ai.probability.proposition;
 
 namespace tvn.cosine.ai.probability.util
 {
-    /**
-     * Default implementation of the RandomVariable interface.
-     * 
-     * Note: Also : the TermProposition interface so its easy to use
-     * RandomVariables in conjunction with propositions about them in the
-     * Probability Model APIs.
-     * 
-     * @author Ciaran O'Reilly
-     */
+    /// <summary>
+    /// Default implementation of the RandomVariable interface.
+    /// <para />
+    /// Note: Also : the TermProposition interface so its easy to use
+    /// RandomVariables in conjunction with propositions about them in the
+    /// Probability Model APIs.
+    /// </summary>
     public class RandVar : RandomVariable, TermProposition
     {
         private string name = null;
@@ -32,10 +30,7 @@ namespace tvn.cosine.ai.probability.util
             this.domain = domain;
             this.scope.Add(this);
         }
-
-        //
-        // START-RandomVariable
-
+         
         public string getName()
         {
             return name;
@@ -46,13 +41,7 @@ namespace tvn.cosine.ai.probability.util
         {
             return domain;
         }
-
-        // END-RandomVariable
-        //
-
-        //
-        // START-TermProposition
-
+         
         public RandomVariable getTermVariable()
         {
             return this;
@@ -75,11 +64,7 @@ namespace tvn.cosine.ai.probability.util
         {
             return possibleWorld.ContainsKey(getTermVariable());
         }
-
-        // END-TermProposition
-        //
-
-
+         
         public override bool Equals(object o)
         {
 
@@ -92,8 +77,7 @@ namespace tvn.cosine.ai.probability.util
                 return false;
             }
 
-            // The name (not the name:domain combination) uniquely identifies a
-            // Random Variable
+            // The name (not the name:domain combination) uniquely identifies a Random Variable
             RandomVariable other = (RandomVariable)o;
 
             return this.name.Equals(other.getName());

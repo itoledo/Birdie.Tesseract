@@ -9,7 +9,7 @@ namespace tvn.cosine.ai.learning.learners
      * @author Ravi Mohan
      * @author Mike Stampone
      */
-    public class DecisionTreeLearner : Learner
+    public class DecisionTreeLearner : ILearner
     {
         private DecisionTree tree;
         private string defaultValue;
@@ -42,12 +42,12 @@ namespace tvn.cosine.ai.learning.learners
             this.tree = decisionTreeLearning(ds, attributes, new ConstantDecisonTree(defaultValue));
         }
 
-        public virtual string predict(Example e)
+        public virtual string Predict(Example e)
         {
             return (string)tree.predict(e);
         }
 
-        public virtual int[] test(DataSet ds)
+        public virtual int[] Test(DataSet ds)
         {
             int[] results = new int[] { 0, 0 };
 
@@ -115,9 +115,9 @@ namespace tvn.cosine.ai.learning.learners
 
         private ConstantDecisonTree majorityValue(DataSet ds)
         {
-            Learner learner = new MajorityLearner();
+            ILearner learner = new MajorityLearner();
             learner.train(ds);
-            return new ConstantDecisonTree(learner.predict(ds.getExample(0)));
+            return new ConstantDecisonTree(learner.Predict(ds.getExample(0)));
         }
 
         private string chooseAttribute(DataSet ds, IQueue<string> attributeNames)

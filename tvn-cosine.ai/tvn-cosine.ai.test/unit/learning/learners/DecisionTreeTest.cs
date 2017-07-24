@@ -19,7 +19,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
         {
             DecisionTreeLearner learner = new DecisionTreeLearner(
                     createActualRestaurantDecisionTree(), "Unable to clasify");
-            int[] results = learner.test(DataSetFactory.getRestaurantDataSet());
+            int[] results = learner.Test(DataSetFactory.getRestaurantDataSet());
             Assert.AreEqual(12, results[0]);
             Assert.AreEqual(0, results[1]);
         }
@@ -29,7 +29,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
         {
             DecisionTreeLearner learner = new DecisionTreeLearner(
                     createInducedRestaurantDecisionTree(), "Unable to clasify");
-            int[] results = learner.test(DataSetFactory.getRestaurantDataSet());
+            int[] results = learner.Test(DataSetFactory.getRestaurantDataSet());
             Assert.AreEqual(12, results[0]);
             Assert.AreEqual(0, results[1]);
         }
@@ -65,7 +65,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
                     unmatchedValues, "Unable to Classify");
             DecisionTreeLearner learner = new DecisionTreeLearner(tree,
                     "Unable to Classify");
-            int[] result = learner.test(ds);
+            int[] result = learner.Test(ds);
             Assert.AreEqual(5, result[0]);
             Assert.AreEqual(7, result[1]);
         }

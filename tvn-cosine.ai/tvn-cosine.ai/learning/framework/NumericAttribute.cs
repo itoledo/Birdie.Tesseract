@@ -1,10 +1,6 @@
 ﻿namespace tvn.cosine.ai.learning.framework
-{
-    /**
-     * @author Ravi Mohan
-     * 
-     */
-    public class NumericAttribute : Attribute
+{ 
+    public class NumericAttribute : IAttribute
     {
         double value;
 
@@ -16,14 +12,14 @@
             this.spec = spec;
         }
 
-        public string valueAsString()
+        public string ValueAsString()
         {
             return value.ToString();
         }
 
-        public string name()
+        public string Name()
         {
-            return spec.getAttributeName().Trim();
+            return spec.GetAttributeName().Trim();
         }
 
         public double valueAsDouble()

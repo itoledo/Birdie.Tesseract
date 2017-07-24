@@ -1,12 +1,8 @@
 ﻿using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.learning.framework
-{
-    /**
-     * @author Ravi Mohan
-     * 
-     */
-    public class StringAttributeSpecification : AttributeSpecification
+{ 
+    public class StringAttributeSpecification : IAttributeSpecification
     {
         string attributeName;
 
@@ -25,15 +21,16 @@ namespace tvn.cosine.ai.learning.framework
             : this(attributeName, Factory.CreateQueue<string>(attributePossibleValues))
         { }
 
-        public bool isValid(string value)
+        public bool IsValid(string value)
         {
             return (attributePossibleValues.Contains(value));
         }
 
-        /**
-         * @return Returns the attributeName.
-         */
-        public string getAttributeName()
+        /// <summary>
+        /// Returns the attributeName.
+        /// </summary>
+        /// <returns></returns>
+        public string GetAttributeName()
         {
             return attributeName;
         }
@@ -43,7 +40,7 @@ namespace tvn.cosine.ai.learning.framework
             return attributePossibleValues;
         }
 
-        public Attribute createAttribute(string rawValue)
+        public IAttribute CreateAttribute(string rawValue)
         {
             return new StringAttribute(rawValue, this);
         }

@@ -27,7 +27,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
                 learner.train(ds);
                 System.Console.WriteLine("The Induced DecisionList is");
                 System.Console.WriteLine(learner.getDecisionList());
-                int[] result = learner.test(ds);
+                int[] result = learner.Test(ds);
 
                 System.Console.WriteLine("\nThis Decision List classifies the data set with "
                             + result[0]

@@ -1,10 +1,6 @@
 ﻿namespace tvn.cosine.ai.learning.framework
-{
-    /**
-     * @author Ravi Mohan
-     * 
-     */
-    public class StringAttribute : Attribute
+{ 
+    public class StringAttribute : IAttribute
     {
         private StringAttributeSpecification spec;
 
@@ -16,14 +12,14 @@
             this.value = value;
         }
 
-        public string valueAsString()
+        public string ValueAsString()
         {
             return value.Trim();
         }
 
-        public string name()
+        public string Name()
         {
-            return spec.getAttributeName().Trim();
+            return spec.GetAttributeName().Trim();
         }
     }
 }

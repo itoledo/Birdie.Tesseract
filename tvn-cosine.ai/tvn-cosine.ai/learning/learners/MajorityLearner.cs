@@ -4,7 +4,7 @@ using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.learners
 {
-    public class MajorityLearner : Learner
+    public class MajorityLearner : ILearner
     {
         private string result;
 
@@ -18,12 +18,12 @@ namespace tvn.cosine.ai.learning.learners
             result = Util.mode(targets);
         }
 
-        public string predict(Example e)
+        public string Predict(Example e)
         {
             return result;
         }
 
-        public int[] test(DataSet ds)
+        public int[] Test(DataSet ds)
         {
             int[] results = new int[] { 0, 0 };
 

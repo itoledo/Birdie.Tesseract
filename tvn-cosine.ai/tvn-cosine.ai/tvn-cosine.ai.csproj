@@ -186,14 +186,13 @@
     <Compile Include="environment\vacuum\VacuumWorldFunctions.cs" />
     <Compile Include="environment\xyenv\Wall.cs" />
     <Compile Include="environment\xyenv\XYEnvironment.cs" />
-    <Compile Include="learning\data\DataResource.cs" />
-    <Compile Include="learning\framework\Attribute.cs" />
-    <Compile Include="learning\framework\AttributeSpecification.cs" />
+    <Compile Include="learning\framework\IAttribute.cs" />
+    <Compile Include="learning\framework\IAttributeSpecification.cs" />
     <Compile Include="learning\framework\DataSet.cs" />
     <Compile Include="learning\framework\DataSetFactory.cs" />
     <Compile Include="learning\framework\DataSetSpecification.cs" />
     <Compile Include="learning\framework\Example.cs" />
-    <Compile Include="learning\framework\Learner.cs" />
+    <Compile Include="learning\framework\ILearner.cs" />
     <Compile Include="learning\framework\NumericAttribute.cs" />
     <Compile Include="learning\framework\NumericAttributeSpecification.cs" />
     <Compile Include="learning\framework\StringAttribute.cs" />

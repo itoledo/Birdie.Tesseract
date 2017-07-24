@@ -19,7 +19,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             IQueue<DecisionTree> stumps = DecisionTree.getStumpsFor(ds, YES, "No");
-            IQueue<Learner> learners = Factory.CreateQueue<Learner>();
+            IQueue<ILearner> learners = Factory.CreateQueue<ILearner>();
             foreach (object stump in stumps)
             {
                 DecisionTree sl = (DecisionTree)stump;
@@ -28,7 +28,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
             }
             AdaBoostLearner learner = new AdaBoostLearner(learners, ds);
             learner.train(ds);
-            int[] result = learner.test(ds);
+            int[] result = learner.Test(ds);
             Assert.AreEqual(12, result[0]);
             Assert.AreEqual(0, result[1]);
         }

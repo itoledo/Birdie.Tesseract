@@ -24,7 +24,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
                 learner.train(ds);
                 System.Console.WriteLine("The Induced Decision Tree is ");
                 System.Console.WriteLine(learner.getDecisionTree());
-                int[] result = learner.test(ds);
+                int[] result = learner.Test(ds);
 
                 System.Console.WriteLine("\nThis Decision Tree classifies the data set with "
                             + result[0]

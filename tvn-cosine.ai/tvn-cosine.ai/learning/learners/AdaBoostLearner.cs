@@ -10,14 +10,14 @@ namespace tvn.cosine.ai.learning.learners
      * @author Ravi Mohan
      * 
      */
-    public class AdaBoostLearner : Learner
+    public class AdaBoostLearner : ILearner
     {
-        private IQueue<Learner> learners;
+        private IQueue<ILearner> learners;
         private DataSet dataSet;
         private double[] exampleWeights;
-        private IMap<Learner, double> learnerWeights;
+        private IMap<ILearner, double> learnerWeights;
 
-        public AdaBoostLearner(IQueue<Learner> learners, DataSet ds)
+        public AdaBoostLearner(IQueue<ILearner> learners, DataSet ds)
         {
             this.learners = learners;
             this.dataSet = ds;
@@ -30,7 +30,7 @@ namespace tvn.cosine.ai.learning.learners
         {
             initializeExampleWeights(ds.examples.Size());
 
-            foreach (Learner learner in learners)
+            foreach (ILearner learner in learners)
             {
                 learner.train(ds);
 
@@ -47,18 +47,18 @@ namespace tvn.cosine.ai.learning.learners
             }
         }
 
-        public string predict(Example e)
+        public string Predict(Example e)
         {
             return weightedMajority(e);
         }
 
-        public int[] test(DataSet ds)
+        public int[] Test(DataSet ds)
         {
             int[] results = new int[] { 0, 0 };
 
             foreach (Example e in ds.examples)
             {
-                if (e.targetValue().Equals(predict(e)))
+                if (e.targetValue().Equals(Predict(e)))
                 {
                     results[0] = results[0] + 1;
                 }
@@ -78,11 +78,11 @@ namespace tvn.cosine.ai.learning.learners
         {
             IQueue<string> targetValues = dataSet.getPossibleAttributeValues(dataSet.getTargetAttributeName());
 
-            Table<string, Learner, double> table = createTargetValueLearnerTable(targetValues, e);
+            Table<string, ILearner, double> table = createTargetValueLearnerTable(targetValues, e);
             return getTargetValueWithTheMaximumVotes(targetValues, table);
         }
 
-        private Table<string, Learner, double> createTargetValueLearnerTable(IQueue<string> targetValues, Example e)
+        private Table<string, ILearner, double> createTargetValueLearnerTable(IQueue<string> targetValues, Example e)
         {
             // create a table with target-attribute values as rows and learners as
             // columns and cells containing the weighted votes of each Learner for a
@@ -91,18 +91,18 @@ namespace tvn.cosine.ai.learning.learners
             // Yes 0.83 0.5 0
             // No 0 0 0.6
 
-            Table<string, Learner, double> table = new Table<string, Learner, double>(targetValues, learners);
+            Table<string, ILearner, double> table = new Table<string, ILearner, double>(targetValues, learners);
             // initialize table
-            foreach (Learner l in learners)
+            foreach (ILearner l in learners)
             {
                 foreach (string s in targetValues)
                 {
                     table.set(s, l, 0.0);
                 }
             }
-            foreach (Learner learner in learners)
+            foreach (ILearner learner in learners)
             {
-                string predictedValue = learner.predict(e);
+                string predictedValue = learner.Predict(e);
                 foreach (string v in targetValues)
                 {
                     if (predictedValue.Equals(v))
@@ -115,7 +115,7 @@ namespace tvn.cosine.ai.learning.learners
             return table;
         }
 
-        private string getTargetValueWithTheMaximumVotes(IQueue<string> targetValues, Table<string, Learner, double> table)
+        private string getTargetValueWithTheMaximumVotes(IQueue<string> targetValues, Table<string, ILearner, double> table)
         {
             string targetValueWithMaxScore = targetValues.Get(0);
             double score = scoreOfValue(targetValueWithMaxScore, table, learners);
@@ -152,20 +152,20 @@ namespace tvn.cosine.ai.learning.learners
                 throw new RuntimeException("cannot initialize Ensemble learning with Zero Learners");
             }
 
-            learnerWeights = Factory.CreateInsertionOrderedMap<Learner, double>();
-            foreach (Learner le in learners)
+            learnerWeights = Factory.CreateInsertionOrderedMap<ILearner, double>();
+            foreach (ILearner le in learners)
             {
                 learnerWeights.Put(le, 1.0);
             }
         }
 
-        private double calculateError(DataSet ds, Learner l)
+        private double calculateError(DataSet ds, ILearner l)
         {
             double error = 0.0;
             for (int i = 0; i < ds.examples.Size();++i)
             {
                 Example e = ds.getExample(i);
-                if (!(l.predict(e).Equals(e.targetValue())))
+                if (!(l.Predict(e).Equals(e.targetValue())))
                 {
                     error = error + exampleWeights[i];
                 }
@@ -173,13 +173,13 @@ namespace tvn.cosine.ai.learning.learners
             return error;
         }
 
-        private void adjustExampleWeights(DataSet ds, Learner l, double error)
+        private void adjustExampleWeights(DataSet ds, ILearner l, double error)
         {
             double epsilon = error / (1.0 - error);
             for (int j = 0; j < ds.examples.Size(); j++)
             {
                 Example e = ds.getExample(j);
-                if ((l.predict(e).Equals(e.targetValue())))
+                if ((l.Predict(e).Equals(e.targetValue())))
                 {
                     exampleWeights[j] = exampleWeights[j] * epsilon;
                 }
@@ -187,10 +187,10 @@ namespace tvn.cosine.ai.learning.learners
             exampleWeights = Util.normalize(exampleWeights);
         }
 
-        private double scoreOfValue(string targetValue, Table<string, Learner, double> table, IQueue<Learner> learners)
+        private double scoreOfValue(string targetValue, Table<string, ILearner, double> table, IQueue<ILearner> learners)
         {
             double score = 0.0;
-            foreach (Learner l in learners)
+            foreach (ILearner l in learners)
             {
                 score += table.get(targetValue, l);
             }

@@ -10,7 +10,7 @@ namespace tvn.cosine.ai.learning.learners
      * @author Ciaran O'Reilly
      * 
      */
-    public class CurrentBestLearner : Learner
+    public class CurrentBestLearner : ILearner
     {
         private string trueGoalValue = null;
         private FOLDataSetDomain folDSDomain = null;
@@ -46,7 +46,7 @@ namespace tvn.cosine.ai.learning.learners
             currentBestHypothesis = cbl.currentBestLearning(folExamples);
         }
 
-        public string predict(Example e)
+        public string Predict(Example e)
         {
             string prediction = "~" + e.targetValue();
             if (null != currentBestHypothesis)
@@ -75,13 +75,13 @@ namespace tvn.cosine.ai.learning.learners
             return prediction;
         }
 
-        public int[] test(DataSet ds)
+        public int[] Test(DataSet ds)
         {
             int[] results = new int[] { 0, 0 };
 
             foreach (Example e in ds.examples)
             {
-                if (e.targetValue().Equals(predict(e)))
+                if (e.targetValue().Equals(Predict(e)))
                 {
                     results[0] = results[0] + 1;
                 }

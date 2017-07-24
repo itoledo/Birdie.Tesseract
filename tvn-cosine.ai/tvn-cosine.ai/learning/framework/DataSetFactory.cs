@@ -4,14 +4,9 @@ using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.framework
-{
-    /**
-     * @author Ravi Mohan
-     * 
-     */
+{ 
     public class DataSetFactory
-    {
-
+    { 
         public DataSet fromFile(string filename, DataSetSpecification spec, string separator)
         {
             // assumed file in data directory and ends in .csv
@@ -42,7 +37,7 @@ namespace tvn.cosine.ai.learning.framework
         public static Example exampleFromString(string data, DataSetSpecification dataSetSpec, string separator)
         {
             Regex splitter = new Regex(separator);
-            IMap<string, Attribute> attributes = Factory.CreateInsertionOrderedMap<string, Attribute>();
+            IMap<string, IAttribute> attributes = Factory.CreateInsertionOrderedMap<string, IAttribute>();
             IQueue<string> attributeValues = Factory.CreateQueue<string>(splitter.Split(data));
             if (dataSetSpec.isValid(attributeValues))
             {
@@ -52,8 +47,8 @@ namespace tvn.cosine.ai.learning.framework
                 for (int i = 0; i < min; ++i)
                 {
                     string name = names.Get(i);
-                    AttributeSpecification attributeSpec = dataSetSpec.getAttributeSpecFor(name);
-                    Attribute attribute = attributeSpec.createAttribute(attributeValues.Get(i));
+                    IAttributeSpecification attributeSpec = dataSetSpec.getAttributeSpecFor(name);
+                    IAttribute attribute = attributeSpec.CreateAttribute(attributeValues.Get(i));
                     attributes.Put(name, attribute);
                 }
                 string targetAttributeName = dataSetSpec.getTarget();
@@ -85,8 +80,7 @@ namespace tvn.cosine.ai.learning.framework
             dss.defineStringAttribute("type", new string[] { "French", "Italian", "Thai", "Burger" });
             dss.defineStringAttribute("wait_estimate", new string[] { "0-10", "10-30", "30-60", ">60" });
             dss.defineStringAttribute("will_wait", Util.yesno());
-            // last attribute is the target attribute unless the target is
-            // explicitly reset with dss.setTarget(name)
+            // last attribute is the target attribute unless the target is explicitly reset with dss.setTarget(name)
 
             return dss;
         }

@@ -5,7 +5,7 @@ using tvn.cosine.ai.learning.inductive;
 
 namespace tvn.cosine.ai.learning.learners
 { 
-    public class DecisionListLearner : Learner
+    public class DecisionListLearner : ILearner
     {
         public const string FAILURE = "Failure";
 
@@ -31,7 +31,7 @@ namespace tvn.cosine.ai.learning.learners
             this.decisionList = decisionListLearning(ds);
         }
 
-        public string predict(Example e)
+        public string Predict(Example e)
         {
             if (decisionList == null)
             {
@@ -40,7 +40,7 @@ namespace tvn.cosine.ai.learning.learners
             return decisionList.predict(e);
         }
 
-        public int[] test(DataSet ds)
+        public int[] Test(DataSet ds)
         {
             int[] results = new int[] { 0, 0 };
 

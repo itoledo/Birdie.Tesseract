@@ -4,18 +4,14 @@ using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.learning.framework
 {
-    /**
-     * @author Ravi Mohan
-     * 
-     */
     public class Example : IStringable, IEquatable
     {
-        IMap<string, Attribute> attributes;
+        IMap<string, IAttribute> attributes;
 
-        private Attribute targetAttribute;
+        private IAttribute targetAttribute;
 
-        public Example(IMap<string, Attribute> attributes,
-                       Attribute targetAttribute)
+        public Example(IMap<string, IAttribute> attributes,
+                       IAttribute targetAttribute)
         {
             this.attributes = attributes;
             this.targetAttribute = targetAttribute;
@@ -23,12 +19,12 @@ namespace tvn.cosine.ai.learning.framework
 
         public string getAttributeValueAsString(string attributeName)
         {
-            return attributes.Get(attributeName).valueAsString();
+            return attributes.Get(attributeName).ValueAsString();
         }
 
         public double getAttributeValueAsDouble(string attributeName)
         {
-            Attribute attribute = attributes.Get(attributeName);
+            IAttribute attribute = attributes.Get(attributeName);
             if (attribute == null || !(attribute is NumericAttribute))
             {
                 throw new RuntimeException("cannot return numerical value for non numeric attribute");
@@ -43,7 +39,7 @@ namespace tvn.cosine.ai.learning.framework
 
         public string targetValue()
         {
-            return getAttributeValueAsString(targetAttribute.name());
+            return getAttributeValueAsString(targetAttribute.Name());
         }
 
         public override bool Equals(object o)
@@ -67,13 +63,13 @@ namespace tvn.cosine.ai.learning.framework
 
         public Example numerize(IMap<string, IMap<string, int>> attrValueToNumber)
         {
-            IMap<string, Attribute> numerizedExampleData = Factory.CreateInsertionOrderedMap<string, Attribute>();
+            IMap<string, IAttribute> numerizedExampleData = Factory.CreateInsertionOrderedMap<string, IAttribute>();
             foreach (string key in attributes.GetKeys())
             {
-                Attribute attribute = attributes.Get(key);
+                IAttribute attribute = attributes.Get(key);
                 if (attribute is StringAttribute)
                 {
-                    int correspondingNumber = attrValueToNumber.Get(key).Get(attribute.valueAsString());
+                    int correspondingNumber = attrValueToNumber.Get(key).Get(attribute.ValueAsString());
                     NumericAttributeSpecification spec = new NumericAttributeSpecification(key);
                     numerizedExampleData.Put(key, new NumericAttribute(correspondingNumber, spec));
                 }
@@ -82,7 +78,7 @@ namespace tvn.cosine.ai.learning.framework
                     numerizedExampleData.Put(key, attribute);
                 }
             }
-            return new Example(numerizedExampleData, numerizedExampleData.Get(targetAttribute.name()));
+            return new Example(numerizedExampleData, numerizedExampleData.Get(targetAttribute.Name()));
         }
-    } 
+    }
 }

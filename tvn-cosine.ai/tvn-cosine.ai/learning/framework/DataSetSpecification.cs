@@ -2,20 +2,16 @@
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.learning.framework
-{
-    /**
-     * @author Ravi Mohan
-     * 
-     */
+{ 
     public class DataSetSpecification
     {
-        IQueue<AttributeSpecification> attributeSpecifications;
+        IQueue<IAttributeSpecification> attributeSpecifications;
 
         private string targetAttribute;
 
         public DataSetSpecification()
         {
-            this.attributeSpecifications = Factory.CreateQueue<AttributeSpecification>();
+            this.attributeSpecifications = Factory.CreateQueue<IAttributeSpecification>();
         }
 
         public virtual bool isValid(IQueue<string> uncheckedAttributes)
@@ -29,7 +25,7 @@ namespace tvn.cosine.ai.learning.framework
 
             for (int i = 0; i < attributeSpecifications.Size(); ++i)
             {
-                if (!(attributeSpecifications.Get(i).isValid(uncheckedAttributes.Get(i))))
+                if (!(attributeSpecifications.Get(i).IsValid(uncheckedAttributes.Get(i))))
                 {
                     return false;
                 }
@@ -37,9 +33,11 @@ namespace tvn.cosine.ai.learning.framework
             return true;
         }
 
-        /**
-         * @return Returns the targetAttribute.
-         */
+
+        /// <summary>
+        /// Returns the targetAttribute.
+        /// </summary>
+        /// <returns>Returns the targetAttribute.</returns>
         public virtual string getTarget()
         {
             return targetAttribute;
@@ -47,9 +45,9 @@ namespace tvn.cosine.ai.learning.framework
 
         public virtual IQueue<string> getPossibleAttributeValues(string attributeName)
         {
-            foreach (AttributeSpecification _as in attributeSpecifications)
+            foreach (IAttributeSpecification _as in attributeSpecifications)
             {
-                if (_as.getAttributeName().Equals(attributeName))
+                if (_as.GetAttributeName().Equals(attributeName))
                 {
                     return ((StringAttributeSpecification)_as).possibleAttributeValues();
                 }
@@ -60,9 +58,9 @@ namespace tvn.cosine.ai.learning.framework
         public virtual IQueue<string> getAttributeNames()
         {
             IQueue<string> names = Factory.CreateQueue<string>();
-            foreach (AttributeSpecification _as in attributeSpecifications)
+            foreach (IAttributeSpecification _as in attributeSpecifications)
             {
-                names.Add(_as.getAttributeName());
+                names.Add(_as.GetAttributeName());
             }
             return names;
         }
@@ -73,20 +71,20 @@ namespace tvn.cosine.ai.learning.framework
             setTarget(name);// target defaults to last column added
         }
 
-        /**
-         * @param target
-         *            The targetAttribute to set.
-         */
+        /// <summary>
+        /// The targetAttribute to set.
+        /// </summary>
+        /// <param name="target">The targetAttribute to set.</param>
         public virtual void setTarget(string target)
         {
             this.targetAttribute = target;
         }
 
-        public virtual AttributeSpecification getAttributeSpecFor(string name)
+        public virtual IAttributeSpecification getAttributeSpecFor(string name)
         {
-            foreach (AttributeSpecification spec in attributeSpecifications)
+            foreach (IAttributeSpecification spec in attributeSpecifications)
             {
-                if (spec.getAttributeName().Equals(name))
+                if (spec.GetAttributeName().Equals(name))
                 {
                     return spec;
                 }
@@ -102,11 +100,11 @@ namespace tvn.cosine.ai.learning.framework
         public virtual IQueue<string> getNamesOfStringAttributes()
         {
             IQueue<string> names = Factory.CreateQueue<string>();
-            foreach (AttributeSpecification spec in attributeSpecifications)
+            foreach (IAttributeSpecification spec in attributeSpecifications)
             {
                 if (spec is StringAttributeSpecification)
                 {
-                    names.Add(spec.getAttributeName());
+                    names.Add(spec.GetAttributeName());
                 }
             }
             return names;

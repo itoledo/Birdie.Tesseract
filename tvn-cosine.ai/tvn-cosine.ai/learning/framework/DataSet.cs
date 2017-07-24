@@ -1,5 +1,4 @@
-﻿using System;
-using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.util;
 
@@ -155,11 +154,11 @@ namespace tvn.cosine.ai.learning.framework
             return new DataSet(specification);
         }
 
-        /**
-         * @param specification
-         *            The specification to set. USE SPARINGLY for testing etc ..
-         *            makes no semantic sense
-         */
+        /// <summary>
+        /// The specification to set. 
+        /// USE SPARINGLY for testing etc .. makes no semantic sense
+        /// </summary>
+        /// <param name="specification"></param>
         public void setSpecification(DataSetSpecification specification)
         {
             this.specification = specification;

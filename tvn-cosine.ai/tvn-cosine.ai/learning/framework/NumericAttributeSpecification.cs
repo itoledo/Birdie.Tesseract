@@ -1,12 +1,8 @@
 ﻿using System.Globalization;
 
 namespace tvn.cosine.ai.learning.framework
-{
-    /**
-     * @author Ravi Mohan
-     * 
-     */
-    public class NumericAttributeSpecification : AttributeSpecification
+{ 
+    public class NumericAttributeSpecification : IAttributeSpecification
     {
         // a simple attribute representing a number represented as a double .
         private string name;
@@ -16,7 +12,7 @@ namespace tvn.cosine.ai.learning.framework
             this.name = name;
         }
 
-        public bool isValid(string s)
+        public bool IsValid(string s)
         {
             double o;
             if (double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out o))
@@ -26,12 +22,12 @@ namespace tvn.cosine.ai.learning.framework
             return false;
         }
 
-        public string getAttributeName()
+        public string GetAttributeName()
         {
             return name;
         }
 
-        public Attribute createAttribute(string rawValue)
+        public IAttribute CreateAttribute(string rawValue)
         {
             return new NumericAttribute(double.Parse(rawValue, NumberStyles.Any, CultureInfo.InvariantCulture), this);
         }
