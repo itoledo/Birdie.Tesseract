@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.agent;
+﻿using tvn.cosine.ai.agent.api;
 
 namespace tvn.cosine.ai.environment.wumpusworld
 {

@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.agent
+﻿namespace tvn.cosine.ai.agent.api
 {
     /// <summary>
     /// Describes an Action that can or has been taken by an Agent via one of its Actuators.

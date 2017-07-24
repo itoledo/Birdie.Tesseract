@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.environment.wumpusworld;
 using tvn.cosine.ai.environment.wumpusworld.action;

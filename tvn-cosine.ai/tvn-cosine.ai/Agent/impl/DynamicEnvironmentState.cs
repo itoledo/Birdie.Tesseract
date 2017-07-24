@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.util;
+﻿using tvn.cosine.ai.agent.api;
+using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.impl
 {

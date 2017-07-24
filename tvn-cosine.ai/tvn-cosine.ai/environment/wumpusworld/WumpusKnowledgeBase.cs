@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.environment.wumpusworld.action;

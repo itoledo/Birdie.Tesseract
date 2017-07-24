@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent.impl;
 
 namespace tvn_cosine.ai.test.unit.agent.impl

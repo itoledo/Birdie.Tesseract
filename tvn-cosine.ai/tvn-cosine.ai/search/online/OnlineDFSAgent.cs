@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.agent;
+﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent.impl;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
@@ -43,9 +43,7 @@ namespace tvn.cosine.ai.search.online
      */
     public class OnlineDFSAgent<S, A> : AgentBase
         where A : IAction
-    {
-
-
+    { 
         private OnlineSearchProblem<S, A> problem;
         private Function<IPercept, S> ptsFn;
         // persistent: result, a table, indexed by state and action, initially empty
@@ -201,7 +199,7 @@ namespace tvn.cosine.ai.search.online
             // s <- s'
             s = sPrimed;
             // return a
-            return a ;
+            return a;
         }
 
         //

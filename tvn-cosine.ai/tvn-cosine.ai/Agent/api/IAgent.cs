@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.agent
+﻿namespace tvn.cosine.ai.agent.api
 {
     /// <summary> 
     /// Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.1, page 35.  <para />

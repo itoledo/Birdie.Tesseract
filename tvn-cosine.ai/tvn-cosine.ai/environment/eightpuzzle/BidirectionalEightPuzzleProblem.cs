@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.agent;
+﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.environment.eightpuzzle

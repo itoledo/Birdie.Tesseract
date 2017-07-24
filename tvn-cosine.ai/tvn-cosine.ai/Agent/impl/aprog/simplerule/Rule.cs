@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.util;

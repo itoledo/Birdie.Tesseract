@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.agent.impl
+﻿using tvn.cosine.ai.agent.api;
+
+namespace tvn.cosine.ai.agent.impl
 { 
     public abstract class AgentBase : IAgent
     {

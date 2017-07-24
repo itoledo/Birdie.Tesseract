@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.agent;
+﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent.impl;
 using tvn.cosine.ai.logic.propositional.kb;
 using tvn.cosine.ai.logic.propositional.parsing.ast;

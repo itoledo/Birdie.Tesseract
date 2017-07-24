@@ -1,5 +1,5 @@
-﻿using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections; 
+﻿using tvn.cosine.ai.agent.api; 
+using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.util;
 
 namespace tvn_cosine.ai.demo.search

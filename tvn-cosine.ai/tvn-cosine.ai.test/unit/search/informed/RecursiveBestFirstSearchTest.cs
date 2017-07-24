@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
-using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.search.informed;
 

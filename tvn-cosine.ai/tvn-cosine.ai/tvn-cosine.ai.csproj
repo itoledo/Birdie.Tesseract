@@ -45,14 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="agent\IAction.cs" />
-    <Compile Include="agent\IAgent.cs" />
-    <Compile Include="agent\IAgentProgram.cs" />
-    <Compile Include="agent\IEnvironment.cs" />
-    <Compile Include="agent\IEnvironmentObject.cs" />
-    <Compile Include="agent\IEnvironmentState.cs" />
-    <Compile Include="agent\IEnvironmentView.cs" />
-    <Compile Include="agent\IEnvironmentViewNotifier.cs" />
+    <Compile Include="agent\api\IAction.cs" />
+    <Compile Include="agent\api\IAgent.cs" />
+    <Compile Include="agent\api\IAgentProgram.cs" />
+    <Compile Include="agent\api\IEnvironment.cs" />
+    <Compile Include="agent\api\IEnvironmentObject.cs" />
+    <Compile Include="agent\api\IEnvironmentState.cs" />
+    <Compile Include="agent\api\IEnvironmentView.cs" />
+    <Compile Include="agent\api\IEnvironmentViewNotifier.cs" />
     <Compile Include="agent\impl\AgentBase.cs" />
     <Compile Include="agent\impl\EnvironmentBase.cs" />
     <Compile Include="agent\impl\aprog\ModelBasedReflexAgentProgram.cs" />
@@ -88,9 +88,9 @@
     <Compile Include="util\ObjectBase.cs" />
     <Compile Include="util\ObjectWithDynamicAttributes.cs" />
     <Compile Include="agent\impl\SimpleEnvironmentView.cs" />
-    <Compile Include="agent\IPercept.cs" />
-    <Compile Include="agent\IState.cs" />
-    <Compile Include="agent\PerceptToStateFunction.cs" />
+    <Compile Include="agent\api\IPercept.cs" />
+    <Compile Include="agent\api\IState.cs" />
+    <Compile Include="agent\api\PerceptToStateFunction.cs" />
     <Compile Include="common\Character.cs" />
     <Compile Include="common\collections\Factory.cs" />
     <Compile Include="common\collections\FifoQueue.cs" />
