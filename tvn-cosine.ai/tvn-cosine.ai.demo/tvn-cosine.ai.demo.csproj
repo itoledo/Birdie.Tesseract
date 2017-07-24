@@ -33,7 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>tvn_cosine.ai.demo.logic.DpllDemo</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -61,19 +62,57 @@
     <Compile Include="learning\chapter21\QLearningAgentDemo.cs" />
     <Compile Include="learning\chapter21\LearningDemoBase.cs" />
     <Compile Include="logic\DpllDemo.cs" />
-    <Compile Include="logic\FolDemo.cs" />
+    <Compile Include="logic\fol\FolDemoBase.cs" />
+    <Compile Include="logic\fol\FOL_bcAskDemo.cs" />
+    <Compile Include="logic\fol\FOL_CNFConversion.cs" />
+    <Compile Include="logic\fol\FOL_Demodulation.cs" />
+    <Compile Include="logic\fol\FOL_fcAskDemo.cs" />
+    <Compile Include="logic\fol\FOL_ModelEliminationDemo.cs" />
+    <Compile Include="logic\fol\FOL_OTTERDemo.cs" />
+    <Compile Include="logic\fol\FOL_Paramodulation.cs" />
+    <Compile Include="logic\fol\FOL_TFMResolutionDemo.cs" />
+    <Compile Include="logic\fol\UnifierDemo.cs" />
     <Compile Include="logic\PlFcEntailsDemo.cs" />
     <Compile Include="logic\PlResolutionDemo.cs" />
     <Compile Include="logic\TTEntailsDemo.cs" />
     <Compile Include="logic\WalkSatDemo.cs" />
-    <Compile Include="probability\ProbabilityDemo.cs" />
+    <Compile Include="probability\chapter13\FullJointDistributionModelDemo.cs" />
+    <Compile Include="probability\chapter14\approx\BayesGibbsAskDemo.cs" />
+    <Compile Include="probability\chapter14\approx\BayesLikelihoodWeightingDemo.cs" />
+    <Compile Include="probability\chapter14\approx\BayesRejectionSamplingDemo.cs" />
+    <Compile Include="probability\chapter14\exact\BayesEliminationAskDemo.cs" />
+    <Compile Include="probability\chapter14\exact\BayesEnumerationAskDemo.cs" />
+    <Compile Include="probability\chapter15\FixedLagSmoothingDemo.cs" />
+    <Compile Include="probability\chapter15\ForwardBackWardDemo.cs" />
+    <Compile Include="probability\chapter15\ParticleFilterinfDemo.cs" />
+    <Compile Include="probability\chapter17\PolicyIterationDemo.cs" />
+    <Compile Include="probability\chapter17\ValueIterationDemo.cs" />
+    <Compile Include="probability\ProbabilityDemoBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="search\EightPuzzleDemo.cs" />
-    <Compile Include="search\GenerateRandomEightPuzzleDemo.cs" />
-    <Compile Include="search\MapColoringCspDemo.cs" />
-    <Compile Include="search\NQueensDemo.cs" />
-    <Compile Include="search\TicTacToeDemo.cs" />
+    <Compile Include="search\eightpuzzle\EightPuzzleAStarDemo.cs" />
+    <Compile Include="search\eightpuzzle\EightPuzzleAStarManhattanDemo.cs" />
+    <Compile Include="search\eightpuzzle\EightPuzzleDemoBase.cs" />
+    <Compile Include="search\eightpuzzle\EightPuzzleDLSDemo.cs" />
+    <Compile Include="search\eightpuzzle\EightPuzzleGreedyBestFirstDemo.cs" />
+    <Compile Include="search\eightpuzzle\EightPuzzleGreedyBestFirstManhattanDemo.cs" />
+    <Compile Include="search\eightpuzzle\EightPuzzleIDLSDemo.cs" />
+    <Compile Include="search\eightpuzzle\EightPuzzleSimulatedAnnealingDemo.cs" />
+    <Compile Include="search\eightpuzzle\GenerateRandomEightPuzzleDemo.cs" />
+    <Compile Include="search\mapcoloring\FlexibleBacktrackingSolver.cs" />
+    <Compile Include="search\mapcoloring\FlexibleBacktrackingSolverMrvDegLcvAc3.cs" />
+    <Compile Include="search\mapcoloring\MinConflictsSolver.cs" />
+    <Compile Include="search\nqueens\NQueensDemoBase.cs" />
+    <Compile Include="search\nqueens\NQueensGeneticAlgorithmSearch.cs" />
+    <Compile Include="search\nqueens\NQueensHillClimbingSearch.cs" />
+    <Compile Include="search\nqueens\NQueensSimulatedAnnealingSearch.cs" />
+    <Compile Include="search\nqueens\NQueensWithBreadthFirstSearch.cs" />
+    <Compile Include="search\nqueens\NQueensWithDepthFirstSearch.cs" />
+    <Compile Include="search\nqueens\NQueensWithIterativeDeepeningSearch.cs" />
+    <Compile Include="search\nqueens\NQueensWithRecursiveDLS.cs" />
+    <Compile Include="search\SearchDemoBase.cs" />
+    <Compile Include="search\tictactoe\AlphaBetaDemo.cs" />
+    <Compile Include="search\tictactoe\MinimaxDemo.cs" />
     <Compile Include="util\SearchFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +124,7 @@
       <Name>tvn-cosine.ai</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

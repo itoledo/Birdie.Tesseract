@@ -6,7 +6,7 @@ namespace tvn_cosine.ai.demo.logic
 {
     public class PlResolutionDemo
     {
-        private static PLResolution plr = new PLResolution();
+        static PLResolution plr = new PLResolution();
 
         public static void Main(params string[] args)
         {
@@ -18,11 +18,13 @@ namespace tvn_cosine.ai.demo.logic
             displayResolutionResults(kb, "~B11");
         }
 
-        private static void displayResolutionResults(KnowledgeBase kb, string query)
+        static void displayResolutionResults(KnowledgeBase kb, string query)
         {
             PLParser parser = new PLParser();
-            System.Console.WriteLine("Running plResolution of query " + query
-                    + " on knowledgeBase  gives " + plr.plResolution(kb, parser.parse(query)));
+            System.Console.WriteLine("Running plResolution of query " 
+                + query 
+                + " on knowledgeBase  gives " 
+                + plr.plResolution(kb, parser.parse(query)));
         }
     }
 

@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.environment.eightpuzzle;
 
-namespace tvn_cosine.ai.demo.search
+namespace tvn_cosine.ai.demo.search.eightpuzzle
 {
     public class GenerateRandomEightPuzzleDemo
     {
@@ -31,7 +31,6 @@ namespace tvn_cosine.ai.demo.search
                 }
             }
             System.Console.WriteLine(board);
-        }
-
+        } 
     }
 }

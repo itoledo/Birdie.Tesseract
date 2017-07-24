@@ -33,7 +33,6 @@ namespace tvn_cosine.ai.demo.logic
             {
                 m.print();
             }
-        }
-
+        } 
     }
 }
