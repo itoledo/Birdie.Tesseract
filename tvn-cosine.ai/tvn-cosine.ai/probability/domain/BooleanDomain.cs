@@ -28,13 +28,13 @@ namespace tvn.cosine.ai.probability.domain
             indexPossibleValues(_possibleValues);
         }
 
-        public override int size()
+        public override int Size()
         {
             return 2;
         }
 
 
-        public override bool isOrdered()
+        public override bool IsOrdered()
         {
             return false;
         }
@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.probability.domain
         //    return _possibleValues;
         //}
 
-        public override ISet<object> getPossibleValues()
+        public override ISet<object> GetPossibleValues()
         {
             ISet<object> obj = CollectionFactory.CreateSet<object>();
             foreach (bool value in _possibleValues)

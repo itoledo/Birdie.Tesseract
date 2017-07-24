@@ -418,10 +418,10 @@
     <Compile Include="probability\domain\AbstractFiniteDomain.cs" />
     <Compile Include="probability\domain\ArbitraryTokenDomain.cs" />
     <Compile Include="probability\domain\BooleanDomain.cs" />
-    <Compile Include="probability\domain\ContinuousDomain.cs" />
-    <Compile Include="probability\domain\DiscreteDomain.cs" />
-    <Compile Include="probability\domain\Domain.cs" />
-    <Compile Include="probability\domain\FiniteDomain.cs" />
+    <Compile Include="probability\domain\api\IContinuousDomain.cs" />
+    <Compile Include="probability\domain\api\IDiscreteDomain.cs" />
+    <Compile Include="probability\domain\api\IDomain.cs" />
+    <Compile Include="probability\domain\api\IFiniteDomain.cs" />
     <Compile Include="probability\domain\FiniteIntegerDomain.cs" />
     <Compile Include="probability\example\BayesNetExampleFactory.cs" />
     <Compile Include="probability\example\DynamicBayesNetExampleFactory.cs" />

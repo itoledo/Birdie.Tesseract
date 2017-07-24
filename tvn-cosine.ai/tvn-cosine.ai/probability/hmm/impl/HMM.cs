@@ -3,6 +3,7 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.domain.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
 using tvn.cosine.ai.util;
@@ -19,7 +20,7 @@ namespace tvn.cosine.ai.probability.hmm.impl
     public class HMM : HiddenMarkovModel
     {
         private IRandomVariable stateVariable = null;
-        private FiniteDomain stateVariableDomain = null;
+        private IFiniteDomain stateVariableDomain = null;
         private Matrix transitionModel = null;
         private IMap<object, Matrix> sensorModel = null;
         private Matrix prior = null;
@@ -47,18 +48,18 @@ namespace tvn.cosine.ai.probability.hmm.impl
          */
         public HMM(IRandomVariable stateVariable, Matrix transitionModel, IMap<object, Matrix> sensorModel, Matrix prior)
         {
-            if (!stateVariable.getDomain().isFinite())
+            if (!stateVariable.getDomain().IsFinite())
             {
                 throw new IllegalArgumentException("State Variable for HHM must be finite.");
             }
             this.stateVariable = stateVariable;
-            stateVariableDomain = (FiniteDomain)stateVariable.getDomain();
+            stateVariableDomain = (IFiniteDomain)stateVariable.getDomain();
             if (transitionModel.getRowDimension() != transitionModel
                     .getColumnDimension())
             {
                 throw new IllegalArgumentException("Transition Model row and column dimensions must match.");
             }
-            if (stateVariableDomain.size() != transitionModel.getRowDimension())
+            if (stateVariableDomain.Size() != transitionModel.getRowDimension())
             {
                 throw new IllegalArgumentException("Transition Model Matrix does not map correctly to the HMM's State Variable.");
             }
@@ -69,7 +70,7 @@ namespace tvn.cosine.ai.probability.hmm.impl
                 {
                     throw new IllegalArgumentException("Sensor Model row and column dimensions must match.");
                 }
-                if (stateVariableDomain.size() != smVal.getRowDimension())
+                if (stateVariableDomain.Size() != smVal.getRowDimension())
                 {
                     throw new IllegalArgumentException("Sensor Model Matrix does not map correctly to the HMM's State Variable.");
                 }
@@ -120,7 +121,7 @@ namespace tvn.cosine.ai.probability.hmm.impl
 
         public virtual Matrix createUnitMessage()
         {
-            double[] values = new double[stateVariableDomain.size()];
+            double[] values = new double[stateVariableDomain.Size()];
             for (int i = 0; i < values.Length; ++i)
             {
                 values[i] = 1D;

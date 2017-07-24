@@ -4,6 +4,7 @@ using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.bayes.api;
 using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.domain.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
 
@@ -34,7 +35,7 @@ namespace tvn.cosine.ai.probability.bayes
             }
             tableVars[conditionedOn.Length] = on;
             table = new ProbabilityTable(values, tableVars);
-            onDomain.AddAll(((FiniteDomain)on.getDomain()).getPossibleValues());
+            onDomain.AddAll(((IFiniteDomain)on.getDomain()).GetPossibleValues());
 
             checkEachRowTotalsOne();
         }

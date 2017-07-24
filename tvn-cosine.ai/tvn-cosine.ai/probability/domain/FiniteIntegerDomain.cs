@@ -20,28 +20,19 @@ namespace tvn.cosine.ai.probability.domain
 
             indexPossibleValues(possibleValues);
         }
-
-        //
-        // START-Domain
-
-        public override int size()
+         
+        public override int Size()
         {
             return possibleValues.Size();
         }
 
 
-        public override bool isOrdered()
+        public override bool IsOrdered()
         {
             return true;
-        }
+        } 
 
-        // END-Domain
-        //
-
-        //
-        // START-DiscreteDomain
-
-        public override ISet<object> getPossibleValues()
+        public override ISet<object> GetPossibleValues()
         {
             ISet<object> obj = CollectionFactory.CreateSet<object>();
             foreach (int i in possibleValues)
@@ -50,11 +41,7 @@ namespace tvn.cosine.ai.probability.domain
             }
             return obj;
         }
-
-        // END-DiscreteDomain
-        //
-
-
+         
         public override bool Equals(object o)
         {
 

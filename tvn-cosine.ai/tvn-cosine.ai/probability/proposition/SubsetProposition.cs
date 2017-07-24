@@ -3,17 +3,18 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.domain.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
     public class SubsetProposition : AbstractDerivedProposition
     {
-        private FiniteDomain subsetDomain = null;
+        private IFiniteDomain subsetDomain = null;
         private IRandomVariable varSubsetOf = null;
         //
         private string toString = null;
 
-        public SubsetProposition(string name, FiniteDomain subsetDomain, IRandomVariable ofVar)
+        public SubsetProposition(string name, IFiniteDomain subsetDomain, IRandomVariable ofVar)
             : base(name)
         {
 
@@ -29,7 +30,7 @@ namespace tvn.cosine.ai.probability.proposition
          
         public override bool holds(IMap<IRandomVariable, object> possibleWorld)
         {
-            return subsetDomain.getPossibleValues().Contains(possibleWorld.Get(varSubsetOf));
+            return subsetDomain.GetPossibleValues().Contains(possibleWorld.Get(varSubsetOf));
         }
 
         public override string ToString()

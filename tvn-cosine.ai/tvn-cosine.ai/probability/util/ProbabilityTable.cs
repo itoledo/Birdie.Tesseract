@@ -4,6 +4,7 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.domain.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util;
 using tvn.cosine.ai.util.math;
@@ -709,13 +710,13 @@ namespace tvn.cosine.ai.probability.util
         private class RVInfo
         {
             private IRandomVariable variable;
-            private FiniteDomain varDomain;
+            private IFiniteDomain varDomain;
             private int radixIdx = 0;
 
             public RVInfo(IRandomVariable rv)
             {
                 variable = rv;
-                varDomain = (FiniteDomain)variable.getDomain();
+                varDomain = (IFiniteDomain)variable.getDomain();
             }
 
             public IRandomVariable getVariable()
@@ -725,17 +726,17 @@ namespace tvn.cosine.ai.probability.util
 
             public int getDomainSize()
             {
-                return varDomain.size();
+                return varDomain.Size();
             }
 
             public int getIdxForDomain(object value)
             {
-                return varDomain.getOffset(value);
+                return varDomain.GetOffset(value);
             }
 
             public object getDomainValueAt(int idx)
             {
-                return varDomain.getValueAt(idx);
+                return varDomain.GetValueAt(idx);
             }
 
             public void setRadixIdx(int idx)

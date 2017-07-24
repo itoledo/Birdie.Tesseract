@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.domain.api;
 
 namespace tvn.cosine.ai.probability.api
 {
@@ -23,6 +24,6 @@ namespace tvn.cosine.ai.probability.api
          * 
          * @return the Set of possible values the Random Variable can take on.
          */
-        Domain getDomain();
+        IDomain getDomain();
     } 
 }

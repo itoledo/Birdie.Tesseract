@@ -4,6 +4,7 @@ using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.bayes.api;
 using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.domain.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
 using tvn.cosine.ai.util;
@@ -154,7 +155,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
              * </pre>
              */
             double sum = 0;
-            foreach (object y in ((FiniteDomain)Y.getDomain()).getPossibleValues())
+            foreach (object y in ((IFiniteDomain)Y.getDomain()).GetPossibleValues())
             {
                 e.setExtendedValue(Y, y);
                 sum += e.posteriorForParents(Y) * enumerateAll(Util.rest(vars), e);

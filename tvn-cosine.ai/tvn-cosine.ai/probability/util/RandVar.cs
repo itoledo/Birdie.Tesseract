@@ -3,6 +3,7 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.domain.api;
 using tvn.cosine.ai.probability.proposition;
 
 namespace tvn.cosine.ai.probability.util
@@ -17,10 +18,10 @@ namespace tvn.cosine.ai.probability.util
     public class RandVar : IRandomVariable, TermProposition
     {
         private string name = null;
-        private Domain domain = null;
+        private IDomain domain = null;
         private ISet<IRandomVariable> scope = CollectionFactory.CreateSet<IRandomVariable>();
 
-        public RandVar(string name, Domain domain)
+        public RandVar(string name, IDomain domain)
         {
             ProbUtil.checkValidRandomVariableName(name);
             if (null == domain)
@@ -39,7 +40,7 @@ namespace tvn.cosine.ai.probability.util
         }
 
 
-        public Domain getDomain()
+        public IDomain getDomain()
         {
             return domain;
         }

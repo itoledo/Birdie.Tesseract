@@ -36,18 +36,18 @@ namespace tvn.cosine.ai.probability.domain
             indexPossibleValues(possibleValues);
         }
         
-        public override int size()
+        public override int Size()
         {
             return possibleValues.Size();
         }
 
 
-        public override bool isOrdered()
+        public override bool IsOrdered()
         {
             return ordered;
         }
          
-        public override ISet<object> getPossibleValues()
+        public override ISet<object> GetPossibleValues()
         {
             return possibleValues;
         }

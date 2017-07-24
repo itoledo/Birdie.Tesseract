@@ -1,24 +1,25 @@
 ﻿using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.domain.api;
 
 namespace tvn.cosine.ai.probability.domain
 {
-    public abstract class AbstractDiscreteDomain : DiscreteDomain
+    public abstract class AbstractDiscreteDomain : IDiscreteDomain
     { 
-        public virtual bool isFinite()
+        public virtual bool IsFinite()
         {
             return false;
         }
          
-        public virtual bool isInfinite()
+        public virtual bool IsInfinite()
         {
             return true;
         }
          
-        public virtual int size()
+        public virtual int Size()
         {
             throw new IllegalStateException("You cannot determine the size of an infinite domain");
         }
          
-        public abstract bool isOrdered(); 
+        public abstract bool IsOrdered(); 
     }
 }

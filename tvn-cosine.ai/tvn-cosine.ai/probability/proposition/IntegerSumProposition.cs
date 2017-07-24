@@ -50,7 +50,7 @@ namespace tvn.cosine.ai.probability.proposition
                 }
             }
 
-            return sumsDomain.getPossibleValues().Contains(sum);
+            return sumsDomain.GetPossibleValues().Contains(sum);
         }
          
         public override string ToString()

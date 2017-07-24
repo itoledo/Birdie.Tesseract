@@ -1,10 +1,11 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.domain.api;
 
 namespace tvn.cosine.ai.probability.domain
 {
-    public abstract class AbstractFiniteDomain : FiniteDomain
+    public abstract class AbstractFiniteDomain : IFiniteDomain
     {
         private string toString = null;
         private IMap<object, int> valueToIdx = CollectionFactory.CreateInsertionOrderedMap<object, int>();
@@ -13,21 +14,21 @@ namespace tvn.cosine.ai.probability.domain
         public AbstractFiniteDomain()
         { }
 
-        public virtual bool isFinite()
+        public virtual bool IsFinite()
         {
             return true;
         }
          
-        public virtual bool isInfinite()
+        public virtual bool IsInfinite()
         {
             return false;
         }
          
-        public abstract int size(); 
-        public abstract bool isOrdered(); 
-        public abstract ISet<object> getPossibleValues();
+        public abstract int Size(); 
+        public abstract bool IsOrdered(); 
+        public abstract ISet<object> GetPossibleValues();
          
-        public virtual int getOffset(object value)
+        public virtual int GetOffset(object value)
         {
             if (!valueToIdx.ContainsKey(value))
             {
@@ -36,7 +37,7 @@ namespace tvn.cosine.ai.probability.domain
             return valueToIdx.Get(value);
         }
          
-        public virtual object getValueAt(int offset)
+        public virtual object GetValueAt(int offset)
         {
             return idxToValue.Get(offset);
         }
@@ -45,7 +46,7 @@ namespace tvn.cosine.ai.probability.domain
         {
             if (null == toString)
             {
-                toString = getPossibleValues().ToString();
+                toString = GetPossibleValues().ToString();
             }
             return toString;
         }

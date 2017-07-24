@@ -7,6 +7,7 @@ using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.bayes;
 using tvn.cosine.ai.probability.bayes.api;
 using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.domain.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util;
 using tvn.cosine.ai.util.math;
@@ -67,13 +68,13 @@ namespace tvn.cosine.ai.probability.util
                 foreach (IRandomVariable rv in vars)
                 {
                     // Create ordered domains for each variable
-                    if (!(rv.getDomain() is FiniteDomain))
+                    if (!(rv.getDomain() is IFiniteDomain))
                     {
                         throw new IllegalArgumentException("Cannot have an infinite domain for a variable in this calculation:"
                                         + rv);
                     }
-                    FiniteDomain d = (FiniteDomain)rv.getDomain();
-                    expectedSizeOfDistribution *= d.size();
+                    IFiniteDomain d = (IFiniteDomain)rv.getDomain();
+                    expectedSizeOfDistribution *= d.Size();
                 }
             }
 
@@ -127,10 +128,10 @@ namespace tvn.cosine.ai.probability.util
          */
         public static object sample(double probabilityChoice, IRandomVariable Xi, double[] distribution)
         {
-            FiniteDomain fd = (FiniteDomain)Xi.getDomain();
-            if (fd.size() != distribution.Length)
+            IFiniteDomain fd = (IFiniteDomain)Xi.getDomain();
+            if (fd.Size() != distribution.Length)
             {
-                throw new IllegalArgumentException("Size of domain Xi " + fd.size()
+                throw new IllegalArgumentException("Size of domain Xi " + fd.Size()
                         + " is not equal to the size of the distribution "
                         + distribution.Length);
             }
@@ -141,7 +142,7 @@ namespace tvn.cosine.ai.probability.util
                 ++i;
                 total += distribution[i];
             }
-            return fd.getValueAt(i);
+            return fd.GetValueAt(i);
         }
 
         /**
@@ -214,8 +215,8 @@ namespace tvn.cosine.ai.probability.util
          */
         public static double[] mbDistribution(INode Xi, IMap<IRandomVariable, object> even)
         {
-            FiniteDomain fd = (FiniteDomain)Xi.GetRandomVariable().getDomain();
-            double[] X = new double[fd.size()];
+            IFiniteDomain fd = (IFiniteDomain)Xi.GetRandomVariable().getDomain();
+            double[] X = new double[fd.Size()];
 
             /**
              * As we iterate over the domain of a ramdom variable corresponding to Xi
@@ -230,14 +231,14 @@ namespace tvn.cosine.ai.probability.util
                 generatedEvent.Put(entry.GetKey(), entry.GetValue());
             }
 
-            for (int i = 0; i < fd.size(); ++i)
+            for (int i = 0; i < fd.Size(); ++i)
             {
                 /** P(x'<sub>i</sub>|mb(Xi)) =
                  * &alpha;P(x'<sub>i</sub>|parents(X<sub>i</sub>)) *
                  * &prod;<sub>Y<sub>j</sub> &isin; Children(X<sub>i</sub>)</sub>
                  * P(y<sub>j</sub>|parents(Y<sub>j</sub>))
                  */
-                generatedEvent.Put(Xi.GetRandomVariable(), fd.getValueAt(i));
+                generatedEvent.Put(Xi.GetRandomVariable(), fd.GetValueAt(i));
                 double cprob = 1.0;
                 foreach (INode Yj in Xi.GetChildren())
                 {
@@ -247,7 +248,7 @@ namespace tvn.cosine.ai.probability.util
                 X[i] = Xi.GetCPD()
                                 .GetValue(
                                         getEventValuesForXiGivenParents(Xi,
-                                                fd.getValueAt(i), even))
+                                                fd.GetValueAt(i), even))
                     * cprob;
             }
 
@@ -364,7 +365,7 @@ namespace tvn.cosine.ai.probability.util
         {
             if (0 == X.Length)
             {
-                return ((FiniteDomain)X[0].getDomain()).getOffset(x.Get(X[0]));
+                return ((IFiniteDomain)X[0].getDomain()).GetOffset(x.Get(X[0]));
             }
             // X.Length > 1 then calculate using a mixed radix number
             //
@@ -382,9 +383,9 @@ namespace tvn.cosine.ai.probability.util
             int j = X.Length - 1;
             for (int i = 0; i < X.Length; ++i)
             {
-                FiniteDomain fd = (FiniteDomain)X[i].getDomain();
-                radixValues[j] = fd.getOffset(x.Get(X[i]));
-                radices[j] = fd.size();
+                IFiniteDomain fd = (IFiniteDomain)X[i].getDomain();
+                radixValues[j] = fd.GetOffset(x.Get(X[i]));
+                radices[j] = fd.Size();
                 j--;
             }
 
@@ -432,15 +433,15 @@ namespace tvn.cosine.ai.probability.util
         {
             int csize = ProbUtil.expectedSizeOfCategoricalDistribution(X);
 
-            FiniteDomain fd = (FiniteDomain)X[idx].getDomain();
-            int vdoffset = fd.getOffset(x.Get(X[idx]));
-            int vdosize = fd.size();
+            IFiniteDomain fd = (IFiniteDomain)X[idx].getDomain();
+            int vdoffset = fd.GetOffset(x.Get(X[idx]));
+            int vdosize = fd.Size();
             int[] indexes = new int[csize / vdosize];
 
             int blocksize = csize;
             for (int i = 0; i < X.Length; ++i)
             {
-                blocksize = blocksize / X[i].getDomain().size();
+                blocksize = blocksize / X[i].getDomain().Size();
                 if (i == idx)
                 {
                     break;
