@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.util;
 
-namespace tvn.cosine.ai.agent.impl.aprog.simplerule
+namespace tvn.cosine.ai.agent.agentprogram.simplerule
 {
     /// <summary>
     /// Base abstract class for describing conditions.

@@ -1,12 +1,8 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.util;
 
-namespace tvn.cosine.ai.agent.impl
-{
-    /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     */
+namespace tvn.cosine.ai.agent
+{ 
     public class DynamicEnvironmentState : ObjectWithDynamicAttributes, IEnvironmentState
     {
         public DynamicEnvironmentState()

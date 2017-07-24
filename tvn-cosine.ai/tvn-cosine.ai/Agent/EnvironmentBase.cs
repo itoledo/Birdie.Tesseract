@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
 
-namespace tvn.cosine.ai.agent.impl
+namespace tvn.cosine.ai.agent
 {
     public abstract class EnvironmentBase : IEnvironment
     {
@@ -15,11 +15,11 @@ namespace tvn.cosine.ai.agent.impl
         public abstract void executeAction(IAgent agent, IAction action);
         public abstract IPercept getPerceptSeenBy(IAgent anAgent);
 
-        /**
-         * Method for implementing dynamic environments in which not all changes are
-         * directly caused by agent action execution. The default implementation
-         * does nothing.
-         */
+        /// <summary> 
+        /// Method for implementing dynamic environments in which not all changes are
+        /// directly caused by agent action execution. The default implementation
+        /// does nothing.
+        /// </summary>
         public virtual void createExogenousChange()
         { }
 
@@ -65,12 +65,12 @@ namespace tvn.cosine.ai.agent.impl
             agents.Remove(eo as IAgent);
         }
 
-        /**
-         * Central template method for controlling agent simulation. The concrete
-         * behavior is determined by the primitive operations
-         * #getPerceptSeenBy(Agent), #executeAction(Agent, Action),
-         * and #createExogenousChange().
-         */
+        /// <summary>
+        /// Central template method for controlling agent simulation. The concrete
+        /// behavior is determined by the primitive operations
+        /// #getPerceptSeenBy(Agent), #executeAction(Agent, Action),
+        /// and #createExogenousChange().
+        /// </summary>
         public virtual void Step()
         {
             foreach (IAgent agent in agents)

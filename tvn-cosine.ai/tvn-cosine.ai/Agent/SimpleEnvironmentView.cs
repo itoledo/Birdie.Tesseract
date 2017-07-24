@@ -1,13 +1,10 @@
 ﻿using tvn.cosine.ai.agent.api;
 
-namespace tvn.cosine.ai.agent.impl
+namespace tvn.cosine.ai.agent
 {
-    /**
-     * Simple environment view which uses the standard output stream to inform about
-     * relevant events.
-     * 
-     * @author Ruediger Lunde
-     */
+    /// <summary>
+    /// Simple environment view which uses the standard output stream to inform about relevant events.
+    /// </summary>
     public class SimpleEnvironmentView : IEnvironmentView
     {
         public void Notify(string msg)

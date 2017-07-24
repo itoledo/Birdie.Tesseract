@@ -2,7 +2,7 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
 
-namespace tvn.cosine.ai.agent.impl.aprog
+namespace tvn.cosine.ai.agent.agentprogram
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.7, page 47.<br>

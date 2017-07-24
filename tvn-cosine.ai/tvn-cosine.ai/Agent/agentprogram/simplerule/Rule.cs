@@ -4,7 +4,7 @@ using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.util;
 
-namespace tvn.cosine.ai.agent.impl.aprog.simplerule
+namespace tvn.cosine.ai.agent.agentprogram.simplerule
 {
     /// <summary>
     /// A simple implementation of a "condition-action rule".

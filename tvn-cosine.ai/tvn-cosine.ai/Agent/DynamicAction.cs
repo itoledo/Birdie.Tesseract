@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.util;
 
-namespace tvn.cosine.ai.agent.impl
+namespace tvn.cosine.ai.agent 
 { 
     public class DynamicAction : ObjectWithDynamicAttributes, IAction
     {

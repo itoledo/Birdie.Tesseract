@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common;
 
 namespace tvn.cosine.ai.environment.vacuum

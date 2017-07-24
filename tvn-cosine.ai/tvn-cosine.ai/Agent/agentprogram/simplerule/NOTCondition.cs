@@ -2,7 +2,7 @@
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.util;
 
-namespace tvn.cosine.ai.agent.impl.aprog.simplerule
+namespace tvn.cosine.ai.agent.agentprogram.simplerule
 {
     /// <summary>
     /// Implementation of a NOT condition.

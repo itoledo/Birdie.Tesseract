@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.agent.api;
 
-namespace tvn.cosine.ai.agent.impl
-{ 
+namespace tvn.cosine.ai.agent
+{
     public abstract class AgentBase : IAgent
     {
         protected IAgentProgram program;
@@ -10,17 +10,15 @@ namespace tvn.cosine.ai.agent.impl
         public AgentBase()
         { }
 
-        /**
-         * Constructs an Agent with the specified AgentProgram.
-         * 
-         * @param aProgram
-         *            the Agent's program, which maps any given percept sequences to an action.
-         */
+        /// <summary>
+        /// Constructs an Agent with the specified AgentProgram.
+        /// </summary>
+        /// <param name="aProgram">the Agent's program, which maps any given percept sequences to an action.</param>
         public AgentBase(IAgentProgram aProgram)
         {
             program = aProgram;
         }
-         
+
         public virtual IAction Execute(IPercept p)
         {
             if (null != program)
@@ -38,6 +36,6 @@ namespace tvn.cosine.ai.agent.impl
         public virtual void SetAlive(bool alive)
         {
             this.alive = alive;
-        } 
+        }
     }
 }

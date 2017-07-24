@@ -1,5 +1,5 @@
 ﻿using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.agent;
 
 namespace tvn.cosine.ai.environment.map
 {

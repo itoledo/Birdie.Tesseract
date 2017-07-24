@@ -2,17 +2,17 @@
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.util;
 
-namespace tvn.cosine.ai.agent.impl.aprog.simplerule
+namespace tvn.cosine.ai.agent.agentprogram.simplerule
 {
     /// <summary>
-    /// Implementation of an OR condition.
+    /// Implementation of an AND condition.
     /// </summary>
-    public class ORCondition : Condition
+    public class ANDCondition : Condition
     {
         private Condition left;
         private Condition right;
 
-        public ORCondition(Condition leftCon, Condition rightCon)
+        public ANDCondition(Condition leftCon, Condition rightCon)
         {
             if (null == leftCon ||
                 null == rightCon)
@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
 
         public override bool evaluate(ObjectWithDynamicAttributes p)
         {
-            return (left.evaluate(p) || right.evaluate(p));
+            return (left.evaluate(p) && right.evaluate(p));
         }
 
         public override string ToString()
@@ -34,9 +34,9 @@ namespace tvn.cosine.ai.agent.impl.aprog.simplerule
             StringBuilder sb = new StringBuilder();
 
             sb.Append("[")
-              .Append(left)
-              .Append(" || ")
-              .Append(right)
+              .Append(left.ToString())
+              .Append(" && ")
+              .Append(right.ToString())
               .Append("]");
 
             return sb.ToString();

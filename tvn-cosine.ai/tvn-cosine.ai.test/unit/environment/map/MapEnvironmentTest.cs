@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.agent;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.search.uninformed;
 

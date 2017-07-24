@@ -1,5 +1,5 @@
 ﻿using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.agent.impl;
+using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
