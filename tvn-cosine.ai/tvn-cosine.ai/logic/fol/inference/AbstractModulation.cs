@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.parsing;
 using tvn.cosine.ai.logic.fol.parsing.ast;
@@ -189,7 +190,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             public object visitPredicate(Predicate p, object arg)
             {
-                IQueue<Term> newTerms = Factory.CreateQueue<Term>();
+                ICollection<Term> newTerms = CollectionFactory.CreateQueue<Term>();
                 foreach (Term t in p.getTerms())
                 {
                     Term subsTerm = (Term)t.accept(this, arg);
@@ -242,7 +243,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     }
                 }
 
-                IQueue<Term> newTerms = Factory.CreateQueue<Term>();
+                ICollection<Term> newTerms = CollectionFactory.CreateQueue<Term>();
                 foreach (Term t in function.getTerms())
                 {
                     Term subsTerm = (Term)t.accept(this, arg);

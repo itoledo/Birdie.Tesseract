@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing;
@@ -56,13 +57,13 @@ namespace tvn.cosine.ai.logic.fol
             // variables.
             Sentence saQuantifiers = (Sentence)negationsIn.accept(
                     new StandardizeQuantiferVariables(substVisitor),
-                    Factory.CreateSet<Variable>());
+                    CollectionFactory.CreateSet<Variable>());
 
             // Remove explicit quantifiers, by skolemizing existentials
             // and dropping universals:
             // E)xistentials Out
             // A)lls Out:
-            Sentence andsAndOrs = (Sentence)saQuantifiers.accept(new RemoveQuantifiers(parser), Factory.CreateSet<Variable>());
+            Sentence andsAndOrs = (Sentence)saQuantifiers.accept(new RemoveQuantifiers(parser), CollectionFactory.CreateSet<Variable>());
 
             // D)istribution
             // V over ^:
@@ -316,8 +317,8 @@ namespace tvn.cosine.ai.logic.fol
 
             // Keep track of what I have to subst locally and
             // what my renamed variables will be.
-            IMap<Variable, Term> localSubst = Factory.CreateInsertionOrderedMap<Variable, Term>();
-            IQueue<Variable> replVariables = Factory.CreateQueue<Variable>();
+            IMap<Variable, Term> localSubst = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
+            ICollection<Variable> replVariables = CollectionFactory.CreateQueue<Variable>();
             foreach (Variable v in sentence.getVariables())
             {
                 // If local variable has be renamed already
@@ -410,7 +411,7 @@ namespace tvn.cosine.ai.logic.fol
             // scope the existential quantifier appears.
             if (Quantifiers.isEXISTS(sentence.getQuantifier()))
             {
-                IMap<Variable, Term> skolemSubst = Factory.CreateInsertionOrderedMap<Variable, Term>();
+                IMap<Variable, Term> skolemSubst = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
                 foreach (Variable eVar in sentence.getVariables())
                 {
                     if (universalScope.Size() > 0)
@@ -418,7 +419,7 @@ namespace tvn.cosine.ai.logic.fol
                         // Replace with a Skolem Function
                         string skolemFunctionName = parser.getFOLDomain().addSkolemFunction();
 
-                        IQueue<Term> terms = Factory.CreateQueue<Term>();
+                        ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
                         foreach (Variable v in universalScope)
                         {
                             terms.Add(v);
@@ -643,7 +644,7 @@ namespace tvn.cosine.ai.logic.fol
 
         class ArgData
         {
-            public IQueue<Clause> clauses = Factory.CreateQueue<Clause>();
+            public ICollection<Clause> clauses = CollectionFactory.CreateQueue<Clause>();
             public bool negated = false;
 
             public ArgData()

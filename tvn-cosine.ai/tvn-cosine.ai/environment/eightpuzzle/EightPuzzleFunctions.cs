@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
@@ -13,7 +14,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
 
         public class ActionFunctionEB : ActionsFunction<EightPuzzleBoard, IAction>
         {
-            public IQueue<IAction> apply(EightPuzzleBoard state)
+            public ICollection<IAction> apply(EightPuzzleBoard state)
             {
                 return getActions(state);
             }
@@ -27,9 +28,9 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             }
         }
 
-        public static IQueue<IAction> getActions(EightPuzzleBoard state)
+        public static ICollection<IAction> getActions(EightPuzzleBoard state)
         {
-            IQueue<IAction> actions = Factory.CreateQueue<IAction>();
+            ICollection<IAction> actions = CollectionFactory.CreateQueue<IAction>();
 
             if (state.canMoveGap(EightPuzzleBoard.UP))
                 actions.Add(EightPuzzleBoard.UP);

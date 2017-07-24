@@ -1,6 +1,8 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.learning.framework.api;
 
 namespace tvn.cosine.ai.learning.framework
 {
@@ -63,7 +65,7 @@ namespace tvn.cosine.ai.learning.framework
 
         public Example numerize(IMap<string, IMap<string, int>> attrValueToNumber)
         {
-            IMap<string, IAttribute> numerizedExampleData = Factory.CreateInsertionOrderedMap<string, IAttribute>();
+            IMap<string, IAttribute> numerizedExampleData = CollectionFactory.CreateInsertionOrderedMap<string, IAttribute>();
             foreach (string key in attributes.GetKeys())
             {
                 IAttribute attribute = attributes.Get(key);

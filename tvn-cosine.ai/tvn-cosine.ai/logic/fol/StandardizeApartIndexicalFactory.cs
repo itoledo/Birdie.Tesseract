@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.logic.fol
@@ -12,7 +13,7 @@ namespace tvn.cosine.ai.logic.fol
      */
     public class StandardizeApartIndexicalFactory
     {
-        private static IMap<char, int> _assignedIndexicals = Factory.CreateInsertionOrderedMap<char, int>();
+        private static IMap<char, int> _assignedIndexicals = CollectionFactory.CreateInsertionOrderedMap<char, int>();
 
         // For use in test cases, where predictable behavior is expected.
         public static void flush()

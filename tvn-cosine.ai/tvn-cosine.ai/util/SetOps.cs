@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.util
 {
@@ -31,7 +32,7 @@ namespace tvn.cosine.ai.util
             {
                 return s1;
             }
-            ISet<T> union = Factory.CreateSet<T>(s1);
+            ISet<T> union = CollectionFactory.CreateSet<T>(s1);
             union.AddAll(s2);
             return union;
         }
@@ -50,7 +51,7 @@ namespace tvn.cosine.ai.util
             {
                 return s1;
             }
-            ISet<T> intersection = Factory.CreateSet<T>();
+            ISet<T> intersection = CollectionFactory.CreateSet<T>();
             foreach (T item in s1)
             {
                 if (s2.Contains(item))
@@ -74,9 +75,9 @@ namespace tvn.cosine.ai.util
         {
             if (s1 == s2)
             {
-                return Factory.CreateSet<T>();
+                return CollectionFactory.CreateSet<T>();
             }
-            ISet<T> difference = Factory.CreateSet<T>(s1);
+            ISet<T> difference = CollectionFactory.CreateSet<T>(s1);
             foreach (T item in s2)
             {
                 difference.Remove(item);

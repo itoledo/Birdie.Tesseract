@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.environment.nqueens
@@ -83,7 +85,7 @@ namespace tvn.cosine.ai.environment.nqueens
             }
         }
 
-        public void setQueensAt(IQueue<XYLocation> locations)
+        public void setQueensAt(ICollection<XYLocation> locations)
         {
             clear();
             foreach (XYLocation location in locations)
@@ -150,9 +152,9 @@ namespace tvn.cosine.ai.environment.nqueens
             return count;
         }
 
-        public IQueue<XYLocation> getQueenPositions()
+        public ICollection<XYLocation> getQueenPositions()
         {
-            IQueue<XYLocation> result = Factory.CreateQueue<XYLocation>();
+            ICollection<XYLocation> result = CollectionFactory.CreateQueue<XYLocation>();
             for (int i = 0; i < getSize();++i)
             {
                 for (int j = 0; j < getSize(); j++)
@@ -265,7 +267,7 @@ namespace tvn.cosine.ai.environment.nqueens
 
         public override int GetHashCode()
         {
-            IQueue<XYLocation> locs = getQueenPositions();
+            ICollection<XYLocation> locs = getQueenPositions();
             int result = 17;
             foreach (XYLocation loc in locs)
             {

@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.learning.framework
+﻿namespace tvn.cosine.ai.learning.framework.api
 { 
     public interface IAttributeSpecification
     { 

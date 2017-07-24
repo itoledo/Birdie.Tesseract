@@ -1,13 +1,14 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.learning.neural
 {
     public class NNExample
     {
-        private readonly IQueue<double> normalizedInput, normalizedTarget;
+        private readonly ICollection<double> normalizedInput, normalizedTarget;
 
-        public NNExample(IQueue<double> normalizedInput, IQueue<double> normalizedTarget)
+        public NNExample(ICollection<double> normalizedInput, ICollection<double> normalizedTarget)
         {
             this.normalizedInput = normalizedInput;
             this.normalizedTarget = normalizedTarget;
@@ -15,8 +16,8 @@ namespace tvn.cosine.ai.learning.neural
 
         public NNExample copyExample()
         {
-            IQueue<double> newInput = Factory.CreateQueue<double>();
-            IQueue<double> newTarget = Factory.CreateQueue<double>();
+            ICollection<double> newInput = CollectionFactory.CreateQueue<double>();
+            ICollection<double> newTarget = CollectionFactory.CreateQueue<double>();
             foreach (double d in normalizedInput)
             {
                 newInput.Add(d);

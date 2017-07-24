@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.common
+﻿namespace tvn.cosine.ai.common.api
 {
     public interface ICloneable<T>
     {

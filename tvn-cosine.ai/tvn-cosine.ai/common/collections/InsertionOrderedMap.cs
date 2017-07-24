@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
 
@@ -7,7 +9,7 @@ namespace tvn.cosine.ai.common.collections
     public class InsertionOrderedMap<KEY, VALUE> : IMap<KEY, VALUE>, IStringable, IHashable
     {
         private readonly System.Collections.Generic.IDictionary<KEY, VALUE> backingDictionary;
-        private readonly IQueue<KEY> orderedQueue = Factory.CreateQueue<KEY>();
+        private readonly ICollection<KEY> orderedQueue = CollectionFactory.CreateQueue<KEY>();
 
         public InsertionOrderedMap()
         {
@@ -16,16 +18,16 @@ namespace tvn.cosine.ai.common.collections
 
         public InsertionOrderedMap(IEqualityComparer<KEY> comparer)
         {
-            backingDictionary = new System.Collections.Generic.Dictionary<KEY, VALUE>(new QueueBase<KEY>.EqualityComparerAdapter(comparer));
+            backingDictionary = new System.Collections.Generic.Dictionary<KEY, VALUE>(new CollectionBase<KEY>.EqualityComparerAdapter(comparer));
         }
 
-        public InsertionOrderedMap(IQueue<KeyValuePair<KEY, VALUE>> items)
+        public InsertionOrderedMap(ICollection<KeyValuePair<KEY, VALUE>> items)
             : this()
         {
             AddAll(items);
         }
 
-        public InsertionOrderedMap(IQueue<KeyValuePair<KEY, VALUE>> items, IEqualityComparer<KEY> comparer)
+        public InsertionOrderedMap(ICollection<KeyValuePair<KEY, VALUE>> items, IEqualityComparer<KEY> comparer)
             : this(comparer)
         {
             AddAll(items);
@@ -42,7 +44,7 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
-        public void AddAll(IQueue<KeyValuePair<KEY, VALUE>> items)
+        public void AddAll(ICollection<KeyValuePair<KEY, VALUE>> items)
         {
             foreach (var item in items)
             {
@@ -82,17 +84,17 @@ namespace tvn.cosine.ai.common.collections
 
         public ISet<KEY> GetKeys()
         {
-            return Factory.CreateReadOnlySet<KEY>(orderedQueue);
+            return CollectionFactory.CreateReadOnlySet<KEY>(orderedQueue);
         }
 
-        public IQueue<VALUE> GetValues()
+        public ICollection<VALUE> GetValues()
         {
-            IQueue<VALUE> obj = Factory.CreateQueue<VALUE>();
+            ICollection<VALUE> obj = CollectionFactory.CreateQueue<VALUE>();
             foreach (KEY key in orderedQueue)
             {
                 obj.Add(backingDictionary[key]);
             }
-            return Factory.CreateReadOnlyQueue<VALUE>(obj);
+            return CollectionFactory.CreateReadOnlyQueue<VALUE>(obj);
         }
 
         public bool IsEmpty()
@@ -148,7 +150,7 @@ namespace tvn.cosine.ai.common.collections
             }
         }
 
-        public bool ContainsAll(IQueue<KeyValuePair<KEY, VALUE>> other)
+        public bool ContainsAll(ICollection<KeyValuePair<KEY, VALUE>> other)
         {
             foreach (KeyValuePair<KEY, VALUE> pair in other)
             {
@@ -162,7 +164,7 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
-        public void RemoveAll(IQueue<KeyValuePair<KEY, VALUE>> items)
+        public void RemoveAll(ICollection<KeyValuePair<KEY, VALUE>> items)
         {
             foreach (KeyValuePair<KEY, VALUE> pair in items)
             {
@@ -188,57 +190,57 @@ namespace tvn.cosine.ai.common.collections
             return obj;
         }
 
-        IQueue<KeyValuePair<KEY, VALUE>> IQueue<KeyValuePair<KEY, VALUE>>.subList(int startPos, int endPos)
+        ICollection<KeyValuePair<KEY, VALUE>> ICollection<KeyValuePair<KEY, VALUE>>.subList(int startPos, int endPos)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.Set(int position, KeyValuePair<KEY, VALUE> item)
+        void ICollection<KeyValuePair<KEY, VALUE>>.Set(int position, KeyValuePair<KEY, VALUE> item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.Reverse()
+        void ICollection<KeyValuePair<KEY, VALUE>>.Reverse()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.Sort(IComparer<KeyValuePair<KEY, VALUE>> comparer)
+        void ICollection<KeyValuePair<KEY, VALUE>>.Sort(IComparer<KeyValuePair<KEY, VALUE>> comparer)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        KeyValuePair<KEY, VALUE> IQueue<KeyValuePair<KEY, VALUE>>.Get(int index)
+        KeyValuePair<KEY, VALUE> ICollection<KeyValuePair<KEY, VALUE>>.Get(int index)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        int IQueue<KeyValuePair<KEY, VALUE>>.IndexOf(KeyValuePair<KEY, VALUE> item)
+        int ICollection<KeyValuePair<KEY, VALUE>>.IndexOf(KeyValuePair<KEY, VALUE> item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.Insert(int index, KeyValuePair<KEY, VALUE> item)
+        void ICollection<KeyValuePair<KEY, VALUE>>.Insert(int index, KeyValuePair<KEY, VALUE> item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        KeyValuePair<KEY, VALUE> IQueue<KeyValuePair<KEY, VALUE>>.Peek()
+        KeyValuePair<KEY, VALUE> ICollection<KeyValuePair<KEY, VALUE>>.Peek()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        KeyValuePair<KEY, VALUE> IQueue<KeyValuePair<KEY, VALUE>>.Pop()
+        KeyValuePair<KEY, VALUE> ICollection<KeyValuePair<KEY, VALUE>>.Pop()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.RemoveAt(int index)
+        void ICollection<KeyValuePair<KEY, VALUE>>.RemoveAt(int index)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        bool IQueue<KeyValuePair<KEY, VALUE>>.SequenceEqual(IQueue<KeyValuePair<KEY, VALUE>> queue)
+        bool ICollection<KeyValuePair<KEY, VALUE>>.SequenceEqual(ICollection<KeyValuePair<KEY, VALUE>> queue)
         {
             if (this.Size() != queue.Size())
             {
@@ -285,7 +287,7 @@ namespace tvn.cosine.ai.common.collections
 
         class Enumerator : IEnumerator<KeyValuePair<KEY, VALUE>>
         {
-            private readonly IQueue<KEY> orderedQueue;
+            private readonly ICollection<KEY> orderedQueue;
             private readonly InsertionOrderedMap<KEY, VALUE> backingMap;
 
             private int position = -1;

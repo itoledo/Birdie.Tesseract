@@ -1,10 +1,12 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.framework.api;
 using tvn.cosine.ai.learning.inductive;
 using tvn.cosine.ai.learning.learners;
 using tvn.cosine.ai.util;
- 
+
 namespace tvn_cosine.ai.demo.learning.chapter18
 {
     public class EnsembleLearningDemo
@@ -22,8 +24,8 @@ namespace tvn_cosine.ai.demo.learning.chapter18
             try
             {
                 DataSet ds = DataSetFactory.getRestaurantDataSet();
-                IQueue<DecisionTree> stumps = DecisionTree.getStumpsFor(ds, "Yes", "No");
-                IQueue<ILearner> learners = Factory.CreateQueue<ILearner>();
+                ICollection<DecisionTree> stumps = DecisionTree.getStumpsFor(ds, "Yes", "No");
+                ICollection<ILearner> learners = CollectionFactory.CreateQueue<ILearner>();
 
                 System.Console.WriteLine("\nStump Learners vote to decide in this algorithm");
                 foreach (object stump in stumps)

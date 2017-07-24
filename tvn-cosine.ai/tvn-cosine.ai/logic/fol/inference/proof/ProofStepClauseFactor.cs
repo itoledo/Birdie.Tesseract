@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
@@ -6,13 +7,13 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofStepClauseFactor : AbstractProofStep
     { 
-        private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
+        private ICollection<ProofStep> predecessors = CollectionFactory.CreateQueue<ProofStep>();
         private Clause factor = null;
         private Clause factorOf = null;
         private Literal lx = null;
         private Literal ly = null;
-        private IMap<Variable, Term> subst = Factory.CreateInsertionOrderedMap<Variable, Term>();
-        private IMap<Variable, Term> renameSubst = Factory.CreateInsertionOrderedMap<Variable, Term>();
+        private IMap<Variable, Term> subst = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
+        private IMap<Variable, Term> renameSubst = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
 
         public ProofStepClauseFactor(Clause factor, Clause factorOf, Literal lx,
                 Literal ly, IMap<Variable, Term> subst,
@@ -27,9 +28,9 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             this.predecessors.Add(factorOf.getProofStep());
         }
          
-        public override IQueue<ProofStep> getPredecessorSteps()
+        public override ICollection<ProofStep> getPredecessorSteps()
         {
-            return Factory.CreateReadOnlyQueue<ProofStep>(predecessors);
+            return CollectionFactory.CreateReadOnlyQueue<ProofStep>(predecessors);
         }
 
         public override string getProof()

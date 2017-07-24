@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.environment.wumpusworld.action;
 using tvn.cosine.ai.logic.propositional.inference;
@@ -81,8 +82,8 @@ namespace tvn.cosine.ai.environment.wumpusworld
             {
                 for (int x = 1; x <= caveXDimension; x++)
                 {
-                    IQueue<Sentence> pitsIn = Factory.CreateQueue<Sentence>();
-                    IQueue<Sentence> wumpsIn = Factory.CreateQueue<Sentence>();
+                    ICollection<Sentence> pitsIn = CollectionFactory.CreateQueue<Sentence>();
+                    ICollection<Sentence> wumpsIn = CollectionFactory.CreateQueue<Sentence>();
 
                     if (x > 1)
                     { // West room exists
@@ -112,7 +113,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
 
             // The agent also knows there is exactly one wumpus. This is represented
             // in two parts. First, we have to say that there is at least one wumpus
-            IQueue<Sentence> wumpsAtLeast = Factory.CreateQueue<Sentence>();
+            ICollection<Sentence> wumpsAtLeast = CollectionFactory.CreateQueue<Sentence>();
             for (int x = 1; x <= caveXDimension; x++)
             {
                 for (int y = 1; y <= caveYDimension; y++)
@@ -183,7 +184,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
         // safe <- {[x, y] : ASK(KB, OK<sup>t</sup><sub>x,y</sub>) = true}
         public ISet<Room> askSafeRooms(int t)
         {
-            ISet<Room> safe = Factory.CreateSet<Room>();
+            ISet<Room> safe = CollectionFactory.CreateSet<Room>();
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
                 for (int y = 1; y <= getCaveYDimension(); y++)
@@ -205,7 +206,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
         // unvisited <- {[x, y] : ASK(KB, L<sup>t'</sup><sub>x,y</sub>) = false for all t' &le; t}
         public ISet<Room> askUnvisitedRooms(int t)
         {
-            ISet<Room> unvisited = Factory.CreateSet<Room>();
+            ISet<Room> unvisited = CollectionFactory.CreateSet<Room>();
 
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
@@ -236,7 +237,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
         // possible_wumpus <- {[x, y] : ASK(KB, ~W<sub>x,y</sub>) = false}
         public ISet<Room> askPossibleWumpusRooms(int t)
         {
-            ISet<Room> possible = Factory.CreateSet<Room>();
+            ISet<Room> possible = CollectionFactory.CreateSet<Room>();
 
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
@@ -255,7 +256,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
         // not_unsafe <- {[x, y] : ASK(KB, ~OK<sup>t</sup><sub>x,y</sub>) = false}
         public ISet<Room> askNotUnsafeRooms(int t)
         {
-            ISet<Room> notUnsafe = Factory.CreateSet<Room>();
+            ISet<Room> notUnsafe = CollectionFactory.CreateSet<Room>();
 
             for (int x = 1; x <= getCaveXDimension(); x++)
             {
@@ -463,7 +464,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 {
 
                     // Location
-                    IQueue<Sentence> locDisjuncts = Factory.CreateQueue<Sentence>();
+                    ICollection<Sentence> locDisjuncts = CollectionFactory.CreateQueue<Sentence>();
                     locDisjuncts.Add(new ComplexSentence(
                                             newSymbol(LOCATION, t, x, y),
                                             Connective.AND,
@@ -616,7 +617,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
 
         public override string ToString()
         {
-            IQueue<Sentence> sentences = getSentences();
+            ICollection<Sentence> sentences = getSentences();
             if (sentences.Size() == 0)
             {
                 return "";

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.collections; 
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.csp;
 using tvn.cosine.ai.search.csp.examples;
 
@@ -17,12 +18,12 @@ namespace tvn_cosine.ai.test.unit.search.csp
         private Domain<string> colors;
         private Domain<string> animals;
 
-        private IQueue<Variable> variables;
+        private ICollection<Variable> variables;
 
         [TestInitialize]
         public void setUp()
         {
-            variables = Factory.CreateQueue<Variable>();
+            variables = CollectionFactory.CreateQueue<Variable>();
             variables.Add(X);
             variables.Add(Y);
             variables.Add(Z);

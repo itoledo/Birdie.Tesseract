@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.probability.domain
 {
@@ -9,13 +10,13 @@ namespace tvn.cosine.ai.probability.domain
         public FiniteIntegerDomain(params int[] pValues)
         {
             // Keep consistent order
-            possibleValues = Factory.CreateSet<int>();
+            possibleValues = CollectionFactory.CreateSet<int>();
             foreach (int v in pValues)
             {
                 possibleValues.Add(v);
             }
             // Ensure cannot be modified
-            possibleValues = Factory.CreateReadOnlySet<int>(possibleValues);
+            possibleValues = CollectionFactory.CreateReadOnlySet<int>(possibleValues);
 
             indexPossibleValues(possibleValues);
         }
@@ -42,7 +43,7 @@ namespace tvn.cosine.ai.probability.domain
 
         public override ISet<object> getPossibleValues()
         {
-            ISet<object> obj = Factory.CreateSet<object>();
+            ISet<object> obj = CollectionFactory.CreateSet<object>();
             foreach (int i in possibleValues)
             {
                 obj.Add(i);

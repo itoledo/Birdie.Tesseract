@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.hmm.exact;
@@ -31,14 +32,14 @@ namespace tvn_cosine.ai.test.unit.probability.hmm.exact
             FixedLagSmoothing uw = new FixedLagSmoothing(HMMExampleFactory.getUmbrellaWorldModel(), 1);
 
             // Day 1 - Lag 1
-            IQueue<AssignmentProposition> e1 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e1 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e1.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
 
             CategoricalDistribution smoothed = uw.fixedLagSmoothing(e1);
             Assert.IsNull(smoothed);
 
             // Day 2 - Lag 1
-            IQueue<AssignmentProposition> e2 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e2 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e2.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
 
             smoothed = uw.fixedLagSmoothing(e2);
@@ -48,7 +49,7 @@ namespace tvn_cosine.ai.test.unit.probability.hmm.exact
             assertArrayEquals(new double[] { 0.883, 0.117 }, smoothed.getValues(), DELTA_THRESHOLD);
 
             // Day 3 - Lag 1
-            IQueue<AssignmentProposition> e3 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e3 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e3.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, false));
 
             smoothed = uw.fixedLagSmoothing(e3);
@@ -64,21 +65,21 @@ namespace tvn_cosine.ai.test.unit.probability.hmm.exact
             FixedLagSmoothing uw = new FixedLagSmoothing(HMMExampleFactory.getUmbrellaWorldModel(), 2);
 
             // Day 1 - Lag 2
-            IQueue<AssignmentProposition> e1 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e1 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e1.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
 
             CategoricalDistribution smoothed = uw.fixedLagSmoothing(e1);
             Assert.IsNull(smoothed);
 
             // Day 2 - Lag 2
-            IQueue<AssignmentProposition> e2 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e2 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e2.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
 
             smoothed = uw.fixedLagSmoothing(e2);
             Assert.IsNull(smoothed);
 
             // Day 3 - Lag 2
-            IQueue<AssignmentProposition> e3 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e3 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e3.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, false));
 
             smoothed = uw.fixedLagSmoothing(e3);

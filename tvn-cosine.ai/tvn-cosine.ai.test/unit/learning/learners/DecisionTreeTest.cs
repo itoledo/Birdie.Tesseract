@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.inductive;
 using tvn.cosine.ai.learning.learners;
@@ -38,7 +39,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
         public void testStumpCreationForSpecifiedAttributeValuePair() 
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
-            IQueue<string> unmatchedValues = Factory.CreateQueue<string>();
+            ICollection<string> unmatchedValues = CollectionFactory.CreateQueue<string>();
             unmatchedValues.Add(NO);
             DecisionTree dt = DecisionTree.getStumpFor(ds, "alternate", YES, YES,
                     unmatchedValues, NO);
@@ -49,7 +50,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
         public void testStumpCreationForDataSet()
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
-            IQueue<DecisionTree> dt = DecisionTree.getStumpsFor(ds, YES,
+            ICollection<DecisionTree> dt = DecisionTree.getStumpsFor(ds, YES,
                            "Unable to classify");
             Assert.AreEqual(26, dt.Size());
         }
@@ -59,7 +60,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
 
-            IQueue<string> unmatchedValues = Factory.CreateQueue<string>();
+            ICollection<string> unmatchedValues = CollectionFactory.CreateQueue<string>();
             unmatchedValues.Add(NO);
             DecisionTree tree = DecisionTree.getStumpFor(ds, "hungry", YES, YES,
                     unmatchedValues, "Unable to Classify");

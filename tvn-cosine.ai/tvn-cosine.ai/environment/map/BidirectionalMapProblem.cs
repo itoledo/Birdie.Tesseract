@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.environment.map

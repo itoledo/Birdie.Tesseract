@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.nlp.ranking
 {
@@ -33,7 +34,7 @@ namespace tvn.cosine.ai.nlp.ranking
         public static IMap<string, Page> loadPages(string folderPath)
         {
 
-            IMap<string, Page> pageTable = Factory.CreateInsertionOrderedMap<string, Page>();
+            IMap<string, Page> pageTable = CollectionFactory.CreateInsertionOrderedMap<string, Page>();
             Page currPage;
             string[] listOfFiles;
             wlf = new WikiLinkFinder();

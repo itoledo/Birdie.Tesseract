@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.search.csp.inference
@@ -51,7 +52,7 @@ namespace tvn.cosine.ai.search.csp.inference
          */
         public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp)
         {
-            IQueue<VAR> queue = Factory.CreateFifoQueueNoDuplicates<VAR>();
+            ICollection<VAR> queue = CollectionFactory.CreateFifoQueueNoDuplicates<VAR>();
             queue.AddAll(csp.getVariables());
             DomainLog<VAR, VAL> log = new DomainLog<VAR, VAL>();
             reduceDomains(queue, csp, log);
@@ -78,7 +79,7 @@ namespace tvn.cosine.ai.search.csp.inference
             DomainLog<VAR, VAL> log = new DomainLog<VAR, VAL>();
             if (domain.size() > 1)
             {
-                IQueue<VAR> queue = Factory.CreateFifoQueue<VAR>();
+                ICollection<VAR> queue = CollectionFactory.CreateFifoQueue<VAR>();
                 queue.Add(var);
                 log.storeDomainFor(var, domain);
                 csp.setDomain(var, new Domain<VAL>(value));
@@ -91,7 +92,7 @@ namespace tvn.cosine.ai.search.csp.inference
          * For efficiency reasons the queue manages updated variables vj whereas the original AC3
          * manages neighbor arcs (vi, vj). Constraints which are not binary are ignored.
          */
-        private void reduceDomains(IQueue<VAR> queue, CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
+        private void reduceDomains(ICollection<VAR> queue, CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
         {
             while (!queue.IsEmpty())
             {
@@ -119,7 +120,7 @@ namespace tvn.cosine.ai.search.csp.inference
         private bool revise(VAR xi, VAR xj, Constraint<VAR, VAL> constraint, CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
         {
             Domain<VAL> currDomain = csp.getDomain(xi);
-            IQueue<VAL> newValues = Factory.CreateQueue<VAL>();
+            ICollection<VAL> newValues = CollectionFactory.CreateQueue<VAL>();
             Assignment<VAR, VAL> assignment = new Assignment<VAR, VAL>();
             foreach (VAL vi in currDomain)
             {

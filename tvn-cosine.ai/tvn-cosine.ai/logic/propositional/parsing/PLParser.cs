@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
 
@@ -77,7 +78,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing
          
         private ParseNode parseSentence(int level)
         {
-            IQueue<ParseNode> levelParseNodes = parseLevel(level);
+            ICollection<ParseNode> levelParseNodes = parseLevel(level);
 
             ParseNode result = null;
 
@@ -110,10 +111,10 @@ namespace tvn.cosine.ai.logic.propositional.parsing
             return result;
         }
 
-        private IQueue<ParseNode> groupSimplerSentencesByConnective(
-                Connective connectiveToConstruct, IQueue<ParseNode> parseNodes)
+        private ICollection<ParseNode> groupSimplerSentencesByConnective(
+                Connective connectiveToConstruct, ICollection<ParseNode> parseNodes)
         {
-            IQueue<ParseNode> newParseNodes = Factory.CreateQueue<ParseNode>();
+            ICollection<ParseNode> newParseNodes = CollectionFactory.CreateQueue<ParseNode>();
             int numSentencesMade = 0;
             // Go right to left in order to make right associative,
             // which is a natural default for propositional logic
@@ -211,9 +212,9 @@ namespace tvn.cosine.ai.logic.propositional.parsing
             return newParseNodes;
         }
 
-        private IQueue<ParseNode> parseLevel(int level)
+        private ICollection<ParseNode> parseLevel(int level)
         {
-            IQueue<ParseNode> tokens = Factory.CreateQueue<ParseNode>();
+            ICollection<ParseNode> tokens = CollectionFactory.CreateQueue<ParseNode>();
             while (lookAhead(1).getType() != LogicTokenTypes.EOI
                     && lookAhead(1).getType() != LogicTokenTypes.RPAREN
                     && lookAhead(1).getType() != LogicTokenTypes.RSQRBRACKET)
@@ -332,7 +333,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing
             return bracketedSentence;
         }
 
-        private Token[] getTokens(IQueue<ParseNode> parseNodes)
+        private Token[] getTokens(ICollection<ParseNode> parseNodes)
         {
             Token[] result = new Token[parseNodes.Size()];
 

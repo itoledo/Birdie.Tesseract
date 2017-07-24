@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.inference;
@@ -26,7 +27,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
 
             FOLParser parser = new FOLParser(domain);
 
-            IQueue<TermEquality> rewrites = Factory.CreateQueue<TermEquality>();
+            ICollection<TermEquality> rewrites = CollectionFactory.CreateQueue<TermEquality>();
             rewrites.Add((TermEquality)parser.parse("Plus(x, ZERO) = x"));
             rewrites.Add((TermEquality)parser.parse("Plus(ZERO, x) = x"));
             rewrites.Add((TermEquality)parser.parse("Power(x, ONE) = x"));

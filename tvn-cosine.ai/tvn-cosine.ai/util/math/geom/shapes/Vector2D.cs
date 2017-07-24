@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api; 
 
 namespace tvn.cosine.ai.util.math.geom.shapes
 {
@@ -17,6 +17,7 @@ namespace tvn.cosine.ai.util.math.geom.shapes
         {
             return base.GetHashCode();
         }
+
         /**
          * This is a vector that is parallel to the X axis.
          */

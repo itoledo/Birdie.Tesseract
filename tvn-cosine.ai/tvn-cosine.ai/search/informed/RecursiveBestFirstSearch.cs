@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.util;
@@ -54,7 +55,7 @@ namespace tvn.cosine.ai.search.informed
         private readonly NodeExpander<S, A> nodeExpander;
 
         // stores the states on the current path if avoidLoops is true.
-        private ISet<S> explored = Factory.CreateSet<S>();
+        private ISet<S> explored = CollectionFactory.CreateSet<S>();
         private Metrics metrics;
 
         public RecursiveBestFirstSearch(ToDoubleFunction<Node<S, A>> evalFn)
@@ -89,7 +90,7 @@ namespace tvn.cosine.ai.search.informed
         }
 
         // function RECURSIVE-BEST-FIRST-SEARCH(problem) returns a solution, or failure 
-        public IQueue<A> findActions(Problem<S, A> p)
+        public ICollection<A> findActions(Problem<S, A> p)
         {
             explored.Clear();
             clearMetrics();
@@ -150,7 +151,7 @@ namespace tvn.cosine.ai.search.informed
             // successors <- []
             // for each action in problem.ACTION(node.STATE) do
             // add CHILD-NODE(problem, node, action) into successors
-            IQueue<Node<S, A>> successors = expandNode(node, p);
+            ICollection<Node<S, A>> successors = expandNode(node, p);
 
             // if successors is empty then return failure, infinity
             if (successors.IsEmpty())
@@ -227,9 +228,9 @@ namespace tvn.cosine.ai.search.informed
             return lidx;
         }
 
-        private IQueue<Node<S, A>> expandNode(Node<S, A> node, Problem<S, A> problem)
+        private ICollection<Node<S, A>> expandNode(Node<S, A> node, Problem<S, A> problem)
         {
-            IQueue<Node<S, A>> result = nodeExpander.expand(node, problem);
+            ICollection<Node<S, A>> result = nodeExpander.expand(node, problem);
             if (avoidLoops)
             {
                 explored.Add(node.getState());

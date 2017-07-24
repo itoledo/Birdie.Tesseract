@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.probability.mdp;
 using tvn.cosine.ai.util;
@@ -66,7 +67,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
     {
         // persistent: Q, a table of action values indexed by state and action,
         // initially zero
-        IMap<Pair<S, A>, double> Q = Factory.CreateInsertionOrderedMap<Pair<S, A>, double>();
+        IMap<Pair<S, A>, double> Q = CollectionFactory.CreateInsertionOrderedMap<Pair<S, A>, double>();
         // N<sub>sa</sub>, a table of frequencies for state-action pairs, initially
         // zero
         private FrequencyCounter<Pair<S, A>> Nsa = new FrequencyCounter<Pair<S, A>>();
@@ -186,7 +187,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             // Q-values are directly related to utility values as follows
             // (AIMA3e pg. 843 - 21.6) :
             // U(s) = max<sub>a</sub>Q(s,a).
-            IMap<S, double> U = Factory.CreateInsertionOrderedMap<S, double>();
+            IMap<S, double> U = CollectionFactory.CreateInsertionOrderedMap<S, double>();
             foreach (Pair<S, A> sa in Q.GetKeys())
             {
                 double q = Q.Get(sa);

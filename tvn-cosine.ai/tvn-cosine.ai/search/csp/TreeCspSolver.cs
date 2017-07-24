@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.util;
 
@@ -54,8 +55,8 @@ namespace tvn.cosine.ai.search.csp
             // Select a root from the List of Variables
             VAR root = _useRandom ? Util.selectRandomlyFromList(csp.getVariables()) : csp.getVariables().Get(0);
             // Sort the variables in topological order
-            IQueue<VAR> orderedVars = Factory.CreateQueue<VAR>();
-            IMap<VAR, Constraint<VAR, VAL>> parentConstraints = Factory.CreateInsertionOrderedMap<VAR, Constraint<VAR, VAL>>();
+            ICollection<VAR> orderedVars = CollectionFactory.CreateQueue<VAR>();
+            IMap<VAR, Constraint<VAR, VAL>> parentConstraints = CollectionFactory.CreateInsertionOrderedMap<VAR, Constraint<VAR, VAL>>();
             topologicalSort(csp, root, orderedVars, parentConstraints);
             if (csp.getDomain(root).isEmpty())
                 return null; // CSP has no solution! (needed if orderedVars.size() == 1)
@@ -103,7 +104,7 @@ namespace tvn.cosine.ai.search.csp
          * @param parentConstraints The tree structure, maps a variable to the constraint representing the arc to the parent
          *                          variable (initially empty)
          */
-        private void topologicalSort(CSP<VAR, VAL> csp, VAR root, IQueue<VAR> orderedVars,
+        private void topologicalSort(CSP<VAR, VAL> csp, VAR root, ICollection<VAR> orderedVars,
                                      IMap<VAR, Constraint<VAR, VAL>> parentConstraints)
         {
             orderedVars.Add(root);
@@ -143,7 +144,7 @@ namespace tvn.cosine.ai.search.csp
         private bool makeArcConsistent(VAR xi, VAR xj, Constraint<VAR, VAL> constraint, CSP<VAR, VAL> csp)
         {
             Domain<VAL> currDomain = csp.getDomain(xi);
-            IQueue<VAL> newValues = Factory.CreateQueue<VAL>();
+            ICollection<VAL> newValues = CollectionFactory.CreateQueue<VAL>();
             Assignment<VAR, VAL> assignment = new Assignment<VAR, VAL>();
             foreach (VAL vi in currDomain)
             {

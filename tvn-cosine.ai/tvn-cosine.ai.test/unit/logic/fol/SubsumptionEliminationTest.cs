@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.kb.data;
@@ -43,7 +44,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             // Contains 9 duplicates
             Assert.AreEqual(40, cnf.getNumberOfClauses());
 
-            ISet<Clause> clauses = Factory.CreateSet<Clause>(cnf.getConjunctionOfClauses());
+            ISet<Clause> clauses = CollectionFactory.CreateSet<Clause>(cnf.getConjunctionOfClauses());
 
             // duplicates removed
             Assert.AreEqual(31, clauses.Size());

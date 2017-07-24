@@ -2,6 +2,7 @@
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.agentprogram;
 using tvn.cosine.ai.agent.agentprogram.simplerule;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.environment.vacuum
@@ -57,7 +58,7 @@ namespace tvn.cosine.ai.environment.vacuum
         {
             // Note: Using a LinkedHashSet so that the iteration order (i.e. implied
             // precedence) of rules can be guaranteed.
-            ISet<Rule> rules = Factory.CreateSet<Rule>();
+            ISet<Rule> rules = CollectionFactory.CreateSet<Rule>();
 
             rules.Add(new Rule(new ANDCondition(new EQUALCondition(
                     ATTRIBUTE_STATE_LOCATION_A,

@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.proposition;
 
 namespace tvn.cosine.ai.probability.temporal
@@ -48,7 +48,7 @@ namespace tvn.cosine.ai.probability.temporal
          *            <b>e</b><sub>k+1:t</sub>
          * @return <b>b</b><sub>k+1:t</sub>
          */
-        CategoricalDistribution backward(CategoricalDistribution b_kp2t, IQueue<AssignmentProposition> e_kp1t);
+        CategoricalDistribution backward(CategoricalDistribution b_kp2t, ICollection<AssignmentProposition> e_kp1t);
     }
 
 }

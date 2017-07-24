@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.probability.bayes.impl
@@ -26,7 +27,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
                 throw new IllegalArgumentException("Random Variable for Node must be specified.");
             }
             this.variable = var;
-            this.parents = Factory.CreateSet<Node>();
+            this.parents = CollectionFactory.CreateSet<Node>();
             if (null != parents)
             {
                 foreach (Node p in parents)
@@ -35,8 +36,8 @@ namespace tvn.cosine.ai.probability.bayes.impl
                     this.parents.Add(p);
                 }
             }
-            this.parents = Factory.CreateReadOnlySet<Node>(this.parents);
-            this.children = Factory.CreateReadOnlySet<Node>(Factory.CreateSet<Node>());
+            this.parents = CollectionFactory.CreateReadOnlySet<Node>(this.parents);
+            this.children = CollectionFactory.CreateReadOnlySet<Node>(CollectionFactory.CreateSet<Node>());
         }
 
         //
@@ -68,7 +69,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
 
         public ISet<Node> getMarkovBlanket()
         {
-            ISet<Node> mb = Factory.CreateSet<Node>();
+            ISet<Node> mb = CollectionFactory.CreateSet<Node>();
             // Given its parents,
             mb.AddAll(getParents());
             // children,
@@ -126,11 +127,11 @@ namespace tvn.cosine.ai.probability.bayes.impl
         //
         protected void addChild(Node childNode)
         {
-            children = Factory.CreateSet<Node>(children);
+            children = CollectionFactory.CreateSet<Node>(children);
 
             children.Add(childNode);
 
-            children = Factory.CreateReadOnlySet<Node>(children);
+            children = CollectionFactory.CreateReadOnlySet<Node>(children);
         }
     }
 

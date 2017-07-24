@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.parsing
@@ -20,7 +21,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
 
         public virtual object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
-            IQueue<Variable> variables = Factory.CreateQueue<Variable>();
+            ICollection<Variable> variables = CollectionFactory.CreateQueue<Variable>();
             foreach (Variable var in sentence.getVariables())
             {
                 variables.Add((Variable)var.accept(this, arg));
@@ -31,8 +32,8 @@ namespace tvn.cosine.ai.logic.fol.parsing
 
         public virtual object visitPredicate(Predicate predicate, object arg)
         {
-            IQueue<Term> terms = predicate.getTerms();
-            IQueue<Term> newTerms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = predicate.getTerms();
+            ICollection<Term> newTerms = CollectionFactory.CreateQueue<Term>();
             for (int i = 0; i < terms.Size();++i)
             {
                 Term t = terms.Get(i);
@@ -57,8 +58,8 @@ namespace tvn.cosine.ai.logic.fol.parsing
 
         public virtual object visitFunction(Function function, object arg)
         {
-            IQueue<Term> terms = function.getTerms();
-            IQueue<Term> newTerms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = function.getTerms();
+            ICollection<Term> newTerms = CollectionFactory.CreateQueue<Term>();
             for (int i = 0; i < terms.Size();++i)
             {
                 Term t = terms.Get(i);

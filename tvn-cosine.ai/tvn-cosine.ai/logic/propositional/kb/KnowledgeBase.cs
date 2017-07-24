@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.propositional.inference;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing;
@@ -9,9 +10,9 @@ namespace tvn.cosine.ai.logic.propositional.kb
 {
     public class KnowledgeBase
     {
-        private IQueue<Sentence> sentences = Factory.CreateQueue<Sentence>();
-        private ConjunctionOfClauses _asCNF = new ConjunctionOfClauses(Factory.CreateSet<Clause>());
-        private ISet<PropositionSymbol> symbols = Factory.CreateSet<PropositionSymbol>();
+        private ICollection<Sentence> sentences = CollectionFactory.CreateQueue<Sentence>();
+        private ConjunctionOfClauses _asCNF = new ConjunctionOfClauses(CollectionFactory.CreateSet<Clause>());
+        private ISet<PropositionSymbol> symbols = CollectionFactory.CreateSet<PropositionSymbol>();
         private PLParser parser = new PLParser();
 
 
@@ -129,7 +130,7 @@ namespace tvn.cosine.ai.logic.propositional.kb
          * 
          * @return the list of sentences in the knowledge base.
          */
-        public IQueue<Sentence> getSentences()
+        public ICollection<Sentence> getSentences()
         {
             return sentences;
         }

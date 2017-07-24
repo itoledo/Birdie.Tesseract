@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.environment.wumpusworld
 {
@@ -9,7 +10,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
     {
         public class Orientation
         {
-            private static IQueue<Orientation> _values = Factory.CreateQueue<Orientation>();
+            private static ICollection<Orientation> _values = CollectionFactory.CreateQueue<Orientation>();
 
             public static Orientation FACING_NORTH = new Orientation("FacingNorth");
             public static Orientation FACING_SOUTH = new Orientation("FacingSouth");
@@ -21,7 +22,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 return name;
             }
 
-            public static IQueue<Orientation> values()
+            public static ICollection<Orientation> values()
             {
                 return _values;
             }

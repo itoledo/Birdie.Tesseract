@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.search.csp.inference
@@ -18,14 +19,14 @@ namespace tvn.cosine.ai.search.csp.inference
     where VAR : Variable
     {
 
-        private IQueue<Pair<VAR, Domain<VAL>>> savedDomains;
+        private ICollection<Pair<VAR, Domain<VAL>>> savedDomains;
         private ISet<VAR> affectedVariables;
         private bool emptyDomainObserved;
 
         public DomainLog()
         {
-            savedDomains = Factory.CreateQueue<Pair<VAR, Domain<VAL>>>();
-            affectedVariables = Factory.CreateSet<VAR>();
+            savedDomains = CollectionFactory.CreateQueue<Pair<VAR, Domain<VAL>>>();
+            affectedVariables = CollectionFactory.CreateSet<VAR>();
         }
 
         public void clear()
@@ -83,7 +84,7 @@ namespace tvn.cosine.ai.search.csp.inference
             return emptyDomainObserved;
         }
 
-        private IQueue<Pair<VAR, Domain<VAL>>> getSavedDomains()
+        private ICollection<Pair<VAR, Domain<VAL>>> getSavedDomains()
         {
             return savedDomains;
         }

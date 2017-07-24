@@ -1,6 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.agent;
 using tvn.cosine.ai.search.framework.problem;
@@ -98,7 +98,7 @@ namespace tvn.cosine.ai.environment.map
                     (string)goal);
         }
 
-        protected override IQueue<MoveToAction> search(Problem<string, MoveToAction> problem)
+        protected override ICollection<MoveToAction> search(Problem<string, MoveToAction> problem)
         {
             return _search.findActions(problem);
         }

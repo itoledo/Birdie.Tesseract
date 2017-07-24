@@ -2,6 +2,7 @@
 using tvn.cosine.ai.agent.agentprogram;
 using tvn.cosine.ai.agent.agentprogram.simplerule;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
@@ -18,7 +19,7 @@ namespace tvn.cosine.ai.environment.vacuum
         {
             // Note: Using a LinkedHashSet so that the iteration order (i.e. implied
             // precedence) of rules can be guaranteed.
-            ISet<Rule> rules = Factory.CreateSet<Rule>();
+            ISet<Rule> rules = CollectionFactory.CreateSet<Rule>();
 
             // Rules based on REFLEX-VACUUM-AGENT:
             // Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.8,

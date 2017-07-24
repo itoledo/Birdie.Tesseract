@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
@@ -151,9 +152,9 @@ namespace tvn_cosine.ai.test.unit.probability.util
 
         class iter : ProbabilityTable.ProbabilityTableIterator
         {
-            private IQueue<double> answer;
+            private ICollection<double> answer;
 
-            public iter(IQueue<double> answer)
+            public iter(ICollection<double> answer)
             {
                 this.answer = answer;
             }
@@ -189,7 +190,7 @@ namespace tvn_cosine.ai.test.unit.probability.util
 				// A = false, B = false, C = false
 				10000000.0 }, aRV, bRV, cRV);
 
-            IQueue<double> answer = Factory.CreateQueue<double>();
+            ICollection<double> answer = CollectionFactory.CreateQueue<double>();
             ProbabilityTable.ProbabilityTableIterator pti = new iter(answer);
 
             answer.Clear();
@@ -225,7 +226,7 @@ namespace tvn_cosine.ai.test.unit.probability.util
         //
         // PRIVATE METHOD
         //
-        private double sumOf(IQueue<double> values)
+        private double sumOf(ICollection<double> values)
         {
             double sum = 0;
             foreach (double d in values)

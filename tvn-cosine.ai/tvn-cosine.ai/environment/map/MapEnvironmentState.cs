@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.environment.map
@@ -11,7 +12,7 @@ namespace tvn.cosine.ai.environment.map
 
         public MapEnvironmentState()
         {
-            agentLocationAndTravelDistance = Factory.CreateInsertionOrderedMap<IAgent, Pair<string, double>>();
+            agentLocationAndTravelDistance = CollectionFactory.CreateInsertionOrderedMap<IAgent, Pair<string, double>>();
         }
 
         public string getAgentLocation(IAgent a)

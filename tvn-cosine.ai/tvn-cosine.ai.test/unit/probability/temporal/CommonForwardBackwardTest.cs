@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
@@ -36,14 +37,14 @@ namespace tvn_cosine.ai.test.unit.probability.temporal
 
             // Day 1, the umbrella appears, so U<sub>1</sub> = true.
             // &asymp; <0.818, 0.182>
-            IQueue<AssignmentProposition> e1 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e1 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e1.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
             CategoricalDistribution f1 = uw.forward(prior, e1);
             assertArrayEquals(new double[] { 0.818, 0.182 }, f1.getValues(), DELTA_THRESHOLD);
 
             // Day 2, the umbrella appears, so U<sub>2</sub> = true.
             // &asymp; <0.883, 0.117>
-            IQueue<AssignmentProposition> e2 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e2 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e2.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
             CategoricalDistribution f2 = uw.forward(f1, e2);
             assertArrayEquals(new double[] { 0.883, 0.117 }, f2.getValues(),
@@ -54,7 +55,7 @@ namespace tvn_cosine.ai.test.unit.probability.temporal
         {
             // AIMA3e pg. 575
             CategoricalDistribution b_kp2t = new ProbabilityTable(new double[] { 1.0, 1.0 }, ExampleRV.RAIN_t_RV);
-            IQueue<AssignmentProposition> e2 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e2 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e2.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
             CategoricalDistribution b1 = uw.backward(b_kp2t, e2);
             assertArrayEquals(new double[] { 0.69, 0.41 }, b1.getValues(), DELTA_THRESHOLD);
@@ -68,18 +69,18 @@ namespace tvn_cosine.ai.test.unit.probability.temporal
             CategoricalDistribution prior = new ProbabilityTable(new double[] { 0.5, 0.5 }, ExampleRV.RAIN_t_RV);
 
             // Day 1
-            IQueue<IQueue<AssignmentProposition>> evidence = Factory.CreateQueue<IQueue<AssignmentProposition>>();
-            IQueue<AssignmentProposition> e1 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<ICollection<AssignmentProposition>> evidence = CollectionFactory.CreateQueue<ICollection<AssignmentProposition>>();
+            ICollection<AssignmentProposition> e1 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e1.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
             evidence.Add(e1);
 
-            IQueue<CategoricalDistribution> smoothed = uw.forwardBackward(evidence, prior);
+            ICollection<CategoricalDistribution> smoothed = uw.forwardBackward(evidence, prior);
 
             Assert.AreEqual(1, smoothed.Size());
             assertArrayEquals(new double[] { 0.818, 0.182 }, smoothed.Get(0).getValues(), DELTA_THRESHOLD);
 
             // Day 2
-            IQueue<AssignmentProposition> e2 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e2 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e2.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
             evidence.Add(e2);
 
@@ -90,7 +91,7 @@ namespace tvn_cosine.ai.test.unit.probability.temporal
             assertArrayEquals(new double[] { 0.883, 0.117 }, smoothed.Get(1).getValues(), DELTA_THRESHOLD);
 
             // Day 3
-            IQueue<AssignmentProposition> e3 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e3 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e3.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, false));
             evidence.Add(e3);
 

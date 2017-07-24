@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.bayes.exact;
 using tvn.cosine.ai.probability.bayes.model;
 using tvn.cosine.ai.probability.domain;
@@ -176,7 +178,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
         private void sampleFromTransitionModel(int i)
         {
             // x <- an event initialized with S[i]
-            IMap<RandomVariable, object> x = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IMap<RandomVariable, object> x = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
             for (int n = 0; n < S[i].Length; n++)
             {
                 AssignmentProposition x1 = S[i][n];

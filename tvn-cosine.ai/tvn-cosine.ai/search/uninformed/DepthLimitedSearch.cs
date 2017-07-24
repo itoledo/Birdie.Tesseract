@@ -1,5 +1,5 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common; 
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
 
@@ -63,7 +63,7 @@ namespace tvn.cosine.ai.search.uninformed
          * @return if goal found, the list of actions to the goal, empty otherwise.
          */
 
-        public IQueue<A> findActions(Problem<S, A> p)
+        public ICollection<A> findActions(Problem<S, A> p)
         {
             nodeExpander.useParentLinks(true);
             Node<S, A> node = findNode(p);

@@ -1,10 +1,11 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofStepRenaming : AbstractProofStep
     {
-        private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
+        private ICollection<ProofStep> predecessors = CollectionFactory.CreateQueue<ProofStep>();
         private object proof = "";
 
         public ProofStepRenaming(object proof, ProofStep predecessor)
@@ -13,9 +14,9 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             this.predecessors.Add(predecessor);
         }
          
-        public override IQueue<ProofStep> getPredecessorSteps()
+        public override ICollection<ProofStep> getPredecessorSteps()
         {
-            return Factory.CreateReadOnlyQueue<ProofStep>(predecessors);
+            return CollectionFactory.CreateReadOnlyQueue<ProofStep>(predecessors);
         }
          
         public override string getProof()

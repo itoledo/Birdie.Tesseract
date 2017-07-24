@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.framework.problem
 {
@@ -15,6 +15,6 @@ namespace tvn.cosine.ai.search.framework.problem
      */
     public interface ActionsFunction<S, A>
     {
-        IQueue<A> apply(S state);
+        ICollection<A> apply(S state);
     }
 }

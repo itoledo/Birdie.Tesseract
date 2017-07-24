@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.probability.mdp.impl
@@ -62,8 +63,8 @@ namespace tvn.cosine.ai.probability.mdp.impl
          
         public IMap<S, double> evaluate(IMap<S, A> pi_i, IMap<S, double> U, MarkovDecisionProcess<S, A> mdp)
         {
-            IMap<S, double> U_i = Factory.CreateMap<S, double>(U);
-            IMap<S, double> U_ip1 = Factory.CreateMap<S, double>(U);
+            IMap<S, double> U_i = CollectionFactory.CreateMap<S, double>(U);
+            IMap<S, double> U_ip1 = CollectionFactory.CreateMap<S, double>(U);
             // repeat k times to produce the next utility estimate
             for (int i = 0; i < k;++i)
             {

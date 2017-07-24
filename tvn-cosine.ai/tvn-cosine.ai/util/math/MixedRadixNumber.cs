@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.util.math
@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.util.math
          *            the radices used to represent the value of the mixed radix
          *            number
          */
-        public MixedRadixNumber(long value, IQueue<int> radices)
+        public MixedRadixNumber(long value, ICollection<int> radices)
         {
             this.value = value;
             this.radices = new int[radices.Size()];

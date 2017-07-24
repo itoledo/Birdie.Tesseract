@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.common.collections
+﻿namespace tvn.cosine.ai.common.collections.api
 {
     public interface IEnumerable<T>
     {

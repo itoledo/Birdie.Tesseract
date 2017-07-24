@@ -2,6 +2,7 @@
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.agentprogram;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.collections;
 
 namespace tvn_cosine.ai.test.unit.agent.impl.aprog
@@ -19,7 +20,7 @@ namespace tvn_cosine.ai.test.unit.agent.impl.aprog
         [TestInitialize]
         public void setUp()
         {
-            IMap<IQueue<IPercept>, IAction> perceptSequenceActions = Factory.CreateInsertionOrderedMap<IQueue<IPercept>, IAction>();
+            IMap<ICollection<IPercept>, IAction> perceptSequenceActions = CollectionFactory.CreateInsertionOrderedMap<ICollection<IPercept>, IAction>();
             perceptSequenceActions.Put(createPerceptSequence(
                 new DynamicPercept("key1", "value1")), ACTION_1);
             perceptSequenceActions.Put(createPerceptSequence(
@@ -53,9 +54,9 @@ namespace tvn_cosine.ai.test.unit.agent.impl.aprog
                     agent.Execute(new DynamicPercept("key1", "value3")));
         }
 
-        private static IQueue<IPercept> createPerceptSequence(params IPercept[] percepts)
+        private static ICollection<IPercept> createPerceptSequence(params IPercept[] percepts)
         {
-            IQueue<IPercept> perceptSequence = Factory.CreateQueue<IPercept>();
+            ICollection<IPercept> perceptSequence = CollectionFactory.CreateQueue<IPercept>();
 
             foreach (IPercept p in percepts)
             {

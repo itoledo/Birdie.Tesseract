@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.util;
 
@@ -10,7 +11,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
      */
     public class ManhattanHeuristicFunction : ToDoubleFunction<Node<AgentPosition, IAction>>
     {
-        IQueue<Room> goals = Factory.CreateQueue<Room>();
+        ICollection<Room> goals = CollectionFactory.CreateQueue<Room>();
 
         public ManhattanHeuristicFunction(ISet<Room> goals)
         {

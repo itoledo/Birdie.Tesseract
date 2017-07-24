@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.learning.framework;
 
@@ -15,8 +15,8 @@ namespace tvn.cosine.ai.learning.neural
      */
     public interface Numerizer
     {
-        Pair<IQueue<double>, IQueue<double>> numerize(Example e);
+        Pair<ICollection<double>, ICollection<double>> numerize(Example e);
 
-        string denumerize(IQueue<double> outputValue);
+        string denumerize(ICollection<double> outputValue);
     }
 }

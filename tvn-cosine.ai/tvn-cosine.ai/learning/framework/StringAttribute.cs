@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.learning.framework
+﻿using tvn.cosine.ai.learning.framework.api;
+
+namespace tvn.cosine.ai.learning.framework
 { 
     public class StringAttribute : IAttribute
     {

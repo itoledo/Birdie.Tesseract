@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.inference;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.kb;
@@ -12,7 +13,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         protected void testDefiniteClauseKBKingsQueryCriminalXFalse(InferenceProcedure infp)
         {
             FOLKnowledgeBase kkb = FOLKnowledgeBaseFactory.createKingsKnowledgeBase(infp);
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Variable("x"));
             Predicate query = new Predicate("Criminal", terms);
             InferenceResult answer = kkb.ask(query);
@@ -27,7 +28,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         protected void testDefiniteClauseKBKingsQueryRichardEvilFalse(InferenceProcedure infp)
         {
             FOLKnowledgeBase kkb = FOLKnowledgeBaseFactory.createKingsKnowledgeBase(infp);
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("Richard"));
             Predicate query = new Predicate("Evil", terms);
             InferenceResult answer = kkb.ask(query);
@@ -42,7 +43,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         protected void testDefiniteClauseKBKingsQueryJohnEvilSucceeds(InferenceProcedure infp)
         {
             FOLKnowledgeBase kkb = FOLKnowledgeBaseFactory.createKingsKnowledgeBase(infp);
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("John"));
             Predicate query = new Predicate("Evil", terms);
             InferenceResult answer = kkb.ask(query);
@@ -59,7 +60,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         protected void testDefiniteClauseKBKingsQueryEvilXReturnsJohnSucceeds(InferenceProcedure infp)
         {
             FOLKnowledgeBase kkb = FOLKnowledgeBaseFactory.createKingsKnowledgeBase(infp);
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Variable("x"));
             Predicate query = new Predicate("Evil", terms);
             InferenceResult answer = kkb.ask(query);
@@ -77,7 +78,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         protected void testDefiniteClauseKBKingsQueryKingXReturnsJohnAndRichardSucceeds(InferenceProcedure infp)
         {
             FOLKnowledgeBase kkb = FOLKnowledgeBaseFactory.createKingsKnowledgeBase(infp);
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Variable("x"));
             Predicate query = new Predicate("King", terms);
             InferenceResult answer = kkb.ask(query);
@@ -115,7 +116,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         protected void testDefiniteClauseKBWeaponsQueryCriminalXReturnsWestSucceeds(InferenceProcedure infp)
         {
             FOLKnowledgeBase wkb = FOLKnowledgeBaseFactory.createWeaponsKnowledgeBase(infp);
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Variable("x"));
             Predicate query = new Predicate("Criminal", terms);
 
@@ -134,7 +135,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         protected void testHornClauseKBRingOfThievesQuerySkisXReturnsNancyRedBertDrew(InferenceProcedure infp)
         {
             FOLKnowledgeBase rotkb = FOLKnowledgeBaseFactory.createRingOfThievesKnowledgeBase(infp);
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Variable("x"));
             Predicate query = new Predicate("Skis", terms);
 
@@ -152,7 +153,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Assert.AreEqual(1, answer.getProofs().Get(2).getAnswerBindings().Size());
             Assert.AreEqual(1, answer.getProofs().Get(3).getAnswerBindings().Size());
 
-            IQueue<Constant> expected = Factory.CreateQueue<Constant>();
+            ICollection<Constant> expected = CollectionFactory.CreateQueue<Constant>();
             expected.Add(new Constant("Nancy"));
             expected.Add(new Constant("Red"));
             expected.Add(new Constant("Bert"));
@@ -167,7 +168,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         protected void testFullFOLKBLovesAnimalQueryKillsCuriosityTunaSucceeds(InferenceProcedure infp, bool expectedToTimeOut)
         {
             FOLKnowledgeBase akb = FOLKnowledgeBaseFactory.createLovesAnimalKnowledgeBase(infp);
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("Curiosity"));
             terms.Add(new Constant("Tuna"));
             Predicate query = new Predicate("Kills", terms);
@@ -196,7 +197,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         protected void testFullFOLKBLovesAnimalQueryNotKillsJackTunaSucceeds(InferenceProcedure infp, bool expectedToTimeOut)
         {
             FOLKnowledgeBase akb = FOLKnowledgeBaseFactory.createLovesAnimalKnowledgeBase(infp);
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("Jack"));
             terms.Add(new Constant("Tuna"));
             NotSentence query = new NotSentence(new Predicate("Kills", terms));
@@ -226,7 +227,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         protected void testFullFOLKBLovesAnimalQueryKillsJackTunaFalse(InferenceProcedure infp, bool expectedToTimeOut)
         {
             FOLKnowledgeBase akb = FOLKnowledgeBaseFactory.createLovesAnimalKnowledgeBase(infp);
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("Jack"));
             terms.Add(new Constant("Tuna"));
             Predicate query = new Predicate("Kills", terms);
@@ -273,10 +274,10 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         {
             FOLKnowledgeBase akb = FOLKnowledgeBaseFactory.createABCDEqualityAndSubstitutionKnowledgeBase(infp, true);
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("A"));
             Function fa = new Function("F", terms);
-            terms = Factory.CreateQueue<Term>();
+            terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(fa);
             TermEquality query = new TermEquality(new Function("F", terms), new Constant("A"));
 
@@ -295,7 +296,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         {
             FOLKnowledgeBase akb = FOLKnowledgeBaseFactory.createABCDEqualityAndSubstitutionKnowledgeBase(infp, true);
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("D"));
             Predicate query = new Predicate("P", terms);
 
@@ -314,13 +315,13 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         {
             FOLKnowledgeBase akb = FOLKnowledgeBaseFactory.createABCDEqualityAndSubstitutionKnowledgeBase(infp, true);
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("A"));
             Function fa = new Function("F", terms);
-            terms = Factory.CreateQueue<Term>();
+            terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(fa);
             Function ffa = new Function("F", terms);
-            terms = Factory.CreateQueue<Term>();
+            terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(ffa);
             Predicate query = new Predicate("P", terms);
 
@@ -380,10 +381,10 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         {
             FOLKnowledgeBase akb = FOLKnowledgeBaseFactory.createABCDEqualityAndSubstitutionKnowledgeBase(infp, false);
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("A"));
             Function fa = new Function("F", terms);
-            terms = Factory.CreateQueue<Term>();
+            terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(fa);
             TermEquality query = new TermEquality(new Function("F", terms), new Constant("A"));
 
@@ -414,7 +415,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         {
             FOLKnowledgeBase akb = FOLKnowledgeBaseFactory.createABCDEqualityAndSubstitutionKnowledgeBase(infp, false);
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("D"));
             Predicate query = new Predicate("P", terms);
 
@@ -445,13 +446,13 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         {
             FOLKnowledgeBase akb = FOLKnowledgeBaseFactory.createABCDEqualityAndSubstitutionKnowledgeBase(infp, false);
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("A"));
             Function fa = new Function("F", terms);
-            terms = Factory.CreateQueue<Term>();
+            terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(fa);
             Function ffa = new Function("F", terms);
-            terms = Factory.CreateQueue<Term>();
+            terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(ffa);
             Predicate query = new Predicate("P", terms);
 

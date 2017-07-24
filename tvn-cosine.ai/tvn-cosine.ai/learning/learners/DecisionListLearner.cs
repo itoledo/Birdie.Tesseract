@@ -1,10 +1,11 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.framework.api;
 using tvn.cosine.ai.learning.inductive;
 
 namespace tvn.cosine.ai.learning.learners
-{ 
+{
     public class DecisionListLearner : ILearner
     {
         public const string FAILURE = "Failure";
@@ -19,13 +20,11 @@ namespace tvn.cosine.ai.learning.learners
             this.negative = negative;
             this.testFactory = testFactory;
         }
-         
-        /**
-         * Induces the decision list from the specified set of examples
-         * 
-         * @param ds
-         *            a set of examples for constructing the decision list
-         */
+
+        /// <summary>
+        /// Induces the decision list from the specified set of examples
+        /// </summary>
+        /// <param name="ds">a set of examples for constructing the decision list</param>
         public void train(DataSet ds)
         {
             this.decisionList = decisionListLearning(ds);
@@ -58,23 +57,22 @@ namespace tvn.cosine.ai.learning.learners
             return results;
         }
 
-        /**
-         * Returns the decision list of this decision list learner
-         * 
-         * @return the decision list of this decision list learner
-         */
+        /// <summary>
+        /// Returns the decision list of this decision list learner
+        /// </summary>
+        /// <returns>the decision list of this decision list learner</returns>
         public DecisionList getDecisionList()
         {
             return decisionList;
         }
-         
+
         private DecisionList decisionListLearning(DataSet ds)
         {
             if (ds.size() == 0)
             {
                 return new DecisionList(positive, negative);
             }
-            IQueue<DLTest> possibleTests = testFactory.createDLTestsWithAttributeCount(ds, 1);
+            ICollection<DLTest> possibleTests = testFactory.createDLTestsWithAttributeCount(ds, 1);
             DLTest test = getValidTest(possibleTests, ds);
             if (test == null)
             {
@@ -88,7 +86,7 @@ namespace tvn.cosine.ai.learning.learners
             return list.mergeWith(decisionListLearning(test.unmatchedExamples(ds)));
         }
 
-        private DLTest getValidTest(IQueue<DLTest> possibleTests, DataSet ds)
+        private DLTest getValidTest(ICollection<DLTest> possibleTests, DataSet ds)
         {
             foreach (DLTest test in possibleTests)
             {
@@ -118,5 +116,5 @@ namespace tvn.cosine.ai.learning.learners
             }
             return true;
         }
-    } 
+    }
 }

@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
@@ -9,7 +9,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
          * 
          * @return A list of proof steps that show how an answer was derived.
          */
-        IQueue<ProofStep> getSteps();
+        ICollection<ProofStep> getSteps();
 
         /**
          * 

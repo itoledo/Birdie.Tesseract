@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.logic.fol.domain;
@@ -86,7 +87,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             Token t = lookAhead(1);
             string functionName = t.getText();
-            IQueue<Term> terms = processTerms();
+            ICollection<Term> terms = processTerms();
             return new Function(functionName, terms);
         }
 
@@ -94,14 +95,14 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             Token t = lookAhead(1);
             string predicateName = t.getText();
-            IQueue<Term> terms = processTerms();
+            ICollection<Term> terms = processTerms();
             return new Predicate(predicateName, terms);
         }
 
-        private IQueue<Term> processTerms()
+        private ICollection<Term> processTerms()
         {
             consume();
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             match("(");
             Term term = parseTerm();
             terms.Add(term);
@@ -239,7 +240,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             string quantifier = lookAhead(1).getText();
             consume();
-            IQueue<Variable> variables = Factory.CreateQueue<Variable>();
+            ICollection<Variable> variables = CollectionFactory.CreateQueue<Variable>();
             Variable var = (Variable)parseVariable();
             variables.Add(var);
             while (lookAhead(1).getType() == LogicTokenTypes.COMMA)

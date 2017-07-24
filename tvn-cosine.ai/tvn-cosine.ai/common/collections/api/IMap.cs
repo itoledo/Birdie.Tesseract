@@ -1,14 +1,15 @@
-﻿using tvn.cosine.ai.common.datastructures;
+﻿using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.datastructures;
 
-namespace tvn.cosine.ai.common.collections
+namespace tvn.cosine.ai.common.collections.api
 {
-    public interface IMap<KEY, VALUE> : IQueue<KeyValuePair<KEY, VALUE>>, 
+    public interface IMap<KEY, VALUE> : ICollection<KeyValuePair<KEY, VALUE>>, 
         IEnumerable<KeyValuePair<KEY, VALUE>>, IHashable, 
         IStringable 
     {
         VALUE Get(KEY key);
         ISet<KEY> GetKeys();
-        IQueue<VALUE> GetValues();
+        ICollection<VALUE> GetValues();
        
         void Put(KEY key, VALUE value);
         void PutAll(IMap<KEY, VALUE> map);

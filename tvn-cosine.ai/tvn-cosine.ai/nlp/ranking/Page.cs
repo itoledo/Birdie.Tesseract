@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.nlp.ranking
 {
@@ -8,16 +9,16 @@ namespace tvn.cosine.ai.nlp.ranking
         public double hub;
         private string location;
         private string content;
-        private IQueue<string> linkTo;
-        private IQueue<string> linkedFrom;
+        private ICollection<string> linkTo;
+        private ICollection<string> linkedFrom;
 
         public Page(string location)
         {
             authority = 0;
             hub = 0;
             this.location = location;
-            this.linkTo = Factory.CreateQueue<string>();
-            this.linkedFrom = Factory.CreateQueue<string>();
+            this.linkTo = CollectionFactory.CreateQueue<string>();
+            this.linkedFrom = CollectionFactory.CreateQueue<string>();
         }
 
         public string getLocation()
@@ -36,12 +37,12 @@ namespace tvn.cosine.ai.nlp.ranking
             return true;
         }
 
-        public IQueue<string> getInlinks()
+        public ICollection<string> getInlinks()
         {
             return linkedFrom;
         }
 
-        public IQueue<string> getOutlinks()
+        public ICollection<string> getOutlinks()
         {
             return linkTo;
         }

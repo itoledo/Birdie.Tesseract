@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.util;
 
@@ -11,13 +12,13 @@ namespace tvn.cosine.ai.probability.bayes.impl
      */
     public class DynamicBayesNet : BayesNet, DynamicBayesianNetwork
     {
-        private ISet<RandomVariable> X_0 = Factory.CreateSet<RandomVariable>();
-        private ISet<RandomVariable> X_1 = Factory.CreateSet<RandomVariable>();
-        private ISet<RandomVariable> E_1 = Factory.CreateSet<RandomVariable>();
-        private IMap<RandomVariable, RandomVariable> X_0_to_X_1 = Factory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
-        private IMap<RandomVariable, RandomVariable> X_1_to_X_0 = Factory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
+        private ISet<RandomVariable> X_0 = CollectionFactory.CreateSet<RandomVariable>();
+        private ISet<RandomVariable> X_1 = CollectionFactory.CreateSet<RandomVariable>();
+        private ISet<RandomVariable> E_1 = CollectionFactory.CreateSet<RandomVariable>();
+        private IMap<RandomVariable, RandomVariable> X_0_to_X_1 = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
+        private IMap<RandomVariable, RandomVariable> X_1_to_X_0 = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
         private BayesianNetwork priorNetwork = null;
-        private IQueue<RandomVariable> X_1_VariablesInTopologicalOrder = Factory.CreateQueue<RandomVariable>();
+        private ICollection<RandomVariable> X_1_VariablesInTopologicalOrder = CollectionFactory.CreateQueue<RandomVariable>();
 
         public DynamicBayesNet(BayesianNetwork priorNetwork,
                 IMap<RandomVariable, RandomVariable> X_0_to_X_1,
@@ -36,11 +37,11 @@ namespace tvn.cosine.ai.probability.bayes.impl
             this.E_1.AddAll(E_1);
 
             // Assert the X_0, X_1, and E_1 sets are of expected sizes
-            ISet<RandomVariable> combined = Factory.CreateSet<RandomVariable>();
+            ISet<RandomVariable> combined = CollectionFactory.CreateSet<RandomVariable>();
             combined.AddAll(X_0);
             combined.AddAll(X_1);
             combined.AddAll(E_1);
-            if (SetOps.difference(Factory.CreateSet<RandomVariable>(varToNodeMap.GetKeys()), combined).Size() != 0)
+            if (SetOps.difference(CollectionFactory.CreateSet<RandomVariable>(varToNodeMap.GetKeys()), combined).Size() != 0)
             {
                 throw new IllegalArgumentException("X_0, X_1, and E_1 do not map correctly to the Nodes describing this Dynamic Bayesian Network.");
             }
@@ -69,7 +70,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
         }
 
 
-        public IQueue<RandomVariable> getX_1_VariablesInTopologicalOrder()
+        public ICollection<RandomVariable> getX_1_VariablesInTopologicalOrder()
         {
             return X_1_VariablesInTopologicalOrder;
         }

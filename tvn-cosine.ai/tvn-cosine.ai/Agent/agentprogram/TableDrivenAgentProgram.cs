@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.agent.agentprogram
@@ -28,9 +29,9 @@ namespace tvn.cosine.ai.agent.agentprogram
      */
     public class TableDrivenAgentProgram : IAgentProgram
     {
-        private IQueue<IPercept> percepts = Factory.CreateQueue<IPercept>();
+        private ICollection<IPercept> percepts = CollectionFactory.CreateQueue<IPercept>();
 
-        private Table<IQueue<IPercept>, string, IAction> table;
+        private Table<ICollection<IPercept>, string, IAction> table;
 
         private const string ACTION = "action";
 
@@ -44,17 +45,17 @@ namespace tvn.cosine.ai.agent.agentprogram
          * @param perceptSequenceActions
          *            a table of actions, indexed by percept sequences
          */
-        public TableDrivenAgentProgram(IMap<IQueue<IPercept>, IAction> perceptSequenceActions)
+        public TableDrivenAgentProgram(IMap<ICollection<IPercept>, IAction> perceptSequenceActions)
         { 
-            IQueue<IQueue<IPercept>> rowHeaders 
-                = Factory.CreateQueue<IQueue<IPercept>>(perceptSequenceActions.GetKeys());
+            ICollection<ICollection<IPercept>> rowHeaders 
+                = CollectionFactory.CreateQueue<ICollection<IPercept>>(perceptSequenceActions.GetKeys());
 
-            IQueue<string> colHeaders = Factory.CreateFifoQueue<string>();
+            ICollection<string> colHeaders = CollectionFactory.CreateFifoQueue<string>();
             colHeaders.Add(ACTION);
 
-            table = new Table<IQueue<IPercept>, string, IAction>(rowHeaders, colHeaders);
+            table = new Table<ICollection<IPercept>, string, IAction>(rowHeaders, colHeaders);
 
-            foreach (IQueue<IPercept> row in rowHeaders)
+            foreach (ICollection<IPercept> row in rowHeaders)
             {
                 table.set(row, ACTION, perceptSequenceActions.Get(row));
             }

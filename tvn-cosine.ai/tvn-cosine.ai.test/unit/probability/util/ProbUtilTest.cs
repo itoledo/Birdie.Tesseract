@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability;
 using tvn.cosine.ai.probability.domain;
@@ -31,7 +32,7 @@ namespace tvn_cosine.ai.test.unit.probability.util
             // 10: false, C, true
             // 11: false, C, false
             RandomVariable[] vars = new RandomVariable[] { X, Y, Z };
-            IMap<RandomVariable, object> even = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IMap<RandomVariable, object> even = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
 
 
             even.Put(X, true);
@@ -108,7 +109,7 @@ namespace tvn_cosine.ai.test.unit.probability.util
             // 10: false, C, true
             // 11: false, C, false
             RandomVariable[] vars = new RandomVariable[] { X, Y, Z };
-            IMap<RandomVariable, object> even = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IMap<RandomVariable, object> even = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
 
 
             even.Put(X, true);

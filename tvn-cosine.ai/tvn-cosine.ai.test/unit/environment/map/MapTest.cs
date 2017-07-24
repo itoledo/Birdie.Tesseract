@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.map;
 
 namespace tvn_cosine.ai.test.unit.environment.map
@@ -23,8 +24,8 @@ namespace tvn_cosine.ai.test.unit.environment.map
         [TestMethod]
         public void testLocationsLinkedTo()
         {
-            IQueue<string> locations = Factory.CreateQueue<string>();
-            IQueue<string> linkedTo;
+            ICollection<string> locations = CollectionFactory.CreateQueue<string>();
+            ICollection<string> linkedTo;
 
             linkedTo = aMap.getPossibleNextLocations("A");
             locations.Clear();
@@ -81,7 +82,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
         [TestMethod]
         public void testRandomGeneration()
         {
-            IQueue<string> locations = Factory.CreateQueue<string>();
+            ICollection<string> locations = CollectionFactory.CreateQueue<string>();
             locations.Add("A");
             locations.Add("B");
             locations.Add("C");

@@ -1,15 +1,10 @@
 ﻿using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent
 {
-    /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     */
     public class DynamicPercept : ObjectWithDynamicAttributes, IPercept, IHashable, IEquatable
     {
         public DynamicPercept()
@@ -20,45 +15,34 @@ namespace tvn.cosine.ai.agent
             return "Percept";
         }
 
-        /**
-         * Constructs a DynamicPercept with one attribute
-         * 
-         * @param key1
-         *            the attribute key
-         * @param value1
-         *            the attribute value
-         */
+        /// <summary>
+        /// Constructs a DynamicPercept with one attribute
+        /// </summary>
+        /// <param name="key1">the attribute key</param>
+        /// <param name="value1">the attribute value</param>
         public DynamicPercept(object key1, object value1)
         {
             setAttribute(key1, value1);
         }
 
-        /**
-         * Constructs a DynamicPercept with two attributes
-         * 
-         * @param key1
-         *            the first attribute key
-         * @param value1
-         *            the first attribute value
-         * @param key2
-         *            the second attribute key
-         * @param value2
-         *            the second attribute value
-         */
+        /// <summary>
+        /// Constructs a DynamicPercept with two attributes
+        /// </summary>
+        /// <param name="key1">the first attribute key</param>
+        /// <param name="value1">the first attribute value</param>
+        /// <param name="key2">the second attribute key</param>
+        /// <param name="value2">the second attribute value</param>
         public DynamicPercept(object key1, object value1, object key2, object value2)
         {
             setAttribute(key1, value1);
             setAttribute(key2, value2);
         }
 
-        /**
-         * Constructs a DynamicPercept with an array of attributes
-         * 
-         * @param keys
-         *            the array of attribute keys
-         * @param values
-         *            the array of attribute values
-         */
+        /// <summary>
+        /// Constructs a DynamicPercept with an array of attributes
+        /// </summary>
+        /// <param name="keys">the array of attribute keys</param>
+        /// <param name="values">the array of attribute values</param>
         public DynamicPercept(object[] keys, object[] values)
         {
             if (keys.Length != values.Length)
@@ -66,7 +50,7 @@ namespace tvn.cosine.ai.agent
                 throw new ArgumentOutOfRangeException("keys.Length != values.Length", null);
             }
 
-            for (int i = 0; i < keys.Length;++i)
+            for (int i = 0; i < keys.Length; ++i)
             {
                 setAttribute(keys[i], values[i]);
             }

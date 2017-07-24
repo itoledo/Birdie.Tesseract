@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
@@ -24,7 +25,7 @@ namespace tvn.cosine.ai.logic.propositional.visitors
          */
         public static ISet<Clause> getClausesFrom(params Sentence[] cnfSentences)
         {
-            ISet<Clause> result = Factory.CreateSet<Clause>();
+            ISet<Clause> result = CollectionFactory.CreateSet<Clause>();
 
             ClauseCollector clauseCollector = new ClauseCollector();
             foreach (Sentence cnfSentence in cnfSentences)
@@ -72,7 +73,7 @@ namespace tvn.cosine.ai.logic.propositional.visitors
             }
             else if (s.isOrSentence())
             {
-                IQueue<Literal> literals = Factory.CreateQueue<Literal>(LiteralCollector.getLiterals(s));
+                ICollection<Literal> literals = CollectionFactory.CreateQueue<Literal>(LiteralCollector.getLiterals(s));
                 arg.Add(new Clause(literals));
             }
             else
@@ -87,7 +88,7 @@ namespace tvn.cosine.ai.logic.propositional.visitors
         {
             public static ISet<Literal> getLiterals(Sentence disjunctiveSentence)
             {
-                ISet<Literal> result = Factory.CreateSet<Literal>();
+                ISet<Literal> result = CollectionFactory.CreateSet<Literal>();
 
                 LiteralCollector literalCollector = new LiteralCollector();
                 result = disjunctiveSentence.accept(literalCollector, result);

@@ -1,5 +1,6 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.search.framework.qsearch
@@ -43,8 +44,8 @@ namespace tvn.cosine.ai.search.framework.qsearch
      */
     public class GraphSearchReducedFrontier<S, A> : QueueSearch<S, A>
     {
-        private ISet<S> explored = Factory.CreateSet<S>();
-        private IMap<S, Node<S, A>> frontierNodeLookup = Factory.CreateInsertionOrderedMap<S, Node<S, A>>();
+        private ISet<S> explored = CollectionFactory.CreateSet<S>();
+        private IMap<S, Node<S, A>> frontierNodeLookup = CollectionFactory.CreateInsertionOrderedMap<S, Node<S, A>>();
         private IComparer<Node<S, A>> nodeComparator = null;
 
         public GraphSearchReducedFrontier()
@@ -60,7 +61,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * state map and calls the inherited version of search.
          */
 
-        public override Node<S, A> findNode(Problem<S, A> problem, IQueue<Node<S, A>> frontier)
+        public override Node<S, A> findNode(Problem<S, A> problem, ICollection<Node<S, A>> frontier)
         {
             // initialize the explored set to be empty
             if (frontier is PriorityQueue<Node<S, A>>)

@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb;
 
 namespace tvn.cosine.ai.learning.knowledge
@@ -52,7 +52,7 @@ namespace tvn.cosine.ai.learning.knowledge
         }
 
         // TODO - Implement!!!
-        public Hypothesis currentBestLearning(IQueue<FOLExample> examples)
+        public Hypothesis currentBestLearning(ICollection<FOLExample> examples)
         { 
             // TODO-use the default from pg 769 for now.
             string c1 = "patrons(v,Some)";

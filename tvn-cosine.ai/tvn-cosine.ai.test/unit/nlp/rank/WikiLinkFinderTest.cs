@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.nlp.ranking;
 
 namespace tvn_cosine.ai.test.unit.nlp.rank
@@ -15,15 +16,15 @@ namespace tvn_cosine.ai.test.unit.nlp.rank
         public void setUp()
         {
             testPage = new Page("tester");
-            pageTable = Factory.CreateInsertionOrderedMap<string, Page>();
+            pageTable = CollectionFactory.CreateInsertionOrderedMap<string, Page>();
             wLF = new WikiLinkFinder();
         }
 
         [TestMethod]
         public void testGetOutlinks()
         {
-            IQueue<string> outLinks;
-            IQueue<string> validLinks = Factory.CreateQueue<string>(new[] { "/wiki/thisisthefinallink" });
+            ICollection<string> outLinks;
+            ICollection<string> validLinks = CollectionFactory.CreateQueue<string>(new[] { "/wiki/thisisthefinallink" });
             string content = "Some example text with certain <aa href=\"link1\"></aa> links"
                     + "inside. Here is another href=\"link2\" without the surrounding tags. "
                     + "This isn't a link because there are no quotes -> href=notALink. The following"
@@ -46,15 +47,15 @@ namespace tvn_cosine.ai.test.unit.nlp.rank
             // create some test Pages
             Page test1 = new Page("test1"); Page test2 = new Page("test2");
             Page test3 = new Page("test3"); Page test4 = new Page("test4");
-            test1.getOutlinks().AddAll(Factory.CreateQueue<string>(new[] { "a", "b", "targetPage", "d" }));
-            test2.getOutlinks().AddAll(Factory.CreateQueue<string>(new[] { "targetpage", "b", "c", "d", "e" }));
-            test3.getOutlinks().AddAll(Factory.CreateQueue<string>(new[] { "target", "page", "c", "d" }));
-            test4.getOutlinks().AddAll(Factory.CreateQueue<string>(new[] { "TARGETPAGE", "b" }));
+            test1.getOutlinks().AddAll(CollectionFactory.CreateQueue<string>(new[] { "a", "b", "targetPage", "d" }));
+            test2.getOutlinks().AddAll(CollectionFactory.CreateQueue<string>(new[] { "targetpage", "b", "c", "d", "e" }));
+            test3.getOutlinks().AddAll(CollectionFactory.CreateQueue<string>(new[] { "target", "page", "c", "d" }));
+            test4.getOutlinks().AddAll(CollectionFactory.CreateQueue<string>(new[] { "TARGETPAGE", "b" }));
             pageTable.Put("test1", test1); pageTable.Put("test2", test2);
             pageTable.Put("test3", test3); pageTable.Put("test4", test4);
-            IQueue<string> outLinks = wLF.getInlinks(targetP, pageTable);
+            ICollection<string> outLinks = wLF.getInlinks(targetP, pageTable);
             Assert.IsTrue(outLinks.Contains("test1"));
-            Assert.IsTrue(outLinks.ContainsAll(Factory.CreateQueue<string>(new[] { "test1", "test2", "test4" })));
+            Assert.IsTrue(outLinks.ContainsAll(CollectionFactory.CreateQueue<string>(new[] { "test1", "test2", "test4" })));
             Assert.IsTrue(!outLinks.Contains("test3"));
         }
 

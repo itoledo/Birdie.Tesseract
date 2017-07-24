@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.framework.problem
 {
@@ -32,7 +32,7 @@ namespace tvn.cosine.ai.search.framework.problem
         /**
          * Returns the description of the possible actions available to the agent.
          */
-        IQueue<A> getActions(S state);
+        ICollection<A> getActions(S state);
 
         /**
          * Determines whether a given state is a goal state.

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing;
 using tvn.cosine.ai.logic.fol.parsing.ast;
@@ -14,7 +15,7 @@ namespace tvn.cosine.ai.logic.fol
         // found.
         public ISet<Variable> collectAllVariables(Sentence sentence)
         {
-            ISet<Variable> variables = Factory.CreateSet<Variable>();
+            ISet<Variable> variables = CollectionFactory.CreateSet<Variable>();
 
             sentence.accept(this, variables);
 
@@ -23,7 +24,7 @@ namespace tvn.cosine.ai.logic.fol
 
         public ISet<Variable> collectAllVariables(Term term)
         {
-            ISet<Variable> variables = Factory.CreateSet<Variable>();
+            ISet<Variable> variables = CollectionFactory.CreateSet<Variable>();
 
             term.accept(this, variables);
 
@@ -32,7 +33,7 @@ namespace tvn.cosine.ai.logic.fol
 
         public ISet<Variable> collectAllVariables(Clause clause)
         {
-            ISet<Variable> variables = Factory.CreateSet<Variable>();
+            ISet<Variable> variables = CollectionFactory.CreateSet<Variable>();
 
             foreach (Literal l in clause.getLiterals())
             {
@@ -44,7 +45,7 @@ namespace tvn.cosine.ai.logic.fol
 
         public ISet<Variable> collectAllVariables(Chain chain)
         {
-            ISet<Variable> variables = Factory.CreateSet<Variable>();
+            ISet<Variable> variables = CollectionFactory.CreateSet<Variable>();
 
             foreach (Literal l in chain.getLiterals())
             {
@@ -56,7 +57,7 @@ namespace tvn.cosine.ai.logic.fol
 
         public object visitVariable(Variable var, object arg)
         {
-            ISet<Variable> variables = (Set<Variable>)arg;
+            ISet<Variable> variables = (ISet<Variable>)arg;
             variables.Add(var);
             return var;
         }

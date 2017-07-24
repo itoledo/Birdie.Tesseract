@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing;
@@ -12,7 +13,7 @@ namespace tvn.cosine.ai.logic.fol
 
         public static int standardizeApart(Chain c, int saIdx)
         {
-            IQueue<Variable> variables = Factory.CreateQueue<Variable>();
+            ICollection<Variable> variables = CollectionFactory.CreateQueue<Variable>();
             foreach (Literal l in c.getLiterals())
             {
                 collectAllVariables(l.getAtomicSentence(), variables);
@@ -23,7 +24,7 @@ namespace tvn.cosine.ai.logic.fol
 
         public static int standardizeApart(Clause c, int saIdx)
         {
-            IQueue<Variable> variables = Factory.CreateQueue<Variable>();
+            ICollection<Variable> variables = CollectionFactory.CreateQueue<Variable>();
             foreach (Literal l in c.getLiterals())
             {
                 collectAllVariables(l.getAtomicSentence(), variables);
@@ -32,9 +33,9 @@ namespace tvn.cosine.ai.logic.fol
             return standardizeApart(variables, c, saIdx);
         }
 
-        private static int standardizeApart(IQueue<Variable> variables, object expr, int saIdx)
+        private static int standardizeApart(ICollection<Variable> variables, object expr, int saIdx)
         {
-            IMap<string, int> indexicals = Factory.CreateInsertionOrderedMap<string, int>();
+            IMap<string, int> indexicals = CollectionFactory.CreateInsertionOrderedMap<string, int>();
             foreach (Variable v in variables)
             {
                 if (!indexicals.ContainsKey(v.getIndexedValue()))
@@ -57,7 +58,7 @@ namespace tvn.cosine.ai.logic.fol
             return saIdx;
         }
 
-        private static void collectAllVariables(Sentence s, IQueue<Variable> vars)
+        private static void collectAllVariables(Sentence s, ICollection<Variable> vars)
         {
             s.accept(_collectAllVariables, vars);
         }
@@ -70,7 +71,7 @@ namespace tvn.cosine.ai.logic.fol
 
         public object visitVariable(Variable var, object arg)
         {
-            IQueue<Variable> variables = (IQueue<Variable>)arg;
+            ICollection<Variable> variables = (ICollection<Variable>)arg;
             variables.Add(var);
             return var;
         }
@@ -78,7 +79,7 @@ namespace tvn.cosine.ai.logic.fol
         public object visitQuantifiedSentence(QuantifiedSentence sentence, object arg)
         {
             // Ensure I collect quantified variables too
-            IQueue<Variable> variables = (IQueue<Variable>)arg;
+            ICollection<Variable> variables = (ICollection<Variable>)arg;
             variables.AddAll(sentence.getVariables());
 
             sentence.getQuantified().accept(this, arg);

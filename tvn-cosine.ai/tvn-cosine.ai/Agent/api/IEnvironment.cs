@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.agent.api
 {
@@ -11,7 +11,7 @@ namespace tvn.cosine.ai.agent.api
         /// Returns the Agents belonging to this Environment.
         /// </summary>
         /// <returns>The Agents belonging to this Environment.</returns>
-        IQueue<IAgent> GetAgents();
+        ICollection<IAgent> GetAgents();
 
         /// <summary>
         /// Add an agent to the Environment.
@@ -29,7 +29,7 @@ namespace tvn.cosine.ai.agent.api
         /// Returns the EnvironmentObjects that exist in this Environment.
         /// </summary>
         /// <returns>the EnvironmentObjects that exist in this Environment.</returns>
-        IQueue<IEnvironmentObject> GetEnvironmentObjects();
+        ICollection<IEnvironmentObject> GetEnvironmentObjects();
 
         /// <summary>
         /// Add an EnvironmentObject to the Environment.

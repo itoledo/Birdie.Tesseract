@@ -1,5 +1,6 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.util;
 
@@ -8,16 +9,14 @@ namespace tvn.cosine.ai.logic.fol.inference.otter.defaultimpl
     public class DefaultLightestClauseHeuristic : LightestClauseHeuristic
     {
         private LightestClauseSorter c;
-        private IQueue<Clause> sos;
+        private ICollection<Clause> sos;
 
         public DefaultLightestClauseHeuristic()
         {
             c = new LightestClauseSorter();
-            sos = Factory.CreatePriorityQueue<Clause>(c);
+            sos = CollectionFactory.CreatePriorityQueue<Clause>(c);
         }
 
-        //
-        // START-LightestClauseHeuristic
         public Clause getLightestClause()
         {
             Clause lightest = null;

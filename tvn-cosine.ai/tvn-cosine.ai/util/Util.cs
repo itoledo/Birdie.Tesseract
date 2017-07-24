@@ -1,14 +1,12 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.util
-{
-    /**
-     * @author Ravi Mohan
-     * 
-     */
+{ 
     public class Util
     {
         public const string NO = "No";
@@ -24,7 +22,7 @@ namespace tvn.cosine.ai.util
          *            the list the first element is to be extracted from.
          * @return the first element of the passed in list.
          */
-        public static T first<T>(IQueue<T> l)
+        public static T first<T>(ICollection<T> l)
         {
             if (null == l
              || l.Size() < 1)
@@ -45,16 +43,16 @@ namespace tvn.cosine.ai.util
          * @return a list of all of the elements in the passed in list except for
          *         the first element.
          */
-        public static IQueue<T> rest<T>(IQueue<T> l)
+        public static ICollection<T> rest<T>(ICollection<T> l)
         {
             if (null == l
              || l.Size() < 2)
             {
-                return Factory.CreateQueue<T>();
+                return CollectionFactory.CreateQueue<T>();
             }
             else
             {
-                IQueue<T> obj = Factory.CreateQueue<T>();
+                ICollection<T> obj = CollectionFactory.CreateQueue<T>();
                 for (int i = 1; i < l.Size(); ++i)
                 {
                     obj.Add(l.Get(i));
@@ -73,9 +71,9 @@ namespace tvn.cosine.ai.util
          *            the value to be associated with each of the maps keys.
          * @return a map with the passed in keys initialized to value.
          */
-        public static IMap<K, V> create<K, V>(IQueue<K> keys, V value)
+        public static IMap<K, V> create<K, V>(ICollection<K> keys, V value)
         {
-            IMap<K, V> map = Factory.CreateInsertionOrderedMap<K, V>();
+            IMap<K, V> map = CollectionFactory.CreateInsertionOrderedMap<K, V>();
 
             foreach (K k in keys)
             {
@@ -93,7 +91,7 @@ namespace tvn.cosine.ai.util
          */
         public static ISet<V> createSet<V>(params V[] values)
         {
-            ISet<V> set = Factory.CreateSet<V>();
+            ISet<V> set = CollectionFactory.CreateSet<V>();
             foreach (V value in values)
             {
                 set.Add(value);
@@ -111,7 +109,7 @@ namespace tvn.cosine.ai.util
          *            randomly.
          * @return a randomly selected element from l.
          */
-        public static T selectRandomlyFromList<T>(IQueue<T> l)
+        public static T selectRandomlyFromList<T>(ICollection<T> l)
         {
             return l.Get(random.Next(l.Size()));
         }
@@ -157,13 +155,13 @@ namespace tvn.cosine.ai.util
             return normalized;
         }
 
-        public static IQueue<double> normalize(IQueue<double> values)
+        public static ICollection<double> normalize(ICollection<double> values)
         {
             double[] valuesAsArray = new double[values.Size()];
             for (int i = 0; i < valuesAsArray.Length;++i)
                 valuesAsArray[i] = values.Get(i);
             double[] normalized = normalize(valuesAsArray);
-            IQueue<double> results = Factory.CreateQueue<double>();
+            ICollection<double> results = CollectionFactory.CreateQueue<double>();
             foreach (double aNormalized in normalized)
                 results.Add(aNormalized);
             return results;
@@ -189,9 +187,9 @@ namespace tvn.cosine.ai.util
             return min(min(i, j), k);
         }
 
-        public static T mode<T>(IQueue<T> l)
+        public static T mode<T>(ICollection<T> l)
         {
-            IMap<T, int> hash = Factory.CreateInsertionOrderedMap<T, int>();
+            IMap<T, int> hash = CollectionFactory.CreateInsertionOrderedMap<T, int>();
             foreach (T obj in l)
             {
                 if (hash.ContainsKey(obj))
@@ -235,14 +233,14 @@ namespace tvn.cosine.ai.util
             return total;
         }
 
-        public static IQueue<T> removeFrom<T>(IQueue<T> list, T member)
+        public static ICollection<T> removeFrom<T>(ICollection<T> list, T member)
         {
-            IQueue<T> newList = Factory.CreateQueue<T>(list);
+            ICollection<T> newList = CollectionFactory.CreateQueue<T>(list);
             newList.Remove(member);
             return newList;
         }
 
-        public static double sumOfSquares<T>(IQueue<T> list) where T : INumber
+        public static double sumOfSquares<T>(ICollection<T> list) where T : INumber
         {
             double accum = 0;
             foreach (T item in list)
@@ -290,7 +288,7 @@ namespace tvn.cosine.ai.util
             return random.Next(j - i + 1) + i;
         }
 
-        public static double calculateMean(IQueue<double> lst)
+        public static double calculateMean(ICollection<double> lst)
         {
             double sum = 0.0;
             foreach (double d in lst)
@@ -300,7 +298,7 @@ namespace tvn.cosine.ai.util
             return sum / lst.Size();
         }
 
-        public static double calculateStDev(IQueue<double> values, double mean)
+        public static double calculateStDev(ICollection<double> values, double mean)
         {
             int listSize = values.Size();
 
@@ -319,9 +317,9 @@ namespace tvn.cosine.ai.util
             return System.Math.Sqrt(variance);
         }
 
-        public static IQueue<double> normalizeFromMeanAndStdev(IQueue<double> values, double mean, double stdev)
+        public static ICollection<double> normalizeFromMeanAndStdev(ICollection<double> values, double mean, double stdev)
         {
-            IQueue<double> obj = Factory.CreateQueue<double>();
+            ICollection<double> obj = CollectionFactory.CreateQueue<double>();
             foreach (double d in values)
             {
                 obj.Add((d - mean) / stdev);

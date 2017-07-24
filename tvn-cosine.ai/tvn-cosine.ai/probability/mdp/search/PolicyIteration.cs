@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.mdp.impl;
 using tvn.cosine.ai.util;
 
@@ -131,8 +132,8 @@ namespace tvn.cosine.ai.probability.mdp.search
          */
         public static IMap<S, A> initialPolicyVector(MarkovDecisionProcess<S, A> mdp)
         {
-            IMap<S, A> pi = Factory.CreateInsertionOrderedMap<S, A>();
-            IQueue<A> actions = Factory.CreateQueue<A>();
+            IMap<S, A> pi = CollectionFactory.CreateInsertionOrderedMap<S, A>();
+            ICollection<A> actions = CollectionFactory.CreateQueue<A>();
             foreach (S s in mdp.states())
             {
                 actions.Clear();

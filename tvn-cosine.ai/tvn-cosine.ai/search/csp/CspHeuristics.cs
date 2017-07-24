@@ -1,5 +1,6 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.search.csp
@@ -13,13 +14,13 @@ namespace tvn.cosine.ai.search.csp
         public interface VariableSelection<VAR, VAL>
             where VAR : Variable
         {
-            IQueue<VAR> apply(CSP<VAR, VAL> csp, IQueue<VAR> vars);
+            ICollection<VAR> apply(CSP<VAR, VAL> csp, ICollection<VAR> vars);
         }
 
         public interface ValueSelection<VAR, VAL>
             where VAR : Variable
         {
-            IQueue<VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var);
+            ICollection<VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var);
         }
 
         public static VariableSelection<VAR, VAL> mrv<VAR, VAL>() where VAR : Variable
@@ -47,7 +48,7 @@ namespace tvn.cosine.ai.search.csp
         public class MrvDegHeuristic<VAR, VAL> : VariableSelection<VAR, VAL>
             where VAR : Variable
         {
-            public IQueue<VAR> apply(CSP<VAR, VAL> csp, IQueue<VAR> vars)
+            public ICollection<VAR> apply(CSP<VAR, VAL> csp, ICollection<VAR> vars)
             {
                 return new DegHeuristic<VAR, VAL>().apply(csp, new MrvHeuristic<VAR, VAL>().apply(csp, vars));
             }
@@ -61,9 +62,9 @@ namespace tvn.cosine.ai.search.csp
         {
 
             /** Returns variables from <code>vars</code> which are the best with respect to MRV. */
-            public IQueue<VAR> apply(CSP<VAR, VAL> csp, IQueue<VAR> vars)
+            public ICollection<VAR> apply(CSP<VAR, VAL> csp, ICollection<VAR> vars)
             {
-                IQueue<VAR> result = Factory.CreateQueue<VAR>();
+                ICollection<VAR> result = CollectionFactory.CreateQueue<VAR>();
                 int mrv = int.MaxValue;
                 foreach (VAR var in vars)
                 {
@@ -90,9 +91,9 @@ namespace tvn.cosine.ai.search.csp
         {
 
             /** Returns variables from <code>vars</code> which are the best with respect to DEG. */
-            public IQueue<VAR> apply(CSP<VAR, VAL> csp, IQueue<VAR> vars)
+            public ICollection<VAR> apply(CSP<VAR, VAL> csp, ICollection<VAR> vars)
             {
-                IQueue<VAR> result = Factory.CreateQueue<VAR>();
+                ICollection<VAR> result = CollectionFactory.CreateQueue<VAR>();
                 int maxDegree = -1;
                 foreach (VAR var in vars)
                 {
@@ -129,9 +130,9 @@ namespace tvn.cosine.ai.search.csp
         {
 
             /** Returns the values of Dom(var) in a special order. The least constraining value comes first. */
-            public IQueue<VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
+            public ICollection<VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
             {
-                IQueue<Pair<VAL, int>> pairs = Factory.CreateQueue<Pair<VAL, int>>();
+                ICollection<Pair<VAL, int>> pairs = CollectionFactory.CreateQueue<Pair<VAL, int>>();
                 foreach (VAL value in csp.getDomain(var))
                 {
                     int num = countLostValues(csp, assignment, var, value);
@@ -139,7 +140,7 @@ namespace tvn.cosine.ai.search.csp
                 }
 
                 pairs.Sort(new PairComparer<VAL>());
-                IQueue<VAL> obj = Factory.CreateQueue<VAL>();
+                ICollection<VAL> obj = CollectionFactory.CreateQueue<VAL>();
 
                 foreach (Pair<VAL, int> val in pairs)
                 {

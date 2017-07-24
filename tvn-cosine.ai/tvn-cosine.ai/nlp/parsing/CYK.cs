@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.nlp.parsing.grammars;
 
 namespace tvn.cosine.ai.nlp.parsing
@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.nlp.parsing
     public class CYK
     {
 
-        public float[,,] parse(IQueue<string> words, ProbCNFGrammar grammar)
+        public float[,,] parse(ICollection<string> words, ProbCNFGrammar grammar)
         {
             int N = length(words);
             int M = grammar.vars.Size();
@@ -92,7 +92,7 @@ namespace tvn.cosine.ai.nlp.parsing
          * @param ls
          * @return the length of the list
          */
-        public int length(IQueue<string> ls)
+        public int length(ICollection<string> ls)
         {
             return ls.Size();
         }
@@ -103,7 +103,7 @@ namespace tvn.cosine.ai.nlp.parsing
          * @param words
          * @param g
          */
-        public void printProbTable(float[,,] probTable, IQueue<string> words, ProbUnrestrictedGrammar g)
+        public void printProbTable(float[,,] probTable, ICollection<string> words, ProbUnrestrictedGrammar g)
         {
             int N = words.Size();
             int M = g.vars.Size(); // num non-terminals in grammar
@@ -129,7 +129,7 @@ namespace tvn.cosine.ai.nlp.parsing
          * @param g
          * @return
          */
-        public IQueue<string> getMostProbableDerivation(float[,,] probTable, ProbUnrestrictedGrammar g)
+        public ICollection<string> getMostProbableDerivation(float[,,] probTable, ProbUnrestrictedGrammar g)
         {
             // TODO
             return null;

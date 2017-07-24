@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.nondeterministic;
 
@@ -28,14 +29,14 @@ namespace tvn.cosine.ai.environment.vacuum
 
         public class ActionsFunction : ActionsFunction<VacuumEnvironmentState, IAction>
         {
-            public IQueue<IAction> apply(VacuumEnvironmentState state)
+            public ICollection<IAction> apply(VacuumEnvironmentState state)
             {
-                IQueue<IAction> actions = Factory.CreateQueue<IAction>();
+                ICollection<IAction> actions = CollectionFactory.CreateQueue<IAction>();
                 actions.Add(VacuumEnvironment.ACTION_SUCK);
                 actions.Add(VacuumEnvironment.ACTION_MOVE_LEFT);
                 actions.Add(VacuumEnvironment.ACTION_MOVE_RIGHT);
                 // Ensure cannot be modified.
-                return Factory.CreateReadOnlyQueue<IAction>(actions);
+                return CollectionFactory.CreateReadOnlyQueue<IAction>(actions);
             }
         }
 
@@ -74,9 +75,9 @@ namespace tvn.cosine.ai.environment.vacuum
             /**
              * Returns a list of possible results for a given state and action.
              */
-            public IQueue<VacuumEnvironmentState> results(VacuumEnvironmentState state, IAction action)
+            public ICollection<VacuumEnvironmentState> results(VacuumEnvironmentState state, IAction action)
             {
-                IQueue<VacuumEnvironmentState> results = Factory.CreateQueue<VacuumEnvironmentState>();
+                ICollection<VacuumEnvironmentState> results = CollectionFactory.CreateQueue<VacuumEnvironmentState>();
                 // add clone of state to results, modify later...
                 VacuumEnvironmentState s = state.clone();
                 results.Add(s);

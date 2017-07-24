@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
@@ -30,17 +31,17 @@ namespace tvn_cosine.ai.demo.probability.chapter15
                 0.5, 0.5 }, ExampleRV.RAIN_t_RV);
 
             // Day 1
-            IQueue<IQueue<AssignmentProposition>> evidence = Factory.CreateQueue<IQueue<AssignmentProposition>>();
-            IQueue<AssignmentProposition> e1 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<ICollection<AssignmentProposition>> evidence = CollectionFactory.CreateQueue<ICollection<AssignmentProposition>>();
+            ICollection<AssignmentProposition> e1 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e1.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
             evidence.Add(e1);
 
-            IQueue<CategoricalDistribution> smoothed = uw.forwardBackward(evidence, prior);
+            ICollection<CategoricalDistribution> smoothed = uw.forwardBackward(evidence, prior);
 
             System.Console.WriteLine("Day 1 (Umbrealla_t=true) smoothed:\nday 1 = " + smoothed.Get(0));
 
             // Day 2
-            IQueue<AssignmentProposition> e2 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e2 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e2.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
             evidence.Add(e2);
 
@@ -50,7 +51,7 @@ namespace tvn_cosine.ai.demo.probability.chapter15
                     + smoothed.Get(0) + "\nday 2 = " + smoothed.Get(1));
 
             // Day 3
-            IQueue<AssignmentProposition> e3 = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> e3 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e3.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, false));
             evidence.Add(e3);
 

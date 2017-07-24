@@ -1,5 +1,6 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.util;
 using tvn.cosine.ai.robotics.datatypes;
@@ -91,7 +92,7 @@ namespace tvn.cosine.ai.robotics
          */
         protected ISet<P> applyMove(ISet<P> samples, M move)
         {
-            ISet<P> newSamples = Factory.CreateSet<P>();
+            ISet<P> newSamples = CollectionFactory.CreateSet<P>();
             foreach (P sample in samples)
             {
                 newSamples.Add(sample.applyMovement(move.generateNoise()));
@@ -144,7 +145,7 @@ namespace tvn.cosine.ai.robotics
             if (i >= samples.Size()) return generateCloud(samples.Size()); /*If all particleCloud are below weightCutOff, generate a new set of samples, as we are lost.*/
                                                                            /*WEIGHTED-SAMPLE-WITH-REPLACEMENT:*/
             double[] normalizedW = Util.normalize(w);
-            ISet<P> newSamples = Factory.CreateSet<P>();
+            ISet<P> newSamples = CollectionFactory.CreateSet<P>();
             P[] array = samples.ToArray();
             for (i = 0; i < samples.Size();++i)
             {
@@ -161,7 +162,7 @@ namespace tvn.cosine.ai.robotics
          */
         public ISet<P> generateCloud(int N)
         {
-            ISet<P> samples = Factory.CreateSet<P>();
+            ISet<P> samples = CollectionFactory.CreateSet<P>();
             int[] indexes = new int[N];
             for (int i = 0; i < N;++i)
             {

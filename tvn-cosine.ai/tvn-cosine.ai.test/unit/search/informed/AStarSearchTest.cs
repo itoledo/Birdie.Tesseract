@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.eightpuzzle;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.search.framework;
@@ -67,7 +67,7 @@ namespace tvn_cosine.ai.test.unit.search.informed
                         romaniaMap));
             SearchAgent<string, MoveToAction> agent = new SearchAgent<string, MoveToAction>(problem, search);
 
-            IQueue<MoveToAction> actions = agent.getActions();
+            ICollection<MoveToAction> actions = agent.getActions();
 
             Assert.AreEqual(
                     "[Action[name==moveTo, location==RimnicuVilcea], Action[name==moveTo, location==Pitesti], Action[name==moveTo, location==Bucharest]]",

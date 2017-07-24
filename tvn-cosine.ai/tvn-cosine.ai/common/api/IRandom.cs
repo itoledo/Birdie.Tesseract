@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.common
+﻿namespace tvn.cosine.ai.common.api
 {
     /// <summary>
     /// Represents a pseudo-random number generator, which is a device that produces

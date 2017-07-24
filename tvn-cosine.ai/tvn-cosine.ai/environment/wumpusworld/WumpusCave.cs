@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.environment.wumpusworld
@@ -19,7 +20,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
         private int caveXDimension; // starts bottom left -> right
         private int caveYDimension; // starts bottom left ^ up
 
-        private ISet<AgentPosition> allowedPositions = Factory.CreateSet<AgentPosition>();
+        private ISet<AgentPosition> allowedPositions = CollectionFactory.CreateSet<AgentPosition>();
 
         /**
          * Default Constructor. Create a Wumpus Case of default dimensions 4x4.
@@ -79,14 +80,14 @@ namespace tvn.cosine.ai.environment.wumpusworld
             return caveYDimension;
         }
 
-        public IQueue<AgentPosition> getLocationsLinkedTo(AgentPosition fromLocation)
+        public ICollection<AgentPosition> getLocationsLinkedTo(AgentPosition fromLocation)
         {
 
             int x = fromLocation.getX();
             int y = fromLocation.getY();
             AgentPosition.Orientation orientation = fromLocation.getOrientation();
 
-            IQueue<AgentPosition> result = Factory.CreateQueue<AgentPosition>();
+            ICollection<AgentPosition> result = CollectionFactory.CreateQueue<AgentPosition>();
 
             AgentPosition currentForwardNorth = new AgentPosition(x, y + 1,
                     AgentPosition.Orientation.FACING_NORTH);
@@ -136,7 +137,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
 
         private static ISet<AgentPosition> defaultAllowedPositions(int caveXDimension, int caveYDimension)
         {
-            ISet<AgentPosition> allowedPositions = Factory.CreateSet<AgentPosition>();
+            ISet<AgentPosition> allowedPositions = CollectionFactory.CreateSet<AgentPosition>();
             // Create the default set of allowed positions within the cave that
             // an agent may occupy.
             for (int x = 1; x <= caveXDimension; x++)
@@ -153,7 +154,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             return allowedPositions;
         }
 
-        private void addIfAllowed(AgentPosition position, IQueue<AgentPosition> positions)
+        private void addIfAllowed(AgentPosition position, ICollection<AgentPosition> positions)
         {
             if (allowedPositions.Contains(position))
             {

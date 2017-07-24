@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.search.framework
@@ -28,7 +29,7 @@ namespace tvn.cosine.ai.search.framework
          * 
          * @return a (possibly empty) list of actions or empty
          */
-        IQueue<A> findActions(Problem<S, A> p);
+        ICollection<A> findActions(Problem<S, A> p);
 
         /**
          * Returns all the metrics of the search.

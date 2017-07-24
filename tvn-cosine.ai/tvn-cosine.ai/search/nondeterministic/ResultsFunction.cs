@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.nondeterministic
 {
@@ -25,6 +25,6 @@ namespace tvn.cosine.ai.search.nondeterministic
          *            an action to be performed in state s.
          * @return the states that result from doing action a in state s.
          */
-        IQueue<S> results(S state, A action);
+        ICollection<S> results(S state, A action);
     }
 }

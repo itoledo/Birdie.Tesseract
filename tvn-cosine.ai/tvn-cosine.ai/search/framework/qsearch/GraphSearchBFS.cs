@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.search.framework.qsearch
@@ -37,8 +38,8 @@ namespace tvn.cosine.ai.search.framework.qsearch
      */
     public class GraphSearchBFS<S, A> : QueueSearch<S, A>
     { 
-        private ISet<S> explored = Factory.CreateSet<S>();
-        private ISet<S> frontierStates = Factory.CreateSet<S>();
+        private ISet<S> explored = CollectionFactory.CreateSet<S>();
+        private ISet<S> frontierStates = CollectionFactory.CreateSet<S>();
 
         public GraphSearchBFS()
             : this(new NodeExpander<S, A>())
@@ -54,7 +55,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * <code>QueSearch</code>
          */
 
-        public override Node<S, A> findNode(Problem<S, A> problem, IQueue<Node<S, A>> frontier)
+        public override Node<S, A> findNode(Problem<S, A> problem, ICollection<Node<S, A>> frontier)
         {
             // Initialize the explored set to be empty
             explored.Clear();

@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.nlp.ranking
 {
@@ -7,12 +8,12 @@ namespace tvn.cosine.ai.nlp.ranking
     {
         // TODO
         // Make more intelligent link search
-        public IQueue<string> getOutlinks(Page page)
+        public ICollection<string> getOutlinks(Page page)
         {
             string content = page.getContent();
-            IQueue<string> outLinks = Factory.CreateQueue<string>();
+            ICollection<string> outLinks = CollectionFactory.CreateQueue<string>();
             // search content for all href="x" outlinks
-            IQueue<string> allMatches = Factory.CreateQueue<string>();
+            ICollection<string> allMatches = CollectionFactory.CreateQueue<string>();
             Regex m = new Regex("href=\"(/wiki/.*?)\"");
             foreach (Match ma in m.Matches(content))
             {
@@ -35,13 +36,13 @@ namespace tvn.cosine.ai.nlp.ranking
         }
 
 
-        public IQueue<string> getInlinks(Page target, IMap<string, Page> pageTable)
+        public ICollection<string> getInlinks(Page target, IMap<string, Page> pageTable)
         {
 
             string location = target.getLocation().ToLower(); // make comparison
                                                               // case
                                                               // insensitive
-            IQueue<string> inlinks = Factory.CreateQueue<string>(); // initialise a list for
+            ICollection<string> inlinks = CollectionFactory.CreateQueue<string>(); // initialise a list for
                                                                     // the inlinks
 
             // go through all pages and if they link back to target then add that

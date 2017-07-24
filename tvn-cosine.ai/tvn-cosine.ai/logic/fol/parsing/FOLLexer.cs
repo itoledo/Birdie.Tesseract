@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.logic.fol.domain;
 
@@ -14,14 +15,14 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             this.domain = domain;
 
-            connectors = Factory.CreateSet<string>();
+            connectors = CollectionFactory.CreateSet<string>();
             connectors.Add(Connectors.NOT);
             connectors.Add(Connectors.AND);
             connectors.Add(Connectors.OR);
             connectors.Add(Connectors.IMPLIES);
             connectors.Add(Connectors.BICOND);
 
-            quantifiers = Factory.CreateSet<string>();
+            quantifiers = CollectionFactory.CreateSet<string>();
             quantifiers.Add(Quantifiers.FORALL);
             quantifiers.Add(Quantifiers.EXISTS);
         }

@@ -1,6 +1,7 @@
 ﻿using System.Text;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
 
 namespace tvn.cosine.ai.learning.inductive
@@ -8,15 +9,15 @@ namespace tvn.cosine.ai.learning.inductive
     public class DecisionList : IStringable
     {
         private string positive, negative;
-        private IQueue<DLTest> tests;
+        private ICollection<DLTest> tests;
         private IMap<DLTest, string> testOutcomes;
 
         public DecisionList(string positive, string negative)
         {
             this.positive = positive;
             this.negative = negative;
-            this.tests = Factory.CreateQueue<DLTest>();
-            testOutcomes = Factory.CreateInsertionOrderedMap<DLTest, string>();
+            this.tests = CollectionFactory.CreateQueue<DLTest>();
+            testOutcomes = CollectionFactory.CreateInsertionOrderedMap<DLTest, string>();
         }
 
         public string predict(Example example)

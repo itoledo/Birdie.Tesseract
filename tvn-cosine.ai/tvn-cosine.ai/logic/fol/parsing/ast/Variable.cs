@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
@@ -35,13 +35,13 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return false;
         }
 
-        IQueue<FOLNode> FOLNode.getArgs()
+        ICollection<FOLNode> FOLNode.getArgs()
         {
             // Is not Compound, therefore should return null for its arguments
             return null;
         }
 
-        public IQueue<Term> getArgs()
+        public ICollection<Term> getArgs()
         {
             // Is not Compound, therefore should return null for its arguments
             return null;

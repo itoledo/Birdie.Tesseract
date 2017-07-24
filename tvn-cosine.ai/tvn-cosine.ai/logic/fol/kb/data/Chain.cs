@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.inference.proof;
 
 namespace tvn.cosine.ai.logic.fol.kb.data
@@ -18,9 +19,9 @@ namespace tvn.cosine.ai.logic.fol.kb.data
      */
     public class Chain
     {
-        private static IQueue<Literal> _emptyLiteralsList = Factory.CreateReadOnlyQueue<Literal>(Factory.CreateQueue<Literal>());
+        private static ICollection<Literal> _emptyLiteralsList = CollectionFactory.CreateReadOnlyQueue<Literal>(CollectionFactory.CreateQueue<Literal>());
         //
-        private IQueue<Literal> literals = Factory.CreateQueue<Literal>();
+        private ICollection<Literal> literals = CollectionFactory.CreateQueue<Literal>();
         private ProofStep proofStep = null;
 
         public Chain()
@@ -28,12 +29,12 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             // i.e. the empty chain
         }
 
-        public Chain(IQueue<Literal> literals)
+        public Chain(ICollection<Literal> literals)
         {
             this.literals.AddAll(literals);
         }
 
-        public Chain(Set<Literal> literals)
+        public Chain(ISet<Literal> literals)
         {
             this.literals.AddAll(literals);
         }
@@ -72,13 +73,13 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             return literals.Get(0);
         }
 
-        public IQueue<Literal> getTail()
+        public ICollection<Literal> getTail()
         {
             if (0 == literals.Size())
             {
                 return _emptyLiteralsList;
             }
-            return Factory.CreateReadOnlyQueue<Literal>(literals.subList(1, literals.Size()));
+            return CollectionFactory.CreateReadOnlyQueue<Literal>(literals.subList(1, literals.Size()));
         }
 
         public int getNumberLiterals()
@@ -86,9 +87,9 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             return literals.Size();
         }
 
-        public IQueue<Literal> getLiterals()
+        public ICollection<Literal> getLiterals()
         {
-            return Factory.CreateReadOnlyQueue<Literal>(literals);
+            return CollectionFactory.CreateReadOnlyQueue<Literal>(literals);
         }
 
         /**
@@ -98,10 +99,10 @@ namespace tvn.cosine.ai.logic.fol.kb.data
          * 
          * @return a list of contrapositives for this chain.
          */
-        public IQueue<Chain> getContrapositives()
+        public ICollection<Chain> getContrapositives()
         {
-            IQueue<Chain> contrapositives = Factory.CreateQueue<Chain>();
-            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
+            ICollection<Chain> contrapositives = CollectionFactory.CreateQueue<Chain>();
+            ICollection<Literal> lits = CollectionFactory.CreateQueue<Literal>();
 
             for (int i = 1; i < literals.Size();++i)
             {

@@ -1,9 +1,10 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.search.nondeterministic;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
@@ -18,7 +19,7 @@ namespace tvn.cosine.ai.environment.vacuum
         private NondeterministicProblem<object, IAction> problem;
         private Function<IPercept, object> ptsFunction;
         private Plan contingencyPlan;
-        private IQueue<object> stack = Factory.CreateLifoQueue<object>();
+        private ICollection<object> stack = CollectionFactory.CreateLifoQueue<object>();
 
         public NondeterministicVacuumAgent(Function<IPercept, object> ptsFunction)
         {

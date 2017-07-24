@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.adversarial;
 
 namespace tvn.cosine.ai.environment.connectfour
@@ -47,19 +48,19 @@ namespace tvn.cosine.ai.environment.connectfour
          * Orders actions with respect to the number of potential win positions
          * which profit from the action.
          */
-        public override IQueue<int> orderActions(ConnectFourState state,
-               IQueue<int> actions, string player, int depth)
+        public override ICollection<int> orderActions(ConnectFourState state,
+               ICollection<int> actions, string player, int depth)
         {
-            IQueue<int> result = actions;
+            ICollection<int> result = actions;
             if (depth == 0)
             {
-                IQueue<ActionValuePair<int>> actionEstimates
-                    = Factory.CreateQueue<ActionValuePair<int>>();
+                ICollection<ActionValuePair<int>> actionEstimates
+                    = CollectionFactory.CreateQueue<ActionValuePair<int>>();
                 foreach (int action in actions)
                     actionEstimates.Add(ActionValuePair<int>.createFor(action,
                             state.analyzePotentialWinPositions(action)));
-                actionEstimates.Sort(new Queue<ActionValuePair<int>>.Comparer());
-                result = Factory.CreateQueue<int>();
+                actionEstimates.Sort(new List<ActionValuePair<int>>.Comparer());
+                result = CollectionFactory.CreateQueue<int>();
                 foreach (ActionValuePair<int> pair in actionEstimates)
                     result.Add(pair.getAction());
             }

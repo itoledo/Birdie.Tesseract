@@ -1,12 +1,13 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     public class NotSentence : Sentence
     {
         private Sentence negated;
-        private IQueue<Sentence> args = Factory.CreateQueue<Sentence>();
+        private ICollection<Sentence> args = CollectionFactory.CreateQueue<Sentence>();
         private string stringRep = null;
         private int hashCode = 0;
 
@@ -31,20 +32,20 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return true;
         }
 
-        IQueue<FOLNode> FOLNode.getArgs()
+        ICollection<FOLNode> FOLNode.getArgs()
         {
-            IQueue<FOLNode> obj = Factory.CreateQueue<FOLNode>();
+            ICollection<FOLNode> obj = CollectionFactory.CreateQueue<FOLNode>();
             foreach (Sentence sentence in args)
             {
                 obj.Add(sentence);
             }
 
-            return Factory.CreateReadOnlyQueue<FOLNode>(obj);
+            return CollectionFactory.CreateReadOnlyQueue<FOLNode>(obj);
         }
 
-        public IQueue<Sentence> getArgs()
+        public ICollection<Sentence> getArgs()
         {
-            return Factory.CreateReadOnlyQueue<Sentence>(args);
+            return CollectionFactory.CreateReadOnlyQueue<Sentence>(args);
         }
 
         public object accept(FOLVisitor v, object arg)

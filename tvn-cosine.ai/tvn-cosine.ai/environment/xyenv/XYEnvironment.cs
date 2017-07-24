@@ -1,8 +1,9 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.environment.xyenv
 {
@@ -116,7 +117,7 @@ namespace tvn.cosine.ai.environment.xyenv
         public int width;
         public int height;
 
-        private IMap<XYLocation, ISet<IEnvironmentObject>> objsAtLocation = Factory.CreateInsertionOrderedMap<XYLocation, ISet<IEnvironmentObject>>();
+        private IMap<XYLocation, ISet<IEnvironmentObject>> objsAtLocation = CollectionFactory.CreateInsertionOrderedMap<XYLocation, ISet<IEnvironmentObject>>();
 
         public XYEnvironmentState(int width, int height)
         {
@@ -126,7 +127,7 @@ namespace tvn.cosine.ai.environment.xyenv
             {
                 for (int w = 1; w <= width; w++)
                 {
-                    objsAtLocation.Put(new XYLocation(h, w), Factory.CreateSet<IEnvironmentObject>());
+                    objsAtLocation.Put(new XYLocation(h, w), CollectionFactory.CreateSet<IEnvironmentObject>());
                 }
             }
         }
@@ -151,7 +152,7 @@ namespace tvn.cosine.ai.environment.xyenv
             if (null == objectsAt)
             {
                 // Always ensure an empty Set is returned
-                objectsAt = Factory.CreateSet<IEnvironmentObject>();
+                objectsAt = CollectionFactory.CreateSet<IEnvironmentObject>();
                 objsAtLocation.Put(loc, objectsAt);
             }
             return objectsAt;
@@ -171,7 +172,7 @@ namespace tvn.cosine.ai.environment.xyenv
 
         public ISet<IEnvironmentObject> getObjectsNear(IAgent agent, int radius)
         {
-            ISet<IEnvironmentObject> objsNear = Factory.CreateSet<IEnvironmentObject>();
+            ISet<IEnvironmentObject> objsNear = CollectionFactory.CreateSet<IEnvironmentObject>();
 
             XYLocation agentLocation = getCurrentLocationFor(agent);
             foreach (XYLocation loc in objsAtLocation.GetKeys())

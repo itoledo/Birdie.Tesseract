@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.environment.nqueens;
 using tvn.cosine.ai.search.framework.problem;
@@ -33,7 +34,7 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
         [TestMethod]
         public void testSimpleBoardSuccessorGenerator()
         {
-            IQueue<QueenAction> actions = Factory.CreateQueue<QueenAction>(actionsFn.apply(oneBoard));
+            ICollection<QueenAction> actions = CollectionFactory.CreateQueue<QueenAction>(actionsFn.apply(oneBoard));
             Assert.AreEqual(1, actions.Size());
             NQueensBoard next = resultFn.apply(oneBoard, actions.Get(0));
             Assert.AreEqual(1, next.getNumberOfQueensOnBoard());
@@ -42,12 +43,12 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
         [TestMethod]
         public void testComplexBoardSuccessorGenerator()
         {
-            IQueue<QueenAction> actions = Factory.CreateQueue<QueenAction>(actionsFn.apply(eightBoard));
+            ICollection<QueenAction> actions = CollectionFactory.CreateQueue<QueenAction>(actionsFn.apply(eightBoard));
             Assert.AreEqual(8, actions.Size());
             NQueensBoard next = resultFn.apply(eightBoard, actions.Get(0));
             Assert.AreEqual(1, next.getNumberOfQueensOnBoard());
 
-            actions = Factory.CreateQueue<QueenAction>(actionsFn.apply(next));
+            actions = CollectionFactory.CreateQueue<QueenAction>(actionsFn.apply(next));
             Assert.AreEqual(6, actions.Size());
         }
 

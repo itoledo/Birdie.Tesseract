@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.util.math.geom.shapes;
 
 namespace tvn.cosine.ai.util.math.geom
@@ -22,6 +22,6 @@ namespace tvn.cosine.ai.util.math.geom
          * @throws Exception if an error is found while parsing the input.
          * @return the constructed list of geometric shapes.
          */
-        IQueue<IGeometric2D> parse(System.IO.StreamReader input, string groupID);
+        ICollection<IGeometric2D> parse(System.IO.StreamReader input, string groupID);
     }
 }

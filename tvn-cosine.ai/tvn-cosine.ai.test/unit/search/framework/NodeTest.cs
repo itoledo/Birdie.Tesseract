@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 
 namespace tvn_cosine.ai.test.unit.search.framework
@@ -25,7 +25,7 @@ namespace tvn_cosine.ai.test.unit.search.framework
             Node<string, string> node1 = new Node<string, string>("state1");
             Node<string, string> node2 = new Node<string, string>("state2", node1, null, 1.0);
             Node<string, string> node3 = new Node<string, string>("state3", node2, null, 2.0);
-            IQueue<Node<string, string>> path = SearchUtils.getPathFromRoot(node3);
+            ICollection<Node<string, string>> path = SearchUtils.getPathFromRoot(node3);
             Assert.AreEqual(node1, path.Get(0));
             Assert.AreEqual(node2, path.Get(1));
             Assert.AreEqual(node3, path.Get(2));

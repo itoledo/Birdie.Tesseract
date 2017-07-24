@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.common;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
@@ -7,7 +7,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
     {
         string getSymbolicName(); 
         bool isCompound(); 
-        IQueue<FOLNode> getArgs(); 
+        ICollection<FOLNode> getArgs(); 
         object accept(FOLVisitor v, object arg); 
         FOLNode copy();
     }

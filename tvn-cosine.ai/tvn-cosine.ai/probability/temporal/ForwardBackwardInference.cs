@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.proposition;
 
 namespace tvn.cosine.ai.probability.temporal
@@ -29,7 +29,7 @@ namespace tvn.cosine.ai.probability.temporal
          *            <b>P</b>(X<sub>0</sub>)
          * @return a vector of smoothed estimates for steps 1,...,t
          */
-        IQueue<CategoricalDistribution> forwardBackward(IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior);
+        ICollection<CategoricalDistribution> forwardBackward(ICollection<ICollection<AssignmentProposition>> ev, CategoricalDistribution prior);
     }
 
 }

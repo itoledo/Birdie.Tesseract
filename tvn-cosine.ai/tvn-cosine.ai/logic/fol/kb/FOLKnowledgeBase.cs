@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.inference;
@@ -31,15 +32,15 @@ namespace tvn.cosine.ai.logic.fol.kb
         //
         // Keeps track of the Sentences in their original form as added to the
         // Knowledge base.
-        private IQueue<Sentence> originalSentences = Factory.CreateQueue<Sentence>();
+        private ICollection<Sentence> originalSentences = CollectionFactory.CreateQueue<Sentence>();
         // The KB in clause form
-        private ISet<Clause> clauses = Factory.CreateSet<Clause>();
+        private ISet<Clause> clauses = CollectionFactory.CreateSet<Clause>();
         // Keep track of all of the definite clauses in the database
         // along with those that represent implications.
-        private IQueue<Clause> allDefiniteClauses = Factory.CreateQueue<Clause>();
-        private IQueue<Clause> implicationDefiniteClauses = Factory.CreateQueue<Clause>();
+        private ICollection<Clause> allDefiniteClauses = CollectionFactory.CreateQueue<Clause>();
+        private ICollection<Clause> implicationDefiniteClauses = CollectionFactory.CreateQueue<Clause>();
         // All the facts in the KB indexed by Atomic Sentence name (Note: pg. 279)
-        private IMap<string, IQueue<Literal>> indexFacts = Factory.CreateInsertionOrderedMap<string, IQueue<Literal>>();
+        private IMap<string, ICollection<Literal>> indexFacts = CollectionFactory.CreateInsertionOrderedMap<string, ICollection<Literal>>();
         // Keep track of indexical keys for uniquely standardizing apart sentences
         private StandardizeApartIndexical variableIndexical = StandardizeApartIndexicalFactory
                 .newStandardizeApartIndexical('v');
@@ -98,7 +99,7 @@ namespace tvn.cosine.ai.logic.fol.kb
             return s;
         }
 
-        public void tell(IQueue<Sentence> sentences)
+        public void tell(ICollection<Sentence> sentences)
         {
             foreach (Sentence s in sentences)
             {
@@ -135,7 +136,7 @@ namespace tvn.cosine.ai.logic.fol.kb
             foreach (Proof p in infResult.getProofs())
             {
                 IMap<Variable, Term> im = p.getAnswerBindings();
-                IMap<Variable, Term> em = Factory.CreateInsertionOrderedMap<Variable, Term>();
+                IMap<Variable, Term> em = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
                 foreach (Variable rev in saResult.getReverseSubstitution().GetKeys())
                 {
                     em.Put((Variable)saResult.getReverseSubstitution().Get(rev), im.Get(rev));
@@ -156,33 +157,33 @@ namespace tvn.cosine.ai.logic.fol.kb
             return clauses.Size() - getNumberFacts();
         }
 
-        public IQueue<Sentence> getOriginalSentences()
+        public ICollection<Sentence> getOriginalSentences()
         {
-            return Factory.CreateReadOnlyQueue<Sentence>(originalSentences);
+            return CollectionFactory.CreateReadOnlyQueue<Sentence>(originalSentences);
         }
 
-        public IQueue<Clause> getAllDefiniteClauses()
+        public ICollection<Clause> getAllDefiniteClauses()
         {
-            return Factory.CreateReadOnlyQueue<Clause>(allDefiniteClauses);
+            return CollectionFactory.CreateReadOnlyQueue<Clause>(allDefiniteClauses);
         }
 
-        public IQueue<Clause> getAllDefiniteClauseImplications()
+        public ICollection<Clause> getAllDefiniteClauseImplications()
         {
-            return Factory.CreateReadOnlyQueue<Clause>(implicationDefiniteClauses);
+            return CollectionFactory.CreateReadOnlyQueue<Clause>(implicationDefiniteClauses);
         }
 
         public ISet<Clause> getAllClauses()
         {
-            return Factory.CreateReadOnlySet<Clause>(clauses);
+            return CollectionFactory.CreateReadOnlySet<Clause>(clauses);
         }
 
         // Note: pg 278, FETCH(q) concept.
         public ISet<IMap<Variable, Term>> fetch(Literal l)
         {
             // Get all of the substitutions in the KB that p unifies with
-            ISet<IMap<Variable, Term>> allUnifiers = Factory.CreateSet<IMap<Variable, Term>>();
+            ISet<IMap<Variable, Term>> allUnifiers = CollectionFactory.CreateSet<IMap<Variable, Term>>();
 
-            IQueue<Literal> matchingFacts = fetchMatchingFacts(l);
+            ICollection<Literal> matchingFacts = fetchMatchingFacts(l);
             if (null != matchingFacts)
             {
                 foreach (Literal fact in matchingFacts)
@@ -199,16 +200,16 @@ namespace tvn.cosine.ai.logic.fol.kb
         }
 
         // Note: To support FOL-FC-Ask
-        public ISet<IMap<Variable, Term>> fetch(IQueue<Literal> literals)
+        public ISet<IMap<Variable, Term>> fetch(ICollection<Literal> literals)
         {
-            ISet<IMap<Variable, Term>> possibleSubstitutions = Factory.CreateSet<IMap<Variable, Term>>();
+            ISet<IMap<Variable, Term>> possibleSubstitutions = CollectionFactory.CreateSet<IMap<Variable, Term>>();
 
             if (literals.Size() > 0)
             {
                 Literal first = literals.Get(0);
-                IQueue<Literal> rest = literals.subList(1, literals.Size());
+                ICollection<Literal> rest = literals.subList(1, literals.Size());
 
-                recursiveFetch(Factory.CreateInsertionOrderedMap<Variable, Term>(), first, rest, possibleSubstitutions);
+                recursiveFetch(CollectionFactory.CreateInsertionOrderedMap<Variable, Term>(), first, rest, possibleSubstitutions);
             }
 
             return possibleSubstitutions;
@@ -264,13 +265,13 @@ namespace tvn.cosine.ai.logic.fol.kb
         {
             CNF cnf = cnfConverter.convertToCNF(sentence);
 
-            return Factory.CreateSet<Clause>(cnf.getConjunctionOfClauses());
+            return CollectionFactory.CreateSet<Clause>(cnf.getConjunctionOfClauses());
         }
 
         public Literal createAnswerLiteral(Sentence forQuery)
         {
             string alName = parser.getFOLDomain().addAnswerLiteral();
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
 
             ISet<Variable> vars = variableCollector.collectAllVariables(forQuery);
             foreach (Variable v in vars)
@@ -285,7 +286,7 @@ namespace tvn.cosine.ai.logic.fol.kb
         // Note: see pg. 281
         public bool isRenaming(Literal l)
         {
-            IQueue<Literal> possibleMatches = fetchMatchingFacts(l);
+            ICollection<Literal> possibleMatches = fetchMatchingFacts(l);
             if (null != possibleMatches)
             {
                 return isRenaming(l, possibleMatches);
@@ -295,7 +296,7 @@ namespace tvn.cosine.ai.logic.fol.kb
         }
 
         // Note: see pg. 281
-        public bool isRenaming(Literal l, IQueue<Literal> possibleMatches)
+        public bool isRenaming(Literal l, ICollection<Literal> possibleMatches)
         {
             foreach (Literal q in possibleMatches)
             {
@@ -404,14 +405,14 @@ namespace tvn.cosine.ai.logic.fol.kb
             string factKey = getFactKey(fact);
             if (!indexFacts.ContainsKey(factKey))
             {
-                indexFacts.Put(factKey, Factory.CreateQueue<Literal>());
+                indexFacts.Put(factKey, CollectionFactory.CreateQueue<Literal>());
             }
 
             indexFacts.Get(factKey).Add(fact);
         }
 
         private void recursiveFetch(IMap<Variable, Term> theta, Literal l,
-                IQueue<Literal> remainingLiterals,
+                ICollection<Literal> remainingLiterals,
                 ISet<IMap<Variable, Term>> possibleSubstitutions)
         {
 
@@ -442,14 +443,14 @@ namespace tvn.cosine.ai.logic.fol.kb
                 {
                     // Need to move to the next link in the chain of substitutions
                     Literal first = remainingLiterals.Get(0);
-                    IQueue<Literal> rest = remainingLiterals.subList(1, remainingLiterals.Size());
+                    ICollection<Literal> rest = remainingLiterals.subList(1, remainingLiterals.Size());
 
                     recursiveFetch(psubst, first, rest, possibleSubstitutions);
                 }
             }
         }
 
-        private IQueue<Literal> fetchMatchingFacts(Literal l)
+        private ICollection<Literal> fetchMatchingFacts(Literal l)
         {
             return indexFacts.Get(getFactKey(l));
         }

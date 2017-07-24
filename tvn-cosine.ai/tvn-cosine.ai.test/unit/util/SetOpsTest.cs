@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.util;
 
 namespace tvn_cosine.ai.test.unit.util
@@ -16,13 +17,13 @@ namespace tvn_cosine.ai.test.unit.util
         [TestInitialize]
         public void setUp()
         {
-            s1 = Factory.CreateSet<int>();
+            s1 = CollectionFactory.CreateSet<int>();
             s1.Add(1);
             s1.Add(2);
             s1.Add(3);
             s1.Add(4);
 
-            s2 = Factory.CreateSet<int>();
+            s2 = CollectionFactory.CreateSet<int>();
             s2.Add(4);
             s2.Add(5);
             s2.Add(6);
@@ -69,8 +70,8 @@ namespace tvn_cosine.ai.test.unit.util
         [TestMethod]
         public void testDifference2()
         {
-            ISet<int> one = Factory.CreateSet<int>();
-            ISet<int> two = Factory.CreateSet<int>();
+            ISet<int> one = CollectionFactory.CreateSet<int>();
+            ISet<int> two = CollectionFactory.CreateSet<int>();
             one.Add(1);
             two.Add(1);
             ISet<int> difference = SetOps.difference(one, two);

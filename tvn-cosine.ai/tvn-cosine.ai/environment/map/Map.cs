@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.util.math.geom.shapes;
 
 namespace tvn.cosine.ai.environment.map
@@ -11,19 +11,19 @@ namespace tvn.cosine.ai.environment.map
     public interface Map
     {
         /** Returns a list of all locations. */
-        IQueue<string> getLocations();
+        ICollection<string> getLocations();
 
         /**
          * Answers to the question: Where can I get, following one of the
          * connections starting at the specified location?
          */
-        IQueue<string> getPossibleNextLocations(string location);
+        ICollection<string> getPossibleNextLocations(string location);
 
         /**
          * Answers to the question: From where can I reach a specified location,
          * following one of the map connections?
          */
-        IQueue<string> getPossiblePrevLocations(string location);
+        ICollection<string> getPossiblePrevLocations(string location);
 
         /**
          * Returns the travel distance between the two specified locations if they

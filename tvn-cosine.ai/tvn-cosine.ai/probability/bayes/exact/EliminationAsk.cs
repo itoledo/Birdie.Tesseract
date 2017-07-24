@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
@@ -57,12 +58,12 @@ namespace tvn.cosine.ai.probability.bayes.exact
         public CategoricalDistribution eliminationAsk(RandomVariable[] X, AssignmentProposition[] e, BayesianNetwork bn)
         {
 
-            ISet<RandomVariable> hidden = Factory.CreateSet<RandomVariable>();
-            IQueue<RandomVariable> VARS = Factory.CreateQueue<RandomVariable>();
+            ISet<RandomVariable> hidden = CollectionFactory.CreateSet<RandomVariable>();
+            ICollection<RandomVariable> VARS = CollectionFactory.CreateQueue<RandomVariable>();
             calculateVariables(X, e, bn, hidden, VARS);
 
             // factors <- []
-            IQueue<Factor> factors = Factory.CreateQueue<Factor>();
+            ICollection<Factor> factors = CollectionFactory.CreateQueue<Factor>();
             // for each var in ORDER(bn.VARS) do
             foreach (RandomVariable var in order(bn, VARS))
             {
@@ -126,7 +127,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
          */
         protected void calculateVariables(RandomVariable[] X,
                   AssignmentProposition[] e, BayesianNetwork bn,
-                ISet<RandomVariable> hidden, IQueue<RandomVariable> bnVARS)
+                ISet<RandomVariable> hidden, ICollection<RandomVariable> bnVARS)
         {
 
             bnVARS.AddAll(bn.getVariablesInTopologicalOrder());
@@ -161,8 +162,8 @@ namespace tvn.cosine.ai.probability.bayes.exact
          *         ordering is a greedy one: eliminate whichever variable minimizes
          *         the size of the next factor to be constructed.
          */
-        protected IQueue<RandomVariable> order(BayesianNetwork bn,
-                IQueue<RandomVariable> vars)
+        protected ICollection<RandomVariable> order(BayesianNetwork bn,
+                ICollection<RandomVariable> vars)
         {
             // Note: Trivial Approach:
             // For simplicity just return in the reverse order received,
@@ -171,7 +172,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
             // is iterated from bottom up to ensure when hidden variables
             // are come across all the factors dependent on them have
             // been seen so far.
-            IQueue<RandomVariable> order = Factory.CreateQueue<RandomVariable>(vars);
+            ICollection<RandomVariable> order = CollectionFactory.CreateQueue<RandomVariable>(vars);
             order.Reverse();
 
             return order;
@@ -189,7 +190,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
                         "Elimination-Ask only works with finite Nodes.");
             }
             FiniteNode fn = (FiniteNode)n;
-            IQueue<AssignmentProposition> evidence = Factory.CreateQueue<AssignmentProposition>();
+            ICollection<AssignmentProposition> evidence = CollectionFactory.CreateQueue<AssignmentProposition>();
             foreach (AssignmentProposition ap in e)
             {
                 if (fn.getCPT().contains(ap.getTermVariable()))
@@ -201,10 +202,10 @@ namespace tvn.cosine.ai.probability.bayes.exact
             return fn.getCPT().getFactorFor(evidence.ToArray());
         }
 
-        private IQueue<Factor> sumOut(RandomVariable var, IQueue<Factor> factors, BayesianNetwork bn)
+        private ICollection<Factor> sumOut(RandomVariable var, ICollection<Factor> factors, BayesianNetwork bn)
         {
-            IQueue<Factor> summedOutFactors = Factory.CreateQueue<Factor>();
-            IQueue<Factor> toMultiply = Factory.CreateQueue<Factor>();
+            ICollection<Factor> summedOutFactors = CollectionFactory.CreateQueue<Factor>();
+            ICollection<Factor> toMultiply = CollectionFactory.CreateQueue<Factor>();
             foreach (Factor f in factors)
             {
                 if (f.contains(var))
@@ -224,7 +225,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
             return summedOutFactors;
         }
 
-        private Factor pointwiseProduct(IQueue<Factor> factors)
+        private Factor pointwiseProduct(ICollection<Factor> factors)
         {
 
             Factor product = factors.Get(0);

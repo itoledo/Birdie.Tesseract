@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.nlp.ranking
 {
@@ -13,7 +13,7 @@ namespace tvn.cosine.ai.nlp.ranking
          * @param page
          * @return
          */
-        IQueue<string> getOutlinks(Page page);
+        ICollection<string> getOutlinks(Page page);
 
         /**
          * Take a Page object and return its inlinks (who links to it) as a list of
@@ -23,7 +23,7 @@ namespace tvn.cosine.ai.nlp.ranking
          * @param pageTable
          * @return
          */
-        IQueue<string> getInlinks(Page page, IMap<string, Page> pageTable);
+        ICollection<string> getInlinks(Page page, IMap<string, Page> pageTable);
 
     }
 }

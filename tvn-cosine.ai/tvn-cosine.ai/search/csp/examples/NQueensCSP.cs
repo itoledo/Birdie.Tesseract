@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.csp.examples
 {
@@ -9,7 +10,7 @@ namespace tvn.cosine.ai.search.csp.examples
             for (int i = 0; i < size;++i)
                 addVariable(new Variable("Q" + (i + 1)));
 
-            IQueue<int> values = Factory.CreateQueue<int>();
+            ICollection<int> values = CollectionFactory.CreateQueue<int>();
             for (int val = 1; val <= size; val++)
                 values.Add(val);
             Domain<int> positions = new Domain<int>(values);

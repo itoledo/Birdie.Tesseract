@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.framework.api;
 using tvn.cosine.ai.learning.inductive;
 using tvn.cosine.ai.learning.learners;
 
@@ -18,8 +20,8 @@ namespace tvn_cosine.ai.test.unit.learning.learners
 
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
-            IQueue<DecisionTree> stumps = DecisionTree.getStumpsFor(ds, YES, "No");
-            IQueue<ILearner> learners = Factory.CreateQueue<ILearner>();
+            ICollection<DecisionTree> stumps = DecisionTree.getStumpsFor(ds, YES, "No");
+            ICollection<ILearner> learners = CollectionFactory.CreateQueue<ILearner>();
             foreach (object stump in stumps)
             {
                 DecisionTree sl = (DecisionTree)stump;

@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.logic.fol.domain;
@@ -18,9 +19,9 @@ namespace tvn.cosine.ai.learning.knowledge
         private string trueGoalValue = null;
         // Default example prefix, see pg679 of AIMA
         private string examplePrefix = "X";
-        private IQueue<string> descriptionPredicateNames = Factory.CreateQueue<string>();
-        private IQueue<string> descriptionDataSetNames = Factory.CreateQueue<string>();
-        private IMap<string, string> dsToFOLNameMap = Factory.CreateInsertionOrderedMap<string, string>();
+        private ICollection<string> descriptionPredicateNames = CollectionFactory.CreateQueue<string>();
+        private ICollection<string> descriptionDataSetNames = CollectionFactory.CreateQueue<string>();
+        private IMap<string, string> dsToFOLNameMap = CollectionFactory.CreateInsertionOrderedMap<string, string>();
 
         //
         // PUBLIC METHODS
@@ -47,19 +48,19 @@ namespace tvn.cosine.ai.learning.knowledge
             return trueGoalValue;
         }
 
-        public IQueue<string> getDescriptionPredicateNames()
+        public ICollection<string> getDescriptionPredicateNames()
         {
             return descriptionPredicateNames;
         }
 
-        public IQueue<string> getDescriptionDataSetNames()
+        public ICollection<string> getDescriptionDataSetNames()
         {
             return descriptionDataSetNames;
         }
 
         public bool isMultivalued(string descriptiveDataSetName)
         {
-            IQueue<string> possibleValues = dataSetSpecification.getPossibleAttributeValues(descriptiveDataSetName);
+            ICollection<string> possibleValues = dataSetSpecification.getPossibleAttributeValues(descriptiveDataSetName);
             // If more than two possible values
             // then is multivalued
             if (possibleValues.Size() > 2)
@@ -126,7 +127,7 @@ namespace tvn.cosine.ai.learning.knowledge
                 descriptionPredicateNames.Add(folSAName);
                 descriptionDataSetNames.Add(saName);
 
-                IQueue<string> attributeValues = dataSetSpecification.getPossibleAttributeValues(saName);
+                ICollection<string> attributeValues = dataSetSpecification.getPossibleAttributeValues(saName);
                 // If a multivalued attribute need to setup
                 // Constants for the different possible values
                 if (isMultivalued(saName))

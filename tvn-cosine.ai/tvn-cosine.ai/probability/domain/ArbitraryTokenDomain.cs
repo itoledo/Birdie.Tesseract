@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.probability.domain
 {
@@ -24,13 +25,13 @@ namespace tvn.cosine.ai.probability.domain
         {
             this.ordered = ordered;
             // Keep consistent order
-            possibleValues = Factory.CreateSet<object>();
+            possibleValues = CollectionFactory.CreateSet<object>();
             foreach (object v in pValues)
             {
                 possibleValues.Add(v);
             }
             // Ensure cannot be modified
-            possibleValues = Factory.CreateReadOnlySet<object>(possibleValues);
+            possibleValues = CollectionFactory.CreateReadOnlySet<object>(possibleValues);
 
             indexPossibleValues(possibleValues);
         }

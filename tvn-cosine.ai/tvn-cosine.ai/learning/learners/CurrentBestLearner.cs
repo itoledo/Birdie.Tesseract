@@ -1,36 +1,29 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.framework.api;
 using tvn.cosine.ai.learning.knowledge;
 using tvn.cosine.ai.logic.fol.inference;
 using tvn.cosine.ai.logic.fol.kb;
 
 namespace tvn.cosine.ai.learning.learners
-{
-    /**
-     * @author Ciaran O'Reilly
-     * 
-     */
+{ 
     public class CurrentBestLearner : ILearner
     {
         private string trueGoalValue = null;
         private FOLDataSetDomain folDSDomain = null;
         private FOLKnowledgeBase kb = null;
         private Hypothesis currentBestHypothesis = null;
-
-        //
-        // PUBLIC METHODS
-        //
+         
         public CurrentBestLearner(string trueGoalValue)
         {
             this.trueGoalValue = trueGoalValue;
         }
-
-        //
-        // START-Learner
+         
         public void train(DataSet ds)
         {
             folDSDomain = new FOLDataSetDomain(ds.specification, trueGoalValue);
-            IQueue<FOLExample> folExamples = Factory.CreateQueue<FOLExample>();
+            ICollection<FOLExample> folExamples = CollectionFactory.CreateQueue<FOLExample>();
             int egNo = 1;
             foreach (Example e in ds.examples)
             {
@@ -91,8 +84,6 @@ namespace tvn.cosine.ai.learning.learners
                 }
             }
             return results;
-        }
-        // END-Learner
-        //
+        } 
     } 
 }

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.nlp.parsing.grammars
 {
@@ -25,7 +26,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
         public ProbCNFGrammar()
         {
             type = 4;
-            rules = Factory.CreateQueue<Rule>();
+            rules = CollectionFactory.CreateQueue<Rule>();
         }
 
         public ProbCNFGrammar(ProbCNFGrammar grammar)
@@ -39,7 +40,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          * both the restrictions of the Context-free grammar, and all rules 
          * or in Chomsky-Normal-Form
          */
-        public override bool addRules(IQueue<Rule> ruleList)
+        public override bool addRules(ICollection<Rule> ruleList)
         {
             foreach (Rule aRuleList in ruleList)
             {

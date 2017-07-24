@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.qsearch;
 
@@ -21,7 +22,7 @@ namespace tvn.cosine.ai.search.uninformed
     public class DepthFirstSearch<S, A> : QueueBasedSearch<S, A>
     {
         public DepthFirstSearch(QueueSearch<S, A> impl)
-                : base(impl, Factory.CreateLifoQueue<Node<S, A>>())
+                : base(impl, CollectionFactory.CreateLifoQueue<Node<S, A>>())
         {
 
         }

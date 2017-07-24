@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.informed;
@@ -71,7 +72,7 @@ namespace tvn.cosine.ai.search.local
         }
 
 
-        public IQueue<A> findActions(Problem<S, A> p)
+        public ICollection<A> findActions(Problem<S, A> p)
         {
             nodeExpander.useParentLinks(true);
             return SearchUtils.toActions(findNode(p));
@@ -115,7 +116,7 @@ namespace tvn.cosine.ai.search.local
             {
                 lastState = current.getState();
                 metrics.set(METRIC_NODE_VALUE, getValue(current));
-                IQueue<Node<S, A>> children = nodeExpander.expand(current, p);
+                ICollection<Node<S, A>> children = nodeExpander.expand(current, p);
                 // neighbor <- a highest-valued successor of current
                 neighbor = getHighestValuedNodeFrom(children);
 
@@ -189,7 +190,7 @@ namespace tvn.cosine.ai.search.local
         // PRIVATE METHODS
         //
 
-        private Node<S, A> getHighestValuedNodeFrom(IQueue<Node<S, A>> children)
+        private Node<S, A> getHighestValuedNodeFrom(ICollection<Node<S, A>> children)
         {
             double highestValue = double.NegativeInfinity;
             Node<S, A> nodeWithHighestValue = null;

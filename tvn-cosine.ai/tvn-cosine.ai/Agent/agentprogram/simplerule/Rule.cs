@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.util;
 
@@ -13,12 +13,12 @@ namespace tvn.cosine.ai.agent.agentprogram.simplerule
     {
         private Condition con;
         private IAction action;
-         
-            /// <summary>
-            /// Constructs a condition-action rule.
-            /// </summary>
-            /// <param name="con">a condition</param>
-            /// <param name="action">an action</param>
+
+        /// <summary>
+        /// Constructs a condition-action rule.
+        /// </summary>
+        /// <param name="con">a condition</param>
+        /// <param name="action">an action</param>
         public Rule(Condition con, IAction action)
         {
             if (null == con ||

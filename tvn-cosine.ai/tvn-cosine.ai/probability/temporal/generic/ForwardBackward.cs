@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.common.collections; 
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
 
@@ -39,7 +40,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
     public class ForwardBackward : ForwardBackwardInference
     {
         private FiniteProbabilityModel transitionModel = null;
-        private IMap<RandomVariable, RandomVariable> tToTm1StateVarMap = Factory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
+        private IMap<RandomVariable, RandomVariable> tToTm1StateVarMap = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
         private FiniteProbabilityModel sensorModel = null;
 
         /**
@@ -68,15 +69,15 @@ namespace tvn.cosine.ai.probability.temporal.generic
         // function FORWARD-BACKWARD(ev, prior) returns a vector of probability
         // distributions
 
-        public IQueue<CategoricalDistribution> forwardBackward(
-               IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
+        public ICollection<CategoricalDistribution> forwardBackward(
+               ICollection<ICollection<AssignmentProposition>> ev, CategoricalDistribution prior)
         {
             // local variables: fv, a vector of forward messages for steps 0,...,t
-            IQueue<CategoricalDistribution> fv = Factory.CreateQueue<CategoricalDistribution>();
+            ICollection<CategoricalDistribution> fv = CollectionFactory.CreateQueue<CategoricalDistribution>();
             // b, a representation of the backward message, initially all 1s
             CategoricalDistribution b = initBackwardMessage();
             // sv, a vector of smoothed estimates for steps 1,...,t
-            IQueue<CategoricalDistribution> sv = Factory.CreateQueue<CategoricalDistribution>();
+            ICollection<CategoricalDistribution> sv = CollectionFactory.CreateQueue<CategoricalDistribution>();
 
             // fv[0] <- prior
             fv.Add(prior);
@@ -133,7 +134,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
             }
         }
 
-        public CategoricalDistribution forward(CategoricalDistribution f1_t, IQueue<AssignmentProposition> e_tp1)
+        public CategoricalDistribution forward(CategoricalDistribution f1_t, ICollection<AssignmentProposition> e_tp1)
         {
             CategoricalDistribution s1 = new ProbabilityTable(f1_t.getFor());
             // Set up required working variables
@@ -146,7 +147,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
             }
             Proposition Xtp1 = ProbUtil.constructConjunction(props);
             AssignmentProposition[] xt = new AssignmentProposition[tToTm1StateVarMap.Size()];
-            IMap<RandomVariable, AssignmentProposition> xtVarAssignMap = Factory.CreateInsertionOrderedMap<RandomVariable, AssignmentProposition>();
+            IMap<RandomVariable, AssignmentProposition> xtVarAssignMap = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, AssignmentProposition>();
             i = 0;
             foreach (RandomVariable rv in tToTm1StateVarMap.GetKeys())
             {
@@ -213,7 +214,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
             }
         }
 
-        public CategoricalDistribution backward(CategoricalDistribution b_kp2t, IQueue<AssignmentProposition> e_kp1)
+        public CategoricalDistribution backward(CategoricalDistribution b_kp2t, ICollection<AssignmentProposition> e_kp1)
         {
             CategoricalDistribution b_kp1t = new ProbabilityTable(b_kp2t.getFor());
             // Set up required working variables
@@ -227,7 +228,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
             }
             Proposition Xk = ProbUtil.constructConjunction(props);
             AssignmentProposition[] ax_kp1 = new AssignmentProposition[tToTm1StateVarMap.Size()];
-            IMap<RandomVariable, AssignmentProposition> x_kp1VarAssignMap = Factory.CreateInsertionOrderedMap<RandomVariable, AssignmentProposition>();
+            IMap<RandomVariable, AssignmentProposition> x_kp1VarAssignMap = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, AssignmentProposition>();
             i = 0;
             foreach (RandomVariable rv in b_kp1t.getFor())
             {

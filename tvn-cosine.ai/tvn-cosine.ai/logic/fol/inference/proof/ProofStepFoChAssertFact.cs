@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
@@ -7,7 +8,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofStepFoChAssertFact : AbstractProofStep
     {
-        private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
+        private ICollection<ProofStep> predecessors = CollectionFactory.CreateQueue<ProofStep>();
         //
         private Clause implication = null;
         private Literal fact = null;
@@ -24,15 +25,15 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             }
         }
          
-        public override IQueue<ProofStep> getPredecessorSteps()
+        public override ICollection<ProofStep> getPredecessorSteps()
         {
-            return Factory.CreateReadOnlyQueue<ProofStep>(predecessors);
+            return CollectionFactory.CreateReadOnlyQueue<ProofStep>(predecessors);
         }
          
         public override string getProof()
         {
             StringBuilder sb = new StringBuilder();
-            IQueue<Literal> nLits = implication.getNegativeLiterals();
+            ICollection<Literal> nLits = implication.getNegativeLiterals();
             for (int i = 0; i < implication.getNumberNegativeLiterals();++i)
             {
                 sb.Append(nLits.Get(i).getAtomicSentence());

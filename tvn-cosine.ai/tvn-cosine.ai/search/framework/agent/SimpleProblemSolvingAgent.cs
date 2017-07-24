@@ -1,7 +1,8 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.search.framework.agent
 {
@@ -43,7 +44,7 @@ namespace tvn.cosine.ai.search.framework.agent
         where A : IAction
     {
         // seq, an action sequence, initially empty
-        private IQueue<A> seq = Factory.CreateQueue<A>();
+        private ICollection<A> seq = CollectionFactory.CreateQueue<A>();
 
         //
         private bool formulateGoalsIndefinitely = true;
@@ -97,7 +98,7 @@ namespace tvn.cosine.ai.search.framework.agent
                     // problem <- FORMULATE-PROBLEM(state, goal)
                     Problem<S, A> problem = formulateProblem(goal);
                     // seq <- SEARCH(problem)
-                    IQueue<A> actions = search(problem);
+                    ICollection<A> actions = search(problem);
                     if (null != actions)
                         seq.AddAll(actions);
                 }
@@ -129,7 +130,7 @@ namespace tvn.cosine.ai.search.framework.agent
 
         protected abstract Problem<S, A> formulateProblem(object goal);
 
-        protected abstract IQueue<A> search(Problem<S, A> problem);
+        protected abstract ICollection<A> search(Problem<S, A> problem);
 
         protected abstract void notifyViewOfMetrics();
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.csp;
 
 namespace tvn_cosine.ai.test.unit.search.csp
@@ -10,13 +11,13 @@ namespace tvn_cosine.ai.test.unit.search.csp
         private static readonly Variable X = new Variable("x");
         private static readonly Variable Y = new Variable("y");
 
-        private IQueue<Variable> variables;
+        private ICollection<Variable> variables;
         private Assignment<Variable, string> assignment;
 
         [TestInitialize]
         public void setUp()
         {
-            variables = Factory.CreateQueue<Variable>();
+            variables = CollectionFactory.CreateQueue<Variable>();
             variables.Add(X);
             variables.Add(Y);
             assignment = new Assignment<Variable, string>();

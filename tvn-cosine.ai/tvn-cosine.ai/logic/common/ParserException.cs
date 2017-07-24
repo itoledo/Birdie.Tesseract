@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.logic.common
@@ -13,7 +14,7 @@ namespace tvn.cosine.ai.logic.common
      */
     public class ParserException : RuntimeException
     {
-        private IQueue<Token> problematicTokens = Factory.CreateQueue<Token>();
+        private ICollection<Token> problematicTokens = CollectionFactory.CreateQueue<Token>();
 
         public ParserException(string message, params Token[] problematicTokens)
             : base(message)
@@ -46,7 +47,7 @@ namespace tvn.cosine.ai.logic.common
          * @return a list of 0 or more tokens from the input stream that are
          *         believed to have contributed to the parse exception.
          */
-        public IQueue<Token> getProblematicTokens()
+        public ICollection<Token> getProblematicTokens()
         {
             return problematicTokens;
         }

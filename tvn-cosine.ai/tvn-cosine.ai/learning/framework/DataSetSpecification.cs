@@ -1,20 +1,22 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.learning.framework.api;
 
 namespace tvn.cosine.ai.learning.framework
 { 
     public class DataSetSpecification
     {
-        IQueue<IAttributeSpecification> attributeSpecifications;
+        ICollection<IAttributeSpecification> attributeSpecifications;
 
         private string targetAttribute;
 
         public DataSetSpecification()
         {
-            this.attributeSpecifications = Factory.CreateQueue<IAttributeSpecification>();
+            this.attributeSpecifications = CollectionFactory.CreateQueue<IAttributeSpecification>();
         }
 
-        public virtual bool isValid(IQueue<string> uncheckedAttributes)
+        public virtual bool isValid(ICollection<string> uncheckedAttributes)
         {
             if (attributeSpecifications.Size() != uncheckedAttributes.Size())
             {
@@ -43,7 +45,7 @@ namespace tvn.cosine.ai.learning.framework
             return targetAttribute;
         }
 
-        public virtual IQueue<string> getPossibleAttributeValues(string attributeName)
+        public virtual ICollection<string> getPossibleAttributeValues(string attributeName)
         {
             foreach (IAttributeSpecification _as in attributeSpecifications)
             {
@@ -55,9 +57,9 @@ namespace tvn.cosine.ai.learning.framework
             throw new RuntimeException("No such attribute" + attributeName);
         }
 
-        public virtual IQueue<string> getAttributeNames()
+        public virtual ICollection<string> getAttributeNames()
         {
-            IQueue<string> names = Factory.CreateQueue<string>();
+            ICollection<string> names = CollectionFactory.CreateQueue<string>();
             foreach (IAttributeSpecification _as in attributeSpecifications)
             {
                 names.Add(_as.GetAttributeName());
@@ -97,9 +99,9 @@ namespace tvn.cosine.ai.learning.framework
             attributeSpecifications.Add(new NumericAttributeSpecification(name));
         }
 
-        public virtual IQueue<string> getNamesOfStringAttributes()
+        public virtual ICollection<string> getNamesOfStringAttributes()
         {
-            IQueue<string> names = Factory.CreateQueue<string>();
+            ICollection<string> names = CollectionFactory.CreateQueue<string>();
             foreach (IAttributeSpecification spec in attributeSpecifications)
             {
                 if (spec is StringAttributeSpecification)

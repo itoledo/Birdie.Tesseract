@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.nlp.parsing.grammars;
 
 namespace tvn_cosine.ai.test.unit.nlp.parse
@@ -20,10 +21,10 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
         [TestMethod]
         public void testValidRule()
         {
-            Rule invalidR = new Rule(null, Factory.CreateQueue<string>(new[] { "W", "Z" }), (float)0.5);
-            Rule validR = new Rule(Factory.CreateQueue<string>(new[] { "W" }),
-                                      Factory.CreateQueue<string>(new[] { "a", "s" }), (float)0.5);
-            Rule validR2 = new Rule(Factory.CreateQueue<string>(new[] { "W" }), null, (float)0.5);
+            Rule invalidR = new Rule(null, CollectionFactory.CreateQueue<string>(new[] { "W", "Z" }), (float)0.5);
+            Rule validR = new Rule(CollectionFactory.CreateQueue<string>(new[] { "W" }),
+                                      CollectionFactory.CreateQueue<string>(new[] { "a", "s" }), (float)0.5);
+            Rule validR2 = new Rule(CollectionFactory.CreateQueue<string>(new[] { "W" }), null, (float)0.5);
             Assert.IsFalse(g.validRule(invalidR));
             Assert.IsTrue(g.validRule(validR));
             Assert.IsTrue(g.validRule(validR2));
@@ -37,9 +38,9 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
         [TestMethod]
         public void testRejectNullLhs()
         {
-            Rule r = new Rule(Factory.CreateQueue<string>(), Factory.CreateQueue<string>(), (float)0.50); // test completely null rule
+            Rule r = new Rule(CollectionFactory.CreateQueue<string>(), CollectionFactory.CreateQueue<string>(), (float)0.50); // test completely null rule
                                                                                                           // test only null lhs
-            Rule r2 = new Rule(null, Factory.CreateQueue<string>(new[] { "W", "Z" }), (float)0.50);
+            Rule r2 = new Rule(null, CollectionFactory.CreateQueue<string>(new[] { "W", "Z" }), (float)0.50);
             Assert.IsFalse(g.addRule(r));
             Assert.IsFalse(g.addRule(r2));
         }
@@ -51,15 +52,15 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
         [TestMethod]
         public void testAcceptValidRules()
         {
-            Rule unrestrictedRule = new Rule(Factory.CreateQueue<string>(new[] { "A", "a", "A", "B" }),
-                                              Factory.CreateQueue<string>(new[] { "b", "b", "A", "C" }), (float)0.50);
-            Rule contextSensRule = new Rule(Factory.CreateQueue<string>(new[] { "A", "a", "A" }),
-                                                Factory.CreateQueue<string>(new[] { "b", "b", "A", "C" }), (float)0.50);
-            Rule contextFreeRule = new Rule(Factory.CreateQueue<string>(new[] { "A" }),
-                                                Factory.CreateQueue<string>(new[] { "b", "b", "A", "C" }), (float)0.50);
-            Rule regularRule = new Rule(Factory.CreateQueue<string>(new[] { "A" }),
-                                               Factory.CreateQueue<string>(new[] { "b", "C" }), (float)0.50);
-            Rule nullRHSRule = new Rule(Factory.CreateQueue<string>(new[] { "A", "B" }), null, (float)0.50);
+            Rule unrestrictedRule = new Rule(CollectionFactory.CreateQueue<string>(new[] { "A", "a", "A", "B" }),
+                                              CollectionFactory.CreateQueue<string>(new[] { "b", "b", "A", "C" }), (float)0.50);
+            Rule contextSensRule = new Rule(CollectionFactory.CreateQueue<string>(new[] { "A", "a", "A" }),
+                                                CollectionFactory.CreateQueue<string>(new[] { "b", "b", "A", "C" }), (float)0.50);
+            Rule contextFreeRule = new Rule(CollectionFactory.CreateQueue<string>(new[] { "A" }),
+                                                CollectionFactory.CreateQueue<string>(new[] { "b", "b", "A", "C" }), (float)0.50);
+            Rule regularRule = new Rule(CollectionFactory.CreateQueue<string>(new[] { "A" }),
+                                               CollectionFactory.CreateQueue<string>(new[] { "b", "C" }), (float)0.50);
+            Rule nullRHSRule = new Rule(CollectionFactory.CreateQueue<string>(new[] { "A", "B" }), null, (float)0.50);
             // try adding these rules in turn
             Assert.IsTrue(g.addRule(unrestrictedRule));
             Assert.IsTrue(g.addRule(contextSensRule));
@@ -77,8 +78,8 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
         {
             // add a rule that has variables and terminals not 
             // already in the grammar
-            g.addRule(new Rule(Factory.CreateQueue<string>(new[] { "Z" }),
-                                   Factory.CreateQueue<string>(new[] { "z", "Z" }), (float)0.50));
+            g.addRule(new Rule(CollectionFactory.CreateQueue<string>(new[] { "Z" }),
+                                   CollectionFactory.CreateQueue<string>(new[] { "z", "Z" }), (float)0.50));
             Assert.IsTrue(g.terminals.Contains("z") && !g.terminals.Contains("Z"));
             Assert.IsTrue(g.vars.Contains("Z") && !g.vars.Contains("z"));
         }

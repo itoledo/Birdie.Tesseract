@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.wumpusworld;
 using tvn.cosine.ai.environment.wumpusworld.action;
 using tvn.cosine.ai.logic.propositional.inference;
@@ -70,7 +71,7 @@ namespace tvn_cosine.ai.test.unit.environment.wumpusworld
 
             KB = new WumpusKnowledgeBase(dpll, 2);
             step(KB, new AgentPercept(false, false, false, false, false), t);
-            AreSetEqual(Factory.CreateSet<Room>(
+            AreSetEqual(CollectionFactory.CreateSet<Room>(
                 new Room(1, 1),
                 new Room(1, 2),
                 new Room(2, 1)), KB.askSafeRooms(t));
@@ -78,17 +79,17 @@ namespace tvn_cosine.ai.test.unit.environment.wumpusworld
             KB = new WumpusKnowledgeBase(dpll, 2);
 
             step(KB, new AgentPercept(true, false, false, false, false), t);
-            AreSetEqual(Factory.CreateSet<Room>(new Room(1, 1)), KB.askSafeRooms(t));
+            AreSetEqual(CollectionFactory.CreateSet<Room>(new Room(1, 1)), KB.askSafeRooms(t));
 
             KB = new WumpusKnowledgeBase(dpll, 2);
 
             step(KB, new AgentPercept(false, true, false, false, false), t);
-            AreSetEqual(Factory.CreateSet<Room>(new Room(1, 1)), KB.askSafeRooms(t));
+            AreSetEqual(CollectionFactory.CreateSet<Room>(new Room(1, 1)), KB.askSafeRooms(t));
 
             KB = new WumpusKnowledgeBase(dpll, 2);
 
             step(KB, new AgentPercept(true, true, false, false, false), t);
-            AreSetEqual(Factory.CreateSet<Room>(new Room(1, 1)), KB.askSafeRooms(t));
+            AreSetEqual(CollectionFactory.CreateSet<Room>(new Room(1, 1)), KB.askSafeRooms(t));
         }
 
         [TestMethod]
@@ -114,7 +115,7 @@ namespace tvn_cosine.ai.test.unit.environment.wumpusworld
 
             KB = new WumpusKnowledgeBase(dpll, 2);
             step(KB, new AgentPercept(false, false, false, false, false), t);
-            AreSetEqual(Factory.CreateSet<Room>(new Room(1, 2),
+            AreSetEqual(CollectionFactory.CreateSet<Room>(new Room(1, 2),
                 new Room(2, 1),
                 new Room(2, 2)), KB.askUnvisitedRooms(t));
             KB.makeActionSentence(new Forward(new AgentPosition(1, 1, AgentPosition.Orientation.FACING_EAST)), t); // Move agent to [2,1]		
@@ -122,7 +123,7 @@ namespace tvn_cosine.ai.test.unit.environment.wumpusworld
             t++;
 
             step(KB, new AgentPercept(true, false, false, false, false), t); // NOTE: Wumpus in [2,2] so have stench
-            AreSetEqual(Factory.CreateSet<Room>(new Room(1, 2),
+            AreSetEqual(CollectionFactory.CreateSet<Room>(new Room(1, 2),
                 new Room(2, 2)), KB.askUnvisitedRooms(t));
         }
 
@@ -135,19 +136,19 @@ namespace tvn_cosine.ai.test.unit.environment.wumpusworld
 
             KB = new WumpusKnowledgeBase(dpll, 2);
             step(KB, new AgentPercept(false, false, false, false, false), t);
-            AreSetEqual(Factory.CreateSet<Room>(new Room(2, 2)), KB.askPossibleWumpusRooms(t));
+            AreSetEqual(CollectionFactory.CreateSet<Room>(new Room(2, 2)), KB.askPossibleWumpusRooms(t));
 
             KB = new WumpusKnowledgeBase(dpll, 2);
 
             step(KB, new AgentPercept(true, false, false, false, false), t);
-            AreSetEqual(Factory.CreateSet<Room>(
+            AreSetEqual(CollectionFactory.CreateSet<Room>(
                  new Room(1, 2),
                  new Room(2, 1)), KB.askPossibleWumpusRooms(t));
 
             KB = new WumpusKnowledgeBase(dpll, 3);
 
             step(KB, new AgentPercept(false, false, false, false, false), t);
-            AreSetEqual(Factory.CreateSet<Room>(
+            AreSetEqual(CollectionFactory.CreateSet<Room>(
                 new Room(1, 3),
                 new Room(2, 2),
                 new Room(2, 3),
@@ -174,14 +175,14 @@ namespace tvn_cosine.ai.test.unit.environment.wumpusworld
 
             KB = new WumpusKnowledgeBase(dpll, 2);
             step(KB, new AgentPercept(false, false, false, false, false), t);
-            AreSetEqual(Factory.CreateSet<Room>(new Room(1, 1),
+            AreSetEqual(CollectionFactory.CreateSet<Room>(new Room(1, 1),
                 new Room(1, 2),
                 new Room(2, 1)), KB.askNotUnsafeRooms(t));
 
             KB = new WumpusKnowledgeBase(dpll, 2);
 
             step(KB, new AgentPercept(true, false, false, false, false), t);
-            AreSetEqual(Factory.CreateSet<Room>(new Room(1, 1),
+            AreSetEqual(CollectionFactory.CreateSet<Room>(new Room(1, 1),
                 new Room(1, 2),
                 new Room(2, 1),
                 new Room(2, 2)), KB.askNotUnsafeRooms(t));

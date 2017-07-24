@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.csp
 {
@@ -17,7 +17,7 @@ namespace tvn.cosine.ai.search.csp
         where VAR : Variable
     {
         /** Returns a tuple of variables that participate in the constraint. */
-        IQueue<VAR> getScope();
+        ICollection<VAR> getScope();
 
         /** Constrains the values that the variables can take on. */
         bool isSatisfiedWith(Assignment<VAR, VAL> assignment);

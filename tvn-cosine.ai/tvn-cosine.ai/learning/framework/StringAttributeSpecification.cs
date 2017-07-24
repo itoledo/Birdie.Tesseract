@@ -1,4 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.learning.framework.api;
 
 namespace tvn.cosine.ai.learning.framework
 { 
@@ -6,11 +8,11 @@ namespace tvn.cosine.ai.learning.framework
     {
         string attributeName;
 
-        IQueue<string> attributePossibleValues;
+        ICollection<string> attributePossibleValues;
 
 
         public StringAttributeSpecification(string attributeName,
-                IQueue<string> attributePossibleValues)
+                ICollection<string> attributePossibleValues)
         {
             this.attributeName = attributeName;
             this.attributePossibleValues = attributePossibleValues;
@@ -18,7 +20,7 @@ namespace tvn.cosine.ai.learning.framework
 
         public StringAttributeSpecification(string attributeName,
                                             string[] attributePossibleValues)
-            : this(attributeName, Factory.CreateQueue<string>(attributePossibleValues))
+            : this(attributeName, CollectionFactory.CreateQueue<string>(attributePossibleValues))
         { }
 
         public bool IsValid(string value)
@@ -35,7 +37,7 @@ namespace tvn.cosine.ai.learning.framework
             return attributeName;
         }
 
-        public IQueue<string> possibleAttributeValues()
+        public ICollection<string> possibleAttributeValues()
         {
             return attributePossibleValues;
         }

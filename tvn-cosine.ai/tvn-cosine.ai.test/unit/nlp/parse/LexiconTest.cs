@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.nlp.data.lexicons;
 using tvn.cosine.ai.nlp.parsing;
 using tvn.cosine.ai.nlp.parsing.grammars;
@@ -64,9 +64,9 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
             l.addLexWords(key1, "apple", "0.25", "alpha", "0.5", "arrow", "0.25");
             l.addLexWords(key2, "ball", "0.25", "bench", "0.25", "blue", "0.25", "bell", "0.25");
             l.addLexWords(key3, "carrot", "0.25", "canary", "0.5", "caper", "0.25");
-            IQueue<Rule> rules1 = l.getTerminalRules(key1);
-            IQueue<Rule> rules2 = l.getTerminalRules(key2);
-            IQueue<Rule> rules3 = l.getTerminalRules(key3);
+            ICollection<Rule> rules1 = l.getTerminalRules(key1);
+            ICollection<Rule> rules2 = l.getTerminalRules(key2);
+            ICollection<Rule> rules3 = l.getTerminalRules(key3);
             Assert.AreEqual(rules1.Size(), 3);
             Assert.AreEqual(rules1.Get(0).rhs.Get(0), "apple");
             Assert.AreEqual(rules2.Size(), 4);
@@ -82,7 +82,7 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
             l.addLexWords(key1, "apple", "0.25", "alpha", "0.5", "arrow", "0.25");
             l.addLexWords(key2, "ball", "0.25", "bench", "0.25", "blue", "0.25", "bell", "0.25");
             l.addLexWords(key3, "carrot", "0.25", "canary", "0.5", "caper", "0.25");
-            IQueue<Rule> allRules = l.getAllTerminalRules();
+            ICollection<Rule> allRules = l.getAllTerminalRules();
             Assert.AreEqual(allRules.Size(), 10);
             Assert.IsTrue(allRules.Get(0).rhs.Get(0).Equals("apple") ||
                         allRules.Get(0).rhs.Get(0).Equals("ball") ||

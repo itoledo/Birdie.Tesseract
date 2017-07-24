@@ -1,6 +1,7 @@
 ﻿using System.Text;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
 
 namespace tvn.cosine.ai.learning.inductive
@@ -12,7 +13,7 @@ namespace tvn.cosine.ai.learning.inductive
 
         public DLTest()
         {
-            attrValues = Factory.CreateInsertionOrderedMap<string, string>();
+            attrValues = CollectionFactory.CreateInsertionOrderedMap<string, string>();
         }
 
         public void add(string nta, string ntaValue)

@@ -1,9 +1,10 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.search.online
 {
@@ -54,7 +55,7 @@ namespace tvn.cosine.ai.search.online
         // persistent: result, a table, indexed by state and action, initially empty
         private TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<S, A, S>();
         // H, a table of cost estimates indexed by state, initially empty
-        private IMap<S, double> H = Factory.CreateInsertionOrderedMap<S, double>();
+        private IMap<S, double> H = CollectionFactory.CreateInsertionOrderedMap<S, double>();
         // s, a, the previous state and action, initially null
         private S s = default(S);
         private A a = default(A);

@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.framework
 {
@@ -13,7 +14,7 @@ namespace tvn.cosine.ai.search.framework
 
         public Metrics()
         {
-            this.hash = Factory.CreateInsertionOrderedMap<string, string>();
+            this.hash = CollectionFactory.CreateInsertionOrderedMap<string, string>();
         }
 
         public void set(string name, int i)
@@ -58,13 +59,13 @@ namespace tvn.cosine.ai.search.framework
 
         public ISet<string> keySet()
         {
-            return Factory.CreateSet<string>(hash.GetKeys());
+            return CollectionFactory.CreateSet<string>(hash.GetKeys());
         }
 
         /** Sorts the key-value pairs by key names and formats them as equations. */
         public override string ToString()
         {
-            IMap<string, string> map = Factory.CreateTreeMap<string, string>(hash);
+            IMap<string, string> map = CollectionFactory.CreateTreeMap<string, string>(hash);
             return map.ToString();
         }
     }

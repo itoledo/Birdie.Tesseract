@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
@@ -109,7 +111,7 @@ namespace tvn.cosine.ai.probability.bayes.approx
             // w <- 1;
             double w = 1.0;
             // <b>x</b> <- an event with n elements initialized from e
-            IMap<RandomVariable, object> x = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IMap<RandomVariable, object> x = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
             foreach (AssignmentProposition ap in e)
             {
                 x.Put(ap.getTermVariable(), ap.getValue());

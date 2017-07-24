@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.probability.bayes.impl
@@ -11,9 +12,9 @@ namespace tvn.cosine.ai.probability.bayes.impl
      */
     public class BayesNet : BayesianNetwork
     {
-        protected ISet<Node> rootNodes = Factory.CreateSet<Node>();
-        protected IQueue<RandomVariable> variables = Factory.CreateQueue<RandomVariable>();
-        protected IMap<RandomVariable, Node> varToNodeMap = Factory.CreateInsertionOrderedMap<RandomVariable, Node>();
+        protected ISet<Node> rootNodes = CollectionFactory.CreateSet<Node>();
+        protected ICollection<RandomVariable> variables = CollectionFactory.CreateQueue<RandomVariable>();
+        protected IMap<RandomVariable, Node> varToNodeMap = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, Node>();
 
         public BayesNet(params Node[] rootNodes)
         {
@@ -31,13 +32,13 @@ namespace tvn.cosine.ai.probability.bayes.impl
             }
             // Ensure is a DAG
             checkIsDAGAndCollectVariablesInTopologicalOrder();
-            variables = Factory.CreateReadOnlyQueue<RandomVariable>(variables);
+            variables = CollectionFactory.CreateReadOnlyQueue<RandomVariable>(variables);
         }
 
         //
         // START-BayesianNetwork
 
-        public IQueue<RandomVariable> getVariablesInTopologicalOrder()
+        public ICollection<RandomVariable> getVariablesInTopologicalOrder()
         {
             return variables;
         }
@@ -58,9 +59,9 @@ namespace tvn.cosine.ai.probability.bayes.impl
         {
             // Topological sort based on logic described at:
             // http://en.wikipedia.org/wiki/Topoligical_sorting
-            ISet<Node> seenAlready = Factory.CreateSet<Node>();
-            IMap<Node, IQueue<Node>> incomingEdges = Factory.CreateMap<Node, IQueue<Node>>();
-            IQueue<Node> s = Factory.CreateFifoQueueNoDuplicates<Node>();
+            ISet<Node> seenAlready = CollectionFactory.CreateSet<Node>();
+            IMap<Node, ICollection<Node>> incomingEdges = CollectionFactory.CreateMap<Node, ICollection<Node>>();
+            ICollection<Node> s = CollectionFactory.CreateFifoQueueNoDuplicates<Node>();
             foreach (Node n in this.rootNodes)
             {
                 walkNode(n, seenAlready, incomingEdges, s);
@@ -72,7 +73,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
                 varToNodeMap.Put(n.getRandomVariable(), n);
                 foreach (Node m in n.getChildren())
                 {
-                    IQueue<Node> edges = incomingEdges.Get(m);
+                    ICollection<Node> edges = incomingEdges.Get(m);
                     edges.Remove(n);
                     if (edges.IsEmpty())
                     {
@@ -81,7 +82,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
                 }
             }
 
-            foreach (IQueue<Node> edges in incomingEdges.GetValues())
+            foreach (ICollection<Node> edges in incomingEdges.GetValues())
             {
                 if (!edges.IsEmpty())
                 {
@@ -91,7 +92,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
         }
 
         private void walkNode(Node n, ISet<Node> seenAlready,
-                IMap<Node, IQueue<Node>> incomingEdges, IQueue<Node> rootNodes)
+                IMap<Node, ICollection<Node>> incomingEdges, ICollection<Node> rootNodes)
         {
             if (!seenAlready.Contains(n))
             {
@@ -101,7 +102,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
                 {
                     rootNodes.Add(n);
                 }
-                incomingEdges.Put(n, Factory.CreateQueue<Node>(n.getParents()));
+                incomingEdges.Put(n, CollectionFactory.CreateQueue<Node>(n.getParents()));
                 foreach (Node c in n.getChildren())
                 {
                     walkNode(c, seenAlready, incomingEdges, rootNodes);

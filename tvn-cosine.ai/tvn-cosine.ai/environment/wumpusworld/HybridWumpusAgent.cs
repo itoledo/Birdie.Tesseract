@@ -1,6 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.environment.wumpusworld.action;
 using tvn.cosine.ai.search.framework;
@@ -9,6 +9,7 @@ using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.search.informed;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.environment.wumpusworld
 {
@@ -75,7 +76,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
         // t, a counter, initially 0, indicating time
         private int t = 0;
         // plan, an action sequence, initially empty
-        private IQueue<IAction> plan = Factory.CreateFifoQueue<IAction>(); // FIFOQueue
+        private ICollection<IAction> plan = CollectionFactory.CreateFifoQueue<IAction>(); // FIFOQueue
 
         /**
          * function HYBRID-WUMPUS-AGENT(percept) returns an action<br>
@@ -101,7 +102,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             if (kb.askGlitter(t))
             {
                 // plan <- [Grab] + PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
-                ISet<Room> goals = Factory.CreateSet<Room>();
+                ISet<Room> goals = CollectionFactory.CreateSet<Room>();
                 goals.Add(new Room(1, 1));
 
                 plan.Add(new Grab());
@@ -142,7 +143,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             if (plan.IsEmpty())
             {
                 // plan PLAN-ROUTE(current, {[1,1]}, safe) + [Climb]
-                ISet<Room> start = Factory.CreateSet<Room>();
+                ISet<Room> start = CollectionFactory.CreateSet<Room>();
                 start.Add(new Room(1, 1));
                 plan.AddAll(planRoute(current, start, safe));
                 plan.Add(new Climb());
@@ -170,13 +171,13 @@ namespace tvn.cosine.ai.environment.wumpusworld
          * @return the best sequence of actions that the agent have to do to reach a
          *         goal from the current position.
          */
-        public IQueue<IAction> planRoute(AgentPosition current, ISet<Room> goals, ISet<Room> allowed)
+        public ICollection<IAction> planRoute(AgentPosition current, ISet<Room> goals, ISet<Room> allowed)
         {
 
             // Every square represent 4 possible positions for the agent, it could
             // be in different orientations. For every square in allowed and goals
             // sets we add 4 squares.
-            ISet<AgentPosition> allowedPositions = Factory.CreateSet<AgentPosition>();
+            ISet<AgentPosition> allowedPositions = CollectionFactory.CreateSet<AgentPosition>();
             foreach (Room allowedRoom in allowed)
             {
                 int x = allowedRoom.getX();
@@ -187,7 +188,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 allowedPositions.Add(new AgentPosition(x, y, AgentPosition.Orientation.FACING_NORTH));
                 allowedPositions.Add(new AgentPosition(x, y, AgentPosition.Orientation.FACING_SOUTH));
             }
-            ISet<AgentPosition> goalPositions = Factory.CreateSet<AgentPosition>();
+            ISet<AgentPosition> goalPositions = CollectionFactory.CreateSet<AgentPosition>();
             foreach (Room goalRoom in goals)
             {
                 int x = goalRoom.getX();
@@ -212,7 +213,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             SearchForActions<AgentPosition, IAction> search = new AStarSearch<AgentPosition, IAction>(
                 new GraphSearch<AgentPosition, IAction>(), h);
             SearchAgent<AgentPosition, IAction> agent;
-            IQueue<IAction> actions = null;
+            ICollection<IAction> actions = null;
             try
             {
                 agent = new SearchAgent<AgentPosition, IAction>(problem, search);
@@ -222,7 +223,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 // no actions.
                 if (actions.Size() == 1 && actions.Get(0).IsNoOp())
                 {
-                    actions = Factory.CreateQueue<IAction>();
+                    actions = CollectionFactory.CreateQueue<IAction>();
                 }
             }
             catch (Exception e)
@@ -246,9 +247,9 @@ namespace tvn.cosine.ai.environment.wumpusworld
          * @return the sequence of actions to reach the nearest square that is in
          *         line with a possible wumpus position. The last action is a shot.
          */
-        public IQueue<IAction> planShot(AgentPosition current, ISet<Room> possibleWumpus, ISet<Room> allowed)
+        public ICollection<IAction> planShot(AgentPosition current, ISet<Room> possibleWumpus, ISet<Room> allowed)
         {
-            ISet<AgentPosition> shootingPositions = Factory.CreateSet<AgentPosition>();
+            ISet<AgentPosition> shootingPositions = CollectionFactory.CreateSet<AgentPosition>();
 
             foreach (Room p in possibleWumpus)
             {
@@ -286,13 +287,13 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 }
             }
 
-            ISet<Room> shootingPositionsArray = Factory.CreateSet<Room>();
+            ISet<Room> shootingPositionsArray = CollectionFactory.CreateSet<Room>();
             foreach (AgentPosition tmp in shootingPositions)
             {
                 shootingPositionsArray.Add(new Room(tmp.getX(), tmp.getY()));
             }
 
-            IQueue<IAction> actions = planRoute(current, shootingPositionsArray, allowed);
+            ICollection<IAction> actions = planRoute(current, shootingPositionsArray, allowed);
 
             AgentPosition newPos = current;
             if (actions.Size() > 0)

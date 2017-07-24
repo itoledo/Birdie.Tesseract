@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.kb;
@@ -75,7 +76,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             Literal alpha = new Literal((AtomicSentence)query);
 
             // local variables: new, the new sentences inferred on each iteration
-            IQueue<Literal> newSentences = Factory.CreateQueue<Literal>();
+            ICollection<Literal> newSentences = CollectionFactory.CreateQueue<Literal>();
 
             // Ensure query is not already a know fact before
             // attempting forward chaining.
@@ -166,9 +167,9 @@ namespace tvn.cosine.ai.logic.fol.inference
         //
         // PRIVATE METHODS
         //
-        private IQueue<Literal> invert(IQueue<Literal> lits)
+        private ICollection<Literal> invert(ICollection<Literal> lits)
         {
-            IQueue<Literal> invLits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> invLits = CollectionFactory.CreateQueue<Literal>();
             foreach (Literal l in lits)
             {
                 invLits.Add(new Literal(l.getAtomicSentence(), (l.isPositiveLiteral() ? true : false)));
@@ -179,7 +180,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         class FCAskAnswerHandler : InferenceResult
         {
             private ProofStep stepFinal = null;
-            private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
+            private ICollection<Proof> proofs = CollectionFactory.CreateQueue<Proof>();
 
             public FCAskAnswerHandler()
             { }
@@ -206,7 +207,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 return false;
             }
 
-            public IQueue<Proof> getProofs()
+            public ICollection<Proof> getProofs()
             {
                 return proofs;
             }

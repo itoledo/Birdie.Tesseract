@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -19,7 +19,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             this.step = step;
         }
 
-        public abstract IQueue<ProofStep> getPredecessorSteps(); 
+        public abstract ICollection<ProofStep> getPredecessorSteps(); 
         public abstract string getProof(); 
         public abstract string getJustification(); 
     }

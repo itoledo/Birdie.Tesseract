@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.search.framework

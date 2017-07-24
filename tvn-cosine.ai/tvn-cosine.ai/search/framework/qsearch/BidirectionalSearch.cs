@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.search.framework.problem;
 
@@ -40,7 +41,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
         private bool isReverseActionTestEnabled = true;
 
         // index 0: original problem, index 2: reverse problem
-        private IQueue<IMap<S, ExtendedNode>> explored;
+        private ICollection<IMap<S, ExtendedNode>> explored;
         private ExtendedNode goalStateNode;
 
         public BidirectionalSearch()
@@ -50,9 +51,9 @@ namespace tvn.cosine.ai.search.framework.qsearch
         public BidirectionalSearch(NodeExpander<S, A> nodeExpander)
             : base(nodeExpander)
         {
-            explored = Factory.CreateQueue<IMap<S, ExtendedNode>>();
-            explored.Add(Factory.CreateInsertionOrderedMap<S, ExtendedNode>());
-            explored.Add(Factory.CreateInsertionOrderedMap<S, ExtendedNode>());
+            explored = CollectionFactory.CreateQueue<IMap<S, ExtendedNode>>();
+            explored.Add(CollectionFactory.CreateInsertionOrderedMap<S, ExtendedNode>());
+            explored.Add(CollectionFactory.CreateInsertionOrderedMap<S, ExtendedNode>());
         }
 
         public bool GetIsCancelled()
@@ -85,7 +86,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          *         containing a single NoOp Action if already at the goal, or an
          *         empty list if the goal could not be found.
          */
-        public override Node<S, A> findNode(Problem<S, A> problem, IQueue<Node<S, A>> frontier)
+        public override Node<S, A> findNode(Problem<S, A> problem, ICollection<Node<S, A>> frontier)
         {
             if (!(problem is BidirectionalProblem<S, A>))
             {

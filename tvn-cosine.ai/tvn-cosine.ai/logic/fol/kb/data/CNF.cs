@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.kb.data
 {
@@ -12,9 +13,9 @@ namespace tvn.cosine.ai.logic.fol.kb.data
      */
     public class CNF
     {
-        private IQueue<Clause> conjunctionOfClauses = Factory.CreateQueue<Clause>();
+        private ICollection<Clause> conjunctionOfClauses = CollectionFactory.CreateQueue<Clause>();
 
-        public CNF(IQueue<Clause> conjunctionOfClauses)
+        public CNF(ICollection<Clause> conjunctionOfClauses)
         {
             this.conjunctionOfClauses.AddAll(conjunctionOfClauses);
         }
@@ -24,9 +25,9 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             return conjunctionOfClauses.Size();
         }
 
-        public IQueue<Clause> getConjunctionOfClauses()
+        public ICollection<Clause> getConjunctionOfClauses()
         {
-            return Factory.CreateReadOnlyQueue<Clause>(conjunctionOfClauses);
+            return CollectionFactory.CreateReadOnlyQueue<Clause>(conjunctionOfClauses);
         }
          
         public override string ToString()

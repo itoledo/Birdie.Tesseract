@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util.math;
 
@@ -42,14 +43,14 @@ namespace tvn.cosine.ai.probability.hmm.exact
         //
         // START-ForwardBackwardInference
 
-        public override IQueue<CategoricalDistribution> forwardBackward(IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
+        public override ICollection<CategoricalDistribution> forwardBackward(ICollection<ICollection<AssignmentProposition>> ev, CategoricalDistribution prior)
         {
             // local variables: f, the forward message <- prior
             Matrix f = hmm.convert(prior);
             // b, a representation of the backward message, initially all 1s
             Matrix b = hmm.createUnitMessage();
             // sv, a vector of smoothed estimates for steps 1,...,t
-            IQueue<Matrix> sv = Factory.CreateQueue<Matrix>();
+            ICollection<Matrix> sv = CollectionFactory.CreateQueue<Matrix>();
 
             // for i = 1 to t do
             for (int i = 0; i < ev.Size();++i)

@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.cellworld;
 
 namespace tvn.cosine.ai.learning.reinforcement.example
@@ -12,7 +13,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
      */
     public class CellWorldEnvironmentState : IEnvironmentState
     { 
-        private IMap<IAgent, CellWorldPercept> agentLocations = Factory.CreateInsertionOrderedMap<IAgent, CellWorldPercept>();
+        private IMap<IAgent, CellWorldPercept> agentLocations = CollectionFactory.CreateInsertionOrderedMap<IAgent, CellWorldPercept>();
 
         /**
          * Default Constructor.

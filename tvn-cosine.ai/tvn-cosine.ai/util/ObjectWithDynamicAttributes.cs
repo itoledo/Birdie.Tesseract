@@ -1,6 +1,7 @@
 ﻿using System.Text;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.util
 {
@@ -11,7 +12,7 @@ namespace tvn.cosine.ai.util
      */
     public abstract class ObjectWithDynamicAttributes : IEquatable, IHashable, IStringable
     {
-        private IMap<object, object> attributes = Factory.CreateInsertionOrderedMap<object, object>();
+        private IMap<object, object> attributes = CollectionFactory.CreateInsertionOrderedMap<object, object>();
 
         /**
          * By default, returns the simple name of the underlying class as given in the source code.
@@ -61,7 +62,7 @@ namespace tvn.cosine.ai.util
          */
         public virtual ISet<object> getKeySet()
         {
-            return Factory.CreateReadOnlySet<object>(attributes.GetKeys());
+            return CollectionFactory.CreateReadOnlySet<object>(attributes.GetKeys());
         }
 
         /**

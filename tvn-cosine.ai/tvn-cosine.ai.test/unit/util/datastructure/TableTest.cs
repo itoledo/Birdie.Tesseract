@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 
 namespace tvn_cosine.ai.test.unit.util.datastructure
@@ -12,8 +13,8 @@ namespace tvn_cosine.ai.test.unit.util.datastructure
         [TestInitialize]
         public void setUp()
         {
-            IQueue<string> rowHeaders = Factory.CreateQueue<string>();
-            IQueue<string> columnHeaders = Factory.CreateQueue<string>();
+            ICollection<string> rowHeaders = CollectionFactory.CreateQueue<string>();
+            ICollection<string> columnHeaders = CollectionFactory.CreateQueue<string>();
 
             rowHeaders.Add("row1");
             rowHeaders.Add("ravi");

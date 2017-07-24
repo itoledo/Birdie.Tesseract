@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
@@ -101,7 +102,7 @@ namespace tvn.cosine.ai.probability.hmm.impl
             return prior;
         }
 
-        public virtual Matrix getEvidence(IQueue<AssignmentProposition> evidence)
+        public virtual Matrix getEvidence(ICollection<AssignmentProposition> evidence)
         {
             if (evidence.Size() != 1)
             {
@@ -140,9 +141,9 @@ namespace tvn.cosine.ai.probability.hmm.impl
             return new ProbabilityTable(fromMessage.getRowPackedCopy(), stateVariable);
         }
 
-        public virtual IQueue<CategoricalDistribution> convert(IQueue<Matrix> matrixs)
+        public virtual ICollection<CategoricalDistribution> convert(ICollection<Matrix> matrixs)
         {
-            IQueue<CategoricalDistribution> cds = Factory.CreateQueue<CategoricalDistribution>();
+            ICollection<CategoricalDistribution> cds = CollectionFactory.CreateQueue<CategoricalDistribution>();
             foreach (Matrix m in matrixs)
             {
                 cds.Add(convert(m));

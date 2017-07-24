@@ -1,5 +1,6 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.parsing.ast;
@@ -61,7 +62,7 @@ namespace tvn.cosine.ai.learning.knowledge
         {
             ithExampleConstant = new Constant(folDSDomain.getExampleConstant(egNo));
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(ithExampleConstant);
             // Create the classification sentence
             classification = new Predicate(folDSDomain.getGoalPredicateName(), terms);
@@ -73,11 +74,11 @@ namespace tvn.cosine.ai.learning.knowledge
             }
 
             // Create the description sentence
-            IQueue<Sentence> descParts = Factory.CreateQueue<Sentence>();
+            ICollection<Sentence> descParts = CollectionFactory.CreateQueue<Sentence>();
             foreach (string dname in folDSDomain.getDescriptionDataSetNames())
             {
                 string foldDName = folDSDomain.getFOLName(dname);
-                terms = Factory.CreateQueue<Term>();
+                terms = CollectionFactory.CreateQueue<Term>();
                 terms.Add(ithExampleConstant);
                 // If multivalued becomes a two place predicate
                 // e.g: Patrons(X1, Some)

@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.environment.connectfour

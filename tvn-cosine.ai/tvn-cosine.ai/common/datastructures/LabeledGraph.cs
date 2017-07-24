@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.common.datastructures
 {
@@ -18,13 +19,13 @@ namespace tvn.cosine.ai.common.datastructures
          */
         private readonly IMap<VertexLabelType, IMap<VertexLabelType, EdgeLabelType>> globalEdgeLookup;
         /** List of the labels of all vertices within the graph. */
-        private readonly IQueue<VertexLabelType> vertexLabels;
+        private readonly ICollection<VertexLabelType> vertexLabels;
 
         /** Creates a new empty graph. */
         public LabeledGraph()
         {
-            globalEdgeLookup = Factory.CreateInsertionOrderedMap<VertexLabelType, IMap<VertexLabelType, EdgeLabelType>>();
-            vertexLabels = Factory.CreateFifoQueue<VertexLabelType>();
+            globalEdgeLookup = CollectionFactory.CreateInsertionOrderedMap<VertexLabelType, IMap<VertexLabelType, EdgeLabelType>>();
+            vertexLabels = CollectionFactory.CreateFifoQueue<VertexLabelType>();
         }
 
         /**
@@ -64,7 +65,7 @@ namespace tvn.cosine.ai.common.datastructures
             IMap<VertexLabelType, EdgeLabelType> result = globalEdgeLookup.Get(v);
             if (result == null)
             {
-                result = Factory.CreateInsertionOrderedMap<VertexLabelType, EdgeLabelType>();
+                result = CollectionFactory.CreateInsertionOrderedMap<VertexLabelType, EdgeLabelType>();
                 globalEdgeLookup.Put(v, result);
                 vertexLabels.Add(v);
             }
@@ -108,9 +109,9 @@ namespace tvn.cosine.ai.common.datastructures
          * Returns the labels of those vertices which can be obtained by following
          * the edges starting at the specified vertex.
          */
-        public IQueue<VertexLabelType> getSuccessors(VertexLabelType v)
+        public ICollection<VertexLabelType> getSuccessors(VertexLabelType v)
         {
-            IQueue<VertexLabelType> result = Factory.CreateQueue<VertexLabelType>();
+            ICollection<VertexLabelType> result = CollectionFactory.CreateQueue<VertexLabelType>();
             IMap<VertexLabelType, EdgeLabelType> localEdgeLookup = globalEdgeLookup.Get(v);
             if (localEdgeLookup != null)
             {
@@ -120,7 +121,7 @@ namespace tvn.cosine.ai.common.datastructures
         }
 
         /** Returns the labels of all vertices within the graph. */
-        public IQueue<VertexLabelType> getVertexLabels()
+        public ICollection<VertexLabelType> getVertexLabels()
         {
             return vertexLabels;
         }

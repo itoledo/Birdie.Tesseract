@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
@@ -20,7 +21,7 @@ namespace tvn.cosine.ai.probability.util
     {
         private double[] values = null;
         //
-        private IMap<RandomVariable, RVInfo> randomVarInfo = Factory.CreateInsertionOrderedMap<RandomVariable, RVInfo>();
+        private IMap<RandomVariable, RVInfo> randomVarInfo = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, RVInfo>();
         private int[] radices = null;
         private MixedRadixNumber queryMRN = null;
         //
@@ -49,7 +50,7 @@ namespace tvn.cosine.ai.probability.util
              */
         }
 
-        public ProbabilityTable(IQueue<RandomVariable> vars)
+        public ProbabilityTable(ICollection<RandomVariable> vars)
             : this(vars.ToArray())
         { }
 
@@ -100,7 +101,7 @@ namespace tvn.cosine.ai.probability.util
 
         public ISet<RandomVariable> getFor()
         {
-            return Factory.CreateReadOnlySet<RandomVariable>(randomVarInfo.GetKeys());
+            return CollectionFactory.CreateReadOnlySet<RandomVariable>(randomVarInfo.GetKeys());
         }
 
 
@@ -279,7 +280,7 @@ namespace tvn.cosine.ai.probability.util
 
         public ISet<RandomVariable> getArgumentVariables()
         {
-            return Factory.CreateReadOnlySet<RandomVariable>(randomVarInfo.GetKeys());
+            return CollectionFactory.CreateReadOnlySet<RandomVariable>(randomVarInfo.GetKeys());
         }
 
         class ProbabilityTableIteratorImpl : ProbabilityTableIterator
@@ -308,7 +309,7 @@ namespace tvn.cosine.ai.probability.util
 
         public ProbabilityTable sumOut(params RandomVariable[] vars)
         {
-            ISet<RandomVariable> soutVars = Factory.CreateSet<RandomVariable>(this.randomVarInfo.GetKeys());
+            ISet<RandomVariable> soutVars = CollectionFactory.CreateSet<RandomVariable>(this.randomVarInfo.GetKeys());
             foreach (RandomVariable rv in vars)
             {
                 soutVars.Remove(rv);
@@ -357,7 +358,7 @@ namespace tvn.cosine.ai.probability.util
          */
         public void iterateOverTable(Iterator pti)
         {
-            IMap<RandomVariable, object> possibleWorld = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IMap<RandomVariable, object> possibleWorld = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
             MixedRadixNumber mrn = new MixedRadixNumber(0, radices);
             do
             {
@@ -385,7 +386,7 @@ namespace tvn.cosine.ai.probability.util
          */
         public void iterateOverTable(Iterator pti, params AssignmentProposition[] fixedValues)
         {
-            IMap<RandomVariable, object> possibleWorld = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IMap<RandomVariable, object> possibleWorld = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
             MixedRadixNumber tableMRN = new MixedRadixNumber(0, radices);
             int[] tableRadixValues = new int[radices.Length];
 
@@ -415,9 +416,9 @@ namespace tvn.cosine.ai.probability.util
             {
                 // Else iterate over the non-fixed values
                 ISet<RandomVariable> freeVariables = SetOps.difference(
-                    Factory.CreateSet<RandomVariable>(this.randomVarInfo.GetKeys()),
-                    Factory.CreateSet<RandomVariable>(possibleWorld.GetKeys()));
-                IMap<RandomVariable, RVInfo> freeVarInfo = Factory.CreateInsertionOrderedMap<RandomVariable, RVInfo>();
+                    CollectionFactory.CreateSet<RandomVariable>(this.randomVarInfo.GetKeys()),
+                    CollectionFactory.CreateSet<RandomVariable>(possibleWorld.GetKeys()));
+                IMap<RandomVariable, RVInfo> freeVarInfo = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, RVInfo>();
                 // Remove the fixed Variables
                 foreach (RandomVariable fv in freeVariables)
                 {
@@ -542,13 +543,13 @@ namespace tvn.cosine.ai.probability.util
             {
                 ISet<RandomVariable> dividendDivisorDiff = SetOps
                         .difference(
-                    Factory.CreateSet<RandomVariable>(this.randomVarInfo.GetKeys()),
-                    Factory.CreateSet<RandomVariable>(divisor.randomVarInfo.GetKeys()));
+                    CollectionFactory.CreateSet<RandomVariable>(this.randomVarInfo.GetKeys()),
+                    CollectionFactory.CreateSet<RandomVariable>(divisor.randomVarInfo.GetKeys()));
                 IMap<RandomVariable, RVInfo> tdiff = null;
                 MixedRadixNumber tdMRN = null;
                 if (dividendDivisorDiff.Size() > 0)
                 {
-                    tdiff = Factory.CreateInsertionOrderedMap<RandomVariable, RVInfo>();
+                    tdiff = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, RVInfo>();
                     foreach (RandomVariable rv in dividendDivisorDiff)
                     {
                         tdiff.Put(rv, new RVInfo(rv));
@@ -617,8 +618,8 @@ namespace tvn.cosine.ai.probability.util
 
         public ProbabilityTable pointwiseProduct(ProbabilityTable multiplier)
         {
-            ISet<RandomVariable> prodVars = SetOps.union(Factory.CreateSet<RandomVariable>(randomVarInfo.GetKeys()),
-                     Factory.CreateSet<RandomVariable>(multiplier.randomVarInfo.GetKeys()));
+            ISet<RandomVariable> prodVars = SetOps.union(CollectionFactory.CreateSet<RandomVariable>(randomVarInfo.GetKeys()),
+                     CollectionFactory.CreateSet<RandomVariable>(multiplier.randomVarInfo.GetKeys()));
             return pointwiseProductPOS(multiplier, prodVars.ToArray());
         }
 
@@ -627,7 +628,7 @@ namespace tvn.cosine.ai.probability.util
             ProbabilityTable product = new ProbabilityTable(prodVarOrder);
             if (!product.randomVarInfo.GetKeys()
                 .SequenceEqual(
-                    SetOps.union(Factory.CreateSet<RandomVariable>(randomVarInfo.GetKeys()), Factory.CreateSet<RandomVariable>(multiplier.randomVarInfo.GetKeys()))))
+                    SetOps.union(CollectionFactory.CreateSet<RandomVariable>(randomVarInfo.GetKeys()), CollectionFactory.CreateSet<RandomVariable>(multiplier.randomVarInfo.GetKeys()))))
             {
                 throw new IllegalArgumentException("Specified list deatailing order of mulitplier is inconsistent.");
             }

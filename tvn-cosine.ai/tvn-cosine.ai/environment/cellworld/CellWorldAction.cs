@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.environment.cellworld
 {
@@ -28,7 +29,7 @@ namespace tvn.cosine.ai.environment.cellworld
 
         static CellWorldAction()
         {
-            _actions = Factory.CreateSet<CellWorldAction>();
+            _actions = CollectionFactory.CreateSet<CellWorldAction>();
             _actions.Add(Up);
             _actions.Add(Down);
             _actions.Add(Left);
@@ -42,7 +43,7 @@ namespace tvn.cosine.ai.environment.cellworld
          */
         public static ISet<CellWorldAction> actions()
         {
-            return Factory.CreateReadOnlySet<CellWorldAction>(_actions);
+            return CollectionFactory.CreateReadOnlySet<CellWorldAction>(_actions);
         }
 
         public bool IsNoOp()

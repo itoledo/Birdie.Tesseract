@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.common.datastructures
+﻿using tvn.cosine.ai.common.api;
+
+namespace tvn.cosine.ai.common.datastructures
 {
     /**
      * @author Ravi Mohan

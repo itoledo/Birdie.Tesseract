@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.inference;
 using tvn.cosine.ai.logic.fol.kb.data;
@@ -37,7 +38,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
 
             FOLParser parser = new FOLParser(domain);
 
-            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> lits = CollectionFactory.CreateQueue<Literal>();
             AtomicSentence a1 = (AtomicSentence)parser.parse("P(F(x,B),x)");
             AtomicSentence a2 = (AtomicSentence)parser.parse("Q(x)");
             lits.Add(new Literal(a1));
@@ -76,7 +77,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
 
             FOLParser parser = new FOLParser(domain);
 
-            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> lits = CollectionFactory.CreateQueue<Literal>();
             AtomicSentence a1 = (AtomicSentence)parser.parse("F(C,x) = D");
             AtomicSentence a2 = (AtomicSentence)parser.parse("A = D");
             AtomicSentence a3 = (AtomicSentence)parser.parse("P(F(x,B),x)");
@@ -138,7 +139,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
 
             FOLParser parser = new FOLParser(domain);
 
-            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> lits = CollectionFactory.CreateQueue<Literal>();
             AtomicSentence a1 = (AtomicSentence)parser.parse("P(y, F(A,y))");
             lits.Add(new Literal(a1));
 
@@ -166,7 +167,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
 
             FOLParser parser = new FOLParser(domain);
 
-            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> lits = CollectionFactory.CreateQueue<Literal>();
             AtomicSentence a1 = (AtomicSentence)parser.parse("P(y, F(A,y))");
             lits.Add(new Literal(a1));
 

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
 
 namespace tvn.cosine.ai.logic.propositional.visitors
@@ -22,7 +23,7 @@ namespace tvn.cosine.ai.logic.propositional.visitors
          */
         public static ISet<PropositionSymbol> getSymbolsFrom(params Sentence[] sentences)
         {
-            ISet<PropositionSymbol> result = Factory.CreateSet<PropositionSymbol>();
+            ISet<PropositionSymbol> result = CollectionFactory.CreateSet<PropositionSymbol>();
 
             SymbolCollector symbolCollector = new SymbolCollector();
             foreach (Sentence s in sentences)

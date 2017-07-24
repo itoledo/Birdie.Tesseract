@@ -1,10 +1,11 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.probability.mdp;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.learning.reinforcement.example
 {
@@ -18,7 +19,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
     public class CellWorldEnvironment : EnvironmentBase
     {
         private Cell<double> startingCell = null;
-        private ISet<Cell<double>> allStates = Factory.CreateSet<Cell<double>>();
+        private ISet<Cell<double>> allStates = CollectionFactory.CreateSet<Cell<double>>();
         private TransitionProbabilityFunction<Cell<double>, CellWorldAction> tpf;
         private IRandom r = null;
         private CellWorldEnvironmentState currentState = new CellWorldEnvironmentState();

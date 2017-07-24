@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.wumpusworld.action;
 using tvn.cosine.ai.search.framework.problem;
 
@@ -30,11 +31,11 @@ namespace tvn.cosine.ai.environment.wumpusworld
                 this.cave = cave;
             }
 
-            public IQueue<IAction> apply(AgentPosition state)
+            public ICollection<IAction> apply(AgentPosition state)
             {
-                IQueue<IAction> actions = Factory.CreateQueue<IAction>();
+                ICollection<IAction> actions = CollectionFactory.CreateQueue<IAction>();
 
-                IQueue<AgentPosition> linkedPositions = cave.getLocationsLinkedTo(state);
+                ICollection<AgentPosition> linkedPositions = cave.getLocationsLinkedTo(state);
                 foreach (AgentPosition linkPos in linkedPositions)
                 {
                     if (linkPos.getX() != state.getX()

@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.nlp.ranking
 {
@@ -7,7 +7,7 @@ namespace tvn.cosine.ai.nlp.ranking
 
         public static void main(params string[] args)
         {
-            IQueue<Page> result;
+            ICollection<Page> result;
             // build page table
             IMap<string, Page> pageTable = PagesDataset.loadDefaultPages();
             // Create HITS Ranker

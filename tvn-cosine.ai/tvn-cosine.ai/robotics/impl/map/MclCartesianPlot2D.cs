@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.robotics.datatypes;
 using tvn.cosine.ai.robotics.impl.datatypes;

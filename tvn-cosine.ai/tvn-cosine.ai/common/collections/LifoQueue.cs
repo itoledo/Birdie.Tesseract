@@ -1,8 +1,10 @@
-﻿using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.collections
 {
-    public class LifoQueue<T> : QueueBase<T>, IQueue<T>
+    public class LifoQueue<T> : CollectionBase<T>, ICollection<T>
     {
         private readonly System.Collections.Generic.Stack<T> backingStack;
 
@@ -11,7 +13,7 @@ namespace tvn.cosine.ai.common.collections
             backingStack = new System.Collections.Generic.Stack<T>();
         }
 
-        public LifoQueue(IQueue<T> items)
+        public LifoQueue(ICollection<T> items)
             : this()
         {
             AddAll(items);
@@ -23,7 +25,7 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
-        public void AddAll(IQueue<T> items)
+        public void AddAll(ICollection<T> items)
         {
             foreach (var item in items)
             {
@@ -31,7 +33,7 @@ namespace tvn.cosine.ai.common.collections
             }
         }
 
-        public bool SequenceEqual(IQueue<T> other)
+        public bool SequenceEqual(ICollection<T> other)
         {
             if (null == other
              || other.Size() != Size())
@@ -96,7 +98,7 @@ namespace tvn.cosine.ai.common.collections
             return backingStack.ToArray();
         }
 
-        public bool ContainsAll(IQueue<T> other)
+        public bool ContainsAll(ICollection<T> other)
         {
             foreach (T item in other)
             {
@@ -109,52 +111,52 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
-        void IQueue<T>.RemoveAt(int index)
+        void ICollection<T>.RemoveAt(int index)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        bool IQueue<T>.Remove(T item)
+        bool ICollection<T>.Remove(T item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        T IQueue<T>.Get(int index)
+        T ICollection<T>.Get(int index)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        int IQueue<T>.IndexOf(T item)
+        int ICollection<T>.IndexOf(T item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<T>.Insert(int index, T item)
+        void ICollection<T>.Insert(int index, T item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<T>.Sort(IComparer<T> comparer)
+        void ICollection<T>.Sort(IComparer<T> comparer)
         {
             throw new NotSupportedException("Not supported");
         }
          
-        void IQueue<T>.RemoveAll(IQueue<T> items)
+        void ICollection<T>.RemoveAll(ICollection<T> items)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<T>.Reverse()
+        void ICollection<T>.Reverse()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        IQueue<T> IQueue<T>.subList(int startPos, int endPos)
+        ICollection<T> ICollection<T>.subList(int startPos, int endPos)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<T>.Set(int position, T item)
+        void ICollection<T>.Set(int position, T item)
         {
             throw new NotSupportedException("Not supported");
         }

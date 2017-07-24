@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
@@ -6,7 +7,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofStepClauseParamodulation : AbstractProofStep
     {
-        private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
+        private ICollection<ProofStep> predecessors = CollectionFactory.CreateQueue<ProofStep>();
         private Clause paramodulated = null;
         private Clause topClause = null;
         private Clause equalityClause = null;
@@ -23,9 +24,9 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             this.predecessors.Add(equalityClause.getProofStep());
         }
 
-        public override IQueue<ProofStep> getPredecessorSteps()
+        public override ICollection<ProofStep> getPredecessorSteps()
         {
-            return Factory.CreateReadOnlyQueue<ProofStep>(predecessors);
+            return CollectionFactory.CreateReadOnlyQueue<ProofStep>(predecessors);
         }
          
         public override string getProof()

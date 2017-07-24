@@ -1,9 +1,11 @@
 ﻿using System.Linq;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.collections
 {
-    public class PriorityQueue<T> : QueueBase<T>, IQueue<T>
+    public class PriorityQueue<T> : CollectionBase<T>, ICollection<T>
     {
         private readonly System.Collections.Generic.List<T> backingList;
         private readonly IComparer<T> comparer;
@@ -31,7 +33,7 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
-        public void AddAll(IQueue<T> items)
+        public void AddAll(ICollection<T> items)
         {
             foreach (T item in items)
             {
@@ -39,7 +41,7 @@ namespace tvn.cosine.ai.common.collections
             }
         }
 
-        public bool SequenceEqual(IQueue<T> other)
+        public bool SequenceEqual(ICollection<T> other)
         {
             Sort(comparer);
             if (null == other
@@ -153,12 +155,12 @@ namespace tvn.cosine.ai.common.collections
             backingList.Sort(new ComparerAdaptor(comparer));
         }
 
-        void IQueue<T>.Insert(int index, T item)
+        void ICollection<T>.Insert(int index, T item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        public bool ContainsAll(IQueue<T> other)
+        public bool ContainsAll(ICollection<T> other)
         {
             foreach (T item in other)
                 if (!backingList.Contains(item))
@@ -166,7 +168,7 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
-        public void RemoveAll(IQueue<T> items)
+        public void RemoveAll(ICollection<T> items)
         {
             foreach (T item in items)
                 backingList.Remove(item);
@@ -183,7 +185,7 @@ namespace tvn.cosine.ai.common.collections
             throw new System.NotImplementedException();
         }
 
-        public IQueue<T> subList(int startPos, int endPos)
+        public ICollection<T> subList(int startPos, int endPos)
         {
             throw new System.NotImplementedException();
         }

@@ -1,7 +1,8 @@
 ﻿using System.Text;
 using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.environment.vacuum
@@ -25,8 +26,8 @@ namespace tvn.cosine.ai.environment.vacuum
          */
         public VacuumEnvironmentState()
         {
-            state = Factory.CreateInsertionOrderedMap<string, VacuumEnvironment.LocationState>();
-            agentLocations = Factory.CreateInsertionOrderedMap<IAgent, string>();
+            state = CollectionFactory.CreateInsertionOrderedMap<string, VacuumEnvironment.LocationState>();
+            agentLocations = CollectionFactory.CreateInsertionOrderedMap<IAgent, string>();
         }
 
         public string getAgentLocation(IAgent a)
@@ -81,8 +82,8 @@ namespace tvn.cosine.ai.environment.vacuum
             VacuumEnvironmentState result = null;
 
             result = new VacuumEnvironmentState();
-            result.state = Factory.CreateMap<string, VacuumEnvironment.LocationState>(state);
-            agentLocations = Factory.CreateMap<IAgent, string>(agentLocations);
+            result.state = CollectionFactory.CreateMap<string, VacuumEnvironment.LocationState>(state);
+            agentLocations = CollectionFactory.CreateMap<IAgent, string>(agentLocations);
 
             return result;
         }

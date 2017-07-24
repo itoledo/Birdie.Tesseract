@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing.ast;
@@ -46,7 +47,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 {
                     // I have an alternative, create a new clause
                     // with the alternative and return
-                    IQueue<Literal> newLits = Factory.CreateQueue<Literal>();
+                    ICollection<Literal> newLits = CollectionFactory.CreateQueue<Literal>();
                     foreach (Literal l2 in clExpression.getLiterals())
                     {
                         if (l1.Equals(l2))

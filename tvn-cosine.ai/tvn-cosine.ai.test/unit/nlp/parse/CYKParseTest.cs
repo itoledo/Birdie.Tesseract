@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.nlp.data.grammars;
 using tvn.cosine.ai.nlp.parsing;
 using tvn.cosine.ai.nlp.parsing.grammars;
@@ -11,7 +12,7 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
     {
 
         CYK parser;
-        IQueue<string> words1;
+        ICollection<string> words1;
      //   IQueue<string> words2;
         ProbCNFGrammar trivGrammar = ProbCNFGrammarExamples.buildTrivialGrammar();
         // Get Example Grammar 2
@@ -20,7 +21,7 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
         public void setUp()
         {
             parser = new CYK();
-            words1 = Factory.CreateQueue<string>(new[] { "the", "man", "liked", "a", "woman" });
+            words1 = CollectionFactory.CreateQueue<string>(new[] { "the", "man", "liked", "a", "woman" });
 
         } // end setUp()
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.domain;
@@ -28,8 +29,8 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
 
             Assert.IsFalse(c.isImmutable());
 
-            c.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
-            c.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c.addNegativeLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
+            c.addPositiveLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
 
             c.setImmutable();
 
@@ -37,7 +38,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
 
             try
             {
-                c.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
+                c.addNegativeLiteral(new Predicate("Pred3", CollectionFactory.CreateQueue<Term>()));
 
                 Assert.Fail("Should have thrown an IllegalStateException");
             }
@@ -48,7 +49,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
 
             try
             {
-                c.addPositiveLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
+                c.addPositiveLiteral(new Predicate("Pred3", CollectionFactory.CreateQueue<Term>()));
 
                 Assert.Fail("Should have thrown an IllegalStateException");
             }
@@ -64,25 +65,25 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             Clause c1 = new Clause();
             Assert.IsTrue(c1.isEmpty());
 
-            c1.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             Assert.IsFalse(c1.isEmpty());
 
             Clause c2 = new Clause();
             Assert.IsTrue(c2.isEmpty());
 
-            c2.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c2.addPositiveLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             Assert.IsFalse(c2.isEmpty());
 
             Clause c3 = new Clause();
             Assert.IsTrue(c3.isEmpty());
 
-            c3.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
-            c3.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c3.addNegativeLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
+            c3.addPositiveLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             // Should be empty as they resolved with each other
             Assert.IsFalse(c3.isEmpty());
 
-            c3.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
-            c3.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c3.addNegativeLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
+            c3.addPositiveLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
             Assert.IsFalse(c3.isEmpty());
         }
 
@@ -92,18 +93,18 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             Clause c1 = new Clause();
             Assert.IsFalse(c1.isHornClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isHornClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isHornClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred3", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isHornClause());
-            c1.addNegativeLiteral(new Predicate("Pred4", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred4", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isHornClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred5", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred5", CollectionFactory.CreateQueue<Term>()));
             Assert.IsFalse(c1.isHornClause());
         }
 
@@ -113,18 +114,18 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             Clause c1 = new Clause();
             Assert.IsFalse(c1.isDefiniteClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             Assert.IsFalse(c1.isDefiniteClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isDefiniteClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred3", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isDefiniteClause());
-            c1.addNegativeLiteral(new Predicate("Pred4", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred4", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isDefiniteClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred5", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred5", CollectionFactory.CreateQueue<Term>()));
             Assert.IsFalse(c1.isDefiniteClause());
         }
 
@@ -134,28 +135,28 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             Clause c1 = new Clause();
             Assert.IsFalse(c1.isUnitClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isUnitClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
             Assert.IsFalse(c1.isUnitClause());
 
             c1 = new Clause();
             Assert.IsFalse(c1.isUnitClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isUnitClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
             Assert.IsFalse(c1.isUnitClause());
 
             c1 = new Clause();
             Assert.IsFalse(c1.isUnitClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isUnitClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
             Assert.IsFalse(c1.isUnitClause());
         }
 
@@ -165,15 +166,15 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             Clause c1 = new Clause();
             Assert.IsFalse(c1.isImplicationDefiniteClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             Assert.IsFalse(c1.isImplicationDefiniteClause());
 
-            c1.addNegativeLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isImplicationDefiniteClause());
-            c1.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred3", CollectionFactory.CreateQueue<Term>()));
             Assert.IsTrue(c1.isImplicationDefiniteClause());
 
-            c1.addPositiveLiteral(new Predicate("Pred4", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred4", CollectionFactory.CreateQueue<Term>()));
             Assert.IsFalse(c1.isImplicationDefiniteClause());
         }
 
@@ -194,8 +195,8 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             Assert.IsTrue(Util.first(c1.binaryResolvents(c1)).isEmpty());
 
             // Check if resolve with self to an empty clause
-            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
-            c1.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             Assert.IsNotNull(c1.binaryResolvents(c1));
             Assert.AreEqual(1, c1.binaryResolvents(c1).Size());
             // i.e. resolving a tautology with a tautology gives you
@@ -204,7 +205,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
 
             // Check if try to resolve with self and no resolvents
             c1 = new Clause();
-            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             Assert.AreEqual(0, c1.binaryResolvents(c1).Size());
 
             c1 = new Clause();
@@ -219,8 +220,8 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
 
             // Enusre the two complementary clauses resolve
             // to the empty clause
-            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
-            c2.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
+            c2.addNegativeLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
             Assert.IsNotNull(c1.binaryResolvents(c2));
             Assert.AreEqual(1, c1.binaryResolvents(c2).Size());
             Assert.IsTrue(Util.first(c1.binaryResolvents(c2)).isEmpty());
@@ -230,10 +231,10 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
 
             // Ensure that two clauses that have two complementaries
             // resolve with two resolvents
-            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
-            c2.addNegativeLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
-            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
-            c2.addNegativeLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
+            c2.addNegativeLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
+            c2.addNegativeLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
             Assert.IsNotNull(c1.binaryResolvents(c2));
             Assert.AreEqual(2, c1.binaryResolvents(c2).Size());
             Assert.IsNotNull(c2.binaryResolvents(c1));
@@ -243,12 +244,12 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             // considered resolved
             c1 = new Clause();
             c2 = new Clause();
-            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
-            c1.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
-            c1.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
-            c1.addNegativeLiteral(new Predicate("Pred4", Factory.CreateQueue<Term>()));
-            c2.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
-            c2.addNegativeLiteral(new Predicate("Pred4", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred3", CollectionFactory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred4", CollectionFactory.CreateQueue<Term>()));
+            c2.addPositiveLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
+            c2.addNegativeLiteral(new Predicate("Pred4", CollectionFactory.CreateQueue<Term>()));
             Assert.IsNotNull(c1.binaryResolvents(c2));
             Assert.AreEqual(0, c1.binaryResolvents(c2).Size());
             Assert.IsNotNull(c2.binaryResolvents(c1));
@@ -257,10 +258,10 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             // Ensure the resolvent is a subset of the originals
             c1 = new Clause();
             c2 = new Clause();
-            c1.addPositiveLiteral(new Predicate("Pred1", Factory.CreateQueue<Term>()));
-            c1.addNegativeLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
-            c1.addNegativeLiteral(new Predicate("Pred3", Factory.CreateQueue<Term>()));
-            c2.addPositiveLiteral(new Predicate("Pred2", Factory.CreateQueue<Term>()));
+            c1.addPositiveLiteral(new Predicate("Pred1", CollectionFactory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
+            c1.addNegativeLiteral(new Predicate("Pred3", CollectionFactory.CreateQueue<Term>()));
+            c2.addPositiveLiteral(new Predicate("Pred2", CollectionFactory.CreateQueue<Term>()));
             Assert.IsNotNull(c1.binaryResolvents(c2));
             Assert.IsNotNull(c2.binaryResolvents(c1));
             Assert.AreEqual(1, Util.first(c1.binaryResolvents(c2))
@@ -295,10 +296,10 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             kb.tell("Cat(Tuna)");
             kb.tell("FORALL x (Cat(x) => Animal(x))");
 
-            ISet<Clause> clauses = Factory.CreateSet<Clause>();
+            ISet<Clause> clauses = CollectionFactory.CreateSet<Clause>();
             clauses.AddAll(kb.getAllClauses());
 
-            ISet<Clause> newClauses = Factory.CreateSet<Clause>();
+            ISet<Clause> newClauses = CollectionFactory.CreateSet<Clause>();
             long maxRunTime = 30 * 1000; // 30 seconds
             System.DateTime finishTime = System.DateTime.Now.AddMilliseconds(maxRunTime);
             do
@@ -374,8 +375,8 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             Term cons1 = new Constant("C1");
             Term cons2 = new Constant("C2");
             Term var1 = new Variable("v1");
-            IQueue<Term> pts1 = Factory.CreateQueue<Term>();
-            IQueue<Term> pts2 = Factory.CreateQueue<Term>();
+            ICollection<Term> pts1 = CollectionFactory.CreateQueue<Term>();
+            ICollection<Term> pts2 = CollectionFactory.CreateQueue<Term>();
             pts1.Add(cons1);
             pts1.Add(cons2);
             pts1.Add(var1);
@@ -404,8 +405,8 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
             Term cons1 = new Constant("C1");
             Term cons2 = new Constant("C2");
             Term var1 = new Variable("v1");
-            IQueue<Term> pts1 = Factory.CreateQueue<Term>();
-            IQueue<Term> pts2 = Factory.CreateQueue<Term>();
+            ICollection<Term> pts1 = CollectionFactory.CreateQueue<Term>();
+            ICollection<Term> pts2 = CollectionFactory.CreateQueue<Term>();
             pts1.Add(cons1);
             pts1.Add(cons2);
             pts1.Add(var1);

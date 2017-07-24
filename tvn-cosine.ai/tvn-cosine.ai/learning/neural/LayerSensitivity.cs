@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.learning.neural
@@ -62,7 +63,7 @@ namespace tvn.cosine.ai.learning.neural
 
         private Matrix createDerivativeMatrix(Vector lastInducedField)
         {
-            IQueue<double> lst = Factory.CreateQueue<double>();
+            ICollection<double> lst = CollectionFactory.CreateQueue<double>();
             for (int i = 0; i < lastInducedField.size();++i)
             {
                 lst.Add(layer.getActivationFunction().deriv(

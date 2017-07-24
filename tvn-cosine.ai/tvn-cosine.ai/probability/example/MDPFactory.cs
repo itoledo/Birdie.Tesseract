@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.probability.mdp;
 using tvn.cosine.ai.probability.mdp.impl;
@@ -44,7 +45,7 @@ namespace tvn.cosine.ai.probability.example
                 // (except terminal states)
                 if (terminals.Contains(s))
                 {
-                    return Factory.CreateSet<CellWorldAction>();
+                    return CollectionFactory.CreateSet<CellWorldAction>();
                 }
                 return CellWorldAction.actions();
             }
@@ -60,7 +61,7 @@ namespace tvn.cosine.ai.probability.example
          */
         public static ActionsFunction<Cell<double>, CellWorldAction> createActionsFunctionForFigure17_1(CellWorld<double> cw)
         {
-            ISet<Cell<double>> terminals = Factory.CreateSet<Cell<double>>();
+            ISet<Cell<double>> terminals = CollectionFactory.CreateSet<Cell<double>>();
             terminals.Add(cw.getCellAt(4, 3));
             terminals.Add(cw.getCellAt(4, 2));
 
@@ -82,7 +83,7 @@ namespace tvn.cosine.ai.probability.example
             {
                 double prob = 0;
 
-                IQueue<Cell<double>> outcomes = possibleOutcomes(s, a);
+                ICollection<Cell<double>> outcomes = possibleOutcomes(s, a);
                 for (int i = 0; i < outcomes.Size();++i)
                 {
                     if (sDelta.Equals(outcomes.Get(i)))
@@ -101,10 +102,10 @@ namespace tvn.cosine.ai.probability.example
                 return prob;
             }
 
-            private IQueue<Cell<double>> possibleOutcomes(Cell<double> c, CellWorldAction a)
+            private ICollection<Cell<double>> possibleOutcomes(Cell<double> c, CellWorldAction a)
             {
                 // There can be three possible outcomes for the planned action
-                IQueue<Cell<double>> outcomes = Factory.CreateQueue<Cell<double>>();
+                ICollection<Cell<double>> outcomes = CollectionFactory.CreateQueue<Cell<double>>();
 
                 outcomes.Add(cw.result(c, a));
                 outcomes.Add(cw.result(c, a.getFirstRightAngledAction()));

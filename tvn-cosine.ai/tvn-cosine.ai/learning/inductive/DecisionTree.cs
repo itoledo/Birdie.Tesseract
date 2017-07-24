@@ -1,6 +1,7 @@
 ﻿using System.Text;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.util;
@@ -20,7 +21,7 @@ namespace tvn.cosine.ai.learning.inductive
         public DecisionTree(string attributeName)
         {
             this.attributeName = attributeName;
-            nodes = Factory.CreateInsertionOrderedMap<string, DecisionTree>();
+            nodes = CollectionFactory.CreateInsertionOrderedMap<string, DecisionTree>();
         }
 
         public virtual void addLeaf(string attributeValue, string decision)
@@ -48,7 +49,7 @@ namespace tvn.cosine.ai.learning.inductive
 
         public static DecisionTree getStumpFor(DataSet ds, string attributeName,
                 string attributeValue, string returnValueIfMatched,
-                IQueue<string> unmatchedValues, string returnValueIfUnmatched)
+                ICollection<string> unmatchedValues, string returnValueIfUnmatched)
         {
             DecisionTree dt = new DecisionTree(attributeName);
             dt.addLeaf(attributeValue, returnValueIfMatched);
@@ -59,17 +60,17 @@ namespace tvn.cosine.ai.learning.inductive
             return dt;
         }
 
-        public static IQueue<DecisionTree> getStumpsFor(DataSet ds,
+        public static ICollection<DecisionTree> getStumpsFor(DataSet ds,
                 string returnValueIfMatched, string returnValueIfUnmatched)
         {
-            IQueue<string> attributes = ds.getNonTargetAttributes();
-            IQueue<DecisionTree> trees = Factory.CreateQueue<DecisionTree>();
+            ICollection<string> attributes = ds.getNonTargetAttributes();
+            ICollection<DecisionTree> trees = CollectionFactory.CreateQueue<DecisionTree>();
             foreach (string attribute in attributes)
             {
-                IQueue<string> values = ds.getPossibleAttributeValues(attribute);
+                ICollection<string> values = ds.getPossibleAttributeValues(attribute);
                 foreach (string value in values)
                 {
-                    IQueue<string> unmatchedValues = Util.removeFrom(ds.getPossibleAttributeValues(attribute), value);
+                    ICollection<string> unmatchedValues = Util.removeFrom(ds.getPossibleAttributeValues(attribute), value);
 
                     DecisionTree tree = getStumpFor(ds, attribute, value,
                             returnValueIfMatched, unmatchedValues,

@@ -1,15 +1,16 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.agent
 {
     public abstract class EnvironmentBase : IEnvironment
     {
         // Note: Use LinkedHashSet's in order to ensure order is respected as provide access to these elements via List interface.
-        protected IQueue<IEnvironmentObject> envObjects = Factory.CreateFifoQueueNoDuplicates<IEnvironmentObject>();
-        protected ISet<IAgent> agents = Factory.CreateSet<IAgent>();
-        protected ISet<IEnvironmentView> views = Factory.CreateSet<IEnvironmentView>();
-        protected IMap<IAgent, double> performanceMeasures = Factory.CreateInsertionOrderedMap<IAgent, double>();
+        protected ICollection<IEnvironmentObject> envObjects = CollectionFactory.CreateFifoQueueNoDuplicates<IEnvironmentObject>();
+        protected ISet<IAgent> agents = CollectionFactory.CreateSet<IAgent>();
+        protected ISet<IEnvironmentView> views = CollectionFactory.CreateSet<IEnvironmentView>();
+        protected IMap<IAgent, double> performanceMeasures = CollectionFactory.CreateInsertionOrderedMap<IAgent, double>();
 
         // Methods to be implemented by subclasses. 
         public abstract void executeAction(IAgent agent, IAction action);
@@ -23,10 +24,10 @@ namespace tvn.cosine.ai.agent
         public virtual void createExogenousChange()
         { }
 
-        public virtual IQueue<IAgent> GetAgents()
+        public virtual ICollection<IAgent> GetAgents()
         {
             // Return as a List but also ensures the caller cannot modify
-            return Factory.CreateReadOnlyQueue<IAgent>(agents);
+            return CollectionFactory.CreateReadOnlyQueue<IAgent>(agents);
         }
 
         public virtual void AddAgent(IAgent a)
@@ -39,10 +40,10 @@ namespace tvn.cosine.ai.agent
             RemoveEnvironmentObject(a);
         }
 
-        public virtual IQueue<IEnvironmentObject> GetEnvironmentObjects()
+        public virtual ICollection<IEnvironmentObject> GetEnvironmentObjects()
         {
             // Return as a List but also ensures the caller cannot modify
-            return Factory.CreateReadOnlyQueue<IEnvironmentObject>(envObjects);
+            return CollectionFactory.CreateReadOnlyQueue<IEnvironmentObject>(envObjects);
         }
 
         public virtual void AddEnvironmentObject(IEnvironmentObject eo)

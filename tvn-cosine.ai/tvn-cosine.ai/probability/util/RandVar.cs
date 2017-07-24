@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
@@ -16,7 +17,7 @@ namespace tvn.cosine.ai.probability.util
     {
         private string name = null;
         private Domain domain = null;
-        private ISet<RandomVariable> scope = Factory.CreateSet<RandomVariable>();
+        private ISet<RandomVariable> scope = CollectionFactory.CreateSet<RandomVariable>();
 
         public RandVar(string name, Domain domain)
         {

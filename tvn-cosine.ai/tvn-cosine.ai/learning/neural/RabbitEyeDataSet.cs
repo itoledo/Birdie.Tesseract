@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.learning.neural
 {
@@ -12,7 +13,7 @@ namespace tvn.cosine.ai.learning.neural
             // super class.
             // Type != class Aargh! I want more
             // powerful type systems
-            targetColumnNumbers = Factory.CreateQueue<int>();
+            targetColumnNumbers = CollectionFactory.CreateQueue<int>();
 
             targetColumnNumbers.Add(1); // using zero based indexing
         }

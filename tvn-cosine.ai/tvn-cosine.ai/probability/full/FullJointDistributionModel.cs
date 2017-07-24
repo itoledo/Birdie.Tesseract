@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
@@ -25,12 +26,12 @@ namespace tvn.cosine.ai.probability.full
 
             distribution = new ProbabilityTable(values, vars);
 
-            representation = Factory.CreateSet<RandomVariable>();
+            representation = CollectionFactory.CreateSet<RandomVariable>();
             for (int i = 0; i < vars.Length;++i)
             {
                 representation.Add(vars[i]);
             }
-            representation = Factory.CreateReadOnlySet<RandomVariable>(representation);
+            representation = CollectionFactory.CreateReadOnlySet<RandomVariable>(representation);
         }
 
         //
@@ -124,7 +125,7 @@ namespace tvn.cosine.ai.probability.full
         {
             ProbabilityTable d = null;
             Proposition conjProp = ProbUtil.constructConjunction(propositions);
-            ISet<RandomVariable> vars = Factory.CreateSet<RandomVariable>(conjProp.getUnboundScope());
+            ISet<RandomVariable> vars = CollectionFactory.CreateSet<RandomVariable>(conjProp.getUnboundScope());
 
             if (vars.Size() > 0)
             {

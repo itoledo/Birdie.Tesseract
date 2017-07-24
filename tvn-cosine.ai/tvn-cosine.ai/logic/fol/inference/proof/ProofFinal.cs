@@ -1,13 +1,14 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofFinal : Proof
     {
-        private IMap<Variable, Term> answerBindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
+        private IMap<Variable, Term> answerBindings = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
         private ProofStep finalStep = null;
-        private IQueue<ProofStep> proofSteps = null;
+        private ICollection<ProofStep> proofSteps = null;
 
         public ProofFinal(ProofStep finalStep, IMap<Variable, Term> answerBindings)
         {
@@ -15,7 +16,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             this.answerBindings.PutAll(answerBindings);
         }
 
-        public IQueue<ProofStep> getSteps()
+        public ICollection<ProofStep> getSteps()
         {
             // Only calculate if the proof steps are actually requested.
             if (null == proofSteps)
@@ -43,7 +44,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 
         private void calcualteProofSteps()
         {
-            proofSteps = Factory.CreateQueue<ProofStep>();
+            proofSteps = CollectionFactory.CreateQueue<ProofStep>();
             addToProofSteps(finalStep);
 
             // Move all premises to the front of the
@@ -91,7 +92,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
                 proofSteps.Remove(step);
                 proofSteps.Insert(0, step);
             }
-            IQueue<ProofStep> predecessors = step.getPredecessorSteps();
+            ICollection<ProofStep> predecessors = step.getPredecessorSteps();
             for (int i = predecessors.Size() - 1; i >= 0; i--)
             {
                 addToProofSteps(predecessors.Get(i));

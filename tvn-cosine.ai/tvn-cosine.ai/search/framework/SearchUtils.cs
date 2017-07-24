@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.framework
 {
@@ -14,9 +15,9 @@ namespace tvn.cosine.ai.search.framework
          *
          * @return the path from the root node to this node.
          */
-        public static IQueue<Node<S, A>> getPathFromRoot<S, A>(Node<S, A> node)
+        public static ICollection<Node<S, A>> getPathFromRoot<S, A>(Node<S, A> node)
         {
-            IQueue<Node<S, A>> path = Factory.CreateQueue<Node<S, A>>();
+            ICollection<Node<S, A>> path = CollectionFactory.CreateQueue<Node<S, A>>();
             while (!node.isRootNode())
             {
                 path.Insert(0, node);
@@ -32,9 +33,9 @@ namespace tvn.cosine.ai.search.framework
          * given node. The list is empty, if the node is the root node of the search
          * tree.
          */
-        public static IQueue<A> getSequenceOfActions<S, A>(Node<S, A> node)
+        public static ICollection<A> getSequenceOfActions<S, A>(Node<S, A> node)
         {
-            IQueue<A> actions = Factory.CreateQueue<A>();
+            ICollection<A> actions = CollectionFactory.CreateQueue<A>();
             while (node != null && !node.isRootNode())
             {
                 actions.Insert(0, node.getAction());
@@ -43,7 +44,7 @@ namespace tvn.cosine.ai.search.framework
             return actions;
         }
 
-        public static IQueue<A> toActions<S, A>(Node<S, A> node)
+        public static ICollection<A> toActions<S, A>(Node<S, A> node)
         {
             return getSequenceOfActions(node);
         }

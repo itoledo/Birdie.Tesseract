@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.csp
 {
@@ -16,7 +17,7 @@ namespace tvn.cosine.ai.search.csp
     {
         private readonly object[] values;
 
-        public Domain(IQueue<VAL> values)
+        public Domain(ICollection<VAL> values)
         {
             this.values = new object[values.Size()];
             for (int i = 0; i < values.Size(); ++i)
@@ -62,9 +63,9 @@ namespace tvn.cosine.ai.search.csp
             return new Enumerator(values);
         }
 
-        public IQueue<VAL> asList()
+        public ICollection<VAL> asList()
         {
-            IQueue<VAL> obj = Factory.CreateQueue<VAL>();
+            ICollection<VAL> obj = CollectionFactory.CreateQueue<VAL>();
             foreach (var o in values)
             {
                 obj.Add((VAL)o);

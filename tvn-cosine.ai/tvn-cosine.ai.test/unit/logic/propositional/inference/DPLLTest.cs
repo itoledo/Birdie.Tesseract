@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.propositional.inference;
 using tvn.cosine.ai.logic.propositional.kb;
 using tvn.cosine.ai.logic.propositional.kb.data;
@@ -30,7 +31,7 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.inference
             Sentence sentence = parser.parse("A & B & (A | B)");
             ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(sentence)
                     .getClauses();
-            IQueue<PropositionSymbol> symbols = Factory.CreateQueue<PropositionSymbol>(
+            ICollection<PropositionSymbol> symbols = CollectionFactory.CreateQueue<PropositionSymbol>(
                        SymbolCollector.getSymbolsFrom(sentence));
 
             bool satisfiable = dpll.dpll(clauses, symbols, model);
@@ -46,7 +47,7 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.inference
             Sentence sentence = parser.parse("(A | B) & (A => B)");
             ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(sentence)
                     .getClauses();
-            IQueue<PropositionSymbol> symbols = Factory.CreateQueue<PropositionSymbol>(
+            ICollection<PropositionSymbol> symbols = CollectionFactory.CreateQueue<PropositionSymbol>(
                        SymbolCollector.getSymbolsFrom(sentence));
 
             bool satisfiable = dpll.dpll(clauses, symbols, model);
@@ -114,7 +115,7 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.inference
             Sentence sentence = parser.parse("((A | B) | C)");
             ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(sentence)
                     .getClauses();
-            IQueue<PropositionSymbol> symbols = Factory.CreateQueue<PropositionSymbol>(
+            ICollection<PropositionSymbol> symbols = CollectionFactory.CreateQueue<PropositionSymbol>(
                        SymbolCollector.getSymbolsFrom(sentence));
 
             bool satisfiable = dpll.dpll(clauses, symbols, model);

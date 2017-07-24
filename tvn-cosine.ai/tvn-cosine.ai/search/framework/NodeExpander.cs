@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.search.framework
@@ -64,9 +65,9 @@ namespace tvn.cosine.ai.search.framework
          * @return the children obtained from expanding the specified node in the
          *         specified problem.
          */
-        public IQueue<Node<S, A>> expand(Node<S, A> node, Problem<S, A> problem)
+        public ICollection<Node<S, A>> expand(Node<S, A> node, Problem<S, A> problem)
         {
-            IQueue<Node<S, A>> successors = Factory.CreateQueue<Node<S, A>>();
+            ICollection<Node<S, A>> successors = CollectionFactory.CreateQueue<Node<S, A>>();
 
             foreach (A action in problem.getActions(node.getState()))
             {
@@ -87,7 +88,7 @@ namespace tvn.cosine.ai.search.framework
          * All node listeners added to this list get informed whenever a node is
          * expanded.
          */
-        private IQueue<Consumer<Node<S, A>>> nodeListeners = Factory.CreateQueue<Consumer<Node<S, A>>>();
+        private ICollection<Consumer<Node<S, A>>> nodeListeners = CollectionFactory.CreateQueue<Consumer<Node<S, A>>>();
 
         /**
          * Adds a listener to the list of node listeners. It is informed whenever a

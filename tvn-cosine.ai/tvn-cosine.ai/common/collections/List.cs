@@ -1,23 +1,25 @@
-﻿using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.collections
 {
-    public class Queue<T> : QueueBase<T>, IQueue<T>
+    public class List<T> : CollectionBase<T>, ICollection<T>
     {
         private System.Collections.Generic.List<T> backingList;
 
-        public Queue()
+        public List()
         {
             backingList = new System.Collections.Generic.List<T>();
         }
 
-        public Queue(IQueue<T> items)
+        public List(ICollection<T> items)
             : this()
         {
             AddAll(items);
         }
 
-        public Queue(params T[] items)
+        public List(params T[] items)
             : this()
         {
             foreach (var item in items)
@@ -32,7 +34,7 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
-        public bool SequenceEqual(IQueue<T> other)
+        public bool SequenceEqual(ICollection<T> other)
         {
             if (null == other
              || other.Size() != Size())
@@ -52,7 +54,7 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
-        public void AddAll(IQueue<T> items)
+        public void AddAll(ICollection<T> items)
         {
             foreach (var item in items)
             {
@@ -133,7 +135,7 @@ namespace tvn.cosine.ai.common.collections
             return backingList.Count;
         }
 
-        public bool ContainsAll(IQueue<T> other)
+        public bool ContainsAll(ICollection<T> other)
         {
             foreach (T item in other)
             {
@@ -146,7 +148,7 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
-        public void RemoveAll(IQueue<T> items)
+        public void RemoveAll(ICollection<T> items)
         {
             foreach (T item in items)
             {
@@ -164,7 +166,7 @@ namespace tvn.cosine.ai.common.collections
             backingList.Reverse();
         }
 
-        public IQueue<T> subList(int startPos, int endPos)
+        public ICollection<T> subList(int startPos, int endPos)
         { 
             if (startPos < 0
                || startPos > endPos
@@ -175,10 +177,10 @@ namespace tvn.cosine.ai.common.collections
 
             if (startPos == endPos)
             {
-                return new Queue<T>();
+                return new List<T>();
             }
 
-            IQueue<T> obj = new Queue<T>();
+            ICollection<T> obj = new List<T>();
             for (int i = startPos; i < endPos; ++i)
             {
                 obj.Add(backingList[i]);

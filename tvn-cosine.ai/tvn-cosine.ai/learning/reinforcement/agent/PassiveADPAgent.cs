@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.probability.mdp;
 using tvn.cosine.ai.probability.mdp.impl;
@@ -48,14 +49,14 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         where A : IAction
     {
         // persistent: &pi;, a fixed policy
-        private IMap<S, A> pi = Factory.CreateInsertionOrderedMap<S, A>();
+        private IMap<S, A> pi = CollectionFactory.CreateInsertionOrderedMap<S, A>();
         // mdp, an MDP with model P, rewards R, discount &gamma;
         private MDP<S, A> mdp = null;
-        private IMap<Pair<S, Pair<S, A>>, double> P = Factory.CreateInsertionOrderedMap<Pair<S, Pair<S, A>>, double>();
-        private IMap<S, double> R = Factory.CreateInsertionOrderedMap<S, double>();
+        private IMap<Pair<S, Pair<S, A>>, double> P = CollectionFactory.CreateInsertionOrderedMap<Pair<S, Pair<S, A>>, double>();
+        private IMap<S, double> R = CollectionFactory.CreateInsertionOrderedMap<S, double>();
         private PolicyEvaluation<S, A> policyEvaluation = null;
         // U, a table of utilities, initially empty
-        private IMap<S, double> U = Factory.CreateInsertionOrderedMap<S, double>();
+        private IMap<S, double> U = CollectionFactory.CreateInsertionOrderedMap<S, double>();
         // N<sub>sa</sub>, a table of frequencies for state-action pairs, initially
         // zero
         private FrequencyCounter<Pair<S, A>> Nsa = new FrequencyCounter<Pair<S, A>>();
@@ -185,7 +186,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
 
         public override IMap<S, double> getUtility()
         {
-            return Factory.CreateReadOnlyMap<S, double>(U);
+            return CollectionFactory.CreateReadOnlyMap<S, double>(U);
         }
 
 
@@ -193,7 +194,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         {
             P.Clear();
             R.Clear();
-            U = Factory.CreateInsertionOrderedMap<S, double>();
+            U = CollectionFactory.CreateInsertionOrderedMap<S, double>();
             Nsa.clear();
             NsDelta_sa.clear();
             s = default(S);

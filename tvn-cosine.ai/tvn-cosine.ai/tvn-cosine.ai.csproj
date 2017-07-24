@@ -92,21 +92,21 @@
     <Compile Include="agent\api\IState.cs" />
     <Compile Include="agent\api\PerceptToStateFunction.cs" />
     <Compile Include="common\Character.cs" />
-    <Compile Include="common\collections\Factory.cs" />
+    <Compile Include="common\collections\CollectionFactory.cs" />
     <Compile Include="common\collections\FifoQueue.cs" />
-    <Compile Include="common\collections\IEnumerable.cs" />
-    <Compile Include="common\collections\IEnumerator.cs" />
-    <Compile Include="common\collections\IEqualityComparer.cs" />
-    <Compile Include="common\collections\IMap.cs" />
-    <Compile Include="common\collections\IQueue.cs" />
-    <Compile Include="common\collections\ISet.cs" />
+    <Compile Include="common\collections\api\IEnumerable.cs" />
+    <Compile Include="common\collections\api\IEnumerator.cs" />
+    <Compile Include="common\collections\api\IEqualityComparer.cs" />
+    <Compile Include="common\collections\api\IMap.cs" />
+    <Compile Include="common\collections\api\ICollection.cs" />
+    <Compile Include="common\collections\api\ISet.cs" />
     <Compile Include="common\collections\LifoQueue.cs" />
     <Compile Include="common\collections\Map.cs" />
     <Compile Include="common\collections\PriorityQueue.cs" />
-    <Compile Include="common\collections\Queue.cs" />
-    <Compile Include="common\collections\QueueBase.cs" />
+    <Compile Include="common\collections\List.cs" />
+    <Compile Include="common\collections\CollectionBase.cs" />
     <Compile Include="common\collections\ReadOnlyMap.cs" />
-    <Compile Include="common\collections\ReadOnlyQueue.cs" />
+    <Compile Include="common\collections\ReadOnlyCollection.cs" />
     <Compile Include="common\collections\ReadOnlySet.cs" />
     <Compile Include="common\collections\Set.cs" />
     <Compile Include="common\Consumer.cs" />
@@ -131,15 +131,15 @@
     <Compile Include="common\exceptions\NumberFormatException.cs" />
     <Compile Include="common\exceptions\RuntimeException.cs" />
     <Compile Include="common\collections\FifoQueueNoDuplicates.cs" />
-    <Compile Include="common\ICloneable.cs" />
-    <Compile Include="common\IComparable.cs" />
-    <Compile Include="common\IComparer.cs" />
-    <Compile Include="common\IDisposable.cs" />
-    <Compile Include="common\IEquatable.cs" />
-    <Compile Include="common\IHashable.cs" />
-    <Compile Include="common\INumber.cs" />
-    <Compile Include="common\IRandom.cs" />
-    <Compile Include="common\IStringable.cs" />
+    <Compile Include="common\api\ICloneable.cs" />
+    <Compile Include="common\api\IComparable.cs" />
+    <Compile Include="common\api\IComparer.cs" />
+    <Compile Include="common\api\IDisposable.cs" />
+    <Compile Include="common\api\IEquatable.cs" />
+    <Compile Include="common\api\IHashable.cs" />
+    <Compile Include="common\api\INumber.cs" />
+    <Compile Include="common\api\IRandom.cs" />
+    <Compile Include="common\api\IStringable.cs" />
     <Compile Include="common\MockRandom.cs" />
     <Compile Include="common\SourceVersion.cs" />
     <Compile Include="environment\cellworld\Cell.cs" />
@@ -186,13 +186,13 @@
     <Compile Include="environment\vacuum\VacuumWorldFunctions.cs" />
     <Compile Include="environment\xyenv\Wall.cs" />
     <Compile Include="environment\xyenv\XYEnvironment.cs" />
-    <Compile Include="learning\framework\IAttribute.cs" />
-    <Compile Include="learning\framework\IAttributeSpecification.cs" />
+    <Compile Include="learning\framework\api\IAttribute.cs" />
+    <Compile Include="learning\framework\api\IAttributeSpecification.cs" />
     <Compile Include="learning\framework\DataSet.cs" />
     <Compile Include="learning\framework\DataSetFactory.cs" />
     <Compile Include="learning\framework\DataSetSpecification.cs" />
     <Compile Include="learning\framework\Example.cs" />
-    <Compile Include="learning\framework\ILearner.cs" />
+    <Compile Include="learning\framework\api\ILearner.cs" />
     <Compile Include="learning\framework\NumericAttribute.cs" />
     <Compile Include="learning\framework\NumericAttributeSpecification.cs" />
     <Compile Include="learning\framework\StringAttribute.cs" />
@@ -639,5 +639,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

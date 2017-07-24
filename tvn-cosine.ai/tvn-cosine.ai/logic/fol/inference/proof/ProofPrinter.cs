@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             sb.Append(proof.getAnswerBindings());
             sb.Append("\n");
 
-            IQueue<ProofStep> steps = proof.getSteps();
+            ICollection<ProofStep> steps = proof.getSteps();
 
             int maxStepWidth = "Step".Length;
             int maxProofWidth = "Proof".Length;

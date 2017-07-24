@@ -1,16 +1,17 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     public class Predicate : AtomicSentence
     {
         private string predicateName;
-        private IQueue<Term> terms = Factory.CreateQueue<Term>();
+        private ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
         private string stringRep = null;
         private int hashCode = 0;
 
-        public Predicate(string predicateName, IQueue<Term> terms)
+        public Predicate(string predicateName, ICollection<Term> terms)
         {
             this.predicateName = predicateName;
             this.terms.AddAll(terms);
@@ -21,9 +22,9 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return predicateName;
         }
 
-        public IQueue<Term> getTerms()
+        public ICollection<Term> getTerms()
         {
-            return Factory.CreateReadOnlyQueue<Term>(terms);
+            return CollectionFactory.CreateReadOnlyQueue<Term>(terms);
         }
 
         public string getSymbolicName()
@@ -36,9 +37,9 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return true;
         }
 
-        IQueue<FOLNode> FOLNode.getArgs()
+        ICollection<FOLNode> FOLNode.getArgs()
         {
-            IQueue<FOLNode> obj = Factory.CreateQueue<FOLNode>();
+            ICollection<FOLNode> obj = CollectionFactory.CreateQueue<FOLNode>();
             foreach (var folNode in getArgs())
             {
                 obj.Add(folNode);
@@ -46,7 +47,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return obj;
         }
 
-        public IQueue<Term> getArgs()
+        public ICollection<Term> getArgs()
         {
             return getTerms();
         }
@@ -73,7 +74,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
 
         public Predicate copy()
         {
-            IQueue<Term> copyTerms = Factory.CreateQueue<Term>();
+            ICollection<Term> copyTerms = CollectionFactory.CreateQueue<Term>();
             foreach (Term t in terms)
             {
                 copyTerms.Add(t.copy());

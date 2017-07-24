@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.inference.otter;
 using tvn.cosine.ai.logic.fol.inference.otter.defaultimpl;
@@ -152,8 +153,8 @@ namespace tvn.cosine.ai.logic.fol.inference
         // START-InferenceProcedure
         public InferenceResult ask(FOLKnowledgeBase KB, Sentence alpha)
         {
-            ISet<Clause> sos = Factory.CreateSet<Clause>();
-            ISet<Clause> usable = Factory.CreateSet<Clause>();
+            ISet<Clause> sos = CollectionFactory.CreateSet<Clause>();
+            ISet<Clause> usable = CollectionFactory.CreateSet<Clause>();
 
             // Usable set will be the set of clauses in the KB,
             // are assuming this is satisfiable as using the
@@ -265,7 +266,7 @@ namespace tvn.cosine.ai.logic.fol.inference
          */
         private ISet<Clause> infer(Clause clause, ISet<Clause> usable)
         {
-            ISet<Clause> resultingClauses = Factory.CreateSet<Clause>();
+            ISet<Clause> resultingClauses = CollectionFactory.CreateSet<Clause>();
 
             // * resolve clause with each member of usable
             foreach (Clause c in usable)
@@ -352,7 +353,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 ISet<Clause> usable)
         {
 
-            ISet<Clause> toCheck = Factory.CreateSet<Clause>();
+            ISet<Clause> toCheck = CollectionFactory.CreateSet<Clause>();
 
             if (ansHandler.isCheckForUnitRefutation(clause))
             {
@@ -416,7 +417,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         {
             private LightestClauseHeuristic lightestClauseHeuristic = null;
             // Group the clauses by their # of literals.
-            private IMap<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateMap<int, ISet<Clause>>();
+            private IMap<int, ISet<Clause>> clausesGroupedBySize = CollectionFactory.CreateMap<int, ISet<Clause>>();
             // Keep track of the min and max # of literals.
             private int minNoLiterals = int.MaxValue;
             private int maxNoLiterals = 0;
@@ -466,7 +467,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     indexClause(c);
                     // Have added clause, therefore
                     // perform backward subsumption elimination
-                    ISet<Clause> subsumed = Factory.CreateSet<Clause>();
+                    ISet<Clause> subsumed = CollectionFactory.CreateSet<Clause>();
                     for (int i = c.getNumberLiterals() + 1; i <= maxNoLiterals; i++)
                     {
                         subsumed.Clear();
@@ -510,7 +511,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 ISet<Clause> cforsize = clausesGroupedBySize.Get(size);
                 if (null == cforsize)
                 {
-                    cforsize = Factory.CreateSet<Clause>();
+                    cforsize = CollectionFactory.CreateSet<Clause>();
                     clausesGroupedBySize.Put(size, cforsize);
                 }
                 cforsize.Add(c);
@@ -524,7 +525,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             private Clause answerClause;
             private System.DateTime finishTime;
             private bool complete = false;
-            private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
+            private ICollection<Proof> proofs = CollectionFactory.CreateQueue<Proof>();
             private bool timedOut = false;
 
             public OTTERAnswerHandler(Literal answerLiteral,
@@ -560,7 +561,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 return timedOut && proofs.Size() > 0;
             }
 
-            public IQueue<Proof> getProofs()
+            public ICollection<Proof> getProofs()
             {
                 return proofs;
             }
@@ -613,7 +614,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 {
                     if (clause.isEmpty())
                     {
-                        proofs.Add(new ProofFinal(clause.getProofStep(), Factory.CreateMap<Variable, Term>()));
+                        proofs.Add(new ProofFinal(clause.getProofStep(), CollectionFactory.CreateMap<Variable, Term>()));
                         complete = true;
                         isAns = true;
                     }
@@ -638,8 +639,8 @@ namespace tvn.cosine.ai.logic.fol.inference
                                     .getSymbolicName()
                                     .Equals(answerLiteral.getAtomicSentence().getSymbolicName()))
                     {
-                        IMap<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
-                        IQueue<Term> answerTerms = clause.getPositiveLiterals().Get(0).getAtomicSentence().getArgs();
+                        IMap<Variable, Term> answerBindings = CollectionFactory.CreateMap<Variable, Term>();
+                        ICollection<Term> answerTerms = clause.getPositiveLiterals().Get(0).getAtomicSentence().getArgs();
                         int idx = 0;
                         foreach (Variable v in answerLiteralVariables)
                         {

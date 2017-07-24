@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
 
@@ -69,13 +71,13 @@ namespace tvn.cosine.ai.probability.bayes.approx
             // initially zero
             double[] N = new double[ProbUtil.expectedSizeOfCategoricalDistribution(X)];
             // Z, the nonevidence variables in bn
-            ISet<RandomVariable> Z = Factory.CreateSet<RandomVariable>(bn.getVariablesInTopologicalOrder());
+            ISet<RandomVariable> Z = CollectionFactory.CreateSet<RandomVariable>(bn.getVariablesInTopologicalOrder());
             foreach (AssignmentProposition ap in e)
             {
                 Z.Remove(ap.getTermVariable());
             }
             // <b>x</b>, the current state of the network, initially copied from e
-            IMap<RandomVariable, object> x = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IMap<RandomVariable, object> x = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
             foreach (AssignmentProposition ap in e)
             {
                 x.Put(ap.getTermVariable(), ap.getValue());

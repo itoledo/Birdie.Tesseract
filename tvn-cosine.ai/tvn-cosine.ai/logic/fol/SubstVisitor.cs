@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing;
 using tvn.cosine.ai.logic.fol.parsing.ast;
@@ -60,7 +61,7 @@ namespace tvn.cosine.ai.logic.fol
             Sentence quantified = sentence.getQuantified();
             Sentence quantifiedAfterSubs = (Sentence)quantified.accept(this, arg);
 
-            IQueue<Variable> variables = Factory.CreateQueue<Variable>();
+            ICollection<Variable> variables = CollectionFactory.CreateQueue<Variable>();
             foreach (Variable v in sentence.getVariables())
             {
                 Term st = substitution.Get(v);

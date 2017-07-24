@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.learning.framework;
@@ -7,10 +8,10 @@ namespace tvn.cosine.ai.learning.neural
 {
     public class IrisDataSetNumerizer : Numerizer
     {
-        public Pair<IQueue<double>, IQueue<double>> numerize(Example e)
+        public Pair<ICollection<double>, ICollection<double>> numerize(Example e)
         {
-            IQueue<double> input = Factory.CreateQueue<double>();
-            IQueue<double> desiredOutput = Factory.CreateQueue<double>();
+            ICollection<double> input = CollectionFactory.CreateQueue<double>();
+            ICollection<double> desiredOutput = CollectionFactory.CreateQueue<double>();
 
             double sepal_length = e.getAttributeValueAsDouble("sepal_length");
             double sepal_width = e.getAttributeValueAsDouble("sepal_width");
@@ -26,27 +27,27 @@ namespace tvn.cosine.ai.learning.neural
 
             desiredOutput = convertCategoryToListOfDoubles(plant_category_string);
 
-            Pair<IQueue<double>, IQueue<double>> io = new Pair<IQueue<double>, IQueue<double>>(input, desiredOutput);
+            Pair<ICollection<double>, ICollection<double>> io = new Pair<ICollection<double>, ICollection<double>>(input, desiredOutput);
 
             return io;
         }
 
-        public string denumerize(IQueue<double> outputValue)
+        public string denumerize(ICollection<double> outputValue)
         {
-            IQueue<double> rounded = Factory.CreateQueue<double>();
+            ICollection<double> rounded = CollectionFactory.CreateQueue<double>();
             foreach (double d in outputValue)
             {
                 rounded.Add(round(d));
             }
-            if (rounded.Equals(Factory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 })))
+            if (rounded.Equals(CollectionFactory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 })))
             {
                 return "setosa";
             }
-            else if (rounded.Equals(Factory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 })))
+            else if (rounded.Equals(CollectionFactory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 })))
             {
                 return "versicolor";
             }
-            else if (rounded.Equals(Factory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 })))
+            else if (rounded.Equals(CollectionFactory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 })))
             {
                 return "virginica";
             }
@@ -75,19 +76,19 @@ namespace tvn.cosine.ai.learning.neural
             }
         }
 
-        private IQueue<double> convertCategoryToListOfDoubles(string plant_category_string)
+        private ICollection<double> convertCategoryToListOfDoubles(string plant_category_string)
         {
             if (plant_category_string.Equals("setosa"))
             {
-                return Factory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 });
+                return CollectionFactory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 });
             }
             else if (plant_category_string.Equals("versicolor"))
             {
-                return Factory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 });
+                return CollectionFactory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 });
             }
             else if (plant_category_string.Equals("virginica"))
             {
-                return Factory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 });
+                return CollectionFactory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 });
             }
             else
             {

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing.ast;
@@ -26,7 +27,7 @@ namespace tvn.cosine.ai.logic.fol.inference
     public class Paramodulation : AbstractModulation
     {
         private static StandardizeApartIndexical _saIndexical = StandardizeApartIndexicalFactory.newStandardizeApartIndexical('p');
-        private static IQueue<Literal> _emptyLiteralList = Factory.CreateQueue<Literal>();
+        private static ICollection<Literal> _emptyLiteralList = CollectionFactory.CreateQueue<Literal>();
         //
         private StandardizeApart sApart = new StandardizeApart();
 
@@ -40,7 +41,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
         public ISet<Clause> apply(Clause c1, Clause c2, bool standardizeApart)
         {
-            ISet<Clause> paraExpressions = Factory.CreateSet<Clause>();
+            ISet<Clause> paraExpressions = CollectionFactory.CreateSet<Clause>();
 
             for (int i = 0; i < 2;++i)
             {
@@ -107,7 +108,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                                     // I have an alternative, create a new clause
                                     // with the alternative and the substitution
                                     // applied to all the literals before returning
-                                    IQueue<Literal> newLits = Factory.CreateQueue<Literal>();
+                                    ICollection<Literal> newLits = CollectionFactory.CreateQueue<Literal>();
                                     foreach (Literal l2 in topClause.getLiterals())
                                     {
                                         if (l1.Equals(l2))

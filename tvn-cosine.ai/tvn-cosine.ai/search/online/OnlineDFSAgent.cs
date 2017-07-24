@@ -1,9 +1,10 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.search.online
 {
@@ -49,10 +50,10 @@ namespace tvn.cosine.ai.search.online
         // persistent: result, a table, indexed by state and action, initially empty
         private TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<S, A, S>();
         // untried, a table that lists, for each state, the actions not yet tried
-        private IMap<S, IQueue<A>> untried = Factory.CreateInsertionOrderedMap<S, IQueue<A>>();
+        private IMap<S, ICollection<A>> untried = CollectionFactory.CreateInsertionOrderedMap<S, ICollection<A>>();
         // unbacktracked, a table that lists,
         // for each state, the backtracks not yet tried
-        private IMap<S, IQueue<S>> unbacktracked = Factory.CreateInsertionOrderedMap<S, IQueue<S>>();
+        private IMap<S, ICollection<S>> unbacktracked = CollectionFactory.CreateInsertionOrderedMap<S, ICollection<S>>();
         // s, a, the previous state and action, initially null
         private S s;
         private A a;
@@ -152,7 +153,7 @@ namespace tvn.cosine.ai.search.online
                         // Ensure the unbacktracked always has a list for s'
                         if (!unbacktracked.ContainsKey(sPrimed))
                         {
-                            unbacktracked.Put(sPrimed, Factory.CreateQueue<S>());
+                            unbacktracked.Put(sPrimed, CollectionFactory.CreateQueue<S>());
                         }
 
                         // add s to the front of the unbacktracked[s']

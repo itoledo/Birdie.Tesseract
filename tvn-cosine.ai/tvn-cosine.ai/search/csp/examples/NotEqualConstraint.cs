@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.csp.examples
 {
@@ -12,18 +13,18 @@ namespace tvn.cosine.ai.search.csp.examples
     {
         private VAR var1;
         private VAR var2;
-        private IQueue<VAR> scope;
+        private ICollection<VAR> scope;
 
         public NotEqualConstraint(VAR var1, VAR var2)
         {
             this.var1 = var1;
             this.var2 = var2;
-            scope = Factory.CreateQueue<VAR>();
+            scope = CollectionFactory.CreateQueue<VAR>();
             scope.Add(var1);
             scope.Add(var2);
         }
          
-        public IQueue<VAR> getScope()
+        public ICollection<VAR> getScope()
         {
             return scope;
         }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.inductive;
 
@@ -12,7 +12,7 @@ namespace tvn_cosine.ai.test.unit.learning.inductive
         public void testDecisionList()
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
-            IQueue<DLTest> dlTests = new DLTestFactory()
+            ICollection<DLTest> dlTests = new DLTestFactory()
                        .createDLTestsWithAttributeCount(ds, 1);
             Assert.AreEqual(26, dlTests.Size());
         }

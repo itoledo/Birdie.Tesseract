@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.util;
 
 namespace tvn_cosine.ai.test.unit.util
@@ -7,12 +8,12 @@ namespace tvn_cosine.ai.test.unit.util
     [TestClass]
     public class UtilTest
     {
-        private IQueue<double> values;
+        private ICollection<double> values;
 
         [TestInitialize]
         public void setUp()
         {
-            values = Factory.CreateQueue<double>();
+            values = CollectionFactory.CreateQueue<double>();
             values.Add(1.0);
             values.Add(2.0);
             values.Add(3.0);
@@ -23,7 +24,7 @@ namespace tvn_cosine.ai.test.unit.util
         [TestMethod]
         public void testModeFunction()
         {
-            IQueue<int> l = Factory.CreateQueue<int>();
+            ICollection<int> l = CollectionFactory.CreateQueue<int>();
             l.Add(1);
             l.Add(2);
             l.Add(2);
@@ -31,7 +32,7 @@ namespace tvn_cosine.ai.test.unit.util
             int i = (Util.mode(l));
             Assert.AreEqual(2, i);
 
-            IQueue<int> l2 = Factory.CreateQueue<int>();
+            ICollection<int> l2 = CollectionFactory.CreateQueue<int>();
             l2.Add(1);
             i = (Util.mode(l2));
             Assert.AreEqual(1, i);
@@ -52,7 +53,7 @@ namespace tvn_cosine.ai.test.unit.util
         [TestMethod]
         public void testNormalization()
         {
-            IQueue<double> nrm = Util.normalizeFromMeanAndStdev(values, 3.0, 1.5811);
+            ICollection<double> nrm = Util.normalizeFromMeanAndStdev(values, 3.0, 1.5811);
             Assert.AreEqual(-1.264, nrm.Get(0), 0.001);
             Assert.AreEqual(-0.632, nrm.Get(1), 0.001);
             Assert.AreEqual(0.0, nrm.Get(2), 0.001);

@@ -1,4 +1,6 @@
-﻿using tvn.cosine.ai.common.datastructures;
+﻿using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.collections
@@ -48,7 +50,7 @@ namespace tvn.cosine.ai.common.collections
             return backingMap.GetKeys();
         }
 
-        public IQueue<VALUE> GetValues()
+        public ICollection<VALUE> GetValues()
         {
             return backingMap.GetValues();
         }
@@ -63,17 +65,17 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
-        public bool ContainsAll(IQueue<KeyValuePair<KEY, VALUE>> other)
+        public bool ContainsAll(ICollection<KeyValuePair<KEY, VALUE>> other)
         {
             return backingMap.ContainsAll(other);
         }
 
-        bool IQueue<KeyValuePair<KEY, VALUE>>.SequenceEqual(IQueue<KeyValuePair<KEY, VALUE>> other)
+        bool ICollection<KeyValuePair<KEY, VALUE>>.SequenceEqual(ICollection<KeyValuePair<KEY, VALUE>> other)
         {
             throw new NotSupportedException("Not supported");
         }
          
-        void IQueue<KeyValuePair<KEY, VALUE>>.Sort(IComparer<KeyValuePair<KEY, VALUE>> comparer)
+        void ICollection<KeyValuePair<KEY, VALUE>>.Sort(IComparer<KeyValuePair<KEY, VALUE>> comparer)
         {
             throw new NotSupportedException("Not supported");
         }
@@ -83,7 +85,7 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException("Not supported");
         }
 
-        bool IQueue<KeyValuePair<KEY, VALUE>>.Remove(KeyValuePair<KEY, VALUE> item)
+        bool ICollection<KeyValuePair<KEY, VALUE>>.Remove(KeyValuePair<KEY, VALUE> item)
         {
             throw new NotSupportedException("Not supported");
         }
@@ -93,47 +95,47 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException("Not supported");
         }
 
-        bool IQueue<KeyValuePair<KEY, VALUE>>.Add(KeyValuePair<KEY, VALUE> item)
+        bool ICollection<KeyValuePair<KEY, VALUE>>.Add(KeyValuePair<KEY, VALUE> item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.AddAll(IQueue<KeyValuePair<KEY, VALUE>> items)
+        void ICollection<KeyValuePair<KEY, VALUE>>.AddAll(ICollection<KeyValuePair<KEY, VALUE>> items)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.Clear()
+        void ICollection<KeyValuePair<KEY, VALUE>>.Clear()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        KeyValuePair<KEY, VALUE> IQueue<KeyValuePair<KEY, VALUE>>.Get(int index)
+        KeyValuePair<KEY, VALUE> ICollection<KeyValuePair<KEY, VALUE>>.Get(int index)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        int IQueue<KeyValuePair<KEY, VALUE>>.IndexOf(KeyValuePair<KEY, VALUE> item)
+        int ICollection<KeyValuePair<KEY, VALUE>>.IndexOf(KeyValuePair<KEY, VALUE> item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.Insert(int index, KeyValuePair<KEY, VALUE> item)
+        void ICollection<KeyValuePair<KEY, VALUE>>.Insert(int index, KeyValuePair<KEY, VALUE> item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        KeyValuePair<KEY, VALUE> IQueue<KeyValuePair<KEY, VALUE>>.Peek()
+        KeyValuePair<KEY, VALUE> ICollection<KeyValuePair<KEY, VALUE>>.Peek()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        KeyValuePair<KEY, VALUE> IQueue<KeyValuePair<KEY, VALUE>>.Pop()
+        KeyValuePair<KEY, VALUE> ICollection<KeyValuePair<KEY, VALUE>>.Pop()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.RemoveAt(int index)
+        void ICollection<KeyValuePair<KEY, VALUE>>.RemoveAt(int index)
         {
             throw new NotSupportedException("Not supported");
         }
@@ -143,7 +145,7 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.RemoveAll(IQueue<KeyValuePair<KEY, VALUE>> items)
+        void ICollection<KeyValuePair<KEY, VALUE>>.RemoveAll(ICollection<KeyValuePair<KEY, VALUE>> items)
         {
             throw new NotSupportedException("Not supported");
         }
@@ -153,17 +155,17 @@ namespace tvn.cosine.ai.common.collections
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.Reverse()
+        void ICollection<KeyValuePair<KEY, VALUE>>.Reverse()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        IQueue<KeyValuePair<KEY, VALUE>> IQueue<KeyValuePair<KEY, VALUE>>.subList(int startPos, int endPos)
+        ICollection<KeyValuePair<KEY, VALUE>> ICollection<KeyValuePair<KEY, VALUE>>.subList(int startPos, int endPos)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<KEY, VALUE>>.Set(int position, KeyValuePair<KEY, VALUE> item)
+        void ICollection<KeyValuePair<KEY, VALUE>>.Set(int position, KeyValuePair<KEY, VALUE> item)
         {
             throw new NotSupportedException("Not supported");
         }

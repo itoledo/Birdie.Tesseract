@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 
 namespace tvn.cosine.ai.search.nondeterministic
@@ -146,7 +146,7 @@ namespace tvn.cosine.ai.search.nondeterministic
          * @param path
          * @return a conditional plan or null on failure
          */
-        public Plan andSearch(IQueue<S> states, NondeterministicProblem<S, A> problem, Path path)
+        public Plan andSearch(ICollection<S> states, NondeterministicProblem<S, A> problem, Path path)
         {
             // do metrics, setup
             this.expandedNodes++;

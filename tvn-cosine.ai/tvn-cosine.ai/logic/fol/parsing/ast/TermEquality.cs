@@ -1,12 +1,13 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     public class TermEquality : AtomicSentence
     {
         private Term term1, term2;
-        private IQueue<Term> terms = Factory.CreateQueue<Term>();
+        private ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
         private string stringRep = null;
         private int hashCode = 0;
 
@@ -45,20 +46,20 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return true;
         }
 
-        IQueue<FOLNode> FOLNode.getArgs()
+        ICollection<FOLNode> FOLNode.getArgs()
         {
-            IQueue<FOLNode> obj = Factory.CreateQueue<FOLNode>();
+            ICollection<FOLNode> obj = CollectionFactory.CreateQueue<FOLNode>();
             foreach (Term term in terms)
             {
                 obj.Add(term);
             }
 
-            return Factory.CreateReadOnlyQueue<FOLNode>(obj);
+            return CollectionFactory.CreateReadOnlyQueue<FOLNode>(obj);
         }
 
-        public IQueue<Term> getArgs()
+        public ICollection<Term> getArgs()
         {
-            return Factory.CreateReadOnlyQueue<Term>(terms);
+            return CollectionFactory.CreateReadOnlyQueue<Term>(terms);
         }
 
         public object accept(FOLVisitor v, object arg)

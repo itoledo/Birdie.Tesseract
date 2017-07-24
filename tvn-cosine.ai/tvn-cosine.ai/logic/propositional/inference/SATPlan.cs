@@ -1,5 +1,5 @@
 ﻿using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
 using tvn.cosine.ai.logic.propositional.visitors;
@@ -53,7 +53,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * @return a list of actions describing a solution for the given problem or
          *         null if no solution is found (i.e failure)
          */
-        public IQueue<IAction> satPlan(Describe init, Describe transition, Describe goal, int tMax)
+        public ICollection<IAction> satPlan(Describe init, Describe transition, Describe goal, int tMax)
         {
             // for t = 0 to T<sub>max</sub> do
             for (int t = 0; t <= tMax; t++)
@@ -89,7 +89,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          */
         public interface SolutionExtractor
         {
-            IQueue<IAction> extractSolution(kb.data.Model model);
+            ICollection<IAction> extractSolution(kb.data.Model model);
         }
 
         private SATSolver satSolver = null;

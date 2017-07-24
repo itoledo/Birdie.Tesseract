@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.nlp.parsing.grammars
 {
@@ -21,18 +22,18 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
         public const int CNFGRAMMAR = 4;
         public const int PROB_CONTEXT_FREE = 5;
 
-        public IQueue<Rule> rules;
-        public IQueue<string> vars;
-        public IQueue<string> terminals;
+        public ICollection<Rule> rules;
+        public ICollection<string> vars;
+        public ICollection<string> terminals;
         public int type;
 
         // default constructor. has no rules
         public ProbUnrestrictedGrammar()
         {
             type = 0;
-            rules = Factory.CreateQueue<Rule>();
-            vars = Factory.CreateQueue<string>();
-            terminals = Factory.CreateQueue<string>();
+            rules = CollectionFactory.CreateQueue<Rule>();
+            vars = CollectionFactory.CreateQueue<string>();
+            terminals = CollectionFactory.CreateQueue<string>();
         }
 
         /**
@@ -41,7 +42,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          * @param ruleList
          * @return true if rules are valid and incorporated into the grammar. false, otherwise
          */
-        public virtual bool addRules(IQueue<Rule> ruleList)
+        public virtual bool addRules(ICollection<Rule> ruleList)
         {
             foreach (Rule aRuleList in ruleList)
             {
@@ -82,7 +83,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          * @param ruleList
          * @return true if the probabilities are valid. false, otherwise
          */
-        public virtual bool validateRuleProbabilities(IQueue<Rule> ruleList)
+        public virtual bool validateRuleProbabilities(ICollection<Rule> ruleList)
         {
             float probTotal = 0;
             foreach (string var in vars)
@@ -125,8 +126,8 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
         {
             if (rules == null)
             {
-                vars = Factory.CreateQueue<string>();
-                terminals = Factory.CreateQueue<string>();
+                vars = CollectionFactory.CreateQueue<string>();
+                terminals = CollectionFactory.CreateQueue<string>();
                 return;
             }
             foreach (Rule r in rules)
@@ -161,8 +162,8 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
                 }
             }
             // maintain sorted lists
-            vars.Sort(new Queue<string>.Comparer());
-            terminals.Sort(new Queue<string>.Comparer());
+            vars.Sort(new List<string>.Comparer());
+            terminals.Sort(new List<string>.Comparer());
         }
 
 

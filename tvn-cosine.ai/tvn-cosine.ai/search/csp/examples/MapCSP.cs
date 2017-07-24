@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.csp.examples
 {
@@ -32,7 +33,7 @@ namespace tvn.cosine.ai.search.csp.examples
          * Australia, with the colors Red, Green, and Blue.
          */
         public MapCSP()
-                : base(Factory.CreateQueue<Variable>(new[] { NSW, WA, NT, Q, SA, V, T }))
+                : base(CollectionFactory.CreateQueue<Variable>(new[] { NSW, WA, NT, Q, SA, V, T }))
         {
             Domain<string> colors = new Domain<string>(RED, GREEN, BLUE);
             foreach (Variable var in getVariables())

@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.domain;
 
@@ -8,7 +9,7 @@ namespace tvn.cosine.ai.probability.proposition
     public class IntegerSumProposition : AbstractDerivedProposition
     {
         private FiniteIntegerDomain sumsDomain = null;
-        private IQueue<RandomVariable> sumVars = Factory.CreateQueue<RandomVariable>();
+        private ICollection<RandomVariable> sumVars = CollectionFactory.CreateQueue<RandomVariable>();
         //
         private string toString = null;
 

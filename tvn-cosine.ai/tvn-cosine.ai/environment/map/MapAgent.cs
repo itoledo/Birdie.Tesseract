@@ -1,11 +1,12 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.agent;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.informed;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.environment.map
 {
@@ -22,7 +23,7 @@ namespace tvn.cosine.ai.environment.map
     {
         protected readonly Map map;
         protected readonly DynamicState state = new DynamicState();
-        protected readonly IQueue<string> goals = Factory.CreateQueue<string>();
+        protected readonly ICollection<string> goals = CollectionFactory.CreateQueue<string>();
         protected int currGoalIdx = -1;
 
         // possibly null...
@@ -45,7 +46,7 @@ namespace tvn.cosine.ai.environment.map
         }
 
         public MapAgent(Map map, SearchForActions<string, MoveToAction> search,
-            IQueue<string> goals)
+            ICollection<string> goals)
         {
             this.map = map;
             this._search = search;
@@ -53,7 +54,7 @@ namespace tvn.cosine.ai.environment.map
         }
 
         public MapAgent(Map map, SearchForActions<string, MoveToAction> search,
-            IQueue<string> goals,
+            ICollection<string> goals,
             IEnvironmentViewNotifier notifier)
             : this(map, search, goals)
         {
@@ -72,7 +73,7 @@ namespace tvn.cosine.ai.environment.map
          *                   the goals he has selected.
          */
         public MapAgent(Map map,
-            SearchForActions<string, MoveToAction> search, IQueue<string> goals,
+            SearchForActions<string, MoveToAction> search, ICollection<string> goals,
             IEnvironmentViewNotifier notifier,
             Function<string, ToDoubleFunction<Node<string, MoveToAction>>> hFnFactory)
             : this(map, search, goals, notifier)
@@ -113,9 +114,9 @@ namespace tvn.cosine.ai.environment.map
                     (string)goal);
         }
          
-    protected override IQueue<MoveToAction> search(Problem<string, MoveToAction> problem)
+    protected override ICollection<MoveToAction> search(Problem<string, MoveToAction> problem)
         {
-            IQueue<MoveToAction> result = _search.findActions(problem);
+            ICollection<MoveToAction> result = _search.findActions(problem);
             notifyViewOfMetrics();
             return result;
         }

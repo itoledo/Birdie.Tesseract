@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing.ast;
@@ -26,8 +27,8 @@ namespace tvn.cosine.ai.logic.fol
         public StandardizeApartResult standardizeApart(Sentence sentence, StandardizeApartIndexical standardizeApartIndexical)
         {
             ISet<Variable> toRename = variableCollector.collectAllVariables(sentence);
-            IMap<Variable, Term> renameSubstitution = Factory.CreateInsertionOrderedMap<Variable, Term>();
-            IMap<Variable, Term> reverseSubstitution = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> renameSubstitution = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> reverseSubstitution = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
 
             foreach (Variable var in toRename)
             {
@@ -51,7 +52,7 @@ namespace tvn.cosine.ai.logic.fol
         public Clause standardizeApart(Clause clause, StandardizeApartIndexical standardizeApartIndexical)
         {
             ISet<Variable> toRename = variableCollector.collectAllVariables(clause);
-            IMap<Variable, Term> renameSubstitution = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> renameSubstitution = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
 
             foreach (Variable var in toRename)
             {
@@ -68,7 +69,7 @@ namespace tvn.cosine.ai.logic.fol
 
             if (renameSubstitution.Size() > 0)
             {
-                IQueue<Literal> literals = Factory.CreateQueue<Literal>();
+                ICollection<Literal> literals = CollectionFactory.CreateQueue<Literal>();
 
                 foreach (Literal l in clause.getLiterals())
                 {
@@ -85,7 +86,7 @@ namespace tvn.cosine.ai.logic.fol
         public Chain standardizeApart(Chain chain, StandardizeApartIndexical standardizeApartIndexical)
         {
             ISet<Variable> toRename = variableCollector.collectAllVariables(chain);
-            IMap<Variable, Term> renameSubstitution = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> renameSubstitution = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
 
             foreach (Variable var in toRename)
             {
@@ -103,7 +104,7 @@ namespace tvn.cosine.ai.logic.fol
 
             if (renameSubstitution.Size() > 0)
             {
-                IQueue<Literal> lits = Factory.CreateQueue<Literal>();
+                ICollection<Literal> lits = CollectionFactory.CreateQueue<Literal>();
 
                 foreach (Literal l in chain.getLiterals())
                 {
@@ -121,11 +122,11 @@ namespace tvn.cosine.ai.logic.fol
             return chain;
         }
 
-        public IMap<Variable, Term> standardizeApart(IQueue<Literal> l1Literals,
-                IQueue<Literal> l2Literals,
+        public IMap<Variable, Term> standardizeApart(ICollection<Literal> l1Literals,
+                ICollection<Literal> l2Literals,
                 StandardizeApartIndexical standardizeApartIndexical)
         {
-            ISet<Variable> toRename = Factory.CreateSet<Variable>();
+            ISet<Variable> toRename = CollectionFactory.CreateSet<Variable>();
 
             foreach (Literal pl in l1Literals)
             {
@@ -137,7 +138,7 @@ namespace tvn.cosine.ai.logic.fol
                 toRename.AddAll(variableCollector.collectAllVariables(nl.getAtomicSentence()));
             }
 
-            IMap<Variable, Term> renameSubstitution = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> renameSubstitution = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
 
             foreach (Variable var in toRename)
             {
@@ -153,8 +154,8 @@ namespace tvn.cosine.ai.logic.fol
                 renameSubstitution.Put(var, v);
             }
 
-            IQueue<Literal> posLits = Factory.CreateQueue<Literal>();
-            IQueue<Literal> negLits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> posLits = CollectionFactory.CreateQueue<Literal>();
+            ICollection<Literal> negLits = CollectionFactory.CreateQueue<Literal>();
 
             foreach (Literal pl in l1Literals)
             {

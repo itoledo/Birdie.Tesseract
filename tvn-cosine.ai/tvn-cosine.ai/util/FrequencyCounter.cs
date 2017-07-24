@@ -1,5 +1,6 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.util
 {
@@ -20,7 +21,7 @@ namespace tvn.cosine.ai.util
          */
         public FrequencyCounter()
         {
-            counter = Factory.CreateInsertionOrderedMap<T, int>();
+            counter = CollectionFactory.CreateInsertionOrderedMap<T, int>();
             total = 0;
         }
 
@@ -93,7 +94,7 @@ namespace tvn.cosine.ai.util
          */
         public ISet<T> getStates()
         {
-            return Factory.CreateSet<T>(counter.GetKeys());
+            return CollectionFactory.CreateSet<T>(counter.GetKeys());
         }
 
         /**

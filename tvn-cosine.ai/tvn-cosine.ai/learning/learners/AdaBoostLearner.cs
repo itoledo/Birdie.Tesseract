@@ -1,7 +1,9 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.framework.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.learners
@@ -12,12 +14,12 @@ namespace tvn.cosine.ai.learning.learners
      */
     public class AdaBoostLearner : ILearner
     {
-        private IQueue<ILearner> learners;
+        private ICollection<ILearner> learners;
         private DataSet dataSet;
         private double[] exampleWeights;
         private IMap<ILearner, double> learnerWeights;
 
-        public AdaBoostLearner(IQueue<ILearner> learners, DataSet ds)
+        public AdaBoostLearner(ICollection<ILearner> learners, DataSet ds)
         {
             this.learners = learners;
             this.dataSet = ds;
@@ -76,13 +78,13 @@ namespace tvn.cosine.ai.learning.learners
 
         private string weightedMajority(Example e)
         {
-            IQueue<string> targetValues = dataSet.getPossibleAttributeValues(dataSet.getTargetAttributeName());
+            ICollection<string> targetValues = dataSet.getPossibleAttributeValues(dataSet.getTargetAttributeName());
 
             Table<string, ILearner, double> table = createTargetValueLearnerTable(targetValues, e);
             return getTargetValueWithTheMaximumVotes(targetValues, table);
         }
 
-        private Table<string, ILearner, double> createTargetValueLearnerTable(IQueue<string> targetValues, Example e)
+        private Table<string, ILearner, double> createTargetValueLearnerTable(ICollection<string> targetValues, Example e)
         {
             // create a table with target-attribute values as rows and learners as
             // columns and cells containing the weighted votes of each Learner for a
@@ -115,7 +117,7 @@ namespace tvn.cosine.ai.learning.learners
             return table;
         }
 
-        private string getTargetValueWithTheMaximumVotes(IQueue<string> targetValues, Table<string, ILearner, double> table)
+        private string getTargetValueWithTheMaximumVotes(ICollection<string> targetValues, Table<string, ILearner, double> table)
         {
             string targetValueWithMaxScore = targetValues.Get(0);
             double score = scoreOfValue(targetValueWithMaxScore, table, learners);
@@ -152,7 +154,7 @@ namespace tvn.cosine.ai.learning.learners
                 throw new RuntimeException("cannot initialize Ensemble learning with Zero Learners");
             }
 
-            learnerWeights = Factory.CreateInsertionOrderedMap<ILearner, double>();
+            learnerWeights = CollectionFactory.CreateInsertionOrderedMap<ILearner, double>();
             foreach (ILearner le in learners)
             {
                 learnerWeights.Put(le, 1.0);
@@ -187,7 +189,7 @@ namespace tvn.cosine.ai.learning.learners
             exampleWeights = Util.normalize(exampleWeights);
         }
 
-        private double scoreOfValue(string targetValue, Table<string, ILearner, double> table, IQueue<ILearner> learners)
+        private double scoreOfValue(string targetValue, Table<string, ILearner, double> table, ICollection<ILearner> learners)
         {
             double score = 0.0;
             foreach (ILearner l in learners)

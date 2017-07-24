@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.parsing;
@@ -25,7 +25,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         public void testSimpleSentence()
         {
             Sentence s = parser.parse("(Missile(x) => Weapon(x))");
-            IQueue<Predicate> predicates = collector.getPredicates(s);
+            ICollection<Predicate> predicates = collector.getPredicates(s);
             Assert.IsNotNull(predicates);
         }
     }

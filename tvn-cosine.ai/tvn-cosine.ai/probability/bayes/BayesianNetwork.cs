@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.probability.bayes
 {
@@ -40,7 +40,7 @@ namespace tvn.cosine.ai.probability.bayes
          * @return a list of the Random Variables, in topological order, contained
          *         within the network.
          */
-        IQueue<RandomVariable> getVariablesInTopologicalOrder();
+        ICollection<RandomVariable> getVariablesInTopologicalOrder();
 
         /**
          * 

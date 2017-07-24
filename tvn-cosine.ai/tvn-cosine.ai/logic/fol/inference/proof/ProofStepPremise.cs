@@ -1,10 +1,11 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofStepPremise : AbstractProofStep
     { 
-        private static readonly IQueue<ProofStep> _noPredecessors = Factory.CreateQueue<ProofStep>();
+        private static readonly ICollection<ProofStep> _noPredecessors = CollectionFactory.CreateQueue<ProofStep>();
         //
         private object proof = "";
 
@@ -13,9 +14,9 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             this.proof = proof;
         }
          
-        public override IQueue<ProofStep> getPredecessorSteps()
+        public override ICollection<ProofStep> getPredecessorSteps()
         {
-            return Factory.CreateReadOnlyQueue<ProofStep>(_noPredecessors);
+            return CollectionFactory.CreateReadOnlyQueue<ProofStep>(_noPredecessors);
         }
          
         public override string getProof()

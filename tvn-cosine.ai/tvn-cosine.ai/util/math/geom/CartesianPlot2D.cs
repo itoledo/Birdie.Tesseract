@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.util.math.geom.shapes;
 
 namespace tvn.cosine.ai.util.math.geom
@@ -16,8 +17,8 @@ namespace tvn.cosine.ai.util.math.geom
     {
         private double rayRange;
         private IGroupParser parser;
-        private IQueue<IGeometric2D> shapes;
-        private IQueue<Rect2D> boundaries;
+        private ICollection<IGeometric2D> shapes;
+        private ICollection<Rect2D> boundaries;
 
         /**
          * @param parser a file parser which : {@link IGroupParser}. This parser is used to load a map file.
@@ -41,10 +42,10 @@ namespace tvn.cosine.ai.util.math.geom
          * Sets the set of shapes of the plot.
          * @param shapes the set of shapes to be set.
          */
-        public void setShapes(IQueue<IGeometric2D> shapes)
+        public void setShapes(ICollection<IGeometric2D> shapes)
         {
             this.shapes = shapes;
-            boundaries = Factory.CreateQueue<Rect2D>();
+            boundaries = CollectionFactory.CreateQueue<Rect2D>();
             foreach (IGeometric2D shape in shapes)
             {
                 boundaries.Add(shape.getBounds());
@@ -61,7 +62,7 @@ namespace tvn.cosine.ai.util.math.geom
         public void loadMap(System.IO.StreamReader input, string groupID)
         {
             shapes = parser.parse(input, groupID);
-            boundaries = Factory.CreateQueue<Rect2D>();
+            boundaries = CollectionFactory.CreateQueue<Rect2D>();
             foreach (IGeometric2D shape in shapes)
             {
                 boundaries.Add(shape.getBounds());

@@ -1,18 +1,19 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     public class QuantifiedSentence : Sentence
     {
         private string quantifier;
-        private IQueue<Variable> variables = Factory.CreateQueue<Variable>();
+        private ICollection<Variable> variables = CollectionFactory.CreateQueue<Variable>();
         private Sentence quantified;
-        private IQueue<FOLNode> args = Factory.CreateQueue<FOLNode>();
+        private ICollection<FOLNode> args = CollectionFactory.CreateQueue<FOLNode>();
         private string stringRep = null;
         private int hashCode = 0;
 
-        public QuantifiedSentence(string quantifier, IQueue<Variable> variables,                Sentence quantified)
+        public QuantifiedSentence(string quantifier, ICollection<Variable> variables,                Sentence quantified)
         {
             this.quantifier = quantifier;
             this.variables.AddAll(variables);
@@ -28,9 +29,9 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return quantifier;
         }
 
-        public IQueue<Variable> getVariables()
+        public ICollection<Variable> getVariables()
         {
-            return Factory.CreateReadOnlyQueue<Variable>(variables);
+            return CollectionFactory.CreateReadOnlyQueue<Variable>(variables);
         }
 
         public Sentence getQuantified()
@@ -48,9 +49,9 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return true;
         }
 
-        public IQueue<FOLNode> getArgs()
+        public ICollection<FOLNode> getArgs()
         {
-            return Factory.CreateReadOnlyQueue<FOLNode>(args);
+            return CollectionFactory.CreateReadOnlyQueue<FOLNode>(args);
         }
 
         public object accept(FOLVisitor v, object arg)
@@ -70,7 +71,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
 
         public QuantifiedSentence copy()
         {
-            IQueue<Variable> copyVars = Factory.CreateQueue<Variable>();
+            ICollection<Variable> copyVars = CollectionFactory.CreateQueue<Variable>();
             foreach (Variable v in variables)
             {
                 copyVars.Add(v.copy());

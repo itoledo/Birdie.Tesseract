@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
@@ -15,9 +16,9 @@ namespace tvn.cosine.ai.probability.bayes.impl
     public class CPT : ConditionalProbabilityTable
     { 
         private RandomVariable on = null;
-        private ISet<RandomVariable> parents = Factory.CreateSet<RandomVariable>();
+        private ISet<RandomVariable> parents = CollectionFactory.CreateSet<RandomVariable>();
         private ProbabilityTable table = null;
-        private IQueue<object> onDomain = Factory.CreateQueue<object>();
+        private ICollection<object> onDomain = CollectionFactory.CreateQueue<object>();
 
         public CPT(RandomVariable on, double[] values, params RandomVariable[] conditionedOn)
         {
@@ -188,7 +189,7 @@ namespace tvn.cosine.ai.probability.bayes.impl
 
         public virtual Factor getFactorFor(params AssignmentProposition[] evidence)
         {
-            ISet<RandomVariable> fofVars = Factory.CreateSet<RandomVariable>(table.getFor());
+            ISet<RandomVariable> fofVars = CollectionFactory.CreateSet<RandomVariable>(table.getFor());
             foreach (AssignmentProposition ap in evidence)
             {
                 fofVars.Remove(ap.getTermVariable());
@@ -208,9 +209,9 @@ namespace tvn.cosine.ai.probability.bayes.impl
             private int rowSize;
             private int iterateCnt = 0;
             private double rowProb = 0;
-            private IQueue<object> onDomain;
+            private ICollection<object> onDomain;
 
-            public checkEachRowTotalsOneIterator(IQueue<object> onDomain)
+            public checkEachRowTotalsOneIterator(ICollection<object> onDomain)
             {
                 this.onDomain = onDomain;
                 rowSize = onDomain.Size();

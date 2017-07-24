@@ -1,13 +1,15 @@
-﻿namespace tvn.cosine.ai.common.collections
+﻿using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
+
+namespace tvn.cosine.ai.common.collections
 {
-    public static class Factory
+    public static class CollectionFactory
     {
         public static IMap<KEY, VALUE> CreateInsertionOrderedMap<KEY, VALUE>()
         {
             return new InsertionOrderedMap<KEY, VALUE>();
         }
-
-
+         
         public static IMap<KEY, VALUE> CreateInsertionOrderedMap<KEY, VALUE>(IMap<KEY, VALUE> map)
         {
             return new InsertionOrderedMap<KEY, VALUE>(map);
@@ -28,14 +30,14 @@
             return new Map<KEY, VALUE>(map);
         }
 
-        public static IQueue<T> CreatePriorityQueue<T>(IComparer<T> comparer)
+        public static ICollection<T> CreatePriorityQueue<T>(IComparer<T> comparer)
         {
             return new PriorityQueue<T>(comparer);
         }
 
-        public static IQueue<T> CreateQueue<T>()
+        public static ICollection<T> CreateQueue<T>()
         {
-            return new Queue<T>();
+            return new List<T>();
         }
 
         public static ISet<T> CreateSet<T>()
@@ -43,7 +45,7 @@
             return new Set<T>();
         }
 
-        public static ISet<T> CreateSet<T>(IQueue<T> collection)
+        public static ISet<T> CreateSet<T>(ICollection<T> collection)
         {
             return new Set<T>(collection);
         }
@@ -53,42 +55,42 @@
            return new Set<T>(collection); 
         }
 
-        public static IQueue<T> CreateFifoQueueNoDuplicates<T>()
+        public static ICollection<T> CreateFifoQueueNoDuplicates<T>()
         {
             return new FifoQueueNoDuplicates<T>();
         }
 
-        public static IQueue<T> CreateLifoQueue<T>()
+        public static ICollection<T> CreateLifoQueue<T>()
         {
             return new LifoQueue<T>();
         }
 
-        public static IQueue<T> CreateFifoQueue<T>()
+        public static ICollection<T> CreateFifoQueue<T>()
         {
             return new FifoQueue<T>();
         }
 
-        public static IQueue<T> CreateQueue<T>(IQueue<T> collection)
+        public static ICollection<T> CreateQueue<T>(ICollection<T> collection)
         {
-            return new Queue<T>(collection);
+            return new List<T>(collection);
         }
 
-        public static IQueue<T> CreateQueue<T>(ISet<T> collection)
+        public static ICollection<T> CreateQueue<T>(ISet<T> collection)
         {
-            return new Queue<T>(collection);
+            return new List<T>(collection);
         }
 
-        public static IQueue<T> CreateQueue<T>(params T[] collection)
+        public static ICollection<T> CreateQueue<T>(params T[] collection)
         {
-            return new Queue<T>(collection);
+            return new List<T>(collection);
         }
 
-        public static IQueue<T> CreateFifoQueue<T>(IQueue<T> collection)
+        public static ICollection<T> CreateFifoQueue<T>(ICollection<T> collection)
         {
             return new FifoQueue<T>(collection);
         }
 
-        public static IQueue<T> CreateLifoQueue<T>(IQueue<T> collection)
+        public static ICollection<T> CreateLifoQueue<T>(ICollection<T> collection)
         {
             return new LifoQueue<T>(collection);
         }
@@ -103,14 +105,14 @@
             return new ReadOnlySet<T>(collection);
         }
 
-        public static ISet<T> CreateReadOnlySet<T>(IQueue<T> collection)
+        public static ISet<T> CreateReadOnlySet<T>(ICollection<T> collection)
         {
             return new ReadOnlySet<T>(collection);
         }
 
-        public static IQueue<T> CreateReadOnlyQueue<T>(IQueue<T> collection)
+        public static ICollection<T> CreateReadOnlyQueue<T>(ICollection<T> collection)
         {
-            return new ReadOnlyQueue<T>(collection);
+            return new ReadOnlyCollection<T>(collection);
         }
     }
 }

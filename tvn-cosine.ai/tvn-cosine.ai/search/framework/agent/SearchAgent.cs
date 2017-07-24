@@ -1,8 +1,9 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.search.framework.agent
 {
@@ -17,13 +18,13 @@ namespace tvn.cosine.ai.search.framework.agent
     public class SearchAgent<S, A> : AgentBase
         where A : IAction
     { 
-        private IQueue<A> actionList; 
+        private ICollection<A> actionList; 
         private Metrics searchMetrics;
 
         public SearchAgent(Problem<S, A> p, SearchForActions<S, A> search)
         {
-            IQueue<A> actions = search.findActions(p);
-            actionList = Factory.CreateQueue<A>();
+            ICollection<A> actions = search.findActions(p);
+            actionList = CollectionFactory.CreateQueue<A>();
             if (null != actions)
                 actionList.AddAll(actions);
 
@@ -43,7 +44,7 @@ namespace tvn.cosine.ai.search.framework.agent
             return actionList.IsEmpty();
         }
 
-        public IQueue<A> getActions()
+        public ICollection<A> getActions()
         {
             return actionList;
         }

@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.inference.trace;
@@ -62,9 +63,9 @@ namespace tvn.cosine.ai.logic.fol.inference
             //
             // Get the background knowledge - are assuming this is satisfiable
             // as using Set of Support strategy.
-            ISet<Clause> bgClauses = Factory.CreateSet<Clause>(kb.getAllClauses());
+            ISet<Clause> bgClauses = CollectionFactory.CreateSet<Clause>(kb.getAllClauses());
             bgClauses.RemoveAll(SubsumptionElimination.findSubsumedClauses(bgClauses));
-            IQueue<Chain> background = createChainsFromClauses(bgClauses);
+            ICollection<Chain> background = createChainsFromClauses(bgClauses);
 
             // Collect the information necessary for constructing
             // an answer (supports use of answer literals).
@@ -103,9 +104,9 @@ namespace tvn.cosine.ai.logic.fol.inference
             return ansHandler;
         }
 
-        private IQueue<Chain> createChainsFromClauses(ISet<Clause> clauses)
+        private ICollection<Chain> createChainsFromClauses(ISet<Clause> clauses)
         {
-            IQueue<Chain> chains = Factory.CreateQueue<Chain>();
+            ICollection<Chain> chains = CollectionFactory.CreateQueue<Chain>();
 
             foreach (Clause c in clauses)
             {
@@ -220,7 +221,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                                 // I have a cancellation
                                 // Need to apply subst to all of the
                                 // literals in the cancellation
-                                IQueue<Literal> cancLits = Factory.CreateQueue<Literal>();
+                                ICollection<Literal> cancLits = CollectionFactory.CreateQueue<Literal>();
                                 foreach (Literal lfc in c.getTail())
                                 {
                                     AtomicSentence a = (AtomicSentence)substVisitor
@@ -259,11 +260,11 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             private Chain answerChain = new Chain();
             private ISet<Variable> answerLiteralVariables;
-            private IQueue<Chain> sos = null;
+            private ICollection<Chain> sos = null;
             private bool complete = false;
             private System.DateTime finishTime;
             private int maxDepthReached = 0;
-            private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
+            private ICollection<Proof> proofs = CollectionFactory.CreateQueue<Proof>();
             private bool timedOut = false;
 
             public AnswerHandler(FOLKnowledgeBase kb, Sentence query, long maxQueryTime, FOLModelElimination fOLModelElimination)
@@ -322,7 +323,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 return timedOut && proofs.Size() > 0;
             }
 
-            public IQueue<Proof> getProofs()
+            public ICollection<Proof> getProofs()
             {
                 return proofs;
             }
@@ -330,7 +331,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             // END-InferenceResult
             //
 
-            public IQueue<Chain> getSetOfSupport()
+            public ICollection<Chain> getSetOfSupport()
             {
                 return sos;
             }
@@ -365,7 +366,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 {
                     if (nearParent.isEmpty())
                     {
-                        proofs.Add(new ProofFinal(nearParent.getProofStep(), Factory.CreateMap<Variable, Term>()));
+                        proofs.Add(new ProofFinal(nearParent.getProofStep(), CollectionFactory.CreateMap<Variable, Term>()));
                         complete = true;
                         isAns = true;
                     }
@@ -389,8 +390,8 @@ namespace tvn.cosine.ai.logic.fol.inference
                                     .Equals(answerChain.getHead()
                                             .getAtomicSentence().getSymbolicName()))
                     {
-                        IMap<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
-                        IQueue<Term> answerTerms = nearParent.getHead()
+                        IMap<Variable, Term> answerBindings = CollectionFactory.CreateMap<Variable, Term>();
+                        ICollection<Term> answerTerms = nearParent.getHead()
                                 .getAtomicSentence().getArgs();
                         int idx = 0;
                         foreach (Variable v in answerLiteralVariables)
@@ -443,10 +444,10 @@ namespace tvn.cosine.ai.logic.fol.inference
         private Unifier unifier = new Unifier();
         private SubstVisitor substVisitor = new SubstVisitor();
         //
-        private IMap<string, IQueue<Chain>> posHeads = Factory.CreateMap<string, IQueue<Chain>>();
-        private IMap<string, IQueue<Chain>> negHeads = Factory.CreateMap<string, IQueue<Chain>>();
+        private IMap<string, ICollection<Chain>> posHeads = CollectionFactory.CreateMap<string, ICollection<Chain>>();
+        private IMap<string, ICollection<Chain>> negHeads = CollectionFactory.CreateMap<string, ICollection<Chain>>();
 
-        public IndexedFarParents(IQueue<Chain> sos, IQueue<Chain> background)
+        public IndexedFarParents(ICollection<Chain> sos, ICollection<Chain> background)
         {
             constructInternalDataStructures(sos, background);
         }
@@ -455,7 +456,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         {
             Literal head = farParent.getHead();
 
-            IMap<string, IQueue<Chain>> heads = null;
+            IMap<string, ICollection<Chain>> heads = null;
             if (head.isPositiveLiteral())
             {
                 heads = posHeads;
@@ -466,7 +467,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             }
             string headKey = head.getAtomicSentence().getSymbolicName();
 
-            IQueue<Chain> farParents = heads.Get(headKey);
+            ICollection<Chain> farParents = heads.Get(headKey);
             if (null != farParents)
             {
                 return farParents.Size();
@@ -477,7 +478,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         public void resetNumberFarParentsTo(Chain farParent, int toSize)
         {
             Literal head = farParent.getHead();
-            IMap<string, IQueue<Chain>> heads = null;
+            IMap<string, ICollection<Chain>> heads = null;
             if (head.isPositiveLiteral())
             {
                 heads = posHeads;
@@ -487,7 +488,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 heads = negHeads;
             }
             string key = head.getAtomicSentence().getSymbolicName();
-            IQueue<Chain> farParents = heads.Get(key);
+            ICollection<Chain> farParents = heads.Get(key);
             while (farParents.Size() > toSize)
             {
                 farParents.RemoveAt(farParents.Size() - 1);
@@ -498,7 +499,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         {
             Literal nearestHead = nearParent.getHead();
 
-            IMap<string, IQueue<Chain>> candidateHeads = null;
+            IMap<string, ICollection<Chain>> candidateHeads = null;
             if (nearestHead.isPositiveLiteral())
             {
                 candidateHeads = negHeads;
@@ -510,7 +511,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             string nearestKey = nearestHead.getAtomicSentence().getSymbolicName();
 
-            IQueue<Chain> farParents = candidateHeads.Get(nearestKey);
+            ICollection<Chain> farParents = candidateHeads.Get(nearestKey);
             if (null != farParents)
             {
                 return farParents.Size();
@@ -524,7 +525,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             Literal nearLiteral = nearParent.getHead();
 
-            IMap<string, IQueue<Chain>> candidateHeads = null;
+            IMap<string, ICollection<Chain>> candidateHeads = null;
             if (nearLiteral.isPositiveLiteral())
             {
                 candidateHeads = negHeads;
@@ -536,7 +537,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             AtomicSentence nearAtom = nearLiteral.getAtomicSentence();
             string nearestKey = nearAtom.getSymbolicName();
-            IQueue<Chain> farParents = candidateHeads.Get(nearestKey);
+            ICollection<Chain> farParents = candidateHeads.Get(nearestKey);
             if (null != farParents)
             {
                 Chain farParent = farParents.Get(farParentIndex);
@@ -556,7 +557,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
                     // Need to apply subst to all of the
                     // literals in the reduction
-                    IQueue<Literal> reduction = Factory.CreateQueue<Literal>();
+                    ICollection<Literal> reduction = CollectionFactory.CreateQueue<Literal>();
                     foreach (Literal l in topChain.getTail())
                     {
                         AtomicSentence atom = (AtomicSentence)substVisitor.subst(
@@ -587,7 +588,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             Literal head = c.getHead();
             if (null != head)
             {
-                IMap<string, IQueue<Chain>> toAddTo = null;
+                IMap<string, ICollection<Chain>> toAddTo = null;
                 if (head.isPositiveLiteral())
                 {
                     toAddTo = posHeads;
@@ -598,10 +599,10 @@ namespace tvn.cosine.ai.logic.fol.inference
                 }
 
                 string key = head.getAtomicSentence().getSymbolicName();
-                IQueue<Chain> farParents = toAddTo.Get(key);
+                ICollection<Chain> farParents = toAddTo.Get(key);
                 if (null == farParents)
                 {
-                    farParents = Factory.CreateQueue<Chain>();
+                    farParents = CollectionFactory.CreateQueue<Chain>();
                     toAddTo.Put(key, farParents);
                 }
 
@@ -646,9 +647,9 @@ namespace tvn.cosine.ai.logic.fol.inference
         //
         // PRIVATE METHODS
         //
-        private void constructInternalDataStructures(IQueue<Chain> sos, IQueue<Chain> background)
+        private void constructInternalDataStructures(ICollection<Chain> sos, ICollection<Chain> background)
         {
-            IQueue<Chain> toIndex = Factory.CreateQueue<Chain>();
+            ICollection<Chain> toIndex = CollectionFactory.CreateQueue<Chain>();
             toIndex.AddAll(sos);
             toIndex.AddAll(background);
 

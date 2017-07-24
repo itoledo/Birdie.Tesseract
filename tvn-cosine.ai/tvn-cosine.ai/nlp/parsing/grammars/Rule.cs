@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.nlp.parsing.grammars
 {
@@ -14,11 +15,11 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
     public class Rule
     {
         public readonly float PROB;
-        public readonly IQueue<string> lhs; // Left hand side of derivation rule
-        public readonly IQueue<string> rhs; // Right hand side of derivation rule
+        public readonly ICollection<string> lhs; // Left hand side of derivation rule
+        public readonly ICollection<string> rhs; // Right hand side of derivation rule
 
         // Basic constructor
-        public Rule(IQueue<string> lhs, IQueue<string> rhs, float probability)
+        public Rule(ICollection<string> lhs, ICollection<string> rhs, float probability)
         {
             this.lhs = lhs;
             this.rhs = rhs;
@@ -26,7 +27,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
         }
 
         // null RHS rule constructor
-        public Rule(IQueue<string> lhs, float probability)
+        public Rule(ICollection<string> lhs, float probability)
         {
             this.lhs = lhs;
             this.rhs = null;
@@ -36,12 +37,12 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
         // string split constructor
         public Rule(string lhs, string rhs, float probability)
         {
-            this.lhs = Factory.CreateQueue<string>();
-            this.rhs = Factory.CreateQueue<string>();
+            this.lhs = CollectionFactory.CreateQueue<string>();
+            this.rhs = CollectionFactory.CreateQueue<string>();
 
             if (!string.IsNullOrEmpty(lhs)) 
             {
-                this.lhs = Factory.CreateQueue<string>();
+                this.lhs = CollectionFactory.CreateQueue<string>();
                 foreach (string input in Regex.Split(lhs, "\\s*,\\s*"))
                 {
                     if (!string.IsNullOrEmpty(input))
@@ -77,7 +78,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
                 return (float)0.5; // probably should throw exception
         }
 
-        public bool derives(IQueue<string> sentForm)
+        public bool derives(ICollection<string> sentForm)
         {
             if (rhs.Size() != sentForm.Size())
                 return false;

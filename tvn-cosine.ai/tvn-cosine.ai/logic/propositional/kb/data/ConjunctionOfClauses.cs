@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.propositional.kb.data
 {
@@ -16,7 +17,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
      */
     public class ConjunctionOfClauses
     {
-        private ISet<Clause> clauses = Factory.CreateSet<Clause>();
+        private ISet<Clause> clauses = CollectionFactory.CreateSet<Clause>();
         //
         private string cachedStringRep = null;
         private int cachedHashCode = -1;
@@ -27,11 +28,11 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * @param conjunctionOfClauses
          *            a collection of clauses that represent a conjunction.
          */
-        public ConjunctionOfClauses(IQueue<Clause> conjunctionOfClauses)
+        public ConjunctionOfClauses(ICollection<Clause> conjunctionOfClauses)
         {
             this.clauses.AddAll(conjunctionOfClauses);
             // Make immutable
-            this.clauses = Factory.CreateReadOnlySet<Clause>(this.clauses);
+            this.clauses = CollectionFactory.CreateReadOnlySet<Clause>(this.clauses);
         }
 
         /**
@@ -62,9 +63,9 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * @return a new conjunction of clauses containing the existing and
          *         additional clauses passed in.
          */
-        public ConjunctionOfClauses extend(IQueue<Clause> additionalClauses)
+        public ConjunctionOfClauses extend(ICollection<Clause> additionalClauses)
         {
-            ISet<Clause> extendedClauses = Factory.CreateSet<Clause>();
+            ISet<Clause> extendedClauses = CollectionFactory.CreateSet<Clause>();
             extendedClauses.AddAll(clauses);
             extendedClauses.AddAll(additionalClauses);
 

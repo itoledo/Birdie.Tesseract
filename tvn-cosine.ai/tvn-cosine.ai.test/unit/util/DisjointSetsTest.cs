@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.util;
 
@@ -30,7 +31,7 @@ namespace tvn_cosine.ai.test.unit.util
             disjSets = new DisjointSets<string>("a", "a", "b");
             Assert.AreEqual(2, disjSets.numberDisjointSets());
 
-            disjSets = new DisjointSets<string>(Factory.CreateQueue<string>(new[] { "a", "a", "b" }));
+            disjSets = new DisjointSets<string>(CollectionFactory.CreateQueue<string>(new[] { "a", "a", "b" }));
             Assert.AreEqual(2, disjSets.numberDisjointSets());
         }
 

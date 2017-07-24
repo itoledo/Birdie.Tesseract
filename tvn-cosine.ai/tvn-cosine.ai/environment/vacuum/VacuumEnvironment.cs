@@ -1,8 +1,10 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.util;
 using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
@@ -35,7 +37,7 @@ namespace tvn.cosine.ai.environment.vacuum
             Clean, Dirty
         }
 
-        private readonly IQueue<string> locations;
+        private readonly ICollection<string> locations;
         protected VacuumEnvironmentState envState = null;
         protected bool _isDone = false;
 
@@ -60,7 +62,7 @@ namespace tvn.cosine.ai.environment.vacuum
          *            <em>Clean</em> or <em>Dirty</em>.
          */
         public VacuumEnvironment(LocationState locAState, LocationState locBState)
-            : this(Factory.CreateQueue<string>(new[] { LOCATION_A, LOCATION_B }), locAState, locBState)
+            : this(CollectionFactory.CreateQueue<string>(new[] { LOCATION_A, LOCATION_B }), locAState, locBState)
         { }
 
         /**
@@ -68,7 +70,7 @@ namespace tvn.cosine.ai.environment.vacuum
          * of squares. Two-dimensional grid environments can be defined by additionally overriding
          * {@link #getXDimension()} and {@link #getYDimension()}.
          */
-        protected VacuumEnvironment(IQueue<string> locations, params LocationState[] locStates)
+        protected VacuumEnvironment(ICollection<string> locations, params LocationState[] locStates)
         {
             this.locations = locations;
             envState = new VacuumEnvironmentState();
@@ -76,7 +78,7 @@ namespace tvn.cosine.ai.environment.vacuum
                 envState.setLocationState(locations.Get(i), locStates[i]);
         }
 
-        public IQueue<string> getLocations()
+        public ICollection<string> getLocations()
         {
             return locations;
         }

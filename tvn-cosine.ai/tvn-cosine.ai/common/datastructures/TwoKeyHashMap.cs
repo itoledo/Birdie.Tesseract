@@ -1,4 +1,6 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.datastructures
@@ -20,7 +22,7 @@ namespace tvn.cosine.ai.common.datastructures
      */
     public class TwoKeyHashMap<K1, K2, V> : IMap<Pair<K1, K2>, V>
     {
-        private readonly IMap<Pair<K1, K2>, V> backingMap = Factory.CreateInsertionOrderedMap<Pair<K1, K2>, V>();
+        private readonly IMap<Pair<K1, K2>, V> backingMap = CollectionFactory.CreateInsertionOrderedMap<Pair<K1, K2>, V>();
 
         public bool IsReadonly()
         {
@@ -42,7 +44,7 @@ namespace tvn.cosine.ai.common.datastructures
             return backingMap.GetKeys();
         }
 
-        public IQueue<V> GetValues()
+        public ICollection<V> GetValues()
         {
             return backingMap.GetValues();
         }
@@ -97,7 +99,7 @@ namespace tvn.cosine.ai.common.datastructures
             backingMap.RemoveAt(index);
         }
 
-        public void AddAll(IQueue<KeyValuePair<Pair<K1, K2>, V>> items)
+        public void AddAll(ICollection<KeyValuePair<Pair<K1, K2>, V>> items)
         {
             backingMap.AddAll(items);
         }
@@ -153,7 +155,7 @@ namespace tvn.cosine.ai.common.datastructures
             return backingMap.Equals(other);
         }
 
-        public bool SequenceEqual(IQueue<KeyValuePair<Pair<K1, K2>, V>> queue)
+        public bool SequenceEqual(ICollection<KeyValuePair<Pair<K1, K2>, V>> queue)
         {
             return backingMap.SequenceEqual(queue);
         }
@@ -163,17 +165,17 @@ namespace tvn.cosine.ai.common.datastructures
             throw new NotSupportedException("Not supported");
         }
 
-        bool IQueue<KeyValuePair<Pair<K1, K2>, V>>.ContainsAll(IQueue<KeyValuePair<Pair<K1, K2>, V>> other)
+        bool ICollection<KeyValuePair<Pair<K1, K2>, V>>.ContainsAll(ICollection<KeyValuePair<Pair<K1, K2>, V>> other)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<Pair<K1, K2>, V>>.RemoveAll(IQueue<KeyValuePair<Pair<K1, K2>, V>> items)
+        void ICollection<KeyValuePair<Pair<K1, K2>, V>>.RemoveAll(ICollection<KeyValuePair<Pair<K1, K2>, V>> items)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<Pair<K1, K2>, V>>.Sort(IComparer<KeyValuePair<Pair<K1, K2>, V>> comparer)
+        void ICollection<KeyValuePair<Pair<K1, K2>, V>>.Sort(IComparer<KeyValuePair<Pair<K1, K2>, V>> comparer)
         {
             throw new NotSupportedException("Not supported");
         }
@@ -183,17 +185,17 @@ namespace tvn.cosine.ai.common.datastructures
             return backingMap.ToArray();
         }
 
-        void IQueue<KeyValuePair<Pair<K1, K2>, V>>.Reverse()
+        void ICollection<KeyValuePair<Pair<K1, K2>, V>>.Reverse()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        IQueue<KeyValuePair<Pair<K1, K2>, V>> IQueue<KeyValuePair<Pair<K1, K2>, V>>.subList(int startPos, int endPos)
+        ICollection<KeyValuePair<Pair<K1, K2>, V>> ICollection<KeyValuePair<Pair<K1, K2>, V>>.subList(int startPos, int endPos)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<KeyValuePair<Pair<K1, K2>, V>>.Set(int position, KeyValuePair<Pair<K1, K2>, V> item)
+        void ICollection<KeyValuePair<Pair<K1, K2>, V>>.Set(int position, KeyValuePair<Pair<K1, K2>, V> item)
         {
             throw new NotSupportedException("Not supported");
         } 

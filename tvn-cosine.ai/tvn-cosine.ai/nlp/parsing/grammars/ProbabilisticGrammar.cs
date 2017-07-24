@@ -1,13 +1,13 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.nlp.parsing.grammars
 {
     public interface ProbabilisticGrammar
     { 
-        bool addRules(IQueue<Rule> ruleList); 
+        bool addRules(ICollection<Rule> ruleList); 
         bool addRule(Rule r); 
         bool validRule(Rule r); 
-        bool validateRuleProbabilities(IQueue<Rule> ruleList); 
+        bool validateRuleProbabilities(ICollection<Rule> ruleList); 
         void updateVarsAndTerminals(Rule r); 
         void updateVarsAndTerminals();
     }

@@ -1,16 +1,17 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     public class Function : Term
     { 
         private string functionName;
-        private IQueue<Term> terms = Factory.CreateQueue<Term>();
+        private ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
         private string stringRep = null;
         private int hashCode = 0;
 
-        public Function(string functionName, IQueue<Term> terms)
+        public Function(string functionName, ICollection<Term> terms)
         {
             this.functionName = functionName;
             this.terms.AddAll(terms);
@@ -21,9 +22,9 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return functionName;
         }
 
-        public IQueue<Term> getTerms()
+        public ICollection<Term> getTerms()
         {
-            return Factory.CreateReadOnlyQueue<Term>(terms);
+            return CollectionFactory.CreateReadOnlyQueue<Term>(terms);
         }
          
         public string getSymbolicName()
@@ -36,18 +37,18 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
             return true;
         }
 
-        IQueue<FOLNode> FOLNode.getArgs()
+        ICollection<FOLNode> FOLNode.getArgs()
         {
-            IQueue<FOLNode> obj = Factory.CreateQueue<FOLNode>();
+            ICollection<FOLNode> obj = CollectionFactory.CreateQueue<FOLNode>();
             foreach (Term term in getTerms())
             {
                 obj.Add(term);
             }
 
-            return Factory.CreateReadOnlyQueue<FOLNode>(obj);
+            return CollectionFactory.CreateReadOnlyQueue<FOLNode>(obj);
         }
 
-        public IQueue<Term> getArgs()
+        public ICollection<Term> getArgs()
         {
             return getTerms();
         }
@@ -69,7 +70,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
 
         public Function copy()
         {
-            IQueue<Term> copyTerms = Factory.CreateQueue<Term>();
+            ICollection<Term> copyTerms = CollectionFactory.CreateQueue<Term>();
             foreach (Term t in terms)
             {
                 copyTerms.Add(t.copy());

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.nlp.ranking;
 
 namespace tvn_cosine.ai.test.unit.nlp.rank
@@ -31,7 +32,7 @@ namespace tvn_cosine.ai.test.unit.nlp.rank
         [TestMethod]
         public void testNormalize()
         {
-          IQueue<Page> pages = Factory.CreateQueue<Page>();
+          ICollection<Page> pages = CollectionFactory.CreateQueue<Page>();
             Page p1 = new Page(""); Page p2 = new Page("");
             Page p3 = new Page(""); Page p4 = new Page("");
             p1.hub = 3; p1.authority = 2;
@@ -45,44 +46,6 @@ namespace tvn_cosine.ai.test.unit.nlp.rank
             hits.normalize(pages);
             Assert.AreEqual(  p1HubNorm, pages.Get(0).hub, 0.02);
             Assert.AreEqual(  pages.Get(1).hub, p2HubNorm, 0.02);
-        }
-
-
-    //[Ignore] 
-    
-    //[TestMethod]
-    //    public void testSumInlinkHubScore()
-    //    {
-
-    //    }
-
-
-    //[Ignore] 
-    
-    //[TestMethod]
-    //    public void testSumOutlinkAuthorityScore()
-    //    {
-
-    //    }
-
-
-    //[Ignore] 
-    
-    //[TestMethod]
-    //    public void testConvergence()
-    //    {
-
-    //    }
-
-    //    [TestMethod]
-    //    public void testGetAveDelta()
-    //    {
-    //        double[] one = { 0, 1, 2, 3, 4, 5 };
-    //        double[] two = { 0.5, 1.5, 2.5, 3.5, 4.5, 5.5 };
-
-    //        double aveDelta = hits.getAveDelta(one, two);
-    //        Assert.AreEqual(aveDelta, 0.5, 0);
-    //    }
-     }
-
+        } 
+     } 
 }

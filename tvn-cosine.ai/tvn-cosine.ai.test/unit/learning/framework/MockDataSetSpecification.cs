@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
 
 namespace tvn_cosine.ai.test.unit.learning.framework
@@ -12,9 +13,9 @@ namespace tvn_cosine.ai.test.unit.learning.framework
             setTarget(targetAttributeName);
         }
 
-        public override IQueue<string> getAttributeNames()
+        public override ICollection<string> getAttributeNames()
         {
-            return Factory.CreateQueue<string>();
+            return CollectionFactory.CreateQueue<string>();
         }
     } 
 }

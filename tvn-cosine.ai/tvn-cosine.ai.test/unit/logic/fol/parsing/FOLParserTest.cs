@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.logic.fol.domain;
@@ -184,7 +185,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.parsing
         public void testQuantifiedSentenceWithSingleVariable()
         {
             Sentence qs = parser.parse("FORALL x  King(x)");
-            IQueue<Variable> vars = Factory.CreateQueue<Variable>();
+            ICollection<Variable> vars = CollectionFactory.CreateQueue<Variable>();
             vars.Add(new Variable("x"));
             Assert.AreEqual(qs, new QuantifiedSentence("FORALL", vars,
                     getKingPredicate(new Variable("x"))));
@@ -195,7 +196,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.parsing
         {
             Sentence qs = parser
                     .parse("EXISTS x,y  (King(x) AND BrotherOf(x) = y)");
-            IQueue<Variable> vars = Factory.CreateQueue<Variable>();
+            ICollection<Variable> vars = CollectionFactory.CreateQueue<Variable>();
             vars.Add(new Variable("x"));
             vars.Add(new Variable("y"));
             ConnectedSentence cse = new ConnectedSentence("AND",
@@ -210,7 +211,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.parsing
         {
             Sentence qs = parser
                     .parse("(( (EXISTS x,y  (King(x) AND (BrotherOf(x) = y)) ) ))");
-            IQueue<Variable> vars = Factory.CreateQueue<Variable>();
+            ICollection<Variable> vars = CollectionFactory.CreateQueue<Variable>();
             vars.Add(new Variable("x"));
             vars.Add(new Variable("y"));
             ConnectedSentence cse = new ConnectedSentence("AND",
@@ -244,21 +245,21 @@ namespace tvn_cosine.ai.test.unit.logic.fol.parsing
         //
         private Function getBrotherOfFunction(Term t)
         {
-            IQueue<Term> l = Factory.CreateQueue<Term>();
+            ICollection<Term> l = CollectionFactory.CreateQueue<Term>();
             l.Add(t);
             return new Function("BrotherOf", l);
         }
 
         private Function getEnemyOfFunction()
         {
-            IQueue<Term> l = Factory.CreateQueue<Term>();
+            ICollection<Term> l = CollectionFactory.CreateQueue<Term>();
             l.Add(new Constant("Saladin"));
             return new Function("EnemyOf", l);
         }
 
         private Function getLegsOfFunction()
         {
-            IQueue<Term> l = Factory.CreateQueue<Term>();
+            ICollection<Term> l = CollectionFactory.CreateQueue<Term>();
             l.Add(new Constant("John"));
             l.Add(new Constant("Saladin"));
             l.Add(new Constant("Richard"));
@@ -267,7 +268,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.parsing
 
         private Predicate getKingPredicate(Term t)
         {
-            IQueue<Term> l = Factory.CreateQueue<Term>();
+            ICollection<Term> l = CollectionFactory.CreateQueue<Term>();
             l.Add(t);
             return new Predicate("King", l);
         }

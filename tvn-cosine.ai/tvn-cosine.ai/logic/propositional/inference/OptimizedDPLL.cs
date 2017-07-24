@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.logic.propositional.kb;
 using tvn.cosine.ai.logic.propositional.kb.data;
@@ -15,7 +16,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             // clauses <- the set of clauses in the CNF representation of s
             ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(s).getClauses();
             // symbols <- a list of the proposition symbols in s
-            IQueue<PropositionSymbol> symbols = getPropositionSymbolsInSentence(s);
+            ICollection<PropositionSymbol> symbols = getPropositionSymbolsInSentence(s);
 
             // return DPLL(clauses, symbols, {})
             return dpll(clauses, symbols, new Model());
@@ -46,14 +47,14 @@ namespace tvn.cosine.ai.logic.propositional.inference
             return currIsCancelled;
         }
 
-        public bool dpll(ISet<Clause> clauses, IQueue<PropositionSymbol> symbols, Model model)
+        public bool dpll(ISet<Clause> clauses, ICollection<PropositionSymbol> symbols, Model model)
         {
             // if every clause in clauses is true in model then return true
             // if some clause in clauses is false in model then return false
             // NOTE: for optimization reasons we only want to determine the
             // values of clauses once on each call to dpll
             bool allTrue = true;
-            ISet<Clause> unknownClauses = Factory.CreateSet<Clause>();
+            ISet<Clause> unknownClauses = CollectionFactory.CreateSet<Clause>();
             foreach (Clause c in clauses)
             {
                 bool? value = model.determineValue(c);
@@ -101,7 +102,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
 
             // P <- FIRST(symbols); rest <- REST(symbols)
             PropositionSymbol p = Util.first(symbols);
-            IQueue<PropositionSymbol> rest = Util.rest(symbols);
+            ICollection<PropositionSymbol> rest = Util.rest(symbols);
             // return DPLL(clauses, rest, model U {P = true}) or
             // ...... DPLL(clauses, rest, model U {P = false})
             return callDPLL(clauses, rest, model, p, true)
@@ -122,17 +123,17 @@ namespace tvn.cosine.ai.logic.propositional.inference
         {
             // AIMA3e p.g. 260: kb |= alpha, can be done by testing
             // unsatisfiability of kb & ~alpha.
-            ISet<Clause> kbAndNotAlpha = Factory.CreateSet<Clause>();
+            ISet<Clause> kbAndNotAlpha = CollectionFactory.CreateSet<Clause>();
             Sentence notQuery = new ComplexSentence(Connective.NOT, alpha);
-            ISet<PropositionSymbol> symbols = Factory.CreateSet<PropositionSymbol>();
-            IQueue<PropositionSymbol> querySymbols = Factory.CreateQueue<PropositionSymbol>(SymbolCollector.getSymbolsFrom(notQuery));
+            ISet<PropositionSymbol> symbols = CollectionFactory.CreateSet<PropositionSymbol>();
+            ICollection<PropositionSymbol> querySymbols = CollectionFactory.CreateQueue<PropositionSymbol>(SymbolCollector.getSymbolsFrom(notQuery));
 
             kbAndNotAlpha.AddAll(kb.asCNF());
             kbAndNotAlpha.AddAll(ConvertToConjunctionOfClauses.convert(notQuery).getClauses());
             symbols.AddAll(querySymbols);
             symbols.AddAll(kb.getSymbols());
 
-            return !dpll(kbAndNotAlpha, Factory.CreateQueue<PropositionSymbol>(symbols), new Model());
+            return !dpll(kbAndNotAlpha, CollectionFactory.CreateQueue<PropositionSymbol>(symbols), new Model());
         }
         // END-DPLL
         //
@@ -143,12 +144,12 @@ namespace tvn.cosine.ai.logic.propositional.inference
 
         // Note: Override this method if you wish to change the initial variable
         // ordering when dpllSatisfiable is called.
-        protected IQueue<PropositionSymbol> getPropositionSymbolsInSentence(Sentence s)
+        protected ICollection<PropositionSymbol> getPropositionSymbolsInSentence(Sentence s)
         {
-            return Factory.CreateQueue<PropositionSymbol>(SymbolCollector.getSymbolsFrom(s));
+            return CollectionFactory.CreateQueue<PropositionSymbol>(SymbolCollector.getSymbolsFrom(s));
         }
 
-        protected bool callDPLL(ISet<Clause> clauses, IQueue<PropositionSymbol> symbols,
+        protected bool callDPLL(ISet<Clause> clauses, ICollection<PropositionSymbol> symbols,
                 Model model, PropositionSymbol p, bool? value)
         {
             // We update the model in place with the assignment p=value,
@@ -184,15 +185,15 @@ namespace tvn.cosine.ai.logic.propositional.inference
          *         a value to be assigned to it, otherwise null if no pure symbol
          *         can be identified.
          */
-        protected Pair<PropositionSymbol, bool?> findPureSymbol(IQueue<PropositionSymbol> symbols, ISet<Clause> clauses, Model model)
+        protected Pair<PropositionSymbol, bool?> findPureSymbol(ICollection<PropositionSymbol> symbols, ISet<Clause> clauses, Model model)
         {
             Pair<PropositionSymbol, bool?> result = null;
 
-            ISet<PropositionSymbol> symbolsToKeep = Factory.CreateSet<PropositionSymbol>(symbols);
+            ISet<PropositionSymbol> symbolsToKeep = CollectionFactory.CreateSet<PropositionSymbol>(symbols);
             // Collect up possible positive and negative candidate sets of pure
             // symbols
-            ISet<PropositionSymbol> candidatePurePositiveSymbols = Factory.CreateSet<PropositionSymbol>();
-            ISet<PropositionSymbol> candidatePureNegativeSymbols = Factory.CreateSet<PropositionSymbol>();
+            ISet<PropositionSymbol> candidatePurePositiveSymbols = CollectionFactory.CreateSet<PropositionSymbol>();
+            ISet<PropositionSymbol> candidatePureNegativeSymbols = CollectionFactory.CreateSet<PropositionSymbol>();
             foreach (Clause c in clauses)
             {
                 // Algorithm can ignore clauses that are already known to be true
@@ -333,9 +334,9 @@ namespace tvn.cosine.ai.logic.propositional.inference
         }
 
         // symbols - P
-        protected IQueue<PropositionSymbol> minus(IQueue<PropositionSymbol> symbols, PropositionSymbol p)
+        protected ICollection<PropositionSymbol> minus(ICollection<PropositionSymbol> symbols, PropositionSymbol p)
         {
-            IQueue<PropositionSymbol> result = Factory.CreateQueue<PropositionSymbol>();
+            ICollection<PropositionSymbol> result = CollectionFactory.CreateQueue<PropositionSymbol>();
             foreach (PropositionSymbol s in symbols)
             {
                 // symbols - P

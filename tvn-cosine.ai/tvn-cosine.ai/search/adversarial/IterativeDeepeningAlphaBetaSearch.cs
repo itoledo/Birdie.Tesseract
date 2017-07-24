@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 
 namespace tvn.cosine.ai.search.adversarial
@@ -87,7 +88,7 @@ namespace tvn.cosine.ai.search.adversarial
             metrics = new Metrics();
             StringBuilder logText = null;
             P player = game.getPlayer(state);
-            IQueue<A> results = orderActions(state, game.getActions(state), player, 0);
+            ICollection<A> results = orderActions(state, game.getActions(state), player, 0);
             timer.start();
             currDepthLimit = 0;
             do
@@ -240,7 +241,7 @@ namespace tvn.cosine.ai.search.adversarial
          * Primitive operation for action ordering. This implementation preserves
          * the original order (provided by the game).
          */
-        public virtual IQueue<A> orderActions(S state, IQueue<A> actions, P player, int depth)
+        public virtual ICollection<A> orderActions(S state, ICollection<A> actions, P player, int depth)
         {
             return actions;
         }
@@ -274,8 +275,8 @@ namespace tvn.cosine.ai.search.adversarial
          */
         private class ActionStore
         {
-            public IQueue<A> actions = Factory.CreateQueue<A>();
-            public IQueue<double> utilValues = Factory.CreateQueue<double>();
+            public ICollection<A> actions = CollectionFactory.CreateQueue<A>();
+            public ICollection<double> utilValues = CollectionFactory.CreateQueue<double>();
 
             public void add(A action, double utilValue)
             {

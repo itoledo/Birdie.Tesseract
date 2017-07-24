@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.util.math
@@ -81,7 +82,7 @@ namespace tvn.cosine.ai.util.math
          */
 
         /** Construct a diagonal Matrix from the given List of doubles */
-        public static Matrix createDiagonalMatrix(IQueue<double> values)
+        public static Matrix createDiagonalMatrix(ICollection<double> values)
         {
             Matrix m = new Matrix(values.Size(), values.Size(), 0);
             for (int i = 0; i < values.Size();++i)

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.probability.domain
@@ -6,8 +7,8 @@ namespace tvn.cosine.ai.probability.domain
     public abstract class AbstractFiniteDomain : FiniteDomain
     {
         private string toString = null;
-        private IMap<object, int> valueToIdx = Factory.CreateInsertionOrderedMap<object, int>();
-        private IMap<int, object> idxToValue = Factory.CreateInsertionOrderedMap<int, object>();
+        private IMap<object, int> valueToIdx = CollectionFactory.CreateInsertionOrderedMap<object, int>();
+        private IMap<int, object> idxToValue = CollectionFactory.CreateInsertionOrderedMap<int, object>();
 
         public AbstractFiniteDomain()
         { }

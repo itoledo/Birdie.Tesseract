@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.temporal;
 using tvn.cosine.ai.util.math;
@@ -49,14 +50,14 @@ namespace tvn.cosine.ai.probability.hmm.exact
         //
         // START-ForwardBackwardInference
 
-        public virtual IQueue<CategoricalDistribution> forwardBackward(IQueue<IQueue<AssignmentProposition>> ev, CategoricalDistribution prior)
+        public virtual ICollection<CategoricalDistribution> forwardBackward(ICollection<ICollection<AssignmentProposition>> ev, CategoricalDistribution prior)
         {
             // local variables: fv, a vector of forward messages for steps 0,...,t
-            IQueue<Matrix> fv = Factory.CreateQueue<Matrix>();
+            ICollection<Matrix> fv = CollectionFactory.CreateQueue<Matrix>();
             // b, a representation of the backward message, initially all 1s
             Matrix b = hmm.createUnitMessage();
             // sv, a vector of smoothed estimates for steps 1,...,t
-            IQueue<Matrix> sv = Factory.CreateQueue<Matrix>();
+            ICollection<Matrix> sv = CollectionFactory.CreateQueue<Matrix>();
 
             // fv[0] <- prior
             fv.Add(hmm.convert(prior));
@@ -80,13 +81,13 @@ namespace tvn.cosine.ai.probability.hmm.exact
         }
 
 
-        public virtual CategoricalDistribution forward(CategoricalDistribution f1_t, IQueue<AssignmentProposition> e_tp1)
+        public virtual CategoricalDistribution forward(CategoricalDistribution f1_t, ICollection<AssignmentProposition> e_tp1)
         {
             return hmm.convert(forward(hmm.convert(f1_t), hmm.getEvidence(e_tp1)));
         }
 
 
-        public virtual CategoricalDistribution backward(CategoricalDistribution b_kp2t, IQueue<AssignmentProposition> e_kp1)
+        public virtual CategoricalDistribution backward(CategoricalDistribution b_kp2t, ICollection<AssignmentProposition> e_kp1)
         {
             return hmm.convert(backward(hmm.convert(b_kp2t), hmm.getEvidence(e_kp1)));
         }

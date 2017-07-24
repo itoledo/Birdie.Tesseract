@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.probability.mdp.impl
 {
@@ -17,7 +18,7 @@ namespace tvn.cosine.ai.probability.mdp.impl
     public class LookupPolicy<S, A> : Policy<S, A>
         where A : IAction
     {
-        private IMap<S, A> policy = Factory.CreateInsertionOrderedMap<S, A>();
+        private IMap<S, A> policy = CollectionFactory.CreateInsertionOrderedMap<S, A>();
 
         public LookupPolicy(IMap<S, A> aPolicy)
         {

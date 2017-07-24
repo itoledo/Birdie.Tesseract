@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.kb;
@@ -57,12 +58,12 @@ namespace tvn.cosine.ai.logic.fol.inference
                 throw new IllegalArgumentException("Only Atomic Queries are supported.");
             }
 
-            IQueue<Literal> goals = Factory.CreateQueue<Literal>();
+            ICollection<Literal> goals = CollectionFactory.CreateQueue<Literal>();
             goals.Add(new Literal((AtomicSentence)query));
 
             BCAskAnswerHandler ansHandler = new BCAskAnswerHandler();
 
-            IQueue<IQueue<ProofStepBwChGoal>> allProofSteps = folbcask(KB, ansHandler, goals, Factory.CreateInsertionOrderedMap<Variable, Term>());
+            ICollection<ICollection<ProofStepBwChGoal>> allProofSteps = folbcask(KB, ansHandler, goals, CollectionFactory.CreateInsertionOrderedMap<Variable, Term>());
 
             ansHandler.setAllProofSteps(allProofSteps);
 
@@ -77,17 +78,17 @@ namespace tvn.cosine.ai.logic.fol.inference
          *          theta, the current substitution, initially the empty substitution {}
          * </code>
          */
-        private IQueue<IQueue<ProofStepBwChGoal>> folbcask(FOLKnowledgeBase KB,
-                BCAskAnswerHandler ansHandler, IQueue<Literal> goals,
+        private ICollection<ICollection<ProofStepBwChGoal>> folbcask(FOLKnowledgeBase KB,
+                BCAskAnswerHandler ansHandler, ICollection<Literal> goals,
                 IMap<Variable, Term> theta)
         {
-            IQueue<IQueue<ProofStepBwChGoal>> thisLevelProofSteps = Factory.CreateQueue<IQueue<ProofStepBwChGoal>>();
+            ICollection<ICollection<ProofStepBwChGoal>> thisLevelProofSteps = CollectionFactory.CreateQueue<ICollection<ProofStepBwChGoal>>();
             // local variables: answers, a set of substitutions, initially empty
 
             // if goals is empty then return {theta}
             if (goals.IsEmpty())
             {
-                thisLevelProofSteps.Add(Factory.CreateQueue<ProofStepBwChGoal>());
+                thisLevelProofSteps.Add(CollectionFactory.CreateQueue<ProofStepBwChGoal>());
                 return thisLevelProofSteps;
             }
 
@@ -106,12 +107,12 @@ namespace tvn.cosine.ai.logic.fol.inference
                 if (null != thetaDelta)
                 {
                     // new_goals <- [p1,...,pn|REST(goals)]
-                    IQueue<Literal> newGoals = Factory.CreateQueue<Literal>(r.getNegativeLiterals());
+                    ICollection<Literal> newGoals = CollectionFactory.CreateQueue<Literal>(r.getNegativeLiterals());
                     newGoals.AddAll(goals.subList(1, goals.Size()));
                     // answers <- FOL-BC-ASK(KB, new_goals, COMPOSE(thetaDelta,
                     // theta)) U answers
                     IMap<Variable, Term> composed = compose(KB, thetaDelta, theta);
-                    IQueue<IQueue<ProofStepBwChGoal>> lowerLevelProofSteps = folbcask(
+                    ICollection<ICollection<ProofStepBwChGoal>> lowerLevelProofSteps = folbcask(
                             KB, ansHandler, newGoals, composed);
 
                     ansHandler.addProofStep(lowerLevelProofSteps, r, qDelta, composed);
@@ -130,7 +131,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         // SUBST(COMPOSE(theta1, theta2), p) = SUBST(theta2, SUBST(theta1, p))
         private IMap<Variable, Term> compose(FOLKnowledgeBase KB, IMap<Variable, Term> theta1, IMap<Variable, Term> theta2)
         {
-            IMap<Variable, Term> composed = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> composed = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
 
             // So that it behaves like:
             // SUBST(theta2, SUBST(theta1, p))
@@ -174,7 +175,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
         class BCAskAnswerHandler : InferenceResult
         {
-            private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
+            private ICollection<Proof> proofs = CollectionFactory.CreateQueue<Proof>();
 
             public BCAskAnswerHandler()
             { }
@@ -201,7 +202,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 return false;
             }
 
-            public IQueue<Proof> getProofs()
+            public ICollection<Proof> getProofs()
             {
                 return proofs;
             }
@@ -209,9 +210,9 @@ namespace tvn.cosine.ai.logic.fol.inference
             // END-InferenceResult
             //
 
-            public void setAllProofSteps(IQueue<IQueue<ProofStepBwChGoal>> allProofSteps)
+            public void setAllProofSteps(ICollection<ICollection<ProofStepBwChGoal>> allProofSteps)
             {
-                foreach (IQueue<ProofStepBwChGoal> steps in allProofSteps)
+                foreach (ICollection<ProofStepBwChGoal> steps in allProofSteps)
                 {
                     ProofStepBwChGoal lastStep = steps.Get(steps.Size() - 1);
                     IMap<Variable, Term> theta = lastStep.getBindings();
@@ -220,7 +221,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             }
 
             public void addProofStep(
-                    IQueue<IQueue<ProofStepBwChGoal>> currentLevelProofSteps,
+                    ICollection<ICollection<ProofStepBwChGoal>> currentLevelProofSteps,
                     Clause toProve, Literal currentGoal,
                     IMap<Variable, Term> bindings)
             {
@@ -228,7 +229,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 if (currentLevelProofSteps.Size() > 0)
                 {
                     ProofStepBwChGoal predecessor = new ProofStepBwChGoal(toProve, currentGoal, bindings);
-                    foreach (IQueue<ProofStepBwChGoal> steps in currentLevelProofSteps)
+                    foreach (ICollection<ProofStepBwChGoal> steps in currentLevelProofSteps)
                     {
                         if (steps.Size() > 0)
                         {

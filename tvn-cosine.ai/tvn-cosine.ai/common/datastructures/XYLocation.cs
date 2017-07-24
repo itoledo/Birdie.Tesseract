@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.datastructures
 {

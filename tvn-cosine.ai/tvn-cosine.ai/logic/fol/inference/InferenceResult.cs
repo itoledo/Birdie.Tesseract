@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.inference.proof;
 
 namespace tvn.cosine.ai.logic.fol.inference
@@ -42,6 +42,6 @@ namespace tvn.cosine.ai.logic.fol.inference
          * @return a list of 0 or more proofs (multiple proofs can be returned if
          *         the original query contains variables).
          */
-        IQueue<Proof> getProofs();
+        ICollection<Proof> getProofs();
     }
 }

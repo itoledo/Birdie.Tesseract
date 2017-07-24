@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.learning.reinforcement.agent;
 using tvn.cosine.ai.learning.reinforcement.example;
@@ -30,7 +32,7 @@ namespace tvn_cosine.ai.demo.learning.chapter21
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
                     new DefaultRandom());
 
-            IMap<Cell<double>, CellWorldAction> fixedPolicy = Factory.CreateInsertionOrderedMap<Cell<double>, CellWorldAction>();
+            IMap<Cell<double>, CellWorldAction> fixedPolicy = CollectionFactory.CreateInsertionOrderedMap<Cell<double>, CellWorldAction>();
             fixedPolicy.Put(cw.getCellAt(1, 1), CellWorldAction.Up);
             fixedPolicy.Put(cw.getCellAt(1, 2), CellWorldAction.Up);
             fixedPolicy.Put(cw.getCellAt(1, 3), CellWorldAction.Right);

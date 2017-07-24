@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.inference;
 using tvn.cosine.ai.logic.fol.inference.proof;
@@ -17,7 +18,7 @@ namespace tvn_cosine.ai.demo.logic.fol
 
             string kbStr = kb.ToString();
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("John"));
             Predicate query = new Predicate("Evil", terms);
 
@@ -42,7 +43,7 @@ namespace tvn_cosine.ai.demo.logic.fol
 
             string kbStr = kb.ToString();
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Variable("x"));
             Predicate query = new Predicate("King", terms);
 
@@ -65,7 +66,7 @@ namespace tvn_cosine.ai.demo.logic.fol
 
             string kbStr = kb.ToString();
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Variable("x"));
             Predicate query = new Predicate("Criminal", terms);
 
@@ -89,7 +90,7 @@ namespace tvn_cosine.ai.demo.logic.fol
 
             string kbStr = kb.ToString();
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("Curiosity"));
             terms.Add(new Constant("Tuna"));
             Predicate query = new Predicate("Kills", terms);

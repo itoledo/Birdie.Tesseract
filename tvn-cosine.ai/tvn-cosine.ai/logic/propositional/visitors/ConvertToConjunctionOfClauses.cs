@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
 
@@ -46,7 +47,7 @@ namespace tvn.cosine.ai.logic.propositional.visitors
 
             Sentence cnfSentence = ConvertToCNF.convert(s);
 
-            IQueue<Clause> clauses = Factory.CreateQueue<Clause>();
+            ICollection<Clause> clauses = CollectionFactory.CreateQueue<Clause>();
             clauses.AddAll(ClauseCollector.getClausesFrom(cnfSentence));
 
             result = new ConjunctionOfClauses(clauses);

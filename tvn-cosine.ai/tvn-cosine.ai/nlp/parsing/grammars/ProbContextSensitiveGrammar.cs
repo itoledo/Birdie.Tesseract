@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.nlp.parsing.grammars
 {
@@ -22,7 +22,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          * both the restrictions of the parent grammar (unrestricted) and
          * this grammar's restrictions.
          */
-        public override bool addRules(IQueue<Rule> ruleList)
+        public override bool addRules(ICollection<Rule> ruleList)
         {
             foreach (Rule aRuleList in ruleList)
             {

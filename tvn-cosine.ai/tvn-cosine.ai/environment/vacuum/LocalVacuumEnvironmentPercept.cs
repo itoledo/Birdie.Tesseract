@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 
 namespace tvn.cosine.ai.environment.vacuum
 {

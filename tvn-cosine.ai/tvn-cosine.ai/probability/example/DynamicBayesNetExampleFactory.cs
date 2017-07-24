@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.bayes;
 using tvn.cosine.ai.probability.bayes.impl;
 
@@ -42,9 +43,9 @@ namespace tvn.cosine.ai.probability.example
 						// R_t = false, U_t = false
 						0.8 }, rain_t);
 
-            IMap<RandomVariable, RandomVariable> X_0_to_X_1 = Factory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
+            IMap<RandomVariable, RandomVariable> X_0_to_X_1 = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
             X_0_to_X_1.Put(ExampleRV.RAIN_tm1_RV, ExampleRV.RAIN_t_RV);
-            ISet<RandomVariable> E_1 = Factory.CreateSet<RandomVariable>();
+            ISet<RandomVariable> E_1 = CollectionFactory.CreateSet<RandomVariable>();
             E_1.Add(ExampleRV.UMBREALLA_t_RV);
 
             return new DynamicBayesNet(priorNetwork, X_0_to_X_1, E_1, rain_tm1);

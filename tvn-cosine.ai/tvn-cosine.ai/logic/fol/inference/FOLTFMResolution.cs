@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.inference.trace;
@@ -72,7 +73,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         public InferenceResult ask(FOLKnowledgeBase KB, Sentence alpha)
         {
             // clauses <- the set of clauses in CNF representation of KB ^ ~alpha
-            ISet<Clause> clauses = Factory.CreateSet<Clause>();
+            ISet<Clause> clauses = CollectionFactory.CreateSet<Clause>();
             foreach (Clause cIter in KB.getAllClauses())
             {
                 Clause c = cIter;
@@ -118,8 +119,8 @@ namespace tvn.cosine.ai.logic.fol.inference
                     answerLiteralVariables, answerClause, maxQueryTime);
 
             // new <- {}
-            ISet<Clause> newClauses = Factory.CreateSet<Clause>();
-            ISet<Clause> toAdd = Factory.CreateSet<Clause>();
+            ISet<Clause> newClauses = CollectionFactory.CreateSet<Clause>();
+            ISet<Clause> toAdd = CollectionFactory.CreateSet<Clause>();
             // loop do
             int noOfPrevClauses = clauses.Size();
             do
@@ -226,7 +227,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             private Clause answerClause = null;
             private System.DateTime finishTime;
             private bool complete = false;
-            private IQueue<Proof> proofs = Factory.CreateQueue<Proof>();
+            private ICollection<Proof> proofs = CollectionFactory.CreateQueue<Proof>();
             private bool timedOut = false;
 
             public TFMAnswerHandler(Literal answerLiteral,
@@ -262,7 +263,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 return timedOut && proofs.Size() > 0;
             }
 
-            public IQueue<Proof> getProofs()
+            public ICollection<Proof> getProofs()
             {
                 return proofs;
             }
@@ -285,7 +286,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     {
                         if (aClause.isEmpty())
                         {
-                            proofs.Add(new ProofFinal(aClause.getProofStep(), Factory.CreateMap<Variable, Term>()));
+                            proofs.Add(new ProofFinal(aClause.getProofStep(), CollectionFactory.CreateMap<Variable, Term>()));
                             complete = true;
                         }
                     }
@@ -310,8 +311,8 @@ namespace tvn.cosine.ai.logic.fol.inference
                                         .Equals(answerLiteral.getAtomicSentence()
                                                 .getSymbolicName()))
                         {
-                            IMap<Variable, Term> answerBindings = Factory.CreateMap<Variable, Term>();
-                            IQueue<Term> answerTerms = aClause.getPositiveLiterals().Get(0).getAtomicSentence().getArgs();
+                            IMap<Variable, Term> answerBindings = CollectionFactory.CreateMap<Variable, Term>();
+                            ICollection<Term> answerTerms = aClause.getPositiveLiterals().Get(0).getAtomicSentence().getArgs();
                             int idx = 0;
                             foreach (Variable v in answerLiteralVariables)
                             {

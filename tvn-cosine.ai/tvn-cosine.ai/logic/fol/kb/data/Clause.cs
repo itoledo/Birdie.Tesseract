@@ -1,6 +1,7 @@
 ﻿using System.Text;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.parsing;
@@ -22,9 +23,9 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         private static StandardizeApart _standardizeApart = new StandardizeApart();
         private static LiteralsSorter _literalSorter = new LiteralsSorter();
         //
-        private readonly ISet<Literal> literals = Factory.CreateSet<Literal>();
-        private readonly IQueue<Literal> positiveLiterals = Factory.CreateQueue<Literal>();
-        private readonly IQueue<Literal> negativeLiterals = Factory.CreateQueue<Literal>();
+        private readonly ISet<Literal> literals = CollectionFactory.CreateSet<Literal>();
+        private readonly ICollection<Literal> positiveLiterals = CollectionFactory.CreateQueue<Literal>();
+        private readonly ICollection<Literal> negativeLiterals = CollectionFactory.CreateQueue<Literal>();
         private bool immutable = false;
         private bool saCheckRequired = true;
         private string equalityIdentity = "";
@@ -38,7 +39,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             // i.e. the empty clause
         }
 
-        public Clause(IQueue<Literal> lits)
+        public Clause(ICollection<Literal> lits)
         {
             this.literals.AddAll(lits);
             foreach (Literal l in literals)
@@ -55,7 +56,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             recalculateIdentity();
         }
 
-        public Clause(IQueue<Literal> lits1, IQueue<Literal> lits2)
+        public Clause(ICollection<Literal> lits1, ICollection<Literal> lits2)
         {
             literals.AddAll(lits1);
             literals.AddAll(lits2);
@@ -210,17 +211,17 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
         public ISet<Literal> getLiterals()
         {
-            return Factory.CreateReadOnlySet<Literal>(literals);
+            return CollectionFactory.CreateReadOnlySet<Literal>(literals);
         }
 
-        public IQueue<Literal> getPositiveLiterals()
+        public ICollection<Literal> getPositiveLiterals()
         {
-            return Factory.CreateReadOnlyQueue<Literal>(positiveLiterals);
+            return CollectionFactory.CreateReadOnlyQueue<Literal>(positiveLiterals);
         }
 
-        public IQueue<Literal> getNegativeLiterals()
+        public ICollection<Literal> getNegativeLiterals()
         {
-            return Factory.CreateReadOnlyQueue<Literal>(negativeLiterals);
+            return CollectionFactory.CreateReadOnlyQueue<Literal>(negativeLiterals);
         }
 
         public ISet<Clause> getFactors()
@@ -229,7 +230,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             {
                 calculateFactors(null);
             }
-            return Factory.CreateReadOnlySet<Clause>(factors);
+            return CollectionFactory.CreateReadOnlySet<Clause>(factors);
         }
 
         public ISet<Clause> getNonTrivialFactors()
@@ -238,7 +239,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             {
                 calculateFactors(null);
             }
-            return Factory.CreateReadOnlySet<Clause>(nonTrivialFactors);
+            return CollectionFactory.CreateReadOnlySet<Clause>(nonTrivialFactors);
         }
 
         public bool subsumes(Clause othC)
@@ -257,8 +258,8 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                                 .getNumberNegativeLiterals())
                 {
 
-                    IMap<string, IQueue<Literal>> thisToTry = collectLikeLiterals(this.literals);
-                    IMap<string, IQueue<Literal>> othCToTry = collectLikeLiterals(othC.literals);
+                    IMap<string, ICollection<Literal>> thisToTry = collectLikeLiterals(this.literals);
+                    IMap<string, ICollection<Literal>> othCToTry = collectLikeLiterals(othC.literals);
                     // Ensure all like literals from this clause are a subset
                     // of the other clause.
                     if (othCToTry.GetKeys().ContainsAll(thisToTry.GetKeys()))
@@ -294,7 +295,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         // are empty, otherwise returns a set of binary resolvents.
         public ISet<Clause> binaryResolvents(Clause othC)
         {
-            ISet<Clause> resolvents = Factory.CreateSet<Clause>();
+            ISet<Clause> resolvents = CollectionFactory.CreateSet<Clause>();
             // Resolving two empty clauses
             // gives you an empty clause
             if (isEmpty() && othC.isEmpty())
@@ -307,17 +308,17 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             // Before attempting binary resolution
             othC = saIfRequired(othC);
 
-            IQueue<Literal> allPosLits = Factory.CreateQueue<Literal>();
-            IQueue<Literal> allNegLits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> allPosLits = CollectionFactory.CreateQueue<Literal>();
+            ICollection<Literal> allNegLits = CollectionFactory.CreateQueue<Literal>();
             allPosLits.AddAll(this.positiveLiterals);
             allPosLits.AddAll(othC.positiveLiterals);
             allNegLits.AddAll(this.negativeLiterals);
             allNegLits.AddAll(othC.negativeLiterals);
 
-            IQueue<Literal> trPosLits = Factory.CreateQueue<Literal>();
-            IQueue<Literal> trNegLits = Factory.CreateQueue<Literal>();
-            IQueue<Literal> copyRPosLits = Factory.CreateQueue<Literal>();
-            IQueue<Literal> copyRNegLits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> trPosLits = CollectionFactory.CreateQueue<Literal>();
+            ICollection<Literal> trNegLits = CollectionFactory.CreateQueue<Literal>();
+            ICollection<Literal> copyRPosLits = CollectionFactory.CreateQueue<Literal>();
+            ICollection<Literal> copyRNegLits = CollectionFactory.CreateQueue<Literal>();
 
             for (int i = 0; i < 2; ++i)
             {
@@ -340,7 +341,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 }
 
                 // Now check to see if they resolve
-                IMap<Variable, Term> copyRBindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
+                IMap<Variable, Term> copyRBindings = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
                 foreach (Literal pl in trPosLits)
                 {
                     foreach (Literal nl in trNegLits)
@@ -399,7 +400,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         {
             if (null == stringRep)
             {
-                IQueue<Literal> sortedLiterals = Factory.CreateQueue<Literal>(literals);
+                ICollection<Literal> sortedLiterals = CollectionFactory.CreateQueue<Literal>(literals);
                 sortedLiterals.Sort(_literalSorter);
 
                 stringRep = sortedLiterals.ToString();
@@ -443,7 +444,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         {
             // Sort the literals first based on negation, atomic sentence,
             // constant, function and variable.
-            IQueue<Literal> sortedLiterals = Factory.CreateQueue<Literal>(literals);
+            ICollection<Literal> sortedLiterals = CollectionFactory.CreateQueue<Literal>(literals);
             sortedLiterals.Sort(_literalSorter);
 
             // All variables are considered the same as regards
@@ -467,10 +468,10 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
         private void calculateFactors(ISet<Clause> parentFactors)
         {
-            nonTrivialFactors = Factory.CreateSet<Clause>();
+            nonTrivialFactors = CollectionFactory.CreateSet<Clause>();
 
-            IMap<Variable, Term> theta = Factory.CreateInsertionOrderedMap<Variable, Term>();
-            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
+            IMap<Variable, Term> theta = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
+            ICollection<Literal> lits = CollectionFactory.CreateQueue<Literal>();
             for (int i = 0; i < 2; ++i)
             {
                 lits.Clear();
@@ -497,8 +498,8 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                                 theta);
                         if (null != substitution)
                         {
-                            IQueue<Literal> posLits = Factory.CreateQueue<Literal>();
-                            IQueue<Literal> negLits = Factory.CreateQueue<Literal>();
+                            ICollection<Literal> posLits = CollectionFactory.CreateQueue<Literal>();
+                            ICollection<Literal> negLits = CollectionFactory.CreateQueue<Literal>();
                             if (i == 0)
                             {
                                 posLits.Add(_substVisitor.subst(substitution, litX));
@@ -556,7 +557,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 }
             }
 
-            factors = Factory.CreateSet<Clause>();
+            factors = CollectionFactory.CreateSet<Clause>();
             // Need to add self, even though a non-trivial
             // factor. See: slide 30
             // http://logic.stanford.edu/classes/cs157/2008/lectures/lecture10.pdf
@@ -579,7 +580,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 ISet<Variable> oVariables = _variableCollector
                         .collectAllVariables(othClause);
 
-                ISet<Variable> cVariables = Factory.CreateSet<Variable>();
+                ISet<Variable> cVariables = CollectionFactory.CreateSet<Variable>();
                 cVariables.AddAll(mVariables);
                 cVariables.AddAll(oVariables);
 
@@ -592,9 +593,9 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             return othClause;
         }
 
-        private IMap<string, IQueue<Literal>> collectLikeLiterals(ISet<Literal> literals)
+        private IMap<string, ICollection<Literal>> collectLikeLiterals(ISet<Literal> literals)
         {
-            IMap<string, IQueue<Literal>> likeLiterals = Factory.CreateInsertionOrderedMap<string, IQueue<Literal>>();
+            IMap<string, ICollection<Literal>> likeLiterals = CollectionFactory.CreateInsertionOrderedMap<string, ICollection<Literal>>();
             foreach (Literal l in literals)
             {
                 // Want to ensure P(a, b) is considered different than P(a, b, c)
@@ -602,10 +603,10 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 string literalName = (l.isNegativeLiteral() ? "~" : "")
                         + l.getAtomicSentence().getSymbolicName() + "/"
                         + l.getAtomicSentence().getArgs().Size();
-                IQueue<Literal> like = likeLiterals.Get(literalName);
+                ICollection<Literal> like = likeLiterals.Get(literalName);
                 if (null == like)
                 {
-                    like = Factory.CreateQueue<Literal>();
+                    like = CollectionFactory.CreateQueue<Literal>();
                     likeLiterals.Put(literalName, like);
                 }
                 like.Add(l);
@@ -614,16 +615,16 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         }
 
         private bool checkSubsumes(Clause othC,
-                IMap<string, IQueue<Literal>> thisToTry,
-                IMap<string, IQueue<Literal>> othCToTry)
+                IMap<string, ICollection<Literal>> thisToTry,
+                IMap<string, ICollection<Literal>> othCToTry)
         {
             bool subsumes = false;
 
-            IQueue<Term> thisTerms = Factory.CreateQueue<Term>();
-            IQueue<Term> othCTerms = Factory.CreateQueue<Term>();
+            ICollection<Term> thisTerms = CollectionFactory.CreateQueue<Term>();
+            ICollection<Term> othCTerms = CollectionFactory.CreateQueue<Term>();
 
             // Want to track possible number of permuations
-            IQueue<int> radices = Factory.CreateQueue<int>();
+            ICollection<int> radices = CollectionFactory.CreateQueue<int>();
             foreach (string literalName in thisToTry.GetKeys())
             {
                 int sizeT = thisToTry.Get(literalName).Size();
@@ -666,8 +667,8 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             // this indicates it is not a legal subsumption.
             ISet<Variable> othCVariables = _variableCollector
                     .collectAllVariables(othC);
-            IMap<Variable, Term> theta = Factory.CreateInsertionOrderedMap<Variable, Term>();
-            IQueue<Literal> literalPermuations = Factory.CreateQueue<Literal>();
+            IMap<Variable, Term> theta = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
+            ICollection<Literal> literalPermuations = CollectionFactory.CreateQueue<Literal>();
             for (long l = 0L; l < numPermutations; l++)
             {
                 // Track the other clause's terms for this
@@ -782,7 +783,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             return rVal;
         }
 
-        private int compareArgs(IQueue<Term> args1, IQueue<Term> args2)
+        private int compareArgs(ICollection<Term> args1, ICollection<Term> args2)
         {
             int rVal = 0;
 
@@ -857,9 +858,9 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         private int noVarPositions = 0;
         private int[] clauseVarCounts = null;
         private int currentLiteral = 0;
-        private IMap<string, IQueue<int>> varPositions = Factory.CreateInsertionOrderedMap<string, IQueue<int>>();
+        private IMap<string, ICollection<int>> varPositions = CollectionFactory.CreateInsertionOrderedMap<string, ICollection<int>>();
 
-        public ClauseEqualityIdentityConstructor(IQueue<Literal> literals, LiteralsSorter sorter)
+        public ClauseEqualityIdentityConstructor(ICollection<Literal> literals, LiteralsSorter sorter)
         {
 
             clauseVarCounts = new int[literals.Size()];
@@ -919,8 +920,8 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                     // sort order positions as well
                     foreach (string key in varPositions.GetKeys())
                     {
-                        IQueue<int> positions = varPositions.Get(key);
-                        IQueue<int> additPositions = Factory.CreateQueue<int>();
+                        ICollection<int> positions = varPositions.Get(key);
+                        ICollection<int> additPositions = CollectionFactory.CreateQueue<int>();
                         // Add then subtract for all possible
                         // positions in range
                         foreach (int pos in positions)
@@ -970,11 +971,11 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             // Sort the individual position lists
             // And then add their string representations
             // together
-            IQueue<string> varOffsets = Factory.CreateQueue<string>();
+            ICollection<string> varOffsets = CollectionFactory.CreateQueue<string>();
             foreach (string key in varPositions.GetKeys())
             {
-                IQueue<int> positions = varPositions.Get(key);
-                positions.Sort(new Queue<int>.Comparer());
+                ICollection<int> positions = varPositions.Get(key);
+                positions.Sort(new List<int>.Comparer());
                 StringBuilder sb = new StringBuilder();
                 foreach (int pos in positions)
                 {
@@ -989,7 +990,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
                 }
                 varOffsets.Add(sb.ToString());
             }
-            varOffsets.Sort(new Queue<string>.Comparer());
+            varOffsets.Sort(new List<string>.Comparer());
             for (int i = 0; i < varOffsets.Size(); ++i)
             {
                 identity.Append(varOffsets.Get(i));
@@ -1012,10 +1013,10 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             // All variables will be marked with an *
             identity.Append("*");
 
-            IQueue<int> positions = varPositions.Get(var.getValue());
+            ICollection<int> positions = varPositions.Get(var.getValue());
             if (null == positions)
             {
-                positions = Factory.CreateQueue<int>();
+                positions = CollectionFactory.CreateQueue<int>();
                 varPositions.Put(var.getValue(), positions);
             }
             positions.Add(noVarPositions);

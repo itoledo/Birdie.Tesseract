@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.local
 {
@@ -17,7 +18,7 @@ namespace tvn.cosine.ai.search.local
      */
     public class Individual<A>
     {
-        private IQueue<A> representation = Factory.CreateQueue<A>();
+        private ICollection<A> representation = CollectionFactory.CreateQueue<A>();
         private int descendants; // for debugging!
 
         /**
@@ -26,16 +27,16 @@ namespace tvn.cosine.ai.search.local
          * @param representation
          *            the individual's representation.
          */
-        public Individual(IQueue<A> representation)
+        public Individual(ICollection<A> representation)
         {
-            this.representation = Factory.CreateReadOnlyQueue<A>(representation);
+            this.representation = CollectionFactory.CreateReadOnlyQueue<A>(representation);
         }
 
         /**
          * 
          * @return the individual's representation.
          */
-        public IQueue<A> getRepresentation()
+        public ICollection<A> getRepresentation()
         {
             return representation;
         }

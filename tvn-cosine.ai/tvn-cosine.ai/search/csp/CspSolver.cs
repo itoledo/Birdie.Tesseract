@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.csp
 {
@@ -18,7 +19,7 @@ namespace tvn.cosine.ai.search.csp
         where VAR : Variable
     {
 
-        private IQueue<CspListener<VAR, VAL>> listeners = Factory.CreateQueue<CspListener<VAR, VAL>>();
+        private ICollection<CspListener<VAR, VAL>> listeners = CollectionFactory.CreateQueue<CspListener<VAR, VAL>>();
 
         /**
          * Computes a solution to the given CSP, which specifies values for all

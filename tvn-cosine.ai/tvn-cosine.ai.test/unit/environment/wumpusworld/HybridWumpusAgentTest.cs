@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.wumpusworld;
 using tvn.cosine.ai.environment.wumpusworld.action;
 
@@ -11,7 +12,7 @@ namespace tvn_cosine.ai.test.unit.environment.wumpusworld
     {
         private static ISet<Room> allRooms(int caveXandYDimensions)
         {
-            ISet<Room> allRooms = Factory.CreateSet<Room>();
+            ISet<Room> allRooms = CollectionFactory.CreateSet<Room>();
             for (int x = 1; x <= caveXandYDimensions; x++)
             {
                 for (int y = 1; y <= caveXandYDimensions; y++)
@@ -39,26 +40,26 @@ namespace tvn_cosine.ai.test.unit.environment.wumpusworld
         {
             HybridWumpusAgent hwa = new HybridWumpusAgent(4);
             // Should be just shoot as are facing the Wumpus
-            Assert.AreEqual(Factory.CreateQueue<IAction>(new Shoot()),
+            Assert.AreEqual(CollectionFactory.CreateQueue<IAction>(new Shoot()),
                 hwa.planShot(new AgentPosition(1, 1, AgentPosition.Orientation.FACING_EAST),
-                    Factory.CreateSet<Room>(new Room(3, 1)),
+                    CollectionFactory.CreateSet<Room>(new Room(3, 1)),
                     allRooms(4)
             ));
-            Assert.AreEqual(Factory.CreateQueue<IAction>(
+            Assert.AreEqual(CollectionFactory.CreateQueue<IAction>(
                     new TurnLeft(AgentPosition.Orientation.FACING_EAST),
                     new Shoot()
                 ),
                 hwa.planShot(new AgentPosition(1, 1, AgentPosition.Orientation.FACING_EAST),
-                    Factory.CreateSet<Room>(new Room(1, 2)),
+                    CollectionFactory.CreateSet<Room>(new Room(1, 2)),
                     allRooms(4)
             ));
-            Assert.AreEqual(Factory.CreateQueue<IAction>(
+            Assert.AreEqual(CollectionFactory.CreateQueue<IAction>(
                 new Forward(new AgentPosition(1, 1, AgentPosition.Orientation.FACING_EAST)),
                 new TurnLeft(AgentPosition.Orientation.FACING_EAST),
                 new Shoot()
             ),
             hwa.planShot(new AgentPosition(1, 1, AgentPosition.Orientation.FACING_EAST),
-                Factory.CreateSet<Room>(new Room(2, 2)),
+                CollectionFactory.CreateSet<Room>(new Room(2, 2)),
                  allRooms(4)
             ));
         }
@@ -68,27 +69,27 @@ namespace tvn_cosine.ai.test.unit.environment.wumpusworld
         {
             HybridWumpusAgent hwa = new HybridWumpusAgent(4);
             // Should be a NoOp plan as we are already at the goal.
-            Assert.AreEqual(Factory.CreateQueue<IAction>(),
+            Assert.AreEqual(CollectionFactory.CreateQueue<IAction>(),
                 hwa.planRoute(new AgentPosition(1, 1, AgentPosition.Orientation.FACING_EAST),
-                    Factory.CreateSet<Room>(new Room(1, 1)),
+                    CollectionFactory.CreateSet<Room>(new Room(1, 1)),
 
                 allRooms(4)
             ));
-            Assert.AreEqual(Factory.CreateQueue<IAction>(
+            Assert.AreEqual(CollectionFactory.CreateQueue<IAction>(
                     new TurnLeft(AgentPosition.Orientation.FACING_EAST),
                     new TurnLeft(AgentPosition.Orientation.FACING_NORTH),
                     new Forward(new AgentPosition(2, 1, AgentPosition.Orientation.FACING_WEST))
                 ),
                 hwa.planRoute(new AgentPosition(2, 1, AgentPosition.Orientation.FACING_EAST),
-                    Factory.CreateSet<Room>(new Room(1, 1)),
+                    CollectionFactory.CreateSet<Room>(new Room(1, 1)),
 
                 allRooms(4)
             ));
-            ISet<Room> impl = Factory.CreateSet<Room>(allRooms(4));
+            ISet<Room> impl = CollectionFactory.CreateSet<Room>(allRooms(4));
             impl.Remove(new Room(2, 1));
             impl.Remove(new Room(2, 2));
 
-            Assert.AreEqual(Factory.CreateQueue<IAction>(
+            Assert.AreEqual(CollectionFactory.CreateQueue<IAction>(
                     new TurnLeft(AgentPosition.Orientation.FACING_EAST),
                     new Forward(new AgentPosition(3, 1, AgentPosition.Orientation.FACING_NORTH)),
                     new Forward(new AgentPosition(3, 2, AgentPosition.Orientation.FACING_NORTH)),
@@ -100,7 +101,7 @@ namespace tvn_cosine.ai.test.unit.environment.wumpusworld
                     new Forward(new AgentPosition(1, 2, AgentPosition.Orientation.FACING_SOUTH))
                 ),
                 hwa.planRoute(new AgentPosition(3, 1, AgentPosition.Orientation.FACING_EAST),
-                    Factory.CreateSet<Room>(new Room(1, 1)),
+                    CollectionFactory.CreateSet<Room>(new Room(1, 1)),
                     impl));
         }
     }

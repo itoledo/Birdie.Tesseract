@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util.math;
 
@@ -65,7 +65,7 @@ namespace tvn.cosine.ai.probability.hmm
          * @return the Matrix representation of this evidence assignment from the
          *         sensor model.
          */
-        Matrix getEvidence(IQueue<AssignmentProposition> evidence);
+        Matrix getEvidence(ICollection<AssignmentProposition> evidence);
 
         /**
          * Return a new column vector in matrix form with all values set to 1.0.
@@ -103,7 +103,7 @@ namespace tvn.cosine.ai.probability.hmm
          * @return a corresponding list of Categorical Distribution representation
          *         of the passed in column vectors.
          */
-        IQueue<CategoricalDistribution> convert(IQueue<Matrix> matrixs);
+        ICollection<CategoricalDistribution> convert(ICollection<Matrix> matrixs);
 
         /**
          * Create a normalized column vector in matrix form of the passed in column

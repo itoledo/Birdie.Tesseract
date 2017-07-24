@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
@@ -8,7 +8,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 
         void setStepNumber(int step);
 
-        IQueue<ProofStep> getPredecessorSteps();
+        ICollection<ProofStep> getPredecessorSteps();
 
         string getProof();
 

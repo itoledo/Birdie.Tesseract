@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
@@ -122,14 +124,14 @@ namespace tvn.cosine.ai.logic.propositional.inference
         protected Model randomAssignmentToSymbolsInClauses(ISet<Clause> clauses)
         {
             // Collect the symbols in clauses
-            ISet<PropositionSymbol> symbols = Factory.CreateSet<PropositionSymbol>();
+            ISet<PropositionSymbol> symbols = CollectionFactory.CreateSet<PropositionSymbol>();
             foreach (Clause c in clauses)
             {
                 symbols.AddAll(c.getSymbols());
             }
 
             // Make initial set of assignments
-            IMap<PropositionSymbol, bool?> values = Factory.CreateInsertionOrderedMap<PropositionSymbol, bool?>();
+            IMap<PropositionSymbol, bool?> values = CollectionFactory.CreateInsertionOrderedMap<PropositionSymbol, bool?>();
             foreach (PropositionSymbol symbol in symbols)
             {
                 // a random assignment of true/false to the symbols in clauses
@@ -144,7 +146,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         protected Clause randomlySelectFalseClause(ISet<Clause> clauses, Model model)
         {
             // Collect the clauses that are false in the model
-            IQueue<Clause> falseClauses = Factory.CreateQueue<Clause>();
+            ICollection<Clause> falseClauses = CollectionFactory.CreateQueue<Clause>();
             foreach (Clause c in clauses)
             {
                 if (false.Equals(model.determineValue(c)))
@@ -164,7 +166,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             ISet<PropositionSymbol> symbols = clause.getSymbols();
 
             // a randomly selected symbol from clause
-            PropositionSymbol result = (Factory.CreateQueue<PropositionSymbol>(symbols)).Get(random.Next(symbols.Size()));
+            PropositionSymbol result = (CollectionFactory.CreateQueue<PropositionSymbol>(symbols)).Get(random.Next(symbols.Size()));
             return result;
         }
 

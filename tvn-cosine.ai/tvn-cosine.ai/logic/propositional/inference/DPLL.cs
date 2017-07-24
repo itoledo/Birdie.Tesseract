@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.propositional.kb;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
@@ -41,7 +41,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          * @return true if the model is satisfiable under current assignments, false
          *         otherwise.
          */
-        bool dpll(ISet<Clause> clauses, IQueue<PropositionSymbol> symbols, Model model);
+        bool dpll(ISet<Clause> clauses, ICollection<PropositionSymbol> symbols, Model model);
 
         /**
          * Determine if KB |= &alpha;, i.e. alpha is entailed by KB.

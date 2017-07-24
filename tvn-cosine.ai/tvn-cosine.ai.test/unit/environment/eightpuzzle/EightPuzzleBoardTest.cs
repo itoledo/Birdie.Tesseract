@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.environment.eightpuzzle;
 
@@ -63,7 +64,7 @@ namespace tvn_cosine.ai.test.unit.environment.eightpuzzle
         [TestMethod]
         public void testGetPositions()
         {
-            IQueue<XYLocation> expected = Factory.CreateQueue<XYLocation>();
+            ICollection<XYLocation> expected = CollectionFactory.CreateQueue<XYLocation>();
             expected.Add(new XYLocation(0, 2));
             expected.Add(new XYLocation(1, 1));
             expected.Add(new XYLocation(2, 2));
@@ -74,14 +75,14 @@ namespace tvn_cosine.ai.test.unit.environment.eightpuzzle
             expected.Add(new XYLocation(2, 0));
             expected.Add(new XYLocation(1, 2));
 
-            IQueue<XYLocation> actual = board.getPositions();
+            ICollection<XYLocation> actual = board.getPositions();
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void testSetBoard()
         {
-            IQueue<XYLocation> passedIn = Factory.CreateQueue<XYLocation>();
+            ICollection<XYLocation> passedIn = CollectionFactory.CreateQueue<XYLocation>();
             passedIn.Add(new XYLocation(1, 1));
             passedIn.Add(new XYLocation(0, 2));
             passedIn.Add(new XYLocation(2, 2));

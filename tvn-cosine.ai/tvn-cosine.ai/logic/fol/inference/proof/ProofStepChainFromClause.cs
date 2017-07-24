@@ -1,11 +1,12 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofStepChainFromClause : AbstractProofStep
     {
-        private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
+        private ICollection<ProofStep> predecessors = CollectionFactory.CreateQueue<ProofStep>();
         private Chain chain = null;
         private Clause fromClause = null;
 
@@ -16,9 +17,9 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             this.predecessors.Add(fromClause.getProofStep());
         }
          
-        public override IQueue<ProofStep> getPredecessorSteps()
+        public override ICollection<ProofStep> getPredecessorSteps()
         {
-            return Factory.CreateReadOnlyQueue<ProofStep>(predecessors);
+            return CollectionFactory.CreateReadOnlyQueue<ProofStep>(predecessors);
         }
          
         public override string getProof()

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.qsearch;
 
@@ -44,7 +45,7 @@ namespace tvn.cosine.ai.search.uninformed
         }
 
         public BreadthFirstSearch(QueueSearch<S, A> impl)
-                : base(impl, Factory.CreateFifoQueue<Node<S, A>>())
+                : base(impl, CollectionFactory.CreateFifoQueue<Node<S, A>>())
         {
 
             // Goal test is to be applied to each node when it is generated

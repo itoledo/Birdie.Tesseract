@@ -1,14 +1,11 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.framework.api;
 using tvn.cosine.ai.learning.inductive;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.learners
-{
-    /**
-     * @author Ravi Mohan
-     * @author Mike Stampone
-     */
+{ 
     public class DecisionTreeLearner : ILearner
     {
         private DecisionTree tree;
@@ -26,10 +23,7 @@ namespace tvn.cosine.ai.learning.learners
             this.tree = tree;
             this.defaultValue = defaultValue;
         }
-
-        //
-        // START-Learner
-
+         
         /**
          * Induces the decision tree from the specified set of examples
          * 
@@ -38,7 +32,7 @@ namespace tvn.cosine.ai.learning.learners
          */
         public virtual void train(DataSet ds)
         {
-            IQueue<string> attributes = ds.getNonTargetAttributes();
+            ICollection<string> attributes = ds.getNonTargetAttributes();
             this.tree = decisionTreeLearning(ds, attributes, new ConstantDecisonTree(defaultValue));
         }
 
@@ -82,7 +76,7 @@ namespace tvn.cosine.ai.learning.learners
         // PRIVATE METHODS
         //
 
-        private DecisionTree decisionTreeLearning(DataSet ds, IQueue<string> attributeNames, ConstantDecisonTree defaultTree)
+        private DecisionTree decisionTreeLearning(DataSet ds, ICollection<string> attributeNames, ConstantDecisonTree defaultTree)
         {
             if (ds.size() == 0)
             {
@@ -101,11 +95,11 @@ namespace tvn.cosine.ai.learning.learners
             DecisionTree tree = new DecisionTree(chosenAttribute);
             ConstantDecisonTree m = majorityValue(ds);
 
-            IQueue<string> values = ds.getPossibleAttributeValues(chosenAttribute);
+            ICollection<string> values = ds.getPossibleAttributeValues(chosenAttribute);
             foreach (string v in values)
             {
                 DataSet filtered = ds.matchingDataSet(chosenAttribute, v);
-                IQueue<string> newAttribs = Util.removeFrom(attributeNames, chosenAttribute);
+                ICollection<string> newAttribs = Util.removeFrom(attributeNames, chosenAttribute);
                 DecisionTree subTree = decisionTreeLearning(filtered, newAttribs, m);
                 tree.addNode(v, subTree);
             }
@@ -120,7 +114,7 @@ namespace tvn.cosine.ai.learning.learners
             return new ConstantDecisonTree(learner.Predict(ds.getExample(0)));
         }
 
-        private string chooseAttribute(DataSet ds, IQueue<string> attributeNames)
+        private string chooseAttribute(DataSet ds, ICollection<string> attributeNames)
         {
             double greatestGain = 0.0;
             string attributeWithGreatestGain = attributeNames.Get(0);

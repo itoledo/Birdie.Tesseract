@@ -1,5 +1,6 @@
 ﻿using System;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
@@ -36,9 +37,9 @@ namespace tvn.cosine.ai.environment.nqueens
 
         public class IfActionFunction : ActionsFunction<NQueensBoard, QueenAction>
         {
-            public IQueue<QueenAction> apply(NQueensBoard state)
+            public ICollection<QueenAction> apply(NQueensBoard state)
             {
-                IQueue<QueenAction> actions = Factory.CreateQueue<QueenAction>();
+                ICollection<QueenAction> actions = CollectionFactory.CreateQueue<QueenAction>();
 
                 int numQueens = state.getNumberOfQueensOnBoard();
                 int boardSize = state.getSize();
@@ -71,9 +72,9 @@ namespace tvn.cosine.ai.environment.nqueens
 
         public class CSFActionFunction : ActionsFunction<NQueensBoard, QueenAction>
         {
-            public IQueue<QueenAction> apply(NQueensBoard state)
+            public ICollection<QueenAction> apply(NQueensBoard state)
             {
-                IQueue<QueenAction> actions = Factory.CreateQueue<QueenAction>();
+                ICollection<QueenAction> actions = CollectionFactory.CreateQueue<QueenAction>();
                 for (int i = 0; i < state.getSize(); ++i)
                     for (int j = 0; j < state.getSize(); j++)
                     {

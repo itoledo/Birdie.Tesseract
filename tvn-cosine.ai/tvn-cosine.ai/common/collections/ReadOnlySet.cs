@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.collections
@@ -12,7 +14,7 @@ namespace tvn.cosine.ai.common.collections
             this.backingSet = backingSet;
         }
 
-        public ReadOnlySet(IQueue<T> backingQueue)
+        public ReadOnlySet(ICollection<T> backingQueue)
         {
             this.backingSet = new Set<T>(backingQueue);
         }
@@ -42,7 +44,7 @@ namespace tvn.cosine.ai.common.collections
             return backingSet.ToArray();
         }
 
-        public bool ContainsAll(IQueue<T> other)
+        public bool ContainsAll(ICollection<T> other)
         {
             foreach (T item in other)
             {
@@ -55,7 +57,7 @@ namespace tvn.cosine.ai.common.collections
             return true;
         }
 
-        public bool SequenceEqual(IQueue<T> other)
+        public bool SequenceEqual(ICollection<T> other)
         {
             return backingSet.SequenceEqual(other);
         }
@@ -91,37 +93,37 @@ namespace tvn.cosine.ai.common.collections
             return sb.ToString();
         }
 
-        void IQueue<T>.RemoveAt(int index)
+        void ICollection<T>.RemoveAt(int index)
         {
             throw new NotSupportedException("Not supported");
         }
          
-        void IQueue<T>.Insert(int index, T item)
+        void ICollection<T>.Insert(int index, T item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        T IQueue<T>.Peek()
+        T ICollection<T>.Peek()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        T IQueue<T>.Pop()
+        T ICollection<T>.Pop()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<T>.AddAll(IQueue<T> items)
+        void ICollection<T>.AddAll(ICollection<T> items)
         {
             throw new NotSupportedException();
         }
 
-        void IQueue<T>.Sort(IComparer<T> comparer)
+        void ICollection<T>.Sort(IComparer<T> comparer)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        bool IQueue<T>.Add(T item)
+        bool ICollection<T>.Add(T item)
         {
             throw new NotSupportedException("Not supported");
         }
@@ -131,32 +133,32 @@ namespace tvn.cosine.ai.common.collections
             return backingSet.IsEmpty();
         }
 
-        void IQueue<T>.Clear()
+        void ICollection<T>.Clear()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        bool IQueue<T>.Remove(T item)
+        bool ICollection<T>.Remove(T item)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<T>.RemoveAll(IQueue<T> items)
+        void ICollection<T>.RemoveAll(ICollection<T> items)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<T>.Reverse()
+        void ICollection<T>.Reverse()
         {
             throw new NotSupportedException("Not supported");
         }
 
-        IQueue<T> IQueue<T>.subList(int startPos, int endPos)
+        ICollection<T> ICollection<T>.subList(int startPos, int endPos)
         {
             throw new NotSupportedException("Not supported");
         }
 
-        void IQueue<T>.Set(int position, T item)
+        void ICollection<T>.Set(int position, T item)
         {
             throw new NotSupportedException("Not supported");
         }

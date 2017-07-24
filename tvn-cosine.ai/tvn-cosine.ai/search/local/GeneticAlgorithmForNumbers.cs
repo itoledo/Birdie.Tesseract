@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.local
 {
@@ -33,7 +34,7 @@ namespace tvn.cosine.ai.search.local
          *            probability of mutations.
          */
         public GeneticAlgorithmForNumbers(int individualLength, double min, double max, double mutationProbability)
-                : base(individualLength, Factory.CreateQueue<double>(), mutationProbability)
+                : base(individualLength, CollectionFactory.CreateQueue<double>(), mutationProbability)
         {
             minimum = min;
             maximum = max;
@@ -42,7 +43,7 @@ namespace tvn.cosine.ai.search.local
         /** Convenience method. */
         public Individual<double> createRandomIndividual()
         {
-            IQueue<double> representation = Factory.CreateQueue<double>();
+            ICollection<double> representation = CollectionFactory.CreateQueue<double>();
             for (int i = 0; i < individualLength;++i)
                 representation.Add(minimum + random.NextDouble() * (maximum - minimum));
             return new Individual<double>(representation);
@@ -55,7 +56,7 @@ namespace tvn.cosine.ai.search.local
 
         protected override Individual<double> reproduce(Individual<double> x, Individual<double> y)
         {
-            IQueue<double> newRep = Factory.CreateQueue<double>();
+            ICollection<double> newRep = CollectionFactory.CreateQueue<double>();
             double r = random.NextDouble();
             for (int i = 0; i < x.length();++i)
                 newRep.Add(x.getRepresentation().Get(i) * r + y.getRepresentation().Get(i) * (1 - r));
@@ -70,8 +71,8 @@ namespace tvn.cosine.ai.search.local
 
         protected override Individual<double> mutate(Individual<double> child)
         {
-            IQueue<double> rep = child.getRepresentation();
-            IQueue<double> newRep = Factory.CreateQueue<double>();
+            ICollection<double> rep = child.getRepresentation();
+            ICollection<double> newRep = CollectionFactory.CreateQueue<double>();
             foreach (double numIter in rep)
             {
                 double num = numIter;

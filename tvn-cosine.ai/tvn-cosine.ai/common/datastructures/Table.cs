@@ -1,12 +1,14 @@
 ﻿using System.Text;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.common.datastructures
 { 
     public class Table<RowHeaderType, ColumnHeaderType, ValueType> : IStringable
     {
-        private IQueue<RowHeaderType> rowHeaders;
-        private IQueue<ColumnHeaderType> columnHeaders;
+        private ICollection<RowHeaderType> rowHeaders;
+        private ICollection<ColumnHeaderType> columnHeaders;
         private IMap<RowHeaderType, IMap<ColumnHeaderType, ValueType>> rows;
 
         /**
@@ -17,15 +19,15 @@ namespace tvn.cosine.ai.common.datastructures
          * @param columnHeaders
          *            a list of column headers
          */
-        public Table(IQueue<RowHeaderType> rowHeaders,
-                     IQueue<ColumnHeaderType> columnHeaders)
+        public Table(ICollection<RowHeaderType> rowHeaders,
+                     ICollection<ColumnHeaderType> columnHeaders)
         {
             this.rowHeaders = rowHeaders;
             this.columnHeaders = columnHeaders;
-            this.rows = Factory.CreateInsertionOrderedMap<RowHeaderType, IMap<ColumnHeaderType, ValueType>>();
+            this.rows = CollectionFactory.CreateInsertionOrderedMap<RowHeaderType, IMap<ColumnHeaderType, ValueType>>();
             foreach (RowHeaderType rowHeader in rowHeaders)
             {
-                rows.Put(rowHeader, Factory.CreateInsertionOrderedMap<ColumnHeaderType, ValueType>());
+                rows.Put(rowHeader, CollectionFactory.CreateInsertionOrderedMap<ColumnHeaderType, ValueType>());
             }
         }
 
@@ -95,7 +97,7 @@ namespace tvn.cosine.ai.common.datastructures
             public Row()
             {
 
-                this._cells = Factory.CreateInsertionOrderedMap<ColumnHeaderType, ValueType>();
+                this._cells = CollectionFactory.CreateInsertionOrderedMap<ColumnHeaderType, ValueType>();
             }
 
             public IMap<ColumnHeaderType, ValueType> cells()

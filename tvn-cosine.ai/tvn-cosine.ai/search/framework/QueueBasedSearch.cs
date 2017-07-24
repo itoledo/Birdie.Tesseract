@@ -1,5 +1,5 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common; 
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.framework.qsearch;
 
@@ -20,15 +20,15 @@ namespace tvn.cosine.ai.search.framework
     public abstract class QueueBasedSearch<S, A> : SearchForActions<S, A>, SearchForStates<S, A>
     {
         protected readonly QueueSearch<S, A> impl;
-        private readonly IQueue<Node<S, A>> frontier;
+        private readonly ICollection<Node<S, A>> frontier;
 
-        protected QueueBasedSearch(QueueSearch<S, A> impl, IQueue<Node<S, A>> queue)
+        protected QueueBasedSearch(QueueSearch<S, A> impl, ICollection<Node<S, A>> queue)
         {
             this.impl = impl;
             this.frontier = queue;
         }
 
-        public virtual IQueue<A> findActions(Problem<S, A> p)
+        public virtual ICollection<A> findActions(Problem<S, A> p)
         {
             impl.getNodeExpander().useParentLinks(true);
             frontier.Clear();

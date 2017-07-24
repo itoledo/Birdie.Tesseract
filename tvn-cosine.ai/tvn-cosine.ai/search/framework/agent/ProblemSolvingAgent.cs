@@ -1,7 +1,8 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.search.framework.agent
 {
@@ -47,7 +48,7 @@ namespace tvn.cosine.ai.search.framework.agent
     {
 
         /** Plan, an action sequence, initially empty. */
-        protected IQueue<A> plan = Factory.CreateQueue<A>();
+        protected ICollection<A> plan = CollectionFactory.CreateQueue<A>();
 
 
         /**
@@ -71,7 +72,7 @@ namespace tvn.cosine.ai.search.framework.agent
                     // problem <- FORMULATE-PROBLEM(state, goal)
                     Problem<S, A> problem = formulateProblem(goal);
                     // state.plan <- SEARCH(problem)
-                    IQueue<A> actions = search(problem);
+                    ICollection<A> actions = search(problem);
                     if (null != actions)
                         plan.AddAll(actions);
                     else if (!tryWithAnotherGoal())
@@ -141,6 +142,6 @@ namespace tvn.cosine.ai.search.framework.agent
          * Primitive operation, responsible for the generation of an action list
          * (plan) for the given search problem.
          */
-        protected abstract IQueue<A> search(Problem<S, A> problem);
+        protected abstract ICollection<A> search(Problem<S, A> problem);
     }
 }

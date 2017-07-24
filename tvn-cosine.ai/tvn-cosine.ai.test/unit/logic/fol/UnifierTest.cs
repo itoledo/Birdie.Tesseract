@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.parsing;
@@ -20,7 +21,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         {
             parser = new FOLParser(DomainFactory.knowsDomain());
             unifier = new Unifier();
-            theta = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            theta = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
         }
 
         [TestMethod]
@@ -73,11 +74,11 @@ namespace tvn_cosine.ai.test.unit.logic.fol
         public void testSimpleVariableUnification()
         {
             Variable var1 = new Variable("x");
-            IQueue<Term> terms1 = Factory.CreateQueue<Term>();
+            ICollection<Term> terms1 = CollectionFactory.CreateQueue<Term>();
             terms1.Add(var1);
             Predicate p1 = new Predicate("King", terms1); // King(x)
 
-            IQueue<Term> terms2 = Factory.CreateQueue<Term>();
+            ICollection<Term> terms2 = CollectionFactory.CreateQueue<Term>();
             terms2.Add(new Constant("John"));
             Predicate p2 = new Predicate("King", terms2); // King(John)
 
@@ -125,7 +126,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
 
             Assert.AreEqual(2, result.Size());
 
-            IQueue<Term> terms = Factory.CreateQueue<Term>();
+            ICollection<Term> terms = CollectionFactory.CreateQueue<Term>();
             terms.Add(new Constant("John"));
             Function mother = new Function("Mother", terms);
             Assert.AreEqual(mother, theta.Get(new Variable("x")));

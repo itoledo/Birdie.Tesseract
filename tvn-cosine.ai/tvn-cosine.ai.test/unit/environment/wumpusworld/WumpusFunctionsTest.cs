@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.wumpusworld;
 using tvn.cosine.ai.environment.wumpusworld.action;
 using tvn.cosine.ai.search.framework.problem;
@@ -25,8 +26,8 @@ namespace tvn_cosine.ai.test.unit.environment.wumpusworld
         [TestMethod]
         public void testSuccessors()
         {
-            IQueue<AgentPosition> succPositions = Factory.CreateQueue<AgentPosition>();
-            IQueue<AgentPosition.Orientation> succOrientation = Factory.CreateQueue<AgentPosition.Orientation>();
+            ICollection<AgentPosition> succPositions = CollectionFactory.CreateQueue<AgentPosition>();
+            ICollection<AgentPosition.Orientation> succOrientation = CollectionFactory.CreateQueue<AgentPosition.Orientation>();
 
             // From every position the possible actions are:
             //    - Turn right (change orientation, not position)

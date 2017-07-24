@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.util;
@@ -18,31 +19,31 @@ namespace tvn.cosine.ai.learning.neural
         /*
          * the parsed and preprocessed form of the dataset.
          */
-        private IQueue<NNExample> dataset;
+        private ICollection<NNExample> dataset;
         /*
          * a copy from which examples are drawn.
          */
-        private IQueue<NNExample> presentlyProcessed = Factory.CreateQueue<NNExample>();
+        private ICollection<NNExample> presentlyProcessed = CollectionFactory.CreateQueue<NNExample>();
 
         /*
          * list of mean Values for all components of raw data set
          */
-        private IQueue<double> means;
+        private ICollection<double> means;
 
         /*
          * list of stdev Values for all components of raw data set
          */
-        private IQueue<double> stdevs;
+        private ICollection<double> stdevs;
         /*
          * the normalized data set
          */
-        protected IQueue<IQueue<double>> nds;
+        protected ICollection<ICollection<double>> nds;
 
         /*
          * the column numbers of the "target"
          */
 
-        protected IQueue<int> targetColumnNumbers;
+        protected ICollection<int> targetColumnNumbers;
 
         /*
          * population delegated to subclass because only subclass knows which
@@ -57,7 +58,7 @@ namespace tvn.cosine.ai.learning.neural
         public void createNormalizedDataFromFile(string filename)
         {
 
-            IQueue<IQueue<double>> rds = Factory.CreateQueue<IQueue<double>>();
+            ICollection<ICollection<double>> rds = CollectionFactory.CreateQueue<ICollection<double>>();
 
             // create raw data set
             using (StreamReader reader = new StreamReader(filename + ".csv"))
@@ -85,7 +86,7 @@ namespace tvn.cosine.ai.learning.neural
         public void createNormalizedDataFromDataSet(DataSet ds, Numerizer numerizer)
         {
 
-            IQueue<IQueue<double>> rds = rawExamplesFromDataSet(ds, numerizer);
+            ICollection<ICollection<double>> rds = rawExamplesFromDataSet(ds, numerizer);
             // normalize raw dataset
             nds = normalize(rds);
         }
@@ -131,7 +132,7 @@ namespace tvn.cosine.ai.learning.neural
          */
         public void refreshDataset()
         {
-            presentlyProcessed = Factory.CreateQueue<NNExample>();
+            presentlyProcessed = CollectionFactory.CreateQueue<NNExample>();
             foreach (NNExample e in dataset)
             {
                 presentlyProcessed.Add(e.copyExample());
@@ -161,17 +162,17 @@ namespace tvn.cosine.ai.learning.neural
 
         }
 
-        public IQueue<IQueue<double>> getNormalizedData()
+        public ICollection<ICollection<double>> getNormalizedData()
         {
             return nds;
         }
 
-        public IQueue<double> getMeans()
+        public ICollection<double> getMeans()
         {
             return means;
         }
 
-        public IQueue<double> getStdevs()
+        public ICollection<double> getStdevs()
         {
             return stdevs;
         }
@@ -185,11 +186,11 @@ namespace tvn.cosine.ai.learning.neural
          */
         private void createExamples()
         {
-            dataset = Factory.CreateQueue<NNExample>();
-            foreach (IQueue<double> dataLine in nds)
+            dataset = CollectionFactory.CreateQueue<NNExample>();
+            foreach (ICollection<double> dataLine in nds)
             {
-                IQueue<double> input = Factory.CreateQueue<double>();
-                IQueue<double> target = Factory.CreateQueue<double>();
+                ICollection<double> input = CollectionFactory.CreateQueue<double>();
+                ICollection<double> target = CollectionFactory.CreateQueue<double>();
                 for (int i = 0; i < dataLine.Size();++i)
                 {
                     if (targetColumnNumbers.Contains(i))
@@ -206,20 +207,20 @@ namespace tvn.cosine.ai.learning.neural
             refreshDataset();// to populate the preentlyProcessed dataset
         }
 
-        private IQueue<IQueue<double>> normalize(IQueue<IQueue<double>> rds)
+        private ICollection<ICollection<double>> normalize(ICollection<ICollection<double>> rds)
         {
             int rawDataLength = rds.Get(0).Size();
-            IQueue<IQueue<double>> nds = Factory.CreateQueue<IQueue<double>>();
+            ICollection<ICollection<double>> nds = CollectionFactory.CreateQueue<ICollection<double>>();
 
-            means = Factory.CreateQueue<double>();
-            stdevs = Factory.CreateQueue<double>();
+            means = CollectionFactory.CreateQueue<double>();
+            stdevs = CollectionFactory.CreateQueue<double>();
 
-            IQueue<IQueue<double>> normalizedColumns = Factory.CreateQueue<IQueue<double>>();
+            ICollection<ICollection<double>> normalizedColumns = CollectionFactory.CreateQueue<ICollection<double>>();
             // clculate means for each coponent of example data
             for (int i = 0; i < rawDataLength;++i)
             {
-                IQueue<double> columnValues = Factory.CreateQueue<double>();
-                foreach (IQueue<double> rawDatum in rds)
+                ICollection<double> columnValues = CollectionFactory.CreateQueue<double>();
+                foreach (ICollection<double> rawDatum in rds)
                 {
                     columnValues.Add(rawDatum.Get(i));
                 }
@@ -239,7 +240,7 @@ namespace tvn.cosine.ai.learning.neural
             int numberOfColumns = normalizedColumns.Size();
             for (int i = 0; i < columnLength;++i)
             {
-                IQueue<double> lst = Factory.CreateQueue<double>();
+                ICollection<double> lst = CollectionFactory.CreateQueue<double>();
                 for (int j = 0; j < numberOfColumns; j++)
                 {
                     lst.Add(normalizedColumns.Get(j).Get(i));
@@ -249,11 +250,11 @@ namespace tvn.cosine.ai.learning.neural
             return nds;
         }
 
-        private IQueue<double> exampleFromString(string line, string separator)
+        private ICollection<double> exampleFromString(string line, string separator)
         {
             // assumes all values for inout and target are doubles
-            IQueue<double> rexample = Factory.CreateQueue<double>();
-            IQueue<string> attributeValues = Factory.CreateQueue<string>(Regex.Split(line, separator));
+            ICollection<double> rexample = CollectionFactory.CreateQueue<double>();
+            ICollection<string> attributeValues = CollectionFactory.CreateQueue<string>(Regex.Split(line, separator));
             foreach (string valString in attributeValues)
             {
                 rexample.Add(double.Parse(valString, NumberStyles.Any, CultureInfo.InvariantCulture));
@@ -261,21 +262,21 @@ namespace tvn.cosine.ai.learning.neural
             return rexample;
         }
 
-        private IQueue<IQueue<double>> rawExamplesFromDataSet(DataSet ds, Numerizer numerizer)
+        private ICollection<ICollection<double>> rawExamplesFromDataSet(DataSet ds, Numerizer numerizer)
         {
             // assumes all values for inout and target are doubles
-            IQueue<IQueue<double>> rds = Factory.CreateQueue<IQueue<double>>();
+            ICollection<ICollection<double>> rds = CollectionFactory.CreateQueue<ICollection<double>>();
             for (int i = 0; i < ds.size();++i)
             {
-                IQueue<double> rexample = Factory.CreateQueue<double>();
+                ICollection<double> rexample = CollectionFactory.CreateQueue<double>();
                 Example e = ds.getExample(i);
-                Pair<IQueue<double>, IQueue<double>> p = numerizer.numerize(e);
-                IQueue<double> attributes = p.getFirst();
+                Pair<ICollection<double>, ICollection<double>> p = numerizer.numerize(e);
+                ICollection<double> attributes = p.getFirst();
                 foreach (double d in attributes)
                 {
                     rexample.Add(d);
                 }
-                IQueue<double> targets = p.getSecond();
+                ICollection<double> targets = p.getSecond();
                 foreach (double d in targets)
                 {
                     rexample.Add(d);

@@ -1,10 +1,11 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.util;
 using tvn.cosine.ai.util.math.geom.shapes;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.environment.map
 {
@@ -80,11 +81,11 @@ namespace tvn.cosine.ai.environment.map
                 this.reverseMode = reverseMode;
             }
 
-            public IQueue<MoveToAction> apply(string state)
+            public ICollection<MoveToAction> apply(string state)
             {
-                IQueue<MoveToAction> actions = Factory.CreateQueue<MoveToAction>();
+                ICollection<MoveToAction> actions = CollectionFactory.CreateQueue<MoveToAction>();
 
-                IQueue<string> linkedLocations = reverseMode ? map.getPossiblePrevLocations(state) : map.getPossibleNextLocations(state);
+                ICollection<string> linkedLocations = reverseMode ? map.getPossiblePrevLocations(state) : map.getPossibleNextLocations(state);
 
                 foreach (string location in linkedLocations)
                 {

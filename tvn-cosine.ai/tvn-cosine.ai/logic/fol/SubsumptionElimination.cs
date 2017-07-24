@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 
 namespace tvn.cosine.ai.logic.fol
@@ -39,13 +40,13 @@ namespace tvn.cosine.ai.logic.fol
          */
         public static ISet<Clause> findSubsumedClauses(ISet<Clause> clauses)
         {
-            ISet<Clause> subsumed = Factory.CreateSet<Clause>();
+            ISet<Clause> subsumed = CollectionFactory.CreateSet<Clause>();
 
             // Group the clauses by their # of literals.
             // Keep track of the min and max # of literals.
             int min = int.MaxValue;
             int max = 0;
-            IMap<int, ISet<Clause>> clausesGroupedBySize = Factory.CreateInsertionOrderedMap<int, ISet<Clause>>();
+            IMap<int, ISet<Clause>> clausesGroupedBySize = CollectionFactory.CreateInsertionOrderedMap<int, ISet<Clause>>();
             foreach (Clause c in clauses)
             {
                 int size = c.getNumberLiterals();
@@ -60,7 +61,7 @@ namespace tvn.cosine.ai.logic.fol
                 ISet<Clause> cforsize = clausesGroupedBySize.Get(size);
                 if (null == cforsize)
                 {
-                    cforsize = Factory.CreateSet<Clause>();
+                    cforsize = CollectionFactory.CreateSet<Clause>();
                     clausesGroupedBySize.Put(size, cforsize);
                 }
                 cforsize.Add(c);

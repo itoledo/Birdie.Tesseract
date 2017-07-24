@@ -1,11 +1,12 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
     public abstract class AbstractProposition : Proposition
     {
-        private ISet<RandomVariable> scope = Factory.CreateSet<RandomVariable>();
-        private ISet<RandomVariable> unboundScope = Factory.CreateSet<RandomVariable>();
+        private ISet<RandomVariable> scope = CollectionFactory.CreateSet<RandomVariable>();
+        private ISet<RandomVariable> unboundScope = CollectionFactory.CreateSet<RandomVariable>();
 
         public AbstractProposition()
         { }
@@ -27,7 +28,7 @@ namespace tvn.cosine.ai.probability.proposition
             scope.Add(var);
         }
 
-        protected virtual void addScope(IQueue<RandomVariable> vars)
+        protected virtual void addScope(ICollection<RandomVariable> vars)
         {
             scope.AddAll(vars);
         }
@@ -37,7 +38,7 @@ namespace tvn.cosine.ai.probability.proposition
             unboundScope.Add(var);
         }
 
-        protected virtual void addUnboundScope(IQueue<RandomVariable> vars)
+        protected virtual void addUnboundScope(ICollection<RandomVariable> vars)
         {
             unboundScope.AddAll(vars);
         }

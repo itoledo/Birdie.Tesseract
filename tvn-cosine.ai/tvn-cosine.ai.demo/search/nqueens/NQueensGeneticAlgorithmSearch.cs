@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.environment.nqueens;
 using tvn.cosine.ai.search.framework.problem;
@@ -22,7 +23,7 @@ namespace tvn_cosine.ai.demo.search.nqueens
                 FitnessFunction<int> fitnessFunction = NQueensGenAlgoUtil.getFitnessFunction();
                 GoalTest<Individual<int>> goalTest = NQueensGenAlgoUtil.getGoalTest();
                 // Generate an initial population
-                ISet<Individual<int>> population = Factory.CreateSet<Individual<int>>();
+                ISet<Individual<int>> population = CollectionFactory.CreateSet<Individual<int>>();
                 for (int i = 0; i < 50; ++i)
                 {
                     population.Add(NQueensGenAlgoUtil.generateRandomIndividual(boardSize));

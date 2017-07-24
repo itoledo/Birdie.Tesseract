@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.nlp.parsing.grammars;
 
 namespace tvn_cosine.ai.test.unit.nlp.parse
@@ -20,10 +21,10 @@ namespace tvn_cosine.ai.test.unit.nlp.parse
         public void setUp()
         {
             gEmpty = new ProbCNFGrammar();
-            validR = new Rule(Factory.CreateQueue<string>(new[] { "A" }),
-                    Factory.CreateQueue<string>(new[] { "Y", "X" }), (float)0.50);
-            invalidR = new Rule(Factory.CreateQueue<string>(new[] { "A" }),
-                      Factory.CreateQueue<string>(new[] { "Y", "X", "Z" }), (float)0.50); // too many RHS variables
+            validR = new Rule(CollectionFactory.CreateQueue<string>(new[] { "A" }),
+                    CollectionFactory.CreateQueue<string>(new[] { "Y", "X" }), (float)0.50);
+            invalidR = new Rule(CollectionFactory.CreateQueue<string>(new[] { "A" }),
+                      CollectionFactory.CreateQueue<string>(new[] { "Y", "X", "Z" }), (float)0.50); // too many RHS variables
         }
 
         [TestMethod]

@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.nlp.parsing.grammars;
 
@@ -15,12 +16,12 @@ namespace tvn.cosine.ai.nlp.parsing
      * @author Jonathon
      *
      */
-    public class Lexicon : Map<string, IQueue<LexWord>>
+    public class Lexicon : Map<string, ICollection<LexWord>>
     {
-        public IQueue<Rule> getTerminalRules(string partOfSpeech)
+        public ICollection<Rule> getTerminalRules(string partOfSpeech)
         {
             string partOfSpeechUpperCase = partOfSpeech.ToUpper();
-            IQueue<Rule> rules = Factory.CreateQueue<Rule>();
+            ICollection<Rule> rules = CollectionFactory.CreateQueue<Rule>();
 
             if (this.ContainsKey(partOfSpeechUpperCase))
             {
@@ -33,10 +34,10 @@ namespace tvn.cosine.ai.nlp.parsing
             return rules;
         }
 
-        public IQueue<Rule> getAllTerminalRules()
+        public ICollection<Rule> getAllTerminalRules()
         {
-            IQueue<Rule> allRules = Factory.CreateQueue<Rule>();
-            IQueue<string> keys = this.GetKeys();
+            ICollection<Rule> allRules = CollectionFactory.CreateQueue<Rule>();
+            ICollection<string> keys = this.GetKeys();
 
             foreach (string key in keys)
                 allRules.AddAll(this.getTerminalRules(key));
@@ -49,14 +50,14 @@ namespace tvn.cosine.ai.nlp.parsing
             if (this.ContainsKey(category))
                 this.Get(category).Add(new LexWord(word, prob));
             else
-                this.Put(category, Factory.CreateQueue<LexWord>(new[] { new LexWord(word, prob) }));
+                this.Put(category, CollectionFactory.CreateQueue<LexWord>(new[] { new LexWord(word, prob) }));
 
             return true;
         }
 
         public bool addLexWords(params string[] vargs)
         {
-            IQueue<LexWord> lexWords = Factory.CreateQueue<LexWord>();
+            ICollection<LexWord> lexWords = CollectionFactory.CreateQueue<LexWord>();
             bool containsKey = false;
             // number of arguments must be key (1) + lexWord pairs ( x * 2 )
             if (vargs.Length % 2 != 1)
@@ -96,7 +97,7 @@ namespace tvn.cosine.ai.nlp.parsing
             foreach (var pair in lexicon)
             {
                 string key = pair.GetKey();
-                IQueue<LexWord> lexWords = pair.GetValue();
+                ICollection<LexWord> lexWords = pair.GetValue();
 
                 if (this.ContainsKey(key))
                 {

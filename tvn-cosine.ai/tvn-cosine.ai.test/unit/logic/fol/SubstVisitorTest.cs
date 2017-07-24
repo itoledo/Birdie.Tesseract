@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.parsing;
@@ -28,7 +29,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence expectedAfterSubstCopy = expectedAfterSubst.copy();
 
             Assert.AreEqual(expectedAfterSubst, expectedAfterSubstCopy);
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("x"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
@@ -42,7 +43,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence beforeSubst = parser.parse("King(x)");
             Sentence expectedAfterSubst = parser.parse(" King(x) ");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("y"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
@@ -56,7 +57,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence beforeSubst = parser.parse("King(x,y)");
             Sentence expectedAfterSubst = parser.parse(" King(John ,England) ");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("x"), new Constant("John"));
             p.Put(new Variable("y"), new Constant("England"));
 
@@ -71,7 +72,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence beforeSubst = parser.parse("King(x,y)");
             Sentence expectedAfterSubst = parser.parse(" King(John ,y) ");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("x"), new Constant("John"));
             p.Put(new Variable("z"), new Constant("England"));
 
@@ -87,7 +88,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence expectedAfterSubst = parser
                     .parse("BrotherOf(John) = EnemyOf(Saladin)");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("x"), new Constant("John"));
             p.Put(new Variable("y"), new Constant("Saladin"));
 
@@ -103,7 +104,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence beforeSubst = parser.parse("BrotherOf(John) = x)");
             Sentence expectedAfterSubst = parser.parse("BrotherOf(John) = Richard");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("x"), new Constant("Richard"));
             p.Put(new Variable("y"), new Constant("Saladin"));
 
@@ -118,7 +119,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence beforeSubst = parser.parse("FORALL x King(x))");
             Sentence expectedAfterSubst = parser.parse("King(John)");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("x"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
@@ -132,7 +133,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence beforeSubst = parser.parse("FORALL x King(x))");
             Sentence expectedAfterSubst = parser.parse("FORALL x King(x)");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("y"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
@@ -146,7 +147,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence beforeSubst = parser.parse("FORALL x,y King(x,y))");
             Sentence expectedAfterSubst = parser.parse("FORALL x King(x,John)");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("y"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
@@ -160,7 +161,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence beforeSubst = parser.parse("EXISTS x King(x))");
             Sentence expectedAfterSubst = parser.parse("King(John)");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("x"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
@@ -175,7 +176,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence beforeSubst = parser.parse("NOT King(x))");
             Sentence expectedAfterSubst = parser.parse("NOT King(John)");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("x"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);
@@ -191,7 +192,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence expectedAfterSubst = parser
                     .parse("( King(John) AND BrotherOf(John) = EnemyOf(Saladin) )");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("x"), new Constant("John"));
             p.Put(new Variable("y"), new Constant("Saladin"));
 
@@ -208,7 +209,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             Sentence beforeSubst = parser.parse("((( King(x))))");
             Sentence expectedAfterSubst = parser.parse("King(John) ");
 
-            IMap<Variable, Term> p = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> p = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
             p.Put(new Variable("x"), new Constant("John"));
 
             Sentence afterSubst = sv.subst(p, beforeSubst);

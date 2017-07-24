@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.adversarial
 {
@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.search.adversarial
         S getInitialState(); 
         P[] getPlayers(); 
         P getPlayer(S state); 
-        IQueue<A> getActions(S state); 
+        ICollection<A> getActions(S state); 
         S getResult(S state, A action); 
         bool isTerminal(S state); 
         double getUtility(S state, P player);

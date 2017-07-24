@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
@@ -7,11 +8,11 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofStepBwChGoal : AbstractProofStep
     { 
-        private IQueue<ProofStep> predecessors = Factory.CreateQueue<ProofStep>();
+        private ICollection<ProofStep> predecessors = CollectionFactory.CreateQueue<ProofStep>();
         //
         private Clause toProve = null;
         private Literal currentGoal = null;
-        private IMap<Variable, Term> bindings = Factory.CreateInsertionOrderedMap<Variable, Term>();
+        private IMap<Variable, Term> bindings = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
 
         public ProofStepBwChGoal(Clause toProve, Literal currentGoal, IMap<Variable, Term> bindings)
         {
@@ -31,15 +32,15 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             predecessors.Add(predecessor);
         }
 
-        public override IQueue<ProofStep> getPredecessorSteps()
+        public override ICollection<ProofStep> getPredecessorSteps()
         {
-            return Factory.CreateReadOnlyQueue<ProofStep>(predecessors);
+            return CollectionFactory.CreateReadOnlyQueue<ProofStep>(predecessors);
         }
          
         public override string getProof()
         {
             StringBuilder sb = new StringBuilder();
-            IQueue<Literal> nLits = toProve.getNegativeLiterals();
+            ICollection<Literal> nLits = toProve.getNegativeLiterals();
             for (int i = 0; i < toProve.getNumberNegativeLiterals();++i)
             {
                 sb.Append(nLits.Get(i).getAtomicSentence());

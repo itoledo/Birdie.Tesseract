@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.nondeterministic
 {
@@ -14,7 +15,7 @@ namespace tvn.cosine.ai.search.nondeterministic
      * 
      * @author Andrew Brown
      */
-    public class Plan : Queue<object>
+    public class Plan : List<object>
     {
 
         /**

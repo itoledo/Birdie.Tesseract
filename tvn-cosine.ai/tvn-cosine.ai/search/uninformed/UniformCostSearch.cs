@@ -1,5 +1,6 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.qsearch;
 
@@ -61,7 +62,7 @@ namespace tvn.cosine.ai.search.uninformed
          * search space exploration strategy.
          */
         public UniformCostSearch(QueueSearch<S, A> impl)
-                : base(impl, Factory.CreatePriorityQueue<Node<S, A>>(new UniformCostSearchComparer()))
+                : base(impl, CollectionFactory.CreatePriorityQueue<Node<S, A>>(new UniformCostSearchComparer()))
         { }
     }
 }

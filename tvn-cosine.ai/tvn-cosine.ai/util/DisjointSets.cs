@@ -1,5 +1,6 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
 
@@ -33,8 +34,8 @@ namespace tvn.cosine.ai.util
      */
     public class DisjointSets<E>
     { 
-        private IMap<E, ISet<E>> elementToSet = Factory.CreateInsertionOrderedMap<E, ISet<E>>();
-        private ISet<ISet<E>> disjointSets = Factory.CreateSet<ISet<E>>();
+        private IMap<E, ISet<E>> elementToSet = CollectionFactory.CreateInsertionOrderedMap<E, ISet<E>>();
+        private ISet<ISet<E>> disjointSets = CollectionFactory.CreateSet<ISet<E>>();
 
         /// <summary>
         /// Default Constructor.
@@ -51,7 +52,7 @@ namespace tvn.cosine.ai.util
          *            a collection of elements, each of which will be assigned to
          *            their own disjoint set via makeSet().
          */
-        public DisjointSets(IQueue<E> initialElements)
+        public DisjointSets(ICollection<E> initialElements)
         {
             foreach (E element in initialElements)
             {
@@ -162,7 +163,7 @@ namespace tvn.cosine.ai.util
             // is not exposed outside of this class.
             // This also ensures the internal logic cannot
             // be corrupted externally due to changing sets.
-            return Factory.CreateSet<E>(elementToSet.Get(element));
+            return CollectionFactory.CreateSet<E>(elementToSet.Get(element));
         }
 
         /**
@@ -176,10 +177,10 @@ namespace tvn.cosine.ai.util
             // is not exposed outside of this class.
             // This also ensures the internal logic cannot
             // be corrupted externally due to changing sets.
-            IMap<E, ISet<E>> result = Factory.CreateInsertionOrderedMap<E, ISet<E>>();
+            IMap<E, ISet<E>> result = CollectionFactory.CreateInsertionOrderedMap<E, ISet<E>>();
             foreach (KeyValuePair<E, ISet<E>> entry in elementToSet)
             {
-                result.Put(entry.GetKey(), Factory.CreateSet<E>(entry.GetValue()));
+                result.Put(entry.GetKey(), CollectionFactory.CreateSet<E>(entry.GetValue()));
             }
             return result;
         }
@@ -194,9 +195,9 @@ namespace tvn.cosine.ai.util
             // is not exposed outside of this class.
             // This also ensures the internal logic cannot
             // be corrupted externally due to changing sets.
-            ISet<ISet<E>> result = Factory.CreateSet<ISet<E>>();
+            ISet<ISet<E>> result = CollectionFactory.CreateSet<ISet<E>>();
             foreach (ISet<E> disjointSet in disjointSets)
-                result.Add(Factory.CreateSet<E>(disjointSet));
+                result.Add(CollectionFactory.CreateSet<E>(disjointSet));
             return result;
         }
 

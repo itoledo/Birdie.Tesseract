@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.propositional.kb;
 using tvn.cosine.ai.logic.propositional.kb.data;
@@ -75,7 +76,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             IMap<PropositionSymbol, bool?> inferred = initializeInferred(kb);
             // agenda <- a queue of symbols, initially symbols known to be true in
             // KB
-            IQueue<PropositionSymbol> agenda = initializeAgenda(count);
+            ICollection<PropositionSymbol> agenda = initializeAgenda(count);
             // Note: an index for p to the clauses where p appears in the premise
             IMap<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = initializeIndex(count, inferred);
 
@@ -116,7 +117,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         {
             // count <- a table, where count[c] is the number of symbols in c's
             // premise
-            IMap<Clause, int> count = Factory.CreateInsertionOrderedMap<Clause, int>();
+            IMap<Clause, int> count = CollectionFactory.CreateInsertionOrderedMap<Clause, int>();
 
             ISet<Clause> clauses = ConvertToConjunctionOfClauses.convert(kb.asSentence()).getClauses();
             foreach (Clause c in clauses)
@@ -136,7 +137,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         {
             // inferred <- a table, where inferred[s] is initially false for all
             // symbols
-            IMap<PropositionSymbol, bool?> inferred = Factory.CreateInsertionOrderedMap<PropositionSymbol, bool?>();
+            IMap<PropositionSymbol, bool?> inferred = CollectionFactory.CreateInsertionOrderedMap<PropositionSymbol, bool?>();
             foreach (PropositionSymbol p in SymbolCollector.getSymbolsFrom(kb.asSentence()))
             {
                 inferred.Put(p, false);
@@ -146,10 +147,10 @@ namespace tvn.cosine.ai.logic.propositional.inference
 
         // Note: at the point of calling this routine, count will contain all the
         // clauses in KB.
-        protected IQueue<PropositionSymbol> initializeAgenda(IMap<Clause, int> count)
+        protected ICollection<PropositionSymbol> initializeAgenda(IMap<Clause, int> count)
         {
             // agenda <- a queue of symbols, initially symbols known to be true in KB
-            IQueue<PropositionSymbol> agenda = Factory.CreateQueue<PropositionSymbol>();
+            ICollection<PropositionSymbol> agenda = CollectionFactory.CreateQueue<PropositionSymbol>();
             foreach (Clause c in count.GetKeys())
             {
                 // No premise just a conclusion, then we know its true
@@ -165,10 +166,10 @@ namespace tvn.cosine.ai.logic.propositional.inference
         // clauses in KB while inferred will contain all the proposition symbols.
         protected IMap<PropositionSymbol, ISet<Clause>> initializeIndex(IMap<Clause, int> count, IMap<PropositionSymbol, bool?> inferred)
         {
-            IMap<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = Factory.CreateInsertionOrderedMap<PropositionSymbol, ISet<Clause>>();
+            IMap<PropositionSymbol, ISet<Clause>> pToClausesWithPInPremise = CollectionFactory.CreateInsertionOrderedMap<PropositionSymbol, ISet<Clause>>();
             foreach (PropositionSymbol p in inferred.GetKeys())
             {
-                ISet<Clause> clausesWithPInPremise = Factory.CreateSet<Clause>();
+                ISet<Clause> clausesWithPInPremise = CollectionFactory.CreateSet<Clause>();
                 foreach (Clause c in count.GetKeys())
                 {
                     // Note: The negative symbols comprise the premise

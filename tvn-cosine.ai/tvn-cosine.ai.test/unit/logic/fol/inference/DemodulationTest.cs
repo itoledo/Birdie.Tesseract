@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.inference;
 using tvn.cosine.ai.logic.fol.kb.data;
@@ -108,7 +109,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
 
             FOLParser parser = new FOLParser(domain);
 
-            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> lits = CollectionFactory.CreateQueue<Literal>();
             Predicate p1 = (Predicate)parser.parse("Q(z, G(D,B))");
             Predicate p2 = (Predicate)parser.parse("P(x, G(A,C))");
             Predicate p3 = (Predicate)parser.parse("W(z,x,u,w,y)");
@@ -143,7 +144,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
 
             FOLParser parser = new FOLParser(domain);
 
-            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> lits = CollectionFactory.CreateQueue<Literal>();
             Predicate p1 = (Predicate)parser.parse("P(y, F(A,y))");
             lits.Add(new Literal(p1));
 
@@ -168,7 +169,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.inference
 
             FOLParser parser = new FOLParser(domain);
 
-            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> lits = CollectionFactory.CreateQueue<Literal>();
             Predicate p1 = (Predicate)parser.parse("P(y, F(A,y))");
             lits.Add(new Literal(p1));
 

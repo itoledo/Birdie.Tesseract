@@ -1,5 +1,6 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.nlp.ranking
@@ -58,10 +59,10 @@ namespace tvn.cosine.ai.nlp.ranking
         { }
 
         // function HITS(query) returns pages with hub and authority number
-        public IQueue<Page> hits(string query)
+        public ICollection<Page> hits(string query)
         {
             // pages <- EXPAND-PAGES(RELEVANT-PAGES(query))
-            IQueue<Page> pages = expandPages(relevantPages(query));
+            ICollection<Page> pages = expandPages(relevantPages(query));
             // for each p in pages
             foreach (Page p in pages)
             {
@@ -95,9 +96,9 @@ namespace tvn.cosine.ai.nlp.ranking
          * @return
          * @throws UnsupportedEncodingException
          */
-        public IQueue<Page> relevantPages(string query)
+        public ICollection<Page> relevantPages(string query)
         {
-            IQueue<Page> relevantPages = Factory.CreateQueue<Page>();
+            ICollection<Page> relevantPages = CollectionFactory.CreateQueue<Page>();
             foreach (Page p in pTable.GetValues())
             {
                 if (matches(query, p.getContent()))
@@ -127,20 +128,20 @@ namespace tvn.cosine.ai.nlp.ranking
          * @param pages
          * @return
          */
-        public IQueue<Page> expandPages(IQueue<Page> pages)
+        public ICollection<Page> expandPages(ICollection<Page> pages)
         {
 
-            IQueue<Page> expandedPages = Factory.CreateQueue<Page>();
-            ISet<string> inAndOutLinks = Factory.CreateSet<string>();
+            ICollection<Page> expandedPages = CollectionFactory.CreateQueue<Page>();
+            ISet<string> inAndOutLinks = CollectionFactory.CreateSet<string>();
             // Go through all pages an build a list of string links
             foreach (Page currP in pages)
             {
                 if (!expandedPages.Contains(currP))
                     expandedPages.Add(currP);
-                IQueue<string> currInlinks = currP.getInlinks();
+                ICollection<string> currInlinks = currP.getInlinks();
                 foreach (string currInlink in currInlinks)
                     inAndOutLinks.Add(currInlink);
-                IQueue<string> currOutlinks = currP.getOutlinks();
+                ICollection<string> currOutlinks = currP.getOutlinks();
                 foreach (string currOutlink in currOutlinks)
                     inAndOutLinks.Add(currOutlink);
             }
@@ -167,7 +168,7 @@ namespace tvn.cosine.ai.nlp.ranking
          * @param pages
          * @return
          */
-        public IQueue<Page> normalize(IQueue<Page> pages)
+        public ICollection<Page> normalize(ICollection<Page> pages)
         {
             double hubTotal = 0;
             double authTotal = 0;
@@ -211,7 +212,7 @@ namespace tvn.cosine.ai.nlp.ranking
          */
         public double SumInlinkHubScore(Page page)
         {
-            IQueue<string> inLinks = page.getInlinks();
+            ICollection<string> inLinks = page.getInlinks();
             double hubScore = 0;
             foreach (string inLink1 in inLinks)
             {
@@ -233,7 +234,7 @@ namespace tvn.cosine.ai.nlp.ranking
          */
         public double SumOutlinkAuthorityScore(Page page)
         {
-            IQueue<string> outLinks = page.getOutlinks();
+            ICollection<string> outLinks = page.getOutlinks();
             double authScore = 0;
             foreach (string outLink1 in outLinks)
             {
@@ -250,7 +251,7 @@ namespace tvn.cosine.ai.nlp.ranking
          * 
          * @return
          */
-        private bool convergence(IQueue<Page> pages)
+        private bool convergence(ICollection<Page> pages)
         {
             double aveHubDelta = 100;
             double aveAuthDelta = 100;
@@ -320,7 +321,7 @@ namespace tvn.cosine.ai.nlp.ranking
          * @param pageTable
          * @return
          */
-        public Page getMaxHub(IQueue<Page> result)
+        public Page getMaxHub(ICollection<Page> result)
         {
             Page maxHub = null;
             foreach (Page currPage in result)
@@ -337,7 +338,7 @@ namespace tvn.cosine.ai.nlp.ranking
          * @param pageTable
          * @return
          */
-        public Page getMaxAuthority(IQueue<Page> result)
+        public Page getMaxAuthority(ICollection<Page> result)
         {
             Page maxAuthority = null;
             foreach (Page currPage in result)
@@ -369,7 +370,7 @@ namespace tvn.cosine.ai.nlp.ranking
             }
         }
 
-        public void sortHub(IQueue<Page> result)
+        public void sortHub(ICollection<Page> result)
         {
             result.Sort(new SortHubSorter());
         }
@@ -395,7 +396,7 @@ namespace tvn.cosine.ai.nlp.ranking
          * 
          * @param result
          */
-        public void sortAuthority(IQueue<Page> result)
+        public void sortAuthority(ICollection<Page> result)
         {
             result.Sort(new SortAuthoritySorter());
         }
@@ -405,7 +406,7 @@ namespace tvn.cosine.ai.nlp.ranking
          * 
          * @param result
          */
-        public void report(IQueue<Page> result)
+        public void report(ICollection<Page> result)
         {
 
             // Print Pages out ranked by highest authority

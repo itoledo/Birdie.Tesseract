@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.bayes;
 using tvn.cosine.ai.probability.domain;
@@ -221,7 +222,7 @@ namespace tvn.cosine.ai.probability.util
              * probabilities. 
              */
             //Copy contents of event to generatedEvent so as to leave event untouched
-            IMap<RandomVariable, object> generatedEvent = Factory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IMap<RandomVariable, object> generatedEvent = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
             foreach (var entry in even)
             {
                 generatedEvent.Put(entry.GetKey(), entry.GetValue());

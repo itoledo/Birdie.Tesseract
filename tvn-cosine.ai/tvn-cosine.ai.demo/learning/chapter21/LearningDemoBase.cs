@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.learning.reinforcement.agent;
@@ -32,11 +34,11 @@ namespace tvn_cosine.ai.demo.learning.chapter21
 
             cwe.AddAgent(reinforcementAgent);
 
-            IMap<int, IQueue<IMap<Cell<double>, double>>> runs = Factory.CreateInsertionOrderedMap<int, IQueue<IMap<Cell<double>, double>>>();
+            IMap<int, ICollection<IMap<Cell<double>, double>>> runs = CollectionFactory.CreateInsertionOrderedMap<int, ICollection<IMap<Cell<double>, double>>>();
             for (int r = 0; r < numRuns; r++)
             {
                 reinforcementAgent.reset();
-                IQueue<IMap<Cell<double>, double>> trials = Factory.CreateQueue<IMap<Cell<double>, double>>();
+                ICollection<IMap<Cell<double>, double>> trials = CollectionFactory.CreateQueue<IMap<Cell<double>, double>>();
                 for (int t = 0; t < numTrialsPerRun; t++)
                 {
                     cwe.executeTrial();

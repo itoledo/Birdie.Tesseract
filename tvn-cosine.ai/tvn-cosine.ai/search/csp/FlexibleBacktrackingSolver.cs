@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.csp.inference;
 
 namespace tvn.cosine.ai.search.csp
@@ -84,7 +85,7 @@ namespace tvn.cosine.ai.search.csp
 
         protected override VAR selectUnassignedVariable(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment)
         {
-            IQueue<VAR> vars = Factory.CreateQueue<VAR>();
+            ICollection<VAR> vars = CollectionFactory.CreateQueue<VAR>();
             foreach (var v in csp.getVariables())
             {
                 if (!assignment.contains(v))

@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.framework.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.learners
@@ -10,7 +12,7 @@ namespace tvn.cosine.ai.learning.learners
 
         public void train(DataSet ds)
         {
-            IQueue<string> targets = Factory.CreateQueue<string>();
+            ICollection<string> targets = CollectionFactory.CreateQueue<string>();
             foreach (Example e in ds.examples)
             {
                 targets.Add(e.targetValue());

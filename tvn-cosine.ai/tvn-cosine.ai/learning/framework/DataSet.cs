@@ -1,5 +1,6 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.framework
@@ -9,13 +10,13 @@ namespace tvn.cosine.ai.learning.framework
         protected DataSet()
         { }
 
-        public IQueue<Example> examples;
+        public ICollection<Example> examples;
 
         public DataSetSpecification specification;
 
         public DataSet(DataSetSpecification spec)
         {
-            examples = Factory.CreateQueue<Example>();
+            examples = CollectionFactory.CreateQueue<Example>();
             this.specification = spec;
         }
 
@@ -50,7 +51,7 @@ namespace tvn.cosine.ai.learning.framework
         public double getInformationFor()
         {
             string attributeName = specification.getTarget();
-            IMap<string, int> counts = Factory.CreateInsertionOrderedMap<string, int>();
+            IMap<string, int> counts = CollectionFactory.CreateInsertionOrderedMap<string, int>();
             foreach (Example e in examples)
             {
                 string val = e.getAttributeValueAsString(attributeName);
@@ -78,7 +79,7 @@ namespace tvn.cosine.ai.learning.framework
 
         public IMap<string, DataSet> splitByAttribute(string attributeName)
         {
-            IMap<string, DataSet> results = Factory.CreateInsertionOrderedMap<string, DataSet>();
+            IMap<string, DataSet> results = CollectionFactory.CreateInsertionOrderedMap<string, DataSet>();
             foreach (Example e in examples)
             {
                 string val = e.getAttributeValueAsString(attributeName);
@@ -139,7 +140,7 @@ namespace tvn.cosine.ai.learning.framework
             return ds;
         }
 
-        public IQueue<string> getAttributeNames()
+        public ICollection<string> getAttributeNames()
         {
             return specification.getAttributeNames();
         }
@@ -164,7 +165,7 @@ namespace tvn.cosine.ai.learning.framework
             this.specification = specification;
         }
 
-        public IQueue<string> getPossibleAttributeValues(string attributeName)
+        public ICollection<string> getPossibleAttributeValues(string attributeName)
         {
             return specification.getPossibleAttributeValues(attributeName);
         }
@@ -182,7 +183,7 @@ namespace tvn.cosine.ai.learning.framework
             return ds;
         }
 
-        public IQueue<string> getNonTargetAttributes()
+        public ICollection<string> getNonTargetAttributes()
         {
             return Util.removeFrom(getAttributeNames(), getTargetAttributeName());
         }

@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
@@ -59,20 +61,20 @@ namespace tvn.cosine.ai.search.local
         protected Metrics metrics = new Metrics();
         //
         protected int individualLength;
-        protected IQueue<A> finiteAlphabet;
+        protected ICollection<A> finiteAlphabet;
         protected double mutationProbability;
 
         protected IRandom random;
-        private IQueue<ProgressTracker> progressTrackers = Factory.CreateQueue<ProgressTracker>();
+        private ICollection<ProgressTracker> progressTrackers = CollectionFactory.CreateQueue<ProgressTracker>();
 
-        public GeneticAlgorithm(int individualLength, IQueue<A> finiteAlphabet, double mutationProbability)
+        public GeneticAlgorithm(int individualLength, ICollection<A> finiteAlphabet, double mutationProbability)
             : this(individualLength, finiteAlphabet, mutationProbability, new DefaultRandom())
         { }
 
-        public GeneticAlgorithm(int individualLength, IQueue<A> finiteAlphabet, double mutationProbability, IRandom random)
+        public GeneticAlgorithm(int individualLength, ICollection<A> finiteAlphabet, double mutationProbability, IRandom random)
         {
             this.individualLength = individualLength;
-            this.finiteAlphabet = Factory.CreateQueue<A>(finiteAlphabet);
+            this.finiteAlphabet = CollectionFactory.CreateQueue<A>(finiteAlphabet);
             this.mutationProbability = mutationProbability;
             this.random = random;
 
@@ -92,7 +94,7 @@ namespace tvn.cosine.ai.search.local
          * Starts the genetic algorithm and stops after a specified number of
          * iterations.
          */
-        public virtual Individual<A> geneticAlgorithm(IQueue<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn, int maxIterations)
+        public virtual Individual<A> geneticAlgorithm(ICollection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn, int maxIterations)
         {
             GoalTest<Individual<A>> goalTest = (state) => getIterations() >= maxIterations;
             return geneticAlgorithm(initPopulation, fitnessFn, goalTest, 0L);
@@ -131,13 +133,13 @@ namespace tvn.cosine.ai.search.local
         // function GENETIC-ALGORITHM(population, FITNESS-FN) returns an individual
         // inputs: population, a set of individuals
         // FITNESS-FN, a function that measures the fitness of an individual
-        public virtual Individual<A> geneticAlgorithm(IQueue<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn,
+        public virtual Individual<A> geneticAlgorithm(ICollection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn,
                 GoalTest<Individual<A>> goalTest, long maxTimeMilliseconds)
         {
             Individual<A> bestIndividual = null;
 
             // Create a local copy of the population to work with
-            IQueue<Individual<A>> population = Factory.CreateQueue<Individual<A>>(initPopulation);
+            ICollection<Individual<A>> population = CollectionFactory.CreateQueue<Individual<A>>(initPopulation);
             // Validate the population and setup the instrumentation
             validatePopulation(population);
             updateMetrics(population, 0, 0L);
@@ -165,7 +167,7 @@ namespace tvn.cosine.ai.search.local
             return bestIndividual;
         }
 
-        public virtual Individual<A> retrieveBestIndividual(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        public virtual Individual<A> retrieveBestIndividual(ICollection<Individual<A>> population, FitnessFunction<A> fitnessFn)
         {
             Individual<A> bestIndividual = null;
             double bestSoFarFValue = double.NegativeInfinity;
@@ -188,7 +190,7 @@ namespace tvn.cosine.ai.search.local
          */
         public virtual void clearInstrumentation()
         {
-            updateMetrics(Factory.CreateQueue<Individual<A>>(), 0, 0L);
+            updateMetrics(CollectionFactory.CreateQueue<Individual<A>>(), 0, 0L);
         }
 
         /**
@@ -238,7 +240,7 @@ namespace tvn.cosine.ai.search.local
          * @param time
          *            the time in milliseconds that the genetic algorithm took.
          */
-        protected virtual void updateMetrics(IQueue<Individual<A>> population, int itCount, long time)
+        protected virtual void updateMetrics(ICollection<Individual<A>> population, int itCount, long time)
         {
             metrics.set(POPULATION_SIZE, population.Size());
             metrics.set(ITERATIONS, itCount);
@@ -255,10 +257,10 @@ namespace tvn.cosine.ai.search.local
          * Primitive operation which is responsible for creating the next
          * generation. Override to get progress information!
          */
-        protected virtual IQueue<Individual<A>> nextGeneration(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        protected virtual ICollection<Individual<A>> nextGeneration(ICollection<Individual<A>> population, FitnessFunction<A> fitnessFn)
         {
             // new_population <- empty set
-            IQueue<Individual<A>> newPopulation = Factory.CreateQueue<Individual<A>>();
+            ICollection<Individual<A>> newPopulation = CollectionFactory.CreateQueue<Individual<A>>();
             // for i = 1 to SIZE(population) do
             for (int i = 0; i < population.Size();++i)
             {
@@ -281,7 +283,7 @@ namespace tvn.cosine.ai.search.local
         }
 
         // RANDOM-SELECTION(population, FITNESS-FN)
-        protected virtual Individual<A> randomSelection(IQueue<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        protected virtual Individual<A> randomSelection(ICollection<Individual<A>> population, FitnessFunction<A> fitnessFn)
         {
             // Default result is last individual
             // (just to avoid problems with rounding errors)
@@ -322,7 +324,7 @@ namespace tvn.cosine.ai.search.local
             // c <- random number from 1 to n
             int c = randomOffset(individualLength);
             // return APPEND(SUBSTRING(x, 1, c), SUBSTRING(y, c+1, n))
-            IQueue<A> childRepresentation = Factory.CreateQueue<A>();
+            ICollection<A> childRepresentation = CollectionFactory.CreateQueue<A>();
             childRepresentation.AddAll(x.getRepresentation().subList(0, c));
             childRepresentation.AddAll(y.getRepresentation().subList(c, individualLength));
 
@@ -334,7 +336,7 @@ namespace tvn.cosine.ai.search.local
             int mutateOffset = randomOffset(individualLength);
             int alphaOffset = randomOffset(finiteAlphabet.Size());
 
-            IQueue<A> mutatedRepresentation = Factory.CreateQueue<A>(child.getRepresentation());
+            ICollection<A> mutatedRepresentation = CollectionFactory.CreateQueue<A>(child.getRepresentation());
 
             mutatedRepresentation.Set(mutateOffset, finiteAlphabet.Get(alphaOffset));
 
@@ -346,7 +348,7 @@ namespace tvn.cosine.ai.search.local
             return random.Next(length);
         }
 
-        protected virtual void validatePopulation(IQueue<Individual<A>> population)
+        protected virtual void validatePopulation(ICollection<Individual<A>> population)
         {
             // Require at least 1 individual in population in order
             // for algorithm to work
@@ -366,7 +368,7 @@ namespace tvn.cosine.ai.search.local
             }
         }
 
-        private void notifyProgressTrackers(int itCount, IQueue<Individual<A>> generation)
+        private void notifyProgressTrackers(int itCount, ICollection<Individual<A>> generation)
         {
             foreach (ProgressTracker tracer in progressTrackers)
                 tracer.trackProgress(getIterations(), generation);
@@ -379,7 +381,7 @@ namespace tvn.cosine.ai.search.local
          */
         public interface ProgressTracker 
         {
-            void trackProgress(int itCount, IQueue<Individual<A>> population);
+            void trackProgress(int itCount, ICollection<Individual<A>> population);
         }
     }
 }

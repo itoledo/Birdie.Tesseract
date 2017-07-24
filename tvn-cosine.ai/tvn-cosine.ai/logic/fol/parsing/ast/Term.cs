@@ -1,10 +1,10 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
     public interface Term : FOLNode
     {
-        new IQueue<Term> getArgs();
+        new ICollection<Term> getArgs();
 
         new Term copy();
     }

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.parsing;
@@ -17,7 +18,7 @@ namespace tvn_cosine.ai.demo.logic.fol
         {
             FOLParser parser = new FOLParser(DomainFactory.knowsDomain());
             Unifier unifier = new Unifier();
-            IMap<Variable, Term> theta = Factory.CreateInsertionOrderedMap<Variable, Term>();
+            IMap<Variable, Term> theta = CollectionFactory.CreateInsertionOrderedMap<Variable, Term>();
 
             Sentence query = parser.parse("Knows(John,x)");
             Sentence johnKnowsJane = parser.parse("Knows(y,Mother(y))");

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.propositional.kb;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
@@ -67,12 +68,12 @@ namespace tvn.cosine.ai.logic.propositional.inference
             // of KB & ~alpha
             ISet<Clause> clauses = setOfClausesInTheCNFRepresentationOfKBAndNotAlpha(kb, alpha);
             // new <- {}
-            ISet<Clause> newClauses = Factory.CreateSet<Clause>();
+            ISet<Clause> newClauses = CollectionFactory.CreateSet<Clause>();
             // loop do
             do
             {
                 // for each pair of clauses C_i, C_j in clauses do
-                IQueue<Clause> clausesAsList = Factory.CreateQueue<Clause>(clauses);
+                ICollection<Clause> clausesAsList = CollectionFactory.CreateQueue<Clause>(clauses);
                 for (int i = 0; i < clausesAsList.Size() - 1;++i)
                 {
                     Clause ci = clausesAsList.Get(i);
@@ -115,7 +116,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          */
         public ISet<Clause> plResolve(Clause ci, Clause cj)
         {
-            ISet<Clause> resolvents = Factory.CreateSet<Clause>();
+            ISet<Clause> resolvents = CollectionFactory.CreateSet<Clause>();
 
             // The complementary positive literals from C_i
             resolvePositiveWithNegative(ci, cj, resolvents);
@@ -173,7 +174,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             Sentence isContradiction = new ComplexSentence(Connective.AND,
                     kb.asSentence(), new ComplexSentence(Connective.NOT, alpha));
             // the set of clauses in the CNF representation
-            ISet<Clause> clauses = Factory.CreateSet<Clause>(ConvertToConjunctionOfClauses.convert(isContradiction).getClauses());
+            ISet<Clause> clauses = CollectionFactory.CreateSet<Clause>(ConvertToConjunctionOfClauses.convert(isContradiction).getClauses());
 
             discardTautologies(clauses);
 
@@ -188,7 +189,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             // Construct a resolvent clause for each complement found
             foreach (PropositionSymbol complement in complementary)
             {
-                IQueue<Literal> resolventLiterals = Factory.CreateQueue<Literal>();
+                ICollection<Literal> resolventLiterals = CollectionFactory.CreateQueue<Literal>();
                 // Retrieve the literals from c1 that are not the complement
                 foreach (Literal c1l in c1.getLiterals())
                 {
@@ -222,7 +223,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         {
             if (isDiscardTautologies())
             {
-                ISet<Clause> toDiscard = Factory.CreateSet<Clause>();
+                ISet<Clause> toDiscard = CollectionFactory.CreateSet<Clause>();
                 foreach (Clause c in clauses)
                 {
                     if (c.isTautology().Value)

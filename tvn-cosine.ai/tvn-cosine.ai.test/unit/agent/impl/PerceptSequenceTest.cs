@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.collections;
 
 namespace tvn_cosine.ai.test.unit.agent.impl
@@ -12,7 +13,7 @@ namespace tvn_cosine.ai.test.unit.agent.impl
         [TestMethod]
         public void testToString()
         {
-            IQueue<IPercept> ps = Factory.CreateQueue<IPercept>();
+            ICollection<IPercept> ps = CollectionFactory.CreateQueue<IPercept>();
             ps.Add(new DynamicPercept("key1", "value1"));
 
             Assert.AreEqual("[Percept[key1==value1]]", ps.ToString());
@@ -27,8 +28,8 @@ namespace tvn_cosine.ai.test.unit.agent.impl
         [TestMethod]
         public void testEquals()
         {
-            IQueue<IPercept> ps1 = Factory.CreateQueue<IPercept>();
-            IQueue<IPercept> ps2 = Factory.CreateQueue<IPercept>();
+            ICollection<IPercept> ps1 = CollectionFactory.CreateQueue<IPercept>();
+            ICollection<IPercept> ps2 = CollectionFactory.CreateQueue<IPercept>();
 
             Assert.AreEqual(ps1, ps2);
 

@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.agentprogram;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.environment.vacuum
@@ -23,15 +24,15 @@ namespace tvn.cosine.ai.environment.vacuum
         //
         // PRIVATE METHODS
         //
-        private static IMap<IQueue<IPercept>, IAction> getPerceptSequenceActions()
+        private static IMap<ICollection<IPercept>, IAction> getPerceptSequenceActions()
         {
-            IMap<IQueue<IPercept>, IAction> perceptSequenceActions
-                = Factory.CreateInsertionOrderedMap<IQueue<IPercept>, IAction>();
+            IMap<ICollection<IPercept>, IAction> perceptSequenceActions
+                = CollectionFactory.CreateInsertionOrderedMap<ICollection<IPercept>, IAction>();
 
             // NOTE: While this particular table could be setup simply
             // using a few loops, the intent is to show how quickly a table
             // based approach grows and becomes unusable.
-            IQueue<IPercept> ps;
+            ICollection<IPercept> ps;
             //
             // Level 1: 4 states
             ps = createPerceptSequence(new LocalVacuumEnvironmentPercept(
@@ -692,9 +693,9 @@ namespace tvn.cosine.ai.environment.vacuum
             return perceptSequenceActions;
         }
 
-        private static IQueue<IPercept> createPerceptSequence(params IPercept[] percepts)
+        private static ICollection<IPercept> createPerceptSequence(params IPercept[] percepts)
         {
-            IQueue<IPercept> perceptSequence = Factory.CreateQueue<IPercept>();
+            ICollection<IPercept> perceptSequence = CollectionFactory.CreateQueue<IPercept>();
 
             foreach (IPercept p in percepts)
             {

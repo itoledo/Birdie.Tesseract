@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.search.framework.qsearch
@@ -39,7 +40,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
      */
     public class GraphSearch<S, A> : QueueSearch<S, A>
     {
-        private ISet<S> explored = Factory.CreateSet<S>();
+        private ISet<S> explored = CollectionFactory.CreateSet<S>();
 
         public GraphSearch()
             : this(new NodeExpander<S, A>())
@@ -54,7 +55,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * {@link QueueSearch}.
          */
 
-        public override Node<S, A> findNode(Problem<S, A> problem, IQueue<Node<S, A>> frontier)
+        public override Node<S, A> findNode(Problem<S, A> problem, ICollection<Node<S, A>> frontier)
         {
             // initialize the explored set to be empty
             explored.Clear();

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.nondeterministic
 {
@@ -8,7 +9,7 @@ namespace tvn.cosine.ai.search.nondeterministic
      * 
      * @author Andrew Brown
      */
-    public class Path : Queue<object>
+    public class Path : List<object>
     {
         /**
          * Creating a new path based on this path and the passed in appended states.

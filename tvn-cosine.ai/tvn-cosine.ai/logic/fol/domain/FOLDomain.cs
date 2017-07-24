@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.logic.fol.domain
 {
@@ -8,13 +9,13 @@ namespace tvn.cosine.ai.logic.fol.domain
         private int skolemConstantIndexical = 0;
         private int skolemFunctionIndexical = 0;
         private int answerLiteralIndexical = 0;
-        private IQueue<FOLDomainListener> listeners = Factory.CreateQueue<FOLDomainListener>();
+        private ICollection<FOLDomainListener> listeners = CollectionFactory.CreateQueue<FOLDomainListener>();
 
         public FOLDomain()
         {
-            this.constants = Factory.CreateSet<string>();
-            this.functions = Factory.CreateSet<string>();
-            this.predicates = Factory.CreateSet<string>();
+            this.constants = CollectionFactory.CreateSet<string>();
+            this.functions = CollectionFactory.CreateSet<string>();
+            this.predicates = CollectionFactory.CreateSet<string>();
         }
 
         public FOLDomain(FOLDomain toCopy)
@@ -23,9 +24,9 @@ namespace tvn.cosine.ai.logic.fol.domain
 
         public FOLDomain(ISet<string> constants, ISet<string> functions, ISet<string> predicates)
         {
-            this.constants = Factory.CreateSet<string>(constants);
-            this.functions = Factory.CreateSet<string>(functions);
-            this.predicates = Factory.CreateSet<string>(predicates);
+            this.constants = CollectionFactory.CreateSet<string>(constants);
+            this.functions = CollectionFactory.CreateSet<string>(functions);
+            this.predicates = CollectionFactory.CreateSet<string>(predicates);
         }
 
         public ISet<string> getConstants()

@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
 
@@ -48,7 +49,7 @@ namespace tvn.cosine.ai.search.uninformed
         // function ITERATIVE-DEEPENING-SEARCH(problem) returns a solution, or
         // failure
 
-        public IQueue<A> findActions(Problem<S, A> p)
+        public ICollection<A> findActions(Problem<S, A> p)
         {
             nodeExpander.useParentLinks(true);
             return SearchUtils.toActions(findNode(p));

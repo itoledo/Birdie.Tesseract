@@ -1,5 +1,6 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.util;
@@ -52,7 +53,7 @@ namespace tvn.cosine.ai.search.informed
          *            node.
          */
         public BestFirstSearch(QueueSearch<S, A> impl, ToDoubleFunction<Node<S, A>> evalFn)
-            : base(impl, Factory.CreatePriorityQueue<Node<S, A>>(new BestFirstSearchComparer(evalFn)))
+            : base(impl, CollectionFactory.CreatePriorityQueue<Node<S, A>>(new BestFirstSearchComparer(evalFn)))
         {
             this.evalFn = evalFn;
         }

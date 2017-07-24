@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.util;
 using tvn.cosine.ai.util.math.geom.shapes;
@@ -31,7 +32,7 @@ namespace tvn.cosine.ai.environment.map
         public ExtendableMap()
         {
             links = new LabeledGraph<string, double?>();
-            locationPositions = Factory.CreateInsertionOrderedMap<string, Point2D>();
+            locationPositions = CollectionFactory.CreateInsertionOrderedMap<string, Point2D>();
         }
 
         /** Removes everything. */
@@ -48,7 +49,7 @@ namespace tvn.cosine.ai.environment.map
         }
 
         /** Returns a list of all locations. */
-        public IQueue<string> getLocations()
+        public ICollection<string> getLocations()
         {
             return links.getVertexLabels();
         }
@@ -63,10 +64,10 @@ namespace tvn.cosine.ai.environment.map
          * Answers to the question: Where can I get, following one of the
          * connections starting at the specified location?
          */
-        public IQueue<string> getPossibleNextLocations(string location)
+        public ICollection<string> getPossibleNextLocations(string location)
         {
-            IQueue<string> result = links.getSuccessors(location);
-            result.Sort(new Queue<string>.Comparer());
+            ICollection<string> result = links.getSuccessors(location);
+            result.Sort(new List<string>.Comparer());
             return result;
         }
 
@@ -76,7 +77,7 @@ namespace tvn.cosine.ai.environment.map
          * {@link #getPossibleNextLocations(string )} as the underlying graph structure
          * cannot be traversed efficiently in reverse order.
          */
-        public  IQueue<string> getPossiblePrevLocations(string  location)
+        public  ICollection<string> getPossiblePrevLocations(string  location)
         {
             return getPossibleNextLocations(location);
         }

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util.math;
 
@@ -67,7 +68,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
         private Matrix B = null;
         // e<sub>t-d:t</sub>, double-ended list of evidence from t-d to t, initially
         // empty
-        private IQueue<Matrix> e_tmd_to_t = Factory.CreateQueue<Matrix>();
+        private ICollection<Matrix> e_tmd_to_t = CollectionFactory.CreateQueue<Matrix>();
         // a hidden Markov model with S * S transition matrix <b>T</b>
         private HiddenMarkovModel hmm = null;
         // d, the length of the lag for smoothing
@@ -100,7 +101,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
          *            the current evidence from time step t
          * @return a distribution over <b>X</b><sub>t-d</sub>
          */
-        public CategoricalDistribution fixedLagSmoothing(IQueue<AssignmentProposition> et)
+        public CategoricalDistribution fixedLagSmoothing(ICollection<AssignmentProposition> et)
         {
             // local variables: <b>O</b><sub>t-d</sub>, <b>O</b><sub>t</sub>,
             // diagonal matrices containing the sensor model information

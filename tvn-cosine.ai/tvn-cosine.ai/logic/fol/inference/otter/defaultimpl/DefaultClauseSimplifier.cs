@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
@@ -7,12 +8,12 @@ namespace tvn.cosine.ai.logic.fol.inference.otter.defaultimpl
     public class DefaultClauseSimplifier : ClauseSimplifier
     {
         private Demodulation demodulation = new Demodulation();
-        private IQueue<TermEquality> rewrites = Factory.CreateQueue<TermEquality>();
+        private ICollection<TermEquality> rewrites = CollectionFactory.CreateQueue<TermEquality>();
 
         public DefaultClauseSimplifier()
         { }
 
-        public DefaultClauseSimplifier(IQueue<TermEquality> rewrites)
+        public DefaultClauseSimplifier(ICollection<TermEquality> rewrites)
         {
             this.rewrites.AddAll(rewrites);
         }

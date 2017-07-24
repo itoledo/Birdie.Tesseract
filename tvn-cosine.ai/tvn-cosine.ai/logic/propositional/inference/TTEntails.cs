@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.propositional.kb;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
@@ -60,7 +61,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
         public bool ttEntails(KnowledgeBase kb, Sentence alpha)
         {
             // symbols <- a list of proposition symbols in KB and &alpha
-            IQueue<PropositionSymbol> symbols = Factory.CreateQueue<PropositionSymbol>(SymbolCollector.getSymbolsFrom(kb.asSentence(), alpha));
+            ICollection<PropositionSymbol> symbols = CollectionFactory.CreateQueue<PropositionSymbol>(SymbolCollector.getSymbolsFrom(kb.asSentence(), alpha));
 
             // return TT-CHECK-ALL(KB, &alpha; symbols, {})
             return ttCheckAll(kb, alpha, symbols, new Model());
@@ -82,7 +83,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
          *            query.
          * @return true if KB entails &alpha;, false otherwise.
          */
-        public bool ttCheckAll(KnowledgeBase kb, Sentence alpha, IQueue<PropositionSymbol> symbols, Model model)
+        public bool ttCheckAll(KnowledgeBase kb, Sentence alpha, ICollection<PropositionSymbol> symbols, Model model)
         {
             // if EMPTY?(symbols) then
             if (symbols.IsEmpty())
@@ -103,7 +104,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             // P <- FIRST(symbols)
             PropositionSymbol p = Util.first(symbols);
             // rest <- REST(symbols)
-            IQueue<PropositionSymbol> rest = Util.rest(symbols);
+            ICollection<PropositionSymbol> rest = Util.rest(symbols);
             // return (TT-CHECK-ALL(KB, &alpha;, rest, model &cup; { P = true })
             // and
             // TT-CHECK-ALL(KB, &alpha;, rest, model U { P = false }))

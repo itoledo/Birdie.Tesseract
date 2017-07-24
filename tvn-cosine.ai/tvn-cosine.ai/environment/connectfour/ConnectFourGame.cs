@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.search.adversarial;
 
@@ -61,9 +62,9 @@ namespace tvn.cosine.ai.environment.connectfour
             throw new IllegalArgumentException("Wrong player number.");
         }
 
-        public   IQueue<int> getActions(ConnectFourState state)
+        public   ICollection<int> getActions(ConnectFourState state)
         {
-            IQueue<int> result = Factory.CreateQueue<int>();
+            ICollection<int> result = CollectionFactory.CreateQueue<int>();
             for (int i = 0; i < state.getCols();++i)
                 if (state.getPlayerNum(0, i) == 0)
                     result.Add(i);

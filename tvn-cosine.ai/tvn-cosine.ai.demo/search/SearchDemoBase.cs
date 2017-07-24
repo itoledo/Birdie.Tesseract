@@ -1,5 +1,5 @@
 ﻿using tvn.cosine.ai.agent.api; 
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.util;
 
 namespace tvn_cosine.ai.demo.search
@@ -16,7 +16,7 @@ namespace tvn_cosine.ai.demo.search
             } 
         }
 
-        protected static void printActions(IQueue<IAction> actions)
+        protected static void printActions(ICollection<IAction> actions)
         {
             foreach (IAction action in actions)
             {

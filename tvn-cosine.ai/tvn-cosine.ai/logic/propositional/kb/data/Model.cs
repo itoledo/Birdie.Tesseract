@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.propositional.parsing;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
 
@@ -20,7 +21,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
      */
     public class Model : PLVisitor<bool?, bool?>
     {
-        private IMap<PropositionSymbol, bool?> assignments = Factory.CreateInsertionOrderedMap<PropositionSymbol, bool?>();
+        private IMap<PropositionSymbol, bool?> assignments = CollectionFactory.CreateInsertionOrderedMap<PropositionSymbol, bool?>();
 
         /**
          * Default Constructor.
@@ -97,7 +98,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
 
         public ISet<PropositionSymbol> getAssignedSymbols()
         {
-            return Factory.CreateReadOnlySet<PropositionSymbol>(assignments.GetKeys());
+            return CollectionFactory.CreateReadOnlySet<PropositionSymbol>(assignments.GetKeys());
         }
 
         /**

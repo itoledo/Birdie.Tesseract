@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.parsing;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
@@ -9,14 +10,14 @@ namespace tvn.cosine.ai.logic.fol
         public PredicateCollector()
         { }
 
-        public IQueue<Predicate> getPredicates(Sentence s)
+        public ICollection<Predicate> getPredicates(Sentence s)
         {
-            return (IQueue<Predicate>)s.accept(this, Factory.CreateQueue<Predicate>());
+            return (ICollection<Predicate>)s.accept(this, CollectionFactory.CreateQueue<Predicate>());
         }
 
         public object visitPredicate(Predicate p, object arg)
         {
-            IQueue<Predicate> predicates = (IQueue<Predicate>)arg;
+            ICollection<Predicate> predicates = (ICollection<Predicate>)arg;
             predicates.Add(p);
             return predicates;
         }

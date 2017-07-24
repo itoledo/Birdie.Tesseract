@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.local;
@@ -33,7 +35,7 @@ namespace tvn.cosine.ai.environment.nqueens
 
         public static Individual<int> generateRandomIndividual(int boardSize)
         {
-            IQueue<int> individualRepresentation = Factory.CreateQueue<int>();
+            ICollection<int> individualRepresentation = CollectionFactory.CreateQueue<int>();
             for (int i = 0; i < boardSize;++i)
             {
                 individualRepresentation.Add(new DefaultRandom().Next(boardSize));
@@ -41,9 +43,9 @@ namespace tvn.cosine.ai.environment.nqueens
             return new Individual<int>(individualRepresentation);
         }
 
-        public static IQueue<int> getFiniteAlphabetForBoardOfSize(int size)
+        public static ICollection<int> getFiniteAlphabetForBoardOfSize(int size)
         {
-            IQueue<int> fab = Factory.CreateQueue<int>();
+            ICollection<int> fab = CollectionFactory.CreateQueue<int>();
 
             for (int i = 0; i < size;++i)
             {
@@ -65,7 +67,7 @@ namespace tvn.cosine.ai.environment.nqueens
                 // Calculate the number of non-attacking pairs of queens (refer to
                 // AIMA
                 // page 117).
-                IQueue<XYLocation> qPositions = board.getQueenPositions();
+                ICollection<XYLocation> qPositions = board.getQueenPositions();
                 for (int fromX = 0; fromX < (boardSize - 1); fromX++)
                 {
                     for (int toX = fromX + 1; toX < boardSize; toX++)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.search.framework.problem;
 
@@ -30,7 +31,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
         [TestMethod]
         public void testSuccessors()
         {
-            IQueue<string> locations = Factory.CreateQueue<string>();
+            ICollection<string> locations = CollectionFactory.CreateQueue<string>();
 
             // A
             locations.Clear();

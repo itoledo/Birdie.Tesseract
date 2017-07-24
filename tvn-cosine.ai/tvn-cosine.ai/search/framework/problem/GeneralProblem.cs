@@ -1,5 +1,5 @@
 ﻿using System;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.framework.problem
 {
@@ -81,7 +81,7 @@ namespace tvn.cosine.ai.search.framework.problem
             return initialState;
         }
 
-        public IQueue<A> getActions(S state)
+        public ICollection<A> getActions(S state)
         {
             return actionsFn.apply(state);
         }

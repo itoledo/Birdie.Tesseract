@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.util;
 
@@ -204,7 +205,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          */
         public static Sentence newDisjunction(params Sentence[] disjuncts)
         {
-            return newDisjunction(Factory.CreateQueue<Sentence>(disjuncts));
+            return newDisjunction(CollectionFactory.CreateQueue<Sentence>(disjuncts));
         }
 
         /**
@@ -213,7 +214,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * 			the disjuncts from which to create the disjunction.
          * @return a disjunction of the given disjuncts.
          */
-        public static Sentence newDisjunction(IQueue<Sentence> disjuncts)
+        public static Sentence newDisjunction(ICollection<Sentence> disjuncts)
         {
             if (disjuncts.Size() == 0)
             {
@@ -234,7 +235,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          */
         public static Sentence newConjunction(params Sentence[] conjuncts)
         {
-            return newConjunction(Factory.CreateQueue<Sentence>(conjuncts));
+            return newConjunction(CollectionFactory.CreateQueue<Sentence>(conjuncts));
         }
 
         /**
@@ -243,7 +244,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          * 			the conjuncts from which to create the conjunction.
          * @return a conjunction of the given conjuncts.
          */
-        public static Sentence newConjunction(IQueue<Sentence> conjuncts)
+        public static Sentence newConjunction(ICollection<Sentence> conjuncts)
         {
             if (conjuncts.Size() == 0)
             {

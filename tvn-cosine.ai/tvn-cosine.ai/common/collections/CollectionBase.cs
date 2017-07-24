@@ -1,8 +1,10 @@
 ﻿using System.Text;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.common.collections
 {
-    public abstract class QueueBase<T> : IEnumerable<T>, IHashable, IStringable, IEquatable
+    public abstract class CollectionBase<T> : IEnumerable<T>, IHashable, IStringable, IEquatable
     {
         public abstract IEnumerator<T> GetEnumerator();
            
@@ -45,9 +47,9 @@ namespace tvn.cosine.ai.common.collections
             }
         }
 
-        public class QueueItemEqualityComparer : IEqualityComparer<IQueue<T>>
+        public class QueueItemEqualityComparer : IEqualityComparer<ICollection<T>>
         {
-            public bool Equals(IQueue<T> x, IQueue<T> y)
+            public bool Equals(ICollection<T> x, ICollection<T> y)
             {
                 if (x.Size() != y.Size())
                 {
@@ -64,7 +66,7 @@ namespace tvn.cosine.ai.common.collections
                 return true;
             }
 
-            public int GetHashCode(IQueue<T> obj)
+            public int GetHashCode(ICollection<T> obj)
             {
                 return obj.GetHashCode();
             }

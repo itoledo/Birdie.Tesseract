@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.logic.propositional.kb.data;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
@@ -289,7 +290,7 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
         public void testGetLiterals()
         {
             Clause clause = new Clause();
-            testClauseLiterals(Factory.CreateSet<Literal>(), clause.getLiterals());
+            testClauseLiterals(CollectionFactory.CreateSet<Literal>(), clause.getLiterals());
 
             clause = new Clause(LITERAL_P);
             testClauseLiterals(Util.createSet(LITERAL_P), clause.getLiterals());
@@ -302,7 +303,7 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
         public void testGetPositiveSymbols()
         {
             Clause clause = new Clause();
-            testClauseLiterals(Factory.CreateSet<PropositionSymbol>(), clause.getPositiveSymbols());
+            testClauseLiterals(CollectionFactory.CreateSet<PropositionSymbol>(), clause.getPositiveSymbols());
 
             clause = new Clause(LITERAL_P);
             testClauseLiterals(Util.createSet(new PropositionSymbol("P")), clause.getPositiveSymbols());
@@ -315,7 +316,7 @@ namespace tvn_cosine.ai.test.unit.logic.propositional.kb.data
         public void testGetNegativeSymbols()
         {
             Clause clause = new Clause();
-            testClauseLiterals(Factory.CreateSet<PropositionSymbol>(), clause.getNegativeSymbols());
+            testClauseLiterals(CollectionFactory.CreateSet<PropositionSymbol>(), clause.getNegativeSymbols());
 
             clause = new Clause(LITERAL_NOT_P);
             testClauseLiterals(Util.createSet(new PropositionSymbol("P")), clause.getNegativeSymbols());

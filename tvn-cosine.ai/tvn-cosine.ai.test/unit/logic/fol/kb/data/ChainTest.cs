@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
@@ -15,13 +16,13 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
 
             Assert.IsTrue(c.isEmpty());
 
-            c.addLiteral(new Literal(new Predicate("P", Factory.CreateQueue<Term>())));
+            c.addLiteral(new Literal(new Predicate("P", CollectionFactory.CreateQueue<Term>())));
 
             Assert.IsFalse(c.isEmpty());
 
-            IQueue<Literal> lits = Factory.CreateQueue<Literal>();
+            ICollection<Literal> lits = CollectionFactory.CreateQueue<Literal>();
 
-            lits.Add(new Literal(new Predicate("P", Factory.CreateQueue<Term>())));
+            lits.Add(new Literal(new Predicate("P", CollectionFactory.CreateQueue<Term>())));
 
             c = new Chain(lits);
 
@@ -31,11 +32,11 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
         [TestMethod]
         public void testContrapositives()
         {
-            IQueue<Chain> conts;
-            Literal p = new Literal(new Predicate("P", Factory.CreateQueue<Term>()));
-            Literal notq = new Literal(new Predicate("Q", Factory.CreateQueue<Term>()),
+            ICollection<Chain> conts;
+            Literal p = new Literal(new Predicate("P", CollectionFactory.CreateQueue<Term>()));
+            Literal notq = new Literal(new Predicate("Q", CollectionFactory.CreateQueue<Term>()),
                     true);
-            Literal notr = new Literal(new Predicate("R", Factory.CreateQueue<Term>()),
+            Literal notr = new Literal(new Predicate("R", CollectionFactory.CreateQueue<Term>()),
                     true);
 
             Chain c = new Chain();

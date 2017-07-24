@@ -1,4 +1,5 @@
-﻿using System; 
+﻿using System;
+using tvn.cosine.ai.common.api;
 
 namespace tvn.cosine.ai.common
 {

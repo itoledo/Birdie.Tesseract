@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.learning.neural
 {
@@ -19,7 +20,7 @@ namespace tvn.cosine.ai.learning.neural
 
         public NNConfig()
         {
-            this.hash = Factory.CreateInsertionOrderedMap<string, object>();
+            this.hash = CollectionFactory.CreateInsertionOrderedMap<string, object>();
         }
 
         public double getParameterAsDouble(string key)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.inductive;
 using tvn.cosine.ai.learning.learners;
@@ -115,7 +116,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
 
         {
             // tests second base case of DL Learner
-            DecisionListLearner learner = new DecisionListLearner("Yes", "No", new MockDLTestFactory(Factory.CreateQueue<DLTest>()));
+            DecisionListLearner learner = new DecisionListLearner("Yes", "No", new MockDLTestFactory(CollectionFactory.CreateQueue<DLTest>()));
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             learner.train(ds);
             Assert.AreEqual(DecisionListLearner.FAILURE,

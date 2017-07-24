@@ -1,6 +1,7 @@
 ﻿using System.Text;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 
 namespace tvn.cosine.ai.environment.tictactoe
@@ -139,9 +140,9 @@ namespace tvn.cosine.ai.environment.tictactoe
             return retVal;
         }
 
-        public IQueue<XYLocation> getUnMarkedPositions()
+        public ICollection<XYLocation> getUnMarkedPositions()
         {
-            IQueue<XYLocation> result = Factory.CreateQueue<XYLocation>();
+            ICollection<XYLocation> result = CollectionFactory.CreateQueue<XYLocation>();
             for (int col = 0; col < 3; col++)
             {
                 for (int row = 0; row < 3; row++)

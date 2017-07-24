@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.learning.framework;
@@ -20,17 +21,17 @@ namespace tvn_cosine.ai.test.unit.learning.framework
             RabbitEyeDataSet reds = new RabbitEyeDataSet();
             reds.createNormalizedDataFromFile("rabbiteyes");
 
-            IQueue<double> means = reds.getMeans();
+            ICollection<double> means = reds.getMeans();
             Assert.AreEqual(2, means.Size());
             Assert.AreEqual(244.771, means.Get(0), 0.001);
             Assert.AreEqual(145.505, means.Get(1), 0.001);
 
-            IQueue<double> stdev = reds.getStdevs();
+            ICollection<double> stdev = reds.getStdevs();
             Assert.AreEqual(2, stdev.Size());
             Assert.AreEqual(213.554, stdev.Get(0), 0.001);
             Assert.AreEqual(65.776, stdev.Get(1), 0.001);
 
-            IQueue<IQueue<double>> normalized = reds.getNormalizedData();
+            ICollection<ICollection<double>> normalized = reds.getNormalizedData();
             Assert.AreEqual(70, normalized.Size());
 
             // check first value
@@ -103,12 +104,12 @@ namespace tvn_cosine.ai.test.unit.learning.framework
             DataSet ds = DataSetFactory.getIrisDataSet();
             Example first = ds.getExample(0);
             Numerizer n = new IrisDataSetNumerizer();
-            Pair<IQueue<double>, IQueue<double>> io = n.numerize(first);
+            Pair<ICollection<double>, ICollection<double>> io = n.numerize(first);
 
-            Assert.AreEqual(Factory.CreateQueue<double>(new[] { 5.1, 3.5, 1.4, 0.2 }), io.getFirst());
-            Assert.AreEqual(Factory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 }), io.getSecond());
+            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 5.1, 3.5, 1.4, 0.2 }), io.getFirst());
+            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 }), io.getSecond());
 
-            string plant_category = n.denumerize(Factory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 }));
+            string plant_category = n.denumerize(CollectionFactory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 }));
             Assert.AreEqual("setosa", plant_category);
         }
 
@@ -120,12 +121,12 @@ namespace tvn_cosine.ai.test.unit.learning.framework
             DataSet ds = DataSetFactory.getIrisDataSet();
             Example first = ds.getExample(51);
             Numerizer n = new IrisDataSetNumerizer();
-            Pair<IQueue<double>, IQueue<double>> io = n.numerize(first);
+            Pair<ICollection<double>, ICollection<double>> io = n.numerize(first);
 
-            Assert.AreEqual(Factory.CreateQueue<double>(new[] { 6.4, 3.2, 4.5, 1.5 }), io.getFirst());
-            Assert.AreEqual(Factory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 }), io.getSecond());
+            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 6.4, 3.2, 4.5, 1.5 }), io.getFirst());
+            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 }), io.getSecond());
 
-            string plant_category = n.denumerize(Factory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 }));
+            string plant_category = n.denumerize(CollectionFactory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 }));
             Assert.AreEqual("versicolor", plant_category);
         }
 
@@ -137,12 +138,12 @@ namespace tvn_cosine.ai.test.unit.learning.framework
             DataSet ds = DataSetFactory.getIrisDataSet();
             Example first = ds.getExample(100);
             Numerizer n = new IrisDataSetNumerizer();
-            Pair<IQueue<double>, IQueue<double>> io = n.numerize(first);
+            Pair<ICollection<double>, ICollection<double>> io = n.numerize(first);
 
-            Assert.AreEqual(Factory.CreateQueue<double>(new[] { 6.3, 3.3, 6.0, 2.5 }), io.getFirst());
-            Assert.AreEqual(Factory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 }), io.getSecond());
+            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 6.3, 3.3, 6.0, 2.5 }), io.getFirst());
+            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 }), io.getSecond());
 
-            string plant_category = n.denumerize(Factory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 }));
+            string plant_category = n.denumerize(CollectionFactory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 }));
             Assert.AreEqual("virginica", plant_category);
         }
     } 

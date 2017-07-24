@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol
@@ -64,7 +65,7 @@ namespace tvn.cosine.ai.logic.fol
          */
         public IMap<Variable, Term> unify(FOLNode x, FOLNode y)
         {
-            return unify(x, y, Factory.CreateInsertionOrderedMap<Variable, Term>());
+            return unify(x, y, CollectionFactory.CreateInsertionOrderedMap<Variable, Term>());
         }
 
         /**
@@ -136,12 +137,12 @@ namespace tvn.cosine.ai.logic.fol
          */
         // else if LIST?(x) and LIST?(y) then
         // return UNIFY(x.REST, y.REST, UNIFY(x.FIRST, y.FIRST, theta))
-        public IMap<Variable, Term> unify(IQueue<FOLNode> x, IQueue<FOLNode> y, IMap<Variable, Term> theta)
+        public IMap<Variable, Term> unify(ICollection<FOLNode> x, ICollection<FOLNode> y, IMap<Variable, Term> theta)
         {
             return unify<FOLNode>(x, y, theta);
         }
 
-        public IMap<Variable, Term> unify<T>(IQueue<T> x, IQueue<T> y, IMap<Variable, Term> theta) where T : FOLNode
+        public IMap<Variable, Term> unify<T>(ICollection<T> x, ICollection<T> y, IMap<Variable, Term> theta) where T : FOLNode
         {
             if (theta == null)
             {
@@ -259,7 +260,7 @@ namespace tvn.cosine.ai.logic.fol
             }
         }
 
-        private IQueue<FOLNode> args(FOLNode x)
+        private ICollection<FOLNode> args(FOLNode x)
         {
             return x.getArgs();
         }

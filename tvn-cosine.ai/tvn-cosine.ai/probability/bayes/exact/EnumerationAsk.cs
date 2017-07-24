@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
@@ -129,7 +130,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
         // PROTECTED METHODS
         //
         // function ENUMERATE-ALL(vars, e) returns a real number
-        protected double enumerateAll(IQueue<RandomVariable> vars, ObservedEvidence e)
+        protected double enumerateAll(ICollection<RandomVariable> vars, ObservedEvidence e)
         {
             // if EMPTY?(vars) then return 1.0
             if (0 == vars.Size())
@@ -167,7 +168,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
             private int hiddenStart = 0;
             private int extendedIdx = 0;
             private RandomVariable[] var = null;
-            private IMap<RandomVariable, int> varIdxs = Factory.CreateInsertionOrderedMap<RandomVariable, int>();
+            private IMap<RandomVariable, int> varIdxs = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, int>();
 
             public ObservedEvidence(RandomVariable[] queryVariables,
                     AssignmentProposition[] e, BayesianNetwork bn)

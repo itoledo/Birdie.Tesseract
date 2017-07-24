@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 
 namespace tvn.cosine.ai.search.nondeterministic
@@ -65,7 +65,7 @@ namespace tvn.cosine.ai.search.nondeterministic
         /**
          * Returns the description of the possible actions available to the agent.
          */
-        public IQueue<A> getActions(S state)
+        public ICollection<A> getActions(S state)
         {
             return actionsFn.apply(state);
         }
@@ -75,7 +75,7 @@ namespace tvn.cosine.ai.search.nondeterministic
          * 
          * @return the description of what each action does.
          */
-        public IQueue<S> getResults(S state, A action)
+        public ICollection<S> getResults(S state, A action)
         {
             return this.resultsFn.results(state, action);
         }

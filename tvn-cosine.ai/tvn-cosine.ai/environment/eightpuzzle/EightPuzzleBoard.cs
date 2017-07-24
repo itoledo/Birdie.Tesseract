@@ -1,8 +1,9 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.common.collections;
 
 namespace tvn.cosine.ai.environment.eightpuzzle
 {
@@ -111,9 +112,9 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             }
         }
 
-        public IQueue<XYLocation> getPositions()
+        public ICollection<XYLocation> getPositions()
         {
-            IQueue<XYLocation> retVal = Factory.CreateQueue<XYLocation>();
+            ICollection<XYLocation> retVal = CollectionFactory.CreateQueue<XYLocation>();
             for (int i = 0; i < 9; i++)
             {
                 int absPos = getPositionOf(i);
@@ -125,7 +126,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             return retVal;
         }
 
-        public void setBoard(IQueue<XYLocation> locs)
+        public void setBoard(ICollection<XYLocation> locs)
         {
             int count = 0;
             for (int i = 0; i < locs.Size(); i++)

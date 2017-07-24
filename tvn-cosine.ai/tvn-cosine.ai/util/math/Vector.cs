@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.util.math
@@ -24,7 +24,7 @@ namespace tvn.cosine.ai.util.math
          * @param lst
          *            a list of values
          */
-        public Vector(IQueue<double> lst)
+        public Vector(ICollection<double> lst)
             : base(lst.Size(), 1)
         { 
             for (int i = 0; i < lst.Size();++i)

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.probability.domain
 {
@@ -15,11 +16,11 @@ namespace tvn.cosine.ai.probability.domain
         static BooleanDomain()
         {
             // Keep consistent order
-            _possibleValues = Factory.CreateSet<bool>();
+            _possibleValues = CollectionFactory.CreateSet<bool>();
             _possibleValues.Add(true);
             _possibleValues.Add(false);
             // Ensure cannot be modified
-            _possibleValues = Factory.CreateReadOnlySet<bool>(_possibleValues);
+            _possibleValues = CollectionFactory.CreateReadOnlySet<bool>(_possibleValues);
         }
 
         public BooleanDomain()
@@ -45,7 +46,7 @@ namespace tvn.cosine.ai.probability.domain
 
         public override ISet<object> getPossibleValues()
         {
-            ISet<object> obj = Factory.CreateSet<object>();
+            ISet<object> obj = CollectionFactory.CreateSet<object>();
             foreach (bool value in _possibleValues)
             {
                 obj.Add(value);

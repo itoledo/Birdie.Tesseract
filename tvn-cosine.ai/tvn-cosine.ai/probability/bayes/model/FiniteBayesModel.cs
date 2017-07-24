@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.bayes.exact;
 using tvn.cosine.ai.probability.proposition;
@@ -26,7 +27,7 @@ namespace tvn.cosine.ai.probability.bayes.model
     public class FiniteBayesModel : FiniteProbabilityModel
     {
         private BayesianNetwork bayesNet = null;
-        private ISet<RandomVariable> representation = Factory.CreateSet<RandomVariable>();
+        private ISet<RandomVariable> representation = CollectionFactory.CreateSet<RandomVariable>();
         private BayesInference bayesInference = null;
 
         public FiniteBayesModel(BayesianNetwork bn)
@@ -203,7 +204,7 @@ namespace tvn.cosine.ai.probability.bayes.model
         {
             ProbabilityTable d = null;
             Proposition conjProp = ProbUtil.constructConjunction(propositions);
-            ISet<RandomVariable> vars = Factory.CreateSet<RandomVariable>(conjProp.getUnboundScope());
+            ISet<RandomVariable> vars = CollectionFactory.CreateSet<RandomVariable>(conjProp.getUnboundScope());
 
             if (vars.Size() > 0)
             {

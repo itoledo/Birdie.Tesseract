@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.bayes;
 using tvn.cosine.ai.probability.bayes.impl;
 using tvn.cosine.ai.probability.bayes.model;
@@ -49,7 +50,7 @@ namespace tvn.cosine.ai.probability.example
 
         public static IMap<RandomVariable, RandomVariable> getUmbrellaWorld_Xt_to_Xtm1_Map()
         {
-            IMap<RandomVariable, RandomVariable> tToTm1StateVarMap = Factory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
+            IMap<RandomVariable, RandomVariable> tToTm1StateVarMap = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, RandomVariable>();
             tToTm1StateVarMap.Put(ExampleRV.RAIN_t_RV, ExampleRV.RAIN_tm1_RV);
 
             return tToTm1StateVarMap;

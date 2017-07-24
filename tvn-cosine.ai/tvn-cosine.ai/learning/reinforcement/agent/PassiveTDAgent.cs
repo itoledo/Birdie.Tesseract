@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.reinforcement.agent
@@ -41,9 +42,9 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         where A : IAction
     {
         // persistent: &pi;, a fixed policy
-        private IMap<S, A> pi = Factory.CreateInsertionOrderedMap<S, A>();
+        private IMap<S, A> pi = CollectionFactory.CreateInsertionOrderedMap<S, A>();
         // U, a table of utilities, initially empty
-        private IMap<S, double> U = Factory.CreateInsertionOrderedMap<S, double>();
+        private IMap<S, double> U = CollectionFactory.CreateInsertionOrderedMap<S, double>();
         // N<sub>s</sub>, a table of frequencies for states, initially zero
         private FrequencyCounter<S> Ns = new FrequencyCounter<S>();
         // s,a,r, the previous state, action, and reward, initially null
@@ -120,13 +121,13 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
 
         public override IMap<S, double> getUtility()
         {
-            return Factory.CreateMap<S, double>(U);
+            return CollectionFactory.CreateMap<S, double>(U);
         }
 
 
         public override void reset()
         {
-            U = Factory.CreateInsertionOrderedMap<S, double>();
+            U = CollectionFactory.CreateInsertionOrderedMap<S, double>();
             Ns.clear();
             s = default(S);
             a = default(A);

@@ -1,6 +1,7 @@
 ﻿using System.Text;
-using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.search.csp
@@ -16,11 +17,11 @@ namespace tvn.cosine.ai.search.csp
         /**
          * Maps variables to their assigned values.
          */
-        private IMap<VAR, VAL> variableToValueMap = Factory.CreateInsertionOrderedMap<VAR, VAL>();
+        private IMap<VAR, VAL> variableToValueMap = CollectionFactory.CreateInsertionOrderedMap<VAR, VAL>();
 
-        public IQueue<VAR> getVariables()
+        public ICollection<VAR> getVariables()
         {
-            return Factory.CreateQueue<VAR>(variableToValueMap.GetKeys());
+            return CollectionFactory.CreateQueue<VAR>(variableToValueMap.GetKeys());
         }
 
         public VAL getValue(VAR var)
@@ -55,7 +56,7 @@ namespace tvn.cosine.ai.search.csp
          * Returns true if this assignment does not violate any constraints of
          * <code>constraints</code>.
          */
-        public bool isConsistent(IQueue<Constraint<VAR, VAL>> constraints)
+        public bool isConsistent(ICollection<Constraint<VAR, VAL>> constraints)
         {
             foreach (Constraint<VAR, VAL> cons in constraints)
                 if (!cons.isSatisfiedWith(this))
@@ -67,7 +68,7 @@ namespace tvn.cosine.ai.search.csp
          * Returns true if this assignment assigns values to every variable of
          * <code>vars</code>.
          */
-        public bool isComplete(IQueue<VAR> vars)
+        public bool isComplete(ICollection<VAR> vars)
         {
             foreach (VAR var in vars)
                 if (!contains(var))
@@ -89,7 +90,7 @@ namespace tvn.cosine.ai.search.csp
             Assignment<VAR, VAL> result;
 
             result = new Assignment<VAR, VAL>();
-            result.variableToValueMap = Factory.CreateMap<VAR, VAL>(variableToValueMap);
+            result.variableToValueMap = CollectionFactory.CreateMap<VAR, VAL>(variableToValueMap);
 
             return result;
         }

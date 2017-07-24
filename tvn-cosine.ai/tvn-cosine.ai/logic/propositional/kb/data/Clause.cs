@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
 using tvn.cosine.ai.util;
 
@@ -21,11 +22,11 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
     {
         public static readonly Clause EMPTY = new Clause();
         //
-        private ISet<Literal> literals = Factory.CreateSet<Literal>();
+        private ISet<Literal> literals = CollectionFactory.CreateSet<Literal>();
         //
-        private ISet<PropositionSymbol> cachedPositiveSymbols = Factory.CreateSet<PropositionSymbol>();
-        private ISet<PropositionSymbol> cachedNegativeSymbols = Factory.CreateSet<PropositionSymbol>();
-        private ISet<PropositionSymbol> cachedSymbols = Factory.CreateSet<PropositionSymbol>();
+        private ISet<PropositionSymbol> cachedPositiveSymbols = CollectionFactory.CreateSet<PropositionSymbol>();
+        private ISet<PropositionSymbol> cachedNegativeSymbols = CollectionFactory.CreateSet<PropositionSymbol>();
+        private ISet<PropositionSymbol> cachedSymbols = CollectionFactory.CreateSet<PropositionSymbol>();
         //
         private bool? cachedIsTautologyResult = null;
         private string cachedStringRep = null;
@@ -35,7 +36,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * Default constructor - i.e. the empty clause, which is 'False'.
          */
         public Clause()
-            : this(Factory.CreateQueue<Literal>())  // i.e. the empty clause
+            : this(CollectionFactory.CreateQueue<Literal>())  // i.e. the empty clause
         { }
 
         /**
@@ -46,7 +47,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          *            the literals to be added to the clause.
          */
         public Clause(params Literal[] literals)
-             : this(Factory.CreateQueue<Literal>(literals))
+             : this(CollectionFactory.CreateQueue<Literal>(literals))
         { }
 
         /**
@@ -55,7 +56,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
          * 
          * @param literals
          */
-        public Clause(IQueue<Literal> literals)
+        public Clause(ICollection<Literal> literals)
         {
             foreach (Literal l in literals)
             {
@@ -83,10 +84,10 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
             cachedSymbols.AddAll(cachedNegativeSymbols);
 
             // Make immutable
-            this.literals = Factory.CreateReadOnlySet<Literal>(this.literals);
-            cachedSymbols = Factory.CreateReadOnlySet<PropositionSymbol>(cachedSymbols);
-            cachedPositiveSymbols = Factory.CreateReadOnlySet<PropositionSymbol>(cachedPositiveSymbols);
-            cachedNegativeSymbols = Factory.CreateReadOnlySet<PropositionSymbol>(cachedNegativeSymbols);
+            this.literals = CollectionFactory.CreateReadOnlySet<Literal>(this.literals);
+            cachedSymbols = CollectionFactory.CreateReadOnlySet<PropositionSymbol>(cachedSymbols);
+            cachedPositiveSymbols = CollectionFactory.CreateReadOnlySet<PropositionSymbol>(cachedPositiveSymbols);
+            cachedNegativeSymbols = CollectionFactory.CreateReadOnlySet<PropositionSymbol>(cachedNegativeSymbols);
         }
 
         /**
