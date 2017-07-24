@@ -5,15 +5,9 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tvn-cosine.ai", "tvn-cosine.ai\tvn-cosine.ai.csproj", "{463B77F0-C009-4EBA-9B9A-24866C73E2D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TvnTestConsoleApp", "TvnTestConsoleApp\TvnTestConsoleApp.csproj", "{AA3A0A31-8814-40E2-B206-A10420394A2E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tvn-cosine.ai.test", "tvn-cosine.ai.test\tvn-cosine.ai.test.csproj", "{14A4DDD0-AEA6-4B54-8371-57A5850713F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tvn-cosine.ai.demo", "tvn-cosine.ai.demo\tvn-cosine.ai.demo.csproj", "{0CF5C14A-FAD6-4CD4-AD5E-D8CDAF3C3EB0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tvn-cosine.ai.v2", "tvn-cosine.ai.v2\tvn-cosine.ai.v2.csproj", "{3CE71EB2-9976-49EE-B39C-0C6D3939AB3F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tvn-cosine.ai.v2.test", "tvn-cosine.ai.v2.test\tvn-cosine.ai.v2.test.csproj", "{A111DF9B-D56C-44E5-92C4-9998DA5DEF79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +19,6 @@ Global
 		{463B77F0-C009-4EBA-9B9A-24866C73E2D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{463B77F0-C009-4EBA-9B9A-24866C73E2D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{463B77F0-C009-4EBA-9B9A-24866C73E2D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA3A0A31-8814-40E2-B206-A10420394A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA3A0A31-8814-40E2-B206-A10420394A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA3A0A31-8814-40E2-B206-A10420394A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA3A0A31-8814-40E2-B206-A10420394A2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14A4DDD0-AEA6-4B54-8371-57A5850713F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{14A4DDD0-AEA6-4B54-8371-57A5850713F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14A4DDD0-AEA6-4B54-8371-57A5850713F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,14 +27,6 @@ Global
 		{0CF5C14A-FAD6-4CD4-AD5E-D8CDAF3C3EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CF5C14A-FAD6-4CD4-AD5E-D8CDAF3C3EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CF5C14A-FAD6-4CD4-AD5E-D8CDAF3C3EB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3CE71EB2-9976-49EE-B39C-0C6D3939AB3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CE71EB2-9976-49EE-B39C-0C6D3939AB3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3CE71EB2-9976-49EE-B39C-0C6D3939AB3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3CE71EB2-9976-49EE-B39C-0C6D3939AB3F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A111DF9B-D56C-44E5-92C4-9998DA5DEF79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A111DF9B-D56C-44E5-92C4-9998DA5DEF79}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A111DF9B-D56C-44E5-92C4-9998DA5DEF79}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A111DF9B-D56C-44E5-92C4-9998DA5DEF79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
