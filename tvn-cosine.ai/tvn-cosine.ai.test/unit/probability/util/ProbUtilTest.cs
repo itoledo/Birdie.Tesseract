@@ -3,6 +3,7 @@ using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.util;
 
@@ -31,8 +32,8 @@ namespace tvn_cosine.ai.test.unit.probability.util
             // 09: false, B, false
             // 10: false, C, true
             // 11: false, C, false
-            RandomVariable[] vars = new RandomVariable[] { X, Y, Z };
-            IMap<RandomVariable, object> even = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IRandomVariable[] vars = new IRandomVariable[] { X, Y, Z };
+            IMap<IRandomVariable, object> even = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, object>();
 
 
             even.Put(X, true);
@@ -108,8 +109,8 @@ namespace tvn_cosine.ai.test.unit.probability.util
             // 09: false, B, false
             // 10: false, C, true
             // 11: false, C, false
-            RandomVariable[] vars = new RandomVariable[] { X, Y, Z };
-            IMap<RandomVariable, object> even = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IRandomVariable[] vars = new IRandomVariable[] { X, Y, Z };
+            IMap<IRandomVariable, object> even = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, object>();
 
 
             even.Put(X, true);

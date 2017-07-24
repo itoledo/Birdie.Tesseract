@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.probability.bayes.approx;
+using tvn.cosine.ai.probability.bayes.approximate;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util;
@@ -46,16 +46,14 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
 				0.0001, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2 });
 
             int N = 10;
-            ParticleFiltering pf = new ParticleFiltering(N,
-                    DynamicBayesNetExampleFactory.getUmbrellaWorldNetwork(), mr);
+            ParticleFiltering pf = new ParticleFiltering(N, DynamicBayesNetExampleFactory.getUmbrellaWorldNetwork(), mr);
 
-            AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(
-                ExampleRV.UMBREALLA_t_RV, false) };
+            AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, false) };
 
             AssignmentProposition[][] S = pf.particleFiltering(e);
 
             Assert.AreEqual(N, S.Length);
-            for (int i = 0; i < N;++i)
+            for (int i = 0; i < N; ++i)
             {
                 Assert.AreEqual(1, S[i].Length);
                 AssignmentProposition ap = S[i][0];
@@ -74,7 +72,7 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
             // in this case with prefixed probabilities only expect 1 Rain_t=true
             S = pf.particleFiltering(e);
             Assert.AreEqual(N, S.Length);
-            for (int i = 0; i < N;++i)
+            for (int i = 0; i < N; ++i)
             {
                 Assert.AreEqual(1, S[i].Length);
                 AssignmentProposition ap = S[i][0];
@@ -89,5 +87,5 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
                 }
             }
         }
-    } 
+    }
 }

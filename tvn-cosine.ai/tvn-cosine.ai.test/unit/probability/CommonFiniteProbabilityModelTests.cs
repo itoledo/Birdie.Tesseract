@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
@@ -11,29 +12,29 @@ namespace tvn_cosine.ai.test.unit.probability
         //
         // PROTECTED
         //
-        protected void test_RollingPairFairDiceModel_Distributions(FiniteProbabilityModel model)
+        protected void test_RollingPairFairDiceModel_Distributions(IFiniteProbabilityModel model)
         {
 
             AssignmentProposition ad1_1 = new AssignmentProposition(ExampleRV.DICE_1_RV, 1);
-            CategoricalDistribution dD1_1 = model.priorDistribution(ad1_1);
+            ICategoricalDistribution dD1_1 = model.priorDistribution(ad1_1);
             assertArrayEquals(new double[] { 1.0 / 6.0 }, dD1_1.getValues(), DELTA_THRESHOLD);
 
-            CategoricalDistribution dPriorDice1 = model.priorDistribution(ExampleRV.DICE_1_RV);
+            ICategoricalDistribution dPriorDice1 = model.priorDistribution(ExampleRV.DICE_1_RV);
             assertArrayEquals(new double[] { 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0 },
                     dPriorDice1.getValues(), DELTA_THRESHOLD);
 
-            CategoricalDistribution dPriorDice2 = model.priorDistribution(ExampleRV.DICE_2_RV);
+            ICategoricalDistribution dPriorDice2 = model.priorDistribution(ExampleRV.DICE_2_RV);
             assertArrayEquals(new double[] { 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0 },
                     dPriorDice2.getValues(), DELTA_THRESHOLD);
 
-            CategoricalDistribution dJointDice1Dice2 = model.jointDistribution(ExampleRV.DICE_1_RV, ExampleRV.DICE_2_RV);
+            ICategoricalDistribution dJointDice1Dice2 = model.jointDistribution(ExampleRV.DICE_1_RV, ExampleRV.DICE_2_RV);
             Assert.AreEqual(36, dJointDice1Dice2.getValues().Length);
             for (int i = 0; i < dJointDice1Dice2.getValues().Length; i++)
             {
                 Assert.AreEqual(1.0 / 36.0, dJointDice1Dice2.getValues()[i], DELTA_THRESHOLD);
             }
 
-            CategoricalDistribution dJointDice2Dice1 = model.jointDistribution(ExampleRV.DICE_2_RV, ExampleRV.DICE_1_RV);
+            ICategoricalDistribution dJointDice2Dice1 = model.jointDistribution(ExampleRV.DICE_2_RV, ExampleRV.DICE_1_RV);
             Assert.AreEqual(36, dJointDice2Dice1.getValues().Length);
             for (int i = 0; i < dJointDice2Dice1.getValues().Length; i++)
             {
@@ -74,7 +75,7 @@ namespace tvn_cosine.ai.test.unit.probability
                     .posteriorDistribution(ExampleRV.DICE_1_RV, doubles)
                     .getValues(), DELTA_THRESHOLD);
 
-            CategoricalDistribution dPosteriorDice1GivenDice2 = model
+            ICategoricalDistribution dPosteriorDice1GivenDice2 = model
                     .posteriorDistribution(ExampleRV.DICE_1_RV, ExampleRV.DICE_2_RV);
             Assert.AreEqual(36, dPosteriorDice1GivenDice2.getValues().Length);
             for (int i = 0; i < dPosteriorDice1GivenDice2.getValues().Length; i++)
@@ -82,7 +83,7 @@ namespace tvn_cosine.ai.test.unit.probability
                 Assert.AreEqual(1.0 / 6.0, dPosteriorDice1GivenDice2.getValues()[i], DELTA_THRESHOLD);
             }
 
-            CategoricalDistribution dPosteriorDice2GivenDice1 = model
+            ICategoricalDistribution dPosteriorDice2GivenDice1 = model
                     .posteriorDistribution(ExampleRV.DICE_2_RV, ExampleRV.DICE_1_RV);
             Assert.AreEqual(36, dPosteriorDice2GivenDice1.getValues().Length);
             for (int i = 0; i < dPosteriorDice2GivenDice1.getValues().Length; i++)
@@ -91,7 +92,7 @@ namespace tvn_cosine.ai.test.unit.probability
             }
         }
 
-        protected void test_ToothacheCavityCatchModel_Distributions(FiniteProbabilityModel model)
+        protected void test_ToothacheCavityCatchModel_Distributions(IFiniteProbabilityModel model)
         {
 
             AssignmentProposition atoothache = new AssignmentProposition(ExampleRV.TOOTHACHE_RV, true);
@@ -283,7 +284,7 @@ namespace tvn_cosine.ai.test.unit.probability
         }
 
         protected void test_ToothacheCavityCatchWeatherModel_Distributions(
-                FiniteProbabilityModel model)
+                IFiniteProbabilityModel model)
         {
 
             AssignmentProposition asunny = new AssignmentProposition(
@@ -319,7 +320,7 @@ namespace tvn_cosine.ai.test.unit.probability
 
         // AIMA3e pg. 496
         protected void test_MeningitisStiffNeckModel_Distributions(
-                FiniteProbabilityModel model)
+                IFiniteProbabilityModel model)
         {
 
             AssignmentProposition astiffNeck = new AssignmentProposition(
@@ -327,7 +328,7 @@ namespace tvn_cosine.ai.test.unit.probability
 
             // AIMA3e pg. 497
             // P<>(Mengingitis | stiffneck) = &alpha;<P(s | m)P(m), P(s | ~m)P(~m)>
-            CategoricalDistribution dMeningitisGivenStiffNeck = model
+            ICategoricalDistribution dMeningitisGivenStiffNeck = model
                     .posteriorDistribution(ExampleRV.MENINGITIS_RV, astiffNeck);
             Assert.AreEqual(2, dMeningitisGivenStiffNeck.getValues().Length);
             Assert.AreEqual(0.0014, dMeningitisGivenStiffNeck.getValues()[0],
@@ -337,7 +338,7 @@ namespace tvn_cosine.ai.test.unit.probability
         }
 
         protected void test_BurglaryAlarmModel_Distributions(
-                FiniteProbabilityModel model)
+                IFiniteProbabilityModel model)
         {
 
             AssignmentProposition aburglary = new AssignmentProposition(

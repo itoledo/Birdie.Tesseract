@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.probability;
-using tvn.cosine.ai.probability.bayes;
-using tvn.cosine.ai.probability.bayes.approx;
+using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.bayes.api;
+using tvn.cosine.ai.probability.bayes.approximate;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util;
@@ -29,12 +30,12 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
         [TestMethod]
         public void testPriorSample_basic()
         {
-            BayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
+            IBayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
             AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(ExampleRV.SPRINKLER_RV, true) };
             MockRandomizer r = new MockRandomizer(new double[] { 0.1 });
             RejectionSampling rs = new RejectionSampling(new PriorSample(r));
 
-            double[] estimate = rs.rejectionSampling(new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 100).getValues();
+            double[] estimate = rs.rejectionSampling(new IRandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 100).getValues();
 
             assertArrayEquals(new double[] { 1.0, 0.0 }, estimate, DELTA_THRESHOLD);
         }
@@ -44,7 +45,7 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
         {
             // AIMA3e pg. 532
 
-            BayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
+            IBayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
             AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(ExampleRV.SPRINKLER_RV, true) };
 
             // 400 required as 4 variables and 100 samples planned
@@ -83,7 +84,7 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
             RejectionSampling rs = new RejectionSampling(new PriorSample(r));
 
             double[] estimate = rs.rejectionSampling(
-                    new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 100)
+                    new IRandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 100)
                     .getValues();
 
             assertArrayEquals(new double[] { 0.2962962962962963, 0.7037037037037037 }, estimate, DELTA_THRESHOLD);

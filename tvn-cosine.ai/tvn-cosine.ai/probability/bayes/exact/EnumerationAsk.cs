@@ -1,6 +1,8 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.bayes.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
@@ -44,21 +46,21 @@ namespace tvn.cosine.ai.probability.bayes.exact
      * 
      * @author Ciaran O'Reilly
      */
-    public class EnumerationAsk : BayesInference
+    public class EnumerationAsk : IBayesInference
     {
         public EnumerationAsk()
         { }
 
         class ProbabilityTableIteratorImpl : ProbabilityTable.ProbabilityTableIterator
         {
-            private BayesianNetwork bn;
+            private IBayesianNetwork bn;
             int cnt = 0;
             private ObservedEvidence e;
             private EnumerationAsk enumerationAsk;
             private ProbabilityTable q;
-            private RandomVariable[] x;
+            private IRandomVariable[] x;
 
-            public ProbabilityTableIteratorImpl(BayesianNetwork bn, ProbabilityTable q, ObservedEvidence e, RandomVariable[] x, EnumerationAsk enumerationAsk)
+            public ProbabilityTableIteratorImpl(IBayesianNetwork bn, ProbabilityTable q, ObservedEvidence e, IRandomVariable[] x, EnumerationAsk enumerationAsk)
             {
                 this.bn = bn;
                 this.q = q;
@@ -73,13 +75,13 @@ namespace tvn.cosine.ai.probability.bayes.exact
 			 *   where e<sub>x<sub>i</sub></sub> is e extended with X = x<sub>i</sub>
 			 * </pre>
 			 */
-            public void iterate(IMap<RandomVariable, object> possibleWorld, double probability)
+            public void iterate(IMap<IRandomVariable, object> possibleWorld, double probability)
             {
                 for (int i = 0; i < x.Length;++i)
                 {
                     e.setExtendedValue(x[i], possibleWorld.Get(x[i]));
                 }
-                q.setValue(cnt, enumerationAsk.enumerateAll(bn.getVariablesInTopologicalOrder(), e));
+                q.setValue(cnt, enumerationAsk.enumerateAll(bn.GetVariablesInTopologicalOrder(), e));
                 cnt++;
             }
         }
@@ -98,9 +100,9 @@ namespace tvn.cosine.ai.probability.bayes.exact
          *            variables //
          * @return a distribution over the query variables.
          */
-        public CategoricalDistribution enumerationAsk(RandomVariable[] X,
+        public ICategoricalDistribution enumerationAsk(IRandomVariable[] X,
                 AssignmentProposition[] observedEvidence,
-                BayesianNetwork bn)
+                IBayesianNetwork bn)
         {
 
             // Q(X) <- a distribution over X, initially empty
@@ -116,9 +118,9 @@ namespace tvn.cosine.ai.probability.bayes.exact
 
         //
         // START-BayesInference
-        public CategoricalDistribution ask(RandomVariable[] X,
+        public ICategoricalDistribution Ask(IRandomVariable[] X,
                 AssignmentProposition[] observedEvidence,
-                BayesianNetwork bn)
+                IBayesianNetwork bn)
         {
             return this.enumerationAsk(X, observedEvidence, bn);
         }
@@ -130,7 +132,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
         // PROTECTED METHODS
         //
         // function ENUMERATE-ALL(vars, e) returns a real number
-        protected double enumerateAll(ICollection<RandomVariable> vars, ObservedEvidence e)
+        protected double enumerateAll(ICollection<IRandomVariable> vars, ObservedEvidence e)
         {
             // if EMPTY?(vars) then return 1.0
             if (0 == vars.Size())
@@ -138,7 +140,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
                 return 1;
             }
             // Y <- FIRST(vars)
-            RandomVariable Y = Util.first(vars);
+            IRandomVariable Y = Util.first(vars);
             // if Y has value y in e
             if (e.containsValue(Y))
             {
@@ -163,21 +165,21 @@ namespace tvn.cosine.ai.probability.bayes.exact
 
         protected class ObservedEvidence
         {
-            private BayesianNetwork bn = null;
+            private IBayesianNetwork bn = null;
             private object[] extendedValues = null;
             private int hiddenStart = 0;
             private int extendedIdx = 0;
-            private RandomVariable[] var = null;
-            private IMap<RandomVariable, int> varIdxs = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, int>();
+            private IRandomVariable[] var = null;
+            private IMap<IRandomVariable, int> varIdxs = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, int>();
 
-            public ObservedEvidence(RandomVariable[] queryVariables,
-                    AssignmentProposition[] e, BayesianNetwork bn)
+            public ObservedEvidence(IRandomVariable[] queryVariables,
+                    AssignmentProposition[] e, IBayesianNetwork bn)
             {
                 this.bn = bn;
 
-                int maxSize = bn.getVariablesInTopologicalOrder().Size();
+                int maxSize = bn.GetVariablesInTopologicalOrder().Size();
                 extendedValues = new object[maxSize];
-                var = new RandomVariable[maxSize];
+                var = new IRandomVariable[maxSize];
                 // query variables go first
                 int idx = 0;
                 for (int i = 0; i < queryVariables.Length;++i)
@@ -197,7 +199,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
                 extendedIdx = idx - 1;
                 hiddenStart = idx;
                 // the remaining slots are left open for the hidden variables
-                foreach (RandomVariable rv in bn.getVariablesInTopologicalOrder())
+                foreach (IRandomVariable rv in bn.GetVariablesInTopologicalOrder())
                 {
                     if (!varIdxs.ContainsKey(rv))
                     {
@@ -208,7 +210,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
                 }
             }
 
-            public void setExtendedValue(RandomVariable rv, object value)
+            public void setExtendedValue(IRandomVariable rv, object value)
             {
                 int idx = varIdxs.Get(rv);
                 extendedValues[idx] = value;
@@ -222,29 +224,29 @@ namespace tvn.cosine.ai.probability.bayes.exact
                 }
             }
 
-            public bool containsValue(RandomVariable rv)
+            public bool containsValue(IRandomVariable rv)
             {
                 return varIdxs.Get(rv) <= extendedIdx;
             }
 
-            public double posteriorForParents(RandomVariable rv)
+            public double posteriorForParents(IRandomVariable rv)
             {
-                Node n = bn.getNode(rv);
-                if (!(n is FiniteNode))
+                INode n = bn.GetNode(rv);
+                if (!(n is IFiniteNode))
                 {
                     throw new IllegalArgumentException("Enumeration-Ask only works with finite Nodes.");
                 }
-                FiniteNode fn = (FiniteNode)n;
-                object[] vals = new object[1 + fn.getParents().Size()];
+                IFiniteNode fn = (IFiniteNode)n;
+                object[] vals = new object[1 + fn.GetParents().Size()];
                 int idx = 0;
-                foreach (Node pn in n.getParents())
+                foreach (INode pn in n.GetParents())
                 {
-                    vals[idx] = extendedValues[varIdxs.Get(pn.getRandomVariable())];
+                    vals[idx] = extendedValues[varIdxs.Get(pn.GetRandomVariable())];
                     idx++;
                 }
                 vals[idx] = extendedValues[varIdxs.Get(rv)];
 
-                return fn.getCPT().getValue(vals);
+                return fn.GetCPT().GetValue(vals);
             }
         }
 

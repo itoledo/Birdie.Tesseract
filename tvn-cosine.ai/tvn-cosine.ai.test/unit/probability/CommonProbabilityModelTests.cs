@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
@@ -26,7 +27,7 @@ namespace tvn_cosine.ai.test.unit.probability
         //
         // PROTECTED METHODS
         //
-        protected void test_RollingPairFairDiceModel(ProbabilityModel model)
+        protected void test_RollingPairFairDiceModel(IProbabilityModel model)
         {
             Assert.IsTrue(model.isValid());
 
@@ -115,7 +116,7 @@ namespace tvn_cosine.ai.test.unit.probability
                     model.prior(dice1Is5OrDice2Is5), DELTA_THRESHOLD);
         }
 
-        protected void test_ToothacheCavityCatchModel(ProbabilityModel model)
+        protected void test_ToothacheCavityCatchModel(IProbabilityModel model)
         {
             Assert.IsTrue(model.isValid());
 
@@ -223,7 +224,7 @@ namespace tvn_cosine.ai.test.unit.probability
         }
 
         // AIMA3e pg. 488, 494
-        protected void test_ToothacheCavityCatchWeatherModel(ProbabilityModel model)
+        protected void test_ToothacheCavityCatchWeatherModel(IProbabilityModel model)
         {
 
             // Should be able to run all the same queries for this independent
@@ -309,7 +310,7 @@ namespace tvn_cosine.ai.test.unit.probability
         }
 
         // AIMA3e pg. 496
-        protected void test_MeningitisStiffNeckModel(ProbabilityModel model)
+        protected void test_MeningitisStiffNeckModel(IProbabilityModel model)
         {
 
             Assert.IsTrue(model.isValid());
@@ -354,7 +355,7 @@ namespace tvn_cosine.ai.test.unit.probability
         }
 
         // AIMA3e pg. 512
-        protected void test_BurglaryAlarmModel(ProbabilityModel model)
+        protected void test_BurglaryAlarmModel(IProbabilityModel model)
         {
             Assert.IsTrue(model.isValid());
 

@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
@@ -10,7 +11,7 @@ namespace tvn.cosine.ai.probability.proposition
         //
         private string toString = null;
 
-        public AssignmentProposition(RandomVariable forVariable, object value)
+        public AssignmentProposition(IRandomVariable forVariable, object value)
             : base(forVariable)
         {
             setValue(value);
@@ -30,7 +31,7 @@ namespace tvn.cosine.ai.probability.proposition
             this.value = value;
         }
          
-        public override bool holds(IMap<RandomVariable, object> possibleWorld)
+        public override bool holds(IMap<IRandomVariable, object> possibleWorld)
         {
             return value.Equals(possibleWorld.Get(getTermVariable()));
         }

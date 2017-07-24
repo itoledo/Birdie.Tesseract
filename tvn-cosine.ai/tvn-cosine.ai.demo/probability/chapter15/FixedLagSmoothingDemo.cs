@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.hmm.exact;
 using tvn.cosine.ai.probability.proposition;
@@ -26,7 +27,7 @@ namespace tvn_cosine.ai.demo.probability.chapter15
             ICollection<AssignmentProposition> e1 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e1.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
 
-            CategoricalDistribution smoothed = uw.fixedLagSmoothing(e1);
+            ICategoricalDistribution smoothed = uw.fixedLagSmoothing(e1);
 
             System.Console.WriteLine("Day 1 (Umbrella_t=true) smoothed:\nday 1=" + smoothed);
 

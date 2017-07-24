@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.probability.bayes.approx;
+﻿using tvn.cosine.ai.probability.bayes.approximate;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util;

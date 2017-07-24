@@ -7,11 +7,7 @@ using tvn.cosine.ai.learning.framework.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.learners
-{
-    /**
-     * @author Ravi Mohan
-     * 
-     */
+{ 
     public class AdaBoostLearner : ILearner
     {
         private ICollection<ILearner> learners;

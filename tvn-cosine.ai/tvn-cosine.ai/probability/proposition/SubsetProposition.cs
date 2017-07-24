@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
 
 namespace tvn.cosine.ai.probability.proposition
@@ -8,11 +9,11 @@ namespace tvn.cosine.ai.probability.proposition
     public class SubsetProposition : AbstractDerivedProposition
     {
         private FiniteDomain subsetDomain = null;
-        private RandomVariable varSubsetOf = null;
+        private IRandomVariable varSubsetOf = null;
         //
         private string toString = null;
 
-        public SubsetProposition(string name, FiniteDomain subsetDomain, RandomVariable ofVar)
+        public SubsetProposition(string name, FiniteDomain subsetDomain, IRandomVariable ofVar)
             : base(name)
         {
 
@@ -26,7 +27,7 @@ namespace tvn.cosine.ai.probability.proposition
             addScope(this.varSubsetOf);
         }
          
-        public override bool holds(IMap<RandomVariable, object> possibleWorld)
+        public override bool holds(IMap<IRandomVariable, object> possibleWorld)
         {
             return subsetDomain.getPossibleValues().Contains(possibleWorld.Get(varSubsetOf));
         }

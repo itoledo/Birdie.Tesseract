@@ -12,8 +12,7 @@ namespace tvn.cosine.ai.logic.fol
         { }
 
         /**
-         * Note: Refer to Artificial Intelligence A Modern Approach (3rd Edition):
-         * page 323.
+         * Note: Refer to Artificial Intelligence A Modern Approach (3rd Edition): page 323.
          * 
          * @param theta
          *            a substitution.

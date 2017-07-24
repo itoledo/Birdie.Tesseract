@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util.math;
 
@@ -39,11 +40,8 @@ namespace tvn.cosine.ai.probability.hmm.exact
         public HMMForwardBackwardConstantSpace(HiddenMarkovModel hmm)
                 : base(hmm)
         { }
-
-        //
-        // START-ForwardBackwardInference
-
-        public override ICollection<CategoricalDistribution> forwardBackward(ICollection<ICollection<AssignmentProposition>> ev, CategoricalDistribution prior)
+         
+        public override ICollection<ICategoricalDistribution> forwardBackward(ICollection<ICollection<AssignmentProposition>> ev, ICategoricalDistribution prior)
         {
             // local variables: f, the forward message <- prior
             Matrix f = hmm.convert(prior);

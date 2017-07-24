@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
@@ -17,7 +18,7 @@ namespace tvn.cosine.ai.probability.hmm.impl
      */
     public class HMM : HiddenMarkovModel
     {
-        private RandomVariable stateVariable = null;
+        private IRandomVariable stateVariable = null;
         private FiniteDomain stateVariableDomain = null;
         private Matrix transitionModel = null;
         private IMap<object, Matrix> sensorModel = null;
@@ -44,7 +45,7 @@ namespace tvn.cosine.ai.probability.hmm.impl
          *            the prior distribution represented as a column vector in
          *            Matrix form.
          */
-        public HMM(RandomVariable stateVariable, Matrix transitionModel, IMap<object, Matrix> sensorModel, Matrix prior)
+        public HMM(IRandomVariable stateVariable, Matrix transitionModel, IMap<object, Matrix> sensorModel, Matrix prior)
         {
             if (!stateVariable.getDomain().isFinite())
             {
@@ -82,7 +83,7 @@ namespace tvn.cosine.ai.probability.hmm.impl
             this.prior = prior;
         }
 
-        public virtual RandomVariable getStateVariable()
+        public virtual IRandomVariable getStateVariable()
         {
             return stateVariable;
         }
@@ -129,21 +130,21 @@ namespace tvn.cosine.ai.probability.hmm.impl
         }
 
 
-        public virtual Matrix convert(CategoricalDistribution fromCD)
+        public virtual Matrix convert(ICategoricalDistribution fromCD)
         {
             double[] values = fromCD.getValues();
             return new Matrix(values, values.Length);
         }
 
 
-        public virtual CategoricalDistribution convert(Matrix fromMessage)
+        public virtual ICategoricalDistribution convert(Matrix fromMessage)
         {
             return new ProbabilityTable(fromMessage.getRowPackedCopy(), stateVariable);
         }
 
-        public virtual ICollection<CategoricalDistribution> convert(ICollection<Matrix> matrixs)
+        public virtual ICollection<ICategoricalDistribution> convert(ICollection<Matrix> matrixs)
         {
-            ICollection<CategoricalDistribution> cds = CollectionFactory.CreateQueue<CategoricalDistribution>();
+            ICollection<ICategoricalDistribution> cds = CollectionFactory.CreateQueue<ICategoricalDistribution>();
             foreach (Matrix m in matrixs)
             {
                 cds.Add(convert(m));

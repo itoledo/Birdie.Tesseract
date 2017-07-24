@@ -1,6 +1,8 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.bayes.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
 
@@ -32,7 +34,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
      * 
      * @author Ciaran O'Reilly
      */
-    public class EliminationAsk : BayesInference
+    public class EliminationAsk : IBayesInference
     {
         //
         private static readonly ProbabilityTable _identity = new ProbabilityTable(new double[] { 1.0 });
@@ -55,17 +57,17 @@ namespace tvn.cosine.ai.probability.bayes.exact
          *            variables //
          * @return a distribution over the query variables.
          */
-        public CategoricalDistribution eliminationAsk(RandomVariable[] X, AssignmentProposition[] e, BayesianNetwork bn)
+        public ICategoricalDistribution eliminationAsk(IRandomVariable[] X, AssignmentProposition[] e, IBayesianNetwork bn)
         {
 
-            ISet<RandomVariable> hidden = CollectionFactory.CreateSet<RandomVariable>();
-            ICollection<RandomVariable> VARS = CollectionFactory.CreateQueue<RandomVariable>();
+            ISet<IRandomVariable> hidden = CollectionFactory.CreateSet<IRandomVariable>();
+            ICollection<IRandomVariable> VARS = CollectionFactory.CreateQueue<IRandomVariable>();
             calculateVariables(X, e, bn, hidden, VARS);
 
             // factors <- []
-            ICollection<Factor> factors = CollectionFactory.CreateQueue<Factor>();
+            ICollection<IFactor> factors = CollectionFactory.CreateQueue<IFactor>();
             // for each var in ORDER(bn.VARS) do
-            foreach (RandomVariable var in order(bn, VARS))
+            foreach (IRandomVariable var in order(bn, VARS))
             {
                 // factors <- [MAKE-FACTOR(var, e) | factors]
                 factors.Insert(0, makeFactor(var, e, bn));
@@ -76,7 +78,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
                 }
             }
             // return NORMALIZE(POINTWISE-PRODUCT(factors))
-            Factor product = pointwiseProduct(factors);
+            IFactor product = pointwiseProduct(factors);
             // Note: Want to ensure the order of the product matches the
             // query variables
             return ((ProbabilityTable)product.pointwiseProductPOS(_identity, X)).normalize();
@@ -84,9 +86,9 @@ namespace tvn.cosine.ai.probability.bayes.exact
 
         //
         // START-BayesInference
-        public CategoricalDistribution ask(RandomVariable[] X,
+        public ICategoricalDistribution Ask(IRandomVariable[] X,
                  AssignmentProposition[] observedEvidence,
-                 BayesianNetwork bn)
+                 IBayesianNetwork bn)
         {
             return this.eliminationAsk(X, observedEvidence, bn);
         }
@@ -125,15 +127,15 @@ namespace tvn.cosine.ai.probability.bayes.exact
          *            comprising the Bayesian Network with any irrelevant hidden
          *            variables removed.
          */
-        protected void calculateVariables(RandomVariable[] X,
-                  AssignmentProposition[] e, BayesianNetwork bn,
-                ISet<RandomVariable> hidden, ICollection<RandomVariable> bnVARS)
+        protected void calculateVariables(IRandomVariable[] X,
+                  AssignmentProposition[] e, IBayesianNetwork bn,
+                ISet<IRandomVariable> hidden, ICollection<IRandomVariable> bnVARS)
         {
 
-            bnVARS.AddAll(bn.getVariablesInTopologicalOrder());
+            bnVARS.AddAll(bn.GetVariablesInTopologicalOrder());
             hidden.AddAll(bnVARS);
 
-            foreach (RandomVariable x in X)
+            foreach (IRandomVariable x in X)
             {
                 hidden.Remove(x);
             }
@@ -162,8 +164,8 @@ namespace tvn.cosine.ai.probability.bayes.exact
          *         ordering is a greedy one: eliminate whichever variable minimizes
          *         the size of the next factor to be constructed.
          */
-        protected ICollection<RandomVariable> order(BayesianNetwork bn,
-                ICollection<RandomVariable> vars)
+        protected ICollection<IRandomVariable> order(IBayesianNetwork bn,
+                ICollection<IRandomVariable> vars)
         {
             // Note: Trivial Approach:
             // For simplicity just return in the reverse order received,
@@ -172,7 +174,7 @@ namespace tvn.cosine.ai.probability.bayes.exact
             // is iterated from bottom up to ensure when hidden variables
             // are come across all the factors dependent on them have
             // been seen so far.
-            ICollection<RandomVariable> order = CollectionFactory.CreateQueue<RandomVariable>(vars);
+            ICollection<IRandomVariable> order = CollectionFactory.CreateQueue<IRandomVariable>(vars);
             order.Reverse();
 
             return order;
@@ -181,32 +183,31 @@ namespace tvn.cosine.ai.probability.bayes.exact
         //
         // PRIVATE METHODS
         //
-        private Factor makeFactor(RandomVariable var, AssignmentProposition[] e, BayesianNetwork bn)
+        private IFactor makeFactor(IRandomVariable var, AssignmentProposition[] e, IBayesianNetwork bn)
         {
-            Node n = bn.getNode(var);
-            if (!(n is FiniteNode))
+            INode n = bn.GetNode(var);
+            if (!(n is IFiniteNode))
             {
-                throw new IllegalArgumentException(
-                        "Elimination-Ask only works with finite Nodes.");
+                throw new IllegalArgumentException("Elimination-Ask only works with finite Nodes.");
             }
-            FiniteNode fn = (FiniteNode)n;
+            IFiniteNode fn = (IFiniteNode)n;
             ICollection<AssignmentProposition> evidence = CollectionFactory.CreateQueue<AssignmentProposition>();
             foreach (AssignmentProposition ap in e)
             {
-                if (fn.getCPT().contains(ap.getTermVariable()))
+                if (fn.GetCPT().Contains(ap.getTermVariable()))
                 {
                     evidence.Add(ap);
                 }
             }
 
-            return fn.getCPT().getFactorFor(evidence.ToArray());
+            return fn.GetCPT().GetFactorFor(evidence.ToArray());
         }
 
-        private ICollection<Factor> sumOut(RandomVariable var, ICollection<Factor> factors, BayesianNetwork bn)
+        private ICollection<IFactor> sumOut(IRandomVariable var, ICollection<IFactor> factors, IBayesianNetwork bn)
         {
-            ICollection<Factor> summedOutFactors = CollectionFactory.CreateQueue<Factor>();
-            ICollection<Factor> toMultiply = CollectionFactory.CreateQueue<Factor>();
-            foreach (Factor f in factors)
+            ICollection<IFactor> summedOutFactors = CollectionFactory.CreateQueue<IFactor>();
+            ICollection<IFactor> toMultiply = CollectionFactory.CreateQueue<IFactor>();
+            foreach (IFactor f in factors)
             {
                 if (f.contains(var))
                 {
@@ -225,11 +226,11 @@ namespace tvn.cosine.ai.probability.bayes.exact
             return summedOutFactors;
         }
 
-        private Factor pointwiseProduct(ICollection<Factor> factors)
+        private IFactor pointwiseProduct(ICollection<IFactor> factors)
         {
 
-            Factor product = factors.Get(0);
-            for (int i = 1; i < factors.Size();++i)
+            IFactor product = factors.Get(0);
+            for (int i = 1; i < factors.Size(); ++i)
             {
                 product = product.pointwiseProduct(factors.Get(i));
             }

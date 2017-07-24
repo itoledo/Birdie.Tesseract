@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.probability;
-using tvn.cosine.ai.probability.bayes.impl;
+using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.bayes;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.util;
 
@@ -49,16 +50,16 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.impl
 				0.6 }, aRV, bRV);
 
             assertArrayEquals(new double[] { 0.1, 0.9 }, cpt
-                     .getConditioningCase(true, true).getValues(), DELTA_THRESHOLD);
+                     .GetConditioningCase(true, true).getValues(), DELTA_THRESHOLD);
 
             assertArrayEquals(new double[] { 0.2, 0.8 }, cpt
-                    .getConditioningCase(true, false).getValues(), DELTA_THRESHOLD);
+                    .GetConditioningCase(true, false).getValues(), DELTA_THRESHOLD);
 
             assertArrayEquals(new double[] { 0.3, 0.7 }, cpt
-                    .getConditioningCase(false, true).getValues(), DELTA_THRESHOLD);
+                    .GetConditioningCase(false, true).getValues(), DELTA_THRESHOLD);
 
             assertArrayEquals(new double[] { 0.4, 0.6 }, cpt
-                   .getConditioningCase(false, false).getValues(), DELTA_THRESHOLD);
+                   .GetConditioningCase(false, false).getValues(), DELTA_THRESHOLD);
 
         }
     }

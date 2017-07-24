@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util.math;
 
@@ -101,7 +102,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
          *            the current evidence from time step t
          * @return a distribution over <b>X</b><sub>t-d</sub>
          */
-        public CategoricalDistribution fixedLagSmoothing(ICollection<AssignmentProposition> et)
+        public ICategoricalDistribution fixedLagSmoothing(ICollection<AssignmentProposition> et)
         {
             // local variables: <b>O</b><sub>t-d</sub>, <b>O</b><sub>t</sub>,
             // diagonal matrices containing the sensor model information
@@ -133,7 +134,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
             }
 
             // if t > d then return NORMALIZE(<b>f</b> * <b>B1</b>) else return null
-            CategoricalDistribution rVal = null;
+            ICategoricalDistribution rVal = null;
             if (t > d)
             {
                 rVal = hmm.convert(hmm.normalize(f.arrayTimes(B.times(unitMessage))));

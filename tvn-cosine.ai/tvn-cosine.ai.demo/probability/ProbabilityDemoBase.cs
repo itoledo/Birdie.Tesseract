@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
 
@@ -13,7 +14,7 @@ namespace tvn_cosine.ai.demo.probability
         // counterparts.
         public const int NUM_SAMPLES = 1000;
 
-        protected static void demoToothacheCavityCatchModel(              FiniteProbabilityModel model)
+        protected static void demoToothacheCavityCatchModel(IFiniteProbabilityModel model)
         {
             System.Console.WriteLine("Toothache, Cavity, and Catch Model");
             System.Console.WriteLine("----------------------------------");
@@ -53,7 +54,7 @@ namespace tvn_cosine.ai.demo.probability
                             acatch));
         }
 
-        protected static void demoBurglaryAlarmModel(FiniteProbabilityModel model)
+        protected static void demoBurglaryAlarmModel(IFiniteProbabilityModel model)
         {
             System.Console.WriteLine("--------------------");
             System.Console.WriteLine("Burglary Alarm Model");

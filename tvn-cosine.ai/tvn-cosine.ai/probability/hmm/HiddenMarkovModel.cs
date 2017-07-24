@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util.math;
 
@@ -26,7 +27,7 @@ namespace tvn.cosine.ai.probability.hmm
          * @return the single discrete random variable used to describe the process
          *         state.
          */
-        RandomVariable getStateVariable();
+        IRandomVariable getStateVariable();
 
         /**
          * Return the transition model:<br>
@@ -82,7 +83,7 @@ namespace tvn.cosine.ai.probability.hmm
          * @return a column vector in Matrix form of the passed in categorical
          *         distribution.
          */
-        Matrix convert(CategoricalDistribution fromCD);
+        Matrix convert(ICategoricalDistribution fromCD);
 
         /**
          * Convert a column vector in Matrix form to a Categorical Distribution.
@@ -92,7 +93,7 @@ namespace tvn.cosine.ai.probability.hmm
          * @return a categorical distribution representation of the passed in column
          *         vector.
          */
-        CategoricalDistribution convert(Matrix fromMessage);
+        ICategoricalDistribution convert(Matrix fromMessage);
 
         /**
          * Convert a list of column vectors in Matrix form into a corresponding list
@@ -103,7 +104,7 @@ namespace tvn.cosine.ai.probability.hmm
          * @return a corresponding list of Categorical Distribution representation
          *         of the passed in column vectors.
          */
-        ICollection<CategoricalDistribution> convert(ICollection<Matrix> matrixs);
+        ICollection<ICategoricalDistribution> convert(ICollection<Matrix> matrixs);
 
         /**
          * Create a normalized column vector in matrix form of the passed in column

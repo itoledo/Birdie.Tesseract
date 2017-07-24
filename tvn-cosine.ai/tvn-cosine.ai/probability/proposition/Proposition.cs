@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.probability.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
@@ -23,7 +24,7 @@ namespace tvn.cosine.ai.probability.proposition
          * @return the Set of RandomVariables in the World (sample space) that this
          *         Proposition is applicable to.
          */
-        ISet<RandomVariable> getScope();
+        ISet<IRandomVariable> getScope();
 
         /**
          * 
@@ -33,7 +34,7 @@ namespace tvn.cosine.ai.probability.proposition
          *         unbound it implies the distributions associated with the variable
          *         is being sought.
          */
-        ISet<RandomVariable> getUnboundScope();
+        ISet<IRandomVariable> getUnboundScope();
 
         /**
          * Determine whether or not the proposition holds in a particular possible
@@ -45,6 +46,6 @@ namespace tvn.cosine.ai.probability.proposition
          * @return true if the proposition holds in the given possible world, false
          *         otherwise.
          */
-        bool holds(IMap<RandomVariable, object> possibleWorld);
+        bool holds(IMap<IRandomVariable, object> possibleWorld);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.proposition;
 
 namespace tvn.cosine.ai.probability.temporal
@@ -33,6 +34,6 @@ namespace tvn.cosine.ai.probability.temporal
          *            <b>e</b><sub>t+1</sub>
          * @return f<sub>1:t+1</sub>
          */
-        CategoricalDistribution forward(CategoricalDistribution f1_t, ICollection<AssignmentProposition> e_tp1);
+        ICategoricalDistribution forward(ICategoricalDistribution f1_t, ICollection<AssignmentProposition> e_tp1);
     } 
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.bayes;
+using tvn.cosine.ai.probability.bayes.api;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
 
@@ -8,18 +10,18 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.exact
 {
     public abstract class BayesianInferenceTest
     { 
-        protected BayesInference bayesInference = null;
+        protected IBayesInference bayesInference = null;
 
         public abstract void setUp();
 
         [TestMethod]
         public void testInferenceOnToothacheCavityCatchNetwork()
         {
-            BayesianNetwork bn = BayesNetExampleFactory
+            IBayesianNetwork bn = BayesNetExampleFactory
                     .constructToothacheCavityCatchNetwork();
 
-            CategoricalDistribution d = bayesInference.ask(
-                    new RandomVariable[] { ExampleRV.CAVITY_RV },
+            ICategoricalDistribution d = bayesInference.Ask(
+                    new IRandomVariable[] { ExampleRV.CAVITY_RV },
                     new AssignmentProposition[] { }, bn);
 
             // System.Console.WriteLine("P(Cavity)=" + d);
@@ -31,7 +33,7 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.exact
 
             // AIMA3e pg. 493
             // P(Cavity | toothache) = <0.6, 0.4>
-            d = bayesInference.ask(new RandomVariable[] { ExampleRV.CAVITY_RV },
+            d = bayesInference.Ask(new IRandomVariable[] { ExampleRV.CAVITY_RV },
                     new AssignmentProposition[] { new AssignmentProposition(
                         ExampleRV.TOOTHACHE_RV, true) }, bn);
 
@@ -45,7 +47,7 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.exact
             // AIMA3e pg. 497
             // P(Cavity | toothache AND catch) = <0.871, 0.129>
             d = bayesInference
-                    .ask(new RandomVariable[] { ExampleRV.CAVITY_RV },
+                    .Ask(new IRandomVariable[] { ExampleRV.CAVITY_RV },
                             new AssignmentProposition[] {
                                 new AssignmentProposition(
                                         ExampleRV.TOOTHACHE_RV, true),
@@ -63,12 +65,12 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.exact
         [TestMethod]
         public void testInferenceOnBurglaryAlarmNetwork()
         {
-            BayesianNetwork bn = BayesNetExampleFactory
+            IBayesianNetwork bn = BayesNetExampleFactory
                     .constructBurglaryAlarmNetwork();
 
             // AIMA3e. pg. 514
-            CategoricalDistribution d = bayesInference
-                    .ask(new RandomVariable[] { ExampleRV.ALARM_RV },
+            ICategoricalDistribution d = bayesInference
+                    .Ask(new IRandomVariable[] { ExampleRV.ALARM_RV },
                             new AssignmentProposition[] {
                                 new AssignmentProposition(
                                         ExampleRV.BURGLARY_RV, false),
@@ -89,7 +91,7 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.exact
             // AIMA3e pg. 523
             // P(Burglary | JohnCalls = true, MaryCalls = true) = <0.284, 0.716>
             d = bayesInference
-                    .ask(new RandomVariable[] { ExampleRV.BURGLARY_RV },
+                    .Ask(new IRandomVariable[] { ExampleRV.BURGLARY_RV },
                             new AssignmentProposition[] {
                                 new AssignmentProposition(
                                         ExampleRV.JOHN_CALLS_RV, true),
@@ -105,8 +107,8 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.exact
 
             // AIMA3e pg. 528
             // P(JohnCalls | Burglary = true)
-            d = bayesInference.ask(
-                    new RandomVariable[] { ExampleRV.JOHN_CALLS_RV },
+            d = bayesInference.Ask(
+                    new IRandomVariable[] { ExampleRV.JOHN_CALLS_RV },
                     new AssignmentProposition[] { new AssignmentProposition(
                         ExampleRV.BURGLARY_RV, true) }, bn);
             // System.Console.WriteLine("P(JohnCalls | b)=" + d);

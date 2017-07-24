@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
@@ -24,7 +25,7 @@ namespace tvn.cosine.ai.probability.proposition
         }
 
 
-        public override bool holds(IMap<RandomVariable, object> possibleWorld)
+        public override bool holds(IMap<IRandomVariable, object> possibleWorld)
         {
             return !proposition.holds(possibleWorld);
         }

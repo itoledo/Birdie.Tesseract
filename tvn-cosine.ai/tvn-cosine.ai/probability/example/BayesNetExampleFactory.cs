@@ -1,26 +1,26 @@
 ﻿using tvn.cosine.ai.probability.bayes;
-using tvn.cosine.ai.probability.bayes.impl;
+using tvn.cosine.ai.probability.bayes.api; 
 
 namespace tvn.cosine.ai.probability.example
 {
     public class BayesNetExampleFactory
     {
-        public static BayesianNetwork construct2FairDiceNetwor()
+        public static IBayesianNetwork construct2FairDiceNetwor()
         {
-            FiniteNode dice1 = new FullCPTNode(ExampleRV.DICE_1_RV, new double[] {
+            IFiniteNode dice1 = new FullCPTNode(ExampleRV.DICE_1_RV, new double[] {
                 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0,
                 1.0 / 6.0 });
-            FiniteNode dice2 = new FullCPTNode(ExampleRV.DICE_2_RV, new double[] {
+            IFiniteNode dice2 = new FullCPTNode(ExampleRV.DICE_2_RV, new double[] {
                 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0,
                 1.0 / 6.0 });
 
             return new BayesNet(dice1, dice2);
         }
 
-        public static BayesianNetwork constructToothacheCavityCatchNetwork()
+        public static IBayesianNetwork constructToothacheCavityCatchNetwork()
         {
-            FiniteNode cavity = new FullCPTNode(ExampleRV.CAVITY_RV, new double[] { 0.2, 0.8 });
-            FiniteNode toothache = new FullCPTNode(ExampleRV.TOOTHACHE_RV,
+            IFiniteNode cavity = new FullCPTNode(ExampleRV.CAVITY_RV, new double[] { 0.2, 0.8 });
+            IFiniteNode toothache = new FullCPTNode(ExampleRV.TOOTHACHE_RV,
                     new double[] {
 						// C=true, T=true
 						0.6,
@@ -32,7 +32,7 @@ namespace tvn.cosine.ai.probability.example
 						0.9
 
                     }, cavity);
-            FiniteNode catchN = new FullCPTNode(ExampleRV.CATCH_RV, new double[] {
+            IFiniteNode catchN = new FullCPTNode(ExampleRV.CATCH_RV, new double[] {
 				// C=true, Catch=true
 				0.9,
 				// C=true, Catch=false
@@ -45,12 +45,12 @@ namespace tvn.cosine.ai.probability.example
             return new BayesNet(cavity);
         }
 
-        public static BayesianNetwork constructToothacheCavityCatchWeatherNetwork()
+        public static IBayesianNetwork constructToothacheCavityCatchWeatherNetwork()
         {
-            FiniteNode cavity = new FullCPTNode(ExampleRV.CAVITY_RV, new double[] { 0.2, 0.8 });
+            IFiniteNode cavity = new FullCPTNode(ExampleRV.CAVITY_RV, new double[] { 0.2, 0.8 });
 
 
-            FiniteNode toothache = new FullCPTNode(ExampleRV.TOOTHACHE_RV,
+            IFiniteNode toothache = new FullCPTNode(ExampleRV.TOOTHACHE_RV,
                     new double[] {
 						// C=true, T=true
 						0.6,
@@ -63,7 +63,7 @@ namespace tvn.cosine.ai.probability.example
 
                     }, cavity);
 
-            FiniteNode catchN = new FullCPTNode(ExampleRV.CATCH_RV, new double[] {
+            IFiniteNode catchN = new FullCPTNode(ExampleRV.CATCH_RV, new double[] {
 				// C=true, Catch=true
 				0.9,
 				// C=true, Catch=false
@@ -72,7 +72,7 @@ namespace tvn.cosine.ai.probability.example
 				0.2,
 				// C=false, Catch=false
 				0.8 }, cavity);
-            FiniteNode weather = new FullCPTNode(ExampleRV.WEATHER_RV,
+            IFiniteNode weather = new FullCPTNode(ExampleRV.WEATHER_RV,
                     new double[] {
 						// sunny
 						0.6,
@@ -86,12 +86,12 @@ namespace tvn.cosine.ai.probability.example
             return new BayesNet(cavity, weather);
         }
 
-        public static BayesianNetwork constructMeningitisStiffNeckNetwork()
+        public static IBayesianNetwork constructMeningitisStiffNeckNetwork()
         {
-            FiniteNode meningitis = new FullCPTNode(ExampleRV.MENINGITIS_RV,
+            IFiniteNode meningitis = new FullCPTNode(ExampleRV.MENINGITIS_RV,
                     new double[] { 1.0 / 50000.0, 1.0 - (1.0 / 50000.0) });
 
-            FiniteNode stiffneck = new FullCPTNode(ExampleRV.STIFF_NECK_RV,
+            IFiniteNode stiffneck = new FullCPTNode(ExampleRV.STIFF_NECK_RV,
                     new double[] {
 						// M=true, S=true
 						0.7,
@@ -106,13 +106,13 @@ namespace tvn.cosine.ai.probability.example
             return new BayesNet(meningitis);
         }
 
-        public static BayesianNetwork constructBurglaryAlarmNetwork()
+        public static IBayesianNetwork constructBurglaryAlarmNetwork()
         {
-            FiniteNode burglary = new FullCPTNode(ExampleRV.BURGLARY_RV,
+            IFiniteNode burglary = new FullCPTNode(ExampleRV.BURGLARY_RV,
                     new double[] { 0.001, 0.999 });
-            FiniteNode earthquake = new FullCPTNode(ExampleRV.EARTHQUAKE_RV,
+            IFiniteNode earthquake = new FullCPTNode(ExampleRV.EARTHQUAKE_RV,
                     new double[] { 0.002, 0.998 });
-            FiniteNode alarm = new FullCPTNode(ExampleRV.ALARM_RV, new double[] {
+            IFiniteNode alarm = new FullCPTNode(ExampleRV.ALARM_RV, new double[] {
 				// B=true, E=true, A=true
 				0.95,
 				// B=true, E=true, A=false
@@ -130,7 +130,7 @@ namespace tvn.cosine.ai.probability.example
 				// B=false, E=false, A=false
 				0.999 }, burglary, earthquake);
 
-            FiniteNode johnCalls = new FullCPTNode(ExampleRV.JOHN_CALLS_RV,
+            IFiniteNode johnCalls = new FullCPTNode(ExampleRV.JOHN_CALLS_RV,
                     new double[] {
 						// A=true, J=true
 						0.90,
@@ -141,7 +141,7 @@ namespace tvn.cosine.ai.probability.example
 						// A=false, J=false
 						0.95 }, alarm);
 
-            FiniteNode maryCalls = new FullCPTNode(ExampleRV.MARY_CALLS_RV,
+            IFiniteNode maryCalls = new FullCPTNode(ExampleRV.MARY_CALLS_RV,
                     new double[] {
 						// A=true, M=true
 						0.70,
@@ -155,11 +155,11 @@ namespace tvn.cosine.ai.probability.example
             return new BayesNet(burglary, earthquake);
         }
 
-        public static BayesianNetwork constructCloudySprinklerRainWetGrassNetwork()
+        public static IBayesianNetwork constructCloudySprinklerRainWetGrassNetwork()
         {
-            FiniteNode cloudy = new FullCPTNode(ExampleRV.CLOUDY_RV, new double[] {
+            IFiniteNode cloudy = new FullCPTNode(ExampleRV.CLOUDY_RV, new double[] {
                 0.5, 0.5 });
-            FiniteNode sprinkler = new FullCPTNode(ExampleRV.SPRINKLER_RV,
+            IFiniteNode sprinkler = new FullCPTNode(ExampleRV.SPRINKLER_RV,
                     new double[] {
 						// Cloudy=true, Sprinkler=true
 						0.1,
@@ -169,7 +169,7 @@ namespace tvn.cosine.ai.probability.example
 						0.5,
 						// Cloudy=false, Sprinkler=false
 						0.5 }, cloudy);
-            FiniteNode rain = new FullCPTNode(ExampleRV.RAIN_RV, new double[] {
+            IFiniteNode rain = new FullCPTNode(ExampleRV.RAIN_RV, new double[] {
 				// Cloudy=true, Rain=true
 				0.8,
 				// Cloudy=true, Rain=false
@@ -179,7 +179,7 @@ namespace tvn.cosine.ai.probability.example
 				// Cloudy=false, Rain=false
 				0.8 }, cloudy);
 
-            FiniteNode wetGrass = new FullCPTNode(ExampleRV.WET_GRASS_RV,
+            IFiniteNode wetGrass = new FullCPTNode(ExampleRV.WET_GRASS_RV,
                     new double[] {
 						// Sprinkler=true, Rain=true, WetGrass=true
 						.99,

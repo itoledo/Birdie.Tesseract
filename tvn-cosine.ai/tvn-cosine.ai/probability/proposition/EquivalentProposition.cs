@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
@@ -8,26 +9,26 @@ namespace tvn.cosine.ai.probability.proposition
     {
         private string toString = null;
 
-        public EquivalentProposition(string name, params RandomVariable[] equivs)
+        public EquivalentProposition(string name, params IRandomVariable[] equivs)
                 : base(name)
         {
             if (null == equivs || 1 >= equivs.Length)
             {
                 throw new IllegalArgumentException("Equivalent variables must be specified.");
             }
-            foreach (RandomVariable rv in equivs)
+            foreach (IRandomVariable rv in equivs)
             {
                 addScope(rv);
             }
         }
 
-        public override bool holds(IMap<RandomVariable, object> possibleWorld)
+        public override bool holds(IMap<IRandomVariable, object> possibleWorld)
         {
             bool holds = true;
             bool first = true;
 
-            RandomVariable rvL = null;
-            foreach (RandomVariable rvC in getScope())
+            IRandomVariable rvL = null;
+            foreach (IRandomVariable rvC in getScope())
             {
                 if (first)
                 {
@@ -52,7 +53,7 @@ namespace tvn.cosine.ai.probability.proposition
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append(getDerivedName());
-                foreach (RandomVariable rv in getScope())
+                foreach (IRandomVariable rv in getScope())
                 {
                     sb.Append(" = ");
                     sb.Append(rv);

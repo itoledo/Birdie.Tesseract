@@ -1,44 +1,45 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.probability.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
     public abstract class AbstractProposition : Proposition
     {
-        private ISet<RandomVariable> scope = CollectionFactory.CreateSet<RandomVariable>();
-        private ISet<RandomVariable> unboundScope = CollectionFactory.CreateSet<RandomVariable>();
+        private ISet<IRandomVariable> scope = CollectionFactory.CreateSet<IRandomVariable>();
+        private ISet<IRandomVariable> unboundScope = CollectionFactory.CreateSet<IRandomVariable>();
 
         public AbstractProposition()
         { }
 
-        public virtual ISet<RandomVariable> getScope()
+        public virtual ISet<IRandomVariable> getScope()
         {
             return scope;
         }
 
-        public virtual ISet<RandomVariable> getUnboundScope()
+        public virtual ISet<IRandomVariable> getUnboundScope()
         {
             return unboundScope;
         }
 
-        public abstract bool holds(IMap<RandomVariable, object> possibleWorld);
+        public abstract bool holds(IMap<IRandomVariable, object> possibleWorld);
 
-        protected virtual void addScope(RandomVariable var)
+        protected virtual void addScope(IRandomVariable var)
         {
             scope.Add(var);
         }
 
-        protected virtual void addScope(ICollection<RandomVariable> vars)
+        protected virtual void addScope(ICollection<IRandomVariable> vars)
         {
             scope.AddAll(vars);
         }
 
-        protected virtual void addUnboundScope(RandomVariable var)
+        protected virtual void addUnboundScope(IRandomVariable var)
         {
             unboundScope.Add(var);
         }
 
-        protected virtual void addUnboundScope(ICollection<RandomVariable> vars)
+        protected virtual void addUnboundScope(ICollection<IRandomVariable> vars)
         {
             unboundScope.AddAll(vars);
         }

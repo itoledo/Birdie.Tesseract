@@ -2,6 +2,7 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.temporal;
@@ -33,20 +34,20 @@ namespace tvn_cosine.ai.test.unit.probability.temporal
             // AIMA3e pg. 572
             // Day 0, no observations only the security guards prior beliefs
             // P(R<sub>0</sub>) = <0.5, 0.5>
-            CategoricalDistribution prior = new ProbabilityTable(new double[] { 0.5, 0.5 }, ExampleRV.RAIN_t_RV);
+            ICategoricalDistribution prior = new ProbabilityTable(new double[] { 0.5, 0.5 }, ExampleRV.RAIN_t_RV);
 
             // Day 1, the umbrella appears, so U<sub>1</sub> = true.
             // &asymp; <0.818, 0.182>
             ICollection<AssignmentProposition> e1 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e1.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
-            CategoricalDistribution f1 = uw.forward(prior, e1);
+            ICategoricalDistribution f1 = uw.forward(prior, e1);
             assertArrayEquals(new double[] { 0.818, 0.182 }, f1.getValues(), DELTA_THRESHOLD);
 
             // Day 2, the umbrella appears, so U<sub>2</sub> = true.
             // &asymp; <0.883, 0.117>
             ICollection<AssignmentProposition> e2 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e2.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
-            CategoricalDistribution f2 = uw.forward(f1, e2);
+            ICategoricalDistribution f2 = uw.forward(f1, e2);
             assertArrayEquals(new double[] { 0.883, 0.117 }, f2.getValues(),
                     DELTA_THRESHOLD);
         }
@@ -54,10 +55,10 @@ namespace tvn_cosine.ai.test.unit.probability.temporal
         protected void testBackwardStep_UmbrellaWorld(BackwardStepInference uw)
         {
             // AIMA3e pg. 575
-            CategoricalDistribution b_kp2t = new ProbabilityTable(new double[] { 1.0, 1.0 }, ExampleRV.RAIN_t_RV);
+            ICategoricalDistribution b_kp2t = new ProbabilityTable(new double[] { 1.0, 1.0 }, ExampleRV.RAIN_t_RV);
             ICollection<AssignmentProposition> e2 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e2.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
-            CategoricalDistribution b1 = uw.backward(b_kp2t, e2);
+            ICategoricalDistribution b1 = uw.backward(b_kp2t, e2);
             assertArrayEquals(new double[] { 0.69, 0.41 }, b1.getValues(), DELTA_THRESHOLD);
         }
 
@@ -66,7 +67,7 @@ namespace tvn_cosine.ai.test.unit.probability.temporal
             // AIMA3e pg. 572
             // Day 0, no observations only the security guards prior beliefs
             // P(R<sub>0</sub>) = <0.5, 0.5>
-            CategoricalDistribution prior = new ProbabilityTable(new double[] { 0.5, 0.5 }, ExampleRV.RAIN_t_RV);
+            ICategoricalDistribution prior = new ProbabilityTable(new double[] { 0.5, 0.5 }, ExampleRV.RAIN_t_RV);
 
             // Day 1
             ICollection<ICollection<AssignmentProposition>> evidence = CollectionFactory.CreateQueue<ICollection<AssignmentProposition>>();
@@ -74,7 +75,7 @@ namespace tvn_cosine.ai.test.unit.probability.temporal
             e1.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
             evidence.Add(e1);
 
-            ICollection<CategoricalDistribution> smoothed = uw.forwardBackward(evidence, prior);
+            ICollection<ICategoricalDistribution> smoothed = uw.forwardBackward(evidence, prior);
 
             Assert.AreEqual(1, smoothed.Size());
             assertArrayEquals(new double[] { 0.818, 0.182 }, smoothed.Get(0).getValues(), DELTA_THRESHOLD);

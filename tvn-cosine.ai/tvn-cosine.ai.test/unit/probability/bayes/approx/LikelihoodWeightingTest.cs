@@ -1,8 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.bayes;
-using tvn.cosine.ai.probability.bayes.approx;
+using tvn.cosine.ai.probability.bayes.api;
+using tvn.cosine.ai.probability.bayes.approximate;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util;
@@ -29,14 +31,14 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
         [TestMethod]
         public void testLikelihoodWeighting_basic()
         {
-            BayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
+            IBayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
             AssignmentProposition[] e = new AssignmentProposition[] { new AssignmentProposition(ExampleRV.SPRINKLER_RV, true) };
             MockRandomizer r = new MockRandomizer(new double[] { 0.5, 0.5, 0.5, 0.5 });
 
             LikelihoodWeighting lw = new LikelihoodWeighting(r);
 
             double[] estimate = lw.likelihoodWeighting(
-                    new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 1000)
+                    new IRandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 1000)
                     .getValues();
 
             assertArrayEquals(new double[] { 1.0, 0.0 }, estimate, DELTA_THRESHOLD);
@@ -47,7 +49,7 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
         {
             // AIMA3e pg. 533
             // <b>P</b>(Rain | Cloudy = true, WetGrass = true)
-            BayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
+            IBayesianNetwork bn = BayesNetExampleFactory.constructCloudySprinklerRainWetGrassNetwork();
             AssignmentProposition[] e = new AssignmentProposition[] {
                 new AssignmentProposition(ExampleRV.CLOUDY_RV, true),
                 new AssignmentProposition(ExampleRV.WET_GRASS_RV, true) };
@@ -58,7 +60,7 @@ namespace tvn_cosine.ai.test.unit.probability.bayes.approx
 
             LikelihoodWeighting lw = new LikelihoodWeighting(r);
             double[] estimate = lw.likelihoodWeighting(
-                    new RandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 1)
+                    new IRandomVariable[] { ExampleRV.RAIN_RV }, e, bn, 1)
                     .getValues();
 
             // Here the event [true,false,true,true] should have weight 0.45,

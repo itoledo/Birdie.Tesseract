@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
 
@@ -13,11 +14,11 @@ namespace tvn.cosine.ai.probability.util
     /// RandomVariables in conjunction with propositions about them in the
     /// Probability Model APIs.
     /// </summary>
-    public class RandVar : RandomVariable, TermProposition
+    public class RandVar : IRandomVariable, TermProposition
     {
         private string name = null;
         private Domain domain = null;
-        private ISet<RandomVariable> scope = CollectionFactory.CreateSet<RandomVariable>();
+        private ISet<IRandomVariable> scope = CollectionFactory.CreateSet<IRandomVariable>();
 
         public RandVar(string name, Domain domain)
         {
@@ -43,25 +44,25 @@ namespace tvn.cosine.ai.probability.util
             return domain;
         }
          
-        public RandomVariable getTermVariable()
+        public IRandomVariable getTermVariable()
         {
             return this;
         }
 
 
-        public ISet<RandomVariable> getScope()
+        public ISet<IRandomVariable> getScope()
         {
             return scope;
         }
 
 
-        public ISet<RandomVariable> getUnboundScope()
+        public ISet<IRandomVariable> getUnboundScope()
         {
             return scope;
         }
 
 
-        public bool holds(IMap<RandomVariable, object> possibleWorld)
+        public bool holds(IMap<IRandomVariable, object> possibleWorld)
         {
             return possibleWorld.ContainsKey(getTermVariable());
         }
@@ -73,13 +74,13 @@ namespace tvn.cosine.ai.probability.util
             {
                 return true;
             }
-            if (!(o is RandomVariable))
+            if (!(o is IRandomVariable))
             {
                 return false;
             }
 
             // The name (not the name:domain combination) uniquely identifies a Random Variable
-            RandomVariable other = (RandomVariable)o;
+            IRandomVariable other = (IRandomVariable)o;
 
             return this.name.Equals(other.getName());
         }

@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
 
@@ -12,12 +13,12 @@ namespace tvn.cosine.ai.probability.full
      * 
      * @author Ciaran O'Reilly
      */
-    public class FullJointDistributionModel : FiniteProbabilityModel
+    public class FullJointDistributionModel : IFiniteProbabilityModel
     {
         private ProbabilityTable distribution = null;
-        private ISet<RandomVariable> representation = null;
+        private ISet<IRandomVariable> representation = null;
 
-        public FullJointDistributionModel(double[] values, params RandomVariable[] vars)
+        public FullJointDistributionModel(double[] values, params IRandomVariable[] vars)
         {
             if (null == vars)
             {
@@ -26,12 +27,12 @@ namespace tvn.cosine.ai.probability.full
 
             distribution = new ProbabilityTable(values, vars);
 
-            representation = CollectionFactory.CreateSet<RandomVariable>();
+            representation = CollectionFactory.CreateSet<IRandomVariable>();
             for (int i = 0; i < vars.Length;++i)
             {
                 representation.Add(vars[i]);
             }
-            representation = CollectionFactory.CreateReadOnlySet<RandomVariable>(representation);
+            representation = CollectionFactory.CreateReadOnlySet<IRandomVariable>(representation);
         }
 
         //
@@ -62,7 +63,7 @@ namespace tvn.cosine.ai.probability.full
             return 0;
         }
 
-        public ISet<RandomVariable> getRepresentation()
+        public ISet<IRandomVariable> getRepresentation()
         {
             return representation;
         }
@@ -72,20 +73,20 @@ namespace tvn.cosine.ai.probability.full
 
         //
         // START-FiniteProbabilityModel
-        public CategoricalDistribution priorDistribution(params Proposition[] phi)
+        public ICategoricalDistribution priorDistribution(params Proposition[] phi)
         {
             return jointDistribution(phi);
         }
 
-        public CategoricalDistribution posteriorDistribution(Proposition phi,
+        public ICategoricalDistribution posteriorDistribution(Proposition phi,
                 params Proposition[] evidence)
         {
 
             Proposition conjEvidence = ProbUtil.constructConjunction(evidence);
 
             // P(A | B) = P(A AND B)/P(B) - (13.3 AIMA3e)
-            CategoricalDistribution dAandB = jointDistribution(phi, conjEvidence);
-            CategoricalDistribution dEvidence = jointDistribution(conjEvidence);
+            ICategoricalDistribution dAandB = jointDistribution(phi, conjEvidence);
+            ICategoricalDistribution dEvidence = jointDistribution(conjEvidence);
 
             return dAandB.divideBy(dEvidence);
         }
@@ -95,9 +96,9 @@ namespace tvn.cosine.ai.probability.full
             private Proposition conjProp;
             private ProbabilityTable ud;
             private object[] values;
-            private ISet<RandomVariable> vars;
+            private ISet<IRandomVariable> vars;
 
-            public ProbabilityTableIterator(Proposition conjProp, ProbabilityTable ud, object[] values, ISet<RandomVariable> vars)
+            public ProbabilityTableIterator(Proposition conjProp, ProbabilityTable ud, object[] values, ISet<IRandomVariable> vars)
             {
                 this.conjProp = conjProp;
                 this.ud = ud;
@@ -105,12 +106,12 @@ namespace tvn.cosine.ai.probability.full
                 this.vars = vars;
             }
 
-            public void iterate(IMap<RandomVariable, object> possibleWorld, double probability)
+            public void iterate(IMap<IRandomVariable, object> possibleWorld, double probability)
             {
                 if (conjProp.holds(possibleWorld))
                 {
                     int i = 0;
-                    foreach (RandomVariable rv in vars)
+                    foreach (IRandomVariable rv in vars)
                     {
                         values[i] = possibleWorld.Get(rv);
                        ++i;
@@ -121,15 +122,15 @@ namespace tvn.cosine.ai.probability.full
             }
         }
 
-        public CategoricalDistribution jointDistribution(params Proposition[] propositions)
+        public ICategoricalDistribution jointDistribution(params Proposition[] propositions)
         {
             ProbabilityTable d = null;
             Proposition conjProp = ProbUtil.constructConjunction(propositions);
-            ISet<RandomVariable> vars = CollectionFactory.CreateSet<RandomVariable>(conjProp.getUnboundScope());
+            ISet<IRandomVariable> vars = CollectionFactory.CreateSet<IRandomVariable>(conjProp.getUnboundScope());
 
             if (vars.Size() > 0)
             {
-                RandomVariable[] distVars = vars.ToArray();
+                IRandomVariable[] distVars = vars.ToArray();
 
                 ProbabilityTable ud = new ProbabilityTable(distVars);
                 object[] values = new object[vars.Size()];
@@ -161,7 +162,7 @@ namespace tvn.cosine.ai.probability.full
                 this.phi = phi;
             }
 
-            public void iterate(IMap<RandomVariable, object> possibleWorld, double probability)
+            public void iterate(IMap<IRandomVariable, object> possibleWorld, double probability)
             {
                 if (phi.holds(possibleWorld))
                 {

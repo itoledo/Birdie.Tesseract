@@ -2,6 +2,7 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util;
@@ -17,11 +18,11 @@ namespace tvn.cosine.ai.probability.util
      * 
      * @author Ciaran O'Reilly
      */
-    public class ProbabilityTable : CategoricalDistribution, Factor
+    public class ProbabilityTable : ICategoricalDistribution, IFactor
     {
         private double[] values = null;
         //
-        private IMap<RandomVariable, RVInfo> randomVarInfo = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, RVInfo>();
+        private IMap<IRandomVariable, RVInfo> randomVarInfo = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, RVInfo>();
         private int[] radices = null;
         private MixedRadixNumber queryMRN = null;
         //
@@ -37,7 +38,7 @@ namespace tvn.cosine.ai.probability.util
          * @see ProbabilityTable#iterateOverTable(Iterator,
          *      params AssignmentProposition[] )
          */
-        public interface ProbabilityTableIterator : Iterator
+        public interface ProbabilityTableIterator : IIterator
         {
             /**
              * Called for each possible assignment for the Random Variables
@@ -50,15 +51,15 @@ namespace tvn.cosine.ai.probability.util
              */
         }
 
-        public ProbabilityTable(ICollection<RandomVariable> vars)
+        public ProbabilityTable(ICollection<IRandomVariable> vars)
             : this(vars.ToArray())
         { }
 
-        public ProbabilityTable(params RandomVariable[] vars)
+        public ProbabilityTable(params IRandomVariable[] vars)
             : this(new double[ProbUtil.expectedSizeOfProbabilityTable(vars)], vars)
         { }
 
-        public ProbabilityTable(double[] vals, params RandomVariable[] vars)
+        public ProbabilityTable(double[] vals, params IRandomVariable[] vars)
         {
             if (null == vals)
             {
@@ -73,7 +74,7 @@ namespace tvn.cosine.ai.probability.util
             }
             if (null != vars)
             {
-                foreach (RandomVariable rv in vars)
+                foreach (IRandomVariable rv in vars)
                 {
                     // Track index information relevant to each variable.
                     randomVarInfo.Put(rv, new RVInfo(rv));
@@ -99,13 +100,13 @@ namespace tvn.cosine.ai.probability.util
         //
         // START-ProbabilityDistribution
 
-        public ISet<RandomVariable> getFor()
+        public ISet<IRandomVariable> getFor()
         {
-            return CollectionFactory.CreateReadOnlySet<RandomVariable>(randomVarInfo.GetKeys());
+            return CollectionFactory.CreateReadOnlySet<IRandomVariable>(randomVarInfo.GetKeys());
         }
 
 
-        public bool contains(RandomVariable rv)
+        public bool contains(IRandomVariable rv)
         {
             return randomVarInfo.GetKeys().Contains(rv);
         }
@@ -171,7 +172,7 @@ namespace tvn.cosine.ai.probability.util
             return sum;
         }
 
-        CategoricalDistribution CategoricalDistribution.normalize()
+        ICategoricalDistribution ICategoricalDistribution.normalize()
         {
             return normalize();
         }
@@ -210,41 +211,41 @@ namespace tvn.cosine.ai.probability.util
             return (int)queryMRN.GetCurrentValueFor(radixValues);
         }
 
-        Factor Factor.sumOut(params RandomVariable[] vars)
+        IFactor IFactor.sumOut(params IRandomVariable[] vars)
         {
             return sumOut(vars);
         }
 
-        public CategoricalDistribution marginal(params RandomVariable[] vars)
+        public ICategoricalDistribution marginal(params IRandomVariable[] vars)
         {
             return sumOut(vars);
         }
 
 
-        public CategoricalDistribution divideBy(CategoricalDistribution divisor)
+        public ICategoricalDistribution divideBy(ICategoricalDistribution divisor)
         {
             return divideBy((ProbabilityTable)divisor);
         }
 
 
-        public CategoricalDistribution multiplyBy(CategoricalDistribution multiplier)
+        public ICategoricalDistribution multiplyBy(ICategoricalDistribution multiplier)
         {
             return pointwiseProduct((ProbabilityTable)multiplier);
         }
 
 
-        public CategoricalDistribution multiplyByPOS(CategoricalDistribution multiplier, params RandomVariable[] prodVarOrder)
+        public ICategoricalDistribution multiplyByPOS(ICategoricalDistribution multiplier, params IRandomVariable[] prodVarOrder)
         {
             return pointwiseProductPOS((ProbabilityTable)multiplier, prodVarOrder);
         }
 
-        void Factor.iterateOver(FactorIterator fi)
+        void IFactor.iterateOver(FactorIterator fi)
         {
             iterateOverTable(new FactorIteratorAdapter(fi));
         }
 
 
-        void Factor.iterateOver(FactorIterator fi, params AssignmentProposition[] fixedValues)
+        void IFactor.iterateOver(FactorIterator fi, params AssignmentProposition[] fixedValues)
         {
             iterateOverTable(new FactorIteratorAdapter(fi), fixedValues);
         }
@@ -278,9 +279,9 @@ namespace tvn.cosine.ai.probability.util
         //
         // START-Factor
 
-        public ISet<RandomVariable> getArgumentVariables()
+        public ISet<IRandomVariable> getArgumentVariables()
         {
-            return CollectionFactory.CreateReadOnlySet<RandomVariable>(randomVarInfo.GetKeys());
+            return CollectionFactory.CreateReadOnlySet<IRandomVariable>(randomVarInfo.GetKeys());
         }
 
         class ProbabilityTableIteratorImpl : ProbabilityTableIterator
@@ -294,11 +295,11 @@ namespace tvn.cosine.ai.probability.util
                 this.termValues = termValues;
             }
 
-            public void iterate(IMap<RandomVariable, object> possibleWorld, double probability)
+            public void iterate(IMap<IRandomVariable, object> possibleWorld, double probability)
             {
 
                 int i = 0;
-                foreach (RandomVariable rv in summedOut.randomVarInfo.GetKeys())
+                foreach (IRandomVariable rv in summedOut.randomVarInfo.GetKeys())
                 {
                     termValues[i] = possibleWorld.Get(rv);
                     ++i;
@@ -307,10 +308,10 @@ namespace tvn.cosine.ai.probability.util
             }
         }
 
-        public ProbabilityTable sumOut(params RandomVariable[] vars)
+        public ProbabilityTable sumOut(params IRandomVariable[] vars)
         {
-            ISet<RandomVariable> soutVars = CollectionFactory.CreateSet<RandomVariable>(this.randomVarInfo.GetKeys());
-            foreach (RandomVariable rv in vars)
+            ISet<IRandomVariable> soutVars = CollectionFactory.CreateSet<IRandomVariable>(this.randomVarInfo.GetKeys());
+            foreach (IRandomVariable rv in vars)
             {
                 soutVars.Remove(rv);
             }
@@ -333,14 +334,14 @@ namespace tvn.cosine.ai.probability.util
         }
 
 
-        public Factor pointwiseProduct(Factor multiplier)
+        public IFactor pointwiseProduct(IFactor multiplier)
         {
             return pointwiseProduct((ProbabilityTable)multiplier);
         }
 
 
-        public Factor pointwiseProductPOS(Factor multiplier,
-                params RandomVariable[] prodVarOrder)
+        public IFactor pointwiseProductPOS(IFactor multiplier,
+                params IRandomVariable[] prodVarOrder)
         {
             return pointwiseProductPOS((ProbabilityTable)multiplier, prodVarOrder);
         }
@@ -356,9 +357,9 @@ namespace tvn.cosine.ai.probability.util
          * @param pti
          *            the ProbabilityTable Iterator to iterate.
          */
-        public void iterateOverTable(Iterator pti)
+        public void iterateOverTable(IIterator pti)
         {
-            IMap<RandomVariable, object> possibleWorld = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IMap<IRandomVariable, object> possibleWorld = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, object>();
             MixedRadixNumber mrn = new MixedRadixNumber(0, radices);
             do
             {
@@ -384,9 +385,9 @@ namespace tvn.cosine.ai.probability.util
          *            Fixed values for a subset of the Random Variables comprising
          *            this Probability Table.
          */
-        public void iterateOverTable(Iterator pti, params AssignmentProposition[] fixedValues)
+        public void iterateOverTable(IIterator pti, params AssignmentProposition[] fixedValues)
         {
-            IMap<RandomVariable, object> possibleWorld = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IMap<IRandomVariable, object> possibleWorld = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, object>();
             MixedRadixNumber tableMRN = new MixedRadixNumber(0, radices);
             int[] tableRadixValues = new int[radices.Length];
 
@@ -415,12 +416,12 @@ namespace tvn.cosine.ai.probability.util
             else
             {
                 // Else iterate over the non-fixed values
-                ISet<RandomVariable> freeVariables = SetOps.difference(
-                    CollectionFactory.CreateSet<RandomVariable>(this.randomVarInfo.GetKeys()),
-                    CollectionFactory.CreateSet<RandomVariable>(possibleWorld.GetKeys()));
-                IMap<RandomVariable, RVInfo> freeVarInfo = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, RVInfo>();
+                ISet<IRandomVariable> freeVariables = SetOps.difference(
+                    CollectionFactory.CreateSet<IRandomVariable>(this.randomVarInfo.GetKeys()),
+                    CollectionFactory.CreateSet<IRandomVariable>(possibleWorld.GetKeys()));
+                IMap<IRandomVariable, RVInfo> freeVarInfo = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, RVInfo>();
                 // Remove the fixed Variables
-                foreach (RandomVariable fv in freeVariables)
+                foreach (IRandomVariable fv in freeVariables)
                 {
                     freeVarInfo.Put(fv, new RVInfo(fv));
                 }
@@ -451,14 +452,14 @@ namespace tvn.cosine.ai.probability.util
 
         class ProbabilityTableIteratorImp2 : ProbabilityTableIterator
         {
-            private IMap<RandomVariable, RVInfo> diff;
+            private IMap<IRandomVariable, RVInfo> diff;
             private MixedRadixNumber dMRN;
             private ProbabilityTable probabilityTable;
             private MixedRadixNumber qMRN;
             private int[] qRVs;
             private ProbabilityTable quotient;
 
-            public ProbabilityTableIteratorImp2(ProbabilityTable quotient, int[] qRVs, MixedRadixNumber qMRN, MixedRadixNumber dMRN, IMap<RandomVariable, RVInfo> diff, ProbabilityTable probabilityTable)
+            public ProbabilityTableIteratorImp2(ProbabilityTable quotient, int[] qRVs, MixedRadixNumber qMRN, MixedRadixNumber dMRN, IMap<IRandomVariable, RVInfo> diff, ProbabilityTable probabilityTable)
             {
                 this.quotient = quotient;
                 this.qRVs = qRVs;
@@ -468,9 +469,9 @@ namespace tvn.cosine.ai.probability.util
                 this.probabilityTable = probabilityTable;
             }
 
-            public void iterate(IMap<RandomVariable, object> possibleWorld, double probability)
+            public void iterate(IMap<IRandomVariable, object> possibleWorld, double probability)
             {
-                foreach (RandomVariable rv in possibleWorld.GetKeys())
+                foreach (IRandomVariable rv in possibleWorld.GetKeys())
                 {
                     RVInfo rvInfo = quotient.randomVarInfo.Get(rv);
                     qRVs[rvInfo.getRadixIdx()] = rvInfo
@@ -482,7 +483,7 @@ namespace tvn.cosine.ai.probability.util
                     dMRN.SetCurrentValueFor(new int[diff.Size()]);
                     do
                     {
-                        foreach (RandomVariable rv in diff.GetKeys())
+                        foreach (IRandomVariable rv in diff.GetKeys())
                         {
                             RVInfo drvInfo = diff.Get(rv);
                             RVInfo qrvInfo = quotient.randomVarInfo.Get(rv);
@@ -541,22 +542,22 @@ namespace tvn.cosine.ai.probability.util
             }
             else
             {
-                ISet<RandomVariable> dividendDivisorDiff = SetOps
+                ISet<IRandomVariable> dividendDivisorDiff = SetOps
                         .difference(
-                    CollectionFactory.CreateSet<RandomVariable>(this.randomVarInfo.GetKeys()),
-                    CollectionFactory.CreateSet<RandomVariable>(divisor.randomVarInfo.GetKeys()));
-                IMap<RandomVariable, RVInfo> tdiff = null;
+                    CollectionFactory.CreateSet<IRandomVariable>(this.randomVarInfo.GetKeys()),
+                    CollectionFactory.CreateSet<IRandomVariable>(divisor.randomVarInfo.GetKeys()));
+                IMap<IRandomVariable, RVInfo> tdiff = null;
                 MixedRadixNumber tdMRN = null;
                 if (dividendDivisorDiff.Size() > 0)
                 {
-                    tdiff = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, RVInfo>();
-                    foreach (RandomVariable rv in dividendDivisorDiff)
+                    tdiff = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, RVInfo>();
+                    foreach (IRandomVariable rv in dividendDivisorDiff)
                     {
                         tdiff.Put(rv, new RVInfo(rv));
                     }
                     tdMRN = new MixedRadixNumber(0, createRadixs(tdiff));
                 }
-                IMap<RandomVariable, RVInfo> diff = tdiff;
+                IMap<IRandomVariable, RVInfo> diff = tdiff;
                 MixedRadixNumber dMRN = tdMRN;
                 int[] qRVs = new int[quotient.radices.Length];
                 MixedRadixNumber qMRN = new MixedRadixNumber(0, quotient.radices);
@@ -587,7 +588,7 @@ namespace tvn.cosine.ai.probability.util
                 this.probabilityTable = probabilityTable;
             }
 
-            public void iterate(IMap<RandomVariable, object> possibleWorld, double probability)
+            public void iterate(IMap<IRandomVariable, object> possibleWorld, double probability)
             {
                 int term1Idx = termIdx(term1Values, probabilityTable, possibleWorld);
                 int term2Idx = termIdx(term2Values, multiplier, possibleWorld);
@@ -597,7 +598,7 @@ namespace tvn.cosine.ai.probability.util
                 idx++;
             }
 
-            private int termIdx(object[] termValues, ProbabilityTable d, IMap<RandomVariable, object> possibleWorld)
+            private int termIdx(object[] termValues, ProbabilityTable d, IMap<IRandomVariable, object> possibleWorld)
             {
                 if (0 == termValues.Length)
                 {
@@ -606,7 +607,7 @@ namespace tvn.cosine.ai.probability.util
                 }
 
                 int i = 0;
-                foreach (RandomVariable rv in d.randomVarInfo.GetKeys())
+                foreach (IRandomVariable rv in d.randomVarInfo.GetKeys())
                 {
                     termValues[i] = possibleWorld.Get(rv);
                     ++i;
@@ -618,17 +619,17 @@ namespace tvn.cosine.ai.probability.util
 
         public ProbabilityTable pointwiseProduct(ProbabilityTable multiplier)
         {
-            ISet<RandomVariable> prodVars = SetOps.union(CollectionFactory.CreateSet<RandomVariable>(randomVarInfo.GetKeys()),
-                     CollectionFactory.CreateSet<RandomVariable>(multiplier.randomVarInfo.GetKeys()));
+            ISet<IRandomVariable> prodVars = SetOps.union(CollectionFactory.CreateSet<IRandomVariable>(randomVarInfo.GetKeys()),
+                     CollectionFactory.CreateSet<IRandomVariable>(multiplier.randomVarInfo.GetKeys()));
             return pointwiseProductPOS(multiplier, prodVars.ToArray());
         }
 
-        public ProbabilityTable pointwiseProductPOS(ProbabilityTable multiplier, params RandomVariable[] prodVarOrder)
+        public ProbabilityTable pointwiseProductPOS(ProbabilityTable multiplier, params IRandomVariable[] prodVarOrder)
         {
             ProbabilityTable product = new ProbabilityTable(prodVarOrder);
             if (!product.randomVarInfo.GetKeys()
                 .SequenceEqual(
-                    SetOps.union(CollectionFactory.CreateSet<RandomVariable>(randomVarInfo.GetKeys()), CollectionFactory.CreateSet<RandomVariable>(multiplier.randomVarInfo.GetKeys()))))
+                    SetOps.union(CollectionFactory.CreateSet<IRandomVariable>(randomVarInfo.GetKeys()), CollectionFactory.CreateSet<IRandomVariable>(multiplier.randomVarInfo.GetKeys()))))
             {
                 throw new IllegalArgumentException("Specified list deatailing order of mulitplier is inconsistent.");
             }
@@ -683,7 +684,7 @@ namespace tvn.cosine.ai.probability.util
             toString = null;
         }
 
-        private int[] createRadixs(IMap<RandomVariable, RVInfo> mapRtoInfo)
+        private int[] createRadixs(IMap<IRandomVariable, RVInfo> mapRtoInfo)
         {
             int[] r = new int[mapRtoInfo.Size()];
             // Read in reverse order so that the enumeration
@@ -707,17 +708,17 @@ namespace tvn.cosine.ai.probability.util
 
         private class RVInfo
         {
-            private RandomVariable variable;
+            private IRandomVariable variable;
             private FiniteDomain varDomain;
             private int radixIdx = 0;
 
-            public RVInfo(RandomVariable rv)
+            public RVInfo(IRandomVariable rv)
             {
                 variable = rv;
                 varDomain = (FiniteDomain)variable.getDomain();
             }
 
-            public RandomVariable getVariable()
+            public IRandomVariable getVariable()
             {
                 return variable;
             }
@@ -748,7 +749,7 @@ namespace tvn.cosine.ai.probability.util
             }
         }
 
-        private class CategoricalDistributionIteratorAdapter : Iterator
+        private class CategoricalDistributionIteratorAdapter : IIterator
         {
             private CategoricalDistributionIterator cdi = null;
 
@@ -757,13 +758,13 @@ namespace tvn.cosine.ai.probability.util
                 this.cdi = cdi;
             }
 
-            public void iterate(IMap<RandomVariable, object> possibleAssignment, double probability)
+            public void iterate(IMap<IRandomVariable, object> possibleAssignment, double probability)
             {
                 cdi.iterate(possibleAssignment, probability);
             }
         }
 
-        private class FactorIteratorAdapter : Iterator
+        private class FactorIteratorAdapter : IIterator
         {
 
             private FactorIterator fi = null;
@@ -773,7 +774,7 @@ namespace tvn.cosine.ai.probability.util
                 this.fi = fi;
             }
 
-            public void iterate(IMap<RandomVariable, object> possibleAssignment, double probability)
+            public void iterate(IMap<IRandomVariable, object> possibleAssignment, double probability)
             {
                 fi.iterate(possibleAssignment, probability);
             }

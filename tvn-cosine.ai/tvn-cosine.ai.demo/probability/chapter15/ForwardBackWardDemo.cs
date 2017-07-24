@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.temporal.generic;
@@ -27,7 +28,7 @@ namespace tvn_cosine.ai.demo.probability.chapter15
                     GenericTemporalModelFactory.getUmbrellaWorld_Xt_to_Xtm1_Map(),
                     GenericTemporalModelFactory.getUmbrellaWorldSensorModel());
 
-            CategoricalDistribution prior = new ProbabilityTable(new double[] {
+            ICategoricalDistribution prior = new ProbabilityTable(new double[] {
                 0.5, 0.5 }, ExampleRV.RAIN_t_RV);
 
             // Day 1
@@ -36,7 +37,7 @@ namespace tvn_cosine.ai.demo.probability.chapter15
             e1.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
             evidence.Add(e1);
 
-            ICollection<CategoricalDistribution> smoothed = uw.forwardBackward(evidence, prior);
+            ICollection<ICategoricalDistribution> smoothed = uw.forwardBackward(evidence, prior);
 
             System.Console.WriteLine("Day 1 (Umbrealla_t=true) smoothed:\nday 1 = " + smoothed.Get(0));
 

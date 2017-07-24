@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.probability.proposition
+﻿using tvn.cosine.ai.probability.api;
+
+namespace tvn.cosine.ai.probability.proposition
 {
     /**
      * A proposition on a single variable term.
@@ -14,6 +16,6 @@
          * 
          * @return The Term's Variable.
          */
-        RandomVariable getTermVariable();
+        IRandomVariable getTermVariable();
     }
 }

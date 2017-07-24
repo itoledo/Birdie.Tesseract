@@ -2,6 +2,7 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.hmm.exact;
 using tvn.cosine.ai.probability.proposition;
@@ -35,7 +36,7 @@ namespace tvn_cosine.ai.test.unit.probability.hmm.exact
             ICollection<AssignmentProposition> e1 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e1.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
 
-            CategoricalDistribution smoothed = uw.fixedLagSmoothing(e1);
+            ICategoricalDistribution smoothed = uw.fixedLagSmoothing(e1);
             Assert.IsNull(smoothed);
 
             // Day 2 - Lag 1
@@ -68,7 +69,7 @@ namespace tvn_cosine.ai.test.unit.probability.hmm.exact
             ICollection<AssignmentProposition> e1 = CollectionFactory.CreateQueue<AssignmentProposition>();
             e1.Add(new AssignmentProposition(ExampleRV.UMBREALLA_t_RV, true));
 
-            CategoricalDistribution smoothed = uw.fixedLagSmoothing(e1);
+            ICategoricalDistribution smoothed = uw.fixedLagSmoothing(e1);
             Assert.IsNull(smoothed);
 
             // Day 2 - Lag 2

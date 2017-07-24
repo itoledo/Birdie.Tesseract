@@ -3,7 +3,9 @@ using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.bayes;
+using tvn.cosine.ai.probability.bayes.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util;
@@ -55,14 +57,14 @@ namespace tvn.cosine.ai.probability.util
          * 
          * @see CategoricalDistribution#getValues()
          */
-        public static int expectedSizeOfProbabilityTable(params RandomVariable[] vars)
+        public static int expectedSizeOfProbabilityTable(params IRandomVariable[] vars)
         {
             // initially 1, as this will represent constant assignments
             // e.g. Dice1 = 1.
             int expectedSizeOfDistribution = 1;
             if (null != vars)
             {
-                foreach (RandomVariable rv in vars)
+                foreach (IRandomVariable rv in vars)
                 {
                     // Create ordered domains for each variable
                     if (!(rv.getDomain() is FiniteDomain))
@@ -91,7 +93,7 @@ namespace tvn.cosine.ai.probability.util
          * 
          * @see CategoricalDistribution#getValues()
          */
-        public static int expectedSizeOfCategoricalDistribution(params RandomVariable[] vars)
+        public static int expectedSizeOfCategoricalDistribution(params IRandomVariable[] vars)
         {
             // Equivalent calculation
             return expectedSizeOfProbabilityTable(vars);
@@ -123,7 +125,7 @@ namespace tvn.cosine.ai.probability.util
          *            Xi's distribution.
          * @return a Random Sample from Xi's domain.
          */
-        public static object sample(double probabilityChoice, RandomVariable Xi, double[] distribution)
+        public static object sample(double probabilityChoice, IRandomVariable Xi, double[] distribution)
         {
             FiniteDomain fd = (FiniteDomain)Xi.getDomain();
             if (fd.size() != distribution.Length)
@@ -156,9 +158,9 @@ namespace tvn.cosine.ai.probability.util
          * @return a random sample from <b>P</b>(X<sub>i</sub> |
          *         parents(X<sub>i</sub>))
          */
-        public static object randomSample(Node Xi, IMap<RandomVariable, object> even, IRandom r)
+        public static object randomSample(INode Xi, IMap<IRandomVariable, object> even, IRandom r)
         {
-            return Xi.getCPD().getSample(r.NextDouble(), getEventValuesForParents(Xi, even));
+            return Xi.GetCPD().GetSample(r.NextDouble(), getEventValuesForParents(Xi, even));
         }
 
         /**
@@ -184,9 +186,9 @@ namespace tvn.cosine.ai.probability.util
          *            sample.
          * @return a random sample from <b>P</b>(X<sub>i</sub> | mb(X<sub>i</sub>))
          */
-        public static object mbRandomSample(Node Xi, IMap<RandomVariable, object> even, IRandom r)
+        public static object mbRandomSample(INode Xi, IMap<IRandomVariable, object> even, IRandom r)
         {
-            return sample(r.NextDouble(), Xi.getRandomVariable(),
+            return sample(r.NextDouble(), Xi.GetRandomVariable(),
                     mbDistribution(Xi, even));
         }
 
@@ -210,9 +212,9 @@ namespace tvn.cosine.ai.probability.util
          *            comprising assignments for the Markov Blanket X<sub>i</sub>.
          * @return a random sample from <b>P</b>(X<sub>i</sub> | mb(X<sub>i</sub>))
          */
-        public static double[] mbDistribution(Node Xi, IMap<RandomVariable, object> even)
+        public static double[] mbDistribution(INode Xi, IMap<IRandomVariable, object> even)
         {
-            FiniteDomain fd = (FiniteDomain)Xi.getRandomVariable().getDomain();
+            FiniteDomain fd = (FiniteDomain)Xi.GetRandomVariable().getDomain();
             double[] X = new double[fd.size()];
 
             /**
@@ -222,7 +224,7 @@ namespace tvn.cosine.ai.probability.util
              * probabilities. 
              */
             //Copy contents of event to generatedEvent so as to leave event untouched
-            IMap<RandomVariable, object> generatedEvent = CollectionFactory.CreateInsertionOrderedMap<RandomVariable, object>();
+            IMap<IRandomVariable, object> generatedEvent = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, object>();
             foreach (var entry in even)
             {
                 generatedEvent.Put(entry.GetKey(), entry.GetValue());
@@ -235,15 +237,15 @@ namespace tvn.cosine.ai.probability.util
                  * &prod;<sub>Y<sub>j</sub> &isin; Children(X<sub>i</sub>)</sub>
                  * P(y<sub>j</sub>|parents(Y<sub>j</sub>))
                  */
-                generatedEvent.Put(Xi.getRandomVariable(), fd.getValueAt(i));
+                generatedEvent.Put(Xi.GetRandomVariable(), fd.getValueAt(i));
                 double cprob = 1.0;
-                foreach (Node Yj in Xi.getChildren())
+                foreach (INode Yj in Xi.GetChildren())
                 {
-                    cprob *= Yj.getCPD().getValue(
+                    cprob *= Yj.GetCPD().GetValue(
                             getEventValuesForXiGivenParents(Yj, generatedEvent));
                 }
-                X[i] = Xi.getCPD()
-                                .getValue(
+                X[i] = Xi.GetCPD()
+                                .GetValue(
                                         getEventValuesForXiGivenParents(Xi,
                                                 fd.getValueAt(i), even))
                     * cprob;
@@ -263,13 +265,13 @@ namespace tvn.cosine.ai.probability.util
          * @return an ordered set of values for the parents of Xi from the provided
          *         event.
          */
-        public static object[] getEventValuesForParents(Node Xi, IMap<RandomVariable, object> even)
+        public static object[] getEventValuesForParents(INode Xi, IMap<IRandomVariable, object> even)
         {
-            object[] parentValues = new object[Xi.getParents().Size()];
+            object[] parentValues = new object[Xi.GetParents().Size()];
             int i = 0;
-            foreach (Node pn in Xi.getParents())
+            foreach (INode pn in Xi.GetParents())
             {
-                parentValues[i] = even.Get(pn.getRandomVariable());
+                parentValues[i] = even.Get(pn.GetRandomVariable());
                 ++i;
             }
             return parentValues;
@@ -289,10 +291,10 @@ namespace tvn.cosine.ai.probability.util
          * @return an ordered set of values for the parents of Xi and its value from
          *         the provided event.
          */
-        public static object[] getEventValuesForXiGivenParents(Node Xi, IMap<RandomVariable, object> even)
+        public static object[] getEventValuesForXiGivenParents(INode Xi, IMap<IRandomVariable, object> even)
         {
             return getEventValuesForXiGivenParents(Xi,
-                        even.Get(Xi.getRandomVariable()), even);
+                        even.Get(Xi.GetRandomVariable()), even);
         }
 
         /**
@@ -311,14 +313,14 @@ namespace tvn.cosine.ai.probability.util
          * @return an ordered set of values for the parents of Xi and its value from
          *         the provided event.
          */
-        public static object[] getEventValuesForXiGivenParents(Node Xi, object xDelta, IMap<RandomVariable, object> even)
+        public static object[] getEventValuesForXiGivenParents(INode Xi, object xDelta, IMap<IRandomVariable, object> even)
         {
-            object[] values = new object[Xi.getParents().Size() + 1];
+            object[] values = new object[Xi.GetParents().Size() + 1];
 
             int idx = 0;
-            foreach (Node pn in Xi.getParents())
+            foreach (INode pn in Xi.GetParents())
             {
-                values[idx] = even.Get(pn.getRandomVariable());
+                values[idx] = even.Get(pn.GetRandomVariable());
                 idx++;
             }
             values[idx] = xDelta;
@@ -358,7 +360,7 @@ namespace tvn.cosine.ai.probability.util
          * @return an index into a vector that would represent the enumeration of
          *         the values for X.
          */
-        public static int indexOf(RandomVariable[] X, IMap<RandomVariable, object> x)
+        public static int indexOf(IRandomVariable[] X, IMap<IRandomVariable, object> x)
         {
             if (0 == X.Length)
             {
@@ -426,7 +428,7 @@ namespace tvn.cosine.ai.probability.util
          * @return the indexes into a vector that would represent the enumeration of
          *         the values for X[i] in x.
          */
-        public static int[] indexesOfValue(RandomVariable[] X, int idx, IMap<RandomVariable, object> x)
+        public static int[] indexesOfValue(IRandomVariable[] X, int idx, IMap<IRandomVariable, object> x)
         {
             int csize = ProbUtil.expectedSizeOfCategoricalDistribution(X);
 

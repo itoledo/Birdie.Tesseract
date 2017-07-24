@@ -1,12 +1,13 @@
 ﻿using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
     public abstract class AbstractTermProposition : AbstractProposition, TermProposition
     {
-        private RandomVariable termVariable = null;
+        private IRandomVariable termVariable = null;
 
-        public AbstractTermProposition(RandomVariable var)
+        public AbstractTermProposition(IRandomVariable var)
         {
             if (null == var)
             {
@@ -16,7 +17,7 @@ namespace tvn.cosine.ai.probability.proposition
             addScope(this.termVariable);
         }
 
-        public RandomVariable getTermVariable()
+        public IRandomVariable getTermVariable()
         {
             return termVariable;
         }

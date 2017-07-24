@@ -2,6 +2,7 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability;
+using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
@@ -29,9 +30,9 @@ namespace tvn_cosine.ai.test.unit.probability.util
         [TestMethod]
         public void test_divideBy()
         {
-            RandomVariable xRV = new RandVar("X", new BooleanDomain());
-            RandomVariable yRV = new RandVar("Y", new BooleanDomain());
-            RandomVariable zRV = new RandVar("Z", new BooleanDomain());
+            IRandomVariable xRV = new RandVar("X", new BooleanDomain());
+            IRandomVariable yRV = new RandVar("Y", new BooleanDomain());
+            IRandomVariable zRV = new RandVar("Z", new BooleanDomain());
 
             ProbabilityTable xyzD = new ProbabilityTable(new double[] {
 				// X = true, Y = true, Z = true
@@ -100,9 +101,9 @@ namespace tvn_cosine.ai.test.unit.probability.util
         [TestMethod]
         public void test_pointwiseProduct()
         {
-            RandomVariable xRV = new RandVar("X", new BooleanDomain());
-            RandomVariable yRV = new RandVar("Y", new BooleanDomain());
-            RandomVariable zRV = new RandVar("Z", new BooleanDomain());
+            IRandomVariable xRV = new RandVar("X", new BooleanDomain());
+            IRandomVariable yRV = new RandVar("Y", new BooleanDomain());
+            IRandomVariable zRV = new RandVar("Z", new BooleanDomain());
 
             ProbabilityTable xyD = new ProbabilityTable(new double[] {
 				// X = true, Y = true
@@ -128,9 +129,9 @@ namespace tvn_cosine.ai.test.unit.probability.util
         [TestMethod]
         public void test_pointwiseProductPOS()
         {
-            RandomVariable xRV = new RandVar("X", new BooleanDomain());
-            RandomVariable yRV = new RandVar("Y", new BooleanDomain());
-            RandomVariable zRV = new RandVar("Z", new BooleanDomain());
+            IRandomVariable xRV = new RandVar("X", new BooleanDomain());
+            IRandomVariable yRV = new RandVar("Y", new BooleanDomain());
+            IRandomVariable zRV = new RandVar("Z", new BooleanDomain());
 
             ProbabilityTable xyD = new ProbabilityTable(new double[] {
 				// X = true, Y = true
@@ -159,7 +160,7 @@ namespace tvn_cosine.ai.test.unit.probability.util
                 this.answer = answer;
             }
 
-            public void iterate(IMap<RandomVariable, object> possibleAssignment,
+            public void iterate(IMap<IRandomVariable, object> possibleAssignment,
                     double probability)
             {
                 answer.Add(probability);
@@ -202,7 +203,7 @@ namespace tvn_cosine.ai.test.unit.probability.util
             Assert.AreEqual(11110000.0, sumOf(answer), DELTA_THRESHOLD);
 
             answer.Clear();
-            ptABC.iterateOverTable(pti, new AssignmentProposition(bRV, true));
+            ptABC.iterateOverTable(pti, new tvn.cosine.ai.probability.proposition.AssignmentProposition(bRV, true));
             Assert.AreEqual(110011.0, sumOf(answer), DELTA_THRESHOLD);
 
             answer.Clear();

@@ -3,11 +3,9 @@ using tvn.cosine.ai.probability.util;
 
 namespace tvn.cosine.ai.probability.example
 {
-    /**
-     * Predefined example Random Variables from AIMA3e.
-     * 
-     * @author Ciaran O'Reilly
-     */
+    /// <summary>
+    /// Predefined example Random Variables from AIMA3e.
+    /// </summary>
     public class ExampleRV
     {
         //

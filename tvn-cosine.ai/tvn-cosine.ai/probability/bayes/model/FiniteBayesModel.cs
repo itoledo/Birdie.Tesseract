@@ -1,6 +1,8 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.bayes.api;
 using tvn.cosine.ai.probability.bayes.exact;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.util;
@@ -24,33 +26,33 @@ namespace tvn.cosine.ai.probability.bayes.model
      * 
      * @author Ciaran O'Reilly
      */
-    public class FiniteBayesModel : FiniteProbabilityModel
+    public class FiniteBayesModel : IFiniteProbabilityModel
     {
-        private BayesianNetwork bayesNet = null;
-        private ISet<RandomVariable> representation = CollectionFactory.CreateSet<RandomVariable>();
-        private BayesInference bayesInference = null;
+        private IBayesianNetwork bayesNet = null;
+        private ISet<IRandomVariable> representation = CollectionFactory.CreateSet<IRandomVariable>();
+        private IBayesInference bayesInference = null;
 
-        public FiniteBayesModel(BayesianNetwork bn)
+        public FiniteBayesModel(IBayesianNetwork bn)
             : this(bn, new EnumerationAsk())
         { }
 
-        public FiniteBayesModel(BayesianNetwork bn, BayesInference bi)
+        public FiniteBayesModel(IBayesianNetwork bn, IBayesInference bi)
         {
             if (null == bn)
             {
                 throw new IllegalArgumentException("Bayesian Network describing the model must be specified.");
             }
             this.bayesNet = bn;
-            this.representation.AddAll(bn.getVariablesInTopologicalOrder());
+            this.representation.AddAll(bn.GetVariablesInTopologicalOrder());
             setBayesInference(bi);
         }
 
-        public virtual BayesInference getBayesInference()
+        public virtual IBayesInference getBayesInference()
         {
             return bayesInference;
         }
 
-        public virtual void setBayesInference(BayesInference bi)
+        public virtual void setBayesInference(IBayesInference bi)
         {
             this.bayesInference = bi;
         }
@@ -81,7 +83,7 @@ namespace tvn.cosine.ai.probability.bayes.model
                 this.probSum = probSum;
             }
 
-            public void iterate(IMap<RandomVariable, object> possibleWorld, double probability)
+            public void iterate(IMap<IRandomVariable, object> possibleWorld, double probability)
             {
                 if (conjunct.holds(possibleWorld))
                 {
@@ -96,8 +98,8 @@ namespace tvn.cosine.ai.probability.bayes.model
             // just query over the scope of proposition phi in order
             // to get a joint distribution for these
             Proposition conjunct = ProbUtil.constructConjunction(phi);
-            RandomVariable[] X = conjunct.getScope().ToArray();
-            CategoricalDistribution d = bayesInference.ask(X, new AssignmentProposition[0], bayesNet);
+            IRandomVariable[] X = conjunct.getScope().ToArray();
+            ICategoricalDistribution d = bayesInference.Ask(X, new AssignmentProposition[0], bayesNet);
 
             // Then calculate the probability of the propositions phi
             // be seeing where they hold.
@@ -124,26 +126,26 @@ namespace tvn.cosine.ai.probability.bayes.model
             return 0;
         }
 
-        public virtual ISet<RandomVariable> getRepresentation()
+        public virtual ISet<IRandomVariable> getRepresentation()
         {
             return representation;
         }
 
-        public virtual CategoricalDistribution priorDistribution(params Proposition[] phi)
+        public virtual ICategoricalDistribution priorDistribution(params Proposition[] phi)
         {
             return jointDistribution(phi);
         }
 
-        public virtual CategoricalDistribution posteriorDistribution(Proposition phi, params Proposition[] evidence)
+        public virtual ICategoricalDistribution posteriorDistribution(Proposition phi, params Proposition[] evidence)
         {
 
             Proposition conjEvidence = ProbUtil.constructConjunction(evidence);
 
             // P(A | B) = P(A AND B)/P(B) - (13.3 AIMA3e)
-            CategoricalDistribution dAandB = jointDistribution(phi, conjEvidence);
-            CategoricalDistribution dEvidence = jointDistribution(conjEvidence);
+            ICategoricalDistribution dAandB = jointDistribution(phi, conjEvidence);
+            ICategoricalDistribution dEvidence = jointDistribution(conjEvidence);
 
-            CategoricalDistribution rVal = dAandB.divideBy(dEvidence);
+            ICategoricalDistribution rVal = dAandB.divideBy(dEvidence);
             // Note: Need to ensure normalize() is called
             // in order to handle the case where an approximate
             // algorithm is used (i.e. won't evenly divide
@@ -174,9 +176,9 @@ namespace tvn.cosine.ai.probability.bayes.model
             private Proposition conjProp;
             private ProbabilityTable ud;
             private object[] values;
-            private ISet<RandomVariable> vars;
+            private ISet<IRandomVariable> vars;
 
-            public CategoricalDistributionIteratorJointDistribution(Proposition conjProp, ISet<RandomVariable> vars, ProbabilityTable ud, object[] values)
+            public CategoricalDistributionIteratorJointDistribution(Proposition conjProp, ISet<IRandomVariable> vars, ProbabilityTable ud, object[] values)
             {
                 this.conjProp = conjProp;
                 this.vars = vars;
@@ -184,12 +186,12 @@ namespace tvn.cosine.ai.probability.bayes.model
                 this.values = values;
             }
 
-            public void iterate(IMap<RandomVariable, object> possibleWorld, double probability)
+            public void iterate(IMap<IRandomVariable, object> possibleWorld, double probability)
             {
                 if (conjProp.holds(possibleWorld))
                 {
                     int i = 0;
-                    foreach (RandomVariable rv in vars)
+                    foreach (IRandomVariable rv in vars)
                     {
                         values[i] = possibleWorld.Get(rv);
                        ++i;
@@ -200,17 +202,17 @@ namespace tvn.cosine.ai.probability.bayes.model
             }
         }
 
-        public virtual CategoricalDistribution jointDistribution(params Proposition[] propositions)
+        public virtual ICategoricalDistribution jointDistribution(params Proposition[] propositions)
         {
             ProbabilityTable d = null;
             Proposition conjProp = ProbUtil.constructConjunction(propositions);
-            ISet<RandomVariable> vars = CollectionFactory.CreateSet<RandomVariable>(conjProp.getUnboundScope());
+            ISet<IRandomVariable> vars = CollectionFactory.CreateSet<IRandomVariable>(conjProp.getUnboundScope());
 
             if (vars.Size() > 0)
             {
-                RandomVariable[] distVars = new RandomVariable[vars.Size()];
+                IRandomVariable[] distVars = new IRandomVariable[vars.Size()];
                 int i = 0;
-                foreach (RandomVariable rv in vars)
+                foreach (IRandomVariable rv in vars)
                 {
                     distVars[i] = rv;
                    ++i;
@@ -221,8 +223,8 @@ namespace tvn.cosine.ai.probability.bayes.model
 
                 CategoricalDistributionIterator di = new CategoricalDistributionIteratorJointDistribution(conjProp, vars, ud, values);
 
-                RandomVariable[] X = conjProp.getScope().ToArray();
-                bayesInference.ask(X, new AssignmentProposition[0], bayesNet).iterateOver(di);
+                IRandomVariable[] X = conjProp.getScope().ToArray();
+                bayesInference.Ask(X, new AssignmentProposition[0], bayesNet).iterateOver(di);
 
                 d = ud;
             }

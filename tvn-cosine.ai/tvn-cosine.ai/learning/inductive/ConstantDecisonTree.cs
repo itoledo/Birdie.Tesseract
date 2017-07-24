@@ -4,11 +4,7 @@ using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.inductive
-{
-    /**
-     * @author Ravi Mohan
-     * 
-     */
+{ 
     public class ConstantDecisonTree : DecisionTree
     {
         // represents leaf nodes like "Yes" or "No"
