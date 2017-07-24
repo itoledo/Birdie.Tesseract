@@ -223,8 +223,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             }
         }
 
-        protected void testFullFOLKBLovesAnimalQueryKillsJackTunaFalse(
-                InferenceProcedure infp, bool expectedToTimeOut)
+        protected void testFullFOLKBLovesAnimalQueryKillsJackTunaFalse(InferenceProcedure infp, bool expectedToTimeOut)
         {
             FOLKnowledgeBase akb = FOLKnowledgeBaseFactory.createLovesAnimalKnowledgeBase(infp);
             IQueue<Term> terms = Factory.CreateQueue<Term>();
@@ -253,8 +252,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol
             }
         }
 
-        protected void testEqualityAxiomsKBabcAEqualsCSucceeds(
-                InferenceProcedure infp)
+        protected void testEqualityAxiomsKBabcAEqualsCSucceeds(                InferenceProcedure infp)
         {
             FOLKnowledgeBase akb = FOLKnowledgeBaseFactory.createABCEqualityKnowledgeBase(infp, true);
 

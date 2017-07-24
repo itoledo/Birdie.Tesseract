@@ -7,7 +7,7 @@ using tvn_cosine.ai.test.unit.logic.fol;
 
 namespace tvn_cosine.ai.test.performance.logic.fol.inference
 {
-    [TestClass]
+    [TestClass] 
     public class FOLTFMResolutionPerformance : CommonFOLInferenceProcedureTests
     {
         [TestMethod] 
@@ -15,7 +15,7 @@ namespace tvn_cosine.ai.test.performance.logic.fol.inference
         {
             // This query will not return using TFM as keep expanding
             // clauses through resolution for this KB.
-            FOLTFMResolution ip = new FOLTFMResolution(1000 * 1000);
+            FOLTFMResolution ip = new FOLTFMResolution(10 * 1000);
             ip.setTracer(new RegressionFOLTFMResolutionTracer());
             testFullFOLKBLovesAnimalQueryKillsJackTunaFalse(ip, true);
         }

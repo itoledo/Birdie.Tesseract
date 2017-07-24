@@ -51,7 +51,15 @@
     <Compile Include="agent\trivial\ReflexVacuumAgentDemo.cs" />
     <Compile Include="agent\trivial\SimpleReflexVacuumAgentDemo.cs" />
     <Compile Include="agent\trivial\TableDrivenVacuumAgentDemo.cs" />
-    <Compile Include="learning\LearningDemo.cs" />
+    <Compile Include="learning\chapter18\BackPropogationDemo.cs" />
+    <Compile Include="learning\chapter18\DecisionListDemo.cs" />
+    <Compile Include="learning\chapter18\DecisionTreeDemo.cs" />
+    <Compile Include="learning\chapter18\EnsembleLearningDemo.cs" />
+    <Compile Include="learning\chapter18\PerceptronDemo.cs" />
+    <Compile Include="learning\chapter21\PassiveADPAgentDemo.cs" />
+    <Compile Include="learning\chapter21\PassiveTDAgentDemo.cs" />
+    <Compile Include="learning\chapter21\QLearningAgentDemo.cs" />
+    <Compile Include="learning\chapter21\LearningDemoBase.cs" />
     <Compile Include="logic\DpllDemo.cs" />
     <Compile Include="logic\FolDemo.cs" />
     <Compile Include="logic\PlFcEntailsDemo.cs" />

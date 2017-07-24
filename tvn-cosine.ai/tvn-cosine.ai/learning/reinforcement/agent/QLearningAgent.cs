@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.datastructures;
-using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.probability.mdp;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.reinforcement.agent
@@ -258,7 +258,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         private bool isTerminal(S s)
         {
             bool terminal = false;
-            if (null != s && actionsFunction.apply(s).Size() == 0)
+            if (null != s && actionsFunction.actions(s).Size() == 0)
             {
                 // No actions possible in state is considered terminal.
                 terminal = true;
@@ -269,14 +269,14 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         private double maxAPrime(S sPrime)
         {
             double max = double.NegativeInfinity;
-            if (actionsFunction.apply(sPrime).Size() == 0)
+            if (actionsFunction.actions(sPrime).Size() == 0)
             {
                 // a terminal state
                 max = Q.Get(new Pair<S, A>(sPrime, noneAction));
             }
             else
             {
-                foreach (A aPrime in actionsFunction.apply(sPrime))
+                foreach (A aPrime in actionsFunction.actions(sPrime))
                 {
                     Pair<S, A> pair = new Pair<S, A>(sPrime, aPrime);
                     if (Q.ContainsKey(pair) && Q.Get(pair) > max)
@@ -298,7 +298,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         {
             A a = default(A);
             double max = double.NegativeInfinity;
-            foreach (A aPrime in actionsFunction.apply(sPrime))
+            foreach (A aPrime in actionsFunction.actions(sPrime))
             {
                 Pair<S, A> sPrimeAPrime = new Pair<S, A>(sPrime, aPrime);
                 double explorationValue = f(Q.Get(sPrimeAPrime), Nsa.getCount(sPrimeAPrime));
