@@ -12,43 +12,43 @@
             }
         }
 
-        public static bool isJavaIdentifierPart(int ch)
+        public static bool IsSourceCodeIdentifierPart(int ch)
         {
             int props = getProperties(ch);
             return ((props & 0x00003000) != 0);
         }
 
-        public static int charCount(int codePoint)
+        public static int CharCount(int codePoint)
         {
             return codePoint >= MIN_SUPPLEMENTARY_CODE_POINT ? 2 : 1;
         }
 
-        public static int codePointAtImpl(char[] a, int index, int limit)
+        public static int CodePointAtImpl(char[] a, int index, int limit)
         {
             char c1 = a[index];
-            if (isHighSurrogate(c1) && ++index < limit)
+            if (IsHighSurrogate(c1) && ++index < limit)
             {
                 char c2 = a[index];
-                if (isLowSurrogate(c2))
+                if (IsLowSurrogate(c2))
                 {
-                    return toCodePoint(c1, c2);
+                    return ToCodePoint(c1, c2);
                 }
             }
             return c1;
         }
 
-        public static bool isHighSurrogate(char ch)
+        public static bool IsHighSurrogate(char ch)
         {
             // Help VM constant-fold; MAX_HIGH_SURROGATE + 1 == MIN_LOW_SURROGATE
             return ch >= MIN_HIGH_SURROGATE && ch < (MAX_HIGH_SURROGATE + 1);
         }
 
-        public static bool isLowSurrogate(char ch)
+        public static bool IsLowSurrogate(char ch)
         {
             return ch >= MIN_LOW_SURROGATE && ch < (MAX_LOW_SURROGATE + 1);
         }
 
-        public static int toCodePoint(char high, char low)
+        public static int ToCodePoint(char high, char low)
         {
             // Optimized form of:
             // return ((high - MIN_HIGH_SURROGATE) << 10)
@@ -59,7 +59,7 @@
                                            - MIN_LOW_SURROGATE);
         }
 
-        public static bool isJavaIdentifierStart(int ch)
+        public static bool isSourceCodeIdentifierStart(int ch)
         {
             int props = getProperties(ch);
             return ((props & 0x00007000) >= 0x00005000);

@@ -109,7 +109,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          */
         public static bool isPropositionSymbol(string symbol)
         {
-            return SourceVersion.isIdentifier(symbol);
+            return SourceVersion.IsIdentifier(symbol);
         }
 
         /**
@@ -123,7 +123,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          */
         public static bool isPropositionSymbolIdentifierStart(char ch)
         {
-            return Character.isJavaIdentifierStart(ch);
+            return Character.isSourceCodeIdentifierStart(ch);
         }
 
         /**
@@ -136,7 +136,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing.ast
          */
         public static bool isPropositionSymbolIdentifierPart(char ch)
         {
-            return Character.isJavaIdentifierPart(ch);
+            return Character.IsSourceCodeIdentifierPart(ch);
         }
 
         /**

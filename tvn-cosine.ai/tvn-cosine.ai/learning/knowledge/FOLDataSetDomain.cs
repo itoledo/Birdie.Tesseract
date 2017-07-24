@@ -94,7 +94,7 @@ namespace tvn.cosine.ai.learning.knowledge
             if (null == folName)
             {
                 folName = dsName;
-                if (!Character.isJavaIdentifierStart(dsName[0]))
+                if (!Character.isSourceCodeIdentifierStart(dsName[0]))
                 {
                     folName = "_" + dsName;
                 }

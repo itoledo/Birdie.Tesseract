@@ -77,7 +77,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         {
             int startPosition = getCurrentPositionInInput();
             StringBuilder sbuf = new StringBuilder();
-            while ((null != lookAhead(1) && Character.isJavaIdentifierPart(lookAhead(1).Value)) || partOfConnector())
+            while ((null != lookAhead(1) && Character.IsSourceCodeIdentifierPart(lookAhead(1).Value)) || partOfConnector())
             {
                 sbuf.Append(lookAhead(1));
                 consume();
@@ -125,7 +125,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
 
         private bool identifierDetected()
         {
-            return (null != lookAhead(1) && Character.isJavaIdentifierStart(lookAhead(1).Value)) || partOfConnector();
+            return (null != lookAhead(1) && Character.isSourceCodeIdentifierStart(lookAhead(1).Value)) || partOfConnector();
         }
 
         private bool partOfConnector()

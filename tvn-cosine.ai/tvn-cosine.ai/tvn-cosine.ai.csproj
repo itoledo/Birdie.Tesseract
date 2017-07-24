@@ -94,7 +94,7 @@
     <Compile Include="agent\SimpleEnvironmentView.cs" />
     <Compile Include="agent\api\IPercept.cs" />
     <Compile Include="agent\api\IState.cs" />
-    <Compile Include="agent\api\PerceptToStateFunction.cs" />
+    <Compile Include="agent\PerceptToStateFunction.cs" />
     <Compile Include="common\Character.cs" />
     <Compile Include="common\collections\CollectionFactory.cs" />
     <Compile Include="common\collections\FifoQueue.cs" />
