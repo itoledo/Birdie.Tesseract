@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.learning.neural.api;
+﻿using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.learning.neural.api;
 using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.learning.neural
@@ -21,22 +22,27 @@ namespace tvn.cosine.ai.learning.neural
 
         public void SetNeuralNetwork(IFunctionApproximator fapp)
         {
-            FeedForwardNeuralNetwork ffnn = (FeedForwardNeuralNetwork)fapp;
+            if (fapp is FeedForwardNeuralNetwork)
+            {
+                throw new NotSupportedException("Only FeedForwardNeuralNetwork function approximator supported at this stage.");
+            }
+
+            FeedForwardNeuralNetwork ffnn = fapp as FeedForwardNeuralNetwork;
             this.hiddenLayer = ffnn.GetHiddenLayer();
             this.outputLayer = ffnn.GetOutputLayer();
             this.hiddenSensitivity = new LayerSensitivity(hiddenLayer);
             this.outputSensitivity = new LayerSensitivity(outputLayer);
         }
 
-        public Vector ProcessInput(FeedForwardNeuralNetwork network, 
+        public Vector ProcessInput(FeedForwardNeuralNetwork network,
                                    Vector input)
-        { 
+        {
             hiddenLayer.FeedForward(input);
             outputLayer.FeedForward(hiddenLayer.GetLastActivationValues());
             return outputLayer.GetLastActivationValues();
         }
 
-        public void ProcessError(FeedForwardNeuralNetwork network, 
+        public void ProcessError(FeedForwardNeuralNetwork network,
                                  Vector error)
         {
             // TODO calculate total error somewhere
@@ -62,20 +68,20 @@ namespace tvn.cosine.ai.learning.neural
 
         }
 
-        public Matrix CalculateWeightUpdates(LayerSensitivity layerSensitivity, 
+        public Matrix CalculateWeightUpdates(LayerSensitivity layerSensitivity,
                                              Vector previousLayerActivationOrInput,
-                                             double alpha, 
+                                             double alpha,
                                              double momentum)
         {
             Layer layer = layerSensitivity.GetLayer();
-            Matrix activationTranspose 
+            Matrix activationTranspose
                 = previousLayerActivationOrInput.transpose();
-            Matrix momentumLessUpdate 
+            Matrix momentumLessUpdate
                 = layerSensitivity.GetSensitivityMatrix()
                                   .times(activationTranspose)
                                   .times(alpha)
                                   .times(-1.0);
-            Matrix updateWithMomentum 
+            Matrix updateWithMomentum
                 = layer.GetLastWeightUpdateMatrix()
                        .times(momentum)
                        .plus(momentumLessUpdate.times(1.0 - momentum));
@@ -84,7 +90,7 @@ namespace tvn.cosine.ai.learning.neural
             return updateWithMomentum;
         }
 
-        public static Matrix CalculateWeightUpdates(LayerSensitivity layerSensitivity, 
+        public static Matrix CalculateWeightUpdates(LayerSensitivity layerSensitivity,
                                                     Vector previousLayerActivationOrInput,
                                                     double alpha)
         {
@@ -101,7 +107,7 @@ namespace tvn.cosine.ai.learning.neural
         }
 
         public Vector CalculateBiasUpdates(LayerSensitivity layerSensitivity,
-                                           double alpha, 
+                                           double alpha,
                                            double momentum)
         {
             Layer layer = layerSensitivity.GetLayer();
@@ -121,11 +127,11 @@ namespace tvn.cosine.ai.learning.neural
             return result;
         }
 
-        public static Vector CalculateBiasUpdates(LayerSensitivity layerSensitivity, 
+        public static Vector CalculateBiasUpdates(LayerSensitivity layerSensitivity,
                                                   double alpha)
         {
             Layer layer = layerSensitivity.GetLayer();
-            Matrix biasUpdateMatrix 
+            Matrix biasUpdateMatrix
                 = layerSensitivity.GetSensitivityMatrix()
                                   .times(alpha)
                                   .times(-1.0);

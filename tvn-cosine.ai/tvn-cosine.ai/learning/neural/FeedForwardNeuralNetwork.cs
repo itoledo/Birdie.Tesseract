@@ -22,8 +22,7 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         /// <param name="config"></param>
         public FeedForwardNeuralNetwork(NeuralNetworkConfig config)
-        {
-
+        { 
             int numberOfInputNeurons = config
                     .GetParameterAsInteger(NUMBER_OF_INPUTS);
             int numberOfHiddenNeurons = config
