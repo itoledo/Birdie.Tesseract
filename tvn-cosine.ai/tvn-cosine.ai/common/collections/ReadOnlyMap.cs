@@ -18,8 +18,7 @@ namespace tvn.cosine.ai.common.collections
         {
             return backingMap.Size();
         }
-
-
+         
         public bool Contains(KeyValuePair<KEY, VALUE> item)
         {
             return backingMap.Contains(item);

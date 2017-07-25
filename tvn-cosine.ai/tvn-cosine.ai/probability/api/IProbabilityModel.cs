@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.proposition.api;
 
 namespace tvn.cosine.ai.probability.api
 {
@@ -47,7 +48,7 @@ namespace tvn.cosine.ai.probability.api
          *            returned.
          * @return the probability of the proposition &phi;.
          */
-        double prior(params Proposition[] phi);
+        double prior(params IProposition[] phi);
 
         /**
          * Unlike unconditional or prior probabilities, most of the time we have
@@ -80,7 +81,7 @@ namespace tvn.cosine.ai.probability.api
          *            information we already have.
          * @return the probability of the proposition &phi; given evidence.
          */
-        double posterior(Proposition phi, params Proposition[] evidence);
+        double posterior(IProposition phi, params IProposition[] evidence);
 
         /**
          * @return a consistent ordered Set (e.g. LinkedHashSet) of the random

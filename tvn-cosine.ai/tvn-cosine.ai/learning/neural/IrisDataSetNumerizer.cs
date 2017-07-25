@@ -3,10 +3,11 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.neural.api;
 
 namespace tvn.cosine.ai.learning.neural
 {
-    public class IrisDataSetNumerizer : Numerizer
+    public class IrisDataSetNumerizer : INumerizer
     {
         public Pair<ICollection<double>, ICollection<double>> numerize(Example e)
         {
@@ -32,7 +33,7 @@ namespace tvn.cosine.ai.learning.neural
             return io;
         }
 
-        public string denumerize(ICollection<double> outputValue)
+        public string Denumerize(ICollection<double> outputValue)
         {
             ICollection<double> rounded = CollectionFactory.CreateQueue<double>();
             foreach (double d in outputValue)
@@ -56,10 +57,7 @@ namespace tvn.cosine.ai.learning.neural
                 return "unknown";
             }
         }
-
-        //
-        // PRIVATE METHODS
-        //
+         
         private double round(double d)
         {
             if (d < 0)
@@ -95,6 +93,5 @@ namespace tvn.cosine.ai.learning.neural
                 throw new RuntimeException("invalid plant category");
             }
         }
-    }
-
+    } 
 }

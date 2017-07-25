@@ -21,7 +21,7 @@ namespace tvn.cosine.ai.agent
         /// directly caused by agent action execution. The default implementation
         /// does nothing.
         /// </summary>
-        public virtual void createExogenousChange()
+        public virtual void CreateExogenousChange()
         { }
 
         public virtual ICollection<IAgent> GetAgents()
@@ -81,10 +81,10 @@ namespace tvn.cosine.ai.agent
                     IPercept percept = getPerceptSeenBy(agent);
                     IAction anAction = agent.Execute(percept);
                     executeAction(agent, anAction);
-                    notifyEnvironmentViews(agent, percept, anAction);
+                    NotifyEnvironmentViews(agent, percept, anAction);
                 }
             }
-            createExogenousChange();
+            CreateExogenousChange();
         }
 
         public virtual void Step(int n)
@@ -156,7 +156,7 @@ namespace tvn.cosine.ai.agent
             }
         }
 
-        protected virtual void notifyEnvironmentViews(IAgent agent, IPercept percept, IAction action)
+        protected virtual void NotifyEnvironmentViews(IAgent agent, IPercept percept, IAction action)
         {
             foreach (IEnvironmentView view in views)
             {

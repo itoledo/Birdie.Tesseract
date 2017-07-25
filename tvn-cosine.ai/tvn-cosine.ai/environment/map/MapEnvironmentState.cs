@@ -22,7 +22,7 @@ namespace tvn.cosine.ai.environment.map
             {
                 return null;
             }
-            return locAndTDistance.getFirst();
+            return locAndTDistance.GetFirst();
         }
 
         public double getAgentTravelDistance(IAgent a)

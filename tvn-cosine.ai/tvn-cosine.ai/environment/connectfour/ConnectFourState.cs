@@ -248,7 +248,7 @@ namespace tvn.cosine.ai.environment.connectfour
             return result;
         }
 
-        public ConnectFourState clone()
+        public ConnectFourState Clone()
         {
             ConnectFourState result = new ConnectFourState(this.getRows(), this.getCols());
             result.winPositions1 = winPositions1;

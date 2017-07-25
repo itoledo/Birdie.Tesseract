@@ -119,7 +119,7 @@ namespace tvn.cosine.ai.search.csp
         private VAL getMinConflictValueFor(VAR var, Assignment<VAR, VAL> assignment, CSP<VAR, VAL> csp)
         {
             ICollection<Constraint<VAR, VAL>> constraints = csp.getConstraints(var);
-            Assignment<VAR, VAL> testAssignment = assignment.clone();
+            Assignment<VAR, VAL> testAssignment = assignment.Clone();
             int minConflict = int.MaxValue;
             ICollection<VAL> resultCandidates = CollectionFactory.CreateQueue<VAL>();
             foreach (VAL value in csp.getDomain(var))

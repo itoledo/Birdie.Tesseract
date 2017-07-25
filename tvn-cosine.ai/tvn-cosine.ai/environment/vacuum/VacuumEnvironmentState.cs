@@ -79,7 +79,7 @@ namespace tvn.cosine.ai.environment.vacuum
             return 3 * state.GetHashCode() + 13 * agentLocations.GetHashCode();
         }
 
-        public VacuumEnvironmentState clone()
+        public VacuumEnvironmentState Clone()
         {
             VacuumEnvironmentState result = null;
 

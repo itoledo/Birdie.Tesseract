@@ -144,7 +144,7 @@ namespace tvn.cosine.ai.search.csp
 
                 foreach (Pair<VAL, int> val in pairs)
                 {
-                    obj.Add(val.getFirst());
+                    obj.Add(val.GetFirst());
                 }
                 return obj;
             }

@@ -1,21 +1,20 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.common.text;
 using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.proposition.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
-    public class ConjunctiveProposition : AbstractProposition, BinarySentenceProposition
+    public class ConjunctiveProposition : AbstractProposition, IBinarySentenceProposition
     {
-        private Proposition left = null;
-        private Proposition right = null;
+        private IProposition left = null;
+        private IProposition right = null;
         //
         private string toString = null;
 
-        public ConjunctiveProposition(Proposition left, Proposition right)
+        public ConjunctiveProposition(IProposition left, IProposition right)
         {
             if (null == left)
             {

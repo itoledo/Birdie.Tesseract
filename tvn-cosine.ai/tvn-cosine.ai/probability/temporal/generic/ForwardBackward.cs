@@ -2,6 +2,8 @@
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.proposition.api;
+using tvn.cosine.ai.probability.temporal.api;
 using tvn.cosine.ai.probability.util;
 
 namespace tvn.cosine.ai.probability.temporal.generic
@@ -38,7 +40,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
      * 
      * @author Ciaran O'Reilly
      */
-    public class ForwardBackward : ForwardBackwardInference
+    public class ForwardBackward : IForwardBackwardInference
     {
         private IFiniteProbabilityModel transitionModel = null;
         private IMap<IRandomVariable, IRandomVariable> tToTm1StateVarMap = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, IRandomVariable>();
@@ -63,13 +65,8 @@ namespace tvn.cosine.ai.probability.temporal.generic
             this.tToTm1StateVarMap.AddAll(tToTm1StateVarMap);
             this.sensorModel = sensorModel;
         }
-
-        //
-        // START-ForwardBackwardInference
-
-        // function FORWARD-BACKWARD(ev, prior) returns a vector of probability
-        // distributions
-
+         
+        // function FORWARD-BACKWARD(ev, prior) returns a vector of probability distributions 
         public ICollection<ICategoricalDistribution> forwardBackward(
                ICollection<ICollection<AssignmentProposition>> ev, ICategoricalDistribution prior)
         {
@@ -106,10 +103,10 @@ namespace tvn.cosine.ai.probability.temporal.generic
             private ICategoricalDistribution s1;
             private IFiniteProbabilityModel transitionModel;
             private AssignmentProposition[] xt;
-            private Proposition xtp1;
+            private IProposition xtp1;
             private IMap<IRandomVariable, AssignmentProposition> xtVarAssignMap;
 
-            public CategoricalDistributionIteratorImpl(IFiniteProbabilityModel transitionModel, IMap<IRandomVariable, AssignmentProposition> xtVarAssignMap, ICategoricalDistribution s1, Proposition xtp1, AssignmentProposition[] xt)
+            public CategoricalDistributionIteratorImpl(IFiniteProbabilityModel transitionModel, IMap<IRandomVariable, AssignmentProposition> xtVarAssignMap, ICategoricalDistribution s1, IProposition xtp1, AssignmentProposition[] xt)
             {
                 this.transitionModel = transitionModel;
                 this.xtVarAssignMap = xtVarAssignMap;
@@ -139,14 +136,14 @@ namespace tvn.cosine.ai.probability.temporal.generic
         {
             ICategoricalDistribution s1 = new ProbabilityTable(f1_t.getFor());
             // Set up required working variables
-            Proposition[] props = new Proposition[s1.getFor().Size()];
+            IProposition[] props = new IProposition[s1.getFor().Size()];
             int i = 0;
             foreach (IRandomVariable rv in s1.getFor())
             {
                 props[i] = new RandVar(rv.getName(), rv.getDomain());
                ++i;
             }
-            Proposition Xtp1 = ProbUtil.constructConjunction(props);
+            IProposition Xtp1 = ProbUtil.constructConjunction(props);
             AssignmentProposition[] xt = new AssignmentProposition[tToTm1StateVarMap.Size()];
             IMap<IRandomVariable, AssignmentProposition> xtVarAssignMap = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, AssignmentProposition>();
             i = 0;
@@ -175,14 +172,14 @@ namespace tvn.cosine.ai.probability.temporal.generic
         class CategoricalDistributionIteratorImpl2 : CategoricalDistributionIterator
         {
             private ICategoricalDistribution b_kp1t;
-            private Proposition pe_kp1;
+            private IProposition pe_kp1;
             private IFiniteProbabilityModel sensorModel;
             private IFiniteProbabilityModel transitionModel;
-            private Proposition xk;
-            private Proposition x_kp1;
+            private IProposition xk;
+            private IProposition x_kp1;
             private IMap<IRandomVariable, AssignmentProposition> x_kp1VarAssignMap;
 
-            public CategoricalDistributionIteratorImpl2(IMap<IRandomVariable, AssignmentProposition> x_kp1VarAssignMap, IFiniteProbabilityModel sensorModel, IFiniteProbabilityModel transitionModel, ICategoricalDistribution b_kp1t, Proposition pe_kp1, Proposition xk, Proposition x_kp1)
+            public CategoricalDistributionIteratorImpl2(IMap<IRandomVariable, AssignmentProposition> x_kp1VarAssignMap, IFiniteProbabilityModel sensorModel, IFiniteProbabilityModel transitionModel, ICategoricalDistribution b_kp1t, IProposition pe_kp1, IProposition xk, IProposition x_kp1)
             {
                 this.x_kp1VarAssignMap = x_kp1VarAssignMap;
                 this.sensorModel = sensorModel;
@@ -219,7 +216,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
         {
             ICategoricalDistribution b_kp1t = new ProbabilityTable(b_kp2t.getFor());
             // Set up required working variables
-            Proposition[] props = new Proposition[b_kp1t.getFor().Size()];
+            IProposition[] props = new IProposition[b_kp1t.getFor().Size()];
             int i = 0;
             foreach (IRandomVariable rv in b_kp1t.getFor())
             {
@@ -227,7 +224,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
                 props[i] = new RandVar(prv.getName(), prv.getDomain());
                ++i;
             }
-            Proposition Xk = ProbUtil.constructConjunction(props);
+            IProposition Xk = ProbUtil.constructConjunction(props);
             AssignmentProposition[] ax_kp1 = new AssignmentProposition[tToTm1StateVarMap.Size()];
             IMap<IRandomVariable, AssignmentProposition> x_kp1VarAssignMap = CollectionFactory.CreateInsertionOrderedMap<IRandomVariable, AssignmentProposition>();
             i = 0;
@@ -237,9 +234,9 @@ namespace tvn.cosine.ai.probability.temporal.generic
                 x_kp1VarAssignMap.Put(rv, ax_kp1[i]);
                ++i;
             }
-            Proposition x_kp1 = ProbUtil.constructConjunction(ax_kp1);
+            IProposition x_kp1 = ProbUtil.constructConjunction(ax_kp1);
             props = e_kp1.ToArray();
-            Proposition pe_kp1 = ProbUtil.constructConjunction(props);
+            IProposition pe_kp1 = ProbUtil.constructConjunction(props);
 
             // &sum;<sub>x<sub>k+1</sub></sub>
             CategoricalDistributionIterator ib_kp2t = new CategoricalDistributionIteratorImpl2(x_kp1VarAssignMap, 
@@ -248,13 +245,7 @@ namespace tvn.cosine.ai.probability.temporal.generic
 
             return b_kp1t;
         }
-
-        // END-ForwardBackwardInference
-        //
-
-        //
-        // PRIVATE METHODS
-        //
+         
         private ICategoricalDistribution initBackwardMessage()
         {
             ProbabilityTable b = new ProbabilityTable(tToTm1StateVarMap.GetKeys());

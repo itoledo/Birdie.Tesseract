@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.hmm.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util.math;
 
@@ -37,7 +38,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
      */
     public class HMMForwardBackwardConstantSpace : HMMForwardBackward
     {
-        public HMMForwardBackwardConstantSpace(HiddenMarkovModel hmm)
+        public HMMForwardBackwardConstantSpace(IHiddenMarkovModel hmm)
                 : base(hmm)
         { }
          

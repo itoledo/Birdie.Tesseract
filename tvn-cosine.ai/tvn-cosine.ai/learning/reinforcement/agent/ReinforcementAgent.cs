@@ -2,6 +2,7 @@
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.learning.reinforcement.api;
 
 namespace tvn.cosine.ai.learning.reinforcement.agent
 {
@@ -11,10 +12,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
      * @param <S>
      *            the state type.
      * @param <A>
-     *            the action type.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
+     *            the action type. 
      */
     public abstract class ReinforcementAgent<S, A> : AgentBase
         where A : IAction
@@ -34,7 +32,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          *            a percept indicating the current state s' and reward signal r'
          * @return the action to take.
          */
-        public abstract A execute(PerceptStateReward<S> percept);
+        public abstract A execute(IPerceptStateReward<S> percept);
 
         /**
          * Get a vector of the currently calculated utilities for states of type S
@@ -55,9 +53,9 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
 
         public override IAction Execute(IPercept p)
         {
-            if (p is PerceptStateReward<S>)
+            if (p is IPerceptStateReward<S>)
             {
-                IAction a = execute((PerceptStateReward<S>)p);
+                IAction a = execute((IPerceptStateReward<S>)p);
                 if (null == a)
                 {
                     a = DynamicAction.NO_OP;

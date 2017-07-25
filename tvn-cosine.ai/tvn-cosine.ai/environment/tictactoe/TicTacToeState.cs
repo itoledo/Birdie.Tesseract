@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.environment.tictactoe
 
         public void mark(XYLocation action)
         {
-            mark(action.getXCoOrdinate(), action.getYCoOrdinate());
+            mark(action.GetXCoOrdinate(), action.GetYCoOrdinate());
         }
 
         public void mark(int col, int row)
@@ -155,7 +155,7 @@ namespace tvn.cosine.ai.environment.tictactoe
             return result;
         }
 
-        public TicTacToeState clone()
+        public TicTacToeState Clone()
         {
             TicTacToeState copy = new TicTacToeState();
             copy.playerToMove = playerToMove;

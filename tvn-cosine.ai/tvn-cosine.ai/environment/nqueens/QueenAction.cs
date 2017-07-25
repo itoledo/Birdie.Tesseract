@@ -25,22 +25,22 @@ namespace tvn.cosine.ai.environment.nqueens
         public QueenAction(string type, XYLocation loc)
           : base(type)
         {
-            setAttribute(ATTRIBUTE_QUEEN_LOC, loc);
+            SetAttribute(ATTRIBUTE_QUEEN_LOC, loc);
         }
 
         public XYLocation getLocation()
         {
-            return (XYLocation)getAttribute(ATTRIBUTE_QUEEN_LOC);
+            return (XYLocation)GetAttribute(ATTRIBUTE_QUEEN_LOC);
         }
 
         public int getX()
         {
-            return getLocation().getXCoOrdinate();
+            return getLocation().GetXCoOrdinate();
         }
 
         public int getY()
         {
-            return getLocation().getYCoOrdinate();
+            return getLocation().GetYCoOrdinate();
         }
     }
 }

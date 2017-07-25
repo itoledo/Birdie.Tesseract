@@ -2,6 +2,7 @@
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.mdp;
+using tvn.cosine.ai.probability.mdp.api;
 using tvn.cosine.ai.probability.mdp.search;
 
 namespace tvn_cosine.ai.demo.probability.chapter17
@@ -21,7 +22,7 @@ namespace tvn_cosine.ai.demo.probability.chapter17
             System.Console.WriteLine("-----------");
 
             CellWorld<double> cw = CellWorldFactory.createCellWorldForFig17_1();
-            MarkovDecisionProcess<Cell<double>, CellWorldAction> mdp = MDPFactory.createMDPForFigure17_3(cw);
+            IMarkovDecisionProcess<Cell<double>, CellWorldAction> mdp = MDPFactory.createMDPForFigure17_3(cw);
             ValueIteration<Cell<double>, CellWorldAction>
                 vi = new ValueIteration<Cell<double>, CellWorldAction>(1.0);
 

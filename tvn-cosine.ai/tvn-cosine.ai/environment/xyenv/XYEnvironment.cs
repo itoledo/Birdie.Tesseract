@@ -57,7 +57,7 @@ namespace tvn.cosine.ai.environment.xyenv
 
             if (null != presentLocation)
             {
-                XYLocation locationToMoveTo = presentLocation.locationAt(direction);
+                XYLocation locationToMoveTo = presentLocation.LocationAt(direction);
                 if (!(isBlocked(locationToMoveTo)))
                 {
                     moveObjectToAbsoluteLocation(eo, locationToMoveTo);
@@ -200,8 +200,8 @@ namespace tvn.cosine.ai.environment.xyenv
         //
         private bool withinRadius(int radius, XYLocation agentLocation, XYLocation objectLocation)
         {
-            int xdifference = agentLocation.getXCoOrdinate() - objectLocation.getXCoOrdinate();
-            int ydifference = agentLocation.getYCoOrdinate() - objectLocation.getYCoOrdinate();
+            int xdifference = agentLocation.GetXCoOrdinate() - objectLocation.GetXCoOrdinate();
+            int ydifference = agentLocation.GetYCoOrdinate() - objectLocation.GetYCoOrdinate();
             return System.Math.Sqrt((xdifference * xdifference) + (ydifference * ydifference)) <= radius;
         }
     }

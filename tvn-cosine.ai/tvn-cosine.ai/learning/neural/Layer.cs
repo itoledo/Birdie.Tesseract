@@ -1,18 +1,15 @@
-﻿using tvn.cosine.ai.util;
+﻿using tvn.cosine.ai.learning.neural.api;
+using tvn.cosine.ai.util;
 using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.learning.neural
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 729<br>
-     * <br>
-     * 
-     * Feed-forward networks are usually arranged in layers, such that each unit
-     * receives input only from units in the immediately preceding layer.
-     * 
-     * @author Ravi Mohan
-     * @author Mike Stampone
-     */
+    /// <summary>
+    /// Artificial Intelligence A Modern Approach (3rd Edition): page 729 
+    /// <para />
+    /// Feed-forward networks are usually arranged in layers, such that each unit
+    /// receives input only from units in the immediately preceding layer. 
+    /// </summary>
     public class Layer
     {
         // vectors are represented by n * 1 matrices;
@@ -20,7 +17,7 @@ namespace tvn.cosine.ai.learning.neural
 
         Vector biasVector, lastBiasUpdateVector;
 
-        private readonly ActivationFunction activationFunction;
+        private readonly IActivationFunction activationFunction;
 
         private Vector lastActivationValues, lastInducedField;
 
@@ -32,9 +29,8 @@ namespace tvn.cosine.ai.learning.neural
 
         private Vector lastInput;
 
-        public Layer(Matrix weightMatrix, Vector biasVector, ActivationFunction af)
-        {
-
+        public Layer(Matrix weightMatrix, Vector biasVector, IActivationFunction af)
+        { 
             activationFunction = af;
             this.weightMatrix = weightMatrix;
             lastWeightUpdateMatrix = new Matrix(weightMatrix.getRowDimension(),
@@ -50,7 +46,7 @@ namespace tvn.cosine.ai.learning.neural
 
         public Layer(int numberOfNeurons, int numberOfInputs,
                 double lowerLimitForWeights, double upperLimitForWeights,
-                ActivationFunction af)
+                IActivationFunction af)
         {
 
             activationFunction = af;
@@ -76,17 +72,17 @@ namespace tvn.cosine.ai.learning.neural
             Matrix inducedField = weightMatrix.times(inputVector).plus(biasVector);
 
             Vector inducedFieldVector = new Vector(numberOfNeurons());
-            for (int i = 0; i < numberOfNeurons();++i)
+            for (int i = 0; i < numberOfNeurons(); ++i)
             {
                 inducedFieldVector.setValue(i, inducedField.get(i, 0));
             }
 
             lastInducedField = inducedFieldVector.copyVector();
             Vector resultVector = new Vector(numberOfNeurons());
-            for (int i = 0; i < numberOfNeurons();++i)
+            for (int i = 0; i < numberOfNeurons(); ++i)
             {
                 resultVector.setValue(i, activationFunction
-                        .activation(inducedFieldVector.getValue(i)));
+                        .Activation(inducedFieldVector.getValue(i)));
             }
             // set the result as the last activation value
             lastActivationValues = resultVector.copyVector();
@@ -172,7 +168,7 @@ namespace tvn.cosine.ai.learning.neural
         {
             Matrix biasMatrix = biasVector.plusEquals(lastBiasUpdateVector);
             Vector result = new Vector(biasMatrix.getRowDimension());
-            for (int i = 0; i < biasMatrix.getRowDimension();++i)
+            for (int i = 0; i < biasMatrix.getRowDimension(); ++i)
             {
                 result.setValue(i, biasMatrix.get(i, 0));
             }
@@ -186,7 +182,7 @@ namespace tvn.cosine.ai.learning.neural
 
         }
 
-        public ActivationFunction getActivationFunction()
+        public IActivationFunction getActivationFunction()
         {
 
             return activationFunction;
@@ -194,9 +190,7 @@ namespace tvn.cosine.ai.learning.neural
 
         public void acceptNewWeightUpdate(Matrix weightUpdate)
         {
-            /*
-             * penultimate weightupdates maintained only to implement VLBP later
-             */
+            //penultimate weightupdates maintained only to implement VLBP later
             setPenultimateWeightUpdateMatrix(getLastWeightUpdateMatrix());
             setLastWeightUpdateMatrix(weightUpdate);
         }
@@ -213,13 +207,9 @@ namespace tvn.cosine.ai.learning.neural
 
         }
 
-        //
-        // PRIVATE METHODS
-        //
-        private static void initializeMatrix(Matrix aMatrix, double lowerLimit,
-                double upperLimit)
+        private static void initializeMatrix(Matrix aMatrix, double lowerLimit, double upperLimit)
         {
-            for (int i = 0; i < aMatrix.getRowDimension();++i)
+            for (int i = 0; i < aMatrix.getRowDimension(); ++i)
             {
                 for (int j = 0; j < aMatrix.getColumnDimension(); j++)
                 {
@@ -230,10 +220,9 @@ namespace tvn.cosine.ai.learning.neural
 
         }
 
-        private static void initializeVector(Vector aVector, double lowerLimit,
-                double upperLimit)
+        private static void initializeVector(Vector aVector, double lowerLimit, double upperLimit)
         {
-            for (int i = 0; i < aVector.size();++i)
+            for (int i = 0; i < aVector.size(); ++i)
             {
 
                 double random = Util.generateRandomDoubleBetween(lowerLimit,

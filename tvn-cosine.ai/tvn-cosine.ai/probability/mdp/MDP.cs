@@ -1,32 +1,27 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.probability.mdp.api;
 
-namespace tvn.cosine.ai.probability.mdp.impl
-{
-    /**
-     * Default implementation of the MarkovDecisionProcess<S, A> interface.
-     * 
-     * @param <S>
-     *            the state type.
-     * @param <A>
-     *            the action type.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
-     */
-    public class MDP<S, A> : MarkovDecisionProcess<S, A>
+namespace tvn.cosine.ai.probability.mdp 
+{ 
+    /// <summary>
+    /// Default implementation of the IMarkovDecisionProcess interface.
+    /// </summary>
+    /// <typeparam name="S">the state type.</typeparam>
+    /// <typeparam name="A">the action type.</typeparam>
+    public class MDP<S, A> : IMarkovDecisionProcess<S, A>
         where A : IAction
     { 
         private ISet<S> _states ;
         private S initialState ;
-        private ActionsFunction<S, A> actionsFunction = null;
-        private TransitionProbabilityFunction<S, A> transitionProbabilityFunction = null;
-        private RewardFunction<S> rewardFunction = null;
+        private IActionsFunction<S, A> actionsFunction = null;
+        private ITransitionProbabilityFunction<S, A> transitionProbabilityFunction = null;
+        private IRewardFunction<S> rewardFunction = null;
 
         public MDP(ISet<S> states, S initialState,
-                ActionsFunction<S, A> actionsFunction,
-                TransitionProbabilityFunction<S, A> transitionProbabilityFunction,
-                RewardFunction<S> rewardFunction)
+                IActionsFunction<S, A> actionsFunction,
+                ITransitionProbabilityFunction<S, A> transitionProbabilityFunction,
+                IRewardFunction<S> rewardFunction)
         {
             this._states = states;
             this.initialState = initialState;
@@ -49,14 +44,12 @@ namespace tvn.cosine.ai.probability.mdp.impl
         {
             return actionsFunction.actions(s);
         }
-
-
+         
         public virtual double transitionProbability(S sDelta, S s, A a)
         {
             return transitionProbabilityFunction.probability(sDelta, s, a);
         }
-
-
+         
         public virtual double reward(S s)
         {
             return rewardFunction.reward(s);

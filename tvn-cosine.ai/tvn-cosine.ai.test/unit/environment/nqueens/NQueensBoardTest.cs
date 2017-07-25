@@ -246,7 +246,7 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
             board.addQueenAt(loc);
             Assert.AreEqual(0, board.getNumberOfAttacksOn(loc));
             Assert.AreEqual(1, board.getNumberOfAttacksOn(new XYLocation(1, 0)));
-            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.right()));
+            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.Right()));
             Assert.AreEqual(1, board.getNumberOfAttacksOn(new XYLocation(7, 0)));
         }
 
@@ -256,7 +256,7 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
             XYLocation loc = new XYLocation(0, 0);
             board.addQueenAt(loc);
             Assert.AreEqual(0, board.getNumberOfAttacksOn(loc));
-            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.down()));
+            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.Down()));
             Assert.AreEqual(1, board.getNumberOfAttacksOn(new XYLocation(0, 7)));
         }
 
@@ -266,10 +266,10 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
             XYLocation loc = new XYLocation(3, 3);
             board.addQueenAt(loc);
             Assert.AreEqual(0, board.getNumberOfAttacksOn(loc));
-            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.down().right()));
-            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.down().left()));
-            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.up().left()));
-            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.up().right()));
+            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.Down().Right()));
+            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.Down().Left()));
+            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.Up().Left()));
+            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc.Up().Right()));
             Assert.AreEqual(1, board.getNumberOfAttacksOn(new XYLocation(7, 7)));
             Assert.AreEqual(1, board.getNumberOfAttacksOn(new XYLocation(0, 0)));
             Assert.AreEqual(1, board.getNumberOfAttacksOn(new XYLocation(6, 0)));
@@ -281,16 +281,16 @@ namespace tvn_cosine.ai.test.unit.environment.nqueens
         {
             XYLocation loc1 = new XYLocation(3, 3);
             board.addQueenAt(loc1);
-            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc1.right()));
+            Assert.AreEqual(1, board.getNumberOfAttacksOn(loc1.Right()));
 
-            board.addQueenAt(loc1.right().right());
+            board.addQueenAt(loc1.Right().Right());
             Assert.AreEqual(1, board.getNumberOfAttacksOn(loc1));
-            Assert.AreEqual(2, board.getNumberOfAttacksOn(loc1.right()));
+            Assert.AreEqual(2, board.getNumberOfAttacksOn(loc1.Right()));
 
-            board.addQueenAt(loc1.right().down());
+            board.addQueenAt(loc1.Right().Down());
             Assert.AreEqual(2, board.getNumberOfAttacksOn(loc1));
-            Assert.AreEqual(3, board.getNumberOfAttacksOn(loc1.right()));
-            Assert.AreEqual(2, board.getNumberOfAttacksOn(loc1.right().right()));
+            Assert.AreEqual(3, board.getNumberOfAttacksOn(loc1.Right()));
+            Assert.AreEqual(2, board.getNumberOfAttacksOn(loc1.Right().Right()));
         }
 
         [TestMethod]

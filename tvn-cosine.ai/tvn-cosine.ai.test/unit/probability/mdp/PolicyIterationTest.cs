@@ -2,7 +2,7 @@
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.mdp;
-using tvn.cosine.ai.probability.mdp.impl;
+using tvn.cosine.ai.probability.mdp.api; 
 using tvn.cosine.ai.probability.mdp.search;
 
 namespace tvn_cosine.ai.test.unit.probability.mdp
@@ -10,7 +10,7 @@ namespace tvn_cosine.ai.test.unit.probability.mdp
     [TestClass] public class PolicyIterationTest
     {
         private CellWorld<double> cw = null;
-        private MarkovDecisionProcess<Cell<double>, CellWorldAction> mdp = null;
+        private IMarkovDecisionProcess<Cell<double>, CellWorldAction> mdp = null;
         private PolicyIteration<Cell<double>, CellWorldAction> pi = null;
 
         [TestInitialize]
@@ -27,7 +27,7 @@ namespace tvn_cosine.ai.test.unit.probability.mdp
         {
 
             // AIMA3e check with Figure 17.2 (a)
-            Policy<Cell<double>, CellWorldAction> policy = pi.policyIteration(mdp);
+            IPolicy<Cell<double>, CellWorldAction> policy = pi.policyIteration(mdp);
 
             Assert.AreEqual(CellWorldAction.Up,
                     policy.action(cw.getCellAt(1, 1)));

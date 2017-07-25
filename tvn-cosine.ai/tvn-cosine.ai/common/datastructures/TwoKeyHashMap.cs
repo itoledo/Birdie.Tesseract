@@ -4,22 +4,15 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.common.datastructures
-{
-    /**
-     * Provides a hash map which is indexed by two keys. In fact this is just a hash
-     * map which is indexed by a pair containing the two keys. The provided two-key
-     * access methods try to increase code readability.
-     * 
-     * @param <K1>
-     *            First key
-     * @param <K2>
-     *            Second key
-     * @param <V>
-     *            Result value
-     * 
-     * @author Ruediger Lunde
-     * @author Mike Stampone
-     */
+{ 
+    /// <summary>
+    /// Provides a hash map which is indexed by two keys. In fact this is just a hash
+    /// map which is indexed by a pair containing the two keys. The provided two-key
+    /// access methods try to increase code readability.
+    /// </summary>
+    /// <typeparam name="K1">First key</typeparam>
+    /// <typeparam name="K2">Second key</typeparam>
+    /// <typeparam name="V">Result value</typeparam>
     public class TwoKeyHashMap<K1, K2, V> : IMap<Pair<K1, K2>, V>
     {
         private readonly IMap<Pair<K1, K2>, V> backingMap = CollectionFactory.CreateInsertionOrderedMap<Pair<K1, K2>, V>();
@@ -128,8 +121,7 @@ namespace tvn.cosine.ai.common.datastructures
         {
             return backingMap.Peek();
         }
-
-
+         
         public void Clear()
         {
             backingMap.Clear();

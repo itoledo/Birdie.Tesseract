@@ -2,17 +2,16 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.learning.reinforcement.api;
 using tvn.cosine.ai.probability.mdp;
-using tvn.cosine.ai.probability.mdp.impl;
+using tvn.cosine.ai.probability.mdp.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.reinforcement.agent
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 834.<br>
-     * <br>
+     /**
+     * Artificial Intelligence A Modern Approach (3rd Edition): page 834.
      * 
-     * <pre>
      * function PASSIVE-ADP-AGENT(percept) returns an action
      *   inputs: percept, a percept indicating the current state s' and reward signal r'
      *   persistent: &pi;, a fixed policy
@@ -39,10 +38,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
      * @param <S>
      *            the state type.
      * @param <A>
-     *            the action type.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
+     *            the action type. 
      * 
      */
     public class PassiveADPAgent<S, A> : ReinforcementAgent<S, A>
@@ -54,7 +50,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         private MDP<S, A> mdp = null;
         private IMap<Pair<S, Pair<S, A>>, double> P = CollectionFactory.CreateInsertionOrderedMap<Pair<S, Pair<S, A>>, double>();
         private IMap<S, double> R = CollectionFactory.CreateInsertionOrderedMap<S, double>();
-        private PolicyEvaluation<S, A> policyEvaluation = null;
+        private IPolicyEvaluation<S, A> policyEvaluation = null;
         // U, a table of utilities, initially empty
         private IMap<S, double> U = CollectionFactory.CreateInsertionOrderedMap<S, double>();
         // N<sub>sa</sub>, a table of frequencies for state-action pairs, initially
@@ -82,7 +78,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          *            a function for evaluating a policy.
          */
 
-        class RewardFunctionImpl : RewardFunction<S>
+        class RewardFunctionImpl : IRewardFunction<S>
         {
             private IMap<S, double> R;
 
@@ -97,7 +93,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             }
         }
 
-        class TransitionProbabilityFunctionImpl : TransitionProbabilityFunction<S, A>
+        class TransitionProbabilityFunctionImpl : ITransitionProbabilityFunction<S, A>
         {
             private IMap<Pair<S, Pair<S, A>>, double> P;
 
@@ -115,8 +111,8 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         }
 
         public PassiveADPAgent(IMap<S, A> fixedPolicy, ISet<S> states,
-                S initialState, ActionsFunction<S, A> actionsFunction,
-                PolicyEvaluation<S, A> policyEvaluation)
+                S initialState, IActionsFunction<S, A> actionsFunction,
+                IPolicyEvaluation<S, A> policyEvaluation)
         {
             this.pi.AddAll(fixedPolicy);
             this.mdp = new MDP<S, A>(states, initialState, actionsFunction,
@@ -135,7 +131,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          * @return an action
          */
 
-        public override A execute(PerceptStateReward<S> percept)
+        public override A execute(IPerceptStateReward<S> percept)
         {
             // if s' is new then U[s'] <- r'; R[s'] <- r'
             S sDelta = percept.state();

@@ -1,20 +1,19 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.common.text;
 using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.proposition.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
-    public class NotProposition : AbstractProposition, UnarySentenceProposition
+    public class NotProposition : AbstractProposition, IUnarySentenceProposition
     {
-        private Proposition proposition;
+        private IProposition proposition;
         //
         private string toString = null;
 
-        public NotProposition(Proposition prop)
+        public NotProposition(IProposition prop)
         {
             if (null == prop)
             {

@@ -5,6 +5,7 @@ using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.bayes.api;
 using tvn.cosine.ai.probability.bayes.exact;
 using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.proposition.api;
 using tvn.cosine.ai.probability.util;
 
 namespace tvn.cosine.ai.probability.bayes.model
@@ -63,8 +64,8 @@ namespace tvn.cosine.ai.probability.bayes.model
         {
             // Handle rounding 
             int counter = 0;
-            Proposition[] propositionArray = new Proposition[representation.Size()];
-            foreach (Proposition prop in representation)
+            IProposition[] propositionArray = new IProposition[representation.Size()];
+            foreach (IProposition prop in representation)
             {
                 propositionArray[counter] = prop;
                 ++counter;
@@ -74,10 +75,10 @@ namespace tvn.cosine.ai.probability.bayes.model
 
         class CategoricalDistributionIteraorPrior : CategoricalDistributionIterator
         {
-            private Proposition conjunct;
+            private IProposition conjunct;
             private double[] probSum;
 
-            public CategoricalDistributionIteraorPrior(Proposition conjunct, double[] probSum)
+            public CategoricalDistributionIteraorPrior(IProposition conjunct, double[] probSum)
             {
                 this.conjunct = conjunct;
                 this.probSum = probSum;
@@ -92,12 +93,12 @@ namespace tvn.cosine.ai.probability.bayes.model
             }
         }
 
-        public virtual double prior(params Proposition[] phi)
+        public virtual double prior(params IProposition[] phi)
         {
             // Calculating the prior, therefore no relevant evidence
             // just query over the scope of proposition phi in order
             // to get a joint distribution for these
-            Proposition conjunct = ProbUtil.constructConjunction(phi);
+            IProposition conjunct = ProbUtil.constructConjunction(phi);
             IRandomVariable[] X = conjunct.getScope().ToArray();
             ICategoricalDistribution d = bayesInference.Ask(X, new AssignmentProposition[0], bayesNet);
 
@@ -110,13 +111,13 @@ namespace tvn.cosine.ai.probability.bayes.model
             return probSum[0];
         }
 
-        public virtual double posterior(Proposition phi, params Proposition[] evidence)
+        public virtual double posterior(IProposition phi, params IProposition[] evidence)
         {
 
-            Proposition conjEvidence = ProbUtil.constructConjunction(evidence);
+            IProposition conjEvidence = ProbUtil.constructConjunction(evidence);
 
             // P(A | B) = P(A AND B)/P(B) - (13.3 AIMA3e)
-            Proposition aAndB = new ConjunctiveProposition(phi, conjEvidence);
+            IProposition aAndB = new ConjunctiveProposition(phi, conjEvidence);
             double probabilityOfEvidence = prior(conjEvidence);
             if (0 != probabilityOfEvidence)
             {
@@ -131,15 +132,15 @@ namespace tvn.cosine.ai.probability.bayes.model
             return representation;
         }
 
-        public virtual ICategoricalDistribution priorDistribution(params Proposition[] phi)
+        public virtual ICategoricalDistribution priorDistribution(params IProposition[] phi)
         {
             return jointDistribution(phi);
         }
 
-        public virtual ICategoricalDistribution posteriorDistribution(Proposition phi, params Proposition[] evidence)
+        public virtual ICategoricalDistribution posteriorDistribution(IProposition phi, params IProposition[] evidence)
         {
 
-            Proposition conjEvidence = ProbUtil.constructConjunction(evidence);
+            IProposition conjEvidence = ProbUtil.constructConjunction(evidence);
 
             // P(A | B) = P(A AND B)/P(B) - (13.3 AIMA3e)
             ICategoricalDistribution dAandB = jointDistribution(phi, conjEvidence);
@@ -155,7 +156,7 @@ namespace tvn.cosine.ai.probability.bayes.model
             // you are returning in essence a set of conditional
             // distributions, which you do not want normalized).
             bool unboundEvidence = false;
-            foreach (Proposition e in evidence)
+            foreach (IProposition e in evidence)
             {
                 if (e.getUnboundScope().Size() > 0)
                 {
@@ -173,12 +174,12 @@ namespace tvn.cosine.ai.probability.bayes.model
 
         class CategoricalDistributionIteratorJointDistribution : CategoricalDistributionIterator
         {
-            private Proposition conjProp;
+            private IProposition conjProp;
             private ProbabilityTable ud;
             private object[] values;
             private ISet<IRandomVariable> vars;
 
-            public CategoricalDistributionIteratorJointDistribution(Proposition conjProp, ISet<IRandomVariable> vars, ProbabilityTable ud, object[] values)
+            public CategoricalDistributionIteratorJointDistribution(IProposition conjProp, ISet<IRandomVariable> vars, ProbabilityTable ud, object[] values)
             {
                 this.conjProp = conjProp;
                 this.vars = vars;
@@ -202,10 +203,10 @@ namespace tvn.cosine.ai.probability.bayes.model
             }
         }
 
-        public virtual ICategoricalDistribution jointDistribution(params Proposition[] propositions)
+        public virtual ICategoricalDistribution jointDistribution(params IProposition[] propositions)
         {
             ProbabilityTable d = null;
-            Proposition conjProp = ProbUtil.constructConjunction(propositions);
+            IProposition conjProp = ProbUtil.constructConjunction(propositions);
             ISet<IRandomVariable> vars = CollectionFactory.CreateSet<IRandomVariable>(conjProp.getUnboundScope());
 
             if (vars.Size() > 0)

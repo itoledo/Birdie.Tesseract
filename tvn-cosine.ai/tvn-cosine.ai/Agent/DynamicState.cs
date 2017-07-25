@@ -8,7 +8,7 @@ namespace tvn.cosine.ai.agent
         public DynamicState()
         { }
 
-        public override string describeType()
+        public override string DescribeType()
         {
             return "State";
         }

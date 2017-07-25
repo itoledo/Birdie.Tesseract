@@ -1,11 +1,8 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.common.text;
 using tvn.cosine.ai.common.text.api;
-using tvn.cosine.ai.probability.api;
-using tvn.cosine.ai.probability.domain;
+using tvn.cosine.ai.probability.api; 
 using tvn.cosine.ai.probability.domain.api;
 
 namespace tvn.cosine.ai.probability.proposition

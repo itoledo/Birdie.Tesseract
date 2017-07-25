@@ -1,119 +1,157 @@
-﻿using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.domain.api;
+using tvn.cosine.ai.probability.hmm.api;
 using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.util;
+using tvn.cosine.ai.util;
 using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.probability.hmm
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 578.<br>
-     * <br>
-     * 
-     * The hidden Markov model, or HMM. An HMM is a temporal probabilistic model in
-     * which the state of the process is described by a single discrete random
-     * variable. The possible values of the variable are the possible states of the
-     * world.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
-     * 
-     */
-    public interface HiddenMarkovModel
-    { 
-        /**
-         * Return the single discrete random variable used to describe the process
-         * state.
-         * 
-         * @return the single discrete random variable used to describe the process
-         *         state.
-         */
-        IRandomVariable getStateVariable();
+    /// <summary>
+    /// Default implementation of the HiddenMarkovModel interface.
+    /// </summary>
+    public class HiddenMarkovModel : IHiddenMarkovModel
+    {
+        private IRandomVariable stateVariable = null;
+        private IFiniteDomain stateVariableDomain = null;
+        private Matrix transitionModel = null;
+        private IMap<object, Matrix> sensorModel = null;
+        private Matrix prior = null;
 
-        /**
-         * Return the transition model:<br>
-         * <b>P</b>(X<sub>t</sub> | X<sub>t-1</sub>)<br>
-         * is represented by an S * S matrix <b>T</b> where<br>
-         * <b>T</b><sub>ij</sub> = P(X<sub>t</sub> = j | X<sub>t-1</sub> = i).
-         * 
-         * @return the transition model in Matrix form.
-         */
-        Matrix getTransitionModel();
+        /// <summary>
+        /// Instantiate a Hidden Markov Model.
+        /// </summary>
+        /// <param name="stateVariable">
+        /// the single discrete random variable used to describe the process states 1,...,S.
+        /// </param>
+        /// <param name="transitionModel">
+        /// the transition model:<para />
+        /// P(Xt | Xt-1)<para />
+        /// is represented by an S * S matrix T where
+        /// Tij= P(Xt = j | Xt-1 = i).
+        /// </param>
+        /// <param name="sensorModel">
+        /// the sensor model in matrix form:<para />
+        /// P(et | Xt = i) for each state i. For
+        /// mathematical convenience we place each of these values into an
+        /// S * S diagonal matrix.
+        /// </param>
+        /// <param name="prior">the prior distribution represented as a column vector in Matrix form.</param>
+        public HiddenMarkovModel(IRandomVariable stateVariable, Matrix transitionModel, IMap<object, Matrix> sensorModel, Matrix prior)
+        {
+            if (!stateVariable.getDomain().IsFinite())
+            {
+                throw new IllegalArgumentException("State Variable for HHM must be finite.");
+            }
+            this.stateVariable = stateVariable;
+            stateVariableDomain = (IFiniteDomain)stateVariable.getDomain();
+            if (transitionModel.getRowDimension() != transitionModel
+                    .getColumnDimension())
+            {
+                throw new IllegalArgumentException("Transition Model row and column dimensions must match.");
+            }
+            if (stateVariableDomain.Size() != transitionModel.getRowDimension())
+            {
+                throw new IllegalArgumentException("Transition Model Matrix does not map correctly to the HMM's State Variable.");
+            }
+            this.transitionModel = transitionModel;
+            foreach (Matrix smVal in sensorModel.GetValues())
+            {
+                if (smVal.getRowDimension() != smVal.getColumnDimension())
+                {
+                    throw new IllegalArgumentException("Sensor Model row and column dimensions must match.");
+                }
+                if (stateVariableDomain.Size() != smVal.getRowDimension())
+                {
+                    throw new IllegalArgumentException("Sensor Model Matrix does not map correctly to the HMM's State Variable.");
+                }
+            }
+            this.sensorModel = sensorModel;
+            if (transitionModel.getRowDimension() != prior.getRowDimension()
+                    && prior.getColumnDimension() != 1)
+            {
+                throw new IllegalArgumentException("Prior is not of the correct dimensions.");
+            }
+            this.prior = prior;
+        }
 
-        /**
-         * Return the sensor model in matrix form:<br>
-         * P(e<sub>t</sub> | X<sub>t</sub> = i) for each state i.<br>
-         * For mathematical convenience we place each of these values into an S * S
-         * diagonal matrix.
-         * 
-         * @return the sensor model in matrix form.
-         */
-        IMap<object, Matrix> getSensorModel();
+        public virtual IRandomVariable getStateVariable()
+        {
+            return stateVariable;
+        }
 
-        /**
-         * Return the prior distribution represented as a column vector in Matrix
-         * form.
-         * 
-         * @return the prior distribution represented as a column vector in Matrix
-         *         form.
-         */
-        Matrix getPrior();
+        public virtual Matrix getTransitionModel()
+        {
+            return transitionModel;
+        }
 
-        /**
-         * Get the specific evidence matrix based on assigned evidence value.
-         * 
-         * @param evidence
-         *            the evidence assignment e.
-         * @return the Matrix representation of this evidence assignment from the
-         *         sensor model.
-         */
-        Matrix getEvidence(ICollection<AssignmentProposition> evidence);
+        public virtual IMap<object, Matrix> getSensorModel()
+        {
+            return sensorModel;
+        }
 
-        /**
-         * Return a new column vector in matrix form with all values set to 1.0.
-         * 
-         * @return a new column vector in matrix form with all values set to 1.0.
-         */
-        Matrix createUnitMessage();
+        public virtual Matrix getPrior()
+        {
+            return prior;
+        }
 
-        /**
-         * Convert a Categorical Distribution into a column vector in Matrix form.
-         * 
-         * @param fromCD
-         *            the categorical distribution to be converted.
-         * @return a column vector in Matrix form of the passed in categorical
-         *         distribution.
-         */
-        Matrix convert(ICategoricalDistribution fromCD);
+        public virtual Matrix getEvidence(ICollection<AssignmentProposition> evidence)
+        {
+            if (evidence.Size() != 1)
+            {
+                throw new IllegalArgumentException("Only a single evidence observation value should be provided.");
+            }
+            Matrix e = sensorModel.Get(evidence.Get(0).getValue());
+            if (null == e)
+            {
+                throw new IllegalArgumentException("Evidence does not map to sensor model.");
+            }
+            return e;
+        }
 
-        /**
-         * Convert a column vector in Matrix form to a Categorical Distribution.
-         * 
-         * @param fromMessage
-         *            the column vector in Matrix form to be converted.
-         * @return a categorical distribution representation of the passed in column
-         *         vector.
-         */
-        ICategoricalDistribution convert(Matrix fromMessage);
 
-        /**
-         * Convert a list of column vectors in Matrix form into a corresponding list
-         * of Categorical Distributions.
-         * 
-         * @param matrixs
-         *            the column vectors in matrix form to be converted.
-         * @return a corresponding list of Categorical Distribution representation
-         *         of the passed in column vectors.
-         */
-        ICollection<ICategoricalDistribution> convert(ICollection<Matrix> matrixs);
+        public virtual Matrix createUnitMessage()
+        {
+            double[] values = new double[stateVariableDomain.Size()];
+            for (int i = 0; i < values.Length; ++i)
+            {
+                values[i] = 1D;
+            }
 
-        /**
-         * Create a normalized column vector in matrix form of the passed in column
-         * vector.
-         * 
-         * @param m
-         *            a column vector representation in matrix form.
-         * @return a normalized column vector of the passed in column vector.
-         */
-        Matrix normalize(Matrix m);
-    } 
+            return new Matrix(values, values.Length);
+        }
+
+
+        public virtual Matrix convert(ICategoricalDistribution fromCD)
+        {
+            double[] values = fromCD.getValues();
+            return new Matrix(values, values.Length);
+        }
+
+
+        public virtual ICategoricalDistribution convert(Matrix fromMessage)
+        {
+            return new ProbabilityTable(fromMessage.getRowPackedCopy(), stateVariable);
+        }
+
+        public virtual ICollection<ICategoricalDistribution> convert(ICollection<Matrix> matrixs)
+        {
+            ICollection<ICategoricalDistribution> cds = CollectionFactory.CreateQueue<ICategoricalDistribution>();
+            foreach (Matrix m in matrixs)
+            {
+                cds.Add(convert(m));
+            }
+            return cds;
+        }
+
+        public virtual Matrix normalize(Matrix m)
+        {
+            double[] values = m.getRowPackedCopy();
+            return new Matrix(Util.normalize(values), values.Length);
+        }
+    }
 }

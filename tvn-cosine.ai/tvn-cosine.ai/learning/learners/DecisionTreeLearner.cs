@@ -13,8 +13,7 @@ namespace tvn.cosine.ai.learning.learners
 
         public DecisionTreeLearner()
         {
-            this.defaultValue = "Unable To Classify";
-
+            this.defaultValue = "Unable To Classify"; 
         }
 
         // used when you have to test a non induced tree (eg: for testing)
@@ -24,12 +23,10 @@ namespace tvn.cosine.ai.learning.learners
             this.defaultValue = defaultValue;
         }
          
-        /**
-         * Induces the decision tree from the specified set of examples
-         * 
-         * @param ds
-         *            a set of examples for constructing the decision tree
-         */
+        /// <summary>
+        /// Induces the decision tree from the specified set of examples
+        /// </summary>
+        /// <param name="ds">a set of examples for constructing the decision tree</param>
         public virtual void train(DataSet ds)
         {
             ICollection<string> attributes = ds.getNonTargetAttributes();
@@ -58,24 +55,16 @@ namespace tvn.cosine.ai.learning.learners
             }
             return results;
         }
-
-        // END-Learner
-        //
-
-        /**
-         * Returns the decision tree of this decision tree learner
-         * 
-         * @return the decision tree of this decision tree learner
-         */
+        
+        /// <summary>
+        /// Returns the decision tree of this decision tree learner
+        /// </summary>
+        /// <returns>the decision tree of this decision tree learner</returns>
         public virtual DecisionTree getDecisionTree()
         {
             return tree;
         }
-
-        //
-        // PRIVATE METHODS
-        //
-
+         
         private DecisionTree decisionTreeLearning(DataSet ds, ICollection<string> attributeNames, ConstantDecisonTree defaultTree)
         {
             if (ds.size() == 0)

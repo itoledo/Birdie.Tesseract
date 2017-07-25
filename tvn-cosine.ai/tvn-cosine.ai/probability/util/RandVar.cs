@@ -2,9 +2,8 @@
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.api;
-using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.domain.api;
-using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.proposition.api;
 
 namespace tvn.cosine.ai.probability.util
 {
@@ -15,7 +14,7 @@ namespace tvn.cosine.ai.probability.util
     /// RandomVariables in conjunction with propositions about them in the
     /// Probability Model APIs.
     /// </summary>
-    public class RandVar : IRandomVariable, TermProposition
+    public class RandVar : IRandomVariable, ITermProposition
     {
         private string name = null;
         private IDomain domain = null;

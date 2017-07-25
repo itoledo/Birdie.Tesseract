@@ -3,12 +3,9 @@ using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.learning.neural
 {
-    /**
-     * A holder for config data for neural networks and possibly for other learning systems.
-     * 
-     * @author Ravi Mohan
-     * 
-     */
+    /// <summary>
+    /// A holder for config data for neural networks and possibly for other learning systems.
+    /// </summary>
     public class NNConfig
     {
         private readonly IMap<string, object> hash;

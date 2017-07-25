@@ -1,69 +1,66 @@
-﻿using System.Globalization;
-using System.IO;
-
-using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.text;
 using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.learning.framework;
+using tvn.cosine.ai.learning.neural.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.neural
 {
+    /// <summary>
+    /// This class represents a source of examples to the rest of the nn
+    /// framework. Assumes only one function approximator works on an instance at
+    /// a given point in time
+    /// </summary>
     public abstract class NNDataSet
     {
-        /*
-         * This class represents a source of examples to the rest of the nn
-         * framework. Assumes only one function approximator works on an instance at
-         * a given point in time
-         */
-        /*
-         * the parsed and preprocessed form of the dataset.
-         */
+        /// <summary>
+        /// the parsed and preprocessed form of the dataset.
+        /// </summary>
         private ICollection<NNExample> dataset;
-        /*
-         * a copy from which examples are drawn.
-         */
+        /// <summary>
+        /// a copy from which examples are drawn.
+        /// </summary>
         private ICollection<NNExample> presentlyProcessed = CollectionFactory.CreateQueue<NNExample>();
 
-        /*
-         * list of mean Values for all components of raw data set
-         */
+        /// <summary>
+        /// list of mean Values for all components of raw data set
+        /// </summary>
         private ICollection<double> means;
 
-        /*
-         * list of stdev Values for all components of raw data set
-         */
+        /// <summary>
+        /// list of stdev Values for all components of raw data set
+        /// </summary>
         private ICollection<double> stdevs;
-        /*
-         * the normalized data set
-         */
+
+        /// <summary>
+        /// the normalized data set
+        /// </summary>
         protected ICollection<ICollection<double>> nds;
 
-        /*
-         * the column numbers of the "target"
-         */
-
+        /// <summary>
+        /// the column numbers of the "target"
+        /// </summary>
         protected ICollection<int> targetColumnNumbers;
 
-        /*
-         * population delegated to subclass because only subclass knows which
-         * column(s) is target
-         */
+        /// <summary>
+        /// population delegated to subclass because only subclass knows which column(s) is target
+        /// </summary>
         public abstract void setTargetColumns();
 
-        /*
-         * create a normalized data "table" from the data in the file. At this
-         * stage, the data isnot split into input pattern and tragets
-         */
+        /// <summary> 
+        /// create a normalized data "table" from the data in the file. At this
+        /// stage, the data isnot split into input pattern and tragets
+        /// </summary>
+        /// <param name="filename"></param>
         public void createNormalizedDataFromFile(string filename)
-        {
-
+        { 
             ICollection<ICollection<double>> rds = CollectionFactory.CreateQueue<ICollection<double>>();
 
             // create raw data set
-            using (StreamReader reader = new StreamReader(filename + ".csv"))
+            using (System.IO.StreamReader reader = new System.IO.StreamReader(filename + ".csv"))
             {
 
                 string line = string.Empty;
@@ -79,13 +76,15 @@ namespace tvn.cosine.ai.learning.neural
             nds = normalize(rds);
         }
 
-        /*
-         * create a normalized data "table" from the DataSet using numerizer. At
-         * this stage, the data isnot split into input pattern and targets TODO
-         * remove redundancy of recreating the target columns. the numerizer has
-         * already isolated the targets
-         */
-        public void createNormalizedDataFromDataSet(DataSet ds, Numerizer numerizer)
+        /// <summary>
+        /// create a normalized data "table" from the DataSet using numerizer. At
+        /// this stage, the data isnot split into input pattern and targets TODO
+        /// remove redundancy of recreating the target columns. the numerizer has
+        /// already isolated the targets
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <param name="numerizer"></param>
+        public void createNormalizedDataFromDataSet(DataSet ds, INumerizer numerizer)
         {
 
             ICollection<ICollection<double>> rds = rawExamplesFromDataSet(ds, numerizer);
@@ -93,18 +92,21 @@ namespace tvn.cosine.ai.learning.neural
             nds = normalize(rds);
         }
 
-        /*
-         * Gets (and removes) a random example from the 'presentlyProcessed'
-         */
+        /// <summary>
+        /// Gets (and removes) a random example from the 'presentlyProcessed'
+        /// </summary>
+        /// <returns></returns>
         public NNExample getExampleAtRandom()
         {
             int i = Util.randomNumberBetween(0, (presentlyProcessed.Size() - 1));
             return getExample(i);
         }
 
-        /*
-         * Gets (and removes) a random example from the 'presentlyProcessed'
-         */
+        /// <summary>
+        /// Gets (and removes) a random example from the 'presentlyProcessed'
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public NNExample getExample(int index)
         {
             NNExample obj = presentlyProcessed.Get(index);
@@ -112,26 +114,28 @@ namespace tvn.cosine.ai.learning.neural
             return obj;
         }
 
-        /*
-         * check if any more examples remain to be processed
-         */
+        /// <summary>
+        /// check if any more examples remain to be processed
+        /// </summary>
+        /// <returns></returns>
         public bool hasMoreExamples()
         {
             return presentlyProcessed.Size() > 0;
         }
 
-        /*
-         * check how many examples remain to be processed
-         */
+        /// <summary>
+        /// check how many examples remain to be processed
+        /// </summary>
+        /// <returns></returns>
         public int howManyExamplesLeft()
         {
             return presentlyProcessed.Size();
         }
 
-        /*
-         * refreshes the presentlyProcessed dataset so it can be used for a new
-         * epoch of training.
-         */
+        /// <summary> 
+        /// refreshes the presentlyProcessed dataset so it can be used for a new
+        /// epoch of training.
+        /// </summary>
         public void refreshDataset()
         {
             presentlyProcessed = CollectionFactory.CreateQueue<NNExample>();
@@ -141,10 +145,10 @@ namespace tvn.cosine.ai.learning.neural
             }
         }
 
-        /*
-         * method called by clients to set up data set and make it ready for
-         * processing
-         */
+        /// <summary>
+        /// method called by clients to set up data set and make it ready for processing
+        /// </summary>
+        /// <param name="filename"></param>
         public void createExamplesFromFile(string filename)
         {
             createNormalizedDataFromFile(filename);
@@ -152,11 +156,12 @@ namespace tvn.cosine.ai.learning.neural
             createExamples();
         }
 
-        /*
-         * method called by clients to set up data set and make it ready for
-         * processing
-         */
-        public void createExamplesFromDataSet(DataSet ds, Numerizer numerizer)
+        /// <summary>
+        /// method called by clients to set up data set and make it ready for processing
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <param name="numerizer"></param>
+        public void createExamplesFromDataSet(DataSet ds, INumerizer numerizer)
         {
             createNormalizedDataFromDataSet(ds, numerizer);
             setTargetColumns();
@@ -179,13 +184,9 @@ namespace tvn.cosine.ai.learning.neural
             return stdevs;
         }
 
-        //
-        // PRIVATE METHODS
-        //
-
-        /*
-         * create Example instances from a normalized data "table".
-         */
+        /// <summary>
+        /// create Example instances from a normalized data "table".
+        /// </summary>
         private void createExamples()
         {
             dataset = CollectionFactory.CreateQueue<NNExample>();
@@ -260,12 +261,14 @@ namespace tvn.cosine.ai.learning.neural
             ICollection<string> attributeValues = CollectionFactory.CreateQueue<string>(regex.Split(line));
             foreach (string valString in attributeValues)
             {
-                rexample.Add(double.Parse(valString, NumberStyles.Any, CultureInfo.InvariantCulture));
+                rexample.Add(double.Parse(valString, 
+                    System.Globalization.NumberStyles.Any, 
+                    System.Globalization.CultureInfo.InvariantCulture));
             }
             return rexample;
         }
 
-        private ICollection<ICollection<double>> rawExamplesFromDataSet(DataSet ds, Numerizer numerizer)
+        private ICollection<ICollection<double>> rawExamplesFromDataSet(DataSet ds, INumerizer numerizer)
         {
             // assumes all values for inout and target are doubles
             ICollection<ICollection<double>> rds = CollectionFactory.CreateQueue<ICollection<double>>();
@@ -274,7 +277,7 @@ namespace tvn.cosine.ai.learning.neural
                 ICollection<double> rexample = CollectionFactory.CreateQueue<double>();
                 Example e = ds.getExample(i);
                 Pair<ICollection<double>, ICollection<double>> p = numerizer.numerize(e);
-                ICollection<double> attributes = p.getFirst();
+                ICollection<double> attributes = p.GetFirst();
                 foreach (double d in attributes)
                 {
                     rexample.Add(d);

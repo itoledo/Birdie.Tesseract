@@ -1,9 +1,9 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.common.text;
 using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.proposition.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
@@ -15,14 +15,14 @@ namespace tvn.cosine.ai.probability.proposition
     /// <para />
     /// P(a OR b) = P(a) + P(b) - P(a AND b). 
     /// </summary>
-    public class DisjunctiveProposition : AbstractProposition, BinarySentenceProposition
+    public class DisjunctiveProposition : AbstractProposition, IBinarySentenceProposition
     {
-        private Proposition left = null;
-        private Proposition right = null;
+        private IProposition left = null;
+        private IProposition right = null;
         //
         private string toString = null;
 
-        public DisjunctiveProposition(Proposition left, Proposition right)
+        public DisjunctiveProposition(IProposition left, IProposition right)
         {
             if (null == left)
             {

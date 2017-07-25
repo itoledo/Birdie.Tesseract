@@ -1,23 +1,19 @@
 ﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.api;
 
-namespace tvn.cosine.ai.probability.proposition
+namespace tvn.cosine.ai.probability.proposition.api
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 486.<br>
-     * <br>
-     * Propositions describing sets of possible worlds are written in a notation
-     * that combines elements of propositional logic and constraint satisfaction
-     * notation. In the terminology of Section 2.4.7, it is a factored
-     * representation, in which a possible world is represented by a set of
-     * variable/value pairs.<br>
-     * <br>
-     * A possible world is defined to be an assignment of values to all of the
-     * random variables under consideration.
-     * 
-     * @author Ciaran O'Reilly
-     */
-    public interface Proposition
+    /// <summary>
+    /// Artificial Intelligence A Modern Approach (3rd Edition): page 486.<para />
+    /// Propositions describing sets of possible worlds are written in a notation
+    /// that combines elements of propositional logic and constraint satisfaction
+    /// notation. In the terminology of Section 2.4.7, it is a factored
+    /// representation, in which a possible world is represented by a set of
+    /// variable/value pairs.<para />
+    /// A possible world is defined to be an assignment of values to all of the
+    /// random variables under consideration.
+    /// </summary>
+    public interface IProposition
     {
         /**
          * 

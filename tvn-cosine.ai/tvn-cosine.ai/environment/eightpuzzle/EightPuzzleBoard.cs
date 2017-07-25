@@ -48,7 +48,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
 
         public int getValueAt(XYLocation loc)
         {
-            return getValueAt(loc.getXCoOrdinate(), loc.getYCoOrdinate());
+            return getValueAt(loc.GetXCoOrdinate(), loc.GetYCoOrdinate());
         }
 
         public XYLocation getLocationOf(int val)
@@ -132,7 +132,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             for (int i = 0; i < locs.Size(); i++)
             {
                 XYLocation loc = locs.Get(i);
-                this.setValue(loc.getXCoOrdinate(), loc.getYCoOrdinate(), count);
+                this.setValue(loc.GetXCoOrdinate(), loc.GetYCoOrdinate(), count);
                 count = count + 1;
             }
         }

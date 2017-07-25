@@ -1,68 +1,55 @@
 ﻿using tvn.cosine.ai.environment.cellworld;
+using tvn.cosine.ai.learning.reinforcement.api;
 
 namespace tvn.cosine.ai.learning.reinforcement.example
 {
-    /**
-     * An implementation of the PerceptStateReward interface for the cell world
-     * environment. Note: The getCell() and setCell() methods allow a single percept
-     * to be instantiated per agent within the environment. However, if an agent
-     * tracks its perceived percepts it will need to explicitly copy the relevant
-     * information.
-     * 
-     * @author oreilly
-     * 
-     */
-    public class CellWorldPercept : PerceptStateReward<Cell<double>>
-    { 
+    /// <summary> 
+    /// An implementation of the PerceptStateReward interface for the cell world
+    /// environment. Note: The getCell() and setCell() methods allow a single percept
+    /// to be instantiated per agent within the environment. However, if an agent
+    /// tracks its perceived percepts it will need to explicitly copy the relevant
+    /// information. 
+    /// </summary>
+    public class CellWorldPercept : IPerceptStateReward<Cell<double>>
+    {
         private Cell<double> cell = null;
 
-        /**
-         * Constructor.
-         * 
-         * @param cell
-         *            the cell within the environment that the percept refers to.
-         */
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="cell">the cell within the environment that the percept refers to.</param>
         public CellWorldPercept(Cell<double> cell)
         {
             this.cell = cell;
         }
 
-        /**
-         * 
-         * @return the cell within the environment that the percept refers to.
-         */
+        /// <summary>
+        /// The cell within the environment that the percept refers to.
+        /// </summary>
+        /// <returns>the cell within the environment that the percept refers to.</returns>
         public Cell<double> getCell()
         {
             return cell;
         }
 
-        /**
-         * Set the cell within the environment that the percept refers to.
-         * 
-         * @param cell
-         *            the cell within the environment that the percept refers to.
-         */
+        /// <summary>
+        /// Set the cell within the environment that the percept refers to.
+        /// </summary>
+        /// <param name="cell">the cell within the environment that the percept refers to.</param>
         public void setCell(Cell<double> cell)
         {
             this.cell = cell;
         }
 
-        //
-        // START-PerceptStateReward
-
-         
-    public double reward()
+        public double reward()
         {
             return cell.getContent();
         }
 
-         
-    public Cell<double> state()
+
+        public Cell<double> state()
         {
             return cell;
         }
-
-        // END-PerceptStateReward
-        //
     }
 }

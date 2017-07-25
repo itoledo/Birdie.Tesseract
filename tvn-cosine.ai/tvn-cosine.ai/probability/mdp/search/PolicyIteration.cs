@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.probability.mdp.impl;
+using tvn.cosine.ai.probability.mdp.api; 
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.probability.mdp.search
@@ -38,10 +38,9 @@ namespace tvn.cosine.ai.probability.mdp.search
      * @author Ravi Mohan
      * 
      */
-    public class PolicyIteration<S, A>
-        where A : IAction
+    public class PolicyIteration<S, A>        where A : IAction
     {
-        private PolicyEvaluation<S, A> policyEvaluation = null;
+        private IPolicyEvaluation<S, A> policyEvaluation = null;
 
         /**
          * Constructor.
@@ -49,7 +48,7 @@ namespace tvn.cosine.ai.probability.mdp.search
          * @param policyEvaluation
          *            the policy evaluation function to use.
          */
-        public PolicyIteration(PolicyEvaluation<S, A> policyEvaluation)
+        public PolicyIteration(IPolicyEvaluation<S, A> policyEvaluation)
         {
             this.policyEvaluation = policyEvaluation;
         }
@@ -62,7 +61,7 @@ namespace tvn.cosine.ai.probability.mdp.search
          *            an MDP with states S, actions A(s), transition model P(s'|s,a)
          * @return an optimal policy
          */
-        public Policy<S, A> policyIteration(MarkovDecisionProcess<S, A> mdp)
+        public IPolicy<S, A> policyIteration(IMarkovDecisionProcess<S, A> mdp)
         {
             // local variables: U, a vector of utilities for states in S, initially
             // zero
@@ -130,7 +129,7 @@ namespace tvn.cosine.ai.probability.mdp.search
          *            an MDP with states S, actions A(s), transition model P(s'|s,a)
          * @return a policy vector indexed by state, initially random.
          */
-        public static IMap<S, A> initialPolicyVector(MarkovDecisionProcess<S, A> mdp)
+        public static IMap<S, A> initialPolicyVector(IMarkovDecisionProcess<S, A> mdp)
         {
             IMap<S, A> pi = CollectionFactory.CreateInsertionOrderedMap<S, A>();
             ICollection<A> actions = CollectionFactory.CreateQueue<A>();

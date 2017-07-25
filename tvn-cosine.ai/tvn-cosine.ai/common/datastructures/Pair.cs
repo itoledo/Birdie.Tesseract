@@ -1,46 +1,36 @@
 ﻿using tvn.cosine.ai.common.api;
 
 namespace tvn.cosine.ai.common.datastructures
-{
-    /**
-     * @author Ravi Mohan
-     * @author Mike Stampone
-     * 
-     */
+{ 
     public class Pair<X, Y> : IEquatable, IHashable, IStringable
     {
         private readonly X a;
         private readonly Y b;
-
-        /**
-         * Constructs a Pair from two given elements
-         * 
-         * @param a
-         *            the first element
-         * @param b
-         *            the second element
-         */
+         
+        /// <summary>
+        /// Constructs a Pair from two given elements
+        /// </summary>
+        /// <param name="a">the first element</param>
+        /// <param name="b">the second element</param>
         public Pair(X a, Y b)
         {
             this.a = a;
             this.b = b;
         }
-
-        /**
-         * Returns the first element of the pair
-         * 
-         * @return the first element of the pair
-         */
-        public X getFirst()
+         
+        /// <summary>
+        /// Returns the first element of the pair
+        /// </summary>
+        /// <returns>the first element of the pair</returns>
+        public X GetFirst()
         {
             return a;
         }
-
-        /**
-         * Returns the second element of the pair
-         * 
-         * @return the second element of the pair
-         */
+         
+        /// <summary>
+        /// Returns the second element of the pair
+        /// </summary>
+        /// <returns>the second element of the pair</returns>
         public Y getSecond()
         {
             return b;
@@ -65,7 +55,7 @@ namespace tvn.cosine.ai.common.datastructures
         public override string ToString()
         {
             return "< " 
-                  + getFirst().ToString() 
+                  + GetFirst().ToString() 
                   + " , " + getSecond().ToString()
                   + " > ";
         }

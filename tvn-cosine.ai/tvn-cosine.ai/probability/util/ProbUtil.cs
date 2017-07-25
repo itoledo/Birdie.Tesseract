@@ -8,6 +8,7 @@ using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.bayes.api;
 using tvn.cosine.ai.probability.domain.api;
 using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.proposition.api;
 using tvn.cosine.ai.util;
 using tvn.cosine.ai.util.math;
 
@@ -109,7 +110,7 @@ namespace tvn.cosine.ai.probability.util
          * @return a ConjunctivePropositions if more than 1 proposition in 'props',
          *         otherwise props[0].
          */
-        public static Proposition constructConjunction(Proposition[] props)
+        public static IProposition constructConjunction(IProposition[] props)
         {
             return constructConjunction(props, 0);
         }
@@ -459,11 +460,8 @@ namespace tvn.cosine.ai.probability.util
 
             return indexes;
         }
-
-        //
-        // PRIVATE METHODS
-        //
-        private static Proposition constructConjunction(Proposition[] props, int idx)
+         
+        private static IProposition constructConjunction(IProposition[] props, int idx)
         {
             if ((idx + 1) == props.Length)
             {

@@ -1,6 +1,8 @@
-﻿namespace tvn.cosine.ai.probability.proposition
+﻿using tvn.cosine.ai.probability.proposition.api;
+
+namespace tvn.cosine.ai.probability.proposition
 {
-    public abstract class AbstractDerivedProposition : AbstractProposition, DerivedProposition
+    public abstract class AbstractDerivedProposition : AbstractProposition, IDerivedProposition
     { 
         private string name = null;
 

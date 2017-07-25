@@ -246,7 +246,7 @@ namespace tvn.cosine.ai.util
             double accum = 0;
             foreach (T item in list)
             {
-                accum = accum + (item.doubleValue() * item.doubleValue());
+                accum = accum + (item.DoubleValue() * item.DoubleValue());
             }
             return accum;
         }

@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.learning.reinforcement.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.reinforcement.agent
@@ -82,7 +83,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          * @return an action
          */
 
-        public override A execute(PerceptStateReward<S> percept)
+        public override A execute(IPerceptStateReward<S> percept)
         {
             // if s' is new then U[s'] <- r'
             S sDelta = percept.state();

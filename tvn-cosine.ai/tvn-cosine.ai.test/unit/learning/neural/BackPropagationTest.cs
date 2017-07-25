@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.neural;
+using tvn.cosine.ai.learning.neural.api;
 using tvn.cosine.ai.util.math;
 
 namespace tvn_cosine.ai.test.unit.learning.neural
@@ -41,8 +42,8 @@ namespace tvn_cosine.ai.test.unit.learning.neural
                     outputLayerWeightMatrix, outputLayerBiasVector);
             ffnn.setTrainingScheme(new BackPropLearning(learningRate,
                     momentumFactor));
-            ffnn.processInput(input);
-            ffnn.processError(error);
+            ffnn.ProcessInput(input);
+            ffnn.ProcessError(error);
 
             Matrix finalHiddenLayerWeights = ffnn.getHiddenLayerWeights();
             Assert.AreEqual(-0.265, finalHiddenLayerWeights.get(0, 0), 0.001);
@@ -93,8 +94,8 @@ namespace tvn_cosine.ai.test.unit.learning.neural
 
             ffnn.setTrainingScheme(new BackPropLearning(learningRate,
                     momentumFactor));
-            ffnn.processInput(input);
-            ffnn.processError(error);
+            ffnn.ProcessInput(input);
+            ffnn.ProcessError(error);
 
             Matrix finalHiddenLayerWeights = ffnn.getHiddenLayerWeights();
             Assert.AreEqual(-0.2675, finalHiddenLayerWeights.get(0, 0), 0.001);
@@ -116,7 +117,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
         public void testDataSetPopulation()
         {
             DataSet irisDataSet = DataSetFactory.getIrisDataSet();
-            Numerizer numerizer = new IrisDataSetNumerizer();
+            INumerizer numerizer = new IrisDataSetNumerizer();
             NNDataSet innds = new IrisNNDataSet();
 
             innds.createExamplesFromDataSet(irisDataSet, numerizer);
@@ -141,7 +142,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
         public void testPerceptron()
         {
             DataSet irisDataSet = DataSetFactory.getIrisDataSet();
-            Numerizer numerizer = new IrisDataSetNumerizer();
+            INumerizer numerizer = new IrisDataSetNumerizer();
             NNDataSet innds = new IrisNNDataSet();
 
             innds.createExamplesFromDataSet(irisDataSet, numerizer);

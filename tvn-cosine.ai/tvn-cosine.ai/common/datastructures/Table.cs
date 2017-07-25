@@ -1,5 +1,4 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.text;
@@ -12,17 +11,13 @@ namespace tvn.cosine.ai.common.datastructures
         private ICollection<RowHeaderType> rowHeaders;
         private ICollection<ColumnHeaderType> columnHeaders;
         private IMap<RowHeaderType, IMap<ColumnHeaderType, ValueType>> rows;
-
-        /**
-         * Constructs a Table with the specified row and column headers.
-         * 
-         * @param rowHeaders
-         *            a list of row headers
-         * @param columnHeaders
-         *            a list of column headers
-         */
-        public Table(ICollection<RowHeaderType> rowHeaders,
-                     ICollection<ColumnHeaderType> columnHeaders)
+         
+        /// <summary>
+        /// Constructs a Table with the specified row and column headers.
+        /// </summary>
+        /// <param name="rowHeaders">a list of row headers</param>
+        /// <param name="columnHeaders">a list of column headers</param>
+        public Table(ICollection<RowHeaderType> rowHeaders, ICollection<ColumnHeaderType> columnHeaders)
         {
             this.rowHeaders = rowHeaders;
             this.columnHeaders = columnHeaders;
@@ -32,45 +27,33 @@ namespace tvn.cosine.ai.common.datastructures
                 rows.Put(rowHeader, CollectionFactory.CreateInsertionOrderedMap<ColumnHeaderType, ValueType>());
             }
         }
-
-        /**
-         * Maps the specified row and column to the specified value in the table.
-         * Neither the row nor the column nor the value can be <code>null</code> <br>
-         * The value can be retrieved by calling the <code>get</code> method with a
-         * row and column that is equal to the original row and column.
-         * 
-         * @param r
-         *            the table row
-         * @param c
-         *            the table column
-         * @param v
-         *            the value
-         * 
-         * @throws NullPointerException
-         *             if the row, column, or value is <code>null</code>.
-         */
-        public void set(RowHeaderType r, ColumnHeaderType c, ValueType v)
+         
+        /// <summary>
+        /// Maps the specified row and column to the specified value in the table.
+        /// Neither the row nor the column nor the value can be null <para />
+        /// The value can be retrieved by calling the get method with a
+        /// row and column that is equal to the original row and column.
+        /// </summary>
+        /// <param name="r">the table row</param>
+        /// <param name="c">the table column</param>
+        /// <param name="v">the value</param> 
+        public void Set(RowHeaderType r, ColumnHeaderType c, ValueType v)
         { 
             rows.Get(r).Put(c, v);
         }
 
-        /**
-         * Returns the value to which the specified row and column is mapped in this
-         * table.
-         * 
-         * @param r
-         *            a row in the table
-         * @param c
-         *            a column in the table
-         * 
-         * @return the value to which the row and column is mapped in this table;
-         *         <code>null</code> if the row and column is not mapped to any
-         *         values in this table.
-         * 
-         * @throws NullPointerException
-         *             if the row or column is <code>null</code>.
-         */
-        public ValueType get(RowHeaderType r, ColumnHeaderType c)
+         
+        /// <summary>
+        /// Returns the value to which the specified row and column is mapped in this table.
+        /// </summary>
+        /// <param name="r">a row in the table</param>
+        /// <param name="c">a column in the table</param>
+        /// <returns>
+        /// the value to which the row and column is mapped in this table;
+        /// null if the row and column is not mapped to any
+        /// values in this table.
+        /// </returns>
+        public ValueType Get(RowHeaderType r, ColumnHeaderType c)
         {
             IMap<ColumnHeaderType, ValueType> rowValues = rows.Get(r);
             return rowValues == null ? default(ValueType) : rowValues.Get(c);
@@ -84,7 +67,7 @@ namespace tvn.cosine.ai.common.datastructures
             {
                 foreach (ColumnHeaderType c in columnHeaders)
                 {
-                    buf.Append(get(r, c));
+                    buf.Append(Get(r, c));
                     buf.Append(" ");
                 }
                 buf.Append("\n");

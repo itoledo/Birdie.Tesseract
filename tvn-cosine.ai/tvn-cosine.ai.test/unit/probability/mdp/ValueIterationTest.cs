@@ -3,6 +3,7 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.mdp;
+using tvn.cosine.ai.probability.mdp.api;
 using tvn.cosine.ai.probability.mdp.search;
 
 namespace tvn_cosine.ai.test.unit.probability.mdp
@@ -13,7 +14,7 @@ namespace tvn_cosine.ai.test.unit.probability.mdp
         public static readonly double DELTA_THRESHOLD = 1e-3;
 
         private CellWorld<double> cw = null;
-        private MarkovDecisionProcess<Cell<double>, CellWorldAction> mdp = null;
+        private IMarkovDecisionProcess<Cell<double>, CellWorldAction> mdp = null;
         private ValueIteration<Cell<double>, CellWorldAction> vi = null;
 
         [TestInitialize]

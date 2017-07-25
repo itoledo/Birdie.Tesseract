@@ -1,37 +1,29 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.text;
 using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.util
-{
-    /**
-     * @author Ravi Mohan
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     */
+{ 
     public abstract class ObjectWithDynamicAttributes : IEquatable, IHashable, IStringable
     {
         private IMap<object, object> attributes = CollectionFactory.CreateInsertionOrderedMap<object, object>();
-
-        /**
-         * By default, returns the simple name of the underlying class as given in the source code.
-         * 
-         * @return the simple name of the underlying class
-         */
-        public virtual string describeType()
+         
+        /// <summary>
+        /// By default, returns the simple name of the underlying class as given in the source code.
+        /// </summary>
+        /// <returns>the simple name of the underlying class</returns>
+        public virtual string DescribeType()
         {
             return GetType().Name;
         }
-
-        /**
-         * Returns a string representation of the object's current attributes
-         * 
-         * @return a string representation of the object's current attributes
-         */
-        public virtual string describeAttributes()
+         
+        /// <summary>
+        /// Returns a string representation of the object's current attributes
+        /// </summary>
+        /// <returns>a string representation of the object's current attributes</returns>
+        public virtual string DescribeAttributes()
         {
             IStringBuilder sb = TextFactory.CreateStringBuilder();
 
@@ -56,54 +48,45 @@ namespace tvn.cosine.ai.util
 
             return sb.ToString();
         }
-
-        /**
-         * Returns an unmodifiable view of the object's key set
-         * 
-         * @return an unmodifiable view of the object's key set
-         */
-        public virtual ISet<object> getKeySet()
+         
+        /// <summary>
+        /// Returns an unmodifiable view of the object's key set
+        /// </summary>
+        /// <returns>an unmodifiable view of the object's key set</returns>
+        public virtual ISet<object> GetKeys()
         {
             return CollectionFactory.CreateReadOnlySet<object>(attributes.GetKeys());
         }
-
-        /**
-         * Associates the specified value with the specified attribute key. If the
-         * ObjectWithDynamicAttributes previously contained a mapping for the
-         * attribute key, the old value is replaced.
-         * 
-         * @param key
-         *            the attribute key
-         * @param value
-         *            the attribute value
-         */
-        public virtual void setAttribute(object key, object value)
+         
+        /// <summary>
+        /// Associates the specified value with the specified attribute key. If the
+        /// ObjectWithDynamicAttributes previously contained a mapping for the
+        /// attribute key, the old value is replaced.
+        /// </summary>
+        /// <param name="key">the attribute key</param>
+        /// <param name="value">the attribute value</param>
+        public virtual void SetAttribute(object key, object value)
         {
             attributes.Put(key, value);
         }
-
-        /**
-         * Returns the value of the specified attribute key, or null if the
-         * attribute was not found.
-         * 
-         * @param key
-         *            the attribute key
-         * 
-         * @return the value of the specified attribute name, or null if not found.
-         */
-        public virtual object getAttribute(object key)
+         
+        /// <summary>
+        /// Returns the value of the specified attribute key, or null if the
+        /// attribute was not found.
+        /// </summary>
+        /// <param name="key">the attribute key</param>
+        /// <returns>the value of the specified attribute name, or null if not found.</returns>
+        public virtual object GetAttribute(object key)
         {
             return attributes.Get(key);
         }
-
-        /**
-         * Removes the attribute with the specified key from this
-         * ObjectWithDynamicAttributes.
-         * 
-         * @param key
-         *            the attribute key
-         */
-        public virtual void removeAttribute(object key)
+         
+        /// <summary>
+        /// Removes the attribute with the specified key from this
+        /// ObjectWithDynamicAttributes.
+        /// </summary>
+        /// <param name="key">the attribute key</param>
+        public virtual void RemoveAttribute(object key)
         {
             attributes.Remove(key);
         }
@@ -122,7 +105,7 @@ namespace tvn.cosine.ai.util
 
         public override string ToString()
         {
-            return describeType() + describeAttributes();
+            return DescribeType() + DescribeAttributes();
         }
     }
 }

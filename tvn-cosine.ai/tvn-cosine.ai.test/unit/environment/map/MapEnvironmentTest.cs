@@ -47,7 +47,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
         {
             me.addAgent(ma, "D");
             DynamicPercept p = (DynamicPercept)me.getPerceptSeenBy(ma);
-            Assert.AreEqual(p.getAttribute(DynAttributeNames.PERCEPT_IN), "D");
+            Assert.AreEqual(p.GetAttribute(DynAttributeNames.PERCEPT_IN), "D");
         }
 
         [TestMethod]

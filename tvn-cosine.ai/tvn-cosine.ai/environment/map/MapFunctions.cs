@@ -34,7 +34,7 @@ namespace tvn.cosine.ai.environment.map
 
         public static Function<IPercept, string> createPerceptToStateFunction()
         {
-            return p => (string)((DynamicPercept)p).getAttribute(DynAttributeNames.PERCEPT_IN);
+            return p => (string)((DynamicPercept)p).GetAttribute(DynAttributeNames.PERCEPT_IN);
         }
 
         /** Returns a heuristic function based on straight line distance computation. */

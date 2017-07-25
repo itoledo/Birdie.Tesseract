@@ -2,41 +2,29 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.mdp.api;
 
-namespace tvn.cosine.ai.probability.mdp.impl
+namespace tvn.cosine.ai.probability.mdp
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 657.<br>
-     * <br>
-     * For small state spaces, policy evaluation using exact solution methods is
-     * often the most efficient approach. For large state spaces, O(n<sup>3</sup>)
-     * time might be prohibitive. Fortunately, it is not necessary to do exact
-     * policy evaluation. Instead, we can perform some number of simplified value
-     * iteration steps (simplified because the policy is fixed) to give a reasonably
-     * good approximation of utilities. The simplified Bellman update for this
-     * process is:<br>
-     * <br>
-     * 
-     * <pre>
-     * U<sub>i+1</sub>(s) <- R(s) + &gamma;&Sigma;<sub>s'</sub>P(s'|s,&pi;<sub>i</sub>(s))U<sub>i</sub>(s')
-     * </pre>
-     * 
-     * and this is repeated k times to produce the next utility estimate. The
-     * resulting algorithm is called <b>modified policy iteration</b>. It is often
-     * much more efficient than standard policy iteration or value iteration.
-     * 
-     * 
-     * @param <S>
-     *            the state type.
-     * @param <A>
-     *            the action type.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
-     * 
-     */
-    public class ModifiedPolicyEvaluation<S, A> : PolicyEvaluation<S, A>
-        where A : IAction
+    /// <summary>
+    /// Artificial Intelligence A Modern Approach (3rd Edition): page 657.<para />
+    /// For small state spaces, policy evaluation using exact solution methods is
+    /// often the most efficient approach. For large state spaces, O(n3)
+    /// time might be prohibitive. Fortunately, it is not necessary to do exact
+    /// policy evaluation. Instead, we can perform some number of simplified value
+    /// iteration steps (simplified because the policy is fixed) to give a reasonably
+    /// good approximation of utilities. The simplified Bellman update for this
+    /// process is:<para />
+    /// Ui+1(s) &lt;- R(s) + γσs'P(s'|s,πi(s))Ui(s')
+    /// </pre>
+    /// 
+    /// and this is repeated k times to produce the next utility estimate. The
+    /// resulting algorithm is called <b>modified policy iteration</b>. It is often
+    /// much more efficient than standard policy iteration or value iteration.
+    /// </summary>
+    /// <typeparam name="S">the state type.</typeparam>
+    /// <typeparam name="A">the action type.</typeparam>
+    public class ModifiedPolicyEvaluation<S, A> : IPolicyEvaluation<S, A>        where A : IAction
     {
         // # iterations to use to produce the next utility estimate
         private int k;
@@ -60,13 +48,13 @@ namespace tvn.cosine.ai.probability.mdp.impl
             this.k = k;
             this.gamma = gamma;
         }
-         
-        public IMap<S, double> evaluate(IMap<S, A> pi_i, IMap<S, double> U, MarkovDecisionProcess<S, A> mdp)
+
+        public IMap<S, double> evaluate(IMap<S, A> pi_i, IMap<S, double> U, IMarkovDecisionProcess<S, A> mdp)
         {
             IMap<S, double> U_i = CollectionFactory.CreateMap<S, double>(U);
             IMap<S, double> U_ip1 = CollectionFactory.CreateMap<S, double>(U);
             // repeat k times to produce the next utility estimate
-            for (int i = 0; i < k;++i)
+            for (int i = 0; i < k; ++i)
             {
                 // U<sub>i+1</sub>(s) <- R(s) +
                 // &gamma;&Sigma;<sub>s'</sub>P(s'|s,&pi;<sub>i</sub>(s))U<sub>i</sub>(s')
@@ -88,6 +76,6 @@ namespace tvn.cosine.ai.probability.mdp.impl
                 U_i.PutAll(U_ip1);
             }
             return U_ip1;
-        } 
-    } 
+        }
+    }
 }

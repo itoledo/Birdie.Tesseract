@@ -150,7 +150,7 @@ namespace tvn.cosine.ai.robotics
             for (i = 0; i < samples.Size();++i)
             {
                 int selectedSample = (int)ProbUtil.sample(randomizer.NextDouble(), sampleIndexes, normalizedW);
-                newSamples.Add((array[selectedSample]).clone());
+                newSamples.Add((array[selectedSample]).Clone());
             }
             return newSamples;
         }

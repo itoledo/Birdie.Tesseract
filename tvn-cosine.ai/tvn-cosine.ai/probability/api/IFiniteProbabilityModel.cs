@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.probability.proposition;
+﻿using tvn.cosine.ai.probability.proposition.api;
 
 namespace tvn.cosine.ai.probability.api
 {
@@ -23,7 +23,7 @@ namespace tvn.cosine.ai.probability.api
          *         Vector of numbers, where we assume a predefined ordering of the
          *         domain of the relevant random variables.
          */
-        ICategoricalDistribution priorDistribution(params Proposition[] phi);
+        ICategoricalDistribution priorDistribution(params IProposition[] phi);
 
         /**
          * Get a conditional distribution. Example:<br>
@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.probability.api
          *            information we already have.
          * @return the conditional distribution for <b>P</b>(&phi; | evidence).
          */
-        ICategoricalDistribution posteriorDistribution(Proposition phi, params Proposition[] evidence);
+        ICategoricalDistribution posteriorDistribution(IProposition phi, params IProposition[] evidence);
 
         /**
          * Get a distribution on multiple variables. Example, the product rule:<br>
@@ -51,6 +51,6 @@ namespace tvn.cosine.ai.probability.api
          *            to be returned.
          * @return the joint distribution for <b>P</b>(X, Y, ...).
          */
-        ICategoricalDistribution jointDistribution(params Proposition[] propositions);
+        ICategoricalDistribution jointDistribution(params IProposition[] propositions);
     } 
 }

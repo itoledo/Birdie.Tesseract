@@ -1,60 +1,48 @@
 ﻿using tvn.cosine.ai.common.api;
 
 namespace tvn.cosine.ai.common.datastructures
-{
-    /**
-     * @author Ravi Mohan
-     * @author Mike Stampone
-     * 
-     */
+{ 
     public class Triplet<X, Y, Z> : IEquatable, IHashable, IStringable
     {
         private readonly X x;
         private readonly Y y;
         private readonly Z z;
-
-        /**
-         * Constructs a triplet with three specified elements.
-         * 
-         * @param x
-         *            the first element of the triplet.
-         * @param y
-         *            the second element of the triplet.
-         * @param z
-         *            the third element of the triplet.
-         */
+        
+        /// <summary>
+        /// Constructs a triplet with three specified elements.
+        /// </summary>
+        /// <param name="x">the first element of the triplet.</param>
+        /// <param name="y">the second element of the triplet.</param>
+        /// <param name="z">the third element of the triplet.</param>
         public Triplet(X x, Y y, Z z)
         {
             this.x = x;
             this.y = y;
             this.z = z;
         }
-
-        /**
-         * Returns the first element of the triplet.
-         * 
-         * @return the first element of the triplet.
-         */
-        public X getFirst()
+         
+        /// <summary>
+        /// Returns the first element of the triplet.
+        /// </summary>
+        /// <returns>the first element of the triplet.</returns>
+        public X GetFirst()
         {
             return x;
         }
-
-        /**
-         * Returns the second element of the triplet.
-         * 
-         * @return the second element of the triplet.
-         */
-        public Y getSecond()
+         
+        /// <summary>
+        /// Returns the second element of the triplet.
+        /// </summary>
+        /// <returns>the second element of the triplet.</returns>
+        public Y GetSecond()
         {
             return y;
         }
-
-        /**
-         * Returns the third element of the triplet.
-         * 
-         * @return the third element of the triplet.
-         */
+         
+        /// <summary>
+        /// Returns the third element of the triplet.
+        /// </summary>
+        /// <returns>the third element of the triplet.</returns>
         public Z getThird()
         {
             return z;

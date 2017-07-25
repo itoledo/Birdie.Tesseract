@@ -92,7 +92,7 @@ namespace tvn.cosine.ai.probability.bayes.approximate
                 // <b>x</b>,w <- WEIGHTED-SAMPLE(bn,e)
                 Pair<IMap<IRandomVariable, object>, double> x_w = weightedSample(bn, e);
                 // W[x] <- W[x] + w where x is the value of X in <b>x</b>
-                W[ProbUtil.indexOf(X, x_w.getFirst())] += x_w.getSecond();
+                W[ProbUtil.indexOf(X, x_w.GetFirst())] += x_w.getSecond();
             }
             // return NORMALIZE(W)
             return new ProbabilityTable(W, X).normalize();

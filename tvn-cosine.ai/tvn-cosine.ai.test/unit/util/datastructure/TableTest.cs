@@ -30,9 +30,9 @@ namespace tvn_cosine.ai.test.unit.util.datastructure
         [TestMethod]
         public void testTableInitialization()
         {
-            Assert.IsNull(table.get("ravi", "iq"));
-            table.set("ravi", "iq", 50);
-            int? i = table.get("ravi", "iq");
+            Assert.IsNull(table.Get("ravi", "iq"));
+            table.Set("ravi", "iq", 50);
+            int? i = table.Get("ravi", "iq");
             Assert.AreEqual(50, i);
         }
 
@@ -40,13 +40,13 @@ namespace tvn_cosine.ai.test.unit.util.datastructure
         public void testNullAccess()
         {
             // No value yet assigned
-            Assert.IsNull(table.get("row1", "col2"));
-            table.set("row1", "col1", 1);
-            Assert.AreEqual(1, (int)table.get("row1", "col1"));
+            Assert.IsNull(table.Get("row1", "col2"));
+            table.Set("row1", "col1", 1);
+            Assert.AreEqual(1, (int)table.Get("row1", "col1"));
             // Check null returned if column does not exist
-            Assert.IsNull(table.get("row1", "col2"));
+            Assert.IsNull(table.Get("row1", "col2"));
             // Check null returned if row does not exist
-            Assert.IsNull(table.get("row2", "col1"));
+            Assert.IsNull(table.Get("row2", "col1"));
         } 
     } 
 }

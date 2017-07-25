@@ -251,7 +251,7 @@ namespace tvn.cosine.ai.util.math
          */
 
 
-        public object clone()
+        public object Clone()
         {
             return this.copy();
         }

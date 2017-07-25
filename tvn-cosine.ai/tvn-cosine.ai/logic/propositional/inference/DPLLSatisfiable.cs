@@ -112,8 +112,8 @@ namespace tvn.cosine.ai.logic.propositional.inference
             if (pAndValue != null)
             {
                 // return DPLL(clauses, symbols - P, model U {P = value})
-                return dpll(clauses, minus(symbols, pAndValue.getFirst()),
-                        model.union(pAndValue.getFirst(), pAndValue.getSecond()));
+                return dpll(clauses, minus(symbols, pAndValue.GetFirst()),
+                        model.union(pAndValue.GetFirst(), pAndValue.getSecond()));
             }
 
             // P, value <- FIND-UNIT-CLAUSE(clauses, model)
@@ -122,8 +122,8 @@ namespace tvn.cosine.ai.logic.propositional.inference
             if (pAndValue != null)
             {
                 // return DPLL(clauses, symbols - P, model U {P = value})
-                return dpll(clauses, minus(symbols, pAndValue.getFirst()),
-                        model.union(pAndValue.getFirst(), pAndValue.getSecond()));
+                return dpll(clauses, minus(symbols, pAndValue.GetFirst()),
+                        model.union(pAndValue.GetFirst(), pAndValue.getSecond()));
             }
 
             // P <- FIRST(symbols); rest <- REST(symbols)

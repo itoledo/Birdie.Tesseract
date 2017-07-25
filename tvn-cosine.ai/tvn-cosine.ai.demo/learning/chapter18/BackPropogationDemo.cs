@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.neural;
+using tvn.cosine.ai.learning.neural.api;
 using tvn.cosine.ai.util;
 
 namespace tvn_cosine.ai.demo.learning.chapter18
@@ -20,7 +21,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
             try
             {
                 DataSet irisDataSet = DataSetFactory.getIrisDataSet();
-                Numerizer numerizer = new IrisDataSetNumerizer();
+                INumerizer numerizer = new IrisDataSetNumerizer();
                 NNDataSet innds = new IrisNNDataSet();
 
                 innds.createExamplesFromDataSet(irisDataSet, numerizer);

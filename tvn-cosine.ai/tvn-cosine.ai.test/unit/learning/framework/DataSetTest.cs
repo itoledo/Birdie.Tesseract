@@ -5,6 +5,7 @@ using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.neural;
+using tvn.cosine.ai.learning.neural.api;
 
 namespace tvn_cosine.ai.test.unit.learning.framework
 {
@@ -103,13 +104,13 @@ namespace tvn_cosine.ai.test.unit.learning.framework
         {
             DataSet ds = DataSetFactory.getIrisDataSet();
             Example first = ds.getExample(0);
-            Numerizer n = new IrisDataSetNumerizer();
+            INumerizer n = new IrisDataSetNumerizer();
             Pair<ICollection<double>, ICollection<double>> io = n.numerize(first);
 
-            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 5.1, 3.5, 1.4, 0.2 }), io.getFirst());
+            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 5.1, 3.5, 1.4, 0.2 }), io.GetFirst());
             Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 }), io.getSecond());
 
-            string plant_category = n.denumerize(CollectionFactory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 }));
+            string plant_category = n.Denumerize(CollectionFactory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 }));
             Assert.AreEqual("setosa", plant_category);
         }
 
@@ -120,13 +121,13 @@ namespace tvn_cosine.ai.test.unit.learning.framework
         {
             DataSet ds = DataSetFactory.getIrisDataSet();
             Example first = ds.getExample(51);
-            Numerizer n = new IrisDataSetNumerizer();
+            INumerizer n = new IrisDataSetNumerizer();
             Pair<ICollection<double>, ICollection<double>> io = n.numerize(first);
 
-            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 6.4, 3.2, 4.5, 1.5 }), io.getFirst());
+            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 6.4, 3.2, 4.5, 1.5 }), io.GetFirst());
             Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 }), io.getSecond());
 
-            string plant_category = n.denumerize(CollectionFactory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 }));
+            string plant_category = n.Denumerize(CollectionFactory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 }));
             Assert.AreEqual("versicolor", plant_category);
         }
 
@@ -137,13 +138,13 @@ namespace tvn_cosine.ai.test.unit.learning.framework
         {
             DataSet ds = DataSetFactory.getIrisDataSet();
             Example first = ds.getExample(100);
-            Numerizer n = new IrisDataSetNumerizer();
+            INumerizer n = new IrisDataSetNumerizer();
             Pair<ICollection<double>, ICollection<double>> io = n.numerize(first);
 
-            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 6.3, 3.3, 6.0, 2.5 }), io.getFirst());
+            Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 6.3, 3.3, 6.0, 2.5 }), io.GetFirst());
             Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 }), io.getSecond());
 
-            string plant_category = n.denumerize(CollectionFactory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 }));
+            string plant_category = n.Denumerize(CollectionFactory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 }));
             Assert.AreEqual("virginica", plant_category);
         }
     } 

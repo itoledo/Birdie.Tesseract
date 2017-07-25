@@ -79,7 +79,7 @@ namespace tvn.cosine.ai.environment.vacuum
             {
                 ICollection<VacuumEnvironmentState> results = CollectionFactory.CreateQueue<VacuumEnvironmentState>();
                 // add clone of state to results, modify later...
-                VacuumEnvironmentState s = state.clone();
+                VacuumEnvironmentState s = state.Clone();
                 results.Add(s);
 
                 string currentLocation = state.getAgentLocation(agent);
@@ -103,7 +103,7 @@ namespace tvn.cosine.ai.environment.vacuum
                         // always clean current
                         s.setLocationState(currentLocation, VacuumEnvironment.LocationState.Clean);
                         // sometimes clean adjacent as well
-                        VacuumEnvironmentState s2 = s.clone();
+                        VacuumEnvironmentState s2 = s.Clone();
                         s2.setLocationState(adjacentLocation, VacuumEnvironment.LocationState.Clean);
                         if (!s2.Equals(s))
                             results.Add(s2);
@@ -112,7 +112,7 @@ namespace tvn.cosine.ai.environment.vacuum
                     {
                         // sometimes do nothing (-> s unchanged)
                         // sometimes deposit dirt
-                        VacuumEnvironmentState s2 = s.clone();
+                        VacuumEnvironmentState s2 = s.Clone();
                         s2.setLocationState(currentLocation, VacuumEnvironment.LocationState.Dirty);
                         if (!s2.Equals(s))
                             results.Add(s2);

@@ -12,12 +12,12 @@ namespace tvn.cosine.ai.agent
          
         public DynamicAction(string name)
         {
-            this.setAttribute(ATTRIBUTE_NAME, name);
+            this.SetAttribute(ATTRIBUTE_NAME, name);
         }
 
         public DynamicAction(string name, bool isNoOp)
         {
-            this.setAttribute(ATTRIBUTE_NAME, name);
+            this.SetAttribute(ATTRIBUTE_NAME, name);
             this.isNoOp = isNoOp;
         }
 
@@ -27,7 +27,7 @@ namespace tvn.cosine.ai.agent
         /// <returns></returns>
         public virtual string getName()
         {
-            return (string)getAttribute(ATTRIBUTE_NAME);
+            return (string)GetAttribute(ATTRIBUTE_NAME);
         }
          
         public virtual bool IsNoOp()
@@ -35,7 +35,7 @@ namespace tvn.cosine.ai.agent
             return isNoOp;
         }
          
-        public override string describeType()
+        public override string DescribeType()
         {
             return "Action";
         }

@@ -1,5 +1,4 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.common.text;

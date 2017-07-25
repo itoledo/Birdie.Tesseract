@@ -91,7 +91,7 @@ namespace tvn.cosine.ai.search.csp
             return isConsistent(csp.getConstraints()) && isComplete(csp.getVariables());
         }
 
-        public Assignment<VAR, VAL> clone()
+        public Assignment<VAR, VAL> Clone()
         {
             Assignment<VAR, VAL> result;
 

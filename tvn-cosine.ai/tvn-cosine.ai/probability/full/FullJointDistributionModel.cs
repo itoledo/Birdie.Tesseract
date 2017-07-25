@@ -3,6 +3,7 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.proposition;
+using tvn.cosine.ai.probability.proposition.api;
 using tvn.cosine.ai.probability.util;
 
 namespace tvn.cosine.ai.probability.full
@@ -43,17 +44,17 @@ namespace tvn.cosine.ai.probability.full
             return System.Math.Abs(1 - distribution.getSum()) <= ProbabilityModelImpl.DEFAULT_ROUNDING_THRESHOLD;
         }
 
-        public double prior(params Proposition[] phi)
+        public double prior(params IProposition[] phi)
         {
             return probabilityOf(ProbUtil.constructConjunction(phi));
         }
 
-        public double posterior(Proposition phi, params Proposition[] evidence)
+        public double posterior(IProposition phi, params IProposition[] evidence)
         {
-            Proposition conjEvidence = ProbUtil.constructConjunction(evidence);
+            IProposition conjEvidence = ProbUtil.constructConjunction(evidence);
 
             // P(A | B) = P(A AND B)/P(B) - (13.3 AIMA3e)
-            Proposition aAndB = new ConjunctiveProposition(phi, conjEvidence);
+            IProposition aAndB = new ConjunctiveProposition(phi, conjEvidence);
             double probabilityOfEvidence = prior(conjEvidence);
             if (0 != probabilityOfEvidence)
             {
@@ -68,21 +69,16 @@ namespace tvn.cosine.ai.probability.full
             return representation;
         }
 
-        // END-ProbabilityModel
-        //
-
-        //
-        // START-FiniteProbabilityModel
-        public ICategoricalDistribution priorDistribution(params Proposition[] phi)
+        public ICategoricalDistribution priorDistribution(params IProposition[] phi)
         {
             return jointDistribution(phi);
         }
 
-        public ICategoricalDistribution posteriorDistribution(Proposition phi,
-                params Proposition[] evidence)
+        public ICategoricalDistribution posteriorDistribution(IProposition phi,
+                params IProposition[] evidence)
         {
 
-            Proposition conjEvidence = ProbUtil.constructConjunction(evidence);
+            IProposition conjEvidence = ProbUtil.constructConjunction(evidence);
 
             // P(A | B) = P(A AND B)/P(B) - (13.3 AIMA3e)
             ICategoricalDistribution dAandB = jointDistribution(phi, conjEvidence);
@@ -93,12 +89,12 @@ namespace tvn.cosine.ai.probability.full
 
         class ProbabilityTableIterator : ProbabilityTable.ProbabilityTableIterator
         {
-            private Proposition conjProp;
+            private IProposition conjProp;
             private ProbabilityTable ud;
             private object[] values;
             private ISet<IRandomVariable> vars;
 
-            public ProbabilityTableIterator(Proposition conjProp, ProbabilityTable ud, object[] values, ISet<IRandomVariable> vars)
+            public ProbabilityTableIterator(IProposition conjProp, ProbabilityTable ud, object[] values, ISet<IRandomVariable> vars)
             {
                 this.conjProp = conjProp;
                 this.ud = ud;
@@ -122,10 +118,10 @@ namespace tvn.cosine.ai.probability.full
             }
         }
 
-        public ICategoricalDistribution jointDistribution(params Proposition[] propositions)
+        public ICategoricalDistribution jointDistribution(params IProposition[] propositions)
         {
             ProbabilityTable d = null;
-            Proposition conjProp = ProbUtil.constructConjunction(propositions);
+            IProposition conjProp = ProbUtil.constructConjunction(propositions);
             ISet<IRandomVariable> vars = CollectionFactory.CreateSet<IRandomVariable>(conjProp.getUnboundScope());
 
             if (vars.Size() > 0)
@@ -153,10 +149,10 @@ namespace tvn.cosine.ai.probability.full
          
         class ProbabilityTableIteratorImpl2 : ProbabilityTable.ProbabilityTableIterator
         {
-            private Proposition phi;
+            private IProposition phi;
             private double[] probSum;
 
-            public ProbabilityTableIteratorImpl2(double[] probSum, Proposition phi)
+            public ProbabilityTableIteratorImpl2(double[] probSum, IProposition phi)
             {
                 this.probSum = probSum;
                 this.phi = phi;
@@ -171,7 +167,7 @@ namespace tvn.cosine.ai.probability.full
             }
         }
         
-        private double probabilityOf(Proposition phi)
+        private double probabilityOf(IProposition phi)
         {
             double[] probSum = new double[1];
             ProbabilityTable.ProbabilityTableIterator di = new ProbabilityTableIteratorImpl2(probSum, phi);

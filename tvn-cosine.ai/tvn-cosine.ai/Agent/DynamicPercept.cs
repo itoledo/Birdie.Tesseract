@@ -10,7 +10,7 @@ namespace tvn.cosine.ai.agent
         public DynamicPercept()
         { }
 
-        public override string describeType()
+        public override string DescribeType()
         {
             return "Percept";
         }
@@ -22,7 +22,7 @@ namespace tvn.cosine.ai.agent
         /// <param name="value1">the attribute value</param>
         public DynamicPercept(object key1, object value1)
         {
-            setAttribute(key1, value1);
+            SetAttribute(key1, value1);
         }
 
         /// <summary>
@@ -34,8 +34,8 @@ namespace tvn.cosine.ai.agent
         /// <param name="value2">the second attribute value</param>
         public DynamicPercept(object key1, object value1, object key2, object value2)
         {
-            setAttribute(key1, value1);
-            setAttribute(key2, value2);
+            SetAttribute(key1, value1);
+            SetAttribute(key2, value2);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace tvn.cosine.ai.agent
 
             for (int i = 0; i < keys.Length; ++i)
             {
-                setAttribute(keys[i], values[i]);
+                SetAttribute(keys[i], values[i]);
             }
         }
 

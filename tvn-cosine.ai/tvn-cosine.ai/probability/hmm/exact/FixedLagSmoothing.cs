@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.hmm.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util.math;
 
@@ -71,7 +72,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
         // empty
         private ICollection<Matrix> e_tmd_to_t = CollectionFactory.CreateQueue<Matrix>();
         // a hidden Markov model with S * S transition matrix <b>T</b>
-        private HiddenMarkovModel hmm = null;
+        private IHiddenMarkovModel hmm = null;
         // d, the length of the lag for smoothing
         private int d = 1;
         //
@@ -86,7 +87,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
          * @param d
          *            d, the length of the lag for smoothing
          */
-        public FixedLagSmoothing(HiddenMarkovModel hmm, int d)
+        public FixedLagSmoothing(IHiddenMarkovModel hmm, int d)
         {
             this.hmm = hmm;
             this.d = d;

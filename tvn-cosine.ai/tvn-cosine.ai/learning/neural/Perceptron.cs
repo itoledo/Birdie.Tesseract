@@ -1,26 +1,25 @@
-﻿using tvn.cosine.ai.util.math;
+﻿using tvn.cosine.ai.learning.neural.api;
+using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.learning.neural
 {
-    public class Perceptron : FunctionApproximator
-    { 
+    public class Perceptron : IFunctionApproximator
+    {
         private readonly Layer layer;
-	    private Vector lastInput;
+        private Vector lastInput;
 
         public Perceptron(int numberOfNeurons, int numberOfInputs)
-        { 
-            this.layer = new Layer(numberOfNeurons, numberOfInputs, 2.0, -2.0,
-                    new HardLimitActivationFunction());
-
+        {
+            this.layer = new Layer(numberOfNeurons, numberOfInputs, 2.0, -2.0, new HardLimitActivationFunction()); 
         }
 
-        public Vector processInput(Vector input)
+        public Vector ProcessInput(Vector input)
         {
             lastInput = input;
             return layer.feedForward(input);
         }
 
-        public void processError(Vector error)
+        public void ProcessError(Vector error)
         {
             Matrix weightUpdate = error.times(lastInput.transpose());
             layer.acceptNewWeightUpdate(weightUpdate);
@@ -29,52 +28,42 @@ namespace tvn.cosine.ai.learning.neural
             layer.acceptNewBiasUpdate(biasUpdate);
 
         }
-
-        /**
-         * Induces the layer of this perceptron from the specified set of examples
-         * 
-         * @param innds
-         *            a set of training examples for constructing the layer of this
-         *            perceptron.
-         * @param numberofEpochs
-         *            the number of training epochs to be used.
-         */
+         
+        /// <summary>
+        /// Induces the layer of this perceptron from the specified set of examples
+        /// </summary>
+        /// <param name="innds">a set of training examples for constructing the layer of this perceptron.</param>
+        /// <param name="numberofEpochs">the number of training epochs to be used.</param>
         public void trainOn(NNDataSet innds, int numberofEpochs)
         {
-            for (int i = 0; i < numberofEpochs;++i)
+            for (int i = 0; i < numberofEpochs; ++i)
             {
                 innds.refreshDataset();
                 while (innds.hasMoreExamples())
                 {
                     NNExample nne = innds.getExampleAtRandom();
-                    processInput(nne.getInput());
+                    ProcessInput(nne.getInput());
                     Vector error = layer.errorVectorFrom(nne.getTarget());
-                    processError(error);
+                    ProcessError(error);
                 }
             }
         }
-
-        /**
-         * Returns the outcome predicted for the specified example
-         * 
-         * @param nne
-         *            an example
-         * 
-         * @return the outcome predicted for the specified example
-         */
+         
+        /// <summary>
+        /// Returns the outcome predicted for the specified example
+        /// </summary>
+        /// <param name="nne">an example</param>
+        /// <returns>the outcome predicted for the specified example</returns>
         public Vector predict(NNExample nne)
         {
-            return processInput(nne.getInput());
+            return ProcessInput(nne.getInput());
         }
-
-        /**
-         * Returns the accuracy of the hypothesis on the specified set of examples
-         * 
-         * @param nnds
-         *            the neural network data set to be tested on.
-         * 
-         * @return the accuracy of the hypothesis on the specified set of examples
-         */
+       
+        /// <summary>
+        /// Returns the accuracy of the hypothesis on the specified set of examples
+        /// </summary>
+        /// <param name="nnds">the neural network data set to be tested on.</param>
+        /// <returns>the accuracy of the hypothesis on the specified set of examples</returns>
         public int[] testOnDataSet(NNDataSet nnds)
         {
             int[] result = new int[] { 0, 0 };
@@ -94,5 +83,5 @@ namespace tvn.cosine.ai.learning.neural
             }
             return result;
         }
-    } 
+    }
 }

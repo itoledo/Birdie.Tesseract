@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.mdp;
-using tvn.cosine.ai.probability.mdp.impl;
+using tvn.cosine.ai.probability.mdp.api;
 using tvn.cosine.ai.probability.mdp.search;
 
 namespace tvn_cosine.ai.demo.probability.chapter17
@@ -21,12 +21,12 @@ namespace tvn_cosine.ai.demo.probability.chapter17
             System.Console.WriteLine("-----------");
 
             CellWorld<double> cw = CellWorldFactory.createCellWorldForFig17_1();
-            MarkovDecisionProcess<Cell<double>, CellWorldAction> mdp = MDPFactory.createMDPForFigure17_3(cw);
+            IMarkovDecisionProcess<Cell<double>, CellWorldAction> mdp = MDPFactory.createMDPForFigure17_3(cw);
             PolicyIteration<Cell<double>, CellWorldAction> 
                 pi = new PolicyIteration<Cell<double>, CellWorldAction>(
                     new ModifiedPolicyEvaluation<Cell<double>, CellWorldAction>(50, 1.0));
 
-            Policy<Cell<double>, CellWorldAction> policy = pi.policyIteration(mdp);
+            IPolicy<Cell<double>, CellWorldAction> policy = pi.policyIteration(mdp);
 
             System.Console.WriteLine("(1,1) = " + policy.action(cw.getCellAt(1, 1)));
             System.Console.WriteLine("(1,2) = " + policy.action(cw.getCellAt(1, 2)));

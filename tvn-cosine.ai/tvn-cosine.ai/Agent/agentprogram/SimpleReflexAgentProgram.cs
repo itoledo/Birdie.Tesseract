@@ -5,12 +5,10 @@ using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.agentprogram
 {
-    /**
+     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): Figure 2.10, page
-     * 49.<br>
-     * <br>
-     * 
-     * <pre>
+     * 49.
+     *  
      * function SIMPLE-RELEX-AGENT(percept) returns an action
      *   persistent: rules, a set of condition-action rules
      *   
@@ -18,26 +16,19 @@ namespace tvn.cosine.ai.agent.agentprogram
      *   rule   <- RULE-MATCH(state, rules);
      *   action <- rule.ACTION;
      *   return action
-     * </pre>
      * 
      * Figure 2.10 A simple reflex agent. It acts according to a rule whose
-     * condition matches the current state, as defined by the percept.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Mike Stampone
-     * 
+     * condition matches the current state, as defined by the percept. 
      */
     public class SimpleReflexAgentProgram : IAgentProgram
     { 
         // persistent: rules, a set of condition-action rules
         private ISet<Rule> rules;
-
-        /**
-         * Constructs a SimpleReflexAgentProgram with a set of condition-action rules.
-         * 
-         * @param ruleSet
-         *            a set of condition-action rules
-         */
+         
+        /// <summary>
+        /// Constructs a SimpleReflexAgentProgram with a set of condition-action rules.
+        /// </summary>
+        /// <param name="ruleSet">a set of condition-action rules</param>
         public SimpleReflexAgentProgram(ISet<Rule> ruleSet)
         {
             rules = ruleSet;

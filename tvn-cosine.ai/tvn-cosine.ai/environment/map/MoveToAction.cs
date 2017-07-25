@@ -9,12 +9,12 @@ namespace tvn.cosine.ai.environment.map
         public MoveToAction(string location)
             : base("moveTo") 
         {
-            setAttribute(ATTRIBUTE_MOVE_TO_LOCATION, location);
+            SetAttribute(ATTRIBUTE_MOVE_TO_LOCATION, location);
         }
 
         public string getToLocation()
         {
-            return (string)getAttribute(ATTRIBUTE_MOVE_TO_LOCATION);
+            return (string)GetAttribute(ATTRIBUTE_MOVE_TO_LOCATION);
         }
     }
 }

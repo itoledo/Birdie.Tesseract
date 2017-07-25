@@ -45,10 +45,8 @@ namespace tvn.cosine.ai.learning.neural
 
         public bool isCorrect(Vector prediction)
         {
-            /*
-             * compares the index having greatest value in target to indec having
-             * greatest value in prediction. Ifidentical, correct
-             */
+            // compares the index having greatest value in target to indec having greatest value in prediction. 
+            // Ifidentical, correct
             return getTarget().indexHavingMaxValue() == prediction.indexHavingMaxValue();
         }
     } 

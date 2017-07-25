@@ -38,26 +38,26 @@ namespace tvn.cosine.ai.environment.map
         /** Removes everything. */
         public void clear()
         {
-            links.clear();
+            links.Clear();
             locationPositions.Clear();
         }
 
         /** Clears all connections but keeps location position informations. */
         public void clearLinks()
         {
-            links.clear();
+            links.Clear();
         }
 
         /** Returns a list of all locations. */
         public ICollection<string> getLocations()
         {
-            return links.getVertexLabels();
+            return links.GetVertexLabels();
         }
 
         /** Checks whether the given string is the name of a location. */
         public bool isLocation(string str)
         {
-            return links.isVertexLabel(str);
+            return links.IsVertexLabel(str);
         }
 
         /**
@@ -66,7 +66,7 @@ namespace tvn.cosine.ai.environment.map
          */
         public ICollection<string> getPossibleNextLocations(string location)
         {
-            ICollection<string> result = links.getSuccessors(location);
+            ICollection<string> result = links.GetSuccessors(location);
             result.Sort(new List<string>.Comparer());
             return result;
         }
@@ -88,13 +88,13 @@ namespace tvn.cosine.ai.environment.map
          */
         public double? getDistance(string  fromLocation, string toLocation)
         {
-            return links.get(fromLocation, toLocation);
+            return links.Get(fromLocation, toLocation);
         }
 
         /** Adds a one-way connection to the map. */
         public void addUnidirectionalLink(string  fromLocation, string toLocation, double distance)
         {
-            links.set(fromLocation, toLocation, distance);
+            links.Set(fromLocation, toLocation, distance);
         }
 
         /**
@@ -103,8 +103,8 @@ namespace tvn.cosine.ai.environment.map
          */
         public void addBidirectionalLink(string  fromLocation, string toLocation, double distance)
         {
-            links.set(fromLocation, toLocation, distance);
-            links.set(toLocation, fromLocation, distance);
+            links.Set(fromLocation, toLocation, distance);
+            links.Set(toLocation, fromLocation, distance);
         }
 
         /**
@@ -118,14 +118,14 @@ namespace tvn.cosine.ai.environment.map
         /** Removes a one-way connection. */
         public void removeUnidirectionalLink(string  fromLocation, string toLocation)
         {
-            links.remove(fromLocation, toLocation);
+            links.Remove(fromLocation, toLocation);
         }
 
         /** Removes the two corresponding one-way connections. */
         public void removeBidirectionalLink(string  fromLocation, string toLocation)
         {
-            links.remove(fromLocation, toLocation);
-            links.remove(toLocation, fromLocation);
+            links.Remove(fromLocation, toLocation);
+            links.Remove(toLocation, fromLocation);
         }
 
         /**
@@ -155,7 +155,7 @@ namespace tvn.cosine.ai.environment.map
         {
             Point2D coords = new Point2D(-System.Math.Sin(dir * System.Math.PI / 180.0) * dist, 
                 System.Math.Cos(dir * System.Math.PI / 180.0) * dist);
-            links.addVertex(loc);
+            links.AddVertex(loc);
             locationPositions.Put(loc, coords);
         }
 

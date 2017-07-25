@@ -97,14 +97,14 @@ namespace tvn.cosine.ai.environment.nqueens
         public void addQueenAt(XYLocation l)
         {
             if (!(queenExistsAt(l)))
-                squares[l.getXCoOrdinate(), l.getYCoOrdinate()] = 1;
+                squares[l.GetXCoOrdinate(), l.GetYCoOrdinate()] = 1;
         }
 
         public void removeQueenFrom(XYLocation l)
         {
-            if (squares[l.getXCoOrdinate(), l.getYCoOrdinate()] == 1)
+            if (squares[l.GetXCoOrdinate(), l.GetYCoOrdinate()] == 1)
             {
-                squares[l.getXCoOrdinate(), l.getYCoOrdinate()] = 0;
+                squares[l.GetXCoOrdinate(), l.GetYCoOrdinate()] = 0;
             }
         }
 
@@ -116,8 +116,8 @@ namespace tvn.cosine.ai.environment.nqueens
         public void moveQueenTo(XYLocation l)
         {
             for (int i = 0; i < getSize();++i)
-                squares[l.getXCoOrdinate(), i] = 0;
-            squares[l.getXCoOrdinate(), l.getYCoOrdinate()] = 1;
+                squares[l.GetXCoOrdinate(), i] = 0;
+            squares[l.GetXCoOrdinate(), l.GetYCoOrdinate()] = 1;
         }
 
         public void moveQueen(XYLocation from, XYLocation to)
@@ -131,7 +131,7 @@ namespace tvn.cosine.ai.environment.nqueens
 
         public bool queenExistsAt(XYLocation l)
         {
-            return (queenExistsAt(l.getXCoOrdinate(), l.getYCoOrdinate()));
+            return (queenExistsAt(l.GetXCoOrdinate(), l.GetYCoOrdinate()));
         }
 
         private bool queenExistsAt(int x, int y)
@@ -180,15 +180,15 @@ namespace tvn.cosine.ai.environment.nqueens
 
         public int getNumberOfAttacksOn(XYLocation l)
         {
-            int x = l.getXCoOrdinate();
-            int y = l.getYCoOrdinate();
+            int x = l.GetXCoOrdinate();
+            int y = l.GetYCoOrdinate();
             return numberOfHorizontalAttacksOn(x, y) + numberOfVerticalAttacksOn(x, y) + numberOfDiagonalAttacksOn(x, y);
         }
 
         public bool isSquareUnderAttack(XYLocation l)
         {
-            int x = l.getXCoOrdinate();
-            int y = l.getYCoOrdinate();
+            int x = l.GetXCoOrdinate();
+            int y = l.GetYCoOrdinate();
             return (isSquareHorizontallyAttacked(x, y) || isSquareVerticallyAttacked(x, y)
                     || isSquareDiagonallyAttacked(x, y));
         }

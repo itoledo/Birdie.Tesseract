@@ -6,6 +6,7 @@ using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.temporal;
+using tvn.cosine.ai.probability.temporal.api;
 using tvn.cosine.ai.probability.util;
 
 namespace tvn_cosine.ai.test.unit.probability.temporal
@@ -26,10 +27,8 @@ namespace tvn_cosine.ai.test.unit.probability.temporal
                 Assert.AreEqual(arr1[i], arr2[i], delta);
             }
         }
-        //
-        // PROTECTED METHODS
-        //
-        protected void testForwardStep_UmbrellaWorld(ForwardStepInference uw)
+        
+        protected void testForwardStep_UmbrellaWorld(IForwardStepInference uw)
         {
             // AIMA3e pg. 572
             // Day 0, no observations only the security guards prior beliefs
@@ -52,7 +51,7 @@ namespace tvn_cosine.ai.test.unit.probability.temporal
                     DELTA_THRESHOLD);
         }
 
-        protected void testBackwardStep_UmbrellaWorld(BackwardStepInference uw)
+        protected void testBackwardStep_UmbrellaWorld(IBackwardStepInference uw)
         {
             // AIMA3e pg. 575
             ICategoricalDistribution b_kp2t = new ProbabilityTable(new double[] { 1.0, 1.0 }, ExampleRV.RAIN_t_RV);
@@ -62,7 +61,7 @@ namespace tvn_cosine.ai.test.unit.probability.temporal
             assertArrayEquals(new double[] { 0.69, 0.41 }, b1.getValues(), DELTA_THRESHOLD);
         }
 
-        protected void testForwardBackward_UmbrellaWorld(ForwardBackwardInference uw)
+        protected void testForwardBackward_UmbrellaWorld(IForwardBackwardInference uw)
         {
             // AIMA3e pg. 572
             // Day 0, no observations only the security guards prior beliefs

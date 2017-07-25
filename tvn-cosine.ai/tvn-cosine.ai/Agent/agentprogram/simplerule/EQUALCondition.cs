@@ -1,6 +1,4 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.common.text;
 using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.util;
@@ -29,7 +27,7 @@ namespace tvn.cosine.ai.agent.agentprogram.simplerule
 
         public override bool evaluate(ObjectWithDynamicAttributes p)
         {
-            return value.Equals(p.getAttribute(key));
+            return value.Equals(p.GetAttribute(key));
         }
 
         public override string ToString()

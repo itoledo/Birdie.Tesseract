@@ -175,7 +175,7 @@ namespace tvn.cosine.ai.search.online
                         S popped = unbacktracked.Get(sPrimed).Pop();
                         foreach (Pair<S, A> sa in result.GetKeys())
                         {
-                            if (sa.getFirst().Equals(sPrimed) && result.Get(sa).Equals(popped))
+                            if (sa.GetFirst().Equals(sPrimed) && result.Get(sa).Equals(popped))
                             {
                                 a = sa.getSecond();
                                 break;

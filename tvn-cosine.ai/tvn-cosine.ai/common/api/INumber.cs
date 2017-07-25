@@ -2,6 +2,6 @@
 {
     public interface INumber
     {
-        double doubleValue();
+        double DoubleValue();
     }
 }

@@ -1,8 +1,10 @@
-﻿namespace tvn.cosine.ai.learning.neural
+﻿using tvn.cosine.ai.learning.neural.api;
+
+namespace tvn.cosine.ai.learning.neural
 {
-    public class HardLimitActivationFunction : ActivationFunction
+    public class HardLimitActivationFunction : IActivationFunction
     {
-        public double activation(double parameter)
+        public double Activation(double parameter)
         {
 
             if (parameter < 0.0)
@@ -15,7 +17,7 @@
             }
         }
 
-        public double deriv(double parameter)
+        public double Deriv(double parameter)
         {
             return 0.0;
         }

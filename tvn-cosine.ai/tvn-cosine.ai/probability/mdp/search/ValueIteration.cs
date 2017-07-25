@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.probability.mdp.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.probability.mdp.search
@@ -42,8 +43,7 @@ namespace tvn.cosine.ai.probability.mdp.search
      * @author Ravi Mohan
      * 
      */
-    public class ValueIteration<S, A>
-        where A : IAction
+    public class ValueIteration<S, A>        where A : IAction
     {
         // discount &gamma; to be used.
         private double gamma = 0;
@@ -74,7 +74,7 @@ namespace tvn.cosine.ai.probability.mdp.search
          *            the maximum error allowed in the utility of any state
          * @return a vector of utilities for states in S
          */
-        public IMap<S, double> valueIteration(MarkovDecisionProcess<S, A> mdp, double epsilon)
+        public IMap<S, double> valueIteration(IMarkovDecisionProcess<S, A> mdp, double epsilon)
         {
             //
             // local variables: U, U', vectors of utilities for states in S,

@@ -1,8 +1,10 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.hmm.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.temporal;
+using tvn.cosine.ai.probability.temporal.api;
 using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.probability.hmm.exact
@@ -39,11 +41,11 @@ namespace tvn.cosine.ai.probability.hmm.exact
      * @author Ciaran O'Reilly
      * @author Ravi Mohan
      */
-    public class HMMForwardBackward : ForwardBackwardInference
+    public class HMMForwardBackward : IForwardBackwardInference
     {
-        protected HiddenMarkovModel hmm = null;
+        protected IHiddenMarkovModel hmm = null;
 
-        public HMMForwardBackward(HiddenMarkovModel hmm)
+        public HMMForwardBackward(IHiddenMarkovModel hmm)
         {
             this.hmm = hmm;
         }

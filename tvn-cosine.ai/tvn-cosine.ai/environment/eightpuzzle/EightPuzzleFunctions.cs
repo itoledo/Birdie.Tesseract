@@ -88,8 +88,8 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             private int evaluateManhattanDistanceOf(int i, XYLocation loc)
             {
                 int retVal = -1;
-                int xpos = loc.getXCoOrdinate();
-                int ypos = loc.getYCoOrdinate();
+                int xpos = loc.GetXCoOrdinate();
+                int ypos = loc.GetYCoOrdinate();
                 switch (i)
                 { 
                     case 1:

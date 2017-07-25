@@ -92,7 +92,7 @@
         {
             if (zeroX && zeroY)
             {
-                return start.clone();
+                return start.Clone();
             }
             else if (zeroX)
             {

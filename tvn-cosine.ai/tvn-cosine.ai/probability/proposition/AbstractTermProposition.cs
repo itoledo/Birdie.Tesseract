@@ -1,9 +1,10 @@
 ﻿using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.proposition.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
-    public abstract class AbstractTermProposition : AbstractProposition, TermProposition
+    public abstract class AbstractTermProposition : AbstractProposition, ITermProposition
     {
         private IRandomVariable termVariable = null;
 

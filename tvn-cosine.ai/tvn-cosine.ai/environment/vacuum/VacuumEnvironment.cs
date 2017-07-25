@@ -119,7 +119,7 @@ namespace tvn.cosine.ai.environment.vacuum
             if (anAgent is NondeterministicVacuumAgent)
             {
                 // This agent expects a fully observable environment. It gets a clone of the environment state.
-                return envState.clone();
+                return envState.Clone();
             }
             // Other agents get a local percept.
             string loc = envState.getAgentLocation(anAgent);

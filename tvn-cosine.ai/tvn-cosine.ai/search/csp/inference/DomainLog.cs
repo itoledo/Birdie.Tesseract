@@ -78,7 +78,7 @@ namespace tvn.cosine.ai.search.csp.inference
         public void undo(CSP<VAR, VAL> csp)
         {
             foreach (Pair<VAR, Domain<VAL>> pair in getSavedDomains())
-                csp.setDomain(pair.getFirst(), pair.getSecond());
+                csp.setDomain(pair.GetFirst(), pair.getSecond());
         }
 
 
@@ -96,7 +96,7 @@ namespace tvn.cosine.ai.search.csp.inference
         {
             IStringBuilder result = TextFactory.CreateStringBuilder();
             foreach (Pair<VAR, Domain<VAL>> pair in savedDomains)
-                result.Append(pair.getFirst()).Append("=").Append(pair.getSecond()).Append(" ");
+                result.Append(pair.GetFirst()).Append("=").Append(pair.getSecond()).Append(" ");
             if (emptyDomainObserved)
                 result.Append("!");
             return result.ToString();

@@ -1,10 +1,11 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.api;
+using tvn.cosine.ai.probability.proposition.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
-    public abstract class AbstractProposition : Proposition
+    public abstract class AbstractProposition : IProposition
     {
         private ISet<IRandomVariable> scope = CollectionFactory.CreateSet<IRandomVariable>();
         private ISet<IRandomVariable> unboundScope = CollectionFactory.CreateSet<IRandomVariable>();

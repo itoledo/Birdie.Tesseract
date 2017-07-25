@@ -72,7 +72,7 @@ namespace tvn.cosine.ai.environment.nqueens
                 {
                     for (int toX = fromX + 1; toX < boardSize; toX++)
                     {
-                        int fromY = qPositions.Get(fromX).getYCoOrdinate();
+                        int fromY = qPositions.Get(fromX).GetYCoOrdinate();
                         bool nonAttackingPair = true;
                         // Check right beside
                         int toY = fromY;

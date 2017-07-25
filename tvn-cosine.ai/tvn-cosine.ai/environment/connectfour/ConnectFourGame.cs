@@ -73,7 +73,7 @@ namespace tvn.cosine.ai.environment.connectfour
 
         public   ConnectFourState getResult(ConnectFourState state, int action)
         {
-            ConnectFourState result = state.clone();
+            ConnectFourState result = state.Clone();
             result.dropDisk(action);
             return result;
         }

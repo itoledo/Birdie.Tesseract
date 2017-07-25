@@ -6,7 +6,7 @@ using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.learning.reinforcement.agent;
 using tvn.cosine.ai.learning.reinforcement.example;
 using tvn.cosine.ai.probability.example;
-using tvn.cosine.ai.probability.mdp.impl;
+using tvn.cosine.ai.probability.mdp;
 
 namespace tvn_cosine.ai.demo.learning.chapter21
 {

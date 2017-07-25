@@ -13,7 +13,7 @@ namespace tvn.cosine.ai.environment.vacuum
         {
             protected override void init()
             {
-                setState(new DynamicState());
+                SetState(new DynamicState());
                 setRules(getRuleSet());
             }
 
@@ -23,19 +23,19 @@ namespace tvn.cosine.ai.environment.vacuum
 
                 LocalVacuumEnvironmentPercept vep = (LocalVacuumEnvironmentPercept)percept;
 
-                state.setAttribute(ATTRIBUTE_CURRENT_LOCATION,
+                state.SetAttribute(ATTRIBUTE_CURRENT_LOCATION,
                         vep.getAgentLocation());
-                state.setAttribute(ATTRIBUTE_CURRENT_STATE,
+                state.SetAttribute(ATTRIBUTE_CURRENT_STATE,
                         vep.getLocationState());
                 // Keep track of the state of the different locations
                 if (VacuumEnvironment.LOCATION_A.Equals(vep.getAgentLocation()))
                 {
-                    state.setAttribute(ATTRIBUTE_STATE_LOCATION_A,
+                    state.SetAttribute(ATTRIBUTE_STATE_LOCATION_A,
                             vep.getLocationState());
                 }
                 else
                 {
-                    state.setAttribute(ATTRIBUTE_STATE_LOCATION_B,
+                    state.SetAttribute(ATTRIBUTE_STATE_LOCATION_B,
                             vep.getLocationState());
                 }
                 return state;

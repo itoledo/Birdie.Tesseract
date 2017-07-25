@@ -6,15 +6,14 @@ namespace tvn.cosine.ai.learning.neural
 {
     public class LayerSensitivity
     {
-        /*
-         * contains sensitivity matrices and related calculations for each layer.
-         * Used for backprop learning
-         */
-
+        /// <summary> 
+        /// Contains sensitivity matrices and related calculations for each layer.
+        /// Used for backprop learning
+        /// </summary>
         private Matrix sensitivityMatrix;
         private readonly Layer layer;
 
-	public LayerSensitivity(Layer layer)
+        public LayerSensitivity(Layer layer)
         {
             Matrix weightMatrix = layer.getWeightMatrix();
             this.sensitivityMatrix = new Matrix(weightMatrix.getRowDimension(),
@@ -30,24 +29,19 @@ namespace tvn.cosine.ai.learning.neural
 
         public Matrix sensitivityMatrixFromErrorMatrix(Vector errorVector)
         {
-            Matrix derivativeMatrix = createDerivativeMatrix(layer
-                    .getLastInducedField());
-            Matrix calculatedSensitivityMatrix = derivativeMatrix
-                    .times(errorVector).times(-2.0);
+            Matrix derivativeMatrix = createDerivativeMatrix(layer.getLastInducedField());
+            Matrix calculatedSensitivityMatrix = derivativeMatrix.times(errorVector).times(-2.0);
             sensitivityMatrix = calculatedSensitivityMatrix.copy();
             return calculatedSensitivityMatrix;
         }
 
-        public Matrix sensitivityMatrixFromSucceedingLayer(
-                LayerSensitivity nextLayerSensitivity)
+        public Matrix sensitivityMatrixFromSucceedingLayer(LayerSensitivity nextLayerSensitivity)
         {
             Layer nextLayer = nextLayerSensitivity.getLayer();
-            Matrix derivativeMatrix = createDerivativeMatrix(layer
-                    .getLastInducedField());
+            Matrix derivativeMatrix = createDerivativeMatrix(layer.getLastInducedField());
             Matrix weightTranspose = nextLayer.getWeightMatrix().transpose();
-            Matrix calculatedSensitivityMatrix = derivativeMatrix.times(
-                    weightTranspose).times(
-                    nextLayerSensitivity.getSensitivityMatrix());
+            Matrix calculatedSensitivityMatrix
+                = derivativeMatrix.times(weightTranspose).times(nextLayerSensitivity.getSensitivityMatrix());
             sensitivityMatrix = calculatedSensitivityMatrix.copy();
             return sensitivityMatrix;
         }
@@ -56,20 +50,16 @@ namespace tvn.cosine.ai.learning.neural
         {
             return layer;
         }
-
-        //
-        // PRIVATE METHODS
-        //
-
+         
         private Matrix createDerivativeMatrix(Vector lastInducedField)
         {
             ICollection<double> lst = CollectionFactory.CreateQueue<double>();
-            for (int i = 0; i < lastInducedField.size();++i)
+            for (int i = 0; i < lastInducedField.size(); ++i)
             {
-                lst.Add(layer.getActivationFunction().deriv(
+                lst.Add(layer.getActivationFunction().Deriv(
                         lastInducedField.getValue(i)));
             }
             return Matrix.createDiagonalMatrix(lst);
         }
-    } 
+    }
 }

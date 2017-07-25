@@ -6,42 +6,41 @@ using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.probability.mdp;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.probability.mdp.api;
 
 namespace tvn.cosine.ai.learning.reinforcement.example
 {
-    /**
-     * Implementation of the Cell World Environment, supporting the execution of
-     * trials for reinforcement learning agents.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary> 
+    /// Implementation of the Cell World Environment, supporting the execution of
+    /// trials for reinforcement learning agents. 
+    /// </summary>
     public class CellWorldEnvironment : EnvironmentBase
     {
         private Cell<double> startingCell = null;
         private ISet<Cell<double>> allStates = CollectionFactory.CreateSet<Cell<double>>();
-        private TransitionProbabilityFunction<Cell<double>, CellWorldAction> tpf;
+        private ITransitionProbabilityFunction<Cell<double>, CellWorldAction> tpf;
         private IRandom r = null;
         private CellWorldEnvironmentState currentState = new CellWorldEnvironmentState();
-
-        /**
-         * Constructor.
-         * 
-         * @param startingCell
-         *            the cell that agent(s) are to start from at the beginning of
-         *            each trial within the environment.
-         * @param allStates
-         *            all the possible states in this environment.
-         * @param tpf
-         *            the transition probability function that simulates how the
-         *            environment is meant to behave in response to an agent action.
-         * @param r
-         *            a IRandom used to sample actions that are actually to be
-         *            executed based on the transition probabilities for actions.
-         */
+        
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="startingCell">
+        /// the cell that agent(s) are to start from at the beginning of
+        /// each trial within the environment.
+        /// </param>
+        /// <param name="allStates">all the possible states in this environment.</param>
+        /// <param name="tpf">
+        /// the transition probability function that simulates how the
+        /// environment is meant to behave in response to an agent action.
+        /// </param>
+        /// <param name="r">
+        /// a IRandom used to sample actions that are actually to be
+        /// executed based on the transition probabilities for actions.
+        /// </param>
         public CellWorldEnvironment(Cell<double> startingCell,
                 ISet<Cell<double>> allStates,
-                TransitionProbabilityFunction<Cell<double>, CellWorldAction> tpf,
+                ITransitionProbabilityFunction<Cell<double>, CellWorldAction> tpf,
                 IRandom r)
         {
             this.startingCell = startingCell;
@@ -50,23 +49,21 @@ namespace tvn.cosine.ai.learning.reinforcement.example
             this.r = r;
         }
 
-        /**
-         * Execute N trials.
-         * 
-         * @param n
-         *            the number of trials to execute.
-         */
+        /// <summary>
+        /// Execute N trials.
+        /// </summary>
+        /// <param name="n">the number of trials to execute.</param>
         public void executeTrials(int n)
         {
-            for (int i = 0; i < n;++i)
+            for (int i = 0; i < n; ++i)
             {
                 executeTrial();
             }
         }
 
-        /**
-         * Execute a single trial.
-         */
+        /// <summary>
+        /// Execute a single trial.
+        /// </summary>
         public void executeTrial()
         {
             currentState.reset();
@@ -77,8 +74,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
             }
             StepUntilDone();
         }
-
-
+         
         public override void executeAction(IAgent agent, IAction action)
         {
             if (!action.IsNoOp())
@@ -107,8 +103,7 @@ namespace tvn.cosine.ai.learning.reinforcement.example
                 }
             }
         }
-
-
+         
         public override IPercept getPerceptSeenBy(IAgent anAgent)
         {
             return currentState.getPerceptFor(anAgent);

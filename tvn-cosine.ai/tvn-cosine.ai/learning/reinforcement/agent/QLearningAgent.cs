@@ -2,7 +2,9 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.learning.reinforcement.api;
 using tvn.cosine.ai.probability.mdp;
+using tvn.cosine.ai.probability.mdp.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.reinforcement.agent
@@ -56,10 +58,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
      * @param <S>
      *            the state type.
      * @param <A>
-     *            the action type.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Ravi Mohan
+     *            the action type. 
      * 
      */
     public class QLearningAgent<S, A> : ReinforcementAgent<S, A>
@@ -76,7 +75,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
         private A a;
         private double? r = null;
         //
-        private ActionsFunction<S, A> actionsFunction = null;
+        private IActionsFunction<S, A> actionsFunction = null;
         private A noneAction;
         private double _alpha = 0.0;
         private double gamma = 0.0;
@@ -100,7 +99,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          *            R+ is an optimistic estimate of the best possible reward
          *            obtainable in any state, which is used in the method f(u, n).
          */
-        public QLearningAgent(ActionsFunction<S, A> actionsFunction,
+        public QLearningAgent(IActionsFunction<S, A> actionsFunction,
                 A noneAction, double alpha,
                 double gamma, int Ne, double Rplus)
         {
@@ -125,7 +124,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
          * @return an action
          */
 
-        public override A execute(PerceptStateReward<S> percept)
+        public override A execute(IPerceptStateReward<S> percept)
         {
 
             S sPrime = percept.state();
@@ -191,9 +190,9 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
             foreach (Pair<S, A> sa in Q.GetKeys())
             {
                 double q = Q.Get(sa);
-                if (!U.ContainsKey(sa.getFirst()) || U.Get(sa.getFirst()) < q)
+                if (!U.ContainsKey(sa.GetFirst()) || U.Get(sa.GetFirst()) < q)
                 {
-                    U.Put(sa.getFirst(), q);
+                    U.Put(sa.GetFirst(), q);
                 }
             }
 

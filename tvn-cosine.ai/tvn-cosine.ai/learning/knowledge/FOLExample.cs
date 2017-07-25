@@ -6,11 +6,7 @@ using tvn.cosine.ai.logic.fol;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.learning.knowledge
-{
-    /**
-     * @author Ciaran O'Reilly
-     * 
-     */
+{ 
     public class FOLExample : IStringable
     {
         private FOLDataSetDomain folDSDomain = null;
@@ -20,10 +16,7 @@ namespace tvn.cosine.ai.learning.knowledge
         private Constant ithExampleConstant = null;
         private Sentence classification = null;
         private Sentence description = null;
-
-        //
-        // PUBLIC METHODS
-        //
+         
         public FOLExample(FOLDataSetDomain folDSDomain, Example example, int egNo)
         {
             this.folDSDomain = folDSDomain;
@@ -54,10 +47,7 @@ namespace tvn.cosine.ai.learning.knowledge
                  + Connectors.AND + " "
                  + description.ToString();
         }
-
-        //
-        // PRIVATE METHODS
-        //
+         
         private void constructFOLEg()
         {
             ithExampleConstant = new Constant(folDSDomain.getExampleConstant(egNo));

@@ -116,7 +116,7 @@ namespace tvn.cosine.ai.util.math.geom.shapes
             return false;
         }
          
-        public Point2D clone()
+        public Point2D Clone()
         {
             return new Point2D(this.x, this.y);
         }

@@ -10,8 +10,8 @@ namespace tvn_cosine.ai.test.unit.util.datastructure
         public void testXYLocationAtributeSettingOnConstruction()
         {
             XYLocation loc = new XYLocation(3, 4);
-            Assert.AreEqual(3, loc.getXCoOrdinate());
-            Assert.AreEqual(4, loc.getYCoOrdinate());
+            Assert.AreEqual(3, loc.GetXCoOrdinate());
+            Assert.AreEqual(4, loc.GetYCoOrdinate());
         }
 
         [TestMethod]

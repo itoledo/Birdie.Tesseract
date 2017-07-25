@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.environment.tictactoe
 
         public TicTacToeState getResult(TicTacToeState state, XYLocation action)
         {
-            TicTacToeState result = state.clone();
+            TicTacToeState result = state.Clone();
             result.mark(action);
             return result;
         }

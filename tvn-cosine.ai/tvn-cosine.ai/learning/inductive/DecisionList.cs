@@ -1,5 +1,4 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.text;
@@ -68,6 +67,5 @@ namespace tvn.cosine.ai.learning.inductive
             buf.Append("END");
             return buf.ToString();
         }
-    }
-
+    } 
 }
