@@ -21,12 +21,7 @@ namespace tvn.cosine.ai.learning.neural
         }
 
         public void SetNeuralNetwork(IFunctionApproximator fapp)
-        {
-            if (fapp is FeedForwardNeuralNetwork)
-            {
-                throw new NotSupportedException("Only FeedForwardNeuralNetwork function approximator supported at this stage.");
-            }
-
+        { 
             FeedForwardNeuralNetwork ffnn = fapp as FeedForwardNeuralNetwork;
             this.hiddenLayer = ffnn.GetHiddenLayer();
             this.outputLayer = ffnn.GetOutputLayer();
