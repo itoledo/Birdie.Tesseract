@@ -12,7 +12,7 @@ namespace tvn.cosine.ai.learning.neural.api
     /// </summary>
     public interface INumerizer
     {
-        Pair<ICollection<double>, ICollection<double>> numerize(Example e);
+        Pair<ICollection<double>, ICollection<double>> Numerize(Example e);
 
         string Denumerize(ICollection<double> outputValue);
     }

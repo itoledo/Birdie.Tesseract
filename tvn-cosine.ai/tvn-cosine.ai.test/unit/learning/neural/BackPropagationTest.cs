@@ -41,24 +41,24 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             FeedForwardNeuralNetwork ffnn = new FeedForwardNeuralNetwork(
                     hiddenLayerWeightMatrix, hiddenLayerBiasVector,
                     outputLayerWeightMatrix, outputLayerBiasVector);
-            ffnn.setTrainingScheme(new BackPropagationLearning(learningRate,
+            ffnn.SetTrainingScheme(new BackPropagationLearning(learningRate,
                     momentumFactor));
             ffnn.ProcessInput(input);
             ffnn.ProcessError(error);
 
-            Matrix finalHiddenLayerWeights = ffnn.getHiddenLayerWeights();
+            Matrix finalHiddenLayerWeights = ffnn.GetHiddenLayerWeights();
             Assert.AreEqual(-0.265, finalHiddenLayerWeights.get(0, 0), 0.001);
             Assert.AreEqual(-0.419, finalHiddenLayerWeights.get(1, 0), 0.001);
 
-            Vector hiddenLayerBias = ffnn.getHiddenLayerBias();
+            Vector hiddenLayerBias = ffnn.GetHiddenLayerBias();
             Assert.AreEqual(-0.475, hiddenLayerBias.getValue(0), 0.001);
             Assert.AreEqual(-0.1399, hiddenLayerBias.getValue(1), 0.001);
 
-            Matrix finalOutputLayerWeights = ffnn.getOutputLayerWeights();
+            Matrix finalOutputLayerWeights = ffnn.GetOutputLayerWeights();
             Assert.AreEqual(0.171, finalOutputLayerWeights.get(0, 0), 0.001);
             Assert.AreEqual(-0.0772, finalOutputLayerWeights.get(0, 1), 0.001);
 
-            Vector outputLayerBias = ffnn.getOutputLayerBias();
+            Vector outputLayerBias = ffnn.GetOutputLayerBias();
             Assert.AreEqual(0.7322, outputLayerBias.getValue(0), 0.001);
         }
 
@@ -93,24 +93,24 @@ namespace tvn_cosine.ai.test.unit.learning.neural
                     hiddenLayerWeightMatrix, hiddenLayerBiasVector,
                     outputLayerWeightMatrix, outputLayerBiasVector);
 
-            ffnn.setTrainingScheme(new BackPropagationLearning(learningRate,
+            ffnn.SetTrainingScheme(new BackPropagationLearning(learningRate,
                     momentumFactor));
             ffnn.ProcessInput(input);
             ffnn.ProcessError(error);
 
-            Matrix finalHiddenLayerWeights = ffnn.getHiddenLayerWeights();
+            Matrix finalHiddenLayerWeights = ffnn.GetHiddenLayerWeights();
             Assert.AreEqual(-0.2675, finalHiddenLayerWeights.get(0, 0), 0.001);
             Assert.AreEqual(-0.4149, finalHiddenLayerWeights.get(1, 0), 0.001);
 
-            Vector hiddenLayerBias = ffnn.getHiddenLayerBias();
+            Vector hiddenLayerBias = ffnn.GetHiddenLayerBias();
             Assert.AreEqual(-0.4775, hiddenLayerBias.getValue(0), 0.001);
             Assert.AreEqual(-0.1349, hiddenLayerBias.getValue(1), 0.001);
 
-            Matrix finalOutputLayerWeights = ffnn.getOutputLayerWeights();
+            Matrix finalOutputLayerWeights = ffnn.GetOutputLayerWeights();
             Assert.AreEqual(0.1304, finalOutputLayerWeights.get(0, 0), 0.001);
             Assert.AreEqual(-0.1235, finalOutputLayerWeights.get(0, 1), 0.001);
 
-            Vector outputLayerBias = ffnn.getOutputLayerBias();
+            Vector outputLayerBias = ffnn.GetOutputLayerBias();
             Assert.AreEqual(0.6061, outputLayerBias.getValue(0), 0.001);
         }
 
@@ -121,22 +121,22 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             INumerizer numerizer = new IrisDataSetNumerizer();
             NeuralNetworkDataSet innds = new IrisNeuralNetworkDataSet();
 
-            innds.createExamplesFromDataSet(irisDataSet, numerizer);
+            innds.CreateExamplesFromDataSet(irisDataSet, numerizer);
 
             NeuralNetworkConfig config = new NeuralNetworkConfig();
-            config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_INPUTS, 4);
-            config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_OUTPUTS, 3);
-            config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_HIDDEN_NEURONS, 6);
-            config.setConfig(FeedForwardNeuralNetwork.LOWER_LIMIT_WEIGHTS, -2.0);
-            config.setConfig(FeedForwardNeuralNetwork.UPPER_LIMIT_WEIGHTS, 2.0);
+            config.SetConfig(FeedForwardNeuralNetwork.NUMBER_OF_INPUTS, 4);
+            config.SetConfig(FeedForwardNeuralNetwork.NUMBER_OF_OUTPUTS, 3);
+            config.SetConfig(FeedForwardNeuralNetwork.NUMBER_OF_HIDDEN_NEURONS, 6);
+            config.SetConfig(FeedForwardNeuralNetwork.LOWER_LIMIT_WEIGHTS, -2.0);
+            config.SetConfig(FeedForwardNeuralNetwork.UPPER_LIMIT_WEIGHTS, 2.0);
 
             FeedForwardNeuralNetwork ffnn = new FeedForwardNeuralNetwork(config);
-            ffnn.setTrainingScheme(new BackPropagationLearning(0.1, 0.9));
+            ffnn.SetTrainingScheme(new BackPropagationLearning(0.1, 0.9));
 
-            ffnn.trainOn(innds, 10);
+            ffnn.TrainOn(innds, 10);
 
-            innds.refreshDataset();
-            ffnn.testOnDataSet(innds);
+            innds.RefreshDataset();
+            ffnn.TestOnDataSet(innds);
         }
 
         [TestMethod]
@@ -146,14 +146,14 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             INumerizer numerizer = new IrisDataSetNumerizer();
             NeuralNetworkDataSet innds = new IrisNeuralNetworkDataSet();
 
-            innds.createExamplesFromDataSet(irisDataSet, numerizer);
+            innds.CreateExamplesFromDataSet(irisDataSet, numerizer);
 
             Perceptron perc = new Perceptron(3, 4);
 
-            perc.trainOn(innds, 10);
+            perc.TrainOn(innds, 10);
 
-            innds.refreshDataset();
-            perc.testOnDataSet(innds);
+            innds.RefreshDataset();
+            perc.TestOnDataSet(innds);
         }
     } 
 }

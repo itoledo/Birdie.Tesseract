@@ -16,16 +16,16 @@ namespace tvn.cosine.ai.learning.neural
         public Vector ProcessInput(Vector input)
         {
             lastInput = input;
-            return layer.feedForward(input);
+            return layer.FeedForward(input);
         }
 
         public void ProcessError(Vector error)
         {
             Matrix weightUpdate = error.times(lastInput.transpose());
-            layer.acceptNewWeightUpdate(weightUpdate);
+            layer.AcceptNewWeightUpdate(weightUpdate);
 
-            Vector biasUpdate = layer.getBiasVector().plus(error);
-            layer.acceptNewBiasUpdate(biasUpdate);
+            Vector biasUpdate = layer.GetBiasVector().plus(error);
+            layer.AcceptNewBiasUpdate(biasUpdate);
 
         }
          
@@ -34,16 +34,16 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         /// <param name="innds">a set of training examples for constructing the layer of this perceptron.</param>
         /// <param name="numberofEpochs">the number of training epochs to be used.</param>
-        public void trainOn(NeuralNetworkDataSet innds, int numberofEpochs)
+        public void TrainOn(NeuralNetworkDataSet innds, int numberofEpochs)
         {
             for (int i = 0; i < numberofEpochs; ++i)
             {
-                innds.refreshDataset();
-                while (innds.hasMoreExamples())
+                innds.RefreshDataset();
+                while (innds.HasMoreExamples())
                 {
-                    NeuralNetworkExample nne = innds.getExampleAtRandom();
-                    ProcessInput(nne.getInput());
-                    Vector error = layer.errorVectorFrom(nne.getTarget());
+                    NeuralNetworkExample nne = innds.GetExampleAtRandom();
+                    ProcessInput(nne.GetInput());
+                    Vector error = layer.ErrorVectorFrom(nne.GetTarget());
                     ProcessError(error);
                 }
             }
@@ -54,9 +54,9 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         /// <param name="nne">an example</param>
         /// <returns>the outcome predicted for the specified example</returns>
-        public Vector predict(NeuralNetworkExample nne)
+        public Vector Predict(NeuralNetworkExample nne)
         {
-            return ProcessInput(nne.getInput());
+            return ProcessInput(nne.GetInput());
         }
        
         /// <summary>
@@ -64,15 +64,15 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         /// <param name="nnds">the neural network data set to be tested on.</param>
         /// <returns>the accuracy of the hypothesis on the specified set of examples</returns>
-        public int[] testOnDataSet(NeuralNetworkDataSet nnds)
+        public int[] TestOnDataSet(NeuralNetworkDataSet nnds)
         {
             int[] result = new int[] { 0, 0 };
-            nnds.refreshDataset();
-            while (nnds.hasMoreExamples())
+            nnds.RefreshDataset();
+            while (nnds.HasMoreExamples())
             {
-                NeuralNetworkExample nne = nnds.getExampleAtRandom();
-                Vector prediction = predict(nne);
-                if (nne.isCorrect(prediction))
+                NeuralNetworkExample nne = nnds.GetExampleAtRandom();
+                Vector prediction = Predict(nne);
+                if (nne.IsCorrect(prediction))
                 {
                     result[0] = result[0] + 1;
                 }

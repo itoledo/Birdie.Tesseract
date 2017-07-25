@@ -19,88 +19,96 @@ namespace tvn.cosine.ai.learning.neural
             this.momentum = momentum;
         }
 
-        public void setNeuralNetwork(IFunctionApproximator fapp)
+        public void SetNeuralNetwork(IFunctionApproximator fapp)
         {
             FeedForwardNeuralNetwork ffnn = (FeedForwardNeuralNetwork)fapp;
-            this.hiddenLayer = ffnn.getHiddenLayer();
-            this.outputLayer = ffnn.getOutputLayer();
+            this.hiddenLayer = ffnn.GetHiddenLayer();
+            this.outputLayer = ffnn.GetOutputLayer();
             this.hiddenSensitivity = new LayerSensitivity(hiddenLayer);
             this.outputSensitivity = new LayerSensitivity(outputLayer);
         }
 
-        public Vector processInput(FeedForwardNeuralNetwork network, Vector input)
+        public Vector ProcessInput(FeedForwardNeuralNetwork network, 
+                                   Vector input)
         { 
-            hiddenLayer.feedForward(input);
-            outputLayer.feedForward(hiddenLayer.getLastActivationValues());
-            return outputLayer.getLastActivationValues();
+            hiddenLayer.FeedForward(input);
+            outputLayer.FeedForward(hiddenLayer.GetLastActivationValues());
+            return outputLayer.GetLastActivationValues();
         }
 
-        public void processError(FeedForwardNeuralNetwork network, Vector error)
+        public void ProcessError(FeedForwardNeuralNetwork network, 
+                                 Vector error)
         {
             // TODO calculate total error somewhere
             // create Sensitivity Matrices
-            outputSensitivity.sensitivityMatrixFromErrorMatrix(error);
+            outputSensitivity.SensitivityMatrixFromErrorMatrix(error);
 
-            hiddenSensitivity.sensitivityMatrixFromSucceedingLayer(outputSensitivity);
+            hiddenSensitivity.SensitivityMatrixFromSucceedingLayer(outputSensitivity);
 
             // calculate weight Updates
-            calculateWeightUpdates(outputSensitivity, hiddenLayer.getLastActivationValues(), learningRate, momentum);
-            calculateWeightUpdates(hiddenSensitivity, hiddenLayer.getLastInputValues(), learningRate, momentum);
+            CalculateWeightUpdates(outputSensitivity, hiddenLayer.GetLastActivationValues(), learningRate, momentum);
+            CalculateWeightUpdates(hiddenSensitivity, hiddenLayer.GetLastInputValues(), learningRate, momentum);
 
             // calculate Bias Updates
-            calculateBiasUpdates(outputSensitivity, learningRate, momentum);
-            calculateBiasUpdates(hiddenSensitivity, learningRate, momentum);
+            CalculateBiasUpdates(outputSensitivity, learningRate, momentum);
+            CalculateBiasUpdates(hiddenSensitivity, learningRate, momentum);
 
             // update weightsAndBiases
-            outputLayer.updateWeights();
-            outputLayer.updateBiases();
+            outputLayer.UpdateWeights();
+            outputLayer.UpdateBiases();
 
-            hiddenLayer.updateWeights();
-            hiddenLayer.updateBiases();
+            hiddenLayer.UpdateWeights();
+            hiddenLayer.UpdateBiases();
 
         }
 
-        public Matrix calculateWeightUpdates(LayerSensitivity layerSensitivity, Vector previousLayerActivationOrInput,
-            double alpha, double momentum)
+        public Matrix CalculateWeightUpdates(LayerSensitivity layerSensitivity, 
+                                             Vector previousLayerActivationOrInput,
+                                             double alpha, 
+                                             double momentum)
         {
-            Layer layer = layerSensitivity.getLayer();
+            Layer layer = layerSensitivity.GetLayer();
             Matrix activationTranspose 
                 = previousLayerActivationOrInput.transpose();
             Matrix momentumLessUpdate 
-                = layerSensitivity.getSensitivityMatrix()
+                = layerSensitivity.GetSensitivityMatrix()
                                   .times(activationTranspose)
                                   .times(alpha)
                                   .times(-1.0);
             Matrix updateWithMomentum 
-                = layer.getLastWeightUpdateMatrix()
+                = layer.GetLastWeightUpdateMatrix()
                        .times(momentum)
                        .plus(momentumLessUpdate.times(1.0 - momentum));
-            layer.acceptNewWeightUpdate(updateWithMomentum.copy());
+            layer.AcceptNewWeightUpdate(updateWithMomentum.copy());
+
             return updateWithMomentum;
         }
 
-        public static Matrix calculateWeightUpdates(LayerSensitivity layerSensitivity, Vector previousLayerActivationOrInput,
-            double alpha)
+        public static Matrix CalculateWeightUpdates(LayerSensitivity layerSensitivity, 
+                                                    Vector previousLayerActivationOrInput,
+                                                    double alpha)
         {
-            Layer layer = layerSensitivity.getLayer();
+            Layer layer = layerSensitivity.GetLayer();
             Matrix activationTranspose = previousLayerActivationOrInput.transpose();
             Matrix weightUpdateMatrix
-                = layerSensitivity.getSensitivityMatrix()
+                = layerSensitivity.GetSensitivityMatrix()
                                   .times(activationTranspose)
                                   .times(alpha)
                                   .times(-1.0);
-            layer.acceptNewWeightUpdate(weightUpdateMatrix.copy());
+            layer.AcceptNewWeightUpdate(weightUpdateMatrix.copy());
+
             return weightUpdateMatrix;
         }
 
-        public Vector calculateBiasUpdates(LayerSensitivity layerSensitivity,
-                double alpha, double momentum)
+        public Vector CalculateBiasUpdates(LayerSensitivity layerSensitivity,
+                                           double alpha, 
+                                           double momentum)
         {
-            Layer layer = layerSensitivity.getLayer();
-            Matrix biasUpdateMatrixWithoutMomentum = layerSensitivity.getSensitivityMatrix().times(alpha).times(-1.0);
+            Layer layer = layerSensitivity.GetLayer();
+            Matrix biasUpdateMatrixWithoutMomentum = layerSensitivity.GetSensitivityMatrix().times(alpha).times(-1.0);
 
             Matrix biasUpdateMatrixWithMomentum
-                = layer.getLastBiasUpdateVector()
+                = layer.GetLastBiasUpdateVector()
                        .times(momentum)
                        .plus(biasUpdateMatrixWithoutMomentum
                        .times(1.0 - momentum));
@@ -109,15 +117,16 @@ namespace tvn.cosine.ai.learning.neural
             {
                 result.setValue(i, biasUpdateMatrixWithMomentum.get(i, 0));
             }
-            layer.acceptNewBiasUpdate(result.copyVector());
+            layer.AcceptNewBiasUpdate(result.copyVector());
             return result;
         }
 
-        public static Vector calculateBiasUpdates(LayerSensitivity layerSensitivity, double alpha)
+        public static Vector CalculateBiasUpdates(LayerSensitivity layerSensitivity, 
+                                                  double alpha)
         {
-            Layer layer = layerSensitivity.getLayer();
+            Layer layer = layerSensitivity.GetLayer();
             Matrix biasUpdateMatrix 
-                = layerSensitivity.getSensitivityMatrix()
+                = layerSensitivity.GetSensitivityMatrix()
                                   .times(alpha)
                                   .times(-1.0);
 
@@ -126,7 +135,7 @@ namespace tvn.cosine.ai.learning.neural
             {
                 result.setValue(i, biasUpdateMatrix.get(i, 0));
             }
-            layer.acceptNewBiasUpdate(result.copyVector());
+            layer.AcceptNewBiasUpdate(result.copyVector());
             return result;
         }
     }

@@ -20,24 +20,22 @@ namespace tvn.cosine.ai.learning.neural
             this.hash = CollectionFactory.CreateInsertionOrderedMap<string, object>();
         }
 
-        public double getParameterAsDouble(string key)
-        {
-
+        public double GetParameterAsDouble(string key)
+        { 
             return (double)hash.Get(key);
         }
 
-        public int getParameterAsInteger(string key)
-        {
-
+        public int GetParameterAsInteger(string key)
+        { 
             return (int)hash.Get(key);
         }
 
-        public void setConfig(string key, double value)
+        public void SetConfig(string key, double value)
         {
             hash.Put(key, value);
         }
 
-        public void setConfig(string key, int value)
+        public void SetConfig(string key, int value)
         {
             hash.Put(key, value);
         }

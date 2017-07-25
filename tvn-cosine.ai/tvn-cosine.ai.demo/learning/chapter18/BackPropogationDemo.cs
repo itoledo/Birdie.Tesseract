@@ -25,23 +25,23 @@ namespace tvn_cosine.ai.demo.learning.chapter18
                 INumerizer numerizer = new IrisDataSetNumerizer();
                 NeuralNetworkDataSet innds = new IrisNeuralNetworkDataSet();
 
-                innds.createExamplesFromDataSet(irisDataSet, numerizer);
+                innds.CreateExamplesFromDataSet(irisDataSet, numerizer);
 
                 NeuralNetworkConfig config = new NeuralNetworkConfig();
-                config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_INPUTS, 4);
-                config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_OUTPUTS, 3);
-                config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_HIDDEN_NEURONS,
+                config.SetConfig(FeedForwardNeuralNetwork.NUMBER_OF_INPUTS, 4);
+                config.SetConfig(FeedForwardNeuralNetwork.NUMBER_OF_OUTPUTS, 3);
+                config.SetConfig(FeedForwardNeuralNetwork.NUMBER_OF_HIDDEN_NEURONS,
                         6);
-                config.setConfig(FeedForwardNeuralNetwork.LOWER_LIMIT_WEIGHTS, -2.0);
-                config.setConfig(FeedForwardNeuralNetwork.UPPER_LIMIT_WEIGHTS, 2.0);
+                config.SetConfig(FeedForwardNeuralNetwork.LOWER_LIMIT_WEIGHTS, -2.0);
+                config.SetConfig(FeedForwardNeuralNetwork.UPPER_LIMIT_WEIGHTS, 2.0);
 
                 FeedForwardNeuralNetwork ffnn = new FeedForwardNeuralNetwork(config);
-                ffnn.setTrainingScheme(new BackPropagationLearning(0.1, 0.9));
+                ffnn.SetTrainingScheme(new BackPropagationLearning(0.1, 0.9));
 
-                ffnn.trainOn(innds, 10);
+                ffnn.TrainOn(innds, 10);
 
-                innds.refreshDataset();
-                int[] result = ffnn.testOnDataSet(innds);
+                innds.RefreshDataset();
+                int[] result = ffnn.TestOnDataSet(innds);
                 System.Console.WriteLine(result[0] + " right, " + result[1] + " wrong");
             }
             catch (Exception e)

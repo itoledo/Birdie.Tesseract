@@ -25,14 +25,14 @@ namespace tvn_cosine.ai.demo.learning.chapter18
                 INumerizer numerizer = new IrisDataSetNumerizer();
                 NeuralNetworkDataSet innds = new IrisNeuralNetworkDataSet();
 
-                innds.createExamplesFromDataSet(irisDataSet, numerizer);
+                innds.CreateExamplesFromDataSet(irisDataSet, numerizer);
 
                 Perceptron perc = new Perceptron(3, 4);
 
-                perc.trainOn(innds, 10);
+                perc.TrainOn(innds, 10);
 
-                innds.refreshDataset();
-                int[] result = perc.testOnDataSet(innds);
+                innds.RefreshDataset();
+                int[] result = perc.TestOnDataSet(innds);
                 System.Console.WriteLine(result[0] + " right, " + result[1] + " wrong");
             }
             catch (Exception e)

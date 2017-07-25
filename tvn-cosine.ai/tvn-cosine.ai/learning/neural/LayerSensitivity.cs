@@ -4,60 +4,63 @@ using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.learning.neural
 {
+    /// <summary> 
+    /// Contains sensitivity matrices and related calculations for each layer.
+    /// Used for backprop learning
+    /// </summary>
     public class LayerSensitivity
     {
-        /// <summary> 
-        /// Contains sensitivity matrices and related calculations for each layer.
-        /// Used for backprop learning
-        /// </summary>
-        private Matrix sensitivityMatrix;
         private readonly Layer layer;
+
+        Matrix sensitivityMatrix;
 
         public LayerSensitivity(Layer layer)
         {
-            Matrix weightMatrix = layer.getWeightMatrix();
+            Matrix weightMatrix = layer.GetWeightMatrix();
             this.sensitivityMatrix = new Matrix(weightMatrix.getRowDimension(),
-                    weightMatrix.getColumnDimension());
+                                                weightMatrix.getColumnDimension());
             this.layer = layer;
-
         }
 
-        public Matrix getSensitivityMatrix()
+        public Matrix GetSensitivityMatrix()
         {
             return sensitivityMatrix;
         }
 
-        public Matrix sensitivityMatrixFromErrorMatrix(Vector errorVector)
+        public Matrix SensitivityMatrixFromErrorMatrix(Vector errorVector)
         {
-            Matrix derivativeMatrix = createDerivativeMatrix(layer.getLastInducedField());
-            Matrix calculatedSensitivityMatrix = derivativeMatrix.times(errorVector).times(-2.0);
+            Matrix derivativeMatrix = CreateDerivativeMatrix(layer.GetLastInducedField());
+            Matrix calculatedSensitivityMatrix = derivativeMatrix.times(errorVector)
+                                                                 .times(-2.0);
             sensitivityMatrix = calculatedSensitivityMatrix.copy();
             return calculatedSensitivityMatrix;
         }
 
-        public Matrix sensitivityMatrixFromSucceedingLayer(LayerSensitivity nextLayerSensitivity)
+        public Matrix SensitivityMatrixFromSucceedingLayer(LayerSensitivity nextLayerSensitivity)
         {
-            Layer nextLayer = nextLayerSensitivity.getLayer();
-            Matrix derivativeMatrix = createDerivativeMatrix(layer.getLastInducedField());
-            Matrix weightTranspose = nextLayer.getWeightMatrix().transpose();
+            Layer nextLayer = nextLayerSensitivity.GetLayer();
+            Matrix derivativeMatrix = CreateDerivativeMatrix(layer.GetLastInducedField());
+            Matrix weightTranspose = nextLayer.GetWeightMatrix()
+                                              .transpose();
             Matrix calculatedSensitivityMatrix
-                = derivativeMatrix.times(weightTranspose).times(nextLayerSensitivity.getSensitivityMatrix());
+                = derivativeMatrix.times(weightTranspose)
+                                  .times(nextLayerSensitivity.GetSensitivityMatrix());
             sensitivityMatrix = calculatedSensitivityMatrix.copy();
             return sensitivityMatrix;
         }
 
-        public Layer getLayer()
+        public Layer GetLayer()
         {
             return layer;
         }
-         
-        private Matrix createDerivativeMatrix(Vector lastInducedField)
+
+        private Matrix CreateDerivativeMatrix(Vector lastInducedField)
         {
             ICollection<double> lst = CollectionFactory.CreateQueue<double>();
             for (int i = 0; i < lastInducedField.size(); ++i)
             {
-                lst.Add(layer.getActivationFunction().Deriv(
-                        lastInducedField.getValue(i)));
+                lst.Add(layer.GetActivationFunction()
+                             .Deriv(lastInducedField.getValue(i)));
             }
             return Matrix.createDiagonalMatrix(lst);
         }

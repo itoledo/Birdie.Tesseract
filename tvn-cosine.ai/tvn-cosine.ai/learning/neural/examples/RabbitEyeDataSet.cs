@@ -4,7 +4,7 @@ namespace tvn.cosine.ai.learning.neural.examples
 {
     public class RabbitEyeDataSet : NeuralNetworkDataSet
     {
-        public override void setTargetColumns()
+        public override void SetTargetColumns()
         {
             // assumed that data from file has been pre processed
             // TODO this should be

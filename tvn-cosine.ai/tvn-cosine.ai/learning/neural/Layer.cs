@@ -25,142 +25,158 @@ namespace tvn.cosine.ai.learning.neural
         Vector penultimateBiasUpdateVector;
         Vector lastInput;
 
-        public Layer(Matrix weightMatrix, Vector biasVector, IActivationFunction af)
+        public Layer(Matrix weightMatrix, 
+                     Vector biasVector, 
+                     IActivationFunction af)
         {
             activationFunction = af;
             this.weightMatrix = weightMatrix;
-            lastWeightUpdateMatrix = new Matrix(weightMatrix.getRowDimension(),
-                    weightMatrix.getColumnDimension());
-            penultimateWeightUpdateMatrix = new Matrix(
-                    weightMatrix.getRowDimension(),
-                    weightMatrix.getColumnDimension());
+            lastWeightUpdateMatrix 
+                = new Matrix(weightMatrix.getRowDimension(),
+                             weightMatrix.getColumnDimension());
+            penultimateWeightUpdateMatrix 
+                = new Matrix(weightMatrix.getRowDimension(),
+                             weightMatrix.getColumnDimension());
 
             this.biasVector = biasVector;
-            lastBiasUpdateVector = new Vector(biasVector.getRowDimension());
-            penultimateBiasUpdateVector = new Vector(biasVector.getRowDimension());
+            lastBiasUpdateVector 
+                = new Vector(biasVector.getRowDimension());
+            penultimateBiasUpdateVector 
+                = new Vector(biasVector.getRowDimension());
         }
 
-        public Layer(int numberOfNeurons, int numberOfInputs,
-                double lowerLimitForWeights, double upperLimitForWeights,
-                IActivationFunction af)
-        {
-
+        public Layer(int numberOfNeurons, 
+                     int numberOfInputs,
+                     double lowerLimitForWeights, 
+                     double upperLimitForWeights,
+                     IActivationFunction af)
+        { 
             activationFunction = af;
-            this.weightMatrix = new Matrix(numberOfNeurons, numberOfInputs);
-            lastWeightUpdateMatrix = new Matrix(weightMatrix.getRowDimension(),
-                    weightMatrix.getColumnDimension());
-            penultimateWeightUpdateMatrix = new Matrix(
-                    weightMatrix.getRowDimension(),
-                    weightMatrix.getColumnDimension());
+
+            this.weightMatrix 
+                = new Matrix(numberOfNeurons, 
+                             numberOfInputs);
+            lastWeightUpdateMatrix 
+                = new Matrix(weightMatrix.getRowDimension(),
+                             weightMatrix.getColumnDimension());
+
+            penultimateWeightUpdateMatrix 
+                = new Matrix(weightMatrix.getRowDimension(),
+                             weightMatrix.getColumnDimension());
 
             this.biasVector = new Vector(numberOfNeurons);
             lastBiasUpdateVector = new Vector(biasVector.getRowDimension());
             penultimateBiasUpdateVector = new Vector(biasVector.getRowDimension());
 
-            initializeMatrix(weightMatrix, lowerLimitForWeights,
-                    upperLimitForWeights);
-            initializeVector(biasVector, lowerLimitForWeights, upperLimitForWeights);
+            initializeMatrix(weightMatrix, 
+                             lowerLimitForWeights,
+                             upperLimitForWeights);
+            initializeVector(biasVector, 
+                             lowerLimitForWeights, 
+                             upperLimitForWeights);
         }
 
-        public Vector feedForward(Vector inputVector)
+        public Vector FeedForward(Vector inputVector)
         {
             lastInput = inputVector;
-            Matrix inducedField = weightMatrix.times(inputVector).plus(biasVector);
+            Matrix inducedField 
+                = weightMatrix.times(inputVector)
+                              .plus(biasVector);
 
-            Vector inducedFieldVector = new Vector(numberOfNeurons());
-            for (int i = 0; i < numberOfNeurons(); ++i)
+            Vector inducedFieldVector = new Vector(NumberOfNeurons());
+            for (int i = 0; i < NumberOfNeurons(); ++i)
             {
                 inducedFieldVector.setValue(i, inducedField.get(i, 0));
             }
 
             lastInducedField = inducedFieldVector.copyVector();
-            Vector resultVector = new Vector(numberOfNeurons());
-            for (int i = 0; i < numberOfNeurons(); ++i)
+            Vector resultVector = new Vector(NumberOfNeurons());
+            for (int i = 0; i < NumberOfNeurons(); ++i)
             {
-                resultVector.setValue(i, activationFunction
-                        .Activation(inducedFieldVector.getValue(i)));
+                resultVector.setValue(i, 
+                                      activationFunction.Activation(inducedFieldVector.getValue(i)));
             }
             // set the result as the last activation value
             lastActivationValues = resultVector.copyVector();
             return resultVector;
         }
 
-        public Matrix getWeightMatrix()
+        public Matrix GetWeightMatrix()
         {
             return weightMatrix;
         }
 
-        public Vector getBiasVector()
+        public Vector GetBiasVector()
         {
             return biasVector;
         }
 
-        public int numberOfNeurons()
+        public int NumberOfNeurons()
         {
             return weightMatrix.getRowDimension();
         }
 
-        public int numberOfInputs()
+        public int NumberOfInputs()
         {
             return weightMatrix.getColumnDimension();
         }
 
-        public Vector getLastActivationValues()
+        public Vector GetLastActivationValues()
         {
             return lastActivationValues;
         }
 
-        public Vector getLastInducedField()
+        public Vector GetLastInducedField()
         {
             return lastInducedField;
         }
 
-        public Matrix getLastWeightUpdateMatrix()
+        public Matrix GetLastWeightUpdateMatrix()
         {
             return lastWeightUpdateMatrix;
         }
 
-        public void setLastWeightUpdateMatrix(Matrix m)
+        public void SetLastWeightUpdateMatrix(Matrix m)
         {
             lastWeightUpdateMatrix = m;
         }
 
-        public Matrix getPenultimateWeightUpdateMatrix()
+        public Matrix GetPenultimateWeightUpdateMatrix()
         {
             return penultimateWeightUpdateMatrix;
         }
 
-        public void setPenultimateWeightUpdateMatrix(Matrix m)
+        public void SetPenultimateWeightUpdateMatrix(Matrix m)
         {
             penultimateWeightUpdateMatrix = m;
         }
 
-        public Vector getLastBiasUpdateVector()
+        public Vector GetLastBiasUpdateVector()
         {
             return lastBiasUpdateVector;
         }
 
-        public void setLastBiasUpdateVector(Vector v)
+        public void SetLastBiasUpdateVector(Vector v)
         {
             lastBiasUpdateVector = v;
         }
 
-        public Vector getPenultimateBiasUpdateVector()
+        public Vector GetPenultimateBiasUpdateVector()
         {
             return penultimateBiasUpdateVector;
         }
 
-        public void setPenultimateBiasUpdateVector(Vector v)
+        public void SetPenultimateBiasUpdateVector(Vector v)
         {
             penultimateBiasUpdateVector = v;
         }
 
-        public void updateWeights()
+        public void UpdateWeights()
         {
             weightMatrix.plusEquals(lastWeightUpdateMatrix);
         }
 
-        public void updateBiases()
+        public void UpdateBiases()
         {
             Matrix biasMatrix = biasVector.plusEquals(lastBiasUpdateVector);
             Vector result = new Vector(biasMatrix.getRowDimension());
@@ -171,34 +187,32 @@ namespace tvn.cosine.ai.learning.neural
             biasVector = result;
         }
 
-        public Vector getLastInputValues()
-        {
-
-            return lastInput;
-
+        public Vector GetLastInputValues()
+        { 
+            return lastInput; 
         }
 
-        public IActivationFunction getActivationFunction()
+        public IActivationFunction GetActivationFunction()
         { 
             return activationFunction;
         }
 
-        public void acceptNewWeightUpdate(Matrix weightUpdate)
+        public void AcceptNewWeightUpdate(Matrix weightUpdate)
         {
             //penultimate weightupdates maintained only to implement VLBP later
-            setPenultimateWeightUpdateMatrix(getLastWeightUpdateMatrix());
-            setLastWeightUpdateMatrix(weightUpdate);
+            SetPenultimateWeightUpdateMatrix(GetLastWeightUpdateMatrix());
+            SetLastWeightUpdateMatrix(weightUpdate);
         }
 
-        public void acceptNewBiasUpdate(Vector biasUpdate)
+        public void AcceptNewBiasUpdate(Vector biasUpdate)
         {
-            setPenultimateBiasUpdateVector(getLastBiasUpdateVector());
-            setLastBiasUpdateVector(biasUpdate);
+            SetPenultimateBiasUpdateVector(GetLastBiasUpdateVector());
+            SetLastBiasUpdateVector(biasUpdate);
         }
 
-        public Vector errorVectorFrom(Vector target)
+        public Vector ErrorVectorFrom(Vector target)
         {
-            return target.minus(getLastActivationValues()); 
+            return target.minus(GetLastActivationValues()); 
         }
 
         private static void initializeMatrix(Matrix aMatrix, double lowerLimit, double upperLimit)

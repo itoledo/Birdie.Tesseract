@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.learning.neural
             this.normalizedTarget = normalizedTarget;
         }
 
-        public NeuralNetworkExample copyExample()
+        public NeuralNetworkExample CopyExample()
         {
             ICollection<double> newInput = CollectionFactory.CreateQueue<double>();
             ICollection<double> newTarget = CollectionFactory.CreateQueue<double>();
@@ -29,23 +29,23 @@ namespace tvn.cosine.ai.learning.neural
             return new NeuralNetworkExample(newInput, newTarget);
         }
 
-        public Vector getInput()
+        public Vector GetInput()
         {
             Vector v = new Vector(normalizedInput);
             return v; 
         }
 
-        public Vector getTarget()
+        public Vector GetTarget()
         {
             Vector v = new Vector(normalizedTarget);
             return v; 
         }
 
-        public bool isCorrect(Vector prediction)
+        public bool IsCorrect(Vector prediction)
         {
             // compares the index having greatest value in target to indec having greatest value in prediction. 
             // If identical, correct
-            return getTarget().indexHavingMaxValue() == prediction.indexHavingMaxValue();
+            return GetTarget().indexHavingMaxValue() == prediction.indexHavingMaxValue();
         }
     } 
 }

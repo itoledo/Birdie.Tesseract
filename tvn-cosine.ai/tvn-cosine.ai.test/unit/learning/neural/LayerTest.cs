@@ -31,7 +31,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             expected.setValue(0, 0.321);
             expected.setValue(1, 0.368);
 
-            Vector result1 = layer1.feedForward(inputVector1);
+            Vector result1 = layer1.FeedForward(inputVector1);
             Assert.AreEqual(expected.getValue(0), result1.getValue(0), 0.001);
             Assert.AreEqual(expected.getValue(1), result1.getValue(1), 0.001);
 
@@ -44,8 +44,8 @@ namespace tvn_cosine.ai.test.unit.learning.neural
 
             Layer layer2 = new Layer(weightMatrix2, biasVector2,
                     new PureLinearActivationFunction());
-            Vector inputVector2 = layer1.getLastActivationValues();
-            Vector result2 = layer2.feedForward(inputVector2);
+            Vector inputVector2 = layer1.GetLastActivationValues();
+            Vector result2 = layer2.FeedForward(inputVector2);
             Assert.AreEqual(0.446, result2.getValue(0), 0.001);
         }
 
@@ -66,7 +66,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             Vector inputVector1 = new Vector(1);
             inputVector1.setValue(0, 1);
 
-            layer1.feedForward(inputVector1);
+            layer1.FeedForward(inputVector1);
 
             Matrix weightMatrix2 = new Matrix(1, 2);
             weightMatrix2.set(0, 0, 0.09);
@@ -77,15 +77,15 @@ namespace tvn_cosine.ai.test.unit.learning.neural
 
             Layer layer2 = new Layer(weightMatrix2, biasVector2,
                     new PureLinearActivationFunction());
-            Vector inputVector2 = layer1.getLastActivationValues();
-            layer2.feedForward(inputVector2);
+            Vector inputVector2 = layer1.GetLastActivationValues();
+            layer2.FeedForward(inputVector2);
 
             Vector errorVector = new Vector(1);
             errorVector.setValue(0, 1.261);
             LayerSensitivity layer2Sensitivity = new LayerSensitivity(layer2);
-            layer2Sensitivity.sensitivityMatrixFromErrorMatrix(errorVector);
+            layer2Sensitivity.SensitivityMatrixFromErrorMatrix(errorVector);
 
-            Matrix sensitivityMatrix = layer2Sensitivity.getSensitivityMatrix();
+            Matrix sensitivityMatrix = layer2Sensitivity.GetSensitivityMatrix();
             Assert.AreEqual(-2.522, sensitivityMatrix.get(0, 0), 0.0001);
         }
 
@@ -107,7 +107,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             Vector inputVector1 = new Vector(1);
             inputVector1.setValue(0, 1);
 
-            layer1.feedForward(inputVector1);
+            layer1.FeedForward(inputVector1);
 
             Matrix weightMatrix2 = new Matrix(1, 2);
             weightMatrix2.set(0, 0, 0.09);
@@ -118,17 +118,17 @@ namespace tvn_cosine.ai.test.unit.learning.neural
 
             Layer layer2 = new Layer(weightMatrix2, biasVector2,
                     new PureLinearActivationFunction());
-            Vector inputVector2 = layer1.getLastActivationValues();
-            layer2.feedForward(inputVector2);
+            Vector inputVector2 = layer1.GetLastActivationValues();
+            layer2.FeedForward(inputVector2);
 
             Vector errorVector = new Vector(1);
             errorVector.setValue(0, 1.261);
             LayerSensitivity layer2Sensitivity = new LayerSensitivity(layer2);
-            layer2Sensitivity.sensitivityMatrixFromErrorMatrix(errorVector);
+            layer2Sensitivity.SensitivityMatrixFromErrorMatrix(errorVector);
 
             layer1Sensitivity
-                    .sensitivityMatrixFromSucceedingLayer(layer2Sensitivity);
-            Matrix sensitivityMatrix = layer1Sensitivity.getSensitivityMatrix();
+                    .SensitivityMatrixFromSucceedingLayer(layer2Sensitivity);
+            Matrix sensitivityMatrix = layer1Sensitivity.GetSensitivityMatrix();
 
             Assert.AreEqual(2, sensitivityMatrix.getRowDimension());
             Assert.AreEqual(1, sensitivityMatrix.getColumnDimension());
@@ -154,7 +154,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             Vector inputVector1 = new Vector(1);
             inputVector1.setValue(0, 1);
 
-            layer1.feedForward(inputVector1);
+            layer1.FeedForward(inputVector1);
 
             Matrix weightMatrix2 = new Matrix(1, 2);
             weightMatrix2.set(0, 0, 0.09);
@@ -165,43 +165,43 @@ namespace tvn_cosine.ai.test.unit.learning.neural
 
             Layer layer2 = new Layer(weightMatrix2, biasVector2,
                     new PureLinearActivationFunction());
-            Vector inputVector2 = layer1.getLastActivationValues();
-            layer2.feedForward(inputVector2);
+            Vector inputVector2 = layer1.GetLastActivationValues();
+            layer2.FeedForward(inputVector2);
 
             Vector errorVector = new Vector(1);
             errorVector.setValue(0, 1.261);
             LayerSensitivity layer2Sensitivity = new LayerSensitivity(layer2);
-            layer2Sensitivity.sensitivityMatrixFromErrorMatrix(errorVector);
+            layer2Sensitivity.SensitivityMatrixFromErrorMatrix(errorVector);
 
             layer1Sensitivity
-                    .sensitivityMatrixFromSucceedingLayer(layer2Sensitivity);
+                    .SensitivityMatrixFromSucceedingLayer(layer2Sensitivity);
 
-            Matrix weightUpdateMatrix2 = BackPropagationLearning.calculateWeightUpdates(
-                    layer2Sensitivity, layer1.getLastActivationValues(), 0.1);
+            Matrix weightUpdateMatrix2 = BackPropagationLearning.CalculateWeightUpdates(
+                    layer2Sensitivity, layer1.GetLastActivationValues(), 0.1);
             Assert.AreEqual(0.0809, weightUpdateMatrix2.get(0, 0), 0.001);
             Assert.AreEqual(0.0928, weightUpdateMatrix2.get(0, 1), 0.001);
 
-            Matrix lastWeightUpdateMatrix2 = layer2.getLastWeightUpdateMatrix();
+            Matrix lastWeightUpdateMatrix2 = layer2.GetLastWeightUpdateMatrix();
             Assert.AreEqual(0.0809, lastWeightUpdateMatrix2.get(0, 0), 0.001);
             Assert.AreEqual(0.0928, lastWeightUpdateMatrix2.get(0, 1), 0.001);
 
             Matrix penultimateWeightUpdatematrix2 = layer2
-                    .getPenultimateWeightUpdateMatrix();
+                    .GetPenultimateWeightUpdateMatrix();
             Assert.AreEqual(0.0, penultimateWeightUpdatematrix2.get(0, 0),
                     0.001);
             Assert.AreEqual(0.0, penultimateWeightUpdatematrix2.get(0, 1),
                     0.001);
 
-            Matrix weightUpdateMatrix1 = BackPropagationLearning.calculateWeightUpdates(
+            Matrix weightUpdateMatrix1 = BackPropagationLearning.CalculateWeightUpdates(
                     layer1Sensitivity, inputVector1, 0.1);
             Assert.AreEqual(0.0049, weightUpdateMatrix1.get(0, 0), 0.001);
             Assert.AreEqual(-0.00997, weightUpdateMatrix1.get(1, 0), 0.001);
 
-            Matrix lastWeightUpdateMatrix1 = layer1.getLastWeightUpdateMatrix();
+            Matrix lastWeightUpdateMatrix1 = layer1.GetLastWeightUpdateMatrix();
             Assert.AreEqual(0.0049, lastWeightUpdateMatrix1.get(0, 0), 0.001);
             Assert.AreEqual(-0.00997, lastWeightUpdateMatrix1.get(1, 0), 0.001);
             Matrix penultimateWeightUpdatematrix1 = layer1
-                    .getPenultimateWeightUpdateMatrix();
+                    .GetPenultimateWeightUpdateMatrix();
             Assert.AreEqual(0.0, penultimateWeightUpdatematrix1.get(0, 0),
                     0.001);
             Assert.AreEqual(0.0, penultimateWeightUpdatematrix1.get(1, 0),
@@ -226,7 +226,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             Vector inputVector1 = new Vector(1);
             inputVector1.setValue(0, 1);
 
-            layer1.feedForward(inputVector1);
+            layer1.FeedForward(inputVector1);
 
             Matrix weightMatrix2 = new Matrix(1, 2);
             weightMatrix2.set(0, 0, 0.09);
@@ -238,40 +238,40 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             Layer layer2 = new Layer(weightMatrix2, biasVector2,
                     new PureLinearActivationFunction());
             LayerSensitivity layer2Sensitivity = new LayerSensitivity(layer2);
-            Vector inputVector2 = layer1.getLastActivationValues();
-            layer2.feedForward(inputVector2);
+            Vector inputVector2 = layer1.GetLastActivationValues();
+            layer2.FeedForward(inputVector2);
 
             Vector errorVector = new Vector(1);
             errorVector.setValue(0, 1.261);
-            layer2Sensitivity.sensitivityMatrixFromErrorMatrix(errorVector);
+            layer2Sensitivity.SensitivityMatrixFromErrorMatrix(errorVector);
 
             layer1Sensitivity
-                    .sensitivityMatrixFromSucceedingLayer(layer2Sensitivity);
+                    .SensitivityMatrixFromSucceedingLayer(layer2Sensitivity);
 
-            Vector biasUpdateVector2 = BackPropagationLearning.calculateBiasUpdates(
+            Vector biasUpdateVector2 = BackPropagationLearning.CalculateBiasUpdates(
                     layer2Sensitivity, 0.1);
             Assert.AreEqual(0.2522, biasUpdateVector2.getValue(0), 0.001);
 
-            Vector lastBiasUpdateVector2 = layer2.getLastBiasUpdateVector();
+            Vector lastBiasUpdateVector2 = layer2.GetLastBiasUpdateVector();
             Assert.AreEqual(0.2522, lastBiasUpdateVector2.getValue(0), 0.001);
 
             Vector penultimateBiasUpdateVector2 = layer2
-                    .getPenultimateBiasUpdateVector();
+                    .GetPenultimateBiasUpdateVector();
             Assert.AreEqual(0.0, penultimateBiasUpdateVector2.getValue(0),
                     0.001);
 
-            Vector biasUpdateVector1 = BackPropagationLearning.calculateBiasUpdates(
+            Vector biasUpdateVector1 = BackPropagationLearning.CalculateBiasUpdates(
                     layer1Sensitivity, 0.1);
             Assert.AreEqual(0.00495, biasUpdateVector1.getValue(0), 0.001);
             Assert.AreEqual(-0.00997, biasUpdateVector1.getValue(1), 0.001);
 
-            Vector lastBiasUpdateVector1 = layer1.getLastBiasUpdateVector();
+            Vector lastBiasUpdateVector1 = layer1.GetLastBiasUpdateVector();
 
             Assert.AreEqual(0.00495, lastBiasUpdateVector1.getValue(0), 0.001);
             Assert.AreEqual(-0.00997, lastBiasUpdateVector1.getValue(1), 0.001);
 
             Vector penultimateBiasUpdateVector1 = layer1
-                    .getPenultimateBiasUpdateVector();
+                    .GetPenultimateBiasUpdateVector();
             Assert.AreEqual(0.0, penultimateBiasUpdateVector1.getValue(0),
                     0.001);
             Assert.AreEqual(0.0, penultimateBiasUpdateVector1.getValue(1),
@@ -296,7 +296,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             Vector inputVector1 = new Vector(1);
             inputVector1.setValue(0, 1);
 
-            layer1.feedForward(inputVector1);
+            layer1.FeedForward(inputVector1);
 
             Matrix weightMatrix2 = new Matrix(1, 2);
             weightMatrix2.set(0, 0, 0.09);
@@ -307,44 +307,44 @@ namespace tvn_cosine.ai.test.unit.learning.neural
 
             Layer layer2 = new Layer(weightMatrix2, biasVector2,
                     new PureLinearActivationFunction());
-            Vector inputVector2 = layer1.getLastActivationValues();
-            layer2.feedForward(inputVector2);
+            Vector inputVector2 = layer1.GetLastActivationValues();
+            layer2.FeedForward(inputVector2);
 
             Vector errorVector = new Vector(1);
             errorVector.setValue(0, 1.261);
             LayerSensitivity layer2Sensitivity = new LayerSensitivity(layer2);
-            layer2Sensitivity.sensitivityMatrixFromErrorMatrix(errorVector);
+            layer2Sensitivity.SensitivityMatrixFromErrorMatrix(errorVector);
 
             layer1Sensitivity
-                    .sensitivityMatrixFromSucceedingLayer(layer2Sensitivity);
+                    .SensitivityMatrixFromSucceedingLayer(layer2Sensitivity);
 
-            BackPropagationLearning.calculateWeightUpdates(layer2Sensitivity,
-                    layer1.getLastActivationValues(), 0.1);
+            BackPropagationLearning.CalculateWeightUpdates(layer2Sensitivity,
+                    layer1.GetLastActivationValues(), 0.1);
 
-            BackPropagationLearning.calculateBiasUpdates(layer2Sensitivity, 0.1);
+            BackPropagationLearning.CalculateBiasUpdates(layer2Sensitivity, 0.1);
 
-            BackPropagationLearning.calculateWeightUpdates(layer1Sensitivity,
+            BackPropagationLearning.CalculateWeightUpdates(layer1Sensitivity,
                     inputVector1, 0.1);
 
-            BackPropagationLearning.calculateBiasUpdates(layer1Sensitivity, 0.1);
+            BackPropagationLearning.CalculateBiasUpdates(layer1Sensitivity, 0.1);
 
-            layer2.updateWeights();
-            Matrix newWeightMatrix2 = layer2.getWeightMatrix();
+            layer2.UpdateWeights();
+            Matrix newWeightMatrix2 = layer2.GetWeightMatrix();
             Assert.AreEqual(0.171, newWeightMatrix2.get(0, 0), 0.001);
             Assert.AreEqual(-0.0772, newWeightMatrix2.get(0, 1), 0.001);
 
-            layer2.updateBiases();
-            Vector newBiasVector2 = layer2.getBiasVector();
+            layer2.UpdateBiases();
+            Vector newBiasVector2 = layer2.GetBiasVector();
             Assert.AreEqual(0.7322, newBiasVector2.getValue(0), 0.00001);
 
-            layer1.updateWeights();
-            Matrix newWeightMatrix1 = layer1.getWeightMatrix();
+            layer1.UpdateWeights();
+            Matrix newWeightMatrix1 = layer1.GetWeightMatrix();
 
             Assert.AreEqual(-0.265, newWeightMatrix1.get(0, 0), 0.001);
             Assert.AreEqual(-0.419, newWeightMatrix1.get(1, 0), 0.001);
 
-            layer1.updateBiases();
-            Vector newBiasVector1 = layer1.getBiasVector();
+            layer1.UpdateBiases();
+            Vector newBiasVector1 = layer1.GetBiasVector();
 
             Assert.AreEqual(-0.475, newBiasVector1.getValue(0), 0.001);
             Assert.AreEqual(-0.139, newBiasVector1.getValue(1), 0.001);

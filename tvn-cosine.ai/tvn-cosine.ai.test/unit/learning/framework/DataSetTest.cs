@@ -21,19 +21,19 @@ namespace tvn_cosine.ai.test.unit.learning.framework
         public void testNormalizationOfFileBasedDataProducesCorrectMeanStdDevAndNormalizedValues()
         {
             RabbitEyeDataSet reds = new RabbitEyeDataSet();
-            reds.createNormalizedDataFromFile("rabbiteyes");
+            reds.CreateNormalizedDataFromFile("rabbiteyes");
 
-            ICollection<double> means = reds.getMeans();
+            ICollection<double> means = reds.GetMeans();
             Assert.AreEqual(2, means.Size());
             Assert.AreEqual(244.771, means.Get(0), 0.001);
             Assert.AreEqual(145.505, means.Get(1), 0.001);
 
-            ICollection<double> stdev = reds.getStdevs();
+            ICollection<double> stdev = reds.GetStdevs();
             Assert.AreEqual(2, stdev.Size());
             Assert.AreEqual(213.554, stdev.Get(0), 0.001);
             Assert.AreEqual(65.776, stdev.Get(1), 0.001);
 
-            ICollection<ICollection<double>> normalized = reds.getNormalizedData();
+            ICollection<ICollection<double>> normalized = reds.GetNormalizedData();
             Assert.AreEqual(70, normalized.Size());
 
             // check first value
@@ -49,12 +49,12 @@ namespace tvn_cosine.ai.test.unit.learning.framework
         public void testExampleFormation()
         {
             RabbitEyeDataSet reds = new RabbitEyeDataSet();
-            reds.createExamplesFromFile("rabbiteyes");
-            Assert.AreEqual(70, reds.howManyExamplesLeft());
-            reds.getExampleAtRandom();
-            Assert.AreEqual(69, reds.howManyExamplesLeft());
-            reds.getExampleAtRandom();
-            Assert.AreEqual(68, reds.howManyExamplesLeft());
+            reds.CreateExamplesFromFile("rabbiteyes");
+            Assert.AreEqual(70, reds.HowManyExamplesLeft());
+            reds.GetExampleAtRandom();
+            Assert.AreEqual(69, reds.HowManyExamplesLeft());
+            reds.GetExampleAtRandom();
+            Assert.AreEqual(68, reds.HowManyExamplesLeft());
         }
 
         [TestMethod]
@@ -106,7 +106,7 @@ namespace tvn_cosine.ai.test.unit.learning.framework
             DataSet ds = DataSetFactory.getIrisDataSet();
             Example first = ds.getExample(0);
             INumerizer n = new IrisDataSetNumerizer();
-            Pair<ICollection<double>, ICollection<double>> io = n.numerize(first);
+            Pair<ICollection<double>, ICollection<double>> io = n.Numerize(first);
 
             Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 5.1, 3.5, 1.4, 0.2 }), io.GetFirst());
             Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 0.0, 0.0, 1.0 }), io.getSecond());
@@ -123,7 +123,7 @@ namespace tvn_cosine.ai.test.unit.learning.framework
             DataSet ds = DataSetFactory.getIrisDataSet();
             Example first = ds.getExample(51);
             INumerizer n = new IrisDataSetNumerizer();
-            Pair<ICollection<double>, ICollection<double>> io = n.numerize(first);
+            Pair<ICollection<double>, ICollection<double>> io = n.Numerize(first);
 
             Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 6.4, 3.2, 4.5, 1.5 }), io.GetFirst());
             Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 0.0, 1.0, 0.0 }), io.getSecond());
@@ -140,7 +140,7 @@ namespace tvn_cosine.ai.test.unit.learning.framework
             DataSet ds = DataSetFactory.getIrisDataSet();
             Example first = ds.getExample(100);
             INumerizer n = new IrisDataSetNumerizer();
-            Pair<ICollection<double>, ICollection<double>> io = n.numerize(first);
+            Pair<ICollection<double>, ICollection<double>> io = n.Numerize(first);
 
             Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 6.3, 3.3, 6.0, 2.5 }), io.GetFirst());
             Assert.AreEqual(CollectionFactory.CreateQueue<double>(new[] { 1.0, 0.0, 0.0 }), io.getSecond());

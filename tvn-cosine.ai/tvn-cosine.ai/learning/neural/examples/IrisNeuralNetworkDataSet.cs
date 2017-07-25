@@ -4,7 +4,7 @@ namespace tvn.cosine.ai.learning.neural.examples
 {
     public class IrisNeuralNetworkDataSet : NeuralNetworkDataSet
     {
-        public override void setTargetColumns()
+        public override void SetTargetColumns()
         {
             // assumed that data from file has been pre processed
             // TODO this should be
@@ -18,6 +18,5 @@ namespace tvn.cosine.ai.learning.neural.examples
             targetColumnNumbers.Add(size - 2); // last but one column
             targetColumnNumbers.Add(size - 3); // and the one before that
         }
-    }
-
+    } 
 }

@@ -48,21 +48,20 @@ namespace tvn.cosine.ai.learning.neural
         /// <summary>
         /// population delegated to subclass because only subclass knows which column(s) is target
         /// </summary>
-        public abstract void setTargetColumns();
+        public abstract void SetTargetColumns();
 
         /// <summary> 
         /// create a normalized data "table" from the data in the file. At this
         /// stage, the data isnot split into input pattern and tragets
         /// </summary>
         /// <param name="filename"></param>
-        public void createNormalizedDataFromFile(string filename)
+        public void CreateNormalizedDataFromFile(string filename)
         { 
             ICollection<ICollection<double>> rds = CollectionFactory.CreateQueue<ICollection<double>>();
 
             // create raw data set
             using (System.IO.StreamReader reader = new System.IO.StreamReader(filename + ".csv"))
-            {
-
+            { 
                 string line = string.Empty;
 
                 while (!reader.EndOfStream)
@@ -84,9 +83,8 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         /// <param name="ds"></param>
         /// <param name="numerizer"></param>
-        public void createNormalizedDataFromDataSet(DataSet ds, INumerizer numerizer)
-        {
-
+        public void CreateNormalizedDataFromDataSet(DataSet ds, INumerizer numerizer)
+        { 
             ICollection<ICollection<double>> rds = rawExamplesFromDataSet(ds, numerizer);
             // normalize raw dataset
             nds = normalize(rds);
@@ -96,10 +94,10 @@ namespace tvn.cosine.ai.learning.neural
         /// Gets (and removes) a random example from the 'presentlyProcessed'
         /// </summary>
         /// <returns></returns>
-        public NeuralNetworkExample getExampleAtRandom()
+        public NeuralNetworkExample GetExampleAtRandom()
         {
             int i = Util.randomNumberBetween(0, (presentlyProcessed.Size() - 1));
-            return getExample(i);
+            return GetExample(i);
         }
 
         /// <summary>
@@ -107,7 +105,7 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public NeuralNetworkExample getExample(int index)
+        public NeuralNetworkExample GetExample(int index)
         {
             NeuralNetworkExample obj = presentlyProcessed.Get(index);
             presentlyProcessed.Remove(obj);
@@ -118,7 +116,7 @@ namespace tvn.cosine.ai.learning.neural
         /// check if any more examples remain to be processed
         /// </summary>
         /// <returns></returns>
-        public bool hasMoreExamples()
+        public bool HasMoreExamples()
         {
             return presentlyProcessed.Size() > 0;
         }
@@ -127,7 +125,7 @@ namespace tvn.cosine.ai.learning.neural
         /// check how many examples remain to be processed
         /// </summary>
         /// <returns></returns>
-        public int howManyExamplesLeft()
+        public int HowManyExamplesLeft()
         {
             return presentlyProcessed.Size();
         }
@@ -136,12 +134,12 @@ namespace tvn.cosine.ai.learning.neural
         /// refreshes the presentlyProcessed dataset so it can be used for a new
         /// epoch of training.
         /// </summary>
-        public void refreshDataset()
+        public void RefreshDataset()
         {
             presentlyProcessed = CollectionFactory.CreateQueue<NeuralNetworkExample>();
             foreach (NeuralNetworkExample e in dataset)
             {
-                presentlyProcessed.Add(e.copyExample());
+                presentlyProcessed.Add(e.CopyExample());
             }
         }
 
@@ -149,10 +147,10 @@ namespace tvn.cosine.ai.learning.neural
         /// method called by clients to set up data set and make it ready for processing
         /// </summary>
         /// <param name="filename"></param>
-        public void createExamplesFromFile(string filename)
+        public void CreateExamplesFromFile(string filename)
         {
-            createNormalizedDataFromFile(filename);
-            setTargetColumns();
+            CreateNormalizedDataFromFile(filename);
+            SetTargetColumns();
             createExamples();
         }
 
@@ -161,25 +159,24 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         /// <param name="ds"></param>
         /// <param name="numerizer"></param>
-        public void createExamplesFromDataSet(DataSet ds, INumerizer numerizer)
+        public void CreateExamplesFromDataSet(DataSet ds, INumerizer numerizer)
         {
-            createNormalizedDataFromDataSet(ds, numerizer);
-            setTargetColumns();
-            createExamples();
-
+            CreateNormalizedDataFromDataSet(ds, numerizer);
+            SetTargetColumns();
+            createExamples(); 
         }
 
-        public ICollection<ICollection<double>> getNormalizedData()
+        public ICollection<ICollection<double>> GetNormalizedData()
         {
             return nds;
         }
 
-        public ICollection<double> getMeans()
+        public ICollection<double> GetMeans()
         {
             return means;
         }
 
-        public ICollection<double> getStdevs()
+        public ICollection<double> GetStdevs()
         {
             return stdevs;
         }
@@ -207,7 +204,7 @@ namespace tvn.cosine.ai.learning.neural
                 }
                 dataset.Add(new NeuralNetworkExample(input, target));
             }
-            refreshDataset();// to populate the preentlyProcessed dataset
+            RefreshDataset();// to populate the preentlyProcessed dataset
         }
 
         private ICollection<ICollection<double>> normalize(ICollection<ICollection<double>> rds)
@@ -276,7 +273,7 @@ namespace tvn.cosine.ai.learning.neural
             {
                 ICollection<double> rexample = CollectionFactory.CreateQueue<double>();
                 Example e = ds.getExample(i);
-                Pair<ICollection<double>, ICollection<double>> p = numerizer.numerize(e);
+                Pair<ICollection<double>, ICollection<double>> p = numerizer.Numerize(e);
                 ICollection<double> attributes = p.GetFirst();
                 foreach (double d in attributes)
                 {

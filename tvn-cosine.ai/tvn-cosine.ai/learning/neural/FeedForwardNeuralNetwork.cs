@@ -11,7 +11,7 @@ namespace tvn.cosine.ai.learning.neural
         public const string NUMBER_OF_OUTPUTS = "number_of_outputs";
         public const string NUMBER_OF_HIDDEN_NEURONS = "number_of_hidden_neurons";
         public const string NUMBER_OF_INPUTS = "number_of_inputs";
-        //
+
         private readonly Layer hiddenLayer;
         private readonly Layer outputLayer;
 
@@ -25,16 +25,16 @@ namespace tvn.cosine.ai.learning.neural
         {
 
             int numberOfInputNeurons = config
-                    .getParameterAsInteger(NUMBER_OF_INPUTS);
+                    .GetParameterAsInteger(NUMBER_OF_INPUTS);
             int numberOfHiddenNeurons = config
-                    .getParameterAsInteger(NUMBER_OF_HIDDEN_NEURONS);
+                    .GetParameterAsInteger(NUMBER_OF_HIDDEN_NEURONS);
             int numberOfOutputNeurons = config
-                    .getParameterAsInteger(NUMBER_OF_OUTPUTS);
+                    .GetParameterAsInteger(NUMBER_OF_OUTPUTS);
 
             double lowerLimitForWeights = config
-                    .getParameterAsDouble(LOWER_LIMIT_WEIGHTS);
+                    .GetParameterAsDouble(LOWER_LIMIT_WEIGHTS);
             double upperLimitForWeights = config
-                    .getParameterAsDouble(UPPER_LIMIT_WEIGHTS);
+                    .GetParameterAsDouble(UPPER_LIMIT_WEIGHTS);
 
             hiddenLayer = new Layer(numberOfHiddenNeurons, numberOfInputNeurons,
                     lowerLimitForWeights, upperLimitForWeights,
@@ -42,8 +42,7 @@ namespace tvn.cosine.ai.learning.neural
 
             outputLayer = new Layer(numberOfOutputNeurons, numberOfHiddenNeurons,
                     lowerLimitForWeights, upperLimitForWeights,
-                    new PureLinearActivationFunction());
-
+                    new PureLinearActivationFunction()); 
         }
 
         /// <summary>
@@ -56,55 +55,54 @@ namespace tvn.cosine.ai.learning.neural
         /// <param name="outputLayerWeights"></param>
         /// <param name="outputLayerBias"></param>
         public FeedForwardNeuralNetwork(Matrix hiddenLayerWeights,
-                Vector hiddenLayerBias, Matrix outputLayerWeights,
-                Vector outputLayerBias)
+                                        Vector hiddenLayerBias,
+                                        Matrix outputLayerWeights,
+                                        Vector outputLayerBias)
         {
-
             hiddenLayer = new Layer(hiddenLayerWeights, hiddenLayerBias, new LogSigActivationFunction());
             outputLayer = new Layer(outputLayerWeights, outputLayerBias, new PureLinearActivationFunction());
-
         }
 
         public void ProcessError(Vector error)
         {
-            trainingScheme.processError(this, error);
+            trainingScheme.ProcessError(this, error);
         }
 
         public Vector ProcessInput(Vector input)
         {
-            return trainingScheme.processInput(this, input);
+            return trainingScheme.ProcessInput(this, input);
         }
 
-        public void trainOn(NeuralNetworkDataSet innds, int numberofEpochs)
+        public void TrainOn(NeuralNetworkDataSet innds, int numberofEpochs)
         {
             for (int i = 0; i < numberofEpochs; ++i)
             {
-                innds.refreshDataset();
-                while (innds.hasMoreExamples())
+                innds.RefreshDataset();
+                while (innds.HasMoreExamples())
                 {
-                    NeuralNetworkExample nne = innds.getExampleAtRandom();
-                    ProcessInput(nne.getInput());
-                    Vector error = getOutputLayer()
-                            .errorVectorFrom(nne.getTarget());
+                    NeuralNetworkExample nne = innds.GetExampleAtRandom();
+                    ProcessInput(nne.GetInput());
+                    Vector error = GetOutputLayer()
+                            .ErrorVectorFrom(nne.GetTarget());
                     ProcessError(error);
                 }
             }
         }
 
-        public Vector predict(NeuralNetworkExample nne)
+        public Vector Predict(NeuralNetworkExample nne)
         {
-            return ProcessInput(nne.getInput());
+            return ProcessInput(nne.GetInput());
         }
 
-        public int[] testOnDataSet(NeuralNetworkDataSet nnds)
+        public int[] TestOnDataSet(NeuralNetworkDataSet nnds)
         {
             int[] result = new int[] { 0, 0 };
-            nnds.refreshDataset();
-            while (nnds.hasMoreExamples())
+            nnds.RefreshDataset();
+            while (nnds.HasMoreExamples())
             {
-                NeuralNetworkExample nne = nnds.getExampleAtRandom();
-                Vector prediction = predict(nne);
-                if (nne.isCorrect(prediction))
+                NeuralNetworkExample nne = nnds.GetExampleAtRandom();
+                Vector prediction = Predict(nne);
+                if (nne.IsCorrect(prediction))
                 {
                     result[0] = result[0] + 1;
                 }
@@ -116,49 +114,42 @@ namespace tvn.cosine.ai.learning.neural
             return result;
         }
 
-        public virtual void testOn(DataSet ds)
-        {
+        public virtual void TestOn(DataSet ds) { }
 
+        public Matrix GetHiddenLayerWeights()
+        { 
+            return hiddenLayer.GetWeightMatrix();
         }
 
-        public Matrix getHiddenLayerWeights()
-        {
-
-            return hiddenLayer.getWeightMatrix();
+        public Vector GetHiddenLayerBias()
+        { 
+            return hiddenLayer.GetBiasVector();
         }
 
-        public Vector getHiddenLayerBias()
-        {
-
-            return hiddenLayer.getBiasVector();
+        public Matrix GetOutputLayerWeights()
+        { 
+            return outputLayer.GetWeightMatrix();
         }
 
-        public Matrix getOutputLayerWeights()
-        {
-
-            return outputLayer.getWeightMatrix();
+        public Vector GetOutputLayerBias()
+        { 
+            return outputLayer.GetBiasVector();
         }
 
-        public Vector getOutputLayerBias()
-        {
-
-            return outputLayer.getBiasVector();
-        }
-
-        public Layer getHiddenLayer()
+        public Layer GetHiddenLayer()
         {
             return hiddenLayer;
         }
 
-        public Layer getOutputLayer()
+        public Layer GetOutputLayer()
         {
             return outputLayer;
         }
 
-        public void setTrainingScheme(INeuralNetworkTrainingScheme trainingScheme)
+        public void SetTrainingScheme(INeuralNetworkTrainingScheme trainingScheme)
         {
             this.trainingScheme = trainingScheme;
-            trainingScheme.setNeuralNetwork(this);
+            trainingScheme.SetNeuralNetwork(this);
         }
     }
 }

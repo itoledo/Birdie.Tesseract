@@ -9,7 +9,7 @@ namespace tvn.cosine.ai.learning.neural.examples
 {
     public class IrisDataSetNumerizer : INumerizer
     {
-        public Pair<ICollection<double>, ICollection<double>> numerize(Example e)
+        public Pair<ICollection<double>, ICollection<double>> Numerize(Example e)
         {
             ICollection<double> input = CollectionFactory.CreateQueue<double>();
             ICollection<double> desiredOutput = CollectionFactory.CreateQueue<double>();
