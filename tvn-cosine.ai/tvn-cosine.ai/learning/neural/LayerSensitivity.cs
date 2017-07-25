@@ -17,8 +17,8 @@ namespace tvn.cosine.ai.learning.neural
         public LayerSensitivity(Layer layer)
         {
             Matrix weightMatrix = layer.GetWeightMatrix();
-            this.sensitivityMatrix = new Matrix(weightMatrix.getRowDimension(),
-                                                weightMatrix.getColumnDimension());
+            this.sensitivityMatrix = new Matrix(weightMatrix.GetRowDimension(),
+                                                weightMatrix.GetColumnDimension());
             this.layer = layer;
         }
 
@@ -30,9 +30,9 @@ namespace tvn.cosine.ai.learning.neural
         public Matrix SensitivityMatrixFromErrorMatrix(Vector errorVector)
         {
             Matrix derivativeMatrix = CreateDerivativeMatrix(layer.GetLastInducedField());
-            Matrix calculatedSensitivityMatrix = derivativeMatrix.times(errorVector)
-                                                                 .times(-2.0);
-            sensitivityMatrix = calculatedSensitivityMatrix.copy();
+            Matrix calculatedSensitivityMatrix = derivativeMatrix.Times(errorVector)
+                                                                 .Times(-2.0);
+            sensitivityMatrix = calculatedSensitivityMatrix.Copy();
             return calculatedSensitivityMatrix;
         }
 
@@ -41,11 +41,11 @@ namespace tvn.cosine.ai.learning.neural
             Layer nextLayer = nextLayerSensitivity.GetLayer();
             Matrix derivativeMatrix = CreateDerivativeMatrix(layer.GetLastInducedField());
             Matrix weightTranspose = nextLayer.GetWeightMatrix()
-                                              .transpose();
+                                              .Transpose();
             Matrix calculatedSensitivityMatrix
-                = derivativeMatrix.times(weightTranspose)
-                                  .times(nextLayerSensitivity.GetSensitivityMatrix());
-            sensitivityMatrix = calculatedSensitivityMatrix.copy();
+                = derivativeMatrix.Times(weightTranspose)
+                                  .Times(nextLayerSensitivity.GetSensitivityMatrix());
+            sensitivityMatrix = calculatedSensitivityMatrix.Copy();
             return sensitivityMatrix;
         }
 
@@ -57,10 +57,10 @@ namespace tvn.cosine.ai.learning.neural
         private Matrix CreateDerivativeMatrix(Vector lastInducedField)
         {
             ICollection<double> lst = CollectionFactory.CreateQueue<double>();
-            for (int i = 0; i < lastInducedField.size(); ++i)
+            for (int i = 0; i < lastInducedField.Size(); ++i)
             {
                 lst.Add(layer.GetActivationFunction()
-                             .Deriv(lastInducedField.getValue(i)));
+                             .Deriv(lastInducedField.GetValue(i)));
             }
             return Matrix.createDiagonalMatrix(lst);
         }

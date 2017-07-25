@@ -7,101 +7,78 @@ using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.util.math
 {
-    /**
-     * Jama = Java Matrix class.
-     * <P>
-     * The Java Matrix Class provides the fundamental operations of numerical linear
-     * algebra. Various constructors create Matrices from two dimensional arrays of
-     * double precision floating point numbers. Various "gets" and "sets" provide
-     * access to submatrices and matrix elements. Several methods implement basic
-     * matrix arithmetic, including matrix addition and multiplication, matrix
-     * norms, and element-by-element array operations. Methods for reading and
-     * printing matrices are also included. All the operations in this version of
-     * the Matrix Class involve real matrices. Complex matrices may be handled in a
-     * future version.
-     * <P>
-     * Five fundamental matrix decompositions, which consist of pairs or triples of
-     * matrices, permutation vectors, and the like, produce results in five
-     * decomposition classes. These decompositions are accessed by the Matrix class
-     * to compute solutions of simultaneous linear equations, determinants, inverses
-     * and other matrix functions. The five decompositions are:
-     * <P>
-     * <UL>
-     * <LI>Cholesky Decomposition of symmetric, positive definite matrices.
-     * <LI>LU Decomposition of rectangular matrices.
-     * <LI>QR Decomposition of rectangular matrices.
-     * <LI>Singular Value Decomposition of rectangular matrices.
-     * <LI>Eigenvalue Decomposition of both symmetric and nonsymmetric square
-     * matrices.
-     * </UL>
-     * <DL>
-     * <DT><B>Example of use:</B></DT>
-     * <P>
-     * <DD>Solve a linear system A x = b and compute the residual norm, ||b - A x||.
-     * <P>
-     * 
-     * <PRE>
-     * double[][] vals = { { 1., 2., 3 }, { 4., 5., 6. }, { 7., 8., 10. } };
-     * Matrix A = new Matrix(vals);
-     * Matrix b = Matrix.random(3, 1);
-     * Matrix x = A.solve(b);
-     * Matrix r = A.times(x).minus(b);
-     * double rnorm = r.normInf();
-     * </PRE>
-     * 
-     * </DD>
-     * </DL>
-     * 
-     * @author The MathWorks, Inc. and the National Institute of Standards and
-     *         Technology.
-     * @version 5 August 1998
-     */
+    /// <summary>
+    /// The Matrix Class provides the fundamental operations of numerical linear
+    /// algebra. Various constructors create Matrices from two dimensional arrays of
+    /// double precision floating point numbers. Various "gets" and "sets" provide
+    /// access to submatrices and matrix elements. Several methods implement basic
+    /// matrix arithmetic, including matrix addition and multiplication, matrix
+    /// norms, and element-by-element array operations. Methods for reading and
+    /// printing matrices are also included. All the operations in this version of
+    /// the Matrix Class involve real matrices. Complex matrices may be handled in a
+    /// future version.
+    /// <para />
+    /// Five fundamental matrix decompositions, which consist of pairs or triples of
+    /// matrices, permutation vectors, and the like, produce results in five
+    /// decomposition classes. These decompositions are accessed by the Matrix class
+    /// to compute solutions of simultaneous linear equations, determinants, inverses
+    /// and other matrix functions. The five decompositions are:
+    /// <para />
+    ///  
+    /// * Cholesky Decomposition of symmetric, positive definite matrices.<para />
+    /// * LU Decomposition of rectangular matrices.<para />
+    /// * QR Decomposition of rectangular matrices.<para />
+    /// * Singular Value Decomposition of rectangular matrices.<para />
+    /// * Eigenvalue Decomposition of both symmetric and nonsymmetric square
+    /// matrices.<para />
+    /// <para />
+    /// Example of use:
+    /// <para />
+    /// Solve a linear system A x = b and compute the residual norm, ||b - A x||.
+    /// <para />
+    /// double[][] vals = { { 1., 2., 3 }, { 4., 5., 6. }, { 7., 8., 10. } };<para />
+    /// Matrix A = new Matrix(vals);<para />
+    /// Matrix b = Matrix.Random(3, 1);<para />
+    /// Matrix x = A.Solve(b);<para />
+    /// Matrix r = A.Times(x).Minus(b);<para />
+    /// double rnorm = r.NormInf();  
+    /// </summary>
     public class Matrix : ICloneable<object>
     {
-        /*
-         * ------------------------ Class variables ------------------------
-         */
-
-        /**
-         * Array for internal storage of elements.
-         * 
-         * @serial internal array storage.
-         */
+        /// <summary>
+        /// Array for internal storage of elements.
+        /// </summary>
         private readonly double[,] A;
 
-        /**
-         * Row and column dimensions.
-         * 
-         * @serial row dimension.
-         * @serial column dimension.
-         */
+        /// <summary>
+        /// Row dimensions.
+        /// </summary>
         private readonly int m;
+        /// <summary>
+        /// Column dimensions.
+        /// </summary>
         private readonly int n;
 
-        /*
-         * ------------------------ Constructors ------------------------
-         */
-
-        /** Construct a diagonal Matrix from the given List of doubles */
+        /// <summary>
+        /// Construct a diagonal Matrix from the given List of doubles
+        /// </summary>
+        /// <param name="values"></param>
+        /// <returns></returns>
         public static Matrix createDiagonalMatrix(ICollection<double> values)
         {
             Matrix m = new Matrix(values.Size(), values.Size(), 0);
-            for (int i = 0; i < values.Size();++i)
+            for (int i = 0; i < values.Size(); ++i)
             {
-                m.set(i, i, values.Get(i));
+                m.Set(i, i, values.Get(i));
             }
             return m;
         }
 
-        /**
-         * Construct an m-by-n matrix of zeros.
-         * 
-         * @param m
-         *            Number of rows.
-         * @param n
-         *            Number of colums.
-         */
-
+        /// <summary>
+        /// Construct an m-by-n matrix of zeros.
+        /// </summary>
+        /// <param name="m">Number of rows.</param>
+        /// <param name="n">Number of colums.</param> 
         public Matrix(int m, int n)
         {
             this.m = m;
@@ -109,23 +86,18 @@ namespace tvn.cosine.ai.util.math
             A = new double[m, n];
         }
 
-        /**
-         * Construct an m-by-n constant matrix.
-         * 
-         * @param m
-         *            Number of rows.
-         * @param n
-         *            Number of colums.
-         * @param s
-         *            Fill the matrix with this scalar value.
-         */
-
+        /// <summary>
+        /// Construct an m-by-n matrix of zeros.
+        /// </summary>
+        /// <param name="m">Number of rows.</param>
+        /// <param name="n">Number of colums.</param> 
+        /// <param name="s">Fill the matrix with this scalar value.</param>
         public Matrix(int m, int n, double s)
         {
             this.m = m;
             this.n = n;
             A = new double[m, n];
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -134,16 +106,10 @@ namespace tvn.cosine.ai.util.math
             }
         }
 
-        /**
-         * Construct a matrix from a 2-D array.
-         * 
-         * @param A
-         *            Two-dimensional array of doubles.
-         * @exception IllegalArgumentException
-         *                All rows must have the same length
-         * @see #constructWithCopy
-         */
-
+        /// <summary>
+        /// Construct a matrix from a 2-D array.
+        /// </summary>
+        /// <param name="A">Two-dimensional array of doubles.</param>
         public Matrix(double[,] A)
         {
             m = A.GetLength(0);
@@ -151,17 +117,12 @@ namespace tvn.cosine.ai.util.math
             this.A = A;
         }
 
-        /**
-         * Construct a matrix quickly without checking arguments.
-         * 
-         * @param A
-         *            Two-dimensional array of doubles.
-         * @param m
-         *            Number of rows.
-         * @param n
-         *            Number of colums.
-         */
-
+        /// <summary>
+        /// Construct a matrix quickly without checking arguments.
+        /// </summary>
+        /// <param name="A">Two-dimensional array of doubles.</param>
+        /// <param name="m">Number of rows.</param>
+        /// <param name="n">Number of colums.</param>
         public Matrix(double[,] A, int m, int n)
         {
             this.A = A;
@@ -169,18 +130,11 @@ namespace tvn.cosine.ai.util.math
             this.n = n;
         }
 
-        /**
-         * Construct a matrix from a one-dimensional packed array
-         * 
-         * @param vals
-         *            One-dimensional array of doubles, packed by columns (ala
-         *            Fortran).
-         * @param m
-         *            Number of rows.
-         * @exception IllegalArgumentException
-         *                Array length must be a multiple of m.
-         */
-
+        /// <summary>
+        /// Construct a matrix from a one-dimensional packed array
+        /// </summary>
+        /// <param name="vals">One-dimensional array of doubles, packed by columns (ala Fortran).</param>
+        /// <param name="m">Number of rows.</param>
         public Matrix(double[] vals, int m)
         {
             this.m = m;
@@ -190,7 +144,7 @@ namespace tvn.cosine.ai.util.math
                 throw new IllegalArgumentException("Array length must be a multiple of m.");
             }
             A = new double[m, n];
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -199,26 +153,18 @@ namespace tvn.cosine.ai.util.math
             }
         }
 
-        /*
-         * ------------------------ Public Methods ------------------------
-         */
-
-        /**
-         * Construct a matrix from a copy of a 2-D array.
-         * 
-         * @param A
-         *            Two-dimensional array of doubles.
-         * @exception IllegalArgumentException
-         *                All rows must have the same length
-         */
-
-        public static Matrix constructWithCopy(double[,] A)
+        /// <summary>
+        /// Construct a matrix from a copy of a 2-D array.
+        /// </summary>
+        /// <param name="A">Two-dimensional array of doubles.</param>
+        /// <returns></returns>
+        public static Matrix ConstructWithCopy(double[,] A)
         {
             int m = A.GetLength(0);
             int n = A.GetLength(1);
             Matrix X = new Matrix(m, n);
-            double[,] C = X.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] C = X.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -228,15 +174,15 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * Make a deep copy of a matrix
-         */
-
-        public Matrix copy()
+        /// <summary>
+        /// Make a deep copy of a matrix
+        /// </summary>
+        /// <returns></returns>
+        public Matrix Copy()
         {
             Matrix X = new Matrix(m, n);
-            double[,] C = X.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] C = X.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -246,37 +192,32 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * Clone the Matrix object.
-         */
-
-
+        /// <summary>
+        /// Clone the Matrix object.
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
-            return this.copy();
+            return this.Copy();
         }
 
-        /**
-         * Access the internal two-dimensional array.
-         * 
-         * @return Pointer to the two-dimensional array of matrix elements.
-         */
-
-        public double[,] getArray()
+        /// <summary>
+        /// Access the internal two-dimensional array.
+        /// </summary>
+        /// <returns>Pointer to the two-dimensional array of matrix elements.</returns>
+        public double[,] GetArray()
         {
             return A;
         }
 
-        /**
-         * Copy the internal two-dimensional array.
-         * 
-         * @return Two-dimensional array copy of matrix elements.
-         */
-
-        public double[,] getArrayCopy()
+        /// <summary>
+        /// Copy the internal two-dimensional array.
+        /// </summary>
+        /// <returns>Two-dimensional array copy of matrix elements.</returns>
+        public double[,] GetArrayCopy()
         {
             double[,] C = new double[m, n];
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -286,16 +227,14 @@ namespace tvn.cosine.ai.util.math
             return C;
         }
 
-        /**
-         * Make a one-dimensional column packed copy of the internal array.
-         * 
-         * @return Matrix elements packed in a one-dimensional array by columns.
-         */
-
-        public double[] getColumnPackedCopy()
+        /// <summary>
+        /// Make a one-dimensional column packed copy of the internal array.
+        /// </summary>
+        /// <returns>Matrix elements packed in a one-dimensional array by columns.</returns>
+        public double[] GetColumnPackedCopy()
         {
             double[] vals = new double[m * n];
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -305,16 +244,14 @@ namespace tvn.cosine.ai.util.math
             return vals;
         }
 
-        /**
-         * Make a one-dimensional row packed copy of the internal array.
-         * 
-         * @return Matrix elements packed in a one-dimensional array by rows.
-         */
-
-        public double[] getRowPackedCopy()
+        /// <summary>
+        /// Make a one-dimensional row packed copy of the internal array.
+        /// </summary>
+        /// <returns>Matrix elements packed in a one-dimensional array by rows.</returns>
+        public double[] GetRowPackedCopy()
         {
             double[] vals = new double[m * n];
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -324,67 +261,51 @@ namespace tvn.cosine.ai.util.math
             return vals;
         }
 
-        /**
-         * Get row dimension.
-         * 
-         * @return m, the number of rows.
-         */
-
-        public int getRowDimension()
+        /// <summary>
+        /// Get row dimension.
+        /// </summary>
+        /// <returns>m, the number of rows.</returns>
+        public int GetRowDimension()
         {
             return m;
         }
 
-        /**
-         * Get column dimension.
-         * 
-         * @return n, the number of columns.
-         */
-
-        public int getColumnDimension()
+        /// <summary>
+        /// Get column dimension.
+        /// </summary>
+        /// <returns>n, the number of columns.</returns>
+        public int GetColumnDimension()
         {
             return n;
         }
 
-        /**
-         * Get a single element.
-         * 
-         * @param i
-         *            Row index.
-         * @param j
-         *            Column index.
-         * @return A(i,j)
-         * @exception ArrayIndexOutOfBoundsException
-         */
-
-        public double get(int i, int j)
+        /// <summary>
+        /// Get a single element.
+        /// </summary>
+        /// <param name="i">Row index.</param>
+        /// <param name="j">Column index.</param>
+        /// <returns>A(i,j)</returns>
+        public double Get(int i, int j)
         {
             return A[i, j];
         }
 
-        /**
-         * Get a submatrix.
-         * 
-         * @param i0
-         *            Initial row index
-         * @param i1
-         *            Final row index
-         * @param j0
-         *            Initial column index
-         * @param j1
-         *            Final column index
-         * @return A(i0:i1,j0:j1)
-         * @exception ArrayIndexOutOfBoundsException
-         *                Submatrix indices
-         */
-
-        public Matrix getMatrix(int i0, int i1, int j0, int j1)
+        /// <summary>
+        /// Get a submatrix.
+        /// </summary>
+        /// <param name="i0">Initial row index</param>
+        /// <param name="i1">Final row index</param>
+        /// <param name="j0">Initial column index</param>
+        /// <param name="j1">Final column index</param>
+        /// <returns>A(i0:i1,j0:j1)</returns>
+        /// <exception cref="ArrayIndexOutOfBoundsException"></exception>
+        public Matrix GetMatrix(int i0, int i1, int j0, int j1)
         {
             Matrix X = new Matrix(i1 - i0 + 1, j1 - j0 + 1);
-            double[,] B = X.getArray();
+            double[,] B = X.GetArray();
             try
             {
-                for (int i = i0; i <= i1;++i)
+                for (int i = i0; i <= i1; ++i)
                 {
                     for (int j = j0; j <= j1; j++)
                     {
@@ -399,25 +320,20 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * Get a submatrix.
-         * 
-         * @param r
-         *            Array of row indices.
-         * @param c
-         *            Array of column indices.
-         * @return A(r(:),c(:))
-         * @exception ArrayIndexOutOfBoundsException
-         *                Submatrix indices
-         */
-
-        public Matrix getMatrix(int[] r, int[] c)
+        /// <summary>
+        /// Get a submatrix.
+        /// </summary>
+        /// <param name="r">Array of row indices.</param>
+        /// <param name="c">Array of column indices.</param>
+        /// <returns>A(r(:),c(:))</returns>
+        /// <exception cref="ArrayIndexOutOfBoundsException"></exception>
+        public Matrix GetMatrix(int[] r, int[] c)
         {
             Matrix X = new Matrix(r.Length, c.Length);
-            double[,] B = X.getArray();
+            double[,] B = X.GetArray();
             try
             {
-                for (int i = 0; i < r.Length;++i)
+                for (int i = 0; i < r.Length; ++i)
                 {
                     for (int j = 0; j < c.Length; j++)
                     {
@@ -432,27 +348,21 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * Get a submatrix.
-         * 
-         * @param i0
-         *            Initial row index
-         * @param i1
-         *            Final row index
-         * @param c
-         *            Array of column indices.
-         * @return A(i0:i1,c(:))
-         * @exception ArrayIndexOutOfBoundsException
-         *                Submatrix indices
-         */
-
-        public Matrix getMatrix(int i0, int i1, int[] c)
+        /// <summary>
+        /// Get a submatrix.
+        /// </summary>
+        /// <param name="i0">Initial row index</param>
+        /// <param name="i1">Final row index</param>
+        /// <param name="c">Array of column indices.</param>
+        /// <returns>A(i0:i1,c(:))</returns>
+        /// <exception cref="ArrayIndexOutOfBoundsException"></exception>
+        public Matrix GetMatrix(int i0, int i1, int[] c)
         {
             Matrix X = new Matrix(i1 - i0 + 1, c.Length);
-            double[,] B = X.getArray();
+            double[,] B = X.GetArray();
             try
             {
-                for (int i = i0; i <= i1;++i)
+                for (int i = i0; i <= i1; ++i)
                 {
                     for (int j = 0; j < c.Length; j++)
                     {
@@ -467,27 +377,21 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * Get a submatrix.
-         * 
-         * @param r
-         *            Array of row indices.
-         * @param j0
-         *            Initial column index
-         * @param j1
-         *            Final column index
-         * @return A(r(:),j0:j1)
-         * @exception ArrayIndexOutOfBoundsException
-         *                Submatrix indices
-         */
-
-        public Matrix getMatrix(int[] r, int j0, int j1)
+        /// <summary>
+        /// Get a submatrix.
+        /// </summary>
+        /// <param name="r">Array of row indices.</param>
+        /// <param name="j0">Initial column index</param>
+        /// <param name="j1">Final column index</param>
+        /// <returns>A(r(:),j0:j1)</returns>
+        /// <exception cref="ArrayIndexOutOfBoundsException"></exception>
+        public Matrix GetMatrix(int[] r, int j0, int j1)
         {
             Matrix X = new Matrix(r.Length, j1 - j0 + 1);
-            double[,] B = X.getArray();
+            double[,] B = X.GetArray();
             try
             {
-                for (int i = 0; i < r.Length;++i)
+                for (int i = 0; i < r.Length; ++i)
                 {
                     for (int j = j0; j <= j1; j++)
                     {
@@ -502,49 +406,35 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * Set a single element.
-         * 
-         * @param i
-         *            Row index.
-         * @param j
-         *            Column index.
-         * @param s
-         *            A(i,j).
-         * @exception ArrayIndexOutOfBoundsException
-         */
-
-        public void set(int i, int j, double s)
+        /// <summary>
+        /// Set a single element.
+        /// </summary>
+        /// <param name="i">Row index.</param>
+        /// <param name="j">Column index.</param>
+        /// <param name="s">A(i,j)</param>
+        public void Set(int i, int j, double s)
         {
             A[i, j] = s;
         }
 
-        /**
-         * Set a submatrix.
-         * 
-         * @param i0
-         *            Initial row index
-         * @param i1
-         *            Final row index
-         * @param j0
-         *            Initial column index
-         * @param j1
-         *            Final column index
-         * @param X
-         *            A(i0:i1,j0:j1)
-         * @exception ArrayIndexOutOfBoundsException
-         *                Submatrix indices
-         */
-
-        public void setMatrix(int i0, int i1, int j0, int j1, Matrix X)
+        /// <summary>
+        /// Set a submatrix.
+        /// </summary>
+        /// <param name="i0">Initial row index</param>
+        /// <param name="i1">Final row index</param>
+        /// <param name="j0">Initial column index</param>
+        /// <param name="j1">Final column index</param>
+        /// <param name="X">A(i0:i1,j0:j1)</param>
+        /// <exception cref="ArrayIndexOutOfBoundsException"></exception>
+        public void SetMatrix(int i0, int i1, int j0, int j1, Matrix X)
         {
             try
             {
-                for (int i = i0; i <= i1;++i)
+                for (int i = i0; i <= i1; ++i)
                 {
                     for (int j = j0; j <= j1; j++)
                     {
-                        A[i, j] = X.get(i - i0, j - j0);
+                        A[i, j] = X.Get(i - i0, j - j0);
                     }
                 }
             }
@@ -554,28 +444,22 @@ namespace tvn.cosine.ai.util.math
             }
         }
 
-        /**
-         * Set a submatrix.
-         * 
-         * @param r
-         *            Array of row indices.
-         * @param c
-         *            Array of column indices.
-         * @param X
-         *            A(r(:),c(:))
-         * @exception ArrayIndexOutOfBoundsException
-         *                Submatrix indices
-         */
-
-        public void setMatrix(int[] r, int[] c, Matrix X)
+        /// <summary>
+        /// Set a submatrix.
+        /// </summary>
+        /// <param name="r">Array of row indices.</param>
+        /// <param name="c">Array of column indices.</param>
+        /// <param name="X">A(r(:),c(:))</param>
+        /// <exception cref="ArrayIndexOutOfBoundsException"></exception>
+        public void SetMatrix(int[] r, int[] c, Matrix X)
         {
             try
             {
-                for (int i = 0; i < r.Length;++i)
+                for (int i = 0; i < r.Length; ++i)
                 {
                     for (int j = 0; j < c.Length; j++)
                     {
-                        A[r[i], c[j]] = X.get(i, j);
+                        A[r[i], c[j]] = X.Get(i, j);
                     }
                 }
             }
@@ -585,30 +469,23 @@ namespace tvn.cosine.ai.util.math
             }
         }
 
-        /**
-         * Set a submatrix.
-         * 
-         * @param r
-         *            Array of row indices.
-         * @param j0
-         *            Initial column index
-         * @param j1
-         *            Final column index
-         * @param X
-         *            A(r(:),j0:j1)
-         * @exception ArrayIndexOutOfBoundsException
-         *                Submatrix indices
-         */
-
-        public void setMatrix(int[] r, int j0, int j1, Matrix X)
+        /// <summary>
+        /// Set a submatrix.
+        /// </summary>
+        /// <param name="r">Array of row indices.</param>
+        /// <param name="j0">Initial column index</param>
+        /// <param name="j1">Final column index</param>
+        /// <param name="X">A(r(:),j0:j1)</param>
+        /// <exception cref="ArrayIndexOutOfBoundsException"></exception>
+        public void SetMatrix(int[] r, int j0, int j1, Matrix X)
         {
             try
             {
-                for (int i = 0; i < r.Length;++i)
+                for (int i = 0; i < r.Length; ++i)
                 {
                     for (int j = j0; j <= j1; j++)
                     {
-                        A[r[i], j] = X.get(i, j - j0);
+                        A[r[i], j] = X.Get(i, j - j0);
                     }
                 }
             }
@@ -618,30 +495,23 @@ namespace tvn.cosine.ai.util.math
             }
         }
 
-        /**
-         * Set a submatrix.
-         * 
-         * @param i0
-         *            Initial row index
-         * @param i1
-         *            Final row index
-         * @param c
-         *            Array of column indices.
-         * @param X
-         *            A(i0:i1,c(:))
-         * @exception ArrayIndexOutOfBoundsException
-         *                Submatrix indices
-         */
-
-        public void setMatrix(int i0, int i1, int[] c, Matrix X)
+        /// <summary>
+        /// Set a submatrix.
+        /// </summary>
+        /// <param name="i0">Initial row index</param>
+        /// <param name="i1">Final row index</param>
+        /// <param name="c">Array of column indices.</param>
+        /// <param name="X">A(i0:i1,c(:))</param>
+        /// <exception cref="ArrayIndexOutOfBoundsException"></exception>
+        public void SetMatrix(int i0, int i1, int[] c, Matrix X)
         {
             try
             {
-                for (int i = i0; i <= i1;++i)
+                for (int i = i0; i <= i1; ++i)
                 {
                     for (int j = 0; j < c.Length; j++)
                     {
-                        A[i, c[j]] = X.get(i - i0, j);
+                        A[i, c[j]] = X.Get(i - i0, j);
                     }
                 }
             }
@@ -651,17 +521,15 @@ namespace tvn.cosine.ai.util.math
             }
         }
 
-        /**
-         * Matrix transpose.
-         * 
-         * @return A'
-         */
-
-        public Matrix transpose()
+        /// <summary>
+        /// Matrix transpose.
+        /// </summary>
+        /// <returns>A'</returns>
+        public Matrix Transpose()
         {
             Matrix X = new Matrix(n, m);
-            double[,] C = X.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] C = X.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -671,19 +539,17 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * One norm
-         * 
-         * @return maximum column sum.
-         */
-
-        public double norm1()
+        /// <summary>
+        /// One norm
+        /// </summary>
+        /// <returns>maximum column sum.</returns>
+        public double Norm1()
         {
             double f = 0;
             for (int j = 0; j < n; j++)
             {
                 double s = 0;
-                for (int i = 0; i < m;++i)
+                for (int i = 0; i < m; ++i)
                 {
                     s += System.Math.Abs(A[i, j]);
                 }
@@ -692,25 +558,23 @@ namespace tvn.cosine.ai.util.math
             return f;
         }
 
-        /**
-         * Two norm
-         * 
-         * @return maximum singular value.
-         */
+        // /// <summary>
+        // /// Two norm
+        // /// </summary>
+        // /// <returns>maximum singular value.</returns>
+        // /// public double Norm2() 
+        // /// {
+        // ///     return (new SingularValueDecomposition(this).Norm2());
+        // /// }
 
-        // public double norm2 () {
-        // return (new SingularValueDecomposition(this).norm2());
-        // }
-        /**
-         * Infinity norm
-         * 
-         * @return maximum row sum.
-         */
-
-        public double normInf()
+        /// <summary>
+        /// Infinity norm
+        /// </summary>
+        /// <returns>maximum row sum.</returns>
+        public double NormInf()
         {
             double f = 0;
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 double s = 0;
                 for (int j = 0; j < n; j++)
@@ -721,33 +585,32 @@ namespace tvn.cosine.ai.util.math
             }
             return f;
         }
+        /// <summary>
+        /// Frobenius norm
+        /// </summary>
+        /// <returns>sqrt of sum of squares of all elements.</returns>
+        public double NormF()
+        {
+            double f = 0;
+            for (int i = 0; i < m; ++i)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    f = System.Math.Sqrt(f * f + A[i, j] * A[i, j]);
+                }
+            }
+            return f;
+        }
 
-        /**
-         * Frobenius norm
-         * 
-         * @return sqrt of sum of squares of all elements.
-         */
-
-        // public double normF () {
-        // double f = 0;
-        // for (int i = 0; i < m;++i) {
-        // for (int j = 0; j < n; j++) {
-        // f = Maths.hypot(f,A[i][j]);
-        // }
-        // }
-        // return f;
-        // }
-        /**
-         * Unary minus
-         * 
-         * @return -A
-         */
-
-        public Matrix uminus()
+        /// <summary>
+        /// Unary minus
+        /// </summary>
+        /// <returns>-A</returns>
+        public Matrix Uminus()
         {
             Matrix X = new Matrix(m, n);
-            double[,] C = X.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] C = X.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -757,20 +620,17 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * C = A + B
-         * 
-         * @param B
-         *            another matrix
-         * @return A + B
-         */
-
-        public Matrix plus(Matrix B)
+        /// <summary>
+        /// C = A + B
+        /// </summary>
+        /// <param name="B">another matrix</param>
+        /// <returns>A + B</returns>
+        public Matrix Plus(Matrix B)
         {
             checkMatrixDimensions(B);
             Matrix X = new Matrix(m, n);
-            double[,] C = X.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] C = X.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -780,18 +640,15 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * A = A + B
-         * 
-         * @param B
-         *            another matrix
-         * @return A + B
-         */
-
-        public Matrix plusEquals(Matrix B)
+        /// <summary>
+        /// A = A + B
+        /// </summary>
+        /// <param name="B">another matrix</param>
+        /// <returns>A + B</returns>
+        public Matrix PlusEquals(Matrix B)
         {
             checkMatrixDimensions(B);
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -801,20 +658,17 @@ namespace tvn.cosine.ai.util.math
             return this;
         }
 
-        /**
-         * C = A - B
-         * 
-         * @param B
-         *            another matrix
-         * @return A - B
-         */
-
-        public Matrix minus(Matrix B)
+        /// <summary>
+        /// C = A - B
+        /// </summary>
+        /// <param name="B">another matrix</param>
+        /// <returns>A - B</returns>
+        public Matrix Minus(Matrix B)
         {
             checkMatrixDimensions(B);
             Matrix X = new Matrix(m, n);
-            double[,] C = X.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] C = X.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -824,18 +678,15 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * A = A - B
-         * 
-         * @param B
-         *            another matrix
-         * @return A - B
-         */
-
-        public Matrix minusEquals(Matrix B)
+        /// <summary>
+        /// A = A - B
+        /// </summary>
+        /// <param name="B">another matrix</param>
+        /// <returns>A - B</returns>
+        public Matrix MinusEquals(Matrix B)
         {
             checkMatrixDimensions(B);
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -845,20 +696,17 @@ namespace tvn.cosine.ai.util.math
             return this;
         }
 
-        /**
-         * Element-by-element multiplication, C = A.*B
-         * 
-         * @param B
-         *            another matrix
-         * @return A.*B
-         */
-
-        public Matrix arrayTimes(Matrix B)
+        /// <summary>
+        /// Element-by-element multiplication, C = A.*B
+        /// </summary>
+        /// <param name="B">another matrix</param>
+        /// <returns>A.*B</returns>
+        public Matrix ArrayTimes(Matrix B)
         {
             checkMatrixDimensions(B);
             Matrix X = new Matrix(m, n);
-            double[,] C = X.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] C = X.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -868,18 +716,15 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * Element-by-element multiplication in place, A = A.*B
-         * 
-         * @param B
-         *            another matrix
-         * @return A.*B
-         */
-
-        public Matrix arrayTimesEquals(Matrix B)
+        /// <summary>
+        /// Element-by-element multiplication in place, A = A.* B
+        /// </summary>
+        /// <param name="B">another matrix</param>
+        /// <returns>A.*B</returns>
+        public Matrix ArrayTimesEquals(Matrix B)
         {
             checkMatrixDimensions(B);
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -889,20 +734,17 @@ namespace tvn.cosine.ai.util.math
             return this;
         }
 
-        /**
-         * Element-by-element right division, C = A./B
-         * 
-         * @param B
-         *            another matrix
-         * @return A./B
-         */
-
-        public Matrix arrayRightDivide(Matrix B)
+        /// <summary>
+        /// Element-by-element right division, C = A./B
+        /// </summary>
+        /// <param name="B">another matrix</param>
+        /// <returns>A./B</returns>
+        public Matrix ArrayRightDivide(Matrix B)
         {
             checkMatrixDimensions(B);
             Matrix X = new Matrix(m, n);
-            double[,] C = X.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] C = X.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -912,18 +754,15 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * Element-by-element right division in place, A = A./B
-         * 
-         * @param B
-         *            another matrix
-         * @return A./B
-         */
-
-        public Matrix arrayRightDivideEquals(Matrix B)
+        /// <summary>
+        /// Element-by-element right division in place, A = A./B
+        /// </summary>
+        /// <param name="B">another matrix</param>
+        /// <returns>A./B</returns>
+        public Matrix ArrayRightDivideEquals(Matrix B)
         {
             checkMatrixDimensions(B);
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -933,20 +772,17 @@ namespace tvn.cosine.ai.util.math
             return this;
         }
 
-        /**
-         * Element-by-element left division, C = A.\B
-         * 
-         * @param B
-         *            another matrix
-         * @return A.\B
-         */
-
-        public Matrix arrayLeftDivide(Matrix B)
+        /// <summary>
+        /// Element-by-element left division, C = A.\B
+        /// </summary>
+        /// <param name="B">another matrix</param>
+        /// <returns>A.\B</returns>
+        public Matrix ArrayLeftDivide(Matrix B)
         {
             checkMatrixDimensions(B);
             Matrix X = new Matrix(m, n);
-            double[,] C = X.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] C = X.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -956,18 +792,15 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * Element-by-element left division in place, A = A.\B
-         * 
-         * @param B
-         *            another matrix
-         * @return A.\B
-         */
-
-        public Matrix arrayLeftDivideEquals(Matrix B)
+        /// <summary>
+        /// Element-by-element left division in place, A = A.\B
+        /// </summary>
+        /// <param name="B">another matrix</param>
+        /// <returns>A.\B</returns>
+        public Matrix ArrayLeftDivideEquals(Matrix B)
         {
             checkMatrixDimensions(B);
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -977,19 +810,16 @@ namespace tvn.cosine.ai.util.math
             return this;
         }
 
-        /**
-         * Multiply a matrix by a scalar, C = s*A
-         * 
-         * @param s
-         *            scalar
-         * @return s*A
-         */
-
-        public Matrix times(double s)
+        /// <summary>
+        /// Multiply a matrix by a scalar, C = s*A
+        /// </summary>
+        /// <param name="s">scalar</param>
+        /// <returns>s*A</returns>
+        public Matrix Times(double s)
         {
             Matrix X = new Matrix(m, n);
-            double[,] C = X.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] C = X.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -999,17 +829,14 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * Multiply a matrix by a scalar in place, A = s*A
-         * 
-         * @param s
-         *            scalar
-         * @return replace A by s*A
-         */
-
-        public Matrix timesEquals(double s)
+        /// <summary>
+        /// Multiply a matrix by a scalar in place, A = s*A
+        /// </summary>
+        /// <param name="s">scalar</param>
+        /// <returns>replace A by s*A</returns>
+        public Matrix TimesEquals(double s)
         {
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1019,24 +846,20 @@ namespace tvn.cosine.ai.util.math
             return this;
         }
 
-        /**
-         * Linear algebraic matrix multiplication, A * B
-         * 
-         * @param B
-         *            another matrix
-         * @return Matrix product, A * B
-         * @exception IllegalArgumentException
-         *                Matrix inner dimensions must agree.
-         */
-
-        public Matrix times(Matrix B)
+        /// <summary>
+        /// Linear algebraic matrix multiplication, A * B
+        /// </summary>
+        /// <param name="B">another matrix</param>
+        /// <returns>Matrix product, A * B</returns>
+        /// <exception cref="IllegalArgumentException">Matrix inner dimensions must agree.</exception>
+        public Matrix Times(Matrix B)
         {
             if (B.m != n)
             {
                 throw new IllegalArgumentException("Matrix inner dimensions must agree.");
             }
             Matrix X = new Matrix(m, B.n);
-            double[,] C = X.getArray();
+            double[,] C = X.GetArray();
             double[] Bcolj = new double[n];
             for (int j = 0; j < B.n; j++)
             {
@@ -1044,7 +867,7 @@ namespace tvn.cosine.ai.util.math
                 {
                     Bcolj[k] = B.A[k, j];
                 }
-                for (int i = 0; i < m;++i)
+                for (int i = 0; i < m; ++i)
                 {
                     double s = 0;
                     for (int k = 0; k < n; k++)
@@ -1057,117 +880,99 @@ namespace tvn.cosine.ai.util.math
             return X;
         }
 
-        /**
-         * LU Decomposition
-         * 
-         * @return LUDecomposition
-         * @see LUDecomposition
-         */
-
-        public LUDecomposition lu()
+        /// <summary>
+        /// LU Decomposition
+        /// </summary>
+        /// <returns>LU Decomposition</returns>
+        public LUDecomposition LU()
         {
             return new LUDecomposition(this);
         }
 
-        /**
-         * Solve A*X = B
-         * 
-         * @param B
-         *            right hand side
-         * @return solution if A is square, least squares solution otherwise
-         */
-
-        public Matrix solve(Matrix B)
+        /// <summary>
+        /// Solve A*X = B
+        /// </summary>
+        /// <param name="B">right hand side</param>
+        /// <returns>solution if A is square, least squares solution otherwise</returns>
+        public Matrix Solve(Matrix B)
         {
             // assumed m == n
             return new LUDecomposition(this).Solve(B);
 
         }
 
-        /**
-         * Solve X*A = B, which is also A'*X' = B'
-         * 
-         * @param B
-         *            right hand side
-         * @return solution if A is square, least squares solution otherwise.
-         */
-
-        public Matrix solveTranspose(Matrix B)
+        /// <summary>
+        /// Solve X*A = B, which is also A'*X' = B'
+        /// </summary>
+        /// <param name="B">right hand side</param>
+        /// <returns>solution if A is square, least squares solution otherwise.</returns>
+        public Matrix SolveTranspose(Matrix B)
         {
-            return transpose().solve(B.transpose());
+            return Transpose().Solve(B.Transpose());
         }
 
-        /**
-         * Matrix inverse or pseudoinverse
-         * 
-         * @return inverse(A) if A is square, pseudoinverse otherwise.
-         */
-
-        public Matrix inverse()
+        /// <summary>
+        /// Matrix inverse or pseudoinverse
+        /// </summary>
+        /// <returns>inverse(A) if A is square, pseudoinverse otherwise.</returns>
+        public Matrix Inverse()
         {
-            return solve(identity(m, m));
+            return Solve(Identity(m, m));
         }
 
-        /**
-         * Matrix determinant
-         * 
-         * @return determinant
-         */
-
-        public double det()
+        /// <summary>
+        /// Matrix determinant
+        /// </summary>
+        /// <returns>Matrix determinant</returns>
+        public double Det()
         {
             return new LUDecomposition(this).Det();
         }
 
-        /**
-         * Matrix rank
-         * 
-         * @return effective numerical rank, obtained from SVD.
-         */
+        ////  /// <summary>
+        ////  /// Matrix rank
+        ////  /// </summary>
+        ////  /// <returns>effective numerical rank, obtained from SVD.</returns>
+        ////  // public int Rank() 
+        ////  // {
+        ////  //    return new SingularValueDecomposition(this).rank();
+        ////  // }
 
-        // public int rank () {
-        // return new SingularValueDecomposition(this).rank();
-        // }
-        //
-        // /** Matrix condition (2 norm)
-        // @return ratio of largest to smallest singular value.
-        // */
-        //
-        // public double cond () {
-        // return new SingularValueDecomposition(this).cond();
-        // }
-        /**
-         * Matrix trace.
-         * 
-         * @return sum of the diagonal elements.
-         */
+        ////  /// <summary>
+        ////  /// Matrix condition (2 norm)
+        ////  /// </summary>
+        ////  /// <returns>ratio of largest to smallest singular value.</returns>
+        ////  // public double Cond() 
+        ////  // {
+        ////  //    return new SingularValueDecomposition(this).cond();
+        ////  // } 
 
-        public double trace()
+        /// <summary>
+        /// Matrix trace.
+        /// </summary>
+        /// <returns>sum of the diagonal elements.</returns>
+        public double Trace()
         {
             double t = 0;
-            for (int i = 0; i < System.Math.Min(m, n);++i)
+            for (int i = 0; i < System.Math.Min(m, n); ++i)
             {
                 t += A[i, i];
             }
             return t;
         }
 
-        /**
-         * Generate matrix with random elements
-         * 
-         * @param m
-         *            Number of rows.
-         * @param n
-         *            Number of colums.
-         * @return An m-by-n matrix with uniformly distributed random elements.
-         */
-
-        public static Matrix random(int m, int n)
+        /// <summary>
+        /// Generate matrix with random elements
+        /// </summary>
+        /// <param name="m">Number of rows.</param>
+        /// <param name="n">Number of colums.</param>
+        /// <returns>An m-by-n matrix with uniformly distributed random elements.</returns>
+        public static Matrix Random(int m, int n)
         {
             IRandom _random = CommonFactory.CreateRandom();
             Matrix A = new Matrix(m, n);
-            double[,] X = A.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] X = A.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1177,21 +982,17 @@ namespace tvn.cosine.ai.util.math
             return A;
         }
 
-        /**
-         * Generate identity matrix
-         * 
-         * @param m
-         *            Number of rows.
-         * @param n
-         *            Number of colums.
-         * @return An m-by-n matrix with ones on the diagonal and zeros elsewhere.
-         */
-
-        public static Matrix identity(int m, int n)
+        /// <summary>
+        /// Generate identity matrix
+        /// </summary>
+        /// <param name="m">Number of rows.</param>
+        /// <param name="n">Number of colums.</param>
+        /// <returns>An m-by-n matrix with ones on the diagonal and zeros elsewhere.</returns>
+        public static Matrix Identity(int m, int n)
         {
             Matrix A = new Matrix(m, n);
-            double[,] X = A.getArray();
-            for (int i = 0; i < m;++i)
+            double[,] X = A.GetArray();
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1201,33 +1002,27 @@ namespace tvn.cosine.ai.util.math
             return A;
         }
 
-        /**
-         * Print the matrix to the output stream. Line the elements up in columns.
-         * Use the format object, and right justify within columns of width
-         * characters. Note that is the matrix is to be read back in, you probably
-         * will want to use a NumberFormat that is set to US Locale.
-         * 
-         * @param output
-         *            the output stream.
-         * @param format
-         *            A formatting object to format the matrix elements
-         * @param width
-         *            Column width.
-         * @see java.text.DecimalFormat#setDecimalFormatSymbols
-         */
-
-        public void print(IStringBuilder output, int width)
+        /// <summary>
+        /// Print the matrix to the output stream. Line the elements up in columns.
+        /// Use the format object, and right justify within columns of width
+        /// characters. Note that is the matrix is to be read back in, you probably
+        /// will want to use a NumberFormat that is set to US Locale.
+        /// </summary>
+        /// <param name="output">the output stream.</param>
+        /// <param name="width">Column width.</param>
+        public void Print(IStringBuilder output, int width)
         {
             output.AppendLine(); // start on new line.
-            for (int i = 0; i < m;++i)
+            for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
                 {
                     string s = A[i, j].ToString(); // format the number
-                    int padding = System.Math.Max(1, width - s.Length); // At _least_ 1
-                                                                        // space
-                    for (int k = 0; k < padding; k++)
+                    int padding = System.Math.Max(1, width - s.Length); // At _least_ 1 space
+                    for (int k = 0; k < padding; ++k)
+                    {
                         output.Append(' ');
+                    }
                     output.Append(s);
                 }
                 output.AppendLine();
@@ -1235,17 +1030,15 @@ namespace tvn.cosine.ai.util.math
             output.AppendLine(); // end with blank line.
         }
 
-
-
         public override string ToString()
         {
             IStringBuilder buf = TextFactory.CreateStringBuilder();
-            for (int i = 0; i < getRowDimension();++i)
+            for (int i = 0; i < GetRowDimension(); ++i)
             {
 
-                for (int j = 0; j < getColumnDimension(); j++)
+                for (int j = 0; j < GetColumnDimension(); j++)
                 {
-                    buf.Append(get(i, j));
+                    buf.Append(Get(i, j));
                     buf.Append(" ");
                 }
                 buf.Append("\n");
@@ -1254,7 +1047,10 @@ namespace tvn.cosine.ai.util.math
             return buf.ToString();
         }
 
-        /** Check if size(A) == size(B) * */ 
+        /// <summary>
+        /// Check if size(A) == size(B)
+        /// </summary>
+        /// <param name="B"></param>
         private void checkMatrixDimensions(Matrix B)
         {
             if (B.m != m || B.n != n)
@@ -1262,5 +1058,5 @@ namespace tvn.cosine.ai.util.math
                 throw new IllegalArgumentException("Matrix dimensions must agree.");
             }
         }
-    } 
+    }
 }

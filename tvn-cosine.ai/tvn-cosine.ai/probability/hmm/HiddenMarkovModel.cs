@@ -49,30 +49,30 @@ namespace tvn.cosine.ai.probability.hmm
             }
             this.stateVariable = stateVariable;
             stateVariableDomain = (IFiniteDomain)stateVariable.getDomain();
-            if (transitionModel.getRowDimension() != transitionModel
-                    .getColumnDimension())
+            if (transitionModel.GetRowDimension() != transitionModel
+                    .GetColumnDimension())
             {
                 throw new IllegalArgumentException("Transition Model row and column dimensions must match.");
             }
-            if (stateVariableDomain.Size() != transitionModel.getRowDimension())
+            if (stateVariableDomain.Size() != transitionModel.GetRowDimension())
             {
                 throw new IllegalArgumentException("Transition Model Matrix does not map correctly to the HMM's State Variable.");
             }
             this.transitionModel = transitionModel;
             foreach (Matrix smVal in sensorModel.GetValues())
             {
-                if (smVal.getRowDimension() != smVal.getColumnDimension())
+                if (smVal.GetRowDimension() != smVal.GetColumnDimension())
                 {
                     throw new IllegalArgumentException("Sensor Model row and column dimensions must match.");
                 }
-                if (stateVariableDomain.Size() != smVal.getRowDimension())
+                if (stateVariableDomain.Size() != smVal.GetRowDimension())
                 {
                     throw new IllegalArgumentException("Sensor Model Matrix does not map correctly to the HMM's State Variable.");
                 }
             }
             this.sensorModel = sensorModel;
-            if (transitionModel.getRowDimension() != prior.getRowDimension()
-                    && prior.getColumnDimension() != 1)
+            if (transitionModel.GetRowDimension() != prior.GetRowDimension()
+                    && prior.GetColumnDimension() != 1)
             {
                 throw new IllegalArgumentException("Prior is not of the correct dimensions.");
             }
@@ -135,7 +135,7 @@ namespace tvn.cosine.ai.probability.hmm
 
         public virtual ICategoricalDistribution convert(Matrix fromMessage)
         {
-            return new ProbabilityTable(fromMessage.getRowPackedCopy(), stateVariable);
+            return new ProbabilityTable(fromMessage.GetRowPackedCopy(), stateVariable);
         }
 
         public virtual ICollection<ICategoricalDistribution> convert(ICollection<Matrix> matrixs)
@@ -150,7 +150,7 @@ namespace tvn.cosine.ai.probability.hmm
 
         public virtual Matrix normalize(Matrix m)
         {
-            double[] values = m.getRowPackedCopy();
+            double[] values = m.GetRowPackedCopy();
             return new Matrix(Util.normalize(values), values.Length);
         }
     }

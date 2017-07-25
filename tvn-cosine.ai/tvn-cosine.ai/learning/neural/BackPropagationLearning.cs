@@ -1,5 +1,4 @@
-﻿using tvn.cosine.ai.common.exceptions;
-using tvn.cosine.ai.learning.neural.api;
+﻿using tvn.cosine.ai.learning.neural.api;
 using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.learning.neural
@@ -70,17 +69,17 @@ namespace tvn.cosine.ai.learning.neural
         {
             Layer layer = layerSensitivity.GetLayer();
             Matrix activationTranspose
-                = previousLayerActivationOrInput.transpose();
+                = previousLayerActivationOrInput.Transpose();
             Matrix momentumLessUpdate
                 = layerSensitivity.GetSensitivityMatrix()
-                                  .times(activationTranspose)
-                                  .times(alpha)
-                                  .times(-1.0);
+                                  .Times(activationTranspose)
+                                  .Times(alpha)
+                                  .Times(-1.0);
             Matrix updateWithMomentum
                 = layer.GetLastWeightUpdateMatrix()
-                       .times(momentum)
-                       .plus(momentumLessUpdate.times(1.0 - momentum));
-            layer.AcceptNewWeightUpdate(updateWithMomentum.copy());
+                       .Times(momentum)
+                       .Plus(momentumLessUpdate.Times(1.0 - momentum));
+            layer.AcceptNewWeightUpdate(updateWithMomentum.Copy());
 
             return updateWithMomentum;
         }
@@ -90,13 +89,13 @@ namespace tvn.cosine.ai.learning.neural
                                                     double alpha)
         {
             Layer layer = layerSensitivity.GetLayer();
-            Matrix activationTranspose = previousLayerActivationOrInput.transpose();
+            Matrix activationTranspose = previousLayerActivationOrInput.Transpose();
             Matrix weightUpdateMatrix
                 = layerSensitivity.GetSensitivityMatrix()
-                                  .times(activationTranspose)
-                                  .times(alpha)
-                                  .times(-1.0);
-            layer.AcceptNewWeightUpdate(weightUpdateMatrix.copy());
+                                  .Times(activationTranspose)
+                                  .Times(alpha)
+                                  .Times(-1.0);
+            layer.AcceptNewWeightUpdate(weightUpdateMatrix.Copy());
 
             return weightUpdateMatrix;
         }
@@ -106,19 +105,19 @@ namespace tvn.cosine.ai.learning.neural
                                            double momentum)
         {
             Layer layer = layerSensitivity.GetLayer();
-            Matrix biasUpdateMatrixWithoutMomentum = layerSensitivity.GetSensitivityMatrix().times(alpha).times(-1.0);
+            Matrix biasUpdateMatrixWithoutMomentum = layerSensitivity.GetSensitivityMatrix().Times(alpha).Times(-1.0);
 
             Matrix biasUpdateMatrixWithMomentum
                 = layer.GetLastBiasUpdateVector()
-                       .times(momentum)
-                       .plus(biasUpdateMatrixWithoutMomentum
-                       .times(1.0 - momentum));
-            Vector result = new Vector(biasUpdateMatrixWithMomentum.getRowDimension());
-            for (int i = 0; i < biasUpdateMatrixWithMomentum.getRowDimension(); ++i)
+                       .Times(momentum)
+                       .Plus(biasUpdateMatrixWithoutMomentum
+                       .Times(1.0 - momentum));
+            Vector result = new Vector(biasUpdateMatrixWithMomentum.GetRowDimension());
+            for (int i = 0; i < biasUpdateMatrixWithMomentum.GetRowDimension(); ++i)
             {
-                result.setValue(i, biasUpdateMatrixWithMomentum.get(i, 0));
+                result.SetValue(i, biasUpdateMatrixWithMomentum.Get(i, 0));
             }
-            layer.AcceptNewBiasUpdate(result.copyVector());
+            layer.AcceptNewBiasUpdate(result.CopyVector());
             return result;
         }
 
@@ -128,15 +127,15 @@ namespace tvn.cosine.ai.learning.neural
             Layer layer = layerSensitivity.GetLayer();
             Matrix biasUpdateMatrix
                 = layerSensitivity.GetSensitivityMatrix()
-                                  .times(alpha)
-                                  .times(-1.0);
+                                  .Times(alpha)
+                                  .Times(-1.0);
 
-            Vector result = new Vector(biasUpdateMatrix.getRowDimension());
-            for (int i = 0; i < biasUpdateMatrix.getRowDimension(); ++i)
+            Vector result = new Vector(biasUpdateMatrix.GetRowDimension());
+            for (int i = 0; i < biasUpdateMatrix.GetRowDimension(); ++i)
             {
-                result.setValue(i, biasUpdateMatrix.get(i, 0));
+                result.SetValue(i, biasUpdateMatrix.Get(i, 0));
             }
-            layer.AcceptNewBiasUpdate(result.copyVector());
+            layer.AcceptNewBiasUpdate(result.CopyVector());
             return result;
         }
     }

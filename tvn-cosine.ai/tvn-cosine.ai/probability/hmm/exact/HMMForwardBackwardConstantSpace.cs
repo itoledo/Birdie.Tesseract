@@ -61,7 +61,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
             for (int i = ev.Size() - 1; i >= 0; i--)
             {
                 // sv[i] <- NORMALIZE(fv[i] * b)
-                sv.Insert(0, hmm.normalize(f.arrayTimes(b)));
+                sv.Insert(0, hmm.normalize(f.ArrayTimes(b)));
                 Matrix e = hmm.getEvidence(ev.Get(i));
                 // b <- BACKWARD(b, ev[i])
                 b = backward(b, e);
@@ -89,7 +89,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
          */
         public Matrix forwardRecover(Matrix O_tp1, Matrix f1_tp1)
         {
-            return hmm.normalize(hmm.getTransitionModel().transpose().inverse().times(O_tp1.inverse()).times(f1_tp1));
+            return hmm.normalize(hmm.getTransitionModel().Transpose().Inverse().Times(O_tp1.Inverse()).Times(f1_tp1));
         }
     }
 }

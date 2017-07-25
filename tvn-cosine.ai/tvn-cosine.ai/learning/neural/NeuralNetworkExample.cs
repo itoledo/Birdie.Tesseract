@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.learning.neural
         {
             // compares the index having greatest value in target to indec having greatest value in prediction. 
             // If identical, correct
-            return GetTarget().indexHavingMaxValue() == prediction.indexHavingMaxValue();
+            return GetTarget().IndexHavingMaxValue() == prediction.IndexHavingMaxValue();
         }
     } 
 }

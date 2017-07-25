@@ -126,19 +126,19 @@ namespace tvn.cosine.ai.probability.hmm.exact
                 f = forward(f, O_tmd);
                 // <b>B</b> <-
                 // <b>O</b><sup>-1</sup><sub>t-d</sub><b>B</b><b>T</b><b>O</b><sub>t</sub>
-                B = O_tmd.inverse().times(hmm.getTransitionModel().inverse()).times(B).times(hmm.getTransitionModel()).times(O_t);
+                B = O_tmd.Inverse().Times(hmm.getTransitionModel().Inverse()).Times(B).Times(hmm.getTransitionModel()).Times(O_t);
             }
             else
             {
                 // else <b>B</b> <- <b>BTO</b><sub>t</sub>
-                B = B.times(hmm.getTransitionModel()).times(O_t);
+                B = B.Times(hmm.getTransitionModel()).Times(O_t);
             }
 
             // if t > d then return NORMALIZE(<b>f</b> * <b>B1</b>) else return null
             ICategoricalDistribution rVal = null;
             if (t > d)
             {
-                rVal = hmm.convert(hmm.normalize(f.arrayTimes(B.times(unitMessage))));
+                rVal = hmm.convert(hmm.normalize(f.ArrayTimes(B.Times(unitMessage))));
             }
             // t <- t + 1
             t = t + 1;
@@ -160,7 +160,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
          */
         public Matrix forward(Matrix f1_t, Matrix O_tp1)
         {
-            return hmm.normalize(O_tp1.times(hmm.getTransitionModel().transpose().times(f1_t)));
+            return hmm.normalize(O_tp1.Times(hmm.getTransitionModel().Transpose().Times(f1_t)));
         }
 
         //
@@ -176,7 +176,7 @@ namespace tvn.cosine.ai.probability.hmm.exact
             f = hmm.getPrior();
             // <b>B</b>, the d-step backward transformation matrix, initially the
             // identity matrix
-            B = Matrix.identity(f.getRowDimension(), f.getRowDimension());
+            B = Matrix.Identity(f.GetRowDimension(), f.GetRowDimension());
             // e<sub>t-d:t</sub>, double-ended list of evidence from t-d to t,
             // initially
             // empty

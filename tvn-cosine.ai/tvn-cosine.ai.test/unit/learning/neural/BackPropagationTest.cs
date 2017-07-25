@@ -16,25 +16,25 @@ namespace tvn_cosine.ai.test.unit.learning.neural
         {
             // example 11.14 of Neural Network Design by Hagan, Demuth and Beale
             Matrix hiddenLayerWeightMatrix = new Matrix(2, 1);
-            hiddenLayerWeightMatrix.set(0, 0, -0.27);
-            hiddenLayerWeightMatrix.set(1, 0, -0.41);
+            hiddenLayerWeightMatrix.Set(0, 0, -0.27);
+            hiddenLayerWeightMatrix.Set(1, 0, -0.41);
 
             Vector hiddenLayerBiasVector = new Vector(2);
-            hiddenLayerBiasVector.setValue(0, -0.48);
-            hiddenLayerBiasVector.setValue(1, -0.13);
+            hiddenLayerBiasVector.SetValue(0, -0.48);
+            hiddenLayerBiasVector.SetValue(1, -0.13);
 
             Vector input = new Vector(1);
-            input.setValue(0, 1);
+            input.SetValue(0, 1);
 
             Matrix outputLayerWeightMatrix = new Matrix(1, 2);
-            outputLayerWeightMatrix.set(0, 0, 0.09);
-            outputLayerWeightMatrix.set(0, 1, -0.17);
+            outputLayerWeightMatrix.Set(0, 0, 0.09);
+            outputLayerWeightMatrix.Set(0, 1, -0.17);
 
             Vector outputLayerBiasVector = new Vector(1);
-            outputLayerBiasVector.setValue(0, 0.48);
+            outputLayerBiasVector.SetValue(0, 0.48);
 
             Vector error = new Vector(1);
-            error.setValue(0, 1.261);
+            error.SetValue(0, 1.261);
 
             double learningRate = 0.1;
             double momentumFactor = 0.0;
@@ -47,19 +47,19 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             ffnn.ProcessError(error);
 
             Matrix finalHiddenLayerWeights = ffnn.GetHiddenLayerWeights();
-            Assert.AreEqual(-0.265, finalHiddenLayerWeights.get(0, 0), 0.001);
-            Assert.AreEqual(-0.419, finalHiddenLayerWeights.get(1, 0), 0.001);
+            Assert.AreEqual(-0.265, finalHiddenLayerWeights.Get(0, 0), 0.001);
+            Assert.AreEqual(-0.419, finalHiddenLayerWeights.Get(1, 0), 0.001);
 
             Vector hiddenLayerBias = ffnn.GetHiddenLayerBias();
-            Assert.AreEqual(-0.475, hiddenLayerBias.getValue(0), 0.001);
-            Assert.AreEqual(-0.1399, hiddenLayerBias.getValue(1), 0.001);
+            Assert.AreEqual(-0.475, hiddenLayerBias.GetValue(0), 0.001);
+            Assert.AreEqual(-0.1399, hiddenLayerBias.GetValue(1), 0.001);
 
             Matrix finalOutputLayerWeights = ffnn.GetOutputLayerWeights();
-            Assert.AreEqual(0.171, finalOutputLayerWeights.get(0, 0), 0.001);
-            Assert.AreEqual(-0.0772, finalOutputLayerWeights.get(0, 1), 0.001);
+            Assert.AreEqual(0.171, finalOutputLayerWeights.Get(0, 0), 0.001);
+            Assert.AreEqual(-0.0772, finalOutputLayerWeights.Get(0, 1), 0.001);
 
             Vector outputLayerBias = ffnn.GetOutputLayerBias();
-            Assert.AreEqual(0.7322, outputLayerBias.getValue(0), 0.001);
+            Assert.AreEqual(0.7322, outputLayerBias.GetValue(0), 0.001);
         }
 
         [TestMethod]
@@ -67,25 +67,25 @@ namespace tvn_cosine.ai.test.unit.learning.neural
         {
             // example 11.14 of Neural Network Design by Hagan, Demuth and Beale
             Matrix hiddenLayerWeightMatrix = new Matrix(2, 1);
-            hiddenLayerWeightMatrix.set(0, 0, -0.27);
-            hiddenLayerWeightMatrix.set(1, 0, -0.41);
+            hiddenLayerWeightMatrix.Set(0, 0, -0.27);
+            hiddenLayerWeightMatrix.Set(1, 0, -0.41);
 
             Vector hiddenLayerBiasVector = new Vector(2);
-            hiddenLayerBiasVector.setValue(0, -0.48);
-            hiddenLayerBiasVector.setValue(1, -0.13);
+            hiddenLayerBiasVector.SetValue(0, -0.48);
+            hiddenLayerBiasVector.SetValue(1, -0.13);
 
             Vector input = new Vector(1);
-            input.setValue(0, 1);
+            input.SetValue(0, 1);
 
             Matrix outputLayerWeightMatrix = new Matrix(1, 2);
-            outputLayerWeightMatrix.set(0, 0, 0.09);
-            outputLayerWeightMatrix.set(0, 1, -0.17);
+            outputLayerWeightMatrix.Set(0, 0, 0.09);
+            outputLayerWeightMatrix.Set(0, 1, -0.17);
 
             Vector outputLayerBiasVector = new Vector(1);
-            outputLayerBiasVector.setValue(0, 0.48);
+            outputLayerBiasVector.SetValue(0, 0.48);
 
             Vector error = new Vector(1);
-            error.setValue(0, 1.261);
+            error.SetValue(0, 1.261);
 
             double learningRate = 0.1;
             double momentumFactor = 0.5;
@@ -99,19 +99,19 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             ffnn.ProcessError(error);
 
             Matrix finalHiddenLayerWeights = ffnn.GetHiddenLayerWeights();
-            Assert.AreEqual(-0.2675, finalHiddenLayerWeights.get(0, 0), 0.001);
-            Assert.AreEqual(-0.4149, finalHiddenLayerWeights.get(1, 0), 0.001);
+            Assert.AreEqual(-0.2675, finalHiddenLayerWeights.Get(0, 0), 0.001);
+            Assert.AreEqual(-0.4149, finalHiddenLayerWeights.Get(1, 0), 0.001);
 
             Vector hiddenLayerBias = ffnn.GetHiddenLayerBias();
-            Assert.AreEqual(-0.4775, hiddenLayerBias.getValue(0), 0.001);
-            Assert.AreEqual(-0.1349, hiddenLayerBias.getValue(1), 0.001);
+            Assert.AreEqual(-0.4775, hiddenLayerBias.GetValue(0), 0.001);
+            Assert.AreEqual(-0.1349, hiddenLayerBias.GetValue(1), 0.001);
 
             Matrix finalOutputLayerWeights = ffnn.GetOutputLayerWeights();
-            Assert.AreEqual(0.1304, finalOutputLayerWeights.get(0, 0), 0.001);
-            Assert.AreEqual(-0.1235, finalOutputLayerWeights.get(0, 1), 0.001);
+            Assert.AreEqual(0.1304, finalOutputLayerWeights.Get(0, 0), 0.001);
+            Assert.AreEqual(-0.1235, finalOutputLayerWeights.Get(0, 1), 0.001);
 
             Vector outputLayerBias = ffnn.GetOutputLayerBias();
-            Assert.AreEqual(0.6061, outputLayerBias.getValue(0), 0.001);
+            Assert.AreEqual(0.6061, outputLayerBias.GetValue(0), 0.001);
         }
 
         [TestMethod]

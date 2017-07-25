@@ -21,10 +21,10 @@ namespace tvn.cosine.ai.learning.neural
 
         public void ProcessError(Vector error)
         {
-            Matrix weightUpdate = error.times(lastInput.transpose());
+            Matrix weightUpdate = error.Times(lastInput.Transpose());
             layer.AcceptNewWeightUpdate(weightUpdate);
 
-            Vector biasUpdate = layer.GetBiasVector().plus(error);
+            Vector biasUpdate = layer.GetBiasVector().Plus(error);
             layer.AcceptNewBiasUpdate(biasUpdate);
 
         }

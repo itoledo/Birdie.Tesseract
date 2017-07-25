@@ -47,9 +47,9 @@ namespace tvn.cosine.ai.util.math
         public LUDecomposition(Matrix A)
         {
             // Use a "left-looking", dot-product, Crout/Doolittle algorithm. 
-            LU = A.getArrayCopy();
-            m = A.getRowDimension();
-            n = A.getColumnDimension();
+            LU = A.GetArrayCopy();
+            m = A.GetRowDimension();
+            n = A.GetColumnDimension();
             piv = new int[m];
             for (int i = 0; i < m; ++i)
             {
@@ -128,9 +128,9 @@ namespace tvn.cosine.ai.util.math
         public LUDecomposition(Matrix A, bool linpackflag)
         {
             // Initialize. 
-            LU = A.getArrayCopy();
-            m = A.getRowDimension();
-            n = A.getColumnDimension();
+            LU = A.GetArrayCopy();
+            m = A.GetRowDimension();
+            n = A.GetColumnDimension();
             piv = new int[m];
             for (int i = 0; i < m; ++i)
             {
@@ -199,7 +199,7 @@ namespace tvn.cosine.ai.util.math
         public Matrix GetL()
         {
             Matrix X = new Matrix(m, n);
-            double[,] L = X.getArray();
+            double[,] L = X.GetArray();
             for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < n; j++)
@@ -228,7 +228,7 @@ namespace tvn.cosine.ai.util.math
         public Matrix GetU()
         {
             Matrix X = new Matrix(n, n);
-            double[,] U = X.getArray();
+            double[,] U = X.GetArray();
             for (int i = 0; i < n; ++i)
             {
                 for (int j = 0; j < n; j++)
@@ -303,7 +303,7 @@ namespace tvn.cosine.ai.util.math
         /// <exception cref="IllegalArgumentException">Matrix row dimensions must agree.</exception>
         public Matrix Solve(Matrix B)
         {
-            if (B.getRowDimension() != m)
+            if (B.GetRowDimension() != m)
             {
                 throw new IllegalArgumentException(
                         "Matrix row dimensions must agree.");
@@ -314,9 +314,9 @@ namespace tvn.cosine.ai.util.math
             }
 
             // Copy right hand side with pivoting
-            int nx = B.getColumnDimension();
-            Matrix Xmat = B.getMatrix(piv, 0, nx - 1);
-            double[,] X = Xmat.getArray();
+            int nx = B.GetColumnDimension();
+            Matrix Xmat = B.GetMatrix(piv, 0, nx - 1);
+            double[,] X = Xmat.GetArray();
 
             // Solve L*Y = B(piv,:)
             for (int k = 0; k < n; k++)

@@ -32,17 +32,17 @@ namespace tvn.cosine.ai.learning.neural
             activationFunction = af;
             this.weightMatrix = weightMatrix;
             lastWeightUpdateMatrix 
-                = new Matrix(weightMatrix.getRowDimension(),
-                             weightMatrix.getColumnDimension());
+                = new Matrix(weightMatrix.GetRowDimension(),
+                             weightMatrix.GetColumnDimension());
             penultimateWeightUpdateMatrix 
-                = new Matrix(weightMatrix.getRowDimension(),
-                             weightMatrix.getColumnDimension());
+                = new Matrix(weightMatrix.GetRowDimension(),
+                             weightMatrix.GetColumnDimension());
 
             this.biasVector = biasVector;
             lastBiasUpdateVector 
-                = new Vector(biasVector.getRowDimension());
+                = new Vector(biasVector.GetRowDimension());
             penultimateBiasUpdateVector 
-                = new Vector(biasVector.getRowDimension());
+                = new Vector(biasVector.GetRowDimension());
         }
 
         public Layer(int numberOfNeurons, 
@@ -57,16 +57,16 @@ namespace tvn.cosine.ai.learning.neural
                 = new Matrix(numberOfNeurons, 
                              numberOfInputs);
             lastWeightUpdateMatrix 
-                = new Matrix(weightMatrix.getRowDimension(),
-                             weightMatrix.getColumnDimension());
+                = new Matrix(weightMatrix.GetRowDimension(),
+                             weightMatrix.GetColumnDimension());
 
             penultimateWeightUpdateMatrix 
-                = new Matrix(weightMatrix.getRowDimension(),
-                             weightMatrix.getColumnDimension());
+                = new Matrix(weightMatrix.GetRowDimension(),
+                             weightMatrix.GetColumnDimension());
 
             this.biasVector = new Vector(numberOfNeurons);
-            lastBiasUpdateVector = new Vector(biasVector.getRowDimension());
-            penultimateBiasUpdateVector = new Vector(biasVector.getRowDimension());
+            lastBiasUpdateVector = new Vector(biasVector.GetRowDimension());
+            penultimateBiasUpdateVector = new Vector(biasVector.GetRowDimension());
 
             initializeMatrix(weightMatrix, 
                              lowerLimitForWeights,
@@ -80,24 +80,24 @@ namespace tvn.cosine.ai.learning.neural
         {
             lastInput = inputVector;
             Matrix inducedField 
-                = weightMatrix.times(inputVector)
-                              .plus(biasVector);
+                = weightMatrix.Times(inputVector)
+                              .Plus(biasVector);
 
             Vector inducedFieldVector = new Vector(NumberOfNeurons());
             for (int i = 0; i < NumberOfNeurons(); ++i)
             {
-                inducedFieldVector.setValue(i, inducedField.get(i, 0));
+                inducedFieldVector.SetValue(i, inducedField.Get(i, 0));
             }
 
-            lastInducedField = inducedFieldVector.copyVector();
+            lastInducedField = inducedFieldVector.CopyVector();
             Vector resultVector = new Vector(NumberOfNeurons());
             for (int i = 0; i < NumberOfNeurons(); ++i)
             {
-                resultVector.setValue(i, 
-                                      activationFunction.Activation(inducedFieldVector.getValue(i)));
+                resultVector.SetValue(i, 
+                                      activationFunction.Activation(inducedFieldVector.GetValue(i)));
             }
             // set the result as the last activation value
-            lastActivationValues = resultVector.copyVector();
+            lastActivationValues = resultVector.CopyVector();
             return resultVector;
         }
 
@@ -113,12 +113,12 @@ namespace tvn.cosine.ai.learning.neural
 
         public int NumberOfNeurons()
         {
-            return weightMatrix.getRowDimension();
+            return weightMatrix.GetRowDimension();
         }
 
         public int NumberOfInputs()
         {
-            return weightMatrix.getColumnDimension();
+            return weightMatrix.GetColumnDimension();
         }
 
         public Vector GetLastActivationValues()
@@ -173,16 +173,16 @@ namespace tvn.cosine.ai.learning.neural
 
         public void UpdateWeights()
         {
-            weightMatrix.plusEquals(lastWeightUpdateMatrix);
+            weightMatrix.PlusEquals(lastWeightUpdateMatrix);
         }
 
         public void UpdateBiases()
         {
-            Matrix biasMatrix = biasVector.plusEquals(lastBiasUpdateVector);
-            Vector result = new Vector(biasMatrix.getRowDimension());
-            for (int i = 0; i < biasMatrix.getRowDimension(); ++i)
+            Matrix biasMatrix = biasVector.PlusEquals(lastBiasUpdateVector);
+            Vector result = new Vector(biasMatrix.GetRowDimension());
+            for (int i = 0; i < biasMatrix.GetRowDimension(); ++i)
             {
-                result.setValue(i, biasMatrix.get(i, 0));
+                result.SetValue(i, biasMatrix.Get(i, 0));
             }
             biasVector = result;
         }
@@ -212,29 +212,29 @@ namespace tvn.cosine.ai.learning.neural
 
         public Vector ErrorVectorFrom(Vector target)
         {
-            return target.minus(GetLastActivationValues()); 
+            return target.Minus(GetLastActivationValues()); 
         }
 
         private static void initializeMatrix(Matrix aMatrix, double lowerLimit, double upperLimit)
         {
-            for (int i = 0; i < aMatrix.getRowDimension(); ++i)
+            for (int i = 0; i < aMatrix.GetRowDimension(); ++i)
             {
-                for (int j = 0; j < aMatrix.getColumnDimension(); j++)
+                for (int j = 0; j < aMatrix.GetColumnDimension(); j++)
                 {
                     double random = Util.generateRandomDoubleBetween(lowerLimit, upperLimit);
-                    aMatrix.set(i, j, random);
+                    aMatrix.Set(i, j, random);
                 }
             } 
         }
 
         private static void initializeVector(Vector aVector, double lowerLimit, double upperLimit)
         {
-            for (int i = 0; i < aVector.size(); ++i)
+            for (int i = 0; i < aVector.Size(); ++i)
             {
 
                 double random = Util.generateRandomDoubleBetween(lowerLimit,
                         upperLimit);
-                aVector.setValue(i, random);
+                aVector.SetValue(i, random);
             }
         }
     }
