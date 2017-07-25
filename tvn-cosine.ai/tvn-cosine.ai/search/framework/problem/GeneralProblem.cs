@@ -1,24 +1,24 @@
 ﻿using System;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.search.framework.problem
 {
     /**
-     * Configurable problem which uses objects to explicitly represent the required
-     * functions.
+     * Configurable problem which uses objects to explicitly represent the required functions.
      *
      * @param <S> The type used to represent states
      * @param <A> The type of the actions to be used to navigate through the state space
      *
      * @author Ruediger Lunde
      */
-    public class GeneralProblem<S, A> : Problem<S, A>
+    public class GeneralProblem<S, A> : IProblem<S, A>
     {
         private S initialState;
-        private ActionsFunction<S, A> actionsFn;
-        private ResultFunction<S, A> resultFn;
+        private IActionsFunction<S, A> actionsFn;
+        private IResultFunction<S, A> resultFn;
         private GoalTest<S> goalTest;
-        private StepCostFunction<S, A> stepCostFn;
+        private IStepCostFunction<S, A> stepCostFn;
 
         /**
          * Constructs a problem with the specified components, which includes a step
@@ -41,10 +41,10 @@ namespace tvn.cosine.ai.search.framework.problem
          *            reflects its own performance measure.
          */
         public GeneralProblem(S initialState,
-                              ActionsFunction<S, A> actionsFn,
-                              ResultFunction<S, A> resultFn,
+                              IActionsFunction<S, A> actionsFn,
+                              IResultFunction<S, A> resultFn,
                               GoalTest<S> goalTest,
-                              StepCostFunction<S, A> stepCostFn)
+                              IStepCostFunction<S, A> stepCostFn)
         {
             this.initialState = initialState;
             this.actionsFn = actionsFn;
@@ -70,8 +70,8 @@ namespace tvn.cosine.ai.search.framework.problem
          *            test determines whether a given state is a goal state.
          */
         public GeneralProblem(S initialState,
-                              ActionsFunction<S, A> actionsFn,
-                              ResultFunction<S, A> resultFn,
+                              IActionsFunction<S, A> actionsFn,
+                              IResultFunction<S, A> resultFn,
                               GoalTest<S> goalTest)
             : this(initialState, actionsFn, resultFn, goalTest, new DefaultStepCostFunction<S, A>())
         { }

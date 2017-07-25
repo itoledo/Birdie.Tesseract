@@ -2,6 +2,7 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.search.csp.api;
 
 namespace tvn.cosine.ai.search.csp
 {
@@ -157,7 +158,7 @@ namespace tvn.cosine.ai.search.csp
                 int result = 0;
                 Assignment<VAR, VAL> assign = new Assignment<VAR, VAL>();
                 assign.add(var, value);
-                foreach (Constraint<VAR, VAL> constraint in csp.getConstraints(var))
+                foreach (IConstraint<VAR, VAL> constraint in csp.getConstraints(var))
                 {
                     if (constraint.getScope().Size() == 2)
                     {

@@ -6,7 +6,9 @@ using tvn.cosine.ai.robotics.datatypes;
 using tvn.cosine.ai.robotics.datatypes.api;
 using tvn.cosine.ai.robotics.map.api;
 using tvn.cosine.ai.util.math.geom;
+using tvn.cosine.ai.util.math.geom.api;
 using tvn.cosine.ai.util.math.geom.shapes;
+using tvn.cosine.ai.util.math.geom.shapes.api;
 
 namespace tvn.cosine.ai.robotics.map
 { 

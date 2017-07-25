@@ -2,8 +2,12 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
+using tvn.cosine.ai.search.informed.api;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.search.informed
 {
@@ -42,7 +46,7 @@ namespace tvn.cosine.ai.search.informed
      * @author Mike Stampone
      * @author Ruediger Lunde
      */
-    public class RecursiveBestFirstSearch<S, A> : SearchForActions<S, A>, Informed<S, A>
+    public class RecursiveBestFirstSearch<S, A> : ISearchForActions<S, A>, IInformed<S, A>
     { 
         public const string METRIC_NODES_EXPANDED = "nodesExpanded";
         public const string METRIC_MAX_RECURSIVE_DEPTH = "maxRecursiveDepth";
@@ -50,7 +54,7 @@ namespace tvn.cosine.ai.search.informed
 
         private const double INFINITY = double.MaxValue;
 
-        private readonly ToDoubleFunction<Node<S, A>> evalFn;
+        private readonly IToDoubleFunction<Node<S, A>> evalFn;
         private bool avoidLoops;
         private readonly NodeExpander<S, A> nodeExpander;
 
@@ -58,18 +62,18 @@ namespace tvn.cosine.ai.search.informed
         private ISet<S> explored = CollectionFactory.CreateSet<S>();
         private Metrics metrics;
 
-        public RecursiveBestFirstSearch(ToDoubleFunction<Node<S, A>> evalFn)
+        public RecursiveBestFirstSearch(IToDoubleFunction<Node<S, A>> evalFn)
             : this(evalFn, false)
         { }
 
         /**
          * Constructor which allows to enable the loop avoidance strategy.
          */
-        public RecursiveBestFirstSearch(ToDoubleFunction<Node<S, A>> evalFn, bool avoidLoops)
+        public RecursiveBestFirstSearch(IToDoubleFunction<Node<S, A>> evalFn, bool avoidLoops)
             : this(evalFn, avoidLoops, new NodeExpander<S, A>())
         { }
 
-        public RecursiveBestFirstSearch(ToDoubleFunction<Node<S, A>> evalFn, bool avoidLoops,
+        public RecursiveBestFirstSearch(IToDoubleFunction<Node<S, A>> evalFn, bool avoidLoops,
                                         NodeExpander<S, A> nodeExpander)
         {
             this.evalFn = evalFn;
@@ -83,14 +87,14 @@ namespace tvn.cosine.ai.search.informed
          * Modifies the evaluation function if it is a {@link HeuristicEvaluationFunction}.
          */
           
-        public void setHeuristicFunction(ToDoubleFunction<Node<S, A>> h)
+        public void setHeuristicFunction(IToDoubleFunction<Node<S, A>> h)
         {
             if (evalFn is HeuristicEvaluationFunction<S, A>)
                 ((HeuristicEvaluationFunction<S, A>)evalFn).setHeuristicFunction(h);
         }
 
         // function RECURSIVE-BEST-FIRST-SEARCH(problem) returns a solution, or failure 
-        public ICollection<A> findActions(Problem<S, A> p)
+        public ICollection<A> findActions(IProblem<S, A> p)
         {
             explored.Clear();
             clearMetrics();
@@ -140,7 +144,7 @@ namespace tvn.cosine.ai.search.informed
         //
         // function RBFS(problem, node, f_limit) returns a solution, or failure and
         // a new f-cost limit
-        private SearchResult rbfs(Problem<S, A> p, Node<S, A> node, double node_f, double fLimit, int recursiveDepth)
+        private SearchResult rbfs(IProblem<S, A> p, Node<S, A> node, double node_f, double fLimit, int recursiveDepth)
         {
             updateMetrics(recursiveDepth);
 
@@ -228,7 +232,7 @@ namespace tvn.cosine.ai.search.informed
             return lidx;
         }
 
-        private ICollection<Node<S, A>> expandNode(Node<S, A> node, Problem<S, A> problem)
+        private ICollection<Node<S, A>> expandNode(Node<S, A> node, IProblem<S, A> problem)
         {
             ICollection<Node<S, A>> result = nodeExpander.expand(node, problem);
             if (avoidLoops)

@@ -5,14 +5,15 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.wumpusworld;
 using tvn.cosine.ai.environment.wumpusworld.action;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn_cosine.ai.test.unit.environment.wumpusworld
 {
     [TestClass]
     public class WumpusFunctionsTest
     {
-        private ActionsFunction<AgentPosition, IAction> actionFn;
-        private ResultFunction<AgentPosition, IAction> resultFn;
+        private IActionsFunction<AgentPosition, IAction> actionFn;
+        private IResultFunction<AgentPosition, IAction> resultFn;
 
         [TestInitialize]
         public void setUp()

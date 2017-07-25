@@ -2,6 +2,7 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.search.framework.qsearch
 {
@@ -59,9 +60,8 @@ namespace tvn.cosine.ai.search.framework.qsearch
         /**
          * Sets the comparator if a priority queue is used, resets explored list and
          * state map and calls the inherited version of search.
-         */
-
-        public override Node<S, A> findNode(Problem<S, A> problem, ICollection<Node<S, A>> frontier)
+         */ 
+        public override Node<S, A> findNode(IProblem<S, A> problem, ICollection<Node<S, A>> frontier)
         {
             // initialize the explored set to be empty
             if (frontier is PriorityQueue<Node<S, A>>)

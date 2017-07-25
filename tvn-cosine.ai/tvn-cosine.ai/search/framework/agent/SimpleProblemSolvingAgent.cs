@@ -3,6 +3,7 @@ using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.search.framework.agent
 {
@@ -75,8 +76,7 @@ namespace tvn.cosine.ai.search.framework.agent
             this.maxGoalsToFormulate = maxGoalsToFormulate;
         }
 
-        // function SIMPLE-PROBLEM-SOLVING-AGENT(percept) returns an action
-
+        // function SIMPLE-PROBLEM-SOLVING-AGENT(percept) returns an action 
         public override IAction Execute(IPercept p)
         {
             IAction action = DynamicAction.NO_OP; // return value if at goal or goal not found
@@ -96,7 +96,7 @@ namespace tvn.cosine.ai.search.framework.agent
                     object goal = formulateGoal();
                     goalsFormulated++;
                     // problem <- FORMULATE-PROBLEM(state, goal)
-                    Problem<S, A> problem = formulateProblem(goal);
+                    IProblem<S, A> problem = formulateProblem(goal);
                     // seq <- SEARCH(problem)
                     ICollection<A> actions = search(problem);
                     if (null != actions)
@@ -120,17 +120,14 @@ namespace tvn.cosine.ai.search.framework.agent
 
             return action;
         }
-
-        //
-        // PROTECTED METHODS
-        //
+         
         protected abstract void updateState(IPercept p);
 
         protected abstract object formulateGoal();
 
-        protected abstract Problem<S, A> formulateProblem(object goal);
+        protected abstract IProblem<S, A> formulateProblem(object goal);
 
-        protected abstract ICollection<A> search(Problem<S, A> problem);
+        protected abstract ICollection<A> search(IProblem<S, A> problem);
 
         protected abstract void notifyViewOfMetrics();
     }

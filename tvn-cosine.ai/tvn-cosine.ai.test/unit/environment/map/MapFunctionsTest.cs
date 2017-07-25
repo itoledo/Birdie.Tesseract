@@ -3,15 +3,16 @@ using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn_cosine.ai.test.unit.environment.map
 {
     [TestClass]
     public class MapFunctionsTest
     {
-        private ActionsFunction<string, MoveToAction> actionsFn;
-        private ResultFunction<string, MoveToAction> resultFn;
-        private StepCostFunction<string, MoveToAction> stepCostFn;
+        private IActionsFunction<string, MoveToAction> actionsFn;
+        private IResultFunction<string, MoveToAction> resultFn;
+        private IStepCostFunction<string, MoveToAction> stepCostFn;
 
         [TestInitialize]
         public void setUp()

@@ -2,6 +2,7 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.search.framework
 {
@@ -65,7 +66,7 @@ namespace tvn.cosine.ai.search.framework
          * @return the children obtained from expanding the specified node in the
          *         specified problem.
          */
-        public ICollection<Node<S, A>> expand(Node<S, A> node, Problem<S, A> problem)
+        public ICollection<Node<S, A>> expand(Node<S, A> node, IProblem<S, A> problem)
         {
             ICollection<Node<S, A>> successors = CollectionFactory.CreateQueue<Node<S, A>>();
 

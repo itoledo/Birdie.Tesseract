@@ -4,7 +4,9 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.environment.eightpuzzle
 {
@@ -12,7 +14,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
     {
         public static readonly EightPuzzleBoard GOAL_STATE = new EightPuzzleBoard(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
 
-        public class ActionFunctionEB : ActionsFunction<EightPuzzleBoard, IAction>
+        public class ActionFunctionEB : IActionsFunction<EightPuzzleBoard, IAction>
         {
             public ICollection<IAction> apply(EightPuzzleBoard state)
             {
@@ -20,7 +22,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             }
         }
 
-        public class ResultFunctionEB : ResultFunction<EightPuzzleBoard, IAction>
+        public class ResultFunctionEB : IResultFunction<EightPuzzleBoard, IAction>
         {
             public EightPuzzleBoard apply(EightPuzzleBoard state, IAction action)
             {
@@ -59,17 +61,17 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             return result;
         }
 
-        public static ToDoubleFunction<Node<EightPuzzleBoard, IAction>> createManhattanHeuristicFunction()
+        public static IToDoubleFunction<Node<EightPuzzleBoard, IAction>> createManhattanHeuristicFunction()
         {
             return new ManhattanHeuristicFunction();
         }
 
-        public static ToDoubleFunction<Node<EightPuzzleBoard, IAction>> createMisplacedTileHeuristicFunction()
+        public static IToDoubleFunction<Node<EightPuzzleBoard, IAction>> createMisplacedTileHeuristicFunction()
         {
             return new MisplacedTileHeuristicFunction();
         }
          
-        private class ManhattanHeuristicFunction : ToDoubleFunction<Node<EightPuzzleBoard, IAction>>
+        private class ManhattanHeuristicFunction : IToDoubleFunction<Node<EightPuzzleBoard, IAction>>
         {
 
             public double applyAsDouble(Node<EightPuzzleBoard, IAction> node)
@@ -122,7 +124,7 @@ namespace tvn.cosine.ai.environment.eightpuzzle
             }
         }
          
-        private class MisplacedTileHeuristicFunction : ToDoubleFunction<Node<EightPuzzleBoard, IAction>>
+        private class MisplacedTileHeuristicFunction : IToDoubleFunction<Node<EightPuzzleBoard, IAction>>
         {
 
             public double applyAsDouble(Node<EightPuzzleBoard, IAction> node)

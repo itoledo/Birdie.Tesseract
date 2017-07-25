@@ -2,6 +2,7 @@
 using tvn.cosine.ai.environment.nqueens;
 using tvn.cosine.ai.search.framework.agent;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.search.local;
 
 namespace tvn_cosine.ai.demo.search.nqueens
@@ -18,7 +19,7 @@ namespace tvn_cosine.ai.demo.search.nqueens
             System.Console.WriteLine("\nNQueensDemo Simulated Annealing  -->");
             try
             {
-                Problem<NQueensBoard, QueenAction> problem =
+                IProblem<NQueensBoard, QueenAction> problem =
                         NQueensFunctions.createCompleteStateFormulationProblem(
                             boardSize, 
                             NQueensBoard.Config.QUEENS_IN_FIRST_ROW);

@@ -3,11 +3,9 @@ using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.search.framework
 {
-    /**
-     * Provides several useful static methods for implementing search.
-     *
-     * @author Ruediger Lunde
-     */
+    /// <summary>
+    /// Provides several useful static methods for implementing search.
+    /// </summary>
     public class SearchUtils
     {
         /**

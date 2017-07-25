@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.search.framework.problem
+﻿namespace tvn.cosine.ai.search.framework.problem.api
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 67.<br>
@@ -13,7 +13,7 @@
      *
      * @author Ruediger Lunde
      */
-    public interface ResultFunction<S, A>
+    public interface IResultFunction<S, A>
     {
         S apply(S state, A action);
     }

@@ -3,6 +3,7 @@ using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.wumpusworld.action;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.environment.wumpusworld
 {
@@ -11,17 +12,17 @@ namespace tvn.cosine.ai.environment.wumpusworld
      */
     public class WumpusFunctionFunctions
     {
-        public static ActionsFunction<AgentPosition, IAction> createActionsFunction(WumpusCave cave)
+        public static IActionsFunction<AgentPosition, IAction> createActionsFunction(WumpusCave cave)
         {
             return new WumpusActionsFunction(cave);
         }
 
-        public static ResultFunction<AgentPosition, IAction> createResultFunction()
+        public static IResultFunction<AgentPosition, IAction> createResultFunction()
         {
             return new WumpusResultFunction();
         }
 
-        private class WumpusActionsFunction : ActionsFunction<AgentPosition, IAction>
+        private class WumpusActionsFunction : IActionsFunction<AgentPosition, IAction>
         {
 
             private WumpusCave cave;
@@ -52,7 +53,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             }
         }
 
-        private class WumpusResultFunction : ResultFunction<AgentPosition, IAction>
+        private class WumpusResultFunction : IResultFunction<AgentPosition, IAction>
         {
             public AgentPosition apply(AgentPosition state, IAction action)
             {

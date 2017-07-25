@@ -1,6 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections.api;
 
-namespace tvn.cosine.ai.search.nondeterministic
+namespace tvn.cosine.ai.search.nondeterministic.api
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 136.<br>
@@ -13,7 +13,7 @@ namespace tvn.cosine.ai.search.nondeterministic
      * @author Andrew Brown
      * @author Ruediger Lunde
      */
-    public interface ResultsFunction<S, A>
+    public interface IResultsFunction<S, A>
     {
 
         /**

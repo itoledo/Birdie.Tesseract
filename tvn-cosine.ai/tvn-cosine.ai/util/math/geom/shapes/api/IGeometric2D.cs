@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.util.math.geom.shapes
+﻿namespace tvn.cosine.ai.util.math.geom.shapes.api
 {
     /**
      * This interface defines functionality that geometric shapes in a two-dimensional Cartesian plot have to implement.<br/>

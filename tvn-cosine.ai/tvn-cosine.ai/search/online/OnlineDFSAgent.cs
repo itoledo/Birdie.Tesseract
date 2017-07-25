@@ -1,10 +1,10 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.datastructures;
-using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.common.datastructures; 
 using tvn.cosine.ai.util;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.search.online
 {
@@ -45,7 +45,7 @@ namespace tvn.cosine.ai.search.online
     public class OnlineDFSAgent<S, A> : AgentBase
         where A : IAction
     { 
-        private OnlineSearchProblem<S, A> problem;
+        private IOnlineSearchProblem<S, A> problem;
         private Function<IPercept, S> ptsFn;
         // persistent: result, a table, indexed by state and action, initially empty
         private TwoKeyHashMap<S, A, S> result = new TwoKeyHashMap<S, A, S>();
@@ -68,7 +68,7 @@ namespace tvn.cosine.ai.search.online
          *            a function which returns the problem state associated with a
          *            given Percept.
          */
-        public OnlineDFSAgent(OnlineSearchProblem<S, A> problem, Function<IPercept, S> ptsFn)
+        public OnlineDFSAgent(IOnlineSearchProblem<S, A> problem, Function<IPercept, S> ptsFn)
         {
             setProblem(problem);
             setPerceptToStateFunction(ptsFn);
@@ -79,7 +79,7 @@ namespace tvn.cosine.ai.search.online
          * 
          * @return the search problem for this agent.
          */
-        public OnlineSearchProblem<S, A> getProblem()
+        public IOnlineSearchProblem<S, A> getProblem()
         {
             return problem;
         }
@@ -90,7 +90,7 @@ namespace tvn.cosine.ai.search.online
          * @param problem
          *            the search problem for this agent to solve.
          */
-        public void setProblem(OnlineSearchProblem<S, A> problem)
+        public void setProblem(IOnlineSearchProblem<S, A> problem)
         {
             this.problem = problem;
             init();

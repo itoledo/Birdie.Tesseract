@@ -4,21 +4,21 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.environment.nqueens;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn_cosine.ai.test.unit.environment.nqueens
 {
     [TestClass]
     public class NQueensFunctionsTest
     {
-        private ActionsFunction<NQueensBoard, QueenAction> actionsFn;
-        private ResultFunction<NQueensBoard, QueenAction> resultFn;
+        private IActionsFunction<NQueensBoard, QueenAction> actionsFn;
+        private IResultFunction<NQueensBoard, QueenAction> resultFn;
         private GoalTest<NQueensBoard> goalTest;
 
         private NQueensBoard oneBoard;
         private NQueensBoard eightBoard;
         private NQueensBoard board;
-
-
+         
         [TestInitialize]
         public void setUp()
         {

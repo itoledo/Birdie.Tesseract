@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.adversarial;
+using tvn.cosine.ai.search.adversarial.api;
 
 namespace tvn.cosine.ai.environment.connectfour
 {
@@ -13,7 +14,7 @@ namespace tvn.cosine.ai.environment.connectfour
     public class ConnectFourAIPlayer
         : IterativeDeepeningAlphaBetaSearch<ConnectFourState, int, string>
     {
-        public ConnectFourAIPlayer(Game<ConnectFourState, int, string> game, int time)
+        public ConnectFourAIPlayer(IGame<ConnectFourState, int, string> game, int time)
             : base(game, 0.0, 1.0, time)
         { }
 

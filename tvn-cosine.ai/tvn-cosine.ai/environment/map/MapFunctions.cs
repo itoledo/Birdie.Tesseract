@@ -6,28 +6,29 @@ using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.util;
 using tvn.cosine.ai.util.math.geom.shapes;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem.api;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.environment.map
 {
     public class MapFunctions
-    {
-
-        public static ActionsFunction<string, MoveToAction> createActionsFunction(Map map)
+    { 
+        public static IActionsFunction<string, MoveToAction> createActionsFunction(Map map)
         {
             return new MapActionsFunction(map, false);
         }
 
-        public static ActionsFunction<string, MoveToAction> createReverseActionsFunction(Map map)
+        public static IActionsFunction<string, MoveToAction> createReverseActionsFunction(Map map)
         {
             return new MapActionsFunction(map, true);
         }
 
-        public static ResultFunction<string, MoveToAction> createResultFunction()
+        public static IResultFunction<string, MoveToAction> createResultFunction()
         {
             return new MapResultFunction();
         }
 
-        public static StepCostFunction<string, MoveToAction> createDistanceStepCostFunction(Map map)
+        public static IStepCostFunction<string, MoveToAction> createDistanceStepCostFunction(Map map)
         {
             return new DistanceStepCostFunction(map);
         }
@@ -38,7 +39,7 @@ namespace tvn.cosine.ai.environment.map
         }
 
         /** Returns a heuristic function based on straight line distance computation. */
-        public static ToDoubleFunction<Node<string, MoveToAction>> createSLDHeuristicFunction(string goal, Map map)
+        public static IToDoubleFunction<Node<string, MoveToAction>> createSLDHeuristicFunction(string goal, Map map)
         {
             return new SLDHeuristicFunction(goal, map);
         }
@@ -53,7 +54,7 @@ namespace tvn.cosine.ai.environment.map
             return result;
         }
 
-        public class SLDHeuristicFunction : ToDoubleFunction<Node<string, MoveToAction>>
+        public class SLDHeuristicFunction : IToDoubleFunction<Node<string, MoveToAction>>
         {
             private string goal;
             private Map map;
@@ -70,7 +71,7 @@ namespace tvn.cosine.ai.environment.map
             }
         }
 
-        public class MapActionsFunction : ActionsFunction<string, MoveToAction>
+        public class MapActionsFunction : IActionsFunction<string, MoveToAction>
         {
             private Map map = null;
             private bool reverseMode;
@@ -96,7 +97,7 @@ namespace tvn.cosine.ai.environment.map
             }
         }
 
-        public class MapResultFunction : ResultFunction<string, MoveToAction>
+        public class MapResultFunction : IResultFunction<string, MoveToAction>
         {
 
             public string apply(string s, MoveToAction a)
@@ -113,7 +114,7 @@ namespace tvn.cosine.ai.environment.map
          * locations to calculate the cost in addition to a constant cost, so that it
          * may be used in conjunction with a Uniform-cost search.
          */
-        public class DistanceStepCostFunction : StepCostFunction<string, MoveToAction>
+        public class DistanceStepCostFunction : IStepCostFunction<string, MoveToAction>
         {
             private Map map = null;
 

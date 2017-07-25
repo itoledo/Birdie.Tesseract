@@ -1,16 +1,22 @@
-﻿namespace tvn.cosine.ai.search.csp.inference
+﻿using tvn.cosine.ai.search.csp.api;
+using tvn.cosine.ai.search.csp.inference.api;
+
+namespace tvn.cosine.ai.search.csp.inference
 {
-    /**
-     * Implements forward checking. Constraints which are not binary are ignored here.
-     * @author Ruediger Lunde
-     */
-    public class ForwardCheckingStrategy<VAR, VAL> : InferenceStrategy<VAR, VAL>
+    /// <summary>
+    /// Implements forward checking. Constraints which are not binary are ignored here.
+    /// </summary>
+    /// <typeparam name="VAR"></typeparam>
+    /// <typeparam name="VAL"></typeparam>
+    public class ForwardCheckingStrategy<VAR, VAL> : IInferenceStrategy<VAR, VAL>
         where VAR : Variable
     {
-
-        /** The CSP is not changed at the beginning. */
-
-        public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp)
+        /// <summary>
+        /// The CSP is not changed at the beginning.
+        /// </summary>
+        /// <param name="csp"></param>
+        /// <returns></returns>
+        public IInferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp)
         {
             return new InferenceEmptyLog<VAR, VAL>();
         }
@@ -22,10 +28,10 @@
          * assignment for <code>var</code>.
          */
 
-        public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
+        public IInferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
         {
             DomainLog<VAR, VAL> log = new DomainLog<VAR, VAL>();
-            foreach (Constraint<VAR, VAL> constraint in csp.getConstraints(var))
+            foreach (IConstraint<VAR, VAL> constraint in csp.getConstraints(var))
             {
                 VAR neighbor = csp.getNeighbor(var, constraint);
                 if (neighbor != null && !assignment.contains(neighbor))
@@ -48,7 +54,7 @@
          * <code>constraint</code> and <code>assignment</code>. Modifies the domain log accordingly so
          * that all changes can be undone later on.
          */
-        private bool revise(VAR var, Constraint<VAR, VAL> constraint, Assignment<VAR, VAL> assignment,
+        private bool revise(VAR var, IConstraint<VAR, VAL> constraint, Assignment<VAR, VAL> assignment,
                                CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
         {
             bool revised = false;

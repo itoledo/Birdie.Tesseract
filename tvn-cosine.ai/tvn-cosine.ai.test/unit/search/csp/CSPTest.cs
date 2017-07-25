@@ -2,6 +2,7 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.csp;
+using tvn.cosine.ai.search.csp.api;
 using tvn.cosine.ai.search.csp.examples;
 
 namespace tvn_cosine.ai.test.unit.search.csp
@@ -12,8 +13,8 @@ namespace tvn_cosine.ai.test.unit.search.csp
         private static readonly Variable Y = new Variable("y");
         private static readonly Variable Z = new Variable("z");
 
-        private static readonly Constraint<Variable, string> C1 = new NotEqualConstraint<Variable, string>(X, Y);
-        private static readonly Constraint<Variable, string> C2 = new NotEqualConstraint<Variable, string>(X, Y);
+        private static readonly IConstraint<Variable, string> C1 = new NotEqualConstraint<Variable, string>(X, Y);
+        private static readonly IConstraint<Variable, string> C2 = new NotEqualConstraint<Variable, string>(X, Y);
 
         private Domain<string> colors;
         private Domain<string> animals;

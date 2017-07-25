@@ -5,6 +5,7 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.local;
+using tvn.cosine.ai.search.local.api;
 
 namespace tvn.cosine.ai.environment.nqueens
 {
@@ -22,7 +23,7 @@ namespace tvn.cosine.ai.environment.nqueens
     public class NQueensGenAlgoUtil
     {
 
-        public static FitnessFunction<int> getFitnessFunction()
+        public static IFitnessFunction<int> getFitnessFunction()
         {
             return new NQueensFitnessFunction();
         }
@@ -55,7 +56,7 @@ namespace tvn.cosine.ai.environment.nqueens
             return fab;
         }
 
-        public class NQueensFitnessFunction : FitnessFunction<int>
+        public class NQueensFitnessFunction : IFitnessFunction<int>
         {
             public double apply(Individual<int> individual)
             {

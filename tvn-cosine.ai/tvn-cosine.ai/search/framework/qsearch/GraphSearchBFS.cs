@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.search.framework.qsearch
 {
@@ -55,7 +56,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * <code>QueSearch</code>
          */
 
-        public override Node<S, A> findNode(Problem<S, A> problem, ICollection<Node<S, A>> frontier)
+        public override Node<S, A> findNode(IProblem<S, A> problem, ICollection<Node<S, A>> frontier)
         {
             // Initialize the explored set to be empty
             explored.Clear();

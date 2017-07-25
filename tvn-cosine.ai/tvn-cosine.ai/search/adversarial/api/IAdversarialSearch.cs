@@ -1,6 +1,6 @@
 ﻿using tvn.cosine.ai.search.framework;
 
-namespace tvn.cosine.ai.search.adversarial
+namespace tvn.cosine.ai.search.adversarial.api
 {
     /**
      * Variant of the search interface. Since players can only control the next
@@ -11,7 +11,7 @@ namespace tvn.cosine.ai.search.adversarial
      * @param <A> The type of the actions to be used to navigate through the state space
      * @author Ruediger Lunde
      */
-    public interface AdversarialSearch<S, A>
+    public interface IAdversarialSearch<S, A>
     {
 
         /**

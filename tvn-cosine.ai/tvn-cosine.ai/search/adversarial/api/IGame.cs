@@ -1,6 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections.api;
 
-namespace tvn.cosine.ai.search.adversarial
+namespace tvn.cosine.ai.search.adversarial.api
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 165.<br>
@@ -33,7 +33,7 @@ namespace tvn.cosine.ai.search.adversarial
      * @param <P> Type which is used for players in the game.
      * @author Ruediger Lunde
      */
-    public interface Game<S, A, P>
+    public interface IGame<S, A, P>
     { 
         S getInitialState(); 
         P[] getPlayers(); 

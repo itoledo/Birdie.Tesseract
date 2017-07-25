@@ -1,7 +1,9 @@
-﻿using tvn.cosine.ai.common; 
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.search.uninformed
 {
@@ -34,7 +36,7 @@ namespace tvn.cosine.ai.search.uninformed
      * @author Ciaran O'Reilly
      * @author Mike Stampone
      */
-    public class DepthLimitedSearch<S, A> : SearchForActions<S, A>, SearchForStates<S, A>
+    public class DepthLimitedSearch<S, A> : ISearchForActions<S, A>, ISearchForStates<S, A>
     {
         public const string METRIC_NODES_EXPANDED = "nodesExpanded";
         public const string METRIC_PATH_COST = "pathCost";
@@ -63,7 +65,7 @@ namespace tvn.cosine.ai.search.uninformed
          * @return if goal found, the list of actions to the goal, empty otherwise.
          */
 
-        public ICollection<A> findActions(Problem<S, A> p)
+        public ICollection<A> findActions(IProblem<S, A> p)
         {
             nodeExpander.useParentLinks(true);
             Node<S, A> node = findNode(p);
@@ -72,14 +74,14 @@ namespace tvn.cosine.ai.search.uninformed
 
 
 
-        public S findState(Problem<S, A> p)
+        public S findState(IProblem<S, A> p)
         {
             nodeExpander.useParentLinks(false);
             Node<S, A> node = findNode(p);
             return !isCutoffResult(node) ? SearchUtils.toState(node) : default(S);
         }
 
-        public Node<S, A> findNode(Problem<S, A> p)
+        public Node<S, A> findNode(IProblem<S, A> p)
         {
             clearMetrics();
             // return RECURSIVE-DLS(MAKE-NODE(INITIAL-STATE[problem]), problem,
@@ -105,7 +107,7 @@ namespace tvn.cosine.ai.search.uninformed
         /**
          * Returns a solution node, the {@link #cutoffNode}, or null (failure).
          */
-        private Node<S, A> recursiveDLS(Node<S, A> node, Problem<S, A> problem, int limit)
+        private Node<S, A> recursiveDLS(Node<S, A> node, IProblem<S, A> problem, int limit)
         {
             // if problem.GOAL-TEST(node.STATE) then return SOLUTION(node)
             if (problem.testSolution(node))

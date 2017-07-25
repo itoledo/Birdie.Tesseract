@@ -2,6 +2,7 @@
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.search.adversarial;
+using tvn.cosine.ai.search.adversarial.api;
 
 namespace tvn.cosine.ai.environment.connectfour
 {
@@ -12,7 +13,7 @@ namespace tvn.cosine.ai.environment.connectfour
      * @author Ruediger Lunde
      * 
      */
-    public class ConnectFourGame : Game<ConnectFourState, int, string>
+    public class ConnectFourGame : IGame<ConnectFourState, int, string>
     {
         private string[] players = new string[] { "red", "yellow" };
         private ConnectFourState initialState = new ConnectFourState(6, 7);

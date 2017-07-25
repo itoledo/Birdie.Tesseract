@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.search.informed
 {
@@ -30,13 +31,13 @@ namespace tvn.cosine.ai.search.informed
          *            cheapest path from the state at node <em>n</em> to a goal
          *            state.
          */
-        public GreedyBestFirstSearch(QueueSearch<S, A> impl, ToDoubleFunction<Node<S, A>> h)
+        public GreedyBestFirstSearch(QueueSearch<S, A> impl, IToDoubleFunction<Node<S, A>> h)
                 : base(impl, new EvalFunction(h))
         { }
 
         public class EvalFunction : HeuristicEvaluationFunction<S, A>
         {
-            public EvalFunction(ToDoubleFunction<Node<S, A>> h)
+            public EvalFunction(IToDoubleFunction<Node<S, A>> h)
             {
                 this.h = h;
             }

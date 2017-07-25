@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.environment.tictactoe;
 using tvn.cosine.ai.search.adversarial;
+using tvn.cosine.ai.search.adversarial.api;
 
 namespace tvn_cosine.ai.demo.search.tictactoe
 {
@@ -18,7 +19,7 @@ namespace tvn_cosine.ai.demo.search.tictactoe
             System.Console.WriteLine("ALPHA BETA DEMO\n");
             TicTacToeGame game = new TicTacToeGame();
             TicTacToeState currState = game.getInitialState();
-            AdversarialSearch<TicTacToeState, XYLocation> search = AlphaBetaSearch<TicTacToeState, XYLocation, string>
+            IAdversarialSearch<TicTacToeState, XYLocation> search = AlphaBetaSearch<TicTacToeState, XYLocation, string>
                     .createFor(game);
             while (!(game.isTerminal(currState)))
             {

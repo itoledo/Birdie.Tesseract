@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.util.math.geom.shapes
+﻿using tvn.cosine.ai.util.math.geom.shapes.api;
+
+namespace tvn.cosine.ai.util.math.geom.shapes
 {
     /**
      * This class : a rectangle in a two-dimensional Cartesian plot that has its edges parallel to the axis of the plot.<br/>

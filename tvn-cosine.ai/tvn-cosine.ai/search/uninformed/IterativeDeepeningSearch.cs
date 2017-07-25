@@ -2,7 +2,9 @@
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.search.uninformed
 {
@@ -27,7 +29,7 @@ namespace tvn.cosine.ai.search.uninformed
      * @author Ravi Mohan
      * @author Ciaran O'Reilly
      */
-    public class IterativeDeepeningSearch<S, A> : SearchForActions<S, A>, SearchForStates<S, A>
+    public class IterativeDeepeningSearch<S, A> : ISearchForActions<S, A>, ISearchForStates<S, A>
     {
         public const string METRIC_NODES_EXPANDED = "nodesExpanded";
         public const string METRIC_PATH_COST = "pathCost";
@@ -49,14 +51,14 @@ namespace tvn.cosine.ai.search.uninformed
         // function ITERATIVE-DEEPENING-SEARCH(problem) returns a solution, or
         // failure
 
-        public ICollection<A> findActions(Problem<S, A> p)
+        public ICollection<A> findActions(IProblem<S, A> p)
         {
             nodeExpander.useParentLinks(true);
             return SearchUtils.toActions(findNode(p));
         }
 
 
-        public S findState(Problem<S, A> p)
+        public S findState(IProblem<S, A> p)
         {
             nodeExpander.useParentLinks(false);
             return SearchUtils.toState(findNode(p));
@@ -80,7 +82,7 @@ namespace tvn.cosine.ai.search.uninformed
          * @param p
          * @return
          */
-        private Node<S, A> findNode(Problem<S, A> p)
+        private Node<S, A> findNode(IProblem<S, A> p)
         {
             clearMetrics();
             // for depth = 0 to infinity do

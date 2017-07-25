@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.csp.inference;
+using tvn.cosine.ai.search.csp.inference.api;
 
 namespace tvn.cosine.ai.search.csp
 {
@@ -20,7 +21,7 @@ namespace tvn.cosine.ai.search.csp
 
         private CspHeuristics.VariableSelection<VAR, VAL> varSelectionStrategy;
         private CspHeuristics.ValueSelection<VAR, VAL> valSelectionStrategy;
-        private InferenceStrategy<VAR, VAL> inferenceStrategy;
+        private IInferenceStrategy<VAR, VAL> inferenceStrategy;
 
 
         /**
@@ -44,7 +45,7 @@ namespace tvn.cosine.ai.search.csp
         /**
          * Selects the algorithm for INFERENCE. Uses the fluent interface design pattern.
          */
-        public FlexibleBacktrackingSolver<VAR, VAL> set(InferenceStrategy<VAR, VAL> iStrategy)
+        public FlexibleBacktrackingSolver<VAR, VAL> set(IInferenceStrategy<VAR, VAL> iStrategy)
         {
             inferenceStrategy = iStrategy;
             return this;
@@ -68,7 +69,7 @@ namespace tvn.cosine.ai.search.csp
             if (inferenceStrategy != null)
             {
                 csp = csp.copyDomains(); // do not change the original CSP!
-                InferenceLog<VAR, VAL> log = inferenceStrategy.apply(csp);
+                IInferenceLog<VAR, VAL> log = inferenceStrategy.apply(csp);
                 if (!log.isEmpty())
                 {
                     fireStateChanged(csp, null, null);
@@ -120,7 +121,7 @@ namespace tvn.cosine.ai.search.csp
          * (3) how to restore the original CSP.
          */
 
-        protected override InferenceLog<VAR, VAL> inference(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
+        protected override IInferenceLog<VAR, VAL> inference(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
         {
             if (inferenceStrategy != null)
                 return inferenceStrategy.apply(csp, assignment, var);

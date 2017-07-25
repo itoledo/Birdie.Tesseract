@@ -2,9 +2,13 @@
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.search.informed;
+using tvn.cosine.ai.search.informed.api;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.search.local
 {
@@ -33,7 +37,7 @@ namespace tvn.cosine.ai.search.local
      * @author Mike Stampone
      * @author Ruediger Lunde
      */
-    public class HillClimbingSearch<S, A> : SearchForActions<S, A>, SearchForStates<S, A>, Informed<S, A>
+    public class HillClimbingSearch<S, A> : ISearchForActions<S, A>, ISearchForStates<S, A>, IInformed<S, A>
     {
         public enum SearchOutcome
         {
@@ -43,7 +47,7 @@ namespace tvn.cosine.ai.search.local
         public const string METRIC_NODES_EXPANDED = "nodesExpanded";
         public const string METRIC_NODE_VALUE = "nodeValue";
 
-        private ToDoubleFunction<Node<S, A>> h = null;
+        private IToDoubleFunction<Node<S, A>> h = null;
         private NodeExpander<S, A> nodeExpander;
         private SearchOutcome outcome = SearchOutcome.FAILURE;
         private S lastState = default(S);
@@ -54,11 +58,11 @@ namespace tvn.cosine.ai.search.local
          *
          * @param h a heuristic function
          */
-        public HillClimbingSearch(ToDoubleFunction<Node<S, A>> h)
+        public HillClimbingSearch(IToDoubleFunction<Node<S, A>> h)
             : this(h, new NodeExpander<S, A>())
         { }
 
-        public HillClimbingSearch(ToDoubleFunction<Node<S, A>> h, NodeExpander<S, A> nodeExpander)
+        public HillClimbingSearch(IToDoubleFunction<Node<S, A>> h, NodeExpander<S, A> nodeExpander)
         {
             this.h = h;
             this.nodeExpander = nodeExpander;
@@ -66,20 +70,20 @@ namespace tvn.cosine.ai.search.local
         }
 
 
-        public void setHeuristicFunction(ToDoubleFunction<Node<S, A>> h)
+        public void setHeuristicFunction(IToDoubleFunction<Node<S, A>> h)
         {
             this.h = h;
         }
 
 
-        public ICollection<A> findActions(Problem<S, A> p)
+        public ICollection<A> findActions(IProblem<S, A> p)
         {
             nodeExpander.useParentLinks(true);
             return SearchUtils.toActions(findNode(p));
         }
 
 
-        public S findState(Problem<S, A> p)
+        public S findState(IProblem<S, A> p)
         {
             nodeExpander.useParentLinks(false);
             return SearchUtils.toState(findNode(p));
@@ -104,7 +108,7 @@ namespace tvn.cosine.ai.search.local
          * @return a node or empty
          */
         // function HILL-CLIMBING(problem) returns a state that is a local maximum
-        public Node<S, A> findNode(Problem<S, A> p)
+        public Node<S, A> findNode(IProblem<S, A> p)
         {
             clearMetrics();
             outcome = SearchOutcome.FAILURE;

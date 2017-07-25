@@ -1,7 +1,7 @@
-﻿using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.util.math.geom.shapes;
+﻿using tvn.cosine.ai.common.collections.api; 
+using tvn.cosine.ai.util.math.geom.shapes.api;
 
-namespace tvn.cosine.ai.util.math.geom
+namespace tvn.cosine.ai.util.math.geom.api
 {
     /**
      * This interface defines a parser that creates {@code ArrayList}s for geometric shapes represented through {@link IGeometric2D}

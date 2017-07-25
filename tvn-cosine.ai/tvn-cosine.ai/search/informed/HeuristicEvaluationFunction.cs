@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.search.informed
 {
@@ -13,9 +14,9 @@ namespace tvn.cosine.ai.search.informed
      * @author Ruediger Lunde
      *
      */
-    public abstract class HeuristicEvaluationFunction<S, A> : ToDoubleFunction<Node<S, A>>
+    public abstract class HeuristicEvaluationFunction<S, A> : IToDoubleFunction<Node<S, A>>
     {
-        protected ToDoubleFunction<Node<S, A>> h;
+        protected IToDoubleFunction<Node<S, A>> h;
 
         public virtual double applyAsDouble(Node<S, A> value)
         {
@@ -25,12 +26,12 @@ namespace tvn.cosine.ai.search.informed
                 return h.applyAsDouble(value);
         }
 
-        public virtual ToDoubleFunction<Node<S, A>> getHeuristicFunction()
+        public virtual IToDoubleFunction<Node<S, A>> getHeuristicFunction()
         {
             return h;
         }
 
-        public virtual void setHeuristicFunction(ToDoubleFunction<Node<S, A>> h)
+        public virtual void setHeuristicFunction(IToDoubleFunction<Node<S, A>> h)
         {
             this.h = h;
         }

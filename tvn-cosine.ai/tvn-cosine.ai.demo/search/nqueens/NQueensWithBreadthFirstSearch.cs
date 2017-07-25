@@ -2,7 +2,9 @@
 using tvn.cosine.ai.environment.nqueens;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.agent;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.search.uninformed;
 
@@ -20,9 +22,9 @@ namespace tvn_cosine.ai.demo.search.nqueens
             try
             {
                 System.Console.WriteLine("\nNQueensDemo BFS -->");
-                Problem<NQueensBoard, QueenAction> problem =
+                IProblem<NQueensBoard, QueenAction> problem =
                         NQueensFunctions.createIncrementalFormulationProblem(boardSize);
-                SearchForActions<NQueensBoard, QueenAction> 
+                ISearchForActions<NQueensBoard, QueenAction> 
                     search = new BreadthFirstSearch<NQueensBoard, QueenAction>(new TreeSearch<NQueensBoard, QueenAction>());
                 SearchAgent<NQueensBoard, QueenAction> 
                     agent = new SearchAgent<NQueensBoard, QueenAction>(problem, search);

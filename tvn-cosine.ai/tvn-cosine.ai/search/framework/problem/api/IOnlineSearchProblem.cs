@@ -1,6 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections.api;
 
-namespace tvn.cosine.ai.search.framework.problem
+namespace tvn.cosine.ai.search.framework.problem.api
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 147.<br>
@@ -21,7 +21,7 @@ namespace tvn.cosine.ai.search.framework.problem
      *
      * @author Ruediger Lunde
      */
-    public interface OnlineSearchProblem<S, A>
+    public interface IOnlineSearchProblem<S, A>
     {
 
         /**

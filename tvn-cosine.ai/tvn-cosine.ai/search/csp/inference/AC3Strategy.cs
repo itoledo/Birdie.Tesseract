@@ -1,6 +1,8 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.search.csp.api;
+using tvn.cosine.ai.search.csp.inference.api;
 
 namespace tvn.cosine.ai.search.csp.inference
 {
@@ -40,8 +42,8 @@ namespace tvn.cosine.ai.search.csp.inference
      * 
      * @author Ruediger Lunde
      */
-    public class AC3Strategy<VAR, VAL> : InferenceStrategy<VAR, VAL>
-    where VAR : Variable
+    public class AC3Strategy<VAR, VAL> : IInferenceStrategy<VAR, VAL>
+        where VAR : Variable
     {
 
         /**
@@ -50,7 +52,7 @@ namespace tvn.cosine.ai.search.csp.inference
          * @return An object which indicates success/failure and contains data to
          *         undo the operation.
          */
-        public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp)
+        public IInferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp)
         {
             ICollection<VAR> queue = CollectionFactory.CreateFifoQueueNoDuplicates<VAR>();
             queue.AddAll(csp.getVariables());
@@ -67,7 +69,7 @@ namespace tvn.cosine.ai.search.csp.inference
          * @return An object which indicates success/failure and contains data to
          *         undo the operation.
          */
-        public InferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
+        public IInferenceLog<VAR, VAL> apply(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var)
         {
             Domain<VAL> domain = csp.getDomain(var);
             VAL value = assignment.getValue(var);
@@ -97,7 +99,7 @@ namespace tvn.cosine.ai.search.csp.inference
             while (!queue.IsEmpty())
             {
                 VAR var = queue.Pop();
-                foreach (Constraint<VAR, VAL> constraint in csp.getConstraints(var))
+                foreach (IConstraint<VAR, VAL> constraint in csp.getConstraints(var))
                 {
                     VAR neighbor = csp.getNeighbor(var, constraint);
                     if (neighbor != null && revise(neighbor, var, constraint, csp, log))
@@ -117,7 +119,7 @@ namespace tvn.cosine.ai.search.csp.inference
          * Establishes arc-consistency for (xi, xj).
          * @return value true if the domain of xi was reduced.
          */
-        private bool revise(VAR xi, VAR xj, Constraint<VAR, VAL> constraint, CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
+        private bool revise(VAR xi, VAR xj, IConstraint<VAR, VAL> constraint, CSP<VAR, VAL> csp, DomainLog<VAR, VAL> log)
         {
             Domain<VAL> currDomain = csp.getDomain(xi);
             ICollection<VAL> newValues = CollectionFactory.CreateQueue<VAL>();

@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.search.csp.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.search.csp
@@ -100,7 +101,7 @@ namespace tvn.cosine.ai.search.csp
         private ISet<VAR> getConflictedVariables(Assignment<VAR, VAL> assignment, CSP<VAR, VAL> csp)
         {
             ISet<VAR> result = CollectionFactory.CreateSet<VAR>();
-            foreach (Constraint<VAR, VAL> constraint in csp.getConstraints())
+            foreach (IConstraint<VAR, VAL> constraint in csp.getConstraints())
             {
                 if (!constraint.isSatisfiedWith(assignment))
                 {
@@ -118,7 +119,7 @@ namespace tvn.cosine.ai.search.csp
 
         private VAL getMinConflictValueFor(VAR var, Assignment<VAR, VAL> assignment, CSP<VAR, VAL> csp)
         {
-            ICollection<Constraint<VAR, VAL>> constraints = csp.getConstraints(var);
+            ICollection<IConstraint<VAR, VAL>> constraints = csp.getConstraints(var);
             Assignment<VAR, VAL> testAssignment = assignment.Clone();
             int minConflict = int.MaxValue;
             ICollection<VAL> resultCandidates = CollectionFactory.CreateQueue<VAL>();
@@ -140,10 +141,10 @@ namespace tvn.cosine.ai.search.csp
         }
 
         private int countConflicts(Assignment<VAR, VAL> assignment,
-                ICollection<Constraint<VAR, VAL>> constraints)
+                ICollection<IConstraint<VAR, VAL>> constraints)
         {
             int result = 0;
-            foreach (Constraint<VAR, VAL> constraint in constraints)
+            foreach (IConstraint<VAR, VAL> constraint in constraints)
                 if (!constraint.isSatisfiedWith(assignment))
                     result++;
             return result;

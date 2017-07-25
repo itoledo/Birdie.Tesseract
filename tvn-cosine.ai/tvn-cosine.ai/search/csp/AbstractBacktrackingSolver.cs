@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.csp.inference;
+using tvn.cosine.ai.search.csp.inference.api;
 
 namespace tvn.cosine.ai.search.csp
 {
@@ -40,9 +41,7 @@ namespace tvn.cosine.ai.search.csp
      * and a new value is tried.
      *
      * @param <VAR> Type which is used to represent variables
-     * @param <VAL> Type which is used to represent the values in the domains
-     *
-     * @author Ruediger Lunde
+     * @param <VAL> Type which is used to represent the values in the domains 
      */
     public abstract class AbstractBacktrackingSolver<VAR, VAL> : CspSolver<VAR, VAL>
         where VAR : Variable
@@ -59,18 +58,23 @@ namespace tvn.cosine.ai.search.csp
             return currIsCancelled;
         }
 
-        /** Applies a recursive backtracking search to solve the CSP. */
+        /// <summary>
+        /// Applies a recursive backtracking search to solve the CSP.
+        /// </summary>
+        /// <param name="csp"></param>
+        /// <returns></returns>
         public override Assignment<VAR, VAL> solve(CSP<VAR, VAL> csp)
         {
             Assignment<VAR, VAL> result = backtrack(csp, new Assignment<VAR, VAL>());
             return result;
         }
-
-        /**
-         * Template method, which can be configured by overriding the three
-         * primitive operations below.
-         * @return An assignment (possibly incomplete if task was cancelled) or null if no solution was found.
-         */
+         
+        /// <summary>
+        /// Template method, which can be configured by overriding the three primitive operations below.
+        /// </summary>
+        /// <param name="csp"></param>
+        /// <param name="assignment"></param>
+        /// <returns>An assignment (possibly incomplete if task was cancelled) or null if no solution was found.</returns>
         private Assignment<VAR, VAL> backtrack(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment)
         {
             Assignment<VAR, VAL> result = null;
@@ -87,7 +91,7 @@ namespace tvn.cosine.ai.search.csp
                     fireStateChanged(csp, assignment, var);
                     if (assignment.isConsistent(csp.getConstraints(var)))
                     {
-                        InferenceLog<VAR, VAL> log = inference(csp, assignment, var);
+                        IInferenceLog<VAR, VAL> log = inference(csp, assignment, var);
                         if (!log.isEmpty())
                             fireStateChanged(csp, null, null);
                         if (!log.inconsistencyFound())
@@ -104,26 +108,36 @@ namespace tvn.cosine.ai.search.csp
             return result;
         }
 
-        /**
-         * Primitive operation, selecting a not yet assigned variable.
-         */
+        /// <summary>
+        /// Primitive operation, selecting a not yet assigned variable.
+        /// </summary>
+        /// <param name="csp"></param>
+        /// <param name="assignment"></param>
+        /// <returns></returns>
         protected abstract VAR selectUnassignedVariable(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment);
 
-        /**
-         * Primitive operation, ordering the domain values of the specified variable.
-         */
+        /// <summary>
+        /// Primitive operation, ordering the domain values of the specified variable.
+        /// </summary>
+        /// <param name="csp"></param>
+        /// <param name="assignment"></param>
+        /// <param name="var"></param>
+        /// <returns></returns>
         protected abstract IEnumerable<VAL> orderDomainValues(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var);
-
-        /**
-         * Primitive operation, which tries to optimize the CSP representation with respect to a new assignment.
-         *
-         * @param var The variable which just got a new value in the assignment.
-         * @return An object which provides information about
-         * (1) whether changes have been performed,
-         * (2) possibly inferred empty domains, and
-         * (3) how to restore the original CSP.
-         */
-        protected abstract InferenceLog<VAR, VAL> inference(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var);
+         
+        /// <summary>
+        /// Primitive operation, which tries to optimize the CSP representation with respect to a new assignment. 
+        /// </summary>
+        /// <param name="csp"></param>
+        /// <param name="assignment"></param>
+        /// <param name="var">The variable which just got a new value in the assignment.</param>
+        /// <returns>
+        /// An object which provides information about
+        /// (1) whether changes have been performed,
+        /// (2) possibly inferred empty domains, and
+        /// (3) how to restore the original CSP.
+        /// </returns>
+        protected abstract IInferenceLog<VAR, VAL> inference(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR var);
     }
 
 }

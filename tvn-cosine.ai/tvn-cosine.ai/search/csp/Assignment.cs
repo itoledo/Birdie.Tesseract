@@ -5,6 +5,7 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.common.text;
 using tvn.cosine.ai.common.text.api;
+using tvn.cosine.ai.search.csp.api;
 
 namespace tvn.cosine.ai.search.csp
 {
@@ -59,9 +60,9 @@ namespace tvn.cosine.ai.search.csp
         /// </summary>
         /// <param name="constraints"></param>
         /// <returns></returns>
-        public bool isConsistent(ICollection<Constraint<VAR, VAL>> constraints)
+        public bool isConsistent(ICollection<IConstraint<VAR, VAL>> constraints)
         {
-            foreach (Constraint<VAR, VAL> cons in constraints)
+            foreach (IConstraint<VAR, VAL> cons in constraints)
                 if (!cons.isSatisfiedWith(this))
                     return false;
             return true;

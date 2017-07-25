@@ -3,7 +3,9 @@ using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.environment.eightpuzzle;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.agent;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.search.informed;
 
@@ -21,8 +23,8 @@ namespace tvn_cosine.ai.demo.search.eightpuzzle
             System.Console.WriteLine("\nEightPuzzleDemo Greedy Best First Search (MisplacedTileHeursitic)-->");
             try
             {
-                Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
-                SearchForActions<EightPuzzleBoard, IAction>
+                IProblem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
+                ISearchForActions<EightPuzzleBoard, IAction>
                     search = new GreedyBestFirstSearch<EightPuzzleBoard, IAction>(
                         new GraphSearch<EightPuzzleBoard, IAction>(), 
                         EightPuzzleFunctions.createMisplacedTileHeuristicFunction());

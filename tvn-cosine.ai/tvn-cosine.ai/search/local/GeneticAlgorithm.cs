@@ -6,6 +6,7 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.local.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.search.local
@@ -94,7 +95,8 @@ namespace tvn.cosine.ai.search.local
          * Starts the genetic algorithm and stops after a specified number of
          * iterations.
          */
-        public virtual Individual<A> geneticAlgorithm(ICollection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn, int maxIterations)
+        public virtual Individual<A> geneticAlgorithm(ICollection<Individual<A>> initPopulation, 
+            IFitnessFunction<A> fitnessFn, int maxIterations)
         {
             GoalTest<Individual<A>> goalTest = (state) => getIterations() >= maxIterations;
             return geneticAlgorithm(initPopulation, fitnessFn, goalTest, 0L);
@@ -133,7 +135,7 @@ namespace tvn.cosine.ai.search.local
         // function GENETIC-ALGORITHM(population, FITNESS-FN) returns an individual
         // inputs: population, a set of individuals
         // FITNESS-FN, a function that measures the fitness of an individual
-        public virtual Individual<A> geneticAlgorithm(ICollection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn,
+        public virtual Individual<A> geneticAlgorithm(ICollection<Individual<A>> initPopulation, IFitnessFunction<A> fitnessFn,
                 GoalTest<Individual<A>> goalTest, long maxTimeMilliseconds)
         {
             Individual<A> bestIndividual = null;
@@ -167,7 +169,7 @@ namespace tvn.cosine.ai.search.local
             return bestIndividual;
         }
 
-        public virtual Individual<A> retrieveBestIndividual(ICollection<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        public virtual Individual<A> retrieveBestIndividual(ICollection<Individual<A>> population, IFitnessFunction<A> fitnessFn)
         {
             Individual<A> bestIndividual = null;
             double bestSoFarFValue = double.NegativeInfinity;
@@ -257,7 +259,7 @@ namespace tvn.cosine.ai.search.local
          * Primitive operation which is responsible for creating the next
          * generation. Override to get progress information!
          */
-        protected virtual ICollection<Individual<A>> nextGeneration(ICollection<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        protected virtual ICollection<Individual<A>> nextGeneration(ICollection<Individual<A>> population, IFitnessFunction<A> fitnessFn)
         {
             // new_population <- empty set
             ICollection<Individual<A>> newPopulation = CollectionFactory.CreateQueue<Individual<A>>();
@@ -283,7 +285,7 @@ namespace tvn.cosine.ai.search.local
         }
 
         // RANDOM-SELECTION(population, FITNESS-FN)
-        protected virtual Individual<A> randomSelection(ICollection<Individual<A>> population, FitnessFunction<A> fitnessFn)
+        protected virtual Individual<A> randomSelection(ICollection<Individual<A>> population, IFitnessFunction<A> fitnessFn)
         {
             // Default result is last individual
             // (just to avoid problems with rounding errors)

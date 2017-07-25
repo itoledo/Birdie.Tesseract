@@ -4,7 +4,7 @@ using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.environment.nqueens;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.local;
-
+using tvn.cosine.ai.search.local.api;
 
 namespace tvn_cosine.ai.demo.search.nqueens
 {
@@ -20,7 +20,7 @@ namespace tvn_cosine.ai.demo.search.nqueens
             System.Console.WriteLine("\nNQueensDemo GeneticAlgorithm  -->");
             try
             {
-                FitnessFunction<int> fitnessFunction = NQueensGenAlgoUtil.getFitnessFunction();
+                IFitnessFunction<int> fitnessFunction = NQueensGenAlgoUtil.getFitnessFunction();
                 GoalTest<Individual<int>> goalTest = NQueensGenAlgoUtil.getGoalTest();
                 // Generate an initial population
                 ISet<Individual<int>> population = CollectionFactory.CreateSet<Individual<int>>();

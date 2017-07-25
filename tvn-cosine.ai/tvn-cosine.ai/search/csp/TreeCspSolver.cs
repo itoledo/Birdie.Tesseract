@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.search.csp.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.search.csp
@@ -56,7 +57,7 @@ namespace tvn.cosine.ai.search.csp
             VAR root = _useRandom ? Util.selectRandomlyFromList(csp.getVariables()) : csp.getVariables().Get(0);
             // Sort the variables in topological order
             ICollection<VAR> orderedVars = CollectionFactory.CreateQueue<VAR>();
-            IMap<VAR, Constraint<VAR, VAL>> parentConstraints = CollectionFactory.CreateInsertionOrderedMap<VAR, Constraint<VAR, VAL>>();
+            IMap<VAR, IConstraint<VAR, VAL>> parentConstraints = CollectionFactory.CreateInsertionOrderedMap<VAR, IConstraint<VAR, VAL>>();
             topologicalSort(csp, root, orderedVars, parentConstraints);
             if (csp.getDomain(root).isEmpty())
                 return null; // CSP has no solution! (needed if orderedVars.size() == 1)
@@ -66,7 +67,7 @@ namespace tvn.cosine.ai.search.csp
             for (int i = orderedVars.Size() - 1; i > 0; i--)
             {
                 VAR var = orderedVars.Get(i);
-                Constraint<VAR, VAL> constraint = parentConstraints.Get(var);
+                IConstraint<VAR, VAL> constraint = parentConstraints.Get(var);
                 VAR parent = csp.getNeighbor(var, constraint);
                 if (makeArcConsistent(parent, var, constraint, csp))
                 {
@@ -105,7 +106,7 @@ namespace tvn.cosine.ai.search.csp
          *                          variable (initially empty)
          */
         private void topologicalSort(CSP<VAR, VAL> csp, VAR root, ICollection<VAR> orderedVars,
-                                     IMap<VAR, Constraint<VAR, VAL>> parentConstraints)
+                                     IMap<VAR, IConstraint<VAR, VAL>> parentConstraints)
         {
             orderedVars.Add(root);
             parentConstraints.Put(root, null);
@@ -115,7 +116,7 @@ namespace tvn.cosine.ai.search.csp
                 currParentIdx++;
                 VAR currParent = orderedVars.Get(currParentIdx);
                 int arcsPointingUpwards = 0;
-                foreach (Constraint<VAR, VAL> constraint in csp.getConstraints(currParent))
+                foreach (IConstraint<VAR, VAL> constraint in csp.getConstraints(currParent))
                 {
                     VAR neighbor = csp.getNeighbor(currParent, constraint);
                     if (neighbor == null)
@@ -141,7 +142,7 @@ namespace tvn.cosine.ai.search.csp
          * Establishes arc-consistency for (xi, xj).
          * @return value true if the domain of xi was reduced.
          */
-        private bool makeArcConsistent(VAR xi, VAR xj, Constraint<VAR, VAL> constraint, CSP<VAR, VAL> csp)
+        private bool makeArcConsistent(VAR xi, VAR xj, IConstraint<VAR, VAL> constraint, CSP<VAR, VAL> csp)
         {
             Domain<VAL> currDomain = csp.getDomain(xi);
             ICollection<VAL> newValues = CollectionFactory.CreateQueue<VAL>();

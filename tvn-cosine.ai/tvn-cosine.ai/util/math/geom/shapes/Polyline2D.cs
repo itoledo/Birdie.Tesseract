@@ -1,4 +1,6 @@
-﻿namespace tvn.cosine.ai.util.math.geom.shapes
+﻿using tvn.cosine.ai.util.math.geom.shapes.api;
+
+namespace tvn.cosine.ai.util.math.geom.shapes
 {
     /**
      * This class : a polyline in a two-dimensional Cartesian plot.<br/>

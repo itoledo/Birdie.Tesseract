@@ -2,8 +2,11 @@
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.search.local
 {
@@ -35,7 +38,7 @@ namespace tvn.cosine.ai.search.local
      * @author Mike Stampone
      * @author Ruediger Lunde
      */
-    public class SimulatedAnnealingSearch<S, A> : SearchForActions<S, A>, SearchForStates<S, A>
+    public class SimulatedAnnealingSearch<S, A> : ISearchForActions<S, A>, ISearchForStates<S, A>
     {
         public enum SearchOutcome
         {
@@ -46,7 +49,7 @@ namespace tvn.cosine.ai.search.local
         public const string METRIC_TEMPERATURE = "temp";
         public const string METRIC_NODE_VALUE = "nodeValue";
 
-        private readonly ToDoubleFunction<Node<S, A>> h;
+        private readonly IToDoubleFunction<Node<S, A>> h;
         private readonly Scheduler scheduler;
         private readonly NodeExpander<S, A> nodeExpander;
 
@@ -61,7 +64,7 @@ namespace tvn.cosine.ai.search.local
          * @param h
          *            a heuristic function
          */
-        public SimulatedAnnealingSearch(ToDoubleFunction<Node<S, A>> h)
+        public SimulatedAnnealingSearch(IToDoubleFunction<Node<S, A>> h)
             : this(h, new Scheduler())
         { }
 
@@ -74,11 +77,11 @@ namespace tvn.cosine.ai.search.local
          * @param scheduler
          *            a mapping from time to "temperature"
          */
-        public SimulatedAnnealingSearch(ToDoubleFunction<Node<S, A>> h, Scheduler scheduler)
+        public SimulatedAnnealingSearch(IToDoubleFunction<Node<S, A>> h, Scheduler scheduler)
             : this(h, scheduler, new NodeExpander<S, A>())
         { }
 
-        public SimulatedAnnealingSearch(ToDoubleFunction<Node<S, A>> h, Scheduler scheduler, NodeExpander<S, A> nodeExpander)
+        public SimulatedAnnealingSearch(IToDoubleFunction<Node<S, A>> h, Scheduler scheduler, NodeExpander<S, A> nodeExpander)
         {
             this.h = h;
             this.scheduler = scheduler;
@@ -87,14 +90,14 @@ namespace tvn.cosine.ai.search.local
         }
 
 
-        public ICollection<A> findActions(Problem<S, A> p)
+        public ICollection<A> findActions(IProblem<S, A> p)
         {
             nodeExpander.useParentLinks(true);
             return SearchUtils.toActions(findNode(p));
         }
 
 
-        public S findState(Problem<S, A> p)
+        public S findState(IProblem<S, A> p)
         {
             nodeExpander.useParentLinks(false);
             return SearchUtils.toState(findNode(p));
@@ -114,7 +117,7 @@ namespace tvn.cosine.ai.search.local
         }
 
         // function SIMULATED-ANNEALING(problem, schedule) returns a solution state
-        public Node<S, A> findNode(Problem<S, A> p)
+        public Node<S, A> findNode(IProblem<S, A> p)
         {
             clearMetrics();
             outcome = SearchOutcome.FAILURE;

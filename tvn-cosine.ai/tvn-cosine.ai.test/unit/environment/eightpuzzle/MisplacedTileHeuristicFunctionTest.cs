@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.environment.eightpuzzle;
-using tvn.cosine.ai.search.framework;
-using tvn.cosine.ai.util;
+using tvn.cosine.ai.search.framework; 
+using tvn.cosine.ai.util.api;
 
 namespace tvn_cosine.ai.test.unit.environment.eightpuzzle
 {
@@ -13,7 +13,7 @@ namespace tvn_cosine.ai.test.unit.environment.eightpuzzle
         [TestMethod]
         public void testHeuristicCalculation()
         {
-            ToDoubleFunction<Node<EightPuzzleBoard, IAction>> h =
+            IToDoubleFunction<Node<EightPuzzleBoard, IAction>> h =
                     EightPuzzleFunctions.createMisplacedTileHeuristicFunction();
             EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 2, 0, 5, 6,
                 4, 8, 3, 7, 1 });

@@ -4,14 +4,14 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.environment.nqueens;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.local;
+using tvn.cosine.ai.search.local.api;
 
 namespace tvn_cosine.ai.test.unit.environment.nqueens
 {
     [TestClass]
     public class NQueensGenAlgoUtilTest
-    {
-
-        private FitnessFunction<int> fitnessFunction;
+    { 
+        private IFitnessFunction<int> fitnessFunction;
         private GoalTest<Individual<int>> goalTest;
 
         [TestInitialize]

@@ -3,13 +3,14 @@ using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.environment.wumpusworld
 {
     /**
      * Heuristic for calculating the Manhattan distance between two rooms within a Wumpus World cave. 
      */
-    public class ManhattanHeuristicFunction : ToDoubleFunction<Node<AgentPosition, IAction>>
+    public class ManhattanHeuristicFunction : IToDoubleFunction<Node<AgentPosition, IAction>>
     {
         ICollection<Room> goals = CollectionFactory.CreateQueue<Room>();
 

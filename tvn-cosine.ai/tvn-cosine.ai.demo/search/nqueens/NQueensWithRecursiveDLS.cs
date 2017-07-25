@@ -2,7 +2,9 @@
 using tvn.cosine.ai.environment.nqueens;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.agent;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.search.uninformed;
 
 namespace tvn_cosine.ai.demo.search.nqueens
@@ -19,9 +21,9 @@ namespace tvn_cosine.ai.demo.search.nqueens
             System.Console.WriteLine("\nNQueensDemo recursive DLS -->");
             try
             {
-                Problem<NQueensBoard, QueenAction> problem =
+                IProblem<NQueensBoard, QueenAction> problem =
                         NQueensFunctions.createIncrementalFormulationProblem(boardSize);
-                SearchForActions<NQueensBoard, QueenAction> 
+                ISearchForActions<NQueensBoard, QueenAction> 
                     search = new DepthLimitedSearch<NQueensBoard, QueenAction>(boardSize);
                 SearchAgent<NQueensBoard, QueenAction> 
                     agent = new SearchAgent<NQueensBoard, QueenAction>(problem, search);

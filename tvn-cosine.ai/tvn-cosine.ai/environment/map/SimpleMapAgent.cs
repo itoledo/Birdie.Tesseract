@@ -4,6 +4,8 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.agent;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.api;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.environment.map
 {
@@ -24,12 +26,12 @@ namespace tvn.cosine.ai.environment.map
 
         // possibly null...
         private IEnvironmentViewNotifier notifier = null;
-        private SearchForActions<string, MoveToAction> _search = null;
+        private ISearchForActions<string, MoveToAction> _search = null;
         private string[] goals = null;
         private int goalTestPos = 0;
 
         public SimpleMapAgent(Map map, IEnvironmentViewNotifier notifier,
-            SearchForActions<string, MoveToAction> search)
+            ISearchForActions<string, MoveToAction> search)
         {
             this.map = map;
             this.notifier = notifier;
@@ -37,7 +39,7 @@ namespace tvn.cosine.ai.environment.map
         }
 
         public SimpleMapAgent(Map map, IEnvironmentViewNotifier notifier,
-            SearchForActions<string, MoveToAction> search,
+            ISearchForActions<string, MoveToAction> search,
                               int maxGoalsToFormulate)
             : base(maxGoalsToFormulate)
         {
@@ -48,7 +50,7 @@ namespace tvn.cosine.ai.environment.map
         }
 
         public SimpleMapAgent(Map map, IEnvironmentViewNotifier notifier,
-            SearchForActions<string, MoveToAction> search,
+            ISearchForActions<string, MoveToAction> search,
             string[] goals)
             : this(map, search, goals)
         {
@@ -56,7 +58,7 @@ namespace tvn.cosine.ai.environment.map
             this.notifier = notifier;
         }
 
-        public SimpleMapAgent(Map map, SearchForActions<string, MoveToAction> search, string[] goals)
+        public SimpleMapAgent(Map map, ISearchForActions<string, MoveToAction> search, string[] goals)
             : base(goals.Length)
         {
 
@@ -91,14 +93,14 @@ namespace tvn.cosine.ai.environment.map
             return goal;
         }
 
-        protected override Problem<string, MoveToAction> formulateProblem(object goal)
+        protected override IProblem<string, MoveToAction> formulateProblem(object goal)
         {
             return new BidirectionalMapProblem(map,
                 (string)state.GetAttribute(DynAttributeNames.AGENT_LOCATION),
                     (string)goal);
         }
 
-        protected override ICollection<MoveToAction> search(Problem<string, MoveToAction> problem)
+        protected override ICollection<MoveToAction> search(IProblem<string, MoveToAction> problem)
         {
             return _search.findActions(problem);
         }

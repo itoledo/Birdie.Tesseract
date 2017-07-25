@@ -5,7 +5,9 @@ using tvn.cosine.ai.environment.eightpuzzle;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.agent;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.search.informed;
 using tvn.cosine.ai.util;
@@ -31,8 +33,8 @@ namespace tvn_cosine.ai.test.unit.search.informed
             //EightPuzzleBoard board = new EightPuzzleBoard(new int[]
             //{ 1, 0, 2, 3, 4, 5, 6, 7, 8 });
 
-            Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(board);
-            SearchForActions<EightPuzzleBoard, IAction> search 
+            IProblem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(board);
+            ISearchForActions<EightPuzzleBoard, IAction> search 
                 = new AStarSearch<EightPuzzleBoard, IAction>(
                     new GraphSearch<EightPuzzleBoard, IAction>(),
                     EightPuzzleFunctions.createManhattanHeuristicFunction());
@@ -52,14 +54,14 @@ namespace tvn_cosine.ai.test.unit.search.informed
         public void testAIMA3eFigure3_15()
         {
             Map romaniaMap = new SimplifiedRoadMapOfPartOfRomania();
-            Problem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(
+            IProblem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(
                     SimplifiedRoadMapOfPartOfRomania.SIBIU,
                     MapFunctions.createActionsFunction(romaniaMap),
                     MapFunctions.createResultFunction(),
                      SimplifiedRoadMapOfPartOfRomania.BUCHAREST.Equals,
                     MapFunctions.createDistanceStepCostFunction(romaniaMap));
 
-            SearchForActions<string, MoveToAction> search 
+            ISearchForActions<string, MoveToAction> search 
                 = new AStarSearch<string, MoveToAction>(
                     new GraphSearch<string, MoveToAction>(),
                     MapFunctions.createSLDHeuristicFunction(
@@ -80,14 +82,14 @@ namespace tvn_cosine.ai.test.unit.search.informed
         public void testAIMA3eFigure3_24()
         {
             Map romaniaMap = new SimplifiedRoadMapOfPartOfRomania();
-            Problem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(
+            IProblem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(
                             SimplifiedRoadMapOfPartOfRomania.ARAD,
                             MapFunctions.createActionsFunction(romaniaMap),
                             MapFunctions.createResultFunction(),
                             SimplifiedRoadMapOfPartOfRomania.BUCHAREST.Equals,
                             MapFunctions.createDistanceStepCostFunction(romaniaMap));
 
-            SearchForActions<string, MoveToAction> search = new AStarSearch<string, MoveToAction>(new TreeSearch<string, MoveToAction>(),
+            ISearchForActions<string, MoveToAction> search = new AStarSearch<string, MoveToAction>(new TreeSearch<string, MoveToAction>(),
                     MapFunctions.createSLDHeuristicFunction(SimplifiedRoadMapOfPartOfRomania.BUCHAREST, romaniaMap));
             SearchAgent<string, MoveToAction> agent = new SearchAgent<string, MoveToAction>(problem, search);
             Assert.AreEqual(
@@ -106,14 +108,14 @@ namespace tvn_cosine.ai.test.unit.search.informed
         public void testAIMA3eFigure3_24_using_GraphSearch()
         {
             Map romaniaMap = new SimplifiedRoadMapOfPartOfRomania();
-            Problem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(
+            IProblem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(
                     SimplifiedRoadMapOfPartOfRomania.ARAD,
                     MapFunctions.createActionsFunction(romaniaMap),
                     MapFunctions.createResultFunction(),
                      SimplifiedRoadMapOfPartOfRomania.BUCHAREST.Equals,
                     MapFunctions.createDistanceStepCostFunction(romaniaMap));
 
-            SearchForActions<string, MoveToAction> search = new AStarSearch<string, MoveToAction>(new GraphSearch<string, MoveToAction>(),
+            ISearchForActions<string, MoveToAction> search = new AStarSearch<string, MoveToAction>(new GraphSearch<string, MoveToAction>(),
                     MapFunctions.createSLDHeuristicFunction(SimplifiedRoadMapOfPartOfRomania.BUCHAREST, romaniaMap));
             SearchAgent<string, MoveToAction> agent = new SearchAgent<string, MoveToAction>(problem, search);
             Assert.AreEqual(

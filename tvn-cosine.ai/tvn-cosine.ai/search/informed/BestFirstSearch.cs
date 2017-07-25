@@ -3,7 +3,9 @@ using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.qsearch;
+using tvn.cosine.ai.search.informed.api;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.search.informed
 {
@@ -21,16 +23,16 @@ namespace tvn.cosine.ai.search.informed
        * @author Ciaran O'Reilly
        * @author Mike Stampone
        */
-    public class BestFirstSearch<S, A> : QueueBasedSearch<S, A>, Informed<S, A>
+    public class BestFirstSearch<S, A> : QueueBasedSearch<S, A>, IInformed<S, A>
     {
-        private readonly ToDoubleFunction<Node<S, A>> evalFn;
+        private readonly IToDoubleFunction<Node<S, A>> evalFn;
 
         class BestFirstSearchComparer : IComparer<Node<S, A>>
         {
-            ToDoubleFunction<Node<S, A>> evalFn;
+            IToDoubleFunction<Node<S, A>> evalFn;
             System.Collections.Generic.Comparer<double> comparer = System.Collections.Generic.Comparer<double>.Default;
 
-            public BestFirstSearchComparer(ToDoubleFunction<Node<S, A>> evalFn)
+            public BestFirstSearchComparer(IToDoubleFunction<Node<S, A>> evalFn)
             {
                 this.evalFn = evalFn;
             }
@@ -52,14 +54,14 @@ namespace tvn.cosine.ai.search.informed
          *            describe the desirability (or lack thereof) of expanding a
          *            node.
          */
-        public BestFirstSearch(QueueSearch<S, A> impl, ToDoubleFunction<Node<S, A>> evalFn)
+        public BestFirstSearch(QueueSearch<S, A> impl, IToDoubleFunction<Node<S, A>> evalFn)
             : base(impl, CollectionFactory.CreatePriorityQueue<Node<S, A>>(new BestFirstSearchComparer(evalFn)))
         {
             this.evalFn = evalFn;
         }
 
         /** Modifies the evaluation function if it is a {@link HeuristicEvaluationFunction}. */
-        public void setHeuristicFunction(ToDoubleFunction<Node<S, A>> h)
+        public void setHeuristicFunction(IToDoubleFunction<Node<S, A>> h)
         {
             if (evalFn is HeuristicEvaluationFunction<S, A>)
                 ((HeuristicEvaluationFunction<S, A>)evalFn).setHeuristicFunction(h);

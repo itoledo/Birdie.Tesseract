@@ -10,6 +10,9 @@ using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.search.informed;
 using tvn.cosine.ai.util;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.api;
+using tvn.cosine.ai.search.framework.problem.api;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.environment.wumpusworld
 {
@@ -204,13 +207,13 @@ namespace tvn.cosine.ai.environment.wumpusworld
 
             GoalTest<AgentPosition> goalTest = goalPositions.Contains;
 
-            Problem<AgentPosition, IAction> problem = new GeneralProblem<AgentPosition, IAction>(current,
+            IProblem<AgentPosition, IAction> problem = new GeneralProblem<AgentPosition, IAction>(current,
                     WumpusFunctionFunctions.createActionsFunction(cave),
                     WumpusFunctionFunctions.createResultFunction(), goalTest);
 
-            ToDoubleFunction<Node<AgentPosition, IAction>> h = new ManhattanHeuristicFunction(goals);
+            IToDoubleFunction<Node<AgentPosition, IAction>> h = new ManhattanHeuristicFunction(goals);
 
-            SearchForActions<AgentPosition, IAction> search = new AStarSearch<AgentPosition, IAction>(
+            ISearchForActions<AgentPosition, IAction> search = new AStarSearch<AgentPosition, IAction>(
                 new GraphSearch<AgentPosition, IAction>(), h);
             SearchAgent<AgentPosition, IAction> agent;
             ICollection<IAction> actions = null;

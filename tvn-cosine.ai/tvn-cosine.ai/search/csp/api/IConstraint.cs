@@ -1,6 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections.api;
 
-namespace tvn.cosine.ai.search.csp
+namespace tvn.cosine.ai.search.csp.api
 {
     /**
      * A constraint specifies the allowable combinations of values for a set of
@@ -13,7 +13,7 @@ namespace tvn.cosine.ai.search.csp
      * 
      * @author Ruediger Lunde
      */
-    public interface Constraint<VAR, VAL>
+    public interface IConstraint<VAR, VAL>
         where VAR : Variable
     {
         /** Returns a tuple of variables that participate in the constraint. */

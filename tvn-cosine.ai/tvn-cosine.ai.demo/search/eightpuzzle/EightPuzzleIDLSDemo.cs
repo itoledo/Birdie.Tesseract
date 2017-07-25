@@ -3,7 +3,9 @@ using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.environment.eightpuzzle;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.agent;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.search.uninformed;
 
 namespace tvn_cosine.ai.demo.search.eightpuzzle
@@ -20,8 +22,8 @@ namespace tvn_cosine.ai.demo.search.eightpuzzle
             System.Console.WriteLine("\nEightPuzzleDemo Iterative DLS -->");
             try
             {
-                Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(random1);
-                SearchForActions<EightPuzzleBoard, IAction> search = new IterativeDeepeningSearch<EightPuzzleBoard, IAction>();
+                IProblem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(random1);
+                ISearchForActions<EightPuzzleBoard, IAction> search = new IterativeDeepeningSearch<EightPuzzleBoard, IAction>();
                 SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
                 printActions(agent.getActions());
                 printInstrumentation(agent.getInstrumentation());

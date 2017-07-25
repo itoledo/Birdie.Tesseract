@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.search.csp.api;
 
 namespace tvn.cosine.ai.search.csp
 {
@@ -19,7 +20,7 @@ namespace tvn.cosine.ai.search.csp
         where VAR : Variable
     {
 
-        private ICollection<CspListener<VAR, VAL>> listeners = CollectionFactory.CreateQueue<CspListener<VAR, VAL>>();
+        private ICollection<ICspListener<VAR, VAL>> listeners = CollectionFactory.CreateQueue<ICspListener<VAR, VAL>>();
 
         /**
          * Computes a solution to the given CSP, which specifies values for all
@@ -36,7 +37,7 @@ namespace tvn.cosine.ai.search.csp
          * @param listener a listener which follows the progress of the solution strategy
          *                 step-by-step.
          */
-        public void addCspListener(CspListener<VAR, VAL> listener)
+        public void addCspListener(ICspListener<VAR, VAL> listener)
         {
             listeners.Add(listener);
         }
@@ -46,7 +47,7 @@ namespace tvn.cosine.ai.search.csp
          *
          * @param listener the listener to remove
          */
-        public void removeCspListener(CspListener<VAR, VAL> listener)
+        public void removeCspListener(ICspListener<VAR, VAL> listener)
         {
             listeners.Remove(listener);
         }
@@ -55,7 +56,7 @@ namespace tvn.cosine.ai.search.csp
         /** Informs all registered listeners about a state change. */
         protected void fireStateChanged(CSP<VAR, VAL> csp, Assignment<VAR, VAL> assignment, VAR variable)
         {
-            foreach (CspListener<VAR, VAL> listener in listeners)
+            foreach (ICspListener<VAR, VAL> listener in listeners)
                 listener.stateChanged(csp, assignment, variable);
         }
     } 

@@ -1,5 +1,6 @@
 ﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.search.framework.qsearch
 {
@@ -54,7 +55,7 @@ namespace tvn.cosine.ai.search.framework.qsearch
          * 
          * @return a node referencing a goal state, if the goal was found, otherwise empty;
          */
-        public virtual Node<S, A> findNode(Problem<S, A> problem, ICollection<Node<S, A>> frontier)
+        public virtual Node<S, A> findNode(IProblem<S, A> problem, ICollection<Node<S, A>> frontier)
         {
             this.frontier = frontier;
             clearMetrics();

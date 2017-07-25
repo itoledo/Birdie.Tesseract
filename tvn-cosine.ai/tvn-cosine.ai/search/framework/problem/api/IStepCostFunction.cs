@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.search.framework.problem
+﻿namespace tvn.cosine.ai.search.framework.problem.api
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 68.<br>
@@ -11,7 +11,7 @@
      *
      * @author Ruediger Lunde
      */
-    public interface StepCostFunction<S, A>
+    public interface IStepCostFunction<S, A>
     {
         double applyAsDouble(S s, A a, S sDelta);
     }

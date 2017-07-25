@@ -1,9 +1,11 @@
 ﻿using tvn.cosine.ai.search.framework;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.search.informed;
 using tvn.cosine.ai.search.local;
 using tvn.cosine.ai.search.uninformed;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.api;
 
 namespace tvn_cosine.ai.demo.util
 {
@@ -90,10 +92,10 @@ namespace tvn_cosine.ai.demo.util
          *            queue search implementation: e.g. {@link #TREE_SEARCH}, {@link #GRAPH_SEARCH}
          * 
          */
-        public SearchForActions<S, A> createSearch<S, A>(int strategy, int qSearchImpl, ToDoubleFunction<Node<S, A>> h)
+        public ISearchForActions<S, A> createSearch<S, A>(int strategy, int qSearchImpl, IToDoubleFunction<Node<S, A>> h)
         {
             QueueSearch<S, A> qs = null;
-            SearchForActions<S, A> result = null;
+            ISearchForActions<S, A> result = null;
             switch (qSearchImpl)
             {
                 case TREE_SEARCH:

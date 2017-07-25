@@ -3,6 +3,7 @@ using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.environment.eightpuzzle;
 using tvn.cosine.ai.search.framework.agent;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.search.local;
 
 namespace tvn_cosine.ai.demo.search.eightpuzzle
@@ -19,7 +20,7 @@ namespace tvn_cosine.ai.demo.search.eightpuzzle
             System.Console.WriteLine("\nEightPuzzleDemo Simulated Annealing  Search -->");
             try
             {
-                Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(random1);
+                IProblem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(random1);
                 SimulatedAnnealingSearch<EightPuzzleBoard, IAction>
                     search = new SimulatedAnnealingSearch<EightPuzzleBoard, IAction>(
                         EightPuzzleFunctions.createManhattanHeuristicFunction());

@@ -1,4 +1,5 @@
-﻿using tvn.cosine.ai.search.framework;
+﻿using tvn.cosine.ai.search.adversarial.api;
+using tvn.cosine.ai.search.framework;
 
 namespace tvn.cosine.ai.search.adversarial
 {
@@ -41,22 +42,22 @@ namespace tvn.cosine.ai.search.adversarial
      * @param <P> Type which is used for players in the game.
      * @author Ruediger Lunde
      */
-    public class AlphaBetaSearch<S, A, P> : AdversarialSearch<S, A>
+    public class AlphaBetaSearch<S, A, P> : IAdversarialSearch<S, A>
     {
         public const string METRICS_NODES_EXPANDED = "nodesExpanded";
 
-        Game<S, A, P> game;
+        IGame<S, A, P> game;
         private Metrics metrics = new Metrics();
 
         /**
          * Creates a new search object for a given game.
          */
-        public static AlphaBetaSearch<STATE, ACTION, PLAYER> createFor<STATE, ACTION, PLAYER>(Game<STATE, ACTION, PLAYER> game)
+        public static AlphaBetaSearch<STATE, ACTION, PLAYER> createFor<STATE, ACTION, PLAYER>(IGame<STATE, ACTION, PLAYER> game)
         {
             return new AlphaBetaSearch<STATE, ACTION, PLAYER>(game);
         }
 
-        public AlphaBetaSearch(Game<S, A, P> game)
+        public AlphaBetaSearch(IGame<S, A, P> game)
         {
             this.game = game;
         }

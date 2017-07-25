@@ -1,11 +1,12 @@
 ﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.environment.map
 {
-    public class BidirectionalMapProblem : GeneralProblem<string, MoveToAction>, BidirectionalProblem<string, MoveToAction>
+    public class BidirectionalMapProblem : GeneralProblem<string, MoveToAction>, IBidirectionalProblem<string, MoveToAction>
     {
-        private Problem<string, MoveToAction> reverseProblem;
+        private IProblem<string, MoveToAction> reverseProblem;
 
         public BidirectionalMapProblem(Map map, string initialState, string goalState)
             : this(map, initialState, goalState, goalState.Equals)
@@ -28,12 +29,12 @@ namespace tvn.cosine.ai.environment.map
                     MapFunctions.createDistanceStepCostFunction(map));
         }
 
-        public Problem<string, MoveToAction> getOriginalProblem()
+        public IProblem<string, MoveToAction> getOriginalProblem()
         {
             return this;
         }
 
-        public Problem<string, MoveToAction> getReverseProblem()
+        public IProblem<string, MoveToAction> getReverseProblem()
         {
             return reverseProblem;
         }

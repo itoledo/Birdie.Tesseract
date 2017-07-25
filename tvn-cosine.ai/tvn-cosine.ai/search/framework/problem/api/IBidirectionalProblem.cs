@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.search.framework.problem
+﻿namespace tvn.cosine.ai.search.framework.problem.api
 {
     /**
      * An interface describing a problem that can be tackled from both directions at once (i.e InitialState<->Goal).
@@ -10,9 +10,9 @@
      * @author Ruediger Lunde
      * 
      */
-    public interface BidirectionalProblem<S, A> : Problem<S, A>
+    public interface IBidirectionalProblem<S, A> : IProblem<S, A>
     {
-        Problem<S, A> getOriginalProblem();
-        Problem<S, A> getReverseProblem();
+        IProblem<S, A> getOriginalProblem();
+        IProblem<S, A> getReverseProblem();
     }
 }

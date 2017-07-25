@@ -3,6 +3,7 @@ using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.search.framework.agent
 {
@@ -36,13 +37,13 @@ namespace tvn.cosine.ai.search.framework.agent
      *   plan <- REST(state.plan)
      *   return action
      * </code>
-     * </pre>
-     *
-     * @param <S> The type used to represent states
-     * @param <A> The type of the actions to be used to navigate through the state space
-     *
-     * @author Ruediger Lunde
+     * </pre> 
      */
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="S">The type used to represent states</typeparam>
+    /// <typeparam name="A">The type of the actions to be used to navigate through the state space</typeparam>
     public abstract class ProblemSolvingAgent<S, A> : AgentBase
         where A : IAction
     {
@@ -70,7 +71,7 @@ namespace tvn.cosine.ai.search.framework.agent
                 if (null != goal)
                 {
                     // problem <- FORMULATE-PROBLEM(state, goal)
-                    Problem<S, A> problem = formulateProblem(goal);
+                    IProblem<S, A> problem = formulateProblem(goal);
                     // state.plan <- SEARCH(problem)
                     ICollection<A> actions = search(problem);
                     if (null != actions)
@@ -136,12 +137,12 @@ namespace tvn.cosine.ai.search.framework.agent
         /**
          * Primitive operation, responsible for search problem generation.
          */
-        protected abstract Problem<S, A> formulateProblem(object goal);
+        protected abstract IProblem<S, A> formulateProblem(object goal);
 
         /**
          * Primitive operation, responsible for the generation of an action list
          * (plan) for the given search problem.
          */
-        protected abstract ICollection<A> search(Problem<S, A> problem);
+        protected abstract ICollection<A> search(IProblem<S, A> problem);
     }
 }

@@ -2,7 +2,9 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.search.nondeterministic;
+using tvn.cosine.ai.search.nondeterministic.api;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
@@ -27,7 +29,7 @@ namespace tvn.cosine.ai.environment.vacuum
             return (VacuumEnvironmentState)p;
         }
 
-        public class ActionsFunction : ActionsFunction<VacuumEnvironmentState, IAction>
+        public class ActionsFunction : IActionsFunction<VacuumEnvironmentState, IAction>
         {
             public ICollection<IAction> apply(VacuumEnvironmentState state)
             {
@@ -43,7 +45,7 @@ namespace tvn.cosine.ai.environment.vacuum
         /**
          * Specifies the actions available to the agent at state s
          */
-        public static ActionsFunction<VacuumEnvironmentState, IAction> getActionsFunction()
+        public static IActionsFunction<VacuumEnvironmentState, IAction> getActionsFunction()
         {
             return new ActionsFunction();
         }
@@ -54,7 +56,7 @@ namespace tvn.cosine.ai.environment.vacuum
                     && state.getLocationState(VacuumEnvironment.LOCATION_B) == VacuumEnvironment.LocationState.Clean;
         }
 
-        public static ResultsFunction<VacuumEnvironmentState, IAction>
+        public static IResultsFunction<VacuumEnvironmentState, IAction>
             createResultsFunction(IAgent agent)
         {
             return new VacuumWorldResults(agent);
@@ -63,7 +65,7 @@ namespace tvn.cosine.ai.environment.vacuum
         /**
          * Returns possible results.
          */
-        private class VacuumWorldResults : ResultsFunction<VacuumEnvironmentState, IAction>
+        private class VacuumWorldResults : IResultsFunction<VacuumEnvironmentState, IAction>
         {
             private IAgent agent;
 

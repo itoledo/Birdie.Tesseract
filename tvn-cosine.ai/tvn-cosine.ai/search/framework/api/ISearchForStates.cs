@@ -1,15 +1,13 @@
 ﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 
-namespace tvn.cosine.ai.search.framework
+namespace tvn.cosine.ai.search.framework.api
 {
     /**
-     * Interface for all AIMA3e search algorithms which store at least a part of the
-     * exploration history as search tree and return a list of actions leading from
-     * the initial state to a goal state. This search framework expects all search
-     * algorithms to provide some metrics and to actually explore the search space
+     * Interface for all AIMA3e search algorithms which forget the exploration history and
+     * return just a single state which is hopefully a goal state. This search framework expects
+     * all search algorithms to provide some metrics and to actually explore the search space
      * by expanding nodes.
      *
      * @param <S> The type used to represent states
@@ -17,19 +15,18 @@ namespace tvn.cosine.ai.search.framework
      *
      * @author Ruediger Lunde
      */
-    public interface SearchForActions<S, A>
+    public interface ISearchForStates<S, A>
     {
         /**
-         * Returns a list of actions leading to a goal state if a goal was found,
-         * otherwise empty. Note that the list can be empty which means that the
-         * initial state is a goal state.
+         * Returns a state which is might be but not necessary is a goal state of
+         * the problem or empty.
          * 
          * @param p
          *            the search problem
          * 
-         * @return a (possibly empty) list of actions or empty
+         * @return a state or empty.
          */
-        ICollection<A> findActions(Problem<S, A> p);
+        S findState(IProblem<S, A> p);
 
         /**
          * Returns all the metrics of the search.

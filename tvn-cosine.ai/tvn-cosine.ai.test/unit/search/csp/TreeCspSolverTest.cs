@@ -2,6 +2,7 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.csp;
+using tvn.cosine.ai.search.csp.api;
 using tvn.cosine.ai.search.csp.examples;
 
 namespace tvn_cosine.ai.test.unit.search.csp
@@ -15,10 +16,10 @@ namespace tvn_cosine.ai.test.unit.search.csp
         private static readonly Variable NSW = new Variable("nsw");
         private static readonly Variable V = new Variable("v");
 
-        private static readonly Constraint<Variable, string> C1 = new NotEqualConstraint<Variable, string>(WA, NT);
-        private static readonly Constraint<Variable, string> C2 = new NotEqualConstraint<Variable, string>(NT, Q);
-        private static readonly Constraint<Variable, string> C3 = new NotEqualConstraint<Variable, string>(Q, NSW);
-        private static readonly Constraint<Variable, string> C4 = new NotEqualConstraint<Variable, string>(NSW, V);
+        private static readonly IConstraint<Variable, string> C1 = new NotEqualConstraint<Variable, string>(WA, NT);
+        private static readonly IConstraint<Variable, string> C2 = new NotEqualConstraint<Variable, string>(NT, Q);
+        private static readonly IConstraint<Variable, string> C3 = new NotEqualConstraint<Variable, string>(Q, NSW);
+        private static readonly IConstraint<Variable, string> C4 = new NotEqualConstraint<Variable, string>(NSW, V);
 
         private Domain<string> colors;
 

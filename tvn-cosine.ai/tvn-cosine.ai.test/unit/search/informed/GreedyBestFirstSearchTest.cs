@@ -4,7 +4,9 @@ using tvn.cosine.ai.environment.eightpuzzle;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.agent;
+using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.search.informed;
 
@@ -23,8 +25,8 @@ namespace tvn_cosine.ai.test.unit.search.informed
             // {0,8,7,6,5,4,3,2,1});
             EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 7, 1, 8, 0, 4, 6, 2, 3, 5 });
 
-            Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(board);
-            SearchForActions<EightPuzzleBoard, IAction> search = new GreedyBestFirstSearch<EightPuzzleBoard, IAction>
+            IProblem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(board);
+            ISearchForActions<EightPuzzleBoard, IAction> search = new GreedyBestFirstSearch<EightPuzzleBoard, IAction>
                     (new GraphSearch<EightPuzzleBoard, IAction>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
             SearchAgent<EightPuzzleBoard, IAction> agent = new SearchAgent<EightPuzzleBoard, IAction>(problem, search);
 
@@ -47,7 +49,7 @@ namespace tvn_cosine.ai.test.unit.search.informed
             // {0,8,7,6,5,4,3,2,1});
             EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 7, 1, 8, 0, 4, 6, 2, 3, 5 });
 
-            Problem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(board);
+            IProblem<EightPuzzleBoard, IAction> problem = new BidirectionalEightPuzzleProblem(board);
             QueueBasedSearch<EightPuzzleBoard, IAction> search = new GreedyBestFirstSearch<EightPuzzleBoard, IAction>
                     (new GraphSearchReducedFrontier<EightPuzzleBoard, IAction>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
 
@@ -63,12 +65,12 @@ namespace tvn_cosine.ai.test.unit.search.informed
         public void testAIMA3eFigure3_23()
         {
             Map romaniaMap = new SimplifiedRoadMapOfPartOfRomania();
-            Problem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(SimplifiedRoadMapOfPartOfRomania.ARAD,
+            IProblem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(SimplifiedRoadMapOfPartOfRomania.ARAD,
                     MapFunctions.createActionsFunction(romaniaMap), MapFunctions.createResultFunction(),
                      SimplifiedRoadMapOfPartOfRomania.BUCHAREST.Equals,
                     MapFunctions.createDistanceStepCostFunction(romaniaMap));
 
-            SearchForActions<string, MoveToAction> search = new GreedyBestFirstSearch<string, MoveToAction>(new TreeSearch<string, MoveToAction>(),
+            ISearchForActions<string, MoveToAction> search = new GreedyBestFirstSearch<string, MoveToAction>(new TreeSearch<string, MoveToAction>(),
                     MapFunctions.createSLDHeuristicFunction(SimplifiedRoadMapOfPartOfRomania.BUCHAREST, romaniaMap));
             SearchAgent<string, MoveToAction> agent = new SearchAgent<string, MoveToAction>(problem, search);
             Assert.AreEqual(
@@ -84,12 +86,12 @@ namespace tvn_cosine.ai.test.unit.search.informed
         public void testAIMA3eFigure3_23_using_GraphSearch()
         {
             Map romaniaMap = new SimplifiedRoadMapOfPartOfRomania();
-            Problem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(SimplifiedRoadMapOfPartOfRomania.ARAD,
+            IProblem<string, MoveToAction> problem = new GeneralProblem<string, MoveToAction>(SimplifiedRoadMapOfPartOfRomania.ARAD,
                     MapFunctions.createActionsFunction(romaniaMap), MapFunctions.createResultFunction(),
                    SimplifiedRoadMapOfPartOfRomania.BUCHAREST.Equals,
                     MapFunctions.createDistanceStepCostFunction(romaniaMap));
 
-            SearchForActions<string, MoveToAction> search = new GreedyBestFirstSearch<string, MoveToAction>(new GraphSearch<string, MoveToAction>(),
+            ISearchForActions<string, MoveToAction> search = new GreedyBestFirstSearch<string, MoveToAction>(new GraphSearch<string, MoveToAction>(),
                     MapFunctions.createSLDHeuristicFunction(SimplifiedRoadMapOfPartOfRomania.BUCHAREST, romaniaMap));
             SearchAgent<string, MoveToAction> agent = new SearchAgent<string, MoveToAction>(problem, search);
             Assert.AreEqual(

@@ -7,6 +7,10 @@ using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.informed;
 using tvn.cosine.ai.util;
 using tvn.cosine.ai.common.collections;
+using tvn.cosine.ai.search.framework.api;
+using tvn.cosine.ai.search.framework.problem.api;
+using tvn.cosine.ai.search.informed.api;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.environment.map
 {
@@ -28,24 +32,24 @@ namespace tvn.cosine.ai.environment.map
 
         // possibly null...
         protected IEnvironmentViewNotifier notifier = null;
-        private SearchForActions<string, MoveToAction> _search = null;
-        private Function<string, ToDoubleFunction<Node<string, MoveToAction>>> hFnFactory;
+        private ISearchForActions<string, MoveToAction> _search = null;
+        private Function<string, IToDoubleFunction<Node<string, MoveToAction>>> hFnFactory;
 
-        public MapAgent(Map map, SearchForActions<string, MoveToAction> search, string goal)
+        public MapAgent(Map map, ISearchForActions<string, MoveToAction> search, string goal)
         {
             this.map = map;
             this._search = search;
             goals.Add(goal);
         }
 
-        public MapAgent(Map map, SearchForActions<string, MoveToAction> search,
+        public MapAgent(Map map, ISearchForActions<string, MoveToAction> search,
             string goal, IEnvironmentViewNotifier notifier)
             : this(map, search, goal)
         {
             this.notifier = notifier;
         }
 
-        public MapAgent(Map map, SearchForActions<string, MoveToAction> search,
+        public MapAgent(Map map, ISearchForActions<string, MoveToAction> search,
             ICollection<string> goals)
         {
             this.map = map;
@@ -53,7 +57,7 @@ namespace tvn.cosine.ai.environment.map
             this.goals.AddAll(goals);
         }
 
-        public MapAgent(Map map, SearchForActions<string, MoveToAction> search,
+        public MapAgent(Map map, ISearchForActions<string, MoveToAction> search,
             ICollection<string> goals,
             IEnvironmentViewNotifier notifier)
             : this(map, search, goals)
@@ -73,9 +77,9 @@ namespace tvn.cosine.ai.environment.map
          *                   the goals he has selected.
          */
         public MapAgent(Map map,
-            SearchForActions<string, MoveToAction> search, ICollection<string> goals,
+            ISearchForActions<string, MoveToAction> search, ICollection<string> goals,
             IEnvironmentViewNotifier notifier,
-            Function<string, ToDoubleFunction<Node<string, MoveToAction>>> hFnFactory)
+            Function<string, IToDoubleFunction<Node<string, MoveToAction>>> hFnFactory)
             : this(map, search, goals, notifier)
         {
             this.hFnFactory = hFnFactory;
@@ -96,8 +100,8 @@ namespace tvn.cosine.ai.environment.map
             if (currGoalIdx < goals.Size() - 1)
             {
                 goal = goals.Get(++currGoalIdx);
-                if (hFnFactory != null && _search is Informed<string, MoveToAction>)
-                    ((Informed<string, MoveToAction>)_search)
+                if (hFnFactory != null && _search is IInformed<string, MoveToAction>)
+                    ((IInformed<string, MoveToAction>)_search)
                         .setHeuristicFunction(hFnFactory(goal));
 
                 if (notifier != null)
@@ -107,14 +111,14 @@ namespace tvn.cosine.ai.environment.map
             return goal;
         }
 
-        protected override Problem<string, MoveToAction> formulateProblem(object goal)
+        protected override IProblem<string, MoveToAction> formulateProblem(object goal)
         {
             return new BidirectionalMapProblem(map, 
                 (string)state.GetAttribute(DynAttributeNames.AGENT_LOCATION),
                     (string)goal);
         }
          
-    protected override ICollection<MoveToAction> search(Problem<string, MoveToAction> problem)
+    protected override ICollection<MoveToAction> search(IProblem<string, MoveToAction> problem)
         {
             ICollection<MoveToAction> result = _search.findActions(problem);
             notifyViewOfMetrics();

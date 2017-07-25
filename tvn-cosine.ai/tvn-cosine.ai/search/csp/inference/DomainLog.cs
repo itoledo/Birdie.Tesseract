@@ -1,10 +1,9 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.text;
 using tvn.cosine.ai.common.text.api;
+using tvn.cosine.ai.search.csp.inference.api;
 
 namespace tvn.cosine.ai.search.csp.inference
 {
@@ -18,8 +17,8 @@ namespace tvn.cosine.ai.search.csp.inference
      * @author Ruediger Lunde
      * 
      */
-    public class DomainLog<VAR, VAL> : InferenceLog<VAR, VAL>
-    where VAR : Variable
+    public class DomainLog<VAR, VAL> : IInferenceLog<VAR, VAL>
+        where VAR : Variable
     {
 
         private ICollection<Pair<VAR, Domain<VAL>>> savedDomains;

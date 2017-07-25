@@ -1,14 +1,15 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.search.csp.api;
 
 namespace tvn.cosine.ai.search.csp.examples
 {
-    /**
-     * Represents a binary constraint which forbids equal values.
-     * 
-     * @author Ruediger Lunde
-     */
-    public class NotEqualConstraint<VAR, VAL> : Constraint<VAR, VAL>
+    /// <summary>
+    /// Represents a binary constraint which forbids equal values.
+    /// </summary>
+    /// <typeparam name="VAR"></typeparam>
+    /// <typeparam name="VAL"></typeparam>
+    public class NotEqualConstraint<VAR, VAL> : IConstraint<VAR, VAL>
         where VAR : Variable
     {
         private VAR var1;

@@ -1,6 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.search.csp.api;
 
 namespace tvn.cosine.ai.search.csp
 {
@@ -25,7 +26,7 @@ namespace tvn.cosine.ai.search.csp
     {
         private ICollection<VAR> variables;
         private ICollection<Domain<VAL>> domains;
-        private ICollection<Constraint<VAR, VAL>> constraints;
+        private ICollection<IConstraint<VAR, VAL>> constraints;
 
         /**
          * Lookup, which maps a variable to its index in the list of variables.
@@ -35,7 +36,7 @@ namespace tvn.cosine.ai.search.csp
          * Constraint network. Maps variables to those constraints in which they
          * participate.
          */
-        private IMap<Variable, ICollection<Constraint<VAR, VAL>>> cnet;
+        private IMap<Variable, ICollection<IConstraint<VAR, VAL>>> cnet;
 
         /**
          * Creates a new CSP.
@@ -44,9 +45,9 @@ namespace tvn.cosine.ai.search.csp
         {
             variables = CollectionFactory.CreateQueue<VAR>();
             domains = CollectionFactory.CreateQueue<Domain<VAL>>();
-            constraints = CollectionFactory.CreateQueue<Constraint<VAR, VAL>>();
+            constraints = CollectionFactory.CreateQueue<IConstraint<VAR, VAL>>();
             varIndexHash = CollectionFactory.CreateInsertionOrderedMap<Variable, int>();
-            cnet = CollectionFactory.CreateInsertionOrderedMap<Variable, ICollection<Constraint<VAR, VAL>>>();
+            cnet = CollectionFactory.CreateInsertionOrderedMap<Variable, ICollection<IConstraint<VAR, VAL>>>();
         }
 
         /**
@@ -72,7 +73,7 @@ namespace tvn.cosine.ai.search.csp
                 variables.Add(var);
                 domains.Add(emptyDomain);
                 varIndexHash.Put(var, variables.Size() - 1);
-                cnet.Put(var, CollectionFactory.CreateQueue<Constraint<VAR, VAL>>());
+                cnet.Put(var, CollectionFactory.CreateQueue<IConstraint<VAR, VAL>>());
             }
             else
             {
@@ -119,14 +120,14 @@ namespace tvn.cosine.ai.search.csp
             return false;
         }
 
-        public void addConstraint(Constraint<VAR, VAL> constraint)
+        public void addConstraint(IConstraint<VAR, VAL> constraint)
         {
             constraints.Add(constraint);
             foreach (VAR var in constraint.getScope())
                 cnet.Get(var).Add(constraint);
         }
 
-        public bool removeConstraint(Constraint<VAR, VAL> constraint)
+        public bool removeConstraint(IConstraint<VAR, VAL> constraint)
         {
             bool result = constraints.Remove(constraint);
             if (result)
@@ -135,7 +136,7 @@ namespace tvn.cosine.ai.search.csp
             return result;
         }
 
-        public ICollection<Constraint<VAR, VAL>> getConstraints()
+        public ICollection<IConstraint<VAR, VAL>> getConstraints()
         {
             return constraints;
         }
@@ -143,7 +144,7 @@ namespace tvn.cosine.ai.search.csp
         /**
          * Returns all constraints in which the specified variable participates.
          */
-        public ICollection<Constraint<VAR, VAL>> getConstraints(Variable var)
+        public ICollection<IConstraint<VAR, VAL>> getConstraints(Variable var)
         {
             return cnet.Get(var);
         }
@@ -153,7 +154,7 @@ namespace tvn.cosine.ai.search.csp
          *
          * @return a variable or null for non-binary constraints.
          */
-        public VAR getNeighbor(VAR var, Constraint<VAR, VAL> constraint)
+        public VAR getNeighbor(VAR var, IConstraint<VAR, VAL> constraint)
         {
             ICollection<VAR> scope = constraint.getScope();
             if (scope.Size() == 2)

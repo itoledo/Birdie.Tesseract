@@ -2,6 +2,7 @@
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.search.adversarial;
+using tvn.cosine.ai.search.adversarial.api;
 
 namespace tvn.cosine.ai.environment.tictactoe
 {
@@ -12,7 +13,7 @@ namespace tvn.cosine.ai.environment.tictactoe
      * @author Ruediger Lunde
      * 
      */
-    public class TicTacToeGame : Game<TicTacToeState, XYLocation, string>
+    public class TicTacToeGame : IGame<TicTacToeState, XYLocation, string>
     { 
         private TicTacToeState initialState = new TicTacToeState();
 

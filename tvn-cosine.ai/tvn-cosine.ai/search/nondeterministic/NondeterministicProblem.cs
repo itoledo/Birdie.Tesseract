@@ -1,5 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
+using tvn.cosine.ai.search.nondeterministic.api;
 
 namespace tvn.cosine.ai.search.nondeterministic
 {
@@ -14,16 +16,16 @@ namespace tvn.cosine.ai.search.nondeterministic
     public class NondeterministicProblem<S, A>
     {
         protected S initialState;
-        protected ActionsFunction<S, A> actionsFn;
+        protected IActionsFunction<S, A> actionsFn;
         protected GoalTest<S> goalTest;
-        protected StepCostFunction<S, A> stepCostFn;
-        protected ResultsFunction<S, A> resultsFn;
+        protected IStepCostFunction<S, A> stepCostFn;
+        protected IResultsFunction<S, A> resultsFn;
 
         /**
          * Constructor
          */
         public NondeterministicProblem(S initialState,
-                ActionsFunction<S, A> actionsFn, ResultsFunction<S, A> resultsFn,
+                IActionsFunction<S, A> actionsFn, IResultsFunction<S, A> resultsFn,
                 GoalTest<S> goalTest)
             : this(initialState, actionsFn, resultsFn, goalTest, new DefaultStepCostFunction<S, A>())
         { }
@@ -32,8 +34,8 @@ namespace tvn.cosine.ai.search.nondeterministic
          * Constructor
          */
         public NondeterministicProblem(S initialState,
-                ActionsFunction<S, A> actionsFn, ResultsFunction<S, A> resultsFn,
-                GoalTest<S> goalTest, StepCostFunction<S, A> stepCostFn)
+                IActionsFunction<S, A> actionsFn, IResultsFunction<S, A> resultsFn,
+                GoalTest<S> goalTest, IStepCostFunction<S, A> stepCostFn)
         {
             this.initialState = initialState;
             this.actionsFn = actionsFn;

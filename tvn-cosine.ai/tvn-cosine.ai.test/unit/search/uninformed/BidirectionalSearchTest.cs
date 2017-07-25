@@ -1,12 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.environment.map;
-using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.search.uninformed;
 using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.search.framework.api;
 
 namespace tvn_cosine.ai.test.unit.search.uninformed
 {
@@ -14,7 +13,7 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
     public class BidirectionalSearchTest
     {
         private IStringBuilder envChanges;
-        private SearchForActions<string, MoveToAction> search;
+        private ISearchForActions<string, MoveToAction> search;
 
         [TestInitialize]
         public void setUp()

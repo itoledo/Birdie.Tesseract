@@ -1,12 +1,13 @@
 ﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.search.csp.api;
 
 namespace tvn.cosine.ai.search.csp.examples
 {
-    /**
-     * Represents a binary constraint which forbids equal values. 
-     */
-    public class DiffNotEqualConstraint : Constraint<Variable, int>
+    /// <summary>
+    /// Represents a binary constraint which forbids equal values. 
+    /// </summary>
+    public class DiffNotEqualConstraint : IConstraint<Variable, int>
     { 
         private Variable var1;
         private Variable var2;
@@ -22,14 +23,12 @@ namespace tvn.cosine.ai.search.csp.examples
             scope.Add(var1);
             scope.Add(var2);
         }
-
-
+         
         public ICollection<Variable> getScope()
         {
             return scope;
         }
-
-
+         
         public bool isSatisfiedWith(Assignment<Variable, int> assignment)
         {
             int value1 = assignment.getValue(var1);

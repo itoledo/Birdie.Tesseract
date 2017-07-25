@@ -4,7 +4,9 @@ using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
+using tvn.cosine.ai.search.framework.problem.api;
 using tvn.cosine.ai.util;
+using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.environment.nqueens
 {
@@ -18,7 +20,7 @@ namespace tvn.cosine.ai.environment.nqueens
      */
     public class NQueensFunctions
     {
-        public static Problem<NQueensBoard, QueenAction> createIncrementalFormulationProblem(int boardSize)
+        public static IProblem<NQueensBoard, QueenAction> createIncrementalFormulationProblem(int boardSize)
         {
             return new GeneralProblem<NQueensBoard, QueenAction>(new NQueensBoard(boardSize),
                 NQueensFunctions.getIFActionsFunction(),
@@ -26,7 +28,7 @@ namespace tvn.cosine.ai.environment.nqueens
                 NQueensFunctions.testGoal);
         }
 
-        public static Problem<NQueensBoard, QueenAction> createCompleteStateFormulationProblem
+        public static IProblem<NQueensBoard, QueenAction> createCompleteStateFormulationProblem
                 (int boardSize, NQueensBoard.Config config)
         {
             return new GeneralProblem<NQueensBoard, QueenAction>(new NQueensBoard(boardSize, config),
@@ -35,7 +37,7 @@ namespace tvn.cosine.ai.environment.nqueens
                 NQueensFunctions.testGoal);
         }
 
-        public class IfActionFunction : ActionsFunction<NQueensBoard, QueenAction>
+        public class IfActionFunction : IActionsFunction<NQueensBoard, QueenAction>
         {
             public ICollection<QueenAction> apply(NQueensBoard state)
             {
@@ -63,14 +65,12 @@ namespace tvn.cosine.ai.environment.nqueens
          * board, and provides queen placing actions for all non-attacked positions
          * of the first free column.
          */
-        public static ActionsFunction<NQueensBoard, QueenAction> getIFActionsFunction()
+        public static IActionsFunction<NQueensBoard, QueenAction> getIFActionsFunction()
         {
             return new IfActionFunction();
         }
-
-
-
-        public class CSFActionFunction : ActionsFunction<NQueensBoard, QueenAction>
+         
+        public class CSFActionFunction : IActionsFunction<NQueensBoard, QueenAction>
         {
             public ICollection<QueenAction> apply(NQueensBoard state)
             {
@@ -92,12 +92,12 @@ namespace tvn.cosine.ai.environment.nqueens
          * Assumes exactly one queen in each column and provides all possible queen
          * movements in vertical direction as actions.
          */
-        public static ActionsFunction<NQueensBoard, QueenAction> getCSFActionsFunction()
+        public static IActionsFunction<NQueensBoard, QueenAction> getCSFActionsFunction()
         {
             return new CSFActionFunction();
         }
 
-        public class ResultFunction : ResultFunction<NQueensBoard, QueenAction>
+        public class ResultFunction : IResultFunction<NQueensBoard, QueenAction>
         {
             public NQueensBoard apply(NQueensBoard state, QueenAction action)
             {
@@ -119,7 +119,7 @@ namespace tvn.cosine.ai.environment.nqueens
          * Implements a RESULT function for the n-queens problem.
          * Supports queen placing, queen removal, and queen movement actions.
          */
-        public static ResultFunction<NQueensBoard, QueenAction> getResultFunction()
+        public static IResultFunction<NQueensBoard, QueenAction> getResultFunction()
         {
             return new ResultFunction();
         }
@@ -132,7 +132,7 @@ namespace tvn.cosine.ai.environment.nqueens
             return state.getNumberOfQueensOnBoard() == state.getSize() && state.getNumberOfAttackingPairs() == 0;
         }
 
-        class AttackingPairsHeuristicFunction : ToDoubleFunction<Node<NQueensBoard, QueenAction>>
+        class AttackingPairsHeuristicFunction : IToDoubleFunction<Node<NQueensBoard, QueenAction>>
         {
             public double applyAsDouble(Node<NQueensBoard, QueenAction> node)
             {
@@ -144,7 +144,7 @@ namespace tvn.cosine.ai.environment.nqueens
          * Estimates the distance to goal by the number of attacking pairs of queens on
          * the board.
          */
-        public static ToDoubleFunction<Node<NQueensBoard, QueenAction>> createAttackingPairsHeuristicFunction()
+        public static IToDoubleFunction<Node<NQueensBoard, QueenAction>> createAttackingPairsHeuristicFunction()
         {
             return new AttackingPairsHeuristicFunction();
         }

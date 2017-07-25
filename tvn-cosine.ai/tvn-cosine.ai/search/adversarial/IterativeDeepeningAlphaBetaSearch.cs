@@ -4,6 +4,7 @@ using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.text;
 using tvn.cosine.ai.common.text.api;
+using tvn.cosine.ai.search.adversarial.api;
 using tvn.cosine.ai.search.framework;
 
 namespace tvn.cosine.ai.search.adversarial
@@ -19,12 +20,12 @@ namespace tvn.cosine.ai.search.adversarial
      * @param <P> Type which is used for players in the game.
      * @author Ruediger Lunde
      */
-    public class IterativeDeepeningAlphaBetaSearch<S, A, P> : AdversarialSearch<S, A>
+    public class IterativeDeepeningAlphaBetaSearch<S, A, P> : IAdversarialSearch<S, A>
     {
         public const string METRICS_NODES_EXPANDED = "nodesExpanded";
         public const string METRICS_MAX_DEPTH = "maxDepth";
 
-        protected Game<S, A, P> game;
+        protected IGame<S, A, P> game;
         protected double utilMax;
         protected double utilMin;
         protected int currDepthLimit;
@@ -49,7 +50,7 @@ namespace tvn.cosine.ai.search.adversarial
          * @param time    Maximal computation time in seconds.
          */
         public static IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> createFor<STATE, ACTION, PLAYER>(
-                Game<STATE, ACTION, PLAYER> game, double utilMin, double utilMax, int time)
+                IGame<STATE, ACTION, PLAYER> game, double utilMin, double utilMax, int time)
         {
             return new IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER>(game, utilMin, utilMax, time);
         }
@@ -66,7 +67,7 @@ namespace tvn.cosine.ai.search.adversarial
          *                situations with a safe winner.
          * @param time    Maximal computation time in seconds.
          */
-        public IterativeDeepeningAlphaBetaSearch(Game<S, A, P> game, double utilMin, double utilMax, int time)
+        public IterativeDeepeningAlphaBetaSearch(IGame<S, A, P> game, double utilMin, double utilMax, int time)
         {
             this.game = game;
             this.utilMin = utilMin;

@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.search.local
+﻿namespace tvn.cosine.ai.search.local.api
 {
     /**
      * Artificial Intelligence A Modern Approach (3rd Edition): page 127.<br>
@@ -16,7 +16,7 @@
      *            individuals in the population (this is to provide flexibility in
      *            terms of how a problem can be encoded).
      */
-    public interface FitnessFunction<A>
+    public interface IFitnessFunction<A>
     {
 
         /**

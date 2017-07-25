@@ -1,10 +1,8 @@
 ﻿namespace tvn.cosine.ai.search.csp
 {
-    /**
-     * A variable is a distinguishable object with a name.
-     *
-     * @author Ruediger Lunde
-     */
+    /// <summary>
+    /// A variable is a distinguishable object with a name.
+    /// </summary>
     public class Variable
     {
         private readonly string name;
@@ -24,14 +22,16 @@
             return name;
         }
 
-        /** Variables with equal names are equal. */
-
+        /// <summary>
+        /// Variables with equal names are equal.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             return obj is Variable && this.name.Equals(((Variable)obj).name);
         }
-
-
+         
         public override int GetHashCode()
         {
             return name.GetHashCode();
