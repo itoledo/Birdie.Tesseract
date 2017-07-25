@@ -12,9 +12,9 @@ namespace tvn.cosine.ai.learning.learners
 
         private DecisionList decisionList;
         private string positive, negative;
-        private DLTestFactory testFactory;
+        private DecisionListTestFactory testFactory;
 
-        public DecisionListLearner(string positive, string negative, DLTestFactory testFactory)
+        public DecisionListLearner(string positive, string negative, DecisionListTestFactory testFactory)
         {
             this.positive = positive;
             this.negative = negative;
@@ -72,8 +72,8 @@ namespace tvn.cosine.ai.learning.learners
             {
                 return new DecisionList(positive, negative);
             }
-            ICollection<DLTest> possibleTests = testFactory.createDLTestsWithAttributeCount(ds, 1);
-            DLTest test = getValidTest(possibleTests, ds);
+            ICollection<DecisionListTest> possibleTests = testFactory.createDLTestsWithAttributeCount(ds, 1);
+            DecisionListTest test = getValidTest(possibleTests, ds);
             if (test == null)
             {
                 return new DecisionList(null, FAILURE);
@@ -86,9 +86,9 @@ namespace tvn.cosine.ai.learning.learners
             return list.mergeWith(decisionListLearning(test.unmatchedExamples(ds)));
         }
 
-        private DLTest getValidTest(ICollection<DLTest> possibleTests, DataSet ds)
+        private DecisionListTest getValidTest(ICollection<DecisionListTest> possibleTests, DataSet ds)
         {
-            foreach (DLTest test in possibleTests)
+            foreach (DecisionListTest test in possibleTests)
             {
                 DataSet matched = test.matchedExamples(ds);
                 if (!(matched.size() == 0))

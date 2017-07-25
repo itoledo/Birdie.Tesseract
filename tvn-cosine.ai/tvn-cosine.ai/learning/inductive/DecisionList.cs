@@ -10,15 +10,15 @@ namespace tvn.cosine.ai.learning.inductive
     public class DecisionList : IStringable
     {
         private string positive, negative;
-        private ICollection<DLTest> tests;
-        private IMap<DLTest, string> testOutcomes;
+        private ICollection<DecisionListTest> tests;
+        private IMap<DecisionListTest, string> testOutcomes;
 
         public DecisionList(string positive, string negative)
         {
             this.positive = positive;
             this.negative = negative;
-            this.tests = CollectionFactory.CreateQueue<DLTest>();
-            testOutcomes = CollectionFactory.CreateInsertionOrderedMap<DLTest, string>();
+            this.tests = CollectionFactory.CreateQueue<DecisionListTest>();
+            testOutcomes = CollectionFactory.CreateInsertionOrderedMap<DecisionListTest, string>();
         }
 
         public string predict(Example example)
@@ -27,7 +27,7 @@ namespace tvn.cosine.ai.learning.inductive
             {
                 return negative;
             }
-            foreach (DLTest test in tests)
+            foreach (DecisionListTest test in tests)
             {
                 if (test.matches(example))
                 {
@@ -37,7 +37,7 @@ namespace tvn.cosine.ai.learning.inductive
             return negative;
         }
 
-        public void add(DLTest test, string outcome)
+        public void add(DecisionListTest test, string outcome)
         {
             tests.Add(test);
             testOutcomes.Put(test, outcome);
@@ -46,11 +46,11 @@ namespace tvn.cosine.ai.learning.inductive
         public DecisionList mergeWith(DecisionList dlist2)
         {
             DecisionList merged = new DecisionList(positive, negative);
-            foreach (DLTest test in tests)
+            foreach (DecisionListTest test in tests)
             {
                 merged.add(test, testOutcomes.Get(test));
             }
-            foreach (DLTest test in dlist2.tests)
+            foreach (DecisionListTest test in dlist2.tests)
             {
                 merged.add(test, dlist2.testOutcomes.Get(test));
             }
@@ -60,7 +60,7 @@ namespace tvn.cosine.ai.learning.inductive
         public override string ToString()
         {
             IStringBuilder buf = TextFactory.CreateStringBuilder();
-            foreach (DLTest test in tests)
+            foreach (DecisionListTest test in tests)
             {
                 buf.Append(test.ToString() + " => " + testOutcomes.Get(test) + " ELSE \n");
             }

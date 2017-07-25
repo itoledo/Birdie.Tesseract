@@ -24,7 +24,7 @@ namespace tvn_cosine.ai.test.unit.learning.inductive
             DecisionList dlist = new DecisionList("Yes", "No");
             DataSet ds = DataSetFactory.getRestaurantDataSet();
 
-            DLTest test = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test.add("type", "French");
 
             dlist.add(test, "test1success");
@@ -40,11 +40,11 @@ namespace tvn_cosine.ai.test.unit.learning.inductive
             DecisionList dlist = new DecisionList("Yes", "No");
             DataSet ds = DataSetFactory.getRestaurantDataSet();
 
-            DLTest test1 = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test1 = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test1.add("type", "Thai"); // doesn't match first example
             dlist.add(test1, "test1success");
 
-            DLTest test2 = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test2 = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test2.add("type", "French");
             dlist.add(test2, "test2success");// matches first example
 
@@ -59,11 +59,11 @@ namespace tvn_cosine.ai.test.unit.learning.inductive
             DecisionList dlist = new DecisionList("Yes", "No");
             DataSet ds = DataSetFactory.getRestaurantDataSet();
 
-            DLTest test1 = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test1 = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test1.add("type", "Thai"); // doesn't match first example
             dlist.add(test1, "test1success");
 
-            DLTest test2 = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test2 = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test2.add("type", "Burger");
             dlist.add(test2, "test2success");// doesn't match first example
 
@@ -76,7 +76,7 @@ namespace tvn_cosine.ai.test.unit.learning.inductive
             // tests first base case of recursion
             DecisionList dlist = new DecisionList("Yes", "No");
 
-            DLTest test1 = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test1 = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test1.add("type", "Thai"); // doesn't match first example
             dlist.add(test1, "test1success");
         }
@@ -88,11 +88,11 @@ namespace tvn_cosine.ai.test.unit.learning.inductive
             DecisionList dlist2 = new DecisionList("Yes", "No");
             DataSet ds = DataSetFactory.getRestaurantDataSet();
 
-            DLTest test1 = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test1 = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test1.add("type", "Thai"); // doesn't match first example
             dlist1.add(test1, "test1success");
 
-            DLTest test2 = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test2 = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test2.add("type", "French");
             dlist2.add(test2, "test2success");// matches first example
 

@@ -23,7 +23,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
             {
                 DataSet ds = DataSetFactory.getRestaurantDataSet();
                 DecisionListLearner learner = new DecisionListLearner("Yes", "No",
-                        new DLTestFactory());
+                        new DecisionListTestFactory());
                 learner.train(ds);
                 System.Console.WriteLine("The Induced DecisionList is");
                 System.Console.WriteLine(learner.getDecisionList());

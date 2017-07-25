@@ -7,12 +7,12 @@ using tvn.cosine.ai.learning.framework;
 
 namespace tvn.cosine.ai.learning.inductive
 {
-    public class DLTest : IStringable
+    public class DecisionListTest : IStringable
     {
         // represents a single test in the Decision List
         private IMap<string, string> attrValues;
 
-        public DLTest()
+        public DecisionListTest()
         {
             attrValues = CollectionFactory.CreateInsertionOrderedMap<string, string>();
         }

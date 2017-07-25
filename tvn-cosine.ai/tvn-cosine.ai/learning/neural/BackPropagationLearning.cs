@@ -3,7 +3,7 @@ using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.learning.neural
 {
-    public class BackPropagationLearning : INNTrainingScheme
+    public class BackPropagationLearning : INeuralNetworkTrainingScheme
     {
         private readonly double learningRate;
         private readonly double momentum;

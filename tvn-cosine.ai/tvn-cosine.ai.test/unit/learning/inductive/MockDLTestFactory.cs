@@ -6,16 +6,16 @@ using tvn.cosine.ai.learning.inductive;
 namespace tvn_cosine.ai.test.unit.learning.inductive
 {
     [TestClass]
-    public class MockDLTestFactory : DLTestFactory
+    public class MockDLTestFactory : DecisionListTestFactory
     {
-        private ICollection<DLTest> tests;
+        private ICollection<tvn.cosine.ai.learning.inductive.DecisionListTest> tests;
 
-        public MockDLTestFactory(ICollection<DLTest> tests)
+        public MockDLTestFactory(ICollection<tvn.cosine.ai.learning.inductive.DecisionListTest> tests)
         {
             this.tests = tests;
         }
 
-        public override ICollection<DLTest> createDLTestsWithAttributeCount(DataSet ds, int i)
+        public override ICollection<tvn.cosine.ai.learning.inductive.DecisionListTest> createDLTestsWithAttributeCount(DataSet ds, int i)
         {
             return tests;
         }

@@ -215,8 +215,8 @@
     <Compile Include="learning\inductive\ConstantDecisonTree.cs" />
     <Compile Include="learning\inductive\DecisionList.cs" />
     <Compile Include="learning\inductive\DecisionTree.cs" />
-    <Compile Include="learning\inductive\DLTest.cs" />
-    <Compile Include="learning\inductive\DLTestFactory.cs" />
+    <Compile Include="learning\inductive\DecisionListTest.cs" />
+    <Compile Include="learning\inductive\DecisionListTestFactory.cs" />
     <Compile Include="learning\knowledge\CurrentBestLearning.cs" />
     <Compile Include="learning\knowledge\FOLDataSetDomain.cs" />
     <Compile Include="learning\knowledge\FOLExample.cs" />
@@ -240,7 +240,7 @@
     <Compile Include="learning\neural\NeuralNetworkConfig.cs" />
     <Compile Include="learning\neural\NeuralNetworkDataSet.cs" />
     <Compile Include="learning\neural\NeuralNetworkExample.cs" />
-    <Compile Include="learning\neural\api\INNTrainingScheme.cs" />
+    <Compile Include="learning\neural\api\INeuralNetworkTrainingScheme.cs" />
     <Compile Include="learning\neural\api\INumerizer.cs" />
     <Compile Include="learning\neural\Perceptron.cs" />
     <Compile Include="learning\neural\PureLinearActivationFunction.cs" />

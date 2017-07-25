@@ -116,7 +116,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
 
         {
             // tests second base case of DL Learner
-            DecisionListLearner learner = new DecisionListLearner("Yes", "No", new MockDLTestFactory(CollectionFactory.CreateQueue<DLTest>()));
+            DecisionListLearner learner = new DecisionListLearner("Yes", "No", new MockDLTestFactory(CollectionFactory.CreateQueue<tvn.cosine.ai.learning.inductive.DecisionListTest>()));
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             learner.train(ds);
             Assert.AreEqual(DecisionListLearner.FAILURE,
@@ -129,7 +129,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             DecisionListLearner learner = new DecisionListLearner("Yes", "No",
 
-                        new DLTestFactory());
+                        new DecisionListTestFactory());
             learner.train(ds);
 
             int[] result = learner.Test(ds);

@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.learning.neural
         private readonly Layer hiddenLayer;
         private readonly Layer outputLayer;
 
-        private INNTrainingScheme trainingScheme;
+        private INeuralNetworkTrainingScheme trainingScheme;
 
         /// <summary>
         /// Constructor to be used for non testing code.
@@ -155,7 +155,7 @@ namespace tvn.cosine.ai.learning.neural
             return outputLayer;
         }
 
-        public void setTrainingScheme(INNTrainingScheme trainingScheme)
+        public void setTrainingScheme(INeuralNetworkTrainingScheme trainingScheme)
         {
             this.trainingScheme = trainingScheme;
             trainingScheme.setNeuralNetwork(this);

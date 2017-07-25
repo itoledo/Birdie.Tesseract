@@ -12,7 +12,7 @@ namespace tvn_cosine.ai.test.unit.learning.inductive
         public void testDecisionList()
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
-            ICollection<DLTest> dlTests = new DLTestFactory()
+            ICollection<tvn.cosine.ai.learning.inductive.DecisionListTest> dlTests = new DecisionListTestFactory()
                        .createDLTestsWithAttributeCount(ds, 1);
             Assert.AreEqual(26, dlTests.Size());
         }
@@ -22,7 +22,7 @@ namespace tvn_cosine.ai.test.unit.learning.inductive
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             Example e = ds.getExample(0);
-            DLTest test = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test.add("type", "French");
             Assert.IsTrue(test.matches(e));
         }
@@ -32,7 +32,7 @@ namespace tvn_cosine.ai.test.unit.learning.inductive
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             Example e = ds.getExample(0);
-            DLTest test = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test.add("type", "Thai");
             Assert.IsFalse(test.matches(e));
         }
@@ -44,7 +44,7 @@ namespace tvn_cosine.ai.test.unit.learning.inductive
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             Example e = ds.getExample(0);
-            DLTest test = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test.add("type", "French");
             Assert.IsTrue(test.matches(e));
         }
@@ -55,7 +55,7 @@ namespace tvn_cosine.ai.test.unit.learning.inductive
 
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
-            DLTest test = new DLTest();
+            tvn.cosine.ai.learning.inductive.DecisionListTest test = new tvn.cosine.ai.learning.inductive.DecisionListTest();
             test.add("type", "Burger");
 
             DataSet matched = test.matchedExamples(ds);
