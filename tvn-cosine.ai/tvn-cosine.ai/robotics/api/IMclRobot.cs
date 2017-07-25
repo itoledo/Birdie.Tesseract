@@ -1,6 +1,6 @@
-﻿using tvn.cosine.ai.robotics.datatypes;
+﻿using tvn.cosine.ai.robotics.datatypes.api;
 
-namespace tvn.cosine.ai.robotics
+namespace tvn.cosine.ai.robotics.api
 {
     /**
      * This interface defines functionality a robotic agent has to implement in order to localize itself via {@link MonteCarloLocalization}. 

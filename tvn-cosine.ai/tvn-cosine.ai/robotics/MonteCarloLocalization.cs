@@ -3,7 +3,8 @@ using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.util;
-using tvn.cosine.ai.robotics.datatypes;
+using tvn.cosine.ai.robotics.api;
+using tvn.cosine.ai.robotics.datatypes.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.robotics
@@ -40,10 +41,7 @@ namespace tvn.cosine.ai.robotics
      * The WEIGHTED-SAMPLE-WITH-REPLACEMENT is implemented by the method {@code extendedWeightedSampleWithReplacement}. This implementation contains the addition of a cutoff value. All particles having a weight below this cutoff are ignored.
      * <br/><br/>
      * It is possible to reduce the steps needed for the localization by tweaking the  sample count and the parameter {@code cutOff}.
-     * <br/><br/>
-     * @author Arno von Borries
-     * @author Jan Phillip Kretzschmar
-     * @author Andreas Walscheid
+     * <br/><br/> 
      * 
      * @param <P> a pose implementing {@link IMclPose}.
      * @param <V> an n-1-dimensional vector implementing {@link IMclVector}, where n is the dimensionality of the environment. This vector describes the angle between two rays in the environment.
@@ -55,8 +53,7 @@ namespace tvn.cosine.ai.robotics
         where V : IMclVector
         where M : IMclMove<M>
         where R : IMclRangeReading<R, V>
-    {
-
+    { 
         private const string SAMPLE_INDEXES_NAME = "SAMPLE_INDEXES";
 
         private readonly IMclMap<P, V, M, R> map;
@@ -95,7 +92,7 @@ namespace tvn.cosine.ai.robotics
             ISet<P> newSamples = CollectionFactory.CreateSet<P>();
             foreach (P sample in samples)
             {
-                newSamples.Add(sample.applyMovement(move.generateNoise()));
+                newSamples.Add(sample.ApplyMovement(move.GenerateNoise()));
             }
             return newSamples;
         }
@@ -117,7 +114,7 @@ namespace tvn.cosine.ai.robotics
                     w[j] = 1.0d;
                     for (int i = 0; i < rangeReadings.Length;++i)
                     {
-                        w[j] = w[j] * rangeReadings[i].calculateWeight(map.rayCast(sample.addAngle(rangeReadings[i].getAngle())));
+                        w[j] = w[j] * rangeReadings[i].CalculateWeight(map.rayCast(sample.AddAngle(rangeReadings[i].GetAngle())));
                     }
                 }
                 else
@@ -188,6 +185,5 @@ namespace tvn.cosine.ai.robotics
             newSamples = extendedWeightedSampleWithReplacement(newSamples, w);
             return newSamples;
         }
-    }
-
+    } 
 }

@@ -1,19 +1,19 @@
-﻿using tvn.cosine.ai.robotics.datatypes;
+﻿using tvn.cosine.ai.robotics.datatypes.api;
 
-namespace tvn.cosine.ai.robotics
-{
-    /**
-     * This interface defines functionality for a map of an environment for a robot (agent) to perform Monte-Carlo-Localization in.
-     * 
-     * @author Arno von Borries
-     * @author Jan Phillip Kretzschmar
-     * @author Andreas Walscheid
-     *
-     * @param <P> a pose implementing {@link IMclPose}.
-     * @param <V> an n-1-dimensional vector implementing {@link IMclVector}, where n is the dimensionality of the environment.
-     * @param <M> a movement (or sequence of movements) of the robot, implementing {@link IMclMove}.
-     * @param <R> a range measurement, implementing {@link IMclRangeReading}.
-     */
+namespace tvn.cosine.ai.robotics.api
+{ 
+    /// <summary>
+    /// This interface defines functionality for a map of an environment for a robot (agent) to perform Monte-Carlo-Localization in.
+    /// </summary>
+    /// <typeparam name="P">a pose implementing IMclPose.</typeparam>
+    /// <typeparam name="V">
+    /// an n-1-dimensional vector implementing IMclVector, 
+    /// where n is the dimensionality of the environment.
+    /// </typeparam>
+    /// <typeparam name="M">
+    /// a movement (or sequence of movements) of the robot, implementing IMclMove.
+    /// </typeparam>
+    /// <typeparam name="R">a range measurement, implementing IMclRangeReading.</typeparam>
     public interface IMclMap<P, V, M, R>
         where P : IMclPose<P, V, M>
         where V : IMclVector
