@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.learning.framework;
 
 namespace tvn.cosine.ai.learning.inductive
@@ -58,7 +60,7 @@ namespace tvn.cosine.ai.learning.inductive
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder();
+            IStringBuilder buf = TextFactory.CreateStringBuilder();
             foreach (DLTest test in tests)
             {
                 buf.Append(test.ToString() + " => " + testOutcomes.Get(test) + " ELSE \n");

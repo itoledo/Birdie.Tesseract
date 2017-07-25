@@ -1,7 +1,8 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.IO; 
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.nlp.ranking
 {
@@ -96,7 +97,7 @@ namespace tvn.cosine.ai.nlp.ranking
 
         public static string loadFileText(string folderPath, FileInfo file)
         {
-            StringBuilder pageContent = new StringBuilder();
+            IStringBuilder pageContent = TextFactory.CreateStringBuilder();
 
             using (StreamReader sr = new StreamReader(file.FullName))
             {

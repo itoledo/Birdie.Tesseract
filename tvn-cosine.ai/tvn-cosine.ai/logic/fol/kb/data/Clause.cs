@@ -1,8 +1,10 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.parsing;
 using tvn.cosine.ai.logic.fol.parsing.ast;
@@ -854,7 +856,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
 
     class ClauseEqualityIdentityConstructor : FOLVisitor
     {
-        private StringBuilder identity = new StringBuilder();
+        private IStringBuilder identity = TextFactory.CreateStringBuilder();
         private int noVarPositions = 0;
         private int[] clauseVarCounts = null;
         private int currentLiteral = 0;
@@ -976,7 +978,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
             {
                 ICollection<int> positions = varPositions.Get(key);
                 positions.Sort(new List<int>.Comparer());
-                StringBuilder sb = new StringBuilder();
+                IStringBuilder sb = TextFactory.CreateStringBuilder();
                 foreach (int pos in positions)
                 {
                     string posStr = pos.ToString();

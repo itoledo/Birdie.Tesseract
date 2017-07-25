@@ -1,22 +1,24 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.search.csp
 {
-    /**
-     * An assignment assigns values to some or all variables of a CSP.
-     *
-     * @author Ruediger Lunde
-     */
+    /// <summary>
+    /// An assignment assigns values to some or all variables of a CSP.
+    /// </summary>
+    /// <typeparam name="VAR"></typeparam>
+    /// <typeparam name="VAL"></typeparam>
     public class Assignment<VAR, VAL> : ICloneable<Assignment<VAR, VAL>>
         where VAR : Variable
     {
-        /**
-         * Maps variables to their assigned values.
-         */
+        /// <summary>
+        /// Maps variables to their assigned values.
+        /// </summary>
         private IMap<VAR, VAL> variableToValueMap = CollectionFactory.CreateInsertionOrderedMap<VAR, VAL>();
 
         public ICollection<VAR> getVariables()
@@ -52,10 +54,11 @@ namespace tvn.cosine.ai.search.csp
             return variableToValueMap.ContainsKey(var);
         }
 
-        /**
-         * Returns true if this assignment does not violate any constraints of
-         * <code>constraints</code>.
-         */
+        /// <summary>
+        /// Returns true if this assignment does not violate any constraints of constraints.
+        /// </summary>
+        /// <param name="constraints"></param>
+        /// <returns></returns>
         public bool isConsistent(ICollection<Constraint<VAR, VAL>> constraints)
         {
             foreach (Constraint<VAR, VAL> cons in constraints)
@@ -64,10 +67,11 @@ namespace tvn.cosine.ai.search.csp
             return true;
         }
 
-        /**
-         * Returns true if this assignment assigns values to every variable of
-         * <code>vars</code>.
-         */
+        /// <summary>
+        /// Returns true if this assignment assigns values to every variable of vars.
+        /// </summary>
+        /// <param name="vars"></param>
+        /// <returns></returns>
         public bool isComplete(ICollection<VAR> vars)
         {
             foreach (VAR var in vars)
@@ -76,10 +80,12 @@ namespace tvn.cosine.ai.search.csp
             return true;
         }
 
-        /**
-         * Returns true if this assignment is consistent as well as complete with
-         * respect to the given CSP.
-         */
+        /// <summary>
+        /// Returns true if this assignment is consistent as well as complete with
+        /// respect to the given CSP.
+        /// </summary>
+        /// <param name="csp"></param>
+        /// <returns></returns>
         public bool isSolution(CSP<VAR, VAL> csp)
         {
             return isConsistent(csp.getConstraints()) && isComplete(csp.getVariables());
@@ -99,7 +105,7 @@ namespace tvn.cosine.ai.search.csp
         public override string ToString()
         {
             bool comma = false;
-            StringBuilder result = new StringBuilder("{");
+            IStringBuilder result = TextFactory.CreateStringBuilder("{");
             foreach (var entry in variableToValueMap)
             {
                 if (comma)

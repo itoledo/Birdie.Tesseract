@@ -1,20 +1,21 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof
 {
     public class ProofPrinter
-    { 
-        /**
-         * Utility method for outputting proofs in a formatted textual
-         * representation.
-         * 
-         * @param proof
-         * @return a string representation of the Proof.
-         */
+    {
+        /// <summary>
+        /// Utility method for outputting proofs in a formatted textual
+        /// representation.
+        /// </summary>
+        /// <param name="proof"></param>
+        /// <returns></returns>
         public static string printProof(Proof proof)
         {
-            StringBuilder sb = new StringBuilder();
+            IStringBuilder sb = TextFactory.CreateStringBuilder();
 
             sb.Append("Proof, Answer Bindings: ");
             sb.Append(proof.getAnswerBindings());
@@ -52,7 +53,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
             string f = "|{0}-" + maxStepWidth + "s| {1}-" + maxProofWidth + "s|{2}-" + maxJustificationWidth + "s|\n";
 
             int barWidth = 5 + maxStepWidth + maxProofWidth + maxJustificationWidth;
-            StringBuilder bar = new StringBuilder();
+            IStringBuilder bar = TextFactory.CreateStringBuilder();
             for (int i = 0; i < barWidth;++i)
             {
                 bar.Append("-");

@@ -1,9 +1,10 @@
-﻿using System.Text;
-using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.util
 { 
@@ -11,7 +12,7 @@ namespace tvn.cosine.ai.util
     {
         public const string NO = "No";
         public const string YES = "Yes";
-        private static IRandom random = new DefaultRandom();
+        private static IRandom random = CommonFactory.CreateRandom();
 
         private const double EPSILON = 0.000000000001;
 
@@ -262,7 +263,7 @@ namespace tvn.cosine.ai.util
 
         public static string ntimes(string s, int n)
         {
-            StringBuilder builder = new StringBuilder();
+            IStringBuilder builder = TextFactory.CreateStringBuilder();
             for (int i = 0; i < n;++i)
             {
                 builder.Append(s);

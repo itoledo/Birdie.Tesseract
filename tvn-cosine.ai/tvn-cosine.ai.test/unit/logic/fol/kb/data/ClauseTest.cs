@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
@@ -301,7 +303,7 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
 
             ISet<Clause> newClauses = CollectionFactory.CreateSet<Clause>();
             long maxRunTime = 30 * 1000; // 30 seconds
-            System.DateTime finishTime = System.DateTime.Now.AddMilliseconds(maxRunTime);
+            IDateTime finishTime = CommonFactory.Now().AddMilliseconds(maxRunTime);
             do
             {
                 clauses.AddAll(newClauses);
@@ -333,17 +335,17 @@ namespace tvn_cosine.ai.test.unit.logic.fol.kb.data
                             newClauses.AddAll(r.getFactors());
                         }
 
-                        if (System.DateTime.Now > finishTime)
+                        if (CommonFactory.Now().BiggerThan(finishTime))
                         {
                             break;
                         }
                     }
-                    if (System.DateTime.Now > finishTime)
+                    if (CommonFactory.Now().BiggerThan(finishTime))
                     {
                         break;
                     }
                 }
-            } while (System.DateTime.Now < finishTime);
+            } while (CommonFactory.Now().SmallerThan(finishTime));
         }
 
         [TestMethod]

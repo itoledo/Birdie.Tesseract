@@ -1,9 +1,10 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.probability.api;
-using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.domain.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util;
@@ -11,14 +12,12 @@ using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.probability.util
 {
-    /**
-     * A Utility Class for associating values with a set of finite Random Variables.
-     * This is also the default implementation of the CategoricalDistribution and
-     * Factor interfaces (as they are essentially dependent on the same underlying
-     * data structures).
-     * 
-     * @author Ciaran O'Reilly
-     */
+    /// <summary>
+    /// A Utility Class for associating values with a set of finite Random Variables.
+    /// This is also the default implementation of the CategoricalDistribution and
+    /// Factor interfaces (as they are essentially dependent on the same underlying
+    /// data structures).
+    /// </summary>
     public class ProbabilityTable : ICategoricalDistribution, IFactor
     {
         private double[] values = null;
@@ -30,15 +29,11 @@ namespace tvn.cosine.ai.probability.util
         private string toString = null;
         private double sum = -1;
 
-        /**
-         * Interface to be implemented by an object/algorithm that wishes to iterate
-         * over the possible assignments for the random variables comprising this
-         * table.
-         * 
-         * @see ProbabilityTable#iterateOverTable(Iterator)
-         * @see ProbabilityTable#iterateOverTable(Iterator,
-         *      params AssignmentProposition[] )
-         */
+        /// <summary>
+        /// Interface to be implemented by an object/algorithm that wishes to iterate
+        /// over the possible assignments for the random variables comprising this
+        /// table.
+        /// </summary>
         public interface ProbabilityTableIterator : IIterator
         {
             /**
@@ -659,7 +654,7 @@ namespace tvn.cosine.ai.probability.util
         {
             if (null == toString)
             {
-                StringBuilder sb = new StringBuilder();
+                IStringBuilder sb = TextFactory.CreateStringBuilder();
                 sb.Append("<");
                 for (int i = 0; i < values.Length; ++i)
                 {
@@ -675,10 +670,7 @@ namespace tvn.cosine.ai.probability.util
             }
             return toString;
         }
-
-        //
-        // PRIVATE METHODS
-        //
+         
         private void reinitLazyValues()
         {
             sum = -1;

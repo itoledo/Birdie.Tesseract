@@ -80,7 +80,7 @@ namespace tvn.cosine.ai.probability.bayes.approximate
          *            <b>X</b><sub>1</sub>)
          */
         public ParticleFiltering(int N, IDynamicBayesianNetwork dbn)
-            : this(N, dbn, new DefaultRandom())
+            : this(N, dbn, CommonFactory.CreateRandom())
         { }
 
         /**

@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.logic.fol.inference.proof;
 using tvn.cosine.ai.logic.fol.inference.trace;
 using tvn.cosine.ai.logic.fol.kb;
@@ -57,7 +60,7 @@ namespace tvn.cosine.ai.logic.fol.inference
         {
             this.maxQueryTime = maxQueryTime;
         }
-         
+
         public InferenceResult ask(FOLKnowledgeBase kb, Sentence query)
         {
             //
@@ -262,15 +265,14 @@ namespace tvn.cosine.ai.logic.fol.inference
             private ISet<Variable> answerLiteralVariables;
             private ICollection<Chain> sos = null;
             private bool complete = false;
-            private System.DateTime finishTime;
+            private IDateTime finishTime;
             private int maxDepthReached = 0;
             private ICollection<Proof> proofs = CollectionFactory.CreateQueue<Proof>();
             private bool timedOut = false;
 
             public AnswerHandler(FOLKnowledgeBase kb, Sentence query, long maxQueryTime, FOLModelElimination fOLModelElimination)
             {
-
-                finishTime = System.DateTime.Now.AddMilliseconds(maxQueryTime);
+                finishTime = CommonFactory.Now().AddMilliseconds(maxQueryTime);
 
                 Sentence refutationQuery = new NotSentence(query);
 
@@ -416,7 +418,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     }
                 }
 
-                if (System.DateTime.Now > finishTime)
+                if (CommonFactory.Now().BiggerThan(finishTime))
                 {
                     complete = true;
                     // Indicate that I have run out of query time
@@ -428,7 +430,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             public override string ToString()
             {
-                StringBuilder sb = new StringBuilder();
+                IStringBuilder sb = TextFactory.CreateStringBuilder();
                 sb.Append("isComplete=" + complete);
                 sb.Append("\n");
                 sb.Append("result=" + proofs);
@@ -619,7 +621,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            IStringBuilder sb = TextFactory.CreateStringBuilder();
 
             sb.Append("#");
             sb.Append(posHeads.Size());

@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.probability.api;
 
 namespace tvn.cosine.ai.probability.proposition
@@ -34,7 +37,7 @@ namespace tvn.cosine.ai.probability.proposition
         {
             if (null == toString)
             {
-                StringBuilder sb = new StringBuilder();
+                IStringBuilder sb = TextFactory.CreateStringBuilder();
                 sb.Append("(NOT ");
                 sb.Append(proposition.ToString());
                 sb.Append(")");

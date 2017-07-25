@@ -100,7 +100,7 @@ namespace tvn.cosine.ai.environment.vacuum
 
         public override void AddAgent(IAgent a)
         {
-            int idx = new DefaultRandom().Next(locations.Size());
+            int idx = CommonFactory.CreateRandom().Next(locations.Size());
             envState.setAgentLocation(a, locations.Get(idx));
             base.AddAgent(a);
         }

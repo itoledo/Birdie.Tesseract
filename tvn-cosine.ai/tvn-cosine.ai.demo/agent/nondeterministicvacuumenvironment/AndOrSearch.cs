@@ -1,8 +1,11 @@
-﻿using System.Text;
-using tvn.cosine.ai.agent.api; 
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.environment.vacuum;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.nondeterministic;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.text.api;
+using tvn.cosine.ai.common.text;
 
 namespace tvn_cosine.ai.demo.agent.nondeterministicvacuumenvironment
 {
@@ -47,7 +50,7 @@ namespace tvn_cosine.ai.demo.agent.nondeterministicvacuumenvironment
 
             // execute and show plan
             System.Console.WriteLine("Initial Plan: " + agent.getContingencyPlan());
-            StringBuilder sb = new StringBuilder();
+            IStringBuilder sb = TextFactory.CreateStringBuilder();
             world.AddEnvironmentView(new VacuumEnvironmentViewActionTracker(sb));
             world.StepUntilDone();
             System.Console.WriteLine("Remaining Plan: " + agent.getContingencyPlan());

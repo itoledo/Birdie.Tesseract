@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.search.csp
 {
@@ -100,7 +103,7 @@ namespace tvn.cosine.ai.search.csp
 
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder("{");
+            IStringBuilder result = TextFactory.CreateStringBuilder("{");
             bool comma = false;
             foreach (object value in values)
             {

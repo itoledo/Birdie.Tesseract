@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.search.framework.problem;
 
@@ -10,7 +10,7 @@ namespace tvn_cosine.ai.test.unit.search.online
 
 //        private ExtendableMap aMap;
 
-//        private StringBuilder envChanges;
+//        private IStringBuilder envChanges;
 
 //        [TestInitialize]
 //        public void setUp()
@@ -23,7 +23,7 @@ namespace tvn_cosine.ai.test.unit.search.online
 //            aMap.addBidirectionalLink("D", "F", 4.0);
 //            aMap.addBidirectionalLink("D", "G", 8.0);
 
-//            envChanges = new StringBuilder();
+//            envChanges = TextFactory.CreateStringBuilder();
 //        }
 
 //        [TestMethod]

@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.logic.fol
 {
@@ -30,7 +33,7 @@ namespace tvn.cosine.ai.logic.fol
                         + preferredPrefix + " must be a valid a lower case letter.");
             }
 
-            StringBuilder sb = new StringBuilder();
+            IStringBuilder sb = TextFactory.CreateStringBuilder();
             int currentPrefixCnt = 0;
             if (!_assignedIndexicals.ContainsKey(preferredPrefix))
             {

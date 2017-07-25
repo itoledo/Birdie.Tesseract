@@ -1,8 +1,10 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.util;
 
@@ -92,10 +94,10 @@ namespace tvn.cosine.ai.learning.inductive
 
         public override string ToString()
         {
-            return ToString(1, new StringBuilder());
+            return ToString(1, TextFactory.CreateStringBuilder());
         }
 
-        public virtual string ToString(int depth, StringBuilder buf)
+        public virtual string ToString(int depth, IStringBuilder buf)
         {
             if (attributeName != null)
             {
@@ -108,7 +110,7 @@ namespace tvn.cosine.ai.learning.inductive
                     buf.Append("+" + attributeValue);
                     buf.Append("\n");
                     DecisionTree child = nodes.Get(attributeValue);
-                    buf.Append(child.ToString(depth + 1, new StringBuilder()));
+                    buf.Append(child.ToString(depth + 1, TextFactory.CreateStringBuilder()));
                 }
             }
 

@@ -1,14 +1,17 @@
-﻿using System.Text.RegularExpressions;
+﻿ 
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.learning.framework.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.framework
-{ 
+{
     public class DataSetFactory
-    { 
+    {
         public DataSet fromFile(string filename, DataSetSpecification spec, string separator)
         {
             // assumed file in data directory and ends in .csv
@@ -38,7 +41,7 @@ namespace tvn.cosine.ai.learning.framework
 
         public static Example exampleFromString(string data, DataSetSpecification dataSetSpec, string separator)
         {
-            Regex splitter = new Regex(separator);
+            IRegularExpression splitter = TextFactory.CreateRegularExpression(separator);
             IMap<string, IAttribute> attributes = CollectionFactory.CreateInsertionOrderedMap<string, IAttribute>();
             ICollection<string> attributeValues = CollectionFactory.CreateQueue<string>(splitter.Split(data));
             if (dataSetSpec.isValid(attributeValues))

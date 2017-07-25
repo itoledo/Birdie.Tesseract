@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.logic.fol.domain;
 
@@ -76,7 +79,7 @@ namespace tvn.cosine.ai.logic.fol.parsing
         private Token identifier()
         {
             int startPosition = getCurrentPositionInInput();
-            StringBuilder sbuf = new StringBuilder();
+            IStringBuilder sbuf = TextFactory.CreateStringBuilder();
             while ((null != lookAhead(1) && Character.IsSourceCodeIdentifierPart(lookAhead(1).Value)) || partOfConnector())
             {
                 sbuf.Append(lookAhead(1));

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.logic.fol.inference.proof;
 
 namespace tvn.cosine.ai.logic.fol.inference
@@ -15,7 +16,7 @@ namespace tvn.cosine.ai.logic.fol.inference
          */
         public static string printInferenceResult(InferenceResult ir)
         {
-            StringBuilder sb = new StringBuilder();
+            IStringBuilder sb = TextFactory.CreateStringBuilder();
 
             sb.Append("InferenceResult.isTrue=" + ir.isTrue());
             sb.Append("\n");

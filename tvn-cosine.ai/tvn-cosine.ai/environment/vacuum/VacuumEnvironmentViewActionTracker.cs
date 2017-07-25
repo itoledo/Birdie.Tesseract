@@ -1,20 +1,17 @@
-﻿using System.Text;
-using tvn.cosine.ai.agent.api;
+﻿using tvn.cosine.ai.agent.api;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
     public class VacuumEnvironmentViewActionTracker : IEnvironmentView
-    {
+    { 
+        private IStringBuilder actions = null;
 
-        private StringBuilder actions = null;
-
-        public VacuumEnvironmentViewActionTracker(StringBuilder envChanges)
+        public VacuumEnvironmentViewActionTracker(IStringBuilder envChanges)
         {
             this.actions = envChanges;
         }
-
-        //
-        // START-EnvironmentView
+         
         public void Notify(string msg)
         {
             // Do nothing by default.
@@ -28,10 +25,6 @@ namespace tvn.cosine.ai.environment.vacuum
         public void AgentActed(IAgent agent, IPercept percept, IAction action, IEnvironment source)
         {
             actions.Append(action);
-        }
-
-        // END-EnvironmentView
-        //
-    }
-
+        } 
+    } 
 }

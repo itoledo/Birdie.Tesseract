@@ -1,9 +1,10 @@
-﻿using System.Text;
-using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.learning.reinforcement.agent;
 using tvn.cosine.ai.learning.reinforcement.example;
@@ -30,7 +31,7 @@ namespace tvn_cosine.ai.demo.learning.chapter21
                     cw.getCellAt(1, 1),
                     cw.getCells(),
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
-                    new DefaultRandom());
+                    CommonFactory.CreateRandom());
 
             cwe.AddAgent(reinforcementAgent);
 
@@ -58,12 +59,12 @@ namespace tvn_cosine.ai.demo.learning.chapter21
                 runs.Put(r, trials);
             }
 
-            StringBuilder v4_3 = new StringBuilder();
-            StringBuilder v3_3 = new StringBuilder();
-            StringBuilder v1_3 = new StringBuilder();
-            StringBuilder v1_1 = new StringBuilder();
-            StringBuilder v3_2 = new StringBuilder();
-            StringBuilder v2_1 = new StringBuilder();
+            IStringBuilder v4_3 = TextFactory.CreateStringBuilder();
+            IStringBuilder v3_3 = TextFactory.CreateStringBuilder();
+            IStringBuilder v1_3 = TextFactory.CreateStringBuilder();
+            IStringBuilder v1_1 = TextFactory.CreateStringBuilder();
+            IStringBuilder v3_2 = TextFactory.CreateStringBuilder();
+            IStringBuilder v2_1 = TextFactory.CreateStringBuilder();
             for (int t = 0; t < (numTrialsPerRun / reportEveryN); t++)
             {
                 // Use the last run
@@ -82,7 +83,7 @@ namespace tvn_cosine.ai.demo.learning.chapter21
                         .getCellAt(2, 1)) : 0.0) + "\t");
             }
 
-            StringBuilder rmseValues = new StringBuilder();
+            IStringBuilder rmseValues = TextFactory.CreateStringBuilder();
             for (int t = 0; t < rmseTrialsToReport; t++)
             {
                 // Calculate the Root Mean Square Error for utility of 1,1

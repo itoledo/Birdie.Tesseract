@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.common.datastructures
 { 
@@ -77,7 +79,7 @@ namespace tvn.cosine.ai.common.datastructures
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder();
+            IStringBuilder buf = TextFactory.CreateStringBuilder();
             foreach (RowHeaderType r in rowHeaders)
             {
                 foreach (ColumnHeaderType c in columnHeaders)

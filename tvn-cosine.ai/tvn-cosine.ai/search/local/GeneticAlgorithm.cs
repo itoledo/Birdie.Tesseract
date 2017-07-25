@@ -68,7 +68,7 @@ namespace tvn.cosine.ai.search.local
         private ICollection<ProgressTracker> progressTrackers = CollectionFactory.CreateQueue<ProgressTracker>();
 
         public GeneticAlgorithm(int individualLength, ICollection<A> finiteAlphabet, double mutationProbability)
-            : this(individualLength, finiteAlphabet, mutationProbability, new DefaultRandom())
+            : this(individualLength, finiteAlphabet, mutationProbability, CommonFactory.CreateRandom())
         { }
 
         public GeneticAlgorithm(int individualLength, ICollection<A> finiteAlphabet, double mutationProbability, IRandom random)

@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.logic.fol.inference.otter;
 using tvn.cosine.ai.logic.fol.inference.otter.defaultimpl;
 using tvn.cosine.ai.logic.fol.inference.proof;
@@ -523,7 +526,7 @@ namespace tvn.cosine.ai.logic.fol.inference
             private Literal answerLiteral;
             private ISet<Variable> answerLiteralVariables;
             private Clause answerClause;
-            private System.DateTime finishTime;
+            private IDateTime finishTime;
             private bool complete = false;
             private ICollection<Proof> proofs = CollectionFactory.CreateQueue<Proof>();
             private bool timedOut = false;
@@ -536,7 +539,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                 this.answerLiteralVariables = answerLiteralVariables;
                 this.answerClause = answerClause;
                 //
-                this.finishTime = System.DateTime.Now.AddMilliseconds(maxQueryTime);
+                this.finishTime = CommonFactory.Now().AddMilliseconds(maxQueryTime);
             }
 
             //
@@ -664,7 +667,7 @@ namespace tvn.cosine.ai.logic.fol.inference
                     }
                 }
 
-                if (System.DateTime.Now > finishTime)
+                if (CommonFactory.Now().BiggerThan(finishTime))
                 {
                     complete = true;
                     // Indicate that I have run out of query time
@@ -676,7 +679,7 @@ namespace tvn.cosine.ai.logic.fol.inference
 
             public override string ToString()
             {
-                StringBuilder sb = new StringBuilder();
+                IStringBuilder sb = TextFactory.CreateStringBuilder();
                 sb.Append("isComplete=" + complete);
                 sb.Append("\n");
                 sb.Append("result=" + proofs);

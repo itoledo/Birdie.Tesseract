@@ -1,19 +1,16 @@
-﻿using System.Text.RegularExpressions;
-using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.logic.fol.domain;
 
 namespace tvn.cosine.ai.learning.knowledge
-{
-    /**
-     * @author Ciaran O'Reilly
-     * 
-     */
+{ 
     public class FOLDataSetDomain : FOLDomain
     {
-        private static Regex allowableCharactersRegEx = new Regex("[^a-zA-Z_$0-9]");
+        private static IRegularExpression allowableCharactersRegEx = TextFactory.CreateRegularExpression("[^a-zA-Z_$0-9]");
         //
         private DataSetSpecification dataSetSpecification;
         private string trueGoalValue = null;
@@ -104,10 +101,7 @@ namespace tvn.cosine.ai.learning.knowledge
 
             return folName;
         }
-
-        //
-        // PRIVATE METHODS
-        //
+         
         private void constructFOLDomain()
         {
             // Ensure the target predicate is included

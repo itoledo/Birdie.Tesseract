@@ -1,5 +1,7 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.util;
 
@@ -35,7 +37,7 @@ namespace tvn.cosine.ai.learning.inductive
             return "DECISION -> " + value;
         }
 
-        public override string ToString(int depth, StringBuilder buf)
+        public override string ToString(int depth, IStringBuilder buf)
         {
             buf.Append(Util.ntimes("\t", depth + 1));
             buf.Append("DECISION -> " + value + "\n");

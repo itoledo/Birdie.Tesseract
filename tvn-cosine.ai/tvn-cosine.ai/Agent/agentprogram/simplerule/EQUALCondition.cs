@@ -1,5 +1,8 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.agentprogram.simplerule
@@ -31,7 +34,7 @@ namespace tvn.cosine.ai.agent.agentprogram.simplerule
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            IStringBuilder sb = TextFactory.CreateStringBuilder();
 
             sb.Append(key)
               .Append("==")

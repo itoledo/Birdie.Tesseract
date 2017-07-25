@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.kb.data
@@ -55,7 +58,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
         {
             if (null == strRep)
             {
-                StringBuilder sb = new StringBuilder();
+                IStringBuilder sb = TextFactory.CreateStringBuilder();
                 if (isNegativeLiteral())
                 {
                     sb.Append("~");

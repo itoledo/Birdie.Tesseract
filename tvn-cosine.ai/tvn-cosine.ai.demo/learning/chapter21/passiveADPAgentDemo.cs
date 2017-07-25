@@ -30,7 +30,7 @@ namespace tvn_cosine.ai.demo.learning.chapter21
                     cw.getCellAt(1, 1),
                     cw.getCells(),
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
-                    new DefaultRandom());
+                    CommonFactory.CreateRandom());
 
             IMap<Cell<double>, CellWorldAction> fixedPolicy = CollectionFactory.CreateInsertionOrderedMap<Cell<double>, CellWorldAction>();
             fixedPolicy.Put(cw.getCellAt(1, 1), CellWorldAction.Up);

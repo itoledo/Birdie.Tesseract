@@ -24,7 +24,7 @@ namespace tvn_cosine.ai.demo.learning.chapter21
                     cw.getCellAt(1, 1),
                     cw.getCells(),
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
-                    new DefaultRandom());
+                    CommonFactory.CreateRandom());
 
             QLearningAgent<Cell<double>, CellWorldAction> qla = new QLearningAgent<Cell<double>, CellWorldAction>(
                     MDPFactory.createActionsFunctionForFigure17_1(cw),

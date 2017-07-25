@@ -1,22 +1,20 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.probability.api;
 
 namespace tvn.cosine.ai.probability.proposition
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): Formula 13.4, page
-     * 489.<br>
-     * <br>
-     * 
-     * We can also derive the well-known formula for the probability of a
-     * disjunction, sometimes called the <b>inclusion-exclusion principle:</b><br>
-     * <br>
-     * P(a OR b) = P(a) + P(b) - P(a AND b).<br>
-     * 
-     * @author Ciaran O'Reilly
-     */
+    /// <summary>   
+    /// Artificial Intelligence A Modern Approach (3rd Edition): Formula 13.4, page 489. 
+    /// <para />
+    /// We can also derive the well-known formula for the probability of a
+    /// disjunction, sometimes called the inclusion-exclusion principle: 
+    /// <para />
+    /// P(a OR b) = P(a) + P(b) - P(a AND b). 
+    /// </summary>
     public class DisjunctiveProposition : AbstractProposition, BinarySentenceProposition
     {
         private Proposition left = null;
@@ -53,7 +51,7 @@ namespace tvn.cosine.ai.probability.proposition
         {
             if (null == toString)
             {
-                StringBuilder sb = new StringBuilder();
+                IStringBuilder sb = TextFactory.CreateStringBuilder();
                 sb.Append("(");
                 sb.Append(left.ToString());
                 sb.Append(" OR ");

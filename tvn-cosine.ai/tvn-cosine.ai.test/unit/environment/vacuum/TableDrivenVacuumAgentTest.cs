@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
+using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.environment.vacuum;
 
 namespace tvn_cosine.ai.test.unit.environment.vacuum
@@ -9,13 +11,13 @@ namespace tvn_cosine.ai.test.unit.environment.vacuum
     {
         private TableDrivenVacuumAgent agent;
 
-        private StringBuilder envChanges;
+        private IStringBuilder envChanges;
 
         [TestInitialize]
         public void setUp()
         {
             agent = new TableDrivenVacuumAgent();
-            envChanges = new StringBuilder();
+            envChanges = TextFactory.CreateStringBuilder();
         }
 
         [TestMethod]

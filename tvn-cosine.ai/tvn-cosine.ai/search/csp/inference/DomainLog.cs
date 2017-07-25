@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.search.csp.inference
 {
@@ -91,7 +94,7 @@ namespace tvn.cosine.ai.search.csp.inference
 
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
+            IStringBuilder result = TextFactory.CreateStringBuilder();
             foreach (Pair<VAR, Domain<VAL>> pair in savedDomains)
                 result.Append(pair.getFirst()).Append("=").Append(pair.getSecond()).Append(" ");
             if (emptyDomainObserved)

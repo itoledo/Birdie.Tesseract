@@ -91,7 +91,7 @@ namespace tvn.cosine.ai.logic.propositional.inference
             return null;
         }
 
-        private IRandom random = new DefaultRandom();
+        private IRandom random = CommonFactory.CreateRandom();
 
         /**
          * Default Constructor.

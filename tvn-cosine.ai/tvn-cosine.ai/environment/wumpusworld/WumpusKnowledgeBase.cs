@@ -1,4 +1,4 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
@@ -7,16 +7,15 @@ using tvn.cosine.ai.environment.wumpusworld.action;
 using tvn.cosine.ai.logic.propositional.inference;
 using tvn.cosine.ai.logic.propositional.kb;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.text.api;
+using tvn.cosine.ai.common.text;
 
 namespace tvn.cosine.ai.environment.wumpusworld
 {
-    /**
-     * A Knowledge base tailored to the Wumpus World environment.
-     * 
-     * @author Ciaran O'Reilly
-     * @author Federico Baron
-     * @author Alessandro Daniele
-     */
+    /// <summary>
+    /// A Knowledge base tailored to the Wumpus World environment. 
+    /// </summary>
     public class WumpusKnowledgeBase : KnowledgeBase
     {
         public const string LOCATION = "L";
@@ -40,7 +39,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
         public const string ACTION_TURN_LEFT = TurnLeft.TURN_LEFT_ACTION_NAME;
         public const string ACTION_TURN_RIGHT = TurnRight.TURN_RIGHT_ACTION_NAME;
         public const string OK_TO_MOVE_INTO = "OK";
-        //
+       
         private int caveXDimension;
         private int caveYDimension;
         private DPLL dpll;
@@ -625,7 +624,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
             else
             {
                 bool first = true;
-                StringBuilder sb = new StringBuilder();
+                IStringBuilder sb = TextFactory.CreateStringBuilder();
                 foreach (Sentence s in sentences)
                 {
                     if (!first)

@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.search.informed;
@@ -10,7 +10,7 @@ namespace tvn_cosine.ai.test.unit.search.informed
     //public class RecursiveBestFirstSearchTest
     //{
 
-    //    private static StringBuilder envChanges = new StringBuilder();
+    //    private static IStringBuilder envChanges = TextFactory.CreateStringBuilder();
 
     //    private Map aMap  ;
 
@@ -20,7 +20,7 @@ namespace tvn_cosine.ai.test.unit.search.informed
     //    //[TestInitialize]
     //    //public void setUp()
     //    //{
-    //    //    envChanges = new StringBuilder();
+    //    //    envChanges = TextFactory.CreateStringBuilder();
     //    //    aMap = new SimplifiedRoadMapOfPartOfRomania();
 
     //    //    ToDoubleFunction<Node<string, MoveToAction>> heuristicFunction = (node) =>

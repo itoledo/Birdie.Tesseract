@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+﻿ 
 
 namespace tvn.cosine.ai.util.math.geom
 {
@@ -69,9 +69,9 @@ namespace tvn.cosine.ai.util.math.geom
     ////        private const string TRANSFORM_REGEX2 = "([a-zA-Z]+)|([0-9\\.Ee\\+\\-]*[eEmMxXpPiInNcCtT%]*[^\\,\\(\\)\\s]+)";
     ////        private const string NUMBER_REGEX = "([\\+\\-]?[0-9]+\\.?[0-9]*[Ee]?[\\+\\-]?[0-9]*\\.?[0-9]*)|em|ex|px|in|cm|mm|pt|pc|\\%";
 
-    ////        private static readonly Regex NUMBER_PATTERN = new Regex(NUMBER_REGEX);
-    ////        private static readonly Regex TRANSFORM_PATTERN1 = new Regex(TRANSFORM_REGEX1);
-    ////        private static readonly Regex TRANSFORM_PATTERN2 = new Regex(TRANSFORM_REGEX2);
+    ////        private static readonly IRegularExpressionNUMBER_PATTERN = TextFactory.CreateRegularExpression(NUMBER_REGEX);
+    ////        private static readonly IRegularExpressionTRANSFORM_PATTERN1 = TextFactory.CreateRegularExpression(TRANSFORM_REGEX1);
+    ////        private static readonly IRegularExpressionTRANSFORM_PATTERN2 = TextFactory.CreateRegularExpression(TRANSFORM_REGEX2);
 
     ////        private static readonly XMLInputFactory FACTORY = XMLInputFactory.newInstance();
 

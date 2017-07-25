@@ -233,7 +233,7 @@ namespace tvn.cosine.ai.search.local
         private bool shouldAccept(double temperature, double deltaE)
         {
             return (deltaE > 0.0)
-                    || (new DefaultRandom().NextDouble() <= probabilityOfAcceptance(temperature, deltaE));
+                    || (CommonFactory.CreateRandom().NextDouble() <= probabilityOfAcceptance(temperature, deltaE));
         }
 
         private double getValue(Node<S, A> n)

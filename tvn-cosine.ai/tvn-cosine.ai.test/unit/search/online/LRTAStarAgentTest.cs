@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.util;
 
@@ -8,7 +8,7 @@ namespace tvn_cosine.ai.test.unit.search.online
 //    [TestClass] public class LRTAStarAgentTest
 //    {
 //        private ExtendableMap aMap;
-//        private StringBuilder envChanges;
+//        private IStringBuilder envChanges;
 //        private ToDoubleFunction<string> h;
 
 //        [TestInitialize]
@@ -22,7 +22,7 @@ namespace tvn_cosine.ai.test.unit.search.online
 //            aMap.addBidirectionalLink("E", "F", 4.0);
 //            h = (state)=> 1.0;
 
-//            envChanges = new StringBuilder();
+//            envChanges = TextFactory.CreateStringBuilder();
 //        }
 
 //        [TestMethod]

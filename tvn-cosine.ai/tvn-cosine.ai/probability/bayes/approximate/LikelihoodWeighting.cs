@@ -55,7 +55,7 @@ namespace tvn.cosine.ai.probability.bayes.approximate
         private IRandom randomizer = null;
 
         public LikelihoodWeighting()
-                : this(new DefaultRandom())
+                : this(CommonFactory.CreateRandom())
         { }
 
         public LikelihoodWeighting(IRandom r)

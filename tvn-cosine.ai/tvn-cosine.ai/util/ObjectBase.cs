@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using tvn.cosine.ai.common;
 using System.Threading.Tasks;
 
 namespace tvn.cosine.ai.util

@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.environment.nqueens
             ICollection<int> individualRepresentation = CollectionFactory.CreateQueue<int>();
             for (int i = 0; i < boardSize;++i)
             {
-                individualRepresentation.Add(new DefaultRandom().Next(boardSize));
+                individualRepresentation.Add(CommonFactory.CreateRandom().Next(boardSize));
             }
             return new Individual<int>(individualRepresentation);
         }

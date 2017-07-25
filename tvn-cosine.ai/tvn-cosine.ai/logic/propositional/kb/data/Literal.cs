@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
 
 namespace tvn.cosine.ai.logic.propositional.kb.data
@@ -115,7 +118,7 @@ namespace tvn.cosine.ai.logic.propositional.kb.data
         {
             if (null == cachedStringRep)
             {
-                StringBuilder sb = new StringBuilder();
+                IStringBuilder sb = TextFactory.CreateStringBuilder();
                 if (isNegativeLiteral())
                 {
                     sb.Append(Connective.NOT.ToString());

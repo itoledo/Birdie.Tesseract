@@ -1,12 +1,11 @@
-﻿using System.Text.RegularExpressions;
-using tvn.cosine.ai.common.api;
+﻿using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.probability.api;
-using tvn.cosine.ai.probability.bayes;
 using tvn.cosine.ai.probability.bayes.api;
-using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.domain.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util;
@@ -16,9 +15,9 @@ namespace tvn.cosine.ai.probability.util
 {
     public class ProbUtil
     {
-        private static readonly Regex LEGAL_RAND_VAR_NAME_PATTERN = new Regex("[A-Za-z0-9-_]+");
-        private static readonly Regex LEGAL_RAND_VAR_NAME_PATTERN_TABS = new Regex("^[^\t\n]+$");
-        private static readonly Regex LEGAL_LEADING_CHAR_RAND_VAR_NAME_PATTERN = new Regex("^[A-Z].*");
+        private static readonly IRegularExpression LEGAL_RAND_VAR_NAME_PATTERN = TextFactory.CreateRegularExpression("[A-Za-z0-9-_]+");
+        private static readonly IRegularExpression LEGAL_RAND_VAR_NAME_PATTERN_TABS = TextFactory.CreateRegularExpression("^[^\t\n]+$");
+        private static readonly IRegularExpression LEGAL_LEADING_CHAR_RAND_VAR_NAME_PATTERN = TextFactory.CreateRegularExpression("^[A-Z].*");
 
         /**
          * Check if name provided is valid for use as the name of a RandomVariable.

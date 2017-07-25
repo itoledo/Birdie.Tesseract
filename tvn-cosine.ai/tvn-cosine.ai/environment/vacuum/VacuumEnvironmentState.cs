@@ -1,9 +1,11 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.common.text.api;
+using tvn.cosine.ai.common.text;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
@@ -95,16 +97,16 @@ namespace tvn.cosine.ai.environment.vacuum
          */
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder("{");
+            IStringBuilder builder = TextFactory.CreateStringBuilder("{");
             foreach (KeyValuePair<string, VacuumEnvironment.LocationState> entity in state)
             {
-                if (builder.Length > 2) builder.Append(", ");
+                if (builder.GetLength() > 2) builder.Append(", ");
                 builder.Append(entity.GetKey()).Append("=").Append(entity.GetValue());
             }
             int i = 0;
             foreach (KeyValuePair<IAgent, string> entity in agentLocations)
             {
-                if (builder.Length  > 2) builder.Append(", ");
+                if (builder.GetLength() > 2) builder.Append(", ");
                 builder.Append("Loc").Append(++i).Append("=").Append(entity.GetValue());
             }
             builder.Append("}");

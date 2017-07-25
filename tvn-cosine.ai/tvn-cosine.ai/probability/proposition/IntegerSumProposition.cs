@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.domain;
 
@@ -57,7 +60,7 @@ namespace tvn.cosine.ai.probability.proposition
         {
             if (null == toString)
             {
-                StringBuilder sb = new StringBuilder();
+                IStringBuilder sb = TextFactory.CreateStringBuilder();
                 sb.Append(getDerivedName());
                 sb.Append(" = ");
                 sb.Append(sumsDomain.ToString());

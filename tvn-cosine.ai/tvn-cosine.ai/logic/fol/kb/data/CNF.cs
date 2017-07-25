@@ -1,16 +1,15 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.logic.fol.kb.data
 {
-    /**
-     * Conjunctive Normal Form (CNF) : a conjunction of clauses, where each clause
-     * is a disjunction of literals.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary>
+    /// Conjunctive Normal Form (CNF) : a conjunction of clauses, where each clause
+    /// is a disjunction of literals.
+    /// </summary>
     public class CNF
     {
         private ICollection<Clause> conjunctionOfClauses = CollectionFactory.CreateQueue<Clause>();
@@ -32,7 +31,7 @@ namespace tvn.cosine.ai.logic.fol.kb.data
          
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            IStringBuilder sb = TextFactory.CreateStringBuilder();
             for (int i = 0; i < conjunctionOfClauses.Size();++i)
             {
                 if (i > 0)

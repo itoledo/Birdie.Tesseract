@@ -1,6 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using tvn.cosine.ai.common.collections;
+﻿using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.nlp.ranking
 {
@@ -14,15 +15,15 @@ namespace tvn.cosine.ai.nlp.ranking
             ICollection<string> outLinks = CollectionFactory.CreateQueue<string>();
             // search content for all href="x" outlinks
             ICollection<string> allMatches = CollectionFactory.CreateQueue<string>();
-            Regex m = new Regex("href=\"(/wiki/.*?)\"");
-            foreach (Match ma in m.Matches(content))
+            IRegularExpression m = TextFactory.CreateRegularExpression("href=\"(/wiki/.*?)\"");
+            foreach (string ma in m.Matches(content))
             {
-                allMatches.Add(ma.Value);
+                allMatches.Add(ma);
             }
-            for (int i = 0; i < allMatches.Size();++i)
+            for (int i = 0; i < allMatches.Size(); ++i)
             {
                 string match = allMatches.Get(i);
-                string[] tokens = new Regex("\"").Split(match);
+                string[] tokens = TextFactory.CreateRegularExpression("\"").Split(match);
                 string location = tokens[1].ToLower(); // also, tokens[0] = the
                                                        // text before the first
                                                        // quote,
@@ -43,14 +44,14 @@ namespace tvn.cosine.ai.nlp.ranking
                                                               // case
                                                               // insensitive
             ICollection<string> inlinks = CollectionFactory.CreateQueue<string>(); // initialise a list for
-                                                                    // the inlinks
+                                                                                   // the inlinks
 
             // go through all pages and if they link back to target then add that
             // page's location to the target's inlinks
             foreach (var pair in pageTable)
             {
                 Page p = pair.GetValue();
-                for (int i = 0; i < p.getOutlinks().Size();++i)
+                for (int i = 0; i < p.getOutlinks().Size(); ++i)
                 {
                     string pForward = p.getOutlinks().Get(i).ToLower().Replace('\\', '/');
                     string pBackward = p.getOutlinks().Get(i).ToLower().Replace('/', '\\');

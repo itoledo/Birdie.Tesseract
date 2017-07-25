@@ -1,23 +1,25 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.search.uninformed;
+using tvn.cosine.ai.common.text.api;
+using tvn.cosine.ai.common.text;
 
 namespace tvn_cosine.ai.test.unit.search.uninformed
 {
     [TestClass]
     public class BidirectionalSearchTest
     {
-        private StringBuilder envChanges;
+        private IStringBuilder envChanges;
         private SearchForActions<string, MoveToAction> search;
 
         [TestInitialize]
         public void setUp()
         {
-            envChanges = new StringBuilder();
+            envChanges = TextFactory.CreateStringBuilder();
 
             BidirectionalSearch<string, MoveToAction> bidirectionalSearch = new BidirectionalSearch<string, MoveToAction>();
             search = new BreadthFirstSearch<string, MoveToAction>(bidirectionalSearch);
@@ -337,9 +339,9 @@ namespace tvn_cosine.ai.test.unit.search.uninformed
 
         private class BDSEnvironmentView : IEnvironmentView
         {
-            private StringBuilder envChanges;
+            private IStringBuilder envChanges;
 
-            public BDSEnvironmentView(StringBuilder envChanges)
+            public BDSEnvironmentView(IStringBuilder envChanges)
             {
                 this.envChanges = envChanges;
             }

@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.search.framework;
 
 namespace tvn.cosine.ai.search.adversarial
@@ -86,7 +89,7 @@ namespace tvn.cosine.ai.search.adversarial
         public virtual A makeDecision(S state)
         {
             metrics = new Metrics();
-            StringBuilder logText = null;
+            IStringBuilder logText = null;
             P player = game.getPlayer(state);
             ICollection<A> results = orderActions(state, game.getActions(state), player, 0);
             timer.start();
@@ -95,7 +98,7 @@ namespace tvn.cosine.ai.search.adversarial
             {
                 incrementDepthLimit();
                 if (logEnabled)
-                    logText = new StringBuilder("depth " + currDepthLimit + ": ");
+                    logText = TextFactory.CreateStringBuilder("depth " + currDepthLimit + ": ");
                 heuristicEvaluationUsed = false;
                 ActionStore newResults = new ActionStore();
                 foreach (A action in results)
@@ -251,7 +254,7 @@ namespace tvn.cosine.ai.search.adversarial
 
         private class Timer
         {
-            private System.DateTime endTime;
+            private IDateTime endTime;
             private long duration;
 
             public Timer(int maxSeconds)
@@ -261,12 +264,12 @@ namespace tvn.cosine.ai.search.adversarial
 
             public void start()
             {
-                endTime = System.DateTime.Now.AddMilliseconds(duration);
+                endTime = CommonFactory.Now().AddMilliseconds(duration);
             }
 
             public bool timeOutOccurred()
             {
-                return System.DateTime.Now > endTime;
+                return CommonFactory.Now().BiggerThan(endTime);
             }
         }
 

@@ -1,18 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
+using tvn.cosine.ai.common;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.environment.map;
 using tvn.cosine.ai.search.framework.qsearch;
 using tvn.cosine.ai.search.uninformed;
+using tvn.cosine.ai.common.text.api;
+using tvn.cosine.ai.common.text;
 
 namespace tvn_cosine.ai.test.unit.environment.map
 {
     [TestClass]
     // [Ignore]
     public class MapAgentTest
-    { 
-        private ExtendableMap aMap; 
-        private StringBuilder envChanges;
+    {
+        private ExtendableMap aMap;
+        private IStringBuilder envChanges;
 
         [TestInitialize]
         public void setUp()
@@ -24,10 +26,10 @@ namespace tvn_cosine.ai.test.unit.environment.map
             aMap.addBidirectionalLink("C", "D", 7.0);
             aMap.addUnidirectionalLink("B", "E", 14.0);
 
-            envChanges = new StringBuilder();
+            envChanges = TextFactory.CreateStringBuilder();
         }
 
-        [TestMethod] 
+        [TestMethod]
         public void testAlreadyAtGoal()
         {
             MapEnvironment me = new MapEnvironment(aMap);
@@ -55,7 +57,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
                     envChanges.ToString());
         }
 
-        [TestMethod] 
+        [TestMethod]
         public void testNormalSearchGraphSearchMinFrontier()
         {
             MapEnvironment me = new MapEnvironment(aMap);
@@ -72,7 +74,7 @@ namespace tvn_cosine.ai.test.unit.environment.map
                     envChanges.ToString());
         }
 
-        [TestMethod] 
+        [TestMethod]
         public void testNoPath()
         {
             MapEnvironment me = new MapEnvironment(aMap);
@@ -88,9 +90,9 @@ namespace tvn_cosine.ai.test.unit.environment.map
 
         private class TestEnvironmentView : IEnvironmentView
         {
-            private StringBuilder envChanges;
+            private IStringBuilder envChanges;
 
-            public TestEnvironmentView(StringBuilder envChanges)
+            public TestEnvironmentView(IStringBuilder envChanges)
             {
                 this.envChanges = envChanges;
             }

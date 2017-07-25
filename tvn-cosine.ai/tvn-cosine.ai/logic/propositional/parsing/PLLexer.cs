@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.logic.common;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
 
@@ -97,7 +100,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing
         private Token connective()
         {
             int startPosition = getCurrentPositionInInput();
-            StringBuilder sbuf = new StringBuilder();
+            IStringBuilder sbuf = TextFactory.CreateStringBuilder();
             // Ensure pull out just one connective at a time, the isConnective(...)
             // test ensures we handle chained expressions like the following:
             // ~~P
@@ -119,7 +122,7 @@ namespace tvn.cosine.ai.logic.propositional.parsing
         private Token symbol()
         {
             int startPosition = getCurrentPositionInInput();
-            StringBuilder sbuf = new StringBuilder();
+            IStringBuilder sbuf = TextFactory.CreateStringBuilder();
             while (null != lookAhead(1) && PropositionSymbol.isPropositionSymbolIdentifierPart(lookAhead(1).Value))
             {
                 sbuf.Append(lookAhead(1));

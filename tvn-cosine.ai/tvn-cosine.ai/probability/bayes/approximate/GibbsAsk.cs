@@ -43,7 +43,7 @@ namespace tvn.cosine.ai.probability.bayes.approximate
         private IRandom randomizer = null;
 
         public GibbsAsk()
-                : this(new DefaultRandom())
+                : this(CommonFactory.CreateRandom())
         { }
 
         public GibbsAsk(IRandom r)

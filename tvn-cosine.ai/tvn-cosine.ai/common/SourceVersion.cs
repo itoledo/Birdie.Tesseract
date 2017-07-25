@@ -1,4 +1,4 @@
-﻿using System;
+﻿using tvn.cosine.ai.common.exceptions;
 
 namespace tvn.cosine.ai.logic.common
 {

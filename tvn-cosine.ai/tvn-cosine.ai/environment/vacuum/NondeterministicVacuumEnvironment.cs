@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.environment.vacuum
      */
     public class NondeterministicVacuumEnvironment : VacuumEnvironment
     {
-        IRandom random = new DefaultRandom();
+        IRandom random = CommonFactory.CreateRandom();
         /**
          * Construct a vacuum environment with two locations, in which dirt is
          * placed at random.
@@ -66,7 +66,7 @@ namespace tvn.cosine.ai.environment.vacuum
                     // always clean current square
                     envState.setLocationState(currentLocation, VacuumEnvironment.LocationState.Clean);
                     // possibly clean adjacent square
-                    if (new DefaultRandom().NextDouble() > 0.5)
+                    if (CommonFactory.CreateRandom().NextDouble() > 0.5)
                     {
                         envState.setLocationState(adjacentLocation, VacuumEnvironment.LocationState.Clean);
                     }

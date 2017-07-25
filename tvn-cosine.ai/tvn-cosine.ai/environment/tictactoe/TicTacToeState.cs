@@ -1,18 +1,17 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.environment.tictactoe
 {
-    /**
-     * A state of the Tic-tac-toe game is characterized by a board containing
-     * symbols X and O, the next player to move, and an utility information.
-     * 
-     * @author Ruediger Lunde
-     * 
-     */
+    /// <summary> 
+    /// A state of the Tic-tac-toe game is characterized by a board containing
+    /// symbols X and O, the next player to move, and an utility information.
+    /// </summary>
     public class TicTacToeState : ICloneable<TicTacToeState>, IEquatable, IHashable, IStringable
     {
         public const string O = "O";
@@ -190,7 +189,7 @@ namespace tvn.cosine.ai.environment.tictactoe
 
         public override string ToString()
         {
-            StringBuilder buffer = new StringBuilder();
+            IStringBuilder buffer = TextFactory.CreateStringBuilder();
             for (int row = 0; row < 3; row++)
             {
                 for (int col = 0; col < 3; col++)
@@ -201,10 +200,6 @@ namespace tvn.cosine.ai.environment.tictactoe
             }
             return buffer.ToString();
         }
-
-        //
-        // PRIVATE METHODS
-        //
 
         private int getAbsPosition(int col, int row)
         {

@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast
 {
@@ -115,7 +118,7 @@ namespace tvn.cosine.ai.logic.fol.parsing.ast
         {
             if (null == stringRep)
             {
-                StringBuilder sb = new StringBuilder();
+                IStringBuilder sb = TextFactory.CreateStringBuilder();
                 sb.Append(quantifier);
                 sb.Append(" ");
                 foreach (Variable v in variables)

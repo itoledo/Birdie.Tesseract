@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.inference;
 using tvn.cosine.ai.logic.fol.inference.proof;
@@ -12,12 +14,9 @@ using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.logic.fol.kb
 {
-    /**
-     * A First Order Logic (FOL) Knowledge Base.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary>
+    /// A First Order Logic (FOL) Knowledge Base.
+    /// </summary>
     public class FOLKnowledgeBase
     { 
         private FOLParser parser;
@@ -331,7 +330,7 @@ namespace tvn.cosine.ai.logic.fol.kb
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            IStringBuilder sb = TextFactory.CreateStringBuilder();
             foreach (Sentence s in originalSentences)
             {
                 sb.Append(s.ToString());
@@ -339,20 +338,12 @@ namespace tvn.cosine.ai.logic.fol.kb
             }
             return sb.ToString();
         }
-
-        //
-        // PROTECTED METHODS
-        //
-
+         
         protected FOLParser getParser()
         {
             return parser;
         }
-
-        //
-        // PRIVATE METHODS
-        //
-
+         
         // Note: pg 278, STORE(s) concept.
         private void store(Sentence sentence)
         {
@@ -457,7 +448,7 @@ namespace tvn.cosine.ai.logic.fol.kb
 
         private string getFactKey(Literal l)
         {
-            StringBuilder key = new StringBuilder();
+            IStringBuilder key = TextFactory.CreateStringBuilder();
             if (l.isPositiveLiteral())
             {
                 key.Append("+");

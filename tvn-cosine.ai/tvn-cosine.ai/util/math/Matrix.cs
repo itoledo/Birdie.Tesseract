@@ -1,8 +1,9 @@
-﻿using System.Text;
-using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.util.math
 {
@@ -1163,7 +1164,7 @@ namespace tvn.cosine.ai.util.math
 
         public static Matrix random(int m, int n)
         {
-            IRandom _random = new DefaultRandom();
+            IRandom _random = CommonFactory.CreateRandom();
             Matrix A = new Matrix(m, n);
             double[,] X = A.getArray();
             for (int i = 0; i < m;++i)
@@ -1215,7 +1216,7 @@ namespace tvn.cosine.ai.util.math
          * @see java.text.DecimalFormat#setDecimalFormatSymbols
          */
 
-        public void print(StringBuilder output, int width)
+        public void print(IStringBuilder output, int width)
         {
             output.AppendLine(); // start on new line.
             for (int i = 0; i < m;++i)
@@ -1238,7 +1239,7 @@ namespace tvn.cosine.ai.util.math
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder();
+            IStringBuilder buf = TextFactory.CreateStringBuilder();
             for (int i = 0; i < getRowDimension();++i)
             {
 

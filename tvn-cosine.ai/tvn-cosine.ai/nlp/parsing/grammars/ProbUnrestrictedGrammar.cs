@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.nlp.parsing.grammars
 {
@@ -199,7 +202,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
          
         public override string ToString()
         {
-            StringBuilder output = new StringBuilder();
+            IStringBuilder output = TextFactory.CreateStringBuilder();
 
             output.Append("Variables:  ");
             foreach (var var in vars)

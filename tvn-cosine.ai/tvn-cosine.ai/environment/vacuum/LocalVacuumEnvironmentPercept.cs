@@ -1,6 +1,8 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.text.api;
+using tvn.cosine.ai.common.text;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
@@ -65,7 +67,7 @@ namespace tvn.cosine.ai.environment.vacuum
          */
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            IStringBuilder sb = TextFactory.CreateStringBuilder();
             sb.Append("[");
             sb.Append(getAgentLocation());
             sb.Append(", ");

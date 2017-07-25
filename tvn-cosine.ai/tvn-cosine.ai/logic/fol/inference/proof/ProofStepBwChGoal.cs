@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
@@ -39,7 +42,7 @@ namespace tvn.cosine.ai.logic.fol.inference.proof
          
         public override string getProof()
         {
-            StringBuilder sb = new StringBuilder();
+            IStringBuilder sb = TextFactory.CreateStringBuilder();
             ICollection<Literal> nLits = toProve.getNegativeLiterals();
             for (int i = 0; i < toProve.getNumberNegativeLiterals();++i)
             {

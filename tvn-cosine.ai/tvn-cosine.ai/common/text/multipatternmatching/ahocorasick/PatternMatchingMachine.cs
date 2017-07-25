@@ -2,7 +2,8 @@
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.exceptions;
-using System.Text;
+using tvn.cosine.ai.common;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.common.text.multipatternmatching.ahocorasick
 {
@@ -89,7 +90,7 @@ namespace tvn.cosine.ai.common.text.multipatternmatching.ahocorasick
             string tempPattern = preparePattern(pattern);
             foreach (char at in tempPattern)
             {
-                char a = at; 
+                char a = at;
 
                 Node<PatternType> newNode = g(current, a);
                 if (newNode == fail ||
@@ -105,10 +106,10 @@ namespace tvn.cosine.ai.common.text.multipatternmatching.ahocorasick
 
         private string preparePattern(PatternType pattern)
         {
-            StringBuilder StringBuilder = new StringBuilder();
+            IStringBuilder StringBuilder = TextFactory.CreateStringBuilder();
             foreach (var c in pattern)
             {
-                if (StringBuilder.Length == 0)
+                if (StringBuilder.GetLength() == 0)
                 {
                     if (c == wildcard)
                     {
@@ -124,9 +125,9 @@ namespace tvn.cosine.ai.common.text.multipatternmatching.ahocorasick
                 StringBuilder.Append(c);
             }
 
-            if (StringBuilder[StringBuilder.Length - 1] == wildcard)
+            if (StringBuilder.Get(StringBuilder.GetLength() - 1) == wildcard)
             {
-                --StringBuilder.Length;
+                StringBuilder.Decrement();
             }
             else
             {
@@ -147,7 +148,7 @@ namespace tvn.cosine.ai.common.text.multipatternmatching.ahocorasick
             var state = root;
             foreach (char at in input)
             {
-                char a = at; 
+                char a = at;
 
                 ++position;
                 while (g(state, a) == fail) state = f(state);

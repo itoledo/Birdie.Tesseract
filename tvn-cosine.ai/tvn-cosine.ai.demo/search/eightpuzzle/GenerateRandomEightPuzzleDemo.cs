@@ -8,7 +8,7 @@ namespace tvn_cosine.ai.demo.search.eightpuzzle
     {
         public static void Main(params string[] args)
         {
-            IRandom r = new DefaultRandom();
+            IRandom r = CommonFactory.CreateRandom();
             EightPuzzleBoard board = new EightPuzzleBoard(new int[] { 0, 1, 2, 3,
                 4, 5, 6, 7, 8 });
             for (int i = 0; i < 50;++i)

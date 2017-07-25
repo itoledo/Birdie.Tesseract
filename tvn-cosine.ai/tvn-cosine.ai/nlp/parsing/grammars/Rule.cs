@@ -1,7 +1,10 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
+﻿using tvn.cosine.ai.common;
+
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.ai.common.api;
+using tvn.cosine.ai.common.text.api;
+using tvn.cosine.ai.common.text;
 
 namespace tvn.cosine.ai.nlp.parsing.grammars
 {
@@ -40,10 +43,11 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
             this.lhs = CollectionFactory.CreateQueue<string>();
             this.rhs = CollectionFactory.CreateQueue<string>();
 
-            if (!string.IsNullOrEmpty(lhs)) 
+            IRegularExpression regex = TextFactory.CreateRegularExpression("\\s*,\\s*");
+            if (!string.IsNullOrEmpty(lhs))
             {
                 this.lhs = CollectionFactory.CreateQueue<string>();
-                foreach (string input in Regex.Split(lhs, "\\s*,\\s*"))
+                foreach (string input in regex.Split(lhs))
                 {
                     if (!string.IsNullOrEmpty(input))
                     {
@@ -52,9 +56,9 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
                 }
             }
 
-            if (!string.IsNullOrEmpty(rhs)) 
+            if (!string.IsNullOrEmpty(rhs))
             {
-                foreach (string input in Regex.Split(rhs, "\\s*,\\s*"))
+                foreach (string input in regex.Split(rhs))
                 {
                     if (!string.IsNullOrEmpty(input))
                     {
@@ -75,7 +79,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
             if (prob >= 0.0 && prob <= 1.0)
                 return prob;
             else
-                return (float)0.5; // probably should throw exception
+                return 0.5F; // probably should throw exception
         }
 
         public bool derives(ICollection<string> sentForm)
@@ -98,7 +102,7 @@ namespace tvn.cosine.ai.nlp.parsing.grammars
 
         public override string ToString()
         {
-            StringBuilder output = new StringBuilder();
+            IStringBuilder output = TextFactory.CreateStringBuilder();
 
             foreach (string lh in lhs)
             {

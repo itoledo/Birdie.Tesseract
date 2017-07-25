@@ -1,9 +1,11 @@
 ﻿using System.Globalization;
 using System.IO;
-using System.Text.RegularExpressions;
+
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.util;
 
@@ -191,7 +193,7 @@ namespace tvn.cosine.ai.learning.neural
             {
                 ICollection<double> input = CollectionFactory.CreateQueue<double>();
                 ICollection<double> target = CollectionFactory.CreateQueue<double>();
-                for (int i = 0; i < dataLine.Size();++i)
+                for (int i = 0; i < dataLine.Size(); ++i)
                 {
                     if (targetColumnNumbers.Contains(i))
                     {
@@ -217,7 +219,7 @@ namespace tvn.cosine.ai.learning.neural
 
             ICollection<ICollection<double>> normalizedColumns = CollectionFactory.CreateQueue<ICollection<double>>();
             // clculate means for each coponent of example data
-            for (int i = 0; i < rawDataLength;++i)
+            for (int i = 0; i < rawDataLength; ++i)
             {
                 ICollection<double> columnValues = CollectionFactory.CreateQueue<double>();
                 foreach (ICollection<double> rawDatum in rds)
@@ -238,7 +240,7 @@ namespace tvn.cosine.ai.learning.neural
 
             int columnLength = normalizedColumns.Get(0).Size();
             int numberOfColumns = normalizedColumns.Size();
-            for (int i = 0; i < columnLength;++i)
+            for (int i = 0; i < columnLength; ++i)
             {
                 ICollection<double> lst = CollectionFactory.CreateQueue<double>();
                 for (int j = 0; j < numberOfColumns; j++)
@@ -254,7 +256,8 @@ namespace tvn.cosine.ai.learning.neural
         {
             // assumes all values for inout and target are doubles
             ICollection<double> rexample = CollectionFactory.CreateQueue<double>();
-            ICollection<string> attributeValues = CollectionFactory.CreateQueue<string>(Regex.Split(line, separator));
+            IRegularExpression regex = TextFactory.CreateRegularExpression(separator);
+            ICollection<string> attributeValues = CollectionFactory.CreateQueue<string>(regex.Split(line));
             foreach (string valString in attributeValues)
             {
                 rexample.Add(double.Parse(valString, NumberStyles.Any, CultureInfo.InvariantCulture));
@@ -266,7 +269,7 @@ namespace tvn.cosine.ai.learning.neural
         {
             // assumes all values for inout and target are doubles
             ICollection<ICollection<double>> rds = CollectionFactory.CreateQueue<ICollection<double>>();
-            for (int i = 0; i < ds.size();++i)
+            for (int i = 0; i < ds.size(); ++i)
             {
                 ICollection<double> rexample = CollectionFactory.CreateQueue<double>();
                 Example e = ds.getExample(i);

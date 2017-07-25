@@ -1,9 +1,10 @@
-﻿using System.Text;
-using tvn.cosine.ai.common;
+﻿using tvn.cosine.ai.common;
 using tvn.cosine.ai.common.api;
 using tvn.cosine.ai.common.collections;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.ai.common.text;
+using tvn.cosine.ai.common.text.api;
 
 namespace tvn.cosine.ai.environment.nqueens
 {
@@ -63,7 +64,7 @@ namespace tvn.cosine.ai.environment.nqueens
             }
             else if (config == Config.QUEEN_IN_EVERY_COL)
             {
-                IRandom r = new DefaultRandom();
+                IRandom r = CommonFactory.CreateRandom();
                 for (int i = 0; i < size;++i)
                     addQueenAt(new XYLocation(i, r.Next(size)));
             }
@@ -305,7 +306,7 @@ namespace tvn.cosine.ai.environment.nqueens
 
         public string getBoardPic()
         {
-            StringBuilder builder = new StringBuilder();
+            IStringBuilder builder = TextFactory.CreateStringBuilder();
             for (int row = 0; (row < getSize()); row++)
             { // row
                 for (int col = 0; (col < getSize()); col++)
@@ -322,7 +323,7 @@ namespace tvn.cosine.ai.environment.nqueens
 
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            IStringBuilder builder = TextFactory.CreateStringBuilder();
             for (int row = 0; row < getSize(); row++)
             { // rows
                 for (int col = 0; col < getSize(); col++)
