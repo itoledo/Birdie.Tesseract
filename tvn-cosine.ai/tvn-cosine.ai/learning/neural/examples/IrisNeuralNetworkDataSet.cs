@@ -1,9 +1,8 @@
-﻿using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.ai.common.collections; 
 
-namespace tvn.cosine.ai.learning.neural
+namespace tvn.cosine.ai.learning.neural.examples
 {
-    public class IrisNNDataSet : NNDataSet
+    public class IrisNeuralNetworkDataSet : NeuralNetworkDataSet
     {
         public override void setTargetColumns()
         {

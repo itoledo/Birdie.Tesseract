@@ -4,17 +4,17 @@ using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.learning.neural
 {
-    public class NNExample
+    public class NeuralNetworkExample
     {
         private readonly ICollection<double> normalizedInput, normalizedTarget;
 
-        public NNExample(ICollection<double> normalizedInput, ICollection<double> normalizedTarget)
+        public NeuralNetworkExample(ICollection<double> normalizedInput, ICollection<double> normalizedTarget)
         {
             this.normalizedInput = normalizedInput;
             this.normalizedTarget = normalizedTarget;
         }
 
-        public NNExample copyExample()
+        public NeuralNetworkExample copyExample()
         {
             ICollection<double> newInput = CollectionFactory.CreateQueue<double>();
             ICollection<double> newTarget = CollectionFactory.CreateQueue<double>();
@@ -26,27 +26,25 @@ namespace tvn.cosine.ai.learning.neural
             {
                 newTarget.Add(d);
             }
-            return new NNExample(newInput, newTarget);
+            return new NeuralNetworkExample(newInput, newTarget);
         }
 
         public Vector getInput()
         {
             Vector v = new Vector(normalizedInput);
-            return v;
-
+            return v; 
         }
 
         public Vector getTarget()
         {
             Vector v = new Vector(normalizedTarget);
-            return v;
-
+            return v; 
         }
 
         public bool isCorrect(Vector prediction)
         {
             // compares the index having greatest value in target to indec having greatest value in prediction. 
-            // Ifidentical, correct
+            // If identical, correct
             return getTarget().indexHavingMaxValue() == prediction.indexHavingMaxValue();
         }
     } 

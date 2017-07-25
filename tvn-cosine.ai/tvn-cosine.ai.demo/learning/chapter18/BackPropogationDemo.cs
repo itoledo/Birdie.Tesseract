@@ -2,6 +2,7 @@
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.neural;
 using tvn.cosine.ai.learning.neural.api;
+using tvn.cosine.ai.learning.neural.examples;
 using tvn.cosine.ai.util;
 
 namespace tvn_cosine.ai.demo.learning.chapter18
@@ -22,11 +23,11 @@ namespace tvn_cosine.ai.demo.learning.chapter18
             {
                 DataSet irisDataSet = DataSetFactory.getIrisDataSet();
                 INumerizer numerizer = new IrisDataSetNumerizer();
-                NNDataSet innds = new IrisNNDataSet();
+                NeuralNetworkDataSet innds = new IrisNeuralNetworkDataSet();
 
                 innds.createExamplesFromDataSet(irisDataSet, numerizer);
 
-                NNConfig config = new NNConfig();
+                NeuralNetworkConfig config = new NeuralNetworkConfig();
                 config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_INPUTS, 4);
                 config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_OUTPUTS, 3);
                 config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_HIDDEN_NEURONS,
@@ -35,7 +36,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
                 config.setConfig(FeedForwardNeuralNetwork.UPPER_LIMIT_WEIGHTS, 2.0);
 
                 FeedForwardNeuralNetwork ffnn = new FeedForwardNeuralNetwork(config);
-                ffnn.setTrainingScheme(new BackPropLearning(0.1, 0.9));
+                ffnn.setTrainingScheme(new BackPropagationLearning(0.1, 0.9));
 
                 ffnn.trainOn(innds, 10);
 

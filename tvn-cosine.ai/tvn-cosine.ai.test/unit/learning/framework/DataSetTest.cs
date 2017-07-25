@@ -6,6 +6,7 @@ using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.neural;
 using tvn.cosine.ai.learning.neural.api;
+using tvn.cosine.ai.learning.neural.examples;
 
 namespace tvn_cosine.ai.test.unit.learning.framework
 {

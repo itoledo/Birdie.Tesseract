@@ -2,6 +2,7 @@
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.neural;
 using tvn.cosine.ai.learning.neural.api;
+using tvn.cosine.ai.learning.neural.examples;
 using tvn.cosine.ai.util.math;
 
 namespace tvn_cosine.ai.test.unit.learning.neural
@@ -40,7 +41,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             FeedForwardNeuralNetwork ffnn = new FeedForwardNeuralNetwork(
                     hiddenLayerWeightMatrix, hiddenLayerBiasVector,
                     outputLayerWeightMatrix, outputLayerBiasVector);
-            ffnn.setTrainingScheme(new BackPropLearning(learningRate,
+            ffnn.setTrainingScheme(new BackPropagationLearning(learningRate,
                     momentumFactor));
             ffnn.ProcessInput(input);
             ffnn.ProcessError(error);
@@ -92,7 +93,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
                     hiddenLayerWeightMatrix, hiddenLayerBiasVector,
                     outputLayerWeightMatrix, outputLayerBiasVector);
 
-            ffnn.setTrainingScheme(new BackPropLearning(learningRate,
+            ffnn.setTrainingScheme(new BackPropagationLearning(learningRate,
                     momentumFactor));
             ffnn.ProcessInput(input);
             ffnn.ProcessError(error);
@@ -118,11 +119,11 @@ namespace tvn_cosine.ai.test.unit.learning.neural
         {
             DataSet irisDataSet = DataSetFactory.getIrisDataSet();
             INumerizer numerizer = new IrisDataSetNumerizer();
-            NNDataSet innds = new IrisNNDataSet();
+            NeuralNetworkDataSet innds = new IrisNeuralNetworkDataSet();
 
             innds.createExamplesFromDataSet(irisDataSet, numerizer);
 
-            NNConfig config = new NNConfig();
+            NeuralNetworkConfig config = new NeuralNetworkConfig();
             config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_INPUTS, 4);
             config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_OUTPUTS, 3);
             config.setConfig(FeedForwardNeuralNetwork.NUMBER_OF_HIDDEN_NEURONS, 6);
@@ -130,7 +131,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
             config.setConfig(FeedForwardNeuralNetwork.UPPER_LIMIT_WEIGHTS, 2.0);
 
             FeedForwardNeuralNetwork ffnn = new FeedForwardNeuralNetwork(config);
-            ffnn.setTrainingScheme(new BackPropLearning(0.1, 0.9));
+            ffnn.setTrainingScheme(new BackPropagationLearning(0.1, 0.9));
 
             ffnn.trainOn(innds, 10);
 
@@ -143,7 +144,7 @@ namespace tvn_cosine.ai.test.unit.learning.neural
         {
             DataSet irisDataSet = DataSetFactory.getIrisDataSet();
             INumerizer numerizer = new IrisDataSetNumerizer();
-            NNDataSet innds = new IrisNNDataSet();
+            NeuralNetworkDataSet innds = new IrisNeuralNetworkDataSet();
 
             innds.createExamplesFromDataSet(irisDataSet, numerizer);
 

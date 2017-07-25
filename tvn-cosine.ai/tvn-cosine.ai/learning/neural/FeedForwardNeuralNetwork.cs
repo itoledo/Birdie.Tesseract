@@ -21,7 +21,7 @@ namespace tvn.cosine.ai.learning.neural
         /// Constructor to be used for non testing code.
         /// </summary>
         /// <param name="config"></param>
-        public FeedForwardNeuralNetwork(NNConfig config)
+        public FeedForwardNeuralNetwork(NeuralNetworkConfig config)
         {
 
             int numberOfInputNeurons = config
@@ -75,14 +75,14 @@ namespace tvn.cosine.ai.learning.neural
             return trainingScheme.processInput(this, input);
         }
 
-        public void trainOn(NNDataSet innds, int numberofEpochs)
+        public void trainOn(NeuralNetworkDataSet innds, int numberofEpochs)
         {
             for (int i = 0; i < numberofEpochs; ++i)
             {
                 innds.refreshDataset();
                 while (innds.hasMoreExamples())
                 {
-                    NNExample nne = innds.getExampleAtRandom();
+                    NeuralNetworkExample nne = innds.getExampleAtRandom();
                     ProcessInput(nne.getInput());
                     Vector error = getOutputLayer()
                             .errorVectorFrom(nne.getTarget());
@@ -91,18 +91,18 @@ namespace tvn.cosine.ai.learning.neural
             }
         }
 
-        public Vector predict(NNExample nne)
+        public Vector predict(NeuralNetworkExample nne)
         {
             return ProcessInput(nne.getInput());
         }
 
-        public int[] testOnDataSet(NNDataSet nnds)
+        public int[] testOnDataSet(NeuralNetworkDataSet nnds)
         {
             int[] result = new int[] { 0, 0 };
             nnds.refreshDataset();
             while (nnds.hasMoreExamples())
             {
-                NNExample nne = nnds.getExampleAtRandom();
+                NeuralNetworkExample nne = nnds.getExampleAtRandom();
                 Vector prediction = predict(nne);
                 if (nne.isCorrect(prediction))
                 {

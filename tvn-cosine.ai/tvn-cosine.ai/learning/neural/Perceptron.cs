@@ -34,14 +34,14 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         /// <param name="innds">a set of training examples for constructing the layer of this perceptron.</param>
         /// <param name="numberofEpochs">the number of training epochs to be used.</param>
-        public void trainOn(NNDataSet innds, int numberofEpochs)
+        public void trainOn(NeuralNetworkDataSet innds, int numberofEpochs)
         {
             for (int i = 0; i < numberofEpochs; ++i)
             {
                 innds.refreshDataset();
                 while (innds.hasMoreExamples())
                 {
-                    NNExample nne = innds.getExampleAtRandom();
+                    NeuralNetworkExample nne = innds.getExampleAtRandom();
                     ProcessInput(nne.getInput());
                     Vector error = layer.errorVectorFrom(nne.getTarget());
                     ProcessError(error);
@@ -54,7 +54,7 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         /// <param name="nne">an example</param>
         /// <returns>the outcome predicted for the specified example</returns>
-        public Vector predict(NNExample nne)
+        public Vector predict(NeuralNetworkExample nne)
         {
             return ProcessInput(nne.getInput());
         }
@@ -64,13 +64,13 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         /// <param name="nnds">the neural network data set to be tested on.</param>
         /// <returns>the accuracy of the hypothesis on the specified set of examples</returns>
-        public int[] testOnDataSet(NNDataSet nnds)
+        public int[] testOnDataSet(NeuralNetworkDataSet nnds)
         {
             int[] result = new int[] { 0, 0 };
             nnds.refreshDataset();
             while (nnds.hasMoreExamples())
             {
-                NNExample nne = nnds.getExampleAtRandom();
+                NeuralNetworkExample nne = nnds.getExampleAtRandom();
                 Vector prediction = predict(nne);
                 if (nne.isCorrect(prediction))
                 {

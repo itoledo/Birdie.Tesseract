@@ -14,16 +14,16 @@ namespace tvn.cosine.ai.learning.neural
     /// framework. Assumes only one function approximator works on an instance at
     /// a given point in time
     /// </summary>
-    public abstract class NNDataSet
+    public abstract class NeuralNetworkDataSet
     {
         /// <summary>
         /// the parsed and preprocessed form of the dataset.
         /// </summary>
-        private ICollection<NNExample> dataset;
+        private ICollection<NeuralNetworkExample> dataset;
         /// <summary>
         /// a copy from which examples are drawn.
         /// </summary>
-        private ICollection<NNExample> presentlyProcessed = CollectionFactory.CreateQueue<NNExample>();
+        private ICollection<NeuralNetworkExample> presentlyProcessed = CollectionFactory.CreateQueue<NeuralNetworkExample>();
 
         /// <summary>
         /// list of mean Values for all components of raw data set
@@ -96,7 +96,7 @@ namespace tvn.cosine.ai.learning.neural
         /// Gets (and removes) a random example from the 'presentlyProcessed'
         /// </summary>
         /// <returns></returns>
-        public NNExample getExampleAtRandom()
+        public NeuralNetworkExample getExampleAtRandom()
         {
             int i = Util.randomNumberBetween(0, (presentlyProcessed.Size() - 1));
             return getExample(i);
@@ -107,9 +107,9 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public NNExample getExample(int index)
+        public NeuralNetworkExample getExample(int index)
         {
-            NNExample obj = presentlyProcessed.Get(index);
+            NeuralNetworkExample obj = presentlyProcessed.Get(index);
             presentlyProcessed.Remove(obj);
             return obj;
         }
@@ -138,8 +138,8 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         public void refreshDataset()
         {
-            presentlyProcessed = CollectionFactory.CreateQueue<NNExample>();
-            foreach (NNExample e in dataset)
+            presentlyProcessed = CollectionFactory.CreateQueue<NeuralNetworkExample>();
+            foreach (NeuralNetworkExample e in dataset)
             {
                 presentlyProcessed.Add(e.copyExample());
             }
@@ -189,7 +189,7 @@ namespace tvn.cosine.ai.learning.neural
         /// </summary>
         private void createExamples()
         {
-            dataset = CollectionFactory.CreateQueue<NNExample>();
+            dataset = CollectionFactory.CreateQueue<NeuralNetworkExample>();
             foreach (ICollection<double> dataLine in nds)
             {
                 ICollection<double> input = CollectionFactory.CreateQueue<double>();
@@ -205,7 +205,7 @@ namespace tvn.cosine.ai.learning.neural
                         input.Add(dataLine.Get(i));
                     }
                 }
-                dataset.Add(new NNExample(input, target));
+                dataset.Add(new NeuralNetworkExample(input, target));
             }
             refreshDataset();// to populate the preentlyProcessed dataset
         }

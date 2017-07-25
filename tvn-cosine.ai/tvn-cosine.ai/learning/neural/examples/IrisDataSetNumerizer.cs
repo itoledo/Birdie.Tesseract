@@ -5,7 +5,7 @@ using tvn.cosine.ai.common.exceptions;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.neural.api;
 
-namespace tvn.cosine.ai.learning.neural
+namespace tvn.cosine.ai.learning.neural.examples
 {
     public class IrisDataSetNumerizer : INumerizer
     {

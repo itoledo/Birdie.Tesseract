@@ -1,8 +1,8 @@
 ﻿using tvn.cosine.ai.common.collections; 
 
-namespace tvn.cosine.ai.learning.neural
+namespace tvn.cosine.ai.learning.neural.examples
 {
-    public class RabbitEyeDataSet : NNDataSet
+    public class RabbitEyeDataSet : NeuralNetworkDataSet
     {
         public override void setTargetColumns()
         {

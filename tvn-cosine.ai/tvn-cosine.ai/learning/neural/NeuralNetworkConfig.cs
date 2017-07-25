@@ -6,16 +6,16 @@ namespace tvn.cosine.ai.learning.neural
     /// <summary>
     /// A holder for config data for neural networks and possibly for other learning systems.
     /// </summary>
-    public class NNConfig
+    public class NeuralNetworkConfig
     {
         private readonly IMap<string, object> hash;
 
-        public NNConfig(IMap<string, object> hash)
+        public NeuralNetworkConfig(IMap<string, object> hash)
         {
             this.hash = hash;
         }
 
-        public NNConfig()
+        public NeuralNetworkConfig()
         {
             this.hash = CollectionFactory.CreateInsertionOrderedMap<string, object>();
         }

@@ -14,23 +14,19 @@ namespace tvn.cosine.ai.learning.neural
     {
         // vectors are represented by n * 1 matrices;
         private readonly Matrix weightMatrix;
-
-        Vector biasVector, lastBiasUpdateVector;
-
         private readonly IActivationFunction activationFunction;
 
-        private Vector lastActivationValues, lastInducedField;
-
-        private Matrix lastWeightUpdateMatrix;
-
-        private Matrix penultimateWeightUpdateMatrix;
-
-        private Vector penultimateBiasUpdateVector;
-
-        private Vector lastInput;
+        Vector biasVector;
+        Vector lastBiasUpdateVector; 
+        Vector lastActivationValues;
+        Vector lastInducedField;
+        Matrix lastWeightUpdateMatrix;
+        Matrix penultimateWeightUpdateMatrix;
+        Vector penultimateBiasUpdateVector;
+        Vector lastInput;
 
         public Layer(Matrix weightMatrix, Vector biasVector, IActivationFunction af)
-        { 
+        {
             activationFunction = af;
             this.weightMatrix = weightMatrix;
             lastWeightUpdateMatrix = new Matrix(weightMatrix.getRowDimension(),
@@ -183,8 +179,7 @@ namespace tvn.cosine.ai.learning.neural
         }
 
         public IActivationFunction getActivationFunction()
-        {
-
+        { 
             return activationFunction;
         }
 
@@ -203,8 +198,7 @@ namespace tvn.cosine.ai.learning.neural
 
         public Vector errorVectorFrom(Vector target)
         {
-            return target.minus(getLastActivationValues());
-
+            return target.minus(getLastActivationValues()); 
         }
 
         private static void initializeMatrix(Matrix aMatrix, double lowerLimit, double upperLimit)
@@ -216,8 +210,7 @@ namespace tvn.cosine.ai.learning.neural
                     double random = Util.generateRandomDoubleBetween(lowerLimit, upperLimit);
                     aMatrix.set(i, j, random);
                 }
-            }
-
+            } 
         }
 
         private static void initializeVector(Vector aVector, double lowerLimit, double upperLimit)

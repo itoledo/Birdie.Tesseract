@@ -3,7 +3,7 @@ using tvn.cosine.ai.util.math;
 
 namespace tvn.cosine.ai.learning.neural
 {
-    public class BackPropLearning : INNTrainingScheme
+    public class BackPropagationLearning : INNTrainingScheme
     {
         private readonly double learningRate;
         private readonly double momentum;
@@ -13,12 +13,10 @@ namespace tvn.cosine.ai.learning.neural
         private LayerSensitivity hiddenSensitivity;
         private LayerSensitivity outputSensitivity;
 
-        public BackPropLearning(double learningRate, double momentum)
+        public BackPropagationLearning(double learningRate, double momentum)
         {
-
             this.learningRate = learningRate;
             this.momentum = momentum;
-
         }
 
         public void setNeuralNetwork(IFunctionApproximator fapp)
@@ -31,8 +29,7 @@ namespace tvn.cosine.ai.learning.neural
         }
 
         public Vector processInput(FeedForwardNeuralNetwork network, Vector input)
-        {
-
+        { 
             hiddenLayer.feedForward(input);
             outputLayer.feedForward(hiddenLayer.getLastActivationValues());
             return outputLayer.getLastActivationValues();
@@ -67,9 +64,17 @@ namespace tvn.cosine.ai.learning.neural
             double alpha, double momentum)
         {
             Layer layer = layerSensitivity.getLayer();
-            Matrix activationTranspose = previousLayerActivationOrInput.transpose();
-            Matrix momentumLessUpdate = layerSensitivity.getSensitivityMatrix().times(activationTranspose).times(alpha).times(-1.0);
-            Matrix updateWithMomentum = layer.getLastWeightUpdateMatrix().times(momentum).plus(momentumLessUpdate.times(1.0 - momentum));
+            Matrix activationTranspose 
+                = previousLayerActivationOrInput.transpose();
+            Matrix momentumLessUpdate 
+                = layerSensitivity.getSensitivityMatrix()
+                                  .times(activationTranspose)
+                                  .times(alpha)
+                                  .times(-1.0);
+            Matrix updateWithMomentum 
+                = layer.getLastWeightUpdateMatrix()
+                       .times(momentum)
+                       .plus(momentumLessUpdate.times(1.0 - momentum));
             layer.acceptNewWeightUpdate(updateWithMomentum.copy());
             return updateWithMomentum;
         }
@@ -79,8 +84,11 @@ namespace tvn.cosine.ai.learning.neural
         {
             Layer layer = layerSensitivity.getLayer();
             Matrix activationTranspose = previousLayerActivationOrInput.transpose();
-            Matrix weightUpdateMatrix = layerSensitivity.getSensitivityMatrix()
-                    .times(activationTranspose).times(alpha).times(-1.0);
+            Matrix weightUpdateMatrix
+                = layerSensitivity.getSensitivityMatrix()
+                                  .times(activationTranspose)
+                                  .times(alpha)
+                                  .times(-1.0);
             layer.acceptNewWeightUpdate(weightUpdateMatrix.copy());
             return weightUpdateMatrix;
         }
@@ -108,7 +116,10 @@ namespace tvn.cosine.ai.learning.neural
         public static Vector calculateBiasUpdates(LayerSensitivity layerSensitivity, double alpha)
         {
             Layer layer = layerSensitivity.getLayer();
-            Matrix biasUpdateMatrix = layerSensitivity.getSensitivityMatrix().times(alpha).times(-1.0);
+            Matrix biasUpdateMatrix 
+                = layerSensitivity.getSensitivityMatrix()
+                                  .times(alpha)
+                                  .times(-1.0);
 
             Vector result = new Vector(biasUpdateMatrix.getRowDimension());
             for (int i = 0; i < biasUpdateMatrix.getRowDimension(); ++i)
@@ -118,5 +129,5 @@ namespace tvn.cosine.ai.learning.neural
             layer.acceptNewBiasUpdate(result.copyVector());
             return result;
         }
-    } 
+    }
 }

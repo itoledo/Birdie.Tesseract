@@ -2,6 +2,7 @@
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.neural;
 using tvn.cosine.ai.learning.neural.api;
+using tvn.cosine.ai.learning.neural.examples;
 using tvn.cosine.ai.util;
 
 namespace tvn_cosine.ai.demo.learning.chapter18
@@ -22,7 +23,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
             { 
                 DataSet irisDataSet = DataSetFactory.getIrisDataSet();
                 INumerizer numerizer = new IrisDataSetNumerizer();
-                NNDataSet innds = new IrisNNDataSet();
+                NeuralNetworkDataSet innds = new IrisNeuralNetworkDataSet();
 
                 innds.createExamplesFromDataSet(irisDataSet, numerizer);
 
