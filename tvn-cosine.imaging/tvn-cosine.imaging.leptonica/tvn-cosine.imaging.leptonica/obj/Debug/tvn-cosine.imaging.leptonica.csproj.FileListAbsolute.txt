@@ -22,13 +22,12 @@ C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.l
 C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x64\jpeg.dll
 C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x64\leptonica-1.74.4.dll
 C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x64\libpng16.dll
-C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x64\tiff.dll
-C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x64\tiffxx.dll
 C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x64\zlib.dll
 C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x86\jpeg.dll
 C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x86\leptonica-1.74.4.dll
 C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x86\libpng16.dll
-C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x86\tiff.dll
-C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x86\tiffxx.dll
 C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x86\zlib.dll
-C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\obj\Debug\tvn-cosine.imaging.leptonica.csprojResolveAssemblyReference.cache
+C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x86\libtiff.dll
+C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x86\openjp2.dll
+C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x64\libtiff.dll
+C:\Users\theunis\Source\Repos\tvn-cosine\tvn-cosine.imaging\tvn-cosine.imaging.leptonica\tvn-cosine.imaging.leptonica\bin\Debug\lib\x64\openjp2.dll

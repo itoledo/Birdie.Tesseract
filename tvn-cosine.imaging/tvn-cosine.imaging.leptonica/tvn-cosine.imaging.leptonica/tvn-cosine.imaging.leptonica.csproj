@@ -380,10 +380,10 @@
     <Content Include="lib\x64\libpng16.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\x64\tiff.dll">
+    <Content Include="lib\x64\libtiff.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\x64\tiffxx.dll">
+    <Content Include="lib\x64\openjp2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="lib\x64\zlib.dll">
@@ -398,10 +398,10 @@
     <Content Include="lib\x86\libpng16.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\x86\tiff.dll">
+    <Content Include="lib\x86\libtiff.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\x86\tiffxx.dll">
+    <Content Include="lib\x86\openjp2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="lib\x86\zlib.dll">
