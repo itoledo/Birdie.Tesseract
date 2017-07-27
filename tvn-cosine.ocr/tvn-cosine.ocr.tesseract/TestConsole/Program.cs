@@ -17,6 +17,7 @@ namespace TestConsole
         static void Main(string[] args)
         { 
             Tesseract.TessBaseAPI api = new Tesseract.TessBaseAPI(tessdata, language);
+            Console.WriteLine(api.GetVersion());
             var pix = Pix.Read(image);
             //api.SetInputImage(pix);
             //var outText = api.GetUTF8Text();

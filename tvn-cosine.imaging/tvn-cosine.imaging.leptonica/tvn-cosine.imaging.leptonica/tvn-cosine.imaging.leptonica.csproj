@@ -381,9 +381,6 @@
     <Content Include="pvt.cppan.demo.danbloomberg.leptonica-1.74.4.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="pvt.cppan.demo.google.tesseract.libtesseract-master.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="pvt.cppan.demo.jpeg-9.2.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
