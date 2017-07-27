@@ -17,7 +17,7 @@
             int props = getProperties(ch);
             return ((props & 0x00003000) != 0);
         }
-
+         
         public static int CharCount(int codePoint)
         {
             return codePoint >= MIN_SUPPLEMENTARY_CODE_POINT ? 2 : 1;

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2DEE7D2E-1515-42C6-922C-E2DB491D17A6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>tvn_cosine.languagedetector</RootNamespace>
+    <AssemblyName>tvn-cosine.languagedetector</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Command.cs" />
+    <Compile Include="Detector.cs" />
+    <Compile Include="DetectorFactory.cs" />
+    <Compile Include="ErrorCode.cs" />
+    <Compile Include="GenProfile.cs" />
+    <Compile Include="LangDetectException.cs" />
+    <Compile Include="Language.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="util\LangProfile.cs" />
+    <Compile Include="util\Messages.cs" />
+    <Compile Include="util\NGram.cs" />
+    <Compile Include="util\TagExtractor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="messages.properties" />
+    <None Include="profiles.sm\ar" />
+    <None Include="profiles.sm\bg" />
+    <None Include="profiles.sm\bn" />
+    <None Include="profiles.sm\ca" />
+    <None Include="profiles.sm\cs" />
+    <None Include="profiles.sm\da" />
+    <None Include="profiles.sm\de" />
+    <None Include="profiles.sm\el" />
+    <None Include="profiles.sm\en" />
+    <None Include="profiles.sm\es" />
+    <None Include="profiles.sm\et" />
+    <None Include="profiles.sm\fa" />
+    <None Include="profiles.sm\fi" />
+    <None Include="profiles.sm\fr" />
+    <None Include="profiles.sm\gu" />
+    <None Include="profiles.sm\he" />
+    <None Include="profiles.sm\hi" />
+    <None Include="profiles.sm\hr" />
+    <None Include="profiles.sm\hu" />
+    <None Include="profiles.sm\id" />
+    <None Include="profiles.sm\it" />
+    <None Include="profiles.sm\ja" />
+    <None Include="profiles.sm\ko" />
+    <None Include="profiles.sm\lt" />
+    <None Include="profiles.sm\lv" />
+    <None Include="profiles.sm\mk" />
+    <None Include="profiles.sm\ml" />
+    <None Include="profiles.sm\nl" />
+    <None Include="profiles.sm\no" />
+    <None Include="profiles.sm\pa" />
+    <None Include="profiles.sm\pl" />
+    <None Include="profiles.sm\pt" />
+    <None Include="profiles.sm\ro" />
+    <None Include="profiles.sm\ru" />
+    <None Include="profiles.sm\si" />
+    <None Include="profiles.sm\sq" />
+    <None Include="profiles.sm\sv" />
+    <None Include="profiles.sm\ta" />
+    <None Include="profiles.sm\te" />
+    <None Include="profiles.sm\th" />
+    <None Include="profiles.sm\tl" />
+    <None Include="profiles.sm\tr" />
+    <None Include="profiles.sm\uk" />
+    <None Include="profiles.sm\ur" />
+    <None Include="profiles.sm\vi" />
+    <None Include="profiles.sm\zh-cn" />
+    <None Include="profiles.sm\zh-tw" />
+    <None Include="profiles\af" />
+    <None Include="profiles\ar" />
+    <None Include="profiles\bg" />
+    <None Include="profiles\bn" />
+    <None Include="profiles\cs" />
+    <None Include="profiles\da" />
+    <None Include="profiles\de" />
+    <None Include="profiles\el" />
+    <None Include="profiles\en" />
+    <None Include="profiles\es" />
+    <None Include="profiles\et" />
+    <None Include="profiles\fa" />
+    <None Include="profiles\fi" />
+    <None Include="profiles\fr" />
+    <None Include="profiles\gu" />
+    <None Include="profiles\he" />
+    <None Include="profiles\hi" />
+    <None Include="profiles\hr" />
+    <None Include="profiles\hu" />
+    <None Include="profiles\id" />
+    <None Include="profiles\it" />
+    <None Include="profiles\ja" />
+    <None Include="profiles\kn" />
+    <None Include="profiles\ko" />
+    <None Include="profiles\lt" />
+    <None Include="profiles\lv" />
+    <None Include="profiles\mk" />
+    <None Include="profiles\ml" />
+    <None Include="profiles\mr" />
+    <None Include="profiles\ne" />
+    <None Include="profiles\nl" />
+    <None Include="profiles\no" />
+    <None Include="profiles\pa" />
+    <None Include="profiles\pl" />
+    <None Include="profiles\pt" />
+    <None Include="profiles\ro" />
+    <None Include="profiles\ru" />
+    <None Include="profiles\sk" />
+    <None Include="profiles\sl" />
+    <None Include="profiles\so" />
+    <None Include="profiles\sq" />
+    <None Include="profiles\sv" />
+    <None Include="profiles\sw" />
+    <None Include="profiles\ta" />
+    <None Include="profiles\te" />
+    <None Include="profiles\th" />
+    <None Include="profiles\tl" />
+    <None Include="profiles\tr" />
+    <None Include="profiles\uk" />
+    <None Include="profiles\ur" />
+    <None Include="profiles\vi" />
+    <None Include="profiles\zh-cn" />
+    <None Include="profiles\zh-tw" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
