@@ -34,8 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="leptonica.net, Version=1.74.4.8, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\leptonica.net.1.74.4.8\lib\net452\leptonica.net.dll</HintPath>
+    <Reference Include="leptonica.net, Version=1.74.4.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\leptonica.net.1.74.4.11\lib\net452\leptonica.net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -60,6 +60,16 @@
       <Project>{a79505e6-cd05-4b23-ba57-0b9a47c7fe58}</Project>
       <Name>tvn-cosine.ocr.tesseract</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="pvt.cppan.demo.danbloomberg.leptonica-1.74.4.dll" />
+    <Content Include="pvt.cppan.demo.jpeg-9.2.0.dll" />
+    <Content Include="pvt.cppan.demo.madler.zlib-1.2.11.dll" />
+    <Content Include="pvt.cppan.demo.openjpeg.openjp2-2.1.2.dll" />
+    <Content Include="pvt.cppan.demo.png-1.6.30.dll" />
+    <Content Include="pvt.cppan.demo.tiff-4.0.7.dll" />
+    <Content Include="pvt.cppan.demo.webp-0.6.0.dll" />
+    <Content Include="pvt.cppan.demo.xz_utils.lzma-5.2.3.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
