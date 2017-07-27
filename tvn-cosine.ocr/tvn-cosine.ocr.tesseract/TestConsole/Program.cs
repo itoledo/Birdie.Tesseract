@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tesseract;
 
 namespace TestConsole
 {
@@ -16,12 +17,12 @@ namespace TestConsole
 
         static void Main(string[] args)
         { 
-            Tesseract.TessBaseAPI api = new Tesseract.TessBaseAPI(tessdata, language);
-            Console.WriteLine(api.GetVersion());
-            var pix = Pix.Read(image);
-            //api.SetInputImage(pix);
-            //var outText = api.GetUTF8Text();
-            //api.End(); 
+            string language = @"eng";
+            using (var api = new TessBaseAPI(tessdata, language))
+            {
+                api.Process(image, true);
+                string text = api.GetUTF8Text();
+            }
 
             Console.WriteLine("Done...");
             Console.ReadKey();
