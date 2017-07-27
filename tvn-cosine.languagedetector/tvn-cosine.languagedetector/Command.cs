@@ -22,10 +22,10 @@ namespace tvn_cosine.languagedetector
         private static final double DEFAULT_ALPHA = 0.5;
 
         /** for Command line easy parser */
-        private HashMap<String, String> opt_with_value = new HashMap<String, String>();
-        private HashMap<String, String> values = new HashMap<String, String>();
-        private HashSet<String> opt_without_value = new HashSet<String>();
-        private ArrayList<String> arglist = new ArrayList<String>();
+        private IDictionary<string, String> opt_with_value = new Dictionary<string, String>();
+        private IDictionary<string, String> values = new Dictionary<string, String>();
+        private HashSet<string> opt_without_value = new HashSet<string>();
+        private IList<string> arglist = new List<string>();
 
         /**
          * Command line easy parser
@@ -37,7 +37,7 @@ namespace tvn_cosine.languagedetector
             {
                 if (opt_with_value.containsKey(args[i]))
                 {
-                    String key = opt_with_value.get(args[i]);
+                    string key = opt_with_value.get(args[i]);
                     values.put(key, args[i + 1]);
                     ++i;
                 }
@@ -52,18 +52,18 @@ namespace tvn_cosine.languagedetector
             }
         }
 
-        private void addOpt(String opt, String key, String value)
+        private void addOpt(string opt, string key, string value)
         {
             opt_with_value.put(opt, key);
             values.put(key, value);
         }
-        private String get(String key)
+        private string get(string key)
         {
             return values.get(key);
         }
-        private Long getLong(String key)
+        private Long getLong(string key)
         {
-            String value = values.get(key);
+            string value = values.get(key);
             if (value == null) return null;
             try
             {
@@ -74,7 +74,7 @@ namespace tvn_cosine.languagedetector
                 return null;
             }
         }
-        private double getDouble(String key, double defaultValue)
+        private double getDouble(string key, double defaultValue)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace tvn_cosine.languagedetector
             }
         }
 
-        private boolean hasOpt(String opt)
+        private bool hasOpt(string opt)
         {
             return opt_without_value.contains(opt);
         }
@@ -98,7 +98,7 @@ namespace tvn_cosine.languagedetector
          * @param pattern   searching file pattern with regular representation
          * @return matched file
          */
-        private File searchFile(File directory, String pattern)
+        private File searchFile(File directory, string pattern)
         {
             for (File file : directory.listFiles())
             {
@@ -112,9 +112,9 @@ namespace tvn_cosine.languagedetector
          * load profiles
          * @return false if load success
          */
-        private boolean loadProfile()
+        private bool loadProfile()
         {
-            String profileDirectory = get("directory") + "/";
+            string profileDirectory = get("directory") + "/";
             try
             {
                 DetectorFactory.loadProfile(profileDirectory);
@@ -140,7 +140,7 @@ namespace tvn_cosine.languagedetector
         public void generateProfile()
         {
             File directory = new File(get("directory"));
-            for (String lang: arglist)
+            for (string lang: arglist)
             {
                 File file = searchFile(directory, lang + "wiki-.*-abstract\\.xml.*");
                 if (file == null)
@@ -204,7 +204,7 @@ namespace tvn_cosine.languagedetector
                 return;
             }
 
-            String lang = get("lang");
+            string lang = get("lang");
             if (lang == null)
             {
                 System.err.println("Need to specify langage code(-l)");
@@ -254,7 +254,7 @@ namespace tvn_cosine.languagedetector
         public void detectLang()
         {
             if (loadProfile()) return;
-            for (String filename: arglist)
+            for (string filename: arglist)
             {
                 BufferedReader is = null;
                 try
@@ -302,23 +302,23 @@ namespace tvn_cosine.languagedetector
         public void batchTest()
         {
             if (loadProfile()) return;
-            HashMap<String, ArrayList<String>> result = new HashMap<String, ArrayList<String>>();
-            for (String filename: arglist)
+            IDictionary<string, IList<string>> result = new Dictionary<string, IList<string>>();
+            for (string filename: arglist)
             {
                 BufferedReader is = null;
                 try
                 {
                 is = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "utf-8"));
                     while (is.ready()) {
-                String line = is.readLine();
+                string line = is.readLine();
                 int idx = line.indexOf('\t');
                 if (idx <= 0) continue;
-                String correctLang = line.substring(0, idx);
-                String text = line.substring(idx + 1);
+                string correctLang = line.substring(0, idx);
+                string text = line.substring(idx + 1);
 
                 Detector detector = DetectorFactory.create(getDouble("alpha", DEFAULT_ALPHA));
                 detector.append(text);
-                String lang = "";
+                string lang = "";
                 try
                 {
                     lang = detector.detect();
@@ -327,7 +327,7 @@ namespace tvn_cosine.languagedetector
                 {
                     e.printStackTrace();
                 }
-                if (!result.containsKey(correctLang)) result.put(correctLang, new ArrayList<String>());
+                if (!result.containsKey(correctLang)) result.put(correctLang, new List<string>());
                 result.get(correctLang).add(lang);
                 if (hasOpt("--debug")) System.out.println(correctLang + "," + lang + "," + (text.length() > 100 ? text.substring(0, 100) : text));
             }
@@ -342,15 +342,15 @@ namespace tvn_cosine.languagedetector
                 } catch (IOException e) {}
             }
 
-            ArrayList<String> langlist = new ArrayList<String>(result.keySet());
+            IList<string> langlist = new List<string>(result.keySet());
 Collections.sort(langlist);
 
             int totalCount = 0, totalCorrect = 0;
-            for ( String lang :langlist) {
-                HashMap<String, Integer> resultCount = new HashMap<String, Integer>();
+            for ( string lang :langlist) {
+                IDictionary<string, Integer> resultCount = new Dictionary<string, Integer>();
 int count = 0;
-ArrayList<String> list = result.get(lang);
-                for (String detectedLang: list) {
+IList<string> list = result.get(lang);
+                for (string detectedLang: list) {
                     ++count;
                     if (resultCount.containsKey(detectedLang)) {
                         resultCount.put(detectedLang, resultCount.get(detectedLang) + 1);

@@ -1,37 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace tvn_cosine.languagedetector
 {
-    /**
-     * @author Nakatani Shuyo
-     *
-     */
-    public class LangDetectException extends Exception
-    {
-    private static final long serialVersionUID = 1L;
-    private ErrorCode code;
+    public class LangDetectException : Exception
+    { 
+        private readonly ErrorCode code;
+          
+        public LangDetectException(ErrorCode code, string message)
+            : base(message)
+        { 
+            this.code = code;
+        }
 
-
-    /**
-     * @param code
-     * @param message
-     */
-    public LangDetectException(ErrorCode code, String message)
-    {
-        super(message);
-        this.code = code;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>the error code</returns>
+        public ErrorCode getCode()
+        {
+            return code;
+        }
     }
-
-    /**
-     * @return the error code
-     */
-    public ErrorCode getCode()
-    {
-        return code;
-    }
-}
 }

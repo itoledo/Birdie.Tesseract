@@ -2,78 +2,49 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace tvn_cosine.languagedetector
 {
-    /**
-     * {@link Detector} class is to detect language from specified text. 
-     * Its instance is able to be constructed via the factory class {@link DetectorFactory}.
-     * <p>
-     * After appending a target text to the {@link Detector} instance with {@link #append(Reader)} or {@link #append(String)},
-     * the detector provides the language detection results for target text via {@link #detect()} or {@link #getProbabilities()}.
-     * {@link #detect()} method returns a single language name which has the highest probability.
-     * {@link #getProbabilities()} methods returns a list of multiple languages and their probabilities.
-     * <p>  
-     * The detector has some parameters for language detection.
-     * See {@link #setAlpha(double)}, {@link #setMaxTextLength(int)} and {@link #setPriorMap(HashMap)}.
-     * 
-     * <pre>
-     * import java.util.ArrayList;
-     * import com.cybozu.labs.langdetect.Detector;
-     * import com.cybozu.labs.langdetect.DetectorFactory;
-     * import com.cybozu.labs.langdetect.Language;
-     * 
-     * class LangDetectSample {
-     *     public void init(String profileDirectory) throws LangDetectException {
-     *         DetectorFactory.loadProfile(profileDirectory);
-     *     }
-     *     public String detect(String text) throws LangDetectException {
-     *         Detector detector = DetectorFactory.create();
-     *         detector.append(text);
-     *         return detector.detect();
-     *     }
-     *     public ArrayList<Language> detectLangs(String text) throws LangDetectException {
-     *         Detector detector = DetectorFactory.create();
-     *         detector.append(text);
-     *         return detector.getProbabilities();
-     *     }
-     * }
-     * </pre>
-     * 
-     * <ul>
-     * <li>4x faster improvement based on Elmer Garduno's code. Thanks!</li>
-     * </ul>
-     * 
-     * @author Nakatani Shuyo
-     * @see DetectorFactory
-     */
+    /// <summary>
+    /// Detector class is to detect language from specified text. 
+    /// Its instance is able to be constructed via the factory class DetectorFactory.
+    /// <para />
+    /// After appending a target text to the Detector instance with #append(Reader) or #append(String),
+    /// the detector provides the language detection results for target text via #detect() or #getProbabilities().
+    /// #detect() method returns a single language name which has the highest probability.
+    /// #getProbabilities() methods returns a list of multiple languages and their probabilities.
+    /// <para />  
+    /// The detector has some parameters for language detection.
+    /// See #setAlpha(double), #setMaxTextLength(int) and #setPriorMap(HashMap). 
+    /// </summary>
     public class Detector
     {
-        private static final double ALPHA_DEFAULT = 0.5;
-        private static final double ALPHA_WIDTH = 0.05;
+        private const double ALPHA_DEFAULT = 0.5;
+        private const double ALPHA_WIDTH = 0.05;
 
-        private static final int ITERATION_LIMIT = 1000;
-        private static final double PROB_THRESHOLD = 0.1;
-        private static final double CONV_THRESHOLD = 0.99999;
-        private static final int BASE_FREQ = 10000;
-        private static final String UNKNOWN_LANG = "unknown";
+        private const int ITERATION_LIMIT = 1000;
+        private const double PROB_THRESHOLD = 0.1;
+        private const double CONV_THRESHOLD = 0.99999;
+        private const int BASE_FREQ = 10000;
+        private const string UNKNOWN_LANG = "unknown";
 
-    private static final Pattern URL_REGEX = Pattern.compile("https?://[-_.?&~;+=/#0-9A-Za-z]{1,2076}");
-    private static final Pattern MAIL_REGEX = Pattern.compile("[-_.0-9A-Za-z]{1,64}@[-_0-9A-Za-z]{1,255}[-_.0-9A-Za-z]{1,255}");
-    
-    private final HashMap<String, double[]> wordLangProbMap;
-        private final ArrayList<String> langlist;
+        private static readonly Regex URL_REGEX = new Regex("https?://[-_.?&~;+=/#0-9A-Za-z]{1,2076}");
+        private static readonly Regex MAIL_REGEX = new Regex("[-_.0-9A-Za-z]{1,64}@[-_0-9A-Za-z]{1,255}[-_.0-9A-Za-z]{1,255}");
 
-        private StringBuffer text;
+        private readonly IDictionary<string, double[]> wordLangProbMap;
+        private readonly IList<string> langlist;
+
+        private StringBuilder text;
         private double[] langprob = null;
 
         private double alpha = ALPHA_DEFAULT;
         private int n_trial = 7;
         private int max_text_length = 10000;
         private double[] priorMap = null;
-        private boolean verbose = false;
-        private Long seed = null;
+        private bool verbose = false;
+        private long? seed = null;
 
         /**
          * Constructor.
@@ -84,7 +55,7 @@ namespace tvn_cosine.languagedetector
         {
             this.wordLangProbMap = factory.wordLangProbMap;
             this.langlist = factory.langlist;
-            this.text = new StringBuffer();
+            this.text = new StringBuilder();
             this.seed = factory.seed;
         }
 
@@ -111,12 +82,12 @@ namespace tvn_cosine.languagedetector
          * @param priorMap the priorMap to set
          * @throws LangDetectException 
          */
-        public void setPriorMap(HashMap<String, Double> priorMap) throws LangDetectException
+        public void setPriorMap(IDictionary<string, Double> priorMap) throws LangDetectException
         {
         this.priorMap = new double[langlist.size()];
         double sump = 0;
         for (int i = 0; i<this.priorMap.length;++i) {
-            String lang = langlist.get(i);
+            string lang = langlist.get(i);
             if (priorMap.containsKey(lang)) {
                 double p = priorMap.get(lang);
                 if (p<0) throw new LangDetectException(ErrorCode.InitParamError, "Prior probability must be non-negative.");
@@ -165,7 +136,7 @@ public void append(Reader reader) throws IOException
      * 
      * @param text the target text to append
      */
-    public void append(String text)
+    public void append(string text)
 {
     text = URL_REGEX.matcher(text).replaceAll(" ");
     text = MAIL_REGEX.matcher(text).replaceAll(" ");
@@ -200,7 +171,7 @@ private void cleaningText()
     }
     if (latinCount * 2 < nonLatinCount)
     {
-        StringBuffer textWithoutLatin = new StringBuffer();
+        StringBuilder textWithoutLatin = new StringBuilder();
         for (int i = 0; i < text.length(); ++i)
         {
             char c = text.charAt(i);
@@ -217,9 +188,9 @@ private void cleaningText()
  * @throws LangDetectException 
  *  code = ErrorCode.CantDetectError : Can't detect because of no valid features in text
  */
-public String detect() throws LangDetectException
+public string detect() throws LangDetectException
 {
-    ArrayList<Language> probabilities = getProbabilities();
+    IList<Language> probabilities = getProbabilities();
         if (probabilities.size() > 0) return probabilities.get(0).lang;
     return UNKNOWN_LANG;
     }
@@ -230,11 +201,11 @@ public String detect() throws LangDetectException
      * @throws LangDetectException 
      *  code = ErrorCode.CantDetectError : Can't detect because of no valid features in text
      */
-    public ArrayList<Language> getProbabilities() throws LangDetectException
+    public IList<Language> getProbabilities() throws LangDetectException
 {
         if (langprob == null) detectBlock();
 
-    ArrayList<Language> list = sortProbability(langprob);
+    IList<Language> list = sortProbability(langprob);
         return list;
 }
 
@@ -245,7 +216,7 @@ public String detect() throws LangDetectException
 private void detectBlock() throws LangDetectException
 {
     cleaningText();
-    ArrayList<String> ngrams = extractNGrams();
+    IList<string> ngrams = extractNGrams();
         if (ngrams.size()==0)
             throw new LangDetectException(ErrorCode.CantDetectError, "no features in text");
 
@@ -293,16 +264,16 @@ double alpha = this.alpha + rand.nextGaussian() * ALPHA_WIDTH;
  * Extract n-grams from target text
  * @return n-grams list
  */
-private ArrayList<String> extractNGrams()
+private IList<string> extractNGrams()
 {
-    ArrayList<String> list = new ArrayList<String>();
+    IList<string> list = new List<string>();
     NGram ngram = new NGram();
     for (int i = 0; i < text.length(); ++i)
     {
         ngram.addChar(text.charAt(i));
         for (int n = 1; n <= NGram.N_GRAM; ++n)
         {
-            String w = ngram.get(n);
+            string w = ngram.get(n);
             if (w != null && wordLangProbMap.containsKey(w)) list.add(w);
         }
     }
@@ -313,7 +284,7 @@ private ArrayList<String> extractNGrams()
  * update language probabilities with N-gram string(N=1,2,3)
  * @param word N-gram string
  */
-private boolean updateLangProb(double[] prob, String word, double alpha)
+private bool updateLangProb(double[] prob, string word, double alpha)
 {
     if (word == null || !wordLangProbMap.containsKey(word)) return false;
 
@@ -328,7 +299,7 @@ private boolean updateLangProb(double[] prob, String word, double alpha)
     return true;
 }
 
-private String wordProbToString(double[] prob)
+private string wordProbToString(double[] prob)
 {
     Formatter formatter = new Formatter();
     for (int j = 0; j < prob.length; ++j)
@@ -339,7 +310,7 @@ private String wordProbToString(double[] prob)
             formatter.format(" %s:%.5f", langlist.get(j), p);
         }
     }
-    String string = formatter.toString();
+    string string = formatter.toString();
     formatter.close();
     return string;
 }
@@ -365,9 +336,9 @@ static private double normalizeProb(double[] prob)
  * @param probabilities HashMap
  * @return lanugage candidates order by probabilities descendently
  */
-private ArrayList<Language> sortProbability(double[] prob)
+private IList<Language> sortProbability(double[] prob)
 {
-    ArrayList<Language> list = new ArrayList<Language>();
+    IList<Language> list = new List<Language>();
     for (int j = 0; j < prob.length; ++j)
     {
         double p = prob[j];
@@ -391,15 +362,15 @@ private ArrayList<Language> sortProbability(double[] prob)
  * @param word
  * @return
  */
-static private String unicodeEncode(String word)
+static private string unicodeEncode(string word)
 {
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     for (int i = 0; i < word.length(); ++i)
     {
         char ch = word.charAt(i);
         if (ch >= '\u0080')
         {
-            String st = Integer.toHexString(0x10000 + (int)ch);
+            string st = Integer.toHexString(0x10000 + (int)ch);
             while (st.length() < 4) st = "0" + st;
             buf.append("\\u").append(st.subSequence(1, 5));
         }

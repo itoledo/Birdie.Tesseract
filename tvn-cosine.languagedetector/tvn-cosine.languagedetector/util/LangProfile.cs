@@ -16,8 +16,8 @@ namespace tvn_cosine.languagedetector.util
     {
         private static final int MINIMUM_FREQ = 2;
         private static final int LESS_FREQ_RATIO = 100000;
-        public String name = null;
-        public HashMap<String, Integer> freq = new HashMap<String, Integer>();
+        public string name = null;
+        public IDictionary<string, Integer> freq = new Dictionary<string, Integer>();
         public int[] n_words = new int[NGram.N_GRAM];
 
         /**
@@ -29,7 +29,7 @@ namespace tvn_cosine.languagedetector.util
          * Normal Constructor
          * @param name language name
          */
-        public LangProfile(String name)
+        public LangProfile(string name)
         {
             this.name = name;
         }
@@ -38,7 +38,7 @@ namespace tvn_cosine.languagedetector.util
          * Add n-gram to profile
          * @param gram
          */
-        public void add(String gram)
+        public void add(string gram)
         {
             if (name == null || gram == null) return;   // Illegal
             int len = gram.length();
@@ -63,11 +63,11 @@ namespace tvn_cosine.languagedetector.util
             int threshold = n_words[0] / LESS_FREQ_RATIO;
             if (threshold < MINIMUM_FREQ) threshold = MINIMUM_FREQ;
 
-            Set<String> keys = freq.keySet();
+            Set<string> keys = freq.keySet();
             int roman = 0;
-            for (Iterator<String> i = keys.iterator(); i.hasNext();)
+            for (Iterator<string> i = keys.iterator(); i.hasNext();)
             {
-                String key = i.next();
+                string key = i.next();
                 int count = freq.get(key);
                 if (count <= threshold)
                 {
@@ -86,10 +86,10 @@ namespace tvn_cosine.languagedetector.util
             // roman check
             if (roman < n_words[0] / 3)
             {
-                Set<String> keys2 = freq.keySet();
-                for (Iterator<String> i = keys2.iterator(); i.hasNext();)
+                Set<string> keys2 = freq.keySet();
+                for (Iterator<string> i = keys2.iterator(); i.hasNext();)
                 {
-                    String key = i.next();
+                    string key = i.next();
                     if (key.matches(".*[A-Za-z].*"))
                     {
                         n_words[key.length() - 1] -= freq.get(key);
@@ -105,7 +105,7 @@ namespace tvn_cosine.languagedetector.util
          * Extract n-grams from text and add their frequency into the profile.
          * @param text (fragmented) text to extract n-grams
          */
-        public void update(String text)
+        public void update(string text)
         {
             if (text == null) return;
             text = NGram.normalize_vi(text);

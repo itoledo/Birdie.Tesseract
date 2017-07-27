@@ -13,19 +13,19 @@ namespace tvn_cosine.languagedetector.util
      */
     public class NGram
     {
-        private static final String LATIN1_EXCLUDED = Messages.getString("NGram.LATIN1_EXCLUDE");
+        private static final string LATIN1_EXCLUDED = Messages.getString("NGram.LATIN1_EXCLUDE");
     public final static int N_GRAM = 3;
-        public static HashMap<Character, Character> cjk_map;
+        public static IDictionary<Character, Character> cjk_map;
 
-        private StringBuffer grams_;
-        private boolean capitalword_;
+        private StringBuilder grams_;
+        private bool capitalword_;
 
         /**
          * Constructor.
          */
         public NGram()
         {
-            grams_ = new StringBuffer(" ");
+            grams_ = new StringBuilder(" ");
             capitalword_ = false;
         }
 
@@ -39,7 +39,7 @@ namespace tvn_cosine.languagedetector.util
             char lastchar = grams_.charAt(grams_.length() - 1);
             if (lastchar == ' ')
             {
-                grams_ = new StringBuffer(" ");
+                grams_ = new StringBuilder(" ");
                 capitalword_ = false;
                 if (ch == ' ') return;
             }
@@ -62,9 +62,9 @@ namespace tvn_cosine.languagedetector.util
         /**
          * Get n-Gram
          * @param n length of n-gram
-         * @return n-Gram String (null if it is invalid)
+         * @return n-Gram string (null if it is invalid)
          */
-        public String get(int n)
+        public string get(int n)
         {
             if (capitalword_) return null;
             int len = grams_.length();
@@ -144,10 +144,10 @@ namespace tvn_cosine.languagedetector.util
          * @param text
          * @return normalized text
          */
-        public static String normalize_vi(String text)
+        public static string normalize_vi(string text)
         {
             Matcher m = ALPHABET_WITH_DMARK.matcher(text);
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             while (m.find())
             {
                 int alphabet = TO_NORMALIZE_VI_CHARS.indexOf(m.group(1));
@@ -166,8 +166,8 @@ namespace tvn_cosine.languagedetector.util
             Messages.getString("NORMALIZED_VI_CHARS_0303"),
             Messages.getString("NORMALIZED_VI_CHARS_0309"),
             Messages.getString("NORMALIZED_VI_CHARS_0323") };
-    private static final String TO_NORMALIZE_VI_CHARS = Messages.getString("TO_NORMALIZE_VI_CHARS");
-    private static final String DMARK_CLASS = Messages.getString("DMARK_CLASS");
+    private static final string TO_NORMALIZE_VI_CHARS = Messages.getString("TO_NORMALIZE_VI_CHARS");
+    private static final string DMARK_CLASS = Messages.getString("DMARK_CLASS");
     private static final Pattern ALPHABET_WITH_DMARK = Pattern.compile("([" + TO_NORMALIZE_VI_CHARS + "])(["
             + DMARK_CLASS + "])");
     
@@ -303,8 +303,8 @@ namespace tvn_cosine.languagedetector.util
         Messages.getString("NGram.KANJI_7_37"),
     };
 static {
-        cjk_map = new HashMap<Character, Character>();
-        for (String cjk_list : CJK_CLASS) {
+        cjk_map = new Dictionary<Character, Character>();
+        for (string cjk_list : CJK_CLASS) {
             char representative = cjk_list.charAt(0);
             for (int i = 0; i<cjk_list.length();++i) {
                 cjk_map.put(cjk_list.charAt(i), representative);

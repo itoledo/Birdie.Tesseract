@@ -1,42 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace tvn_cosine.languagedetector
 {
-    /**
-     * Language Detector Factory Class
-     * 
-     * This class manages an initialization and constructions of {@link Detector}. 
-     * 
-     * Before using language detection library, 
-     * load profiles with {@link DetectorFactory#loadProfile(String)} method
-     * and set initialization parameters.
-     * 
-     * When the language detection,
-     * construct Detector instance via {@link DetectorFactory#create()}.
-     * See also {@link Detector}'s sample code.
-     * 
-     * <ul>
-     * <li>4x faster improvement based on Elmer Garduno's code. Thanks!</li>
-     * </ul>
-     * 
-     * @see Detector
-     * @author Nakatani Shuyo
-     */
+    /// <summary>
+    /// Language Detector Factory Class.
+    /// <para /> 
+    /// This class manages an initialization and constructions of Detector. 
+    /// <para /> 
+    /// Before using language detection library, 
+    /// load profiles with DetectorFactory#loadProfile(string) method
+    /// and set initialization parameters.
+    /// <para />
+    /// When the language detection,
+    /// construct Detector instance via DetectorFactory#create().
+    /// <para />
+    /// See also Detector's sample code. 
+    /// </summary>
     public class DetectorFactory
     {
-        public HashMap<String, double[]> wordLangProbMap;
-        public ArrayList<String> langlist;
-        public Long seed = null;
+        static private DetectorFactory instance_ = new DetectorFactory();
+
+        public IDictionary<string, double[]> wordLangProbMap;
+        public IList<string> langlist;
+        public long? seed = null;
+
         private DetectorFactory()
         {
-            wordLangProbMap = new HashMap<String, double[]>();
-            langlist = new ArrayList<String>();
+            wordLangProbMap = new Dictionary<string, double[]>();
+            langlist = new List<string>();
         }
-        static private DetectorFactory instance_ = new DetectorFactory();
 
         /**
          * Load profiles from specified directory.
@@ -46,7 +38,7 @@ namespace tvn_cosine.languagedetector
          * @throws LangDetectException  Can't open profiles(error code = {@link ErrorCode#FileLoadError})
          *                              or profile's format is wrong (error code = {@link ErrorCode#FormatError})
          */
-        public static void loadProfile(String profileDirectory) throws LangDetectException
+        public static void loadProfile(string profileDirectory) throws LangDetectException
         {
             loadProfile(new File(profileDirectory));
     }
@@ -95,14 +87,14 @@ namespace tvn_cosine.languagedetector
      * @throws LangDetectException  Can't open profiles(error code = {@link ErrorCode#FileLoadError})
      *                              or profile's format is wrong (error code = {@link ErrorCode#FormatError})
      */
-    public static void loadProfile(List<String> json_profiles) throws LangDetectException
+    public static void loadProfile(List<string> json_profiles) throws LangDetectException
 {
         int index = 0;
         int langsize = json_profiles.size();
         if (langsize < 2)
             throw new LangDetectException(ErrorCode.NeedLoadProfileError, "Need more than 2 profiles");
             
-        for (String json: json_profiles) {
+        for (string json: json_profiles) {
             try {
                 LangProfile profile = JSON.decode(json, LangProfile.class);
                 addProfile(profile, index, langsize);
@@ -121,12 +113,12 @@ namespace tvn_cosine.languagedetector
      */
     static /* package scope */ void addProfile(LangProfile profile, int index, int langsize) throws LangDetectException
 {
-    String lang = profile.name;
+    string lang = profile.name;
         if (instance_.langlist.contains(lang)) {
         throw new LangDetectException(ErrorCode.DuplicateLangError, "duplicate the same language profile");
     }
     instance_.langlist.add(lang);
-        for (String word: profile.freq.keySet()) {
+        for (string word: profile.freq.keySet()) {
         if (!instance_.wordLangProbMap.containsKey(word))
         {
             instance_.wordLangProbMap.put(word, new double[langsize]);
@@ -187,7 +179,7 @@ Detector detector = new Detector(instance_);
     instance_.seed = seed;
 }
 
-public static final List<String> getLangList()
+public static final List<string> getLangList()
 {
     return Collections.unmodifiableList(instance_.langlist);
 }

@@ -14,16 +14,16 @@ namespace tvn_cosine.languagedetector.util
     public class TagExtractor
     {
         /* package scope */
-        String target_;
+        string target_;
         /* package scope */
         int threshold_;
         /* package scope */
-        StringBuffer buf_;
+        StringBuilder buf_;
         /* package scope */
-        String tag_;
+        string tag_;
         private int count_;
 
-        public TagExtractor(String tag, int threshold)
+        public TagExtractor(string tag, int threshold)
         {
             target_ = tag;
             threshold_ = threshold;
@@ -36,23 +36,23 @@ namespace tvn_cosine.languagedetector.util
         }
         public void clear()
         {
-            buf_ = new StringBuffer();
+            buf_ = new StringBuilder();
             tag_ = null;
         }
-        public void setTag(String tag)
+        public void setTag(string tag)
         {
             tag_ = tag;
         }
-        public void add(String line)
+        public void add(string line)
         {
             if (tag_ == target_ && line != null)
             {
                 buf_.append(line);
             }
         }
-        public String closeTag()
+        public string closeTag()
         {
-            String st = null;
+            string st = null;
             if (tag_ == target_ && buf_.length() > threshold_)
             {
                 st = buf_.toString();
