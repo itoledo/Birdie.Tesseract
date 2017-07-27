@@ -4,55 +4,9 @@ using System.Runtime.InteropServices;
 namespace Tesseract.Native
 {
     internal class DllImports
-    {
-        #region set up
-        private const string zlibDllName = "zlib.dll";
-        private const string libPngDllName = "libpng16.dll";
-        private const string jpegDllName = "jpeg.dll";
-        private const string tiffDllName = "tiff.dll";
-        private const string tiffXxDllName = "tiffxx.dll"; 
-        private const string leptonicaDllName = "leptonica-1.74.4.dll";
-        private const string tesseractDllName = "tesseract400.dll";
-
-        private static bool initialised = false;
-
-        static DllImports()
-        {
-            Init();
-        }
-
-        static void Init()
-        {
-            if (!initialised)
-            {
-                var path = string.Format("{0}\\lib", AppDomain.CurrentDomain.BaseDirectory);
-                if (Architecture.is64BitProcess)
-                {
-                    path = string.Format("{0}\\{1}", path, "x64");
-                }
-                else
-                {
-                    path = string.Format("{0}\\{1}", path, "x86");
-                }
-
-                if (!System.IO.File.Exists(string.Format("{0}\\{1}", path, tesseractDllName)))
-                {
-                    throw new System.IO.FileNotFoundException("tesseract dll not found.");
-                }
-
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, zlibDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, libPngDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, jpegDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, tiffDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, tiffXxDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, leptonicaDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, tesseractDllName));
-
-                initialised = true;
-            }
-        } 
-        #endregion
-
+    { 
+        private const string tesseractDllName = "pvt.cppan.demo.google.tesseract.libtesseract-master.dll";
+          
         // General free functions 
         [DllImport(tesseractDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "TessVersion")]
         internal static extern IntPtr TessVersion();

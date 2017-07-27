@@ -4,47 +4,13 @@ using System.Runtime.InteropServices;
 namespace Leptonica.Native
 {
     internal class DllImports
-    {
-        #region set up
-        private const string zlibDllName = "zlib.dll";
-        private const string libPngDllName = "libpng16.dll";
-        private const string jpegDllName = "jpeg.dll";
-        private const string tiffDllName = "libtiff.dll";
-        private const string openJpgDllName = "openjp2.dll";
-        private const string leptonicaDllName = "leptonica-1.74.4.dll";
-
-        private static readonly bool initialised;
-         
-        static DllImports()
-        {
-            if (!initialised)
-            { 
-                var path = string.Format("{0}\\lib", AppDomain.CurrentDomain.BaseDirectory);
-                if (Architecture.is64BitProcess)
-                {
-                    path = string.Format("{0}\\{1}", path, "x64");
-                }
-                else
-                {
-                    path = string.Format("{0}\\{1}", path, "x86");
-                }
-                 
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, zlibDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, libPngDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, jpegDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, tiffDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, openJpgDllName));
-                Architecture.LoadLibrary(string.Format("{0}\\{1}", path, leptonicaDllName)); 
-
-                initialised = true;
-            }
-        }
-
+    { 
+        private const string leptonicaDllName = "pvt.cppan.demo.danbloomberg.leptonica-1.74.4.dll";
+          
         internal static int pixWriteStreamBmp(object cdata, HandleRef size)
         {
             throw new NotImplementedException();
-        }
-        #endregion
+        } 
 
         #region internal constants
         #region Colors for 32 bpp
