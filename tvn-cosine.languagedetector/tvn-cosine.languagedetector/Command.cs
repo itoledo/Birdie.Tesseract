@@ -1,406 +1,333 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Text.RegularExpressions;
+using tvn_cosine.languagedetector.util;
 
 namespace tvn_cosine.languagedetector
 {
-    /**
-     * 
-     * LangDetect Command Line Interface
-     * <p>
-     * This is a command line interface of Language Detection Library "LandDetect".
-     * 
-     * 
-     * @author Nakatani Shuyo
-     *
-     */
+    /// <summary> 
+    /// LangDetect Command Line Interface
+    /// <para />
+    /// This is a command line interface of Language Detection Library "LandDetect".
+    /// </summary>
     public class Command
     {
-        /** smoothing default parameter (ELE) */
-        private static final double DEFAULT_ALPHA = 0.5;
+        /// <summary>
+        /// smoothing default parameter (ELE)
+        /// </summary>
+        private const double DEFAULT_ALPHA = 0.5D;
 
         /** for Command line easy parser */
-        private IDictionary<string, String> opt_with_value = new Dictionary<string, String>();
-        private IDictionary<string, String> values = new Dictionary<string, String>();
-        private HashSet<string> opt_without_value = new HashSet<string>();
+        private IDictionary<string, string> opt_with_value = new Dictionary<string, string>();
+        private IDictionary<string, string> values = new Dictionary<string, string>();
+        private ISet<string> opt_without_value = new HashSet<string>();
         private IList<string> arglist = new List<string>();
 
-        /**
-         * Command line easy parser
-         * @param args command line arguments
-         */
-        private void parse(String[] args)
+        /// <summary>
+        /// Command line easy parser
+        /// </summary>
+        /// <param name="args">command line arguments</param>
+        private void parse(params string[] args)
         {
-            for (int i = 0; i < args.length; ++i)
+            for (int i = 0; i < args.Length; ++i)
             {
-                if (opt_with_value.containsKey(args[i]))
+                if (opt_with_value.ContainsKey(args[i]))
                 {
-                    string key = opt_with_value.get(args[i]);
-                    values.put(key, args[i + 1]);
+                    string key = opt_with_value[args[i]];
+                    values[key] = args[i + 1];
                     ++i;
                 }
-                else if (args[i].startsWith("-"))
+                else if (args[i].StartsWith("-"))
                 {
-                    opt_without_value.add(args[i]);
+                    opt_without_value.Add(args[i]);
                 }
                 else
                 {
-                    arglist.add(args[i]);
+                    arglist.Add(args[i]);
                 }
             }
         }
 
         private void addOpt(string opt, string key, string value)
         {
-            opt_with_value.put(opt, key);
-            values.put(key, value);
+            opt_with_value[opt] = key;
+            values[key] = value;
         }
+
         private string get(string key)
         {
-            return values.get(key);
+            return values[key];
         }
-        private Long getLong(string key)
+
+        private long? getLong(string key)
         {
-            string value = values.get(key);
-            if (value == null) return null;
-            try
-            {
-                return Long.valueOf(value);
-            }
-            catch (NumberFormatException e)
+            string value = values[key];
+            if (string.IsNullOrEmpty(value))
             {
                 return null;
             }
+
+            return long.Parse(value,
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture);
+
         }
+
         private double getDouble(string key, double defaultValue)
         {
-            try
-            {
-                return Double.valueOf(values.get(key));
-            }
-            catch (NumberFormatException e)
+
+            string value = values[key];
+            if (string.IsNullOrEmpty(value))
             {
                 return defaultValue;
             }
+
+            return double.Parse(value,
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture);
         }
 
         private bool hasOpt(string opt)
         {
-            return opt_without_value.contains(opt);
+            return opt_without_value.Contains(opt);
         }
 
-
-        /**
-         * File search (easy glob)
-         * @param directory directory path
-         * @param pattern   searching file pattern with regular representation
-         * @return matched file
-         */
-        private File searchFile(File directory, string pattern)
+        /// <summary>
+        /// File search (easy glob)
+        /// </summary>
+        /// <param name="directory">directory path</param>
+        /// <param name="pattern">searching file pattern with regular representation</param>
+        /// <returns>matched file</returns>
+        private string searchFile(string directory, string pattern)
         {
-            for (File file : directory.listFiles())
+            foreach (string file in System.IO.Directory.GetFiles(directory))
             {
-                if (file.getName().matches(pattern)) return file;
+                if (Regex.IsMatch(file, pattern))
+                {
+                    return file;
+                }
             }
             return null;
         }
 
-
-        /**
-         * load profiles
-         * @return false if load success
-         */
+        /// <summary>
+        /// load profiles
+        /// </summary>
+        /// <returns>false if load success</returns>
         private bool loadProfile()
         {
             string profileDirectory = get("directory") + "/";
             try
             {
                 DetectorFactory.loadProfile(profileDirectory);
-                Long seed = getLong("seed");
-                if (seed != null) DetectorFactory.setSeed(seed);
+                long? seed = getLong("seed");
+                if (seed != null)
+                {
+                    DetectorFactory.setSeed(seed.Value);
+                }
                 return false;
             }
             catch (LangDetectException e)
             {
-                System.err.println("ERROR: " + e.getMessage());
+                System.Console.WriteLine("ERROR: " + e.StackTrace);
                 return true;
             }
         }
 
-        /**
-         * Generate Language Profile from Wikipedia Abstract Database File
-         * 
-         * <pre>
-         * usage: --genprofile -d [abstracts directory] [language names]
-         * </pre>
-         * 
-         */
+        /// <summary>
+        /// Generate Language Profile from Wikipedia Abstract Database File
+        /// <para /> 
+        /// usage: --genprofile -d [abstracts directory] [language names] 
+        /// </summary>
         public void generateProfile()
         {
-            File directory = new File(get("directory"));
-            for (string lang: arglist)
+            string directory = get("directory");
+            foreach (string lang in arglist)
             {
-                File file = searchFile(directory, lang + "wiki-.*-abstract\\.xml.*");
+                string file = searchFile(directory, lang + "wiki-.*-abstract\\.xml.*");
                 if (file == null)
                 {
-                    System.err.println("Not Found abstract xml : lang = " + lang);
+                    System.Console.WriteLine("Not Found abstract xml : lang = " + lang);
                     continue;
                 }
 
-                FileOutputStream os = null;
-                try
-                {
-                    LangProfile profile = GenProfile.loadFromWikipediaAbstract(lang, file);
-                    profile.omitLessFreq();
+                LangProfile profile = GenProfile.loadFromWikipediaAbstract(lang, file);
+                profile.omitLessFreq();
 
-                    File profile_path = new File(get("directory") + "/profiles/" + lang);
-                    os = new FileOutputStream(profile_path);
-                    JSON.encode(profile, os);
-                }
-                catch (JSONException e)
+                string profile_path = get("directory") + "/profiles/" + lang;
+                using (var os = System.IO.File.CreateText(profile_path))
                 {
-                    e.printStackTrace();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (LangDetectException e)
-                {
-                    e.printStackTrace();
-                }
-                finally
-                {
-                    try
-                    {
-                        if (os != null) os.close();
-                    }
-                    catch (IOException e) { }
+                    os.Write(JsonConvert.SerializeObject(profile));
                 }
             }
         }
 
-        /**
-         * Generate Language Profile from Text File
-         * 
-         * <pre>
-         * usage: --genprofile-text -l [language code] [text file path]
-         * </pre>
-         * 
-         */
+        /// <summary>
+        /// Generate Language Profile from Text File
+        /// <para />
+        /// usage: --genprofile-text -l [language code] [text file path]
+        /// </summary>
         private void generateProfileFromText()
         {
-            if (arglist.size() != 1)
+            if (arglist.Count != 1)
             {
-                System.err.println("Need to specify text file path");
+                System.Console.WriteLine("Need to specify text file path");
                 return;
             }
-            File file = new File(arglist.get(0));
-            if (!file.exists())
+            string file = arglist[0];
+            if (!System.IO.File.Exists(file))
             {
-                System.err.println("Need to specify existing text file path");
+                System.Console.WriteLine("Need to specify existing text file path");
                 return;
             }
 
             string lang = get("lang");
             if (lang == null)
             {
-                System.err.println("Need to specify langage code(-l)");
+                System.Console.WriteLine("Need to specify langage code(-l)");
                 return;
             }
 
-            FileOutputStream os = null;
-            try
-            {
-                LangProfile profile = GenProfile.loadFromText(lang, file);
-                profile.omitLessFreq();
+            LangProfile profile = GenProfile.loadFromText(lang, file);
+            profile.omitLessFreq();
 
-                File profile_path = new File(lang);
-                os = new FileOutputStream(profile_path);
-                JSON.encode(profile, os);
-            }
-            catch (JSONException e)
+            using (var os = System.IO.File.CreateText(lang))
             {
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            catch (LangDetectException e)
-            {
-                e.printStackTrace();
-            }
-            finally
-            {
-                try
-                {
-                    if (os != null) os.close();
-                }
-                catch (IOException e) { }
+                os.Write(JsonConvert.SerializeObject(profile));
             }
         }
 
-        /**
-         * Language detection test for each file (--detectlang option)
-         * 
-         * <pre>
-         * usage: --detectlang -d [profile directory] -a [alpha] -s [seed] [test file(s)]
-         * </pre>
-         * 
-         */
+        /// <summary>
+        /// Language detection test for each file (--detectlang option) 
+        /// <para />
+        /// usage: --detectlang -d [profile directory] -a [alpha] -s [seed] [test file(s)] 
+        /// </summary>
         public void detectLang()
         {
             if (loadProfile()) return;
-            for (string filename: arglist)
+            foreach (string filename in arglist)
             {
-                BufferedReader is = null;
-                try
+                using (StreamReader _is = new StreamReader(filename, System.Text.Encoding.UTF8))
                 {
-                is = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "utf-8"));
-
                     Detector detector = DetectorFactory.create(getDouble("alpha", DEFAULT_ALPHA));
-                    if (hasOpt("--debug")) detector.setVerbose();
-                    detector.append(is);
-                    System.out.println(filename + ":" + detector.getProbabilities());
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (LangDetectException e)
-                {
-                    e.printStackTrace();
-                }
-                finally
-                {
-                    try
+                    if (hasOpt("--debug"))
                     {
-                        if (is!= null) is.close();
+                        detector.setVerbose();
                     }
-                    catch (IOException e) { }
-                }
 
+                    detector.append(_is);
+                    System.Console.WriteLine(filename + ":" + detector.getProbabilities());
+                }
             }
         }
 
-        /**
-         * Batch Test of Language Detection (--batchtest option)
-         * 
-         * <pre>
-         * usage: --batchtest -d [profile directory] -a [alpha] -s [seed] [test data(s)]
-         * </pre>
-         * 
-         * The format of test data(s):
-         * <pre>
-         *   [correct language name]\t[text body for test]\n
-         * </pre>
-         *  
-         */
+        /// <summary>
+        /// Batch Test of Language Detection (--batchtest option)
+        /// <para />
+        /// usage: --batchtest -d [profile directory] -a [alpha] -s [seed] [test data(s)]
+        /// <para />
+        /// The format of test data(s):
+        /// <para />
+        ///   [correct language name]\t[text body for test]\n 
+        /// </summary>
         public void batchTest()
         {
             if (loadProfile()) return;
             IDictionary<string, IList<string>> result = new Dictionary<string, IList<string>>();
-            for (string filename: arglist)
+            foreach (string filename in arglist)
             {
-                BufferedReader is = null;
-                try
+
+                using (StreamReader _is = new StreamReader(filename, System.Text.Encoding.UTF8))
                 {
-                is = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "utf-8"));
-                    while (is.ready()) {
-                string line = is.readLine();
-                int idx = line.indexOf('\t');
-                if (idx <= 0) continue;
-                string correctLang = line.substring(0, idx);
-                string text = line.substring(idx + 1);
+                    while (!_is.EndOfStream)
+                    {
+                        string line = _is.ReadLine();
+                        int idx = line.IndexOf('\t');
+                        if (idx <= 0) continue;
+                        string correctLang = line.Substring(0, idx);
+                        string text = line.Substring(idx + 1);
 
-                Detector detector = DetectorFactory.create(getDouble("alpha", DEFAULT_ALPHA));
-                detector.append(text);
-                string lang = "";
-                try
-                {
-                    lang = detector.detect();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-                if (!result.containsKey(correctLang)) result.put(correctLang, new List<string>());
-                result.get(correctLang).add(lang);
-                if (hasOpt("--debug")) System.out.println(correctLang + "," + lang + "," + (text.length() > 100 ? text.substring(0, 100) : text));
-            }
+                        Detector detector = DetectorFactory.create(getDouble("alpha", DEFAULT_ALPHA));
+                        detector.append(text);
+                        string lang = "";
 
-        } catch (IOException e) {
-                e.printStackTrace();
-            } catch (LangDetectException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (is!=null) is.close();
-                } catch (IOException e) {}
-            }
+                        lang = detector.detect();
 
-            IList<string> langlist = new List<string>(result.keySet());
-Collections.sort(langlist);
-
-            int totalCount = 0, totalCorrect = 0;
-            for ( string lang :langlist) {
-                IDictionary<string, Integer> resultCount = new Dictionary<string, Integer>();
-int count = 0;
-IList<string> list = result.get(lang);
-                for (string detectedLang: list) {
-                    ++count;
-                    if (resultCount.containsKey(detectedLang)) {
-                        resultCount.put(detectedLang, resultCount.get(detectedLang) + 1);
-                    } else {
-                        resultCount.put(detectedLang, 1);
+                        if (!result.ContainsKey(correctLang))
+                        {
+                            result[correctLang] = new List<string>();
+                        }
+                        result[correctLang].Add(lang);
+                        if (hasOpt("--debug"))
+                        {
+                            System.Console.WriteLine(correctLang + "," + lang + "," + (text.Length > 100 ? text.Substring(0, 100) : text));
+                        }
                     }
-                }
-                int correct = resultCount.containsKey(lang) ? resultCount.get(lang) : 0;
-double rate = correct / (double)count;
-System.out.println(String.format("%s (%d/%d=%.2f): %s", lang, correct, count, rate, resultCount));
-                totalCorrect += correct;
-                totalCount += count;
+
+                    List<string> langlist = new List<string>(result.Keys);
+                    langlist.Sort();
+
+                    int totalCount = 0, totalCorrect = 0;
+                    foreach (string lang in langlist)
+                    {
+                        IDictionary<string, int> resultCount = new Dictionary<string, int>();
+                        int count = 0;
+                        IList<string> list = result[lang];
+                        foreach (string detectedLang in list)
+                        {
+                            ++count;
+                            if (resultCount.ContainsKey(detectedLang))
+                            {
+                                ++resultCount[detectedLang];
+                            }
+                            else
+                            {
+                                resultCount[detectedLang] = 1;
+                            }
+                        }
+                        int correct = resultCount.ContainsKey(lang) ? resultCount[lang] : 0;
+                        double rate = correct / (double)count;
+                        System.Console.WriteLine(string.Format("{0} ({1}/{2}={3:##}): {4}", lang, correct, count, rate, resultCount));
+                        totalCorrect += correct;
+                        totalCount += count;
+                    }
+                    System.Console.WriteLine(string.Format("total: %d/%d = %.3f", totalCorrect, totalCount, totalCorrect / (double)totalCount));
+
+                } 
             }
-            System.out.println(String.format("total: %d/%d = %.3f", totalCorrect, totalCount, totalCorrect / (double)totalCount));
-            
         }
-        
-    }
 
-    /**
-     * Command Line Interface
-     * @param args command line arguments
-     */
-    public static void main(String[] args)
-{
-    Command command = new Command();
-    command.addOpt("-d", "directory", "./");
-    command.addOpt("-a", "alpha", "" + DEFAULT_ALPHA);
-    command.addOpt("-s", "seed", null);
-    command.addOpt("-l", "lang", null);
-    command.parse(args);
+        /// <summary>
+        /// Command Line Interface
+        /// </summary>
+        /// <param name="args">command line arguments</param>
+        public static void Main(params string[] args)
+        {
+            Command command = new Command();
+            command.addOpt("-d", "directory", "./");
+            command.addOpt("-a", "alpha", "" + DEFAULT_ALPHA);
+            command.addOpt("-s", "seed", null);
+            command.addOpt("-l", "lang", null);
+            command.parse(args);
 
-    if (command.hasOpt("--genprofile"))
-    {
-        command.generateProfile();
-    }
-    else if (command.hasOpt("--genprofile-text"))
-    {
-        command.generateProfileFromText();
-    }
-    else if (command.hasOpt("--detectlang"))
-    {
-        command.detectLang();
-    }
-    else if (command.hasOpt("--batchtest"))
-    {
-        command.batchTest();
-    }
-}
-
-}
-
+            if (command.hasOpt("--genprofile"))
+            {
+                command.generateProfile();
+            }
+            else if (command.hasOpt("--genprofile-text"))
+            {
+                command.generateProfileFromText();
+            }
+            else if (command.hasOpt("--detectlang"))
+            {
+                command.detectLang();
+            }
+            else if (command.hasOpt("--batchtest"))
+            {
+                command.batchTest();
+            }
+        } 
+    } 
 }

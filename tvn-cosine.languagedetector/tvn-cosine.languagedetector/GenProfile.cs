@@ -1,4 +1,7 @@
-﻿using System; 
+﻿using System.IO;
+using System.IO.Compression;
+using System.Xml;
+using tvn_cosine.languagedetector.util;
 
 namespace tvn_cosine.languagedetector
 {
@@ -7,7 +10,7 @@ namespace tvn_cosine.languagedetector
     /// generate its language profile in JSON format.
     /// </summary>
     public class GenProfile
-    { 
+    {
         /// <summary>
         /// Load Wikipedia abstract database file and generate its language profile
         /// </summary>
@@ -15,106 +18,80 @@ namespace tvn_cosine.languagedetector
         /// <param name="file">target database file path</param>
         /// <returns>Language profile instance</returns>
         /// <exception cref="LangDetectException" />
-        public static LangProfile loadFromWikipediaAbstract(string lang, File file)
-        { 
+        public static LangProfile loadFromWikipediaAbstract(string lang, string file)
+        {
             LangProfile profile = new LangProfile(lang);
-
-            BufferedReader br = null;
+            FileInfo fi = new FileInfo(file);
+            Stream _is = null;
             try
             {
-                InputStream is = new FileInputStream(file);
-                if (file.getName().endsWith(".gz")) is = new GZIPInputStream(is);
-                br = new BufferedReader(new InputStreamReader(is, "utf-8"));
-
-                TagExtractor tagextractor = new TagExtractor("abstract", 100);
-
-                XMLStreamReader reader = null;
-                try
+                _is = fi.OpenRead();
+                if (fi.Name.EndsWith(".gz"))
                 {
-                    XMLInputFactory factory = XMLInputFactory.newInstance();
-                    reader = factory.createXMLStreamReader(br);
-                    while (reader.hasNext())
+                    _is = new GZipStream(_is, CompressionMode.Decompress);
+                }
+
+                using (StreamReader br = new StreamReader(_is, System.Text.Encoding.UTF8))
+                {
+                    TagExtractor tagextractor = new TagExtractor("abstract", 100);
+                    using (XmlReader reader = XmlReader.Create(br))
                     {
-                        switch (reader.next())
+                        while (reader.Read())
                         {
-                            case XMLStreamReader.START_ELEMENT:
-                                tagextractor.setTag(reader.getName().toString());
-                                break;
-                            case XMLStreamReader.CHARACTERS:
-                                tagextractor.add(reader.getText());
-                                break;
-                            case XMLStreamReader.END_ELEMENT:
-                                string text = tagextractor.closeTag();
-                                if (text != null) profile.update(text);
-                                break;
+                            switch (reader.NodeType)
+                            {
+                                case XmlNodeType.Element:
+                                    tagextractor.setTag(reader.Name);
+                                    break;
+                                case XmlNodeType.Text:
+                                    tagextractor.add(reader.Value);
+                                    break;
+                                case XmlNodeType.EndElement:
+                                    string text = tagextractor.closeTag();
+                                    if (text != null)
+                                    {
+                                        profile.update(text);
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }
-                catch (XMLStreamException e)
-                {
-                    throw new LangDetectException(ErrorCode.TrainDataFormatError, "Training database file '" + file.getName() + "' is an invalid XML.");
-                }
-                finally
-                {
-                    try
-                    {
-                        if (reader != null) reader.close();
-                    }
-                    catch (XMLStreamException e) { }
-                }
-                System.out.println(lang + ":" + tagextractor.count());
-
-            }
-            catch (IOException e)
-            {
-                throw new LangDetectException(ErrorCode.CantOpenTrainData, "Can't open training database file '" + file.getName() + "'");
             }
             finally
             {
-                try
+                if (null != _is)
                 {
-                    if (br != null) br.close();
+                    _is.Close();
+                    _is.Dispose();
                 }
-                catch (IOException e) { }
             }
             return profile;
         }
 
-
-        /**
-         * Load text file with UTF-8 and generate its language profile
-         * @param lang target language name
-         * @param file target file path
-         * @return Language profile instance
-         * @throws LangDetectException 
-         */
-        public static LangProfile loadFromText(string lang, File file) throws LangDetectException
+        /// <summary>
+        /// Load text file with UTF-8 and generate its language profile
+        /// </summary>
+        /// <param name="lang">target language name</param>
+        /// <param name="file">target file path</param>
+        /// <returns>Language profile instance</returns>
+        /// <exception cref="LangDetectException" />
+        public static LangProfile loadFromText(string lang, string file)
         {
-
             LangProfile profile = new LangProfile(lang);
 
-        BufferedReader is = null;
-        try {
-            is = new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
-
-            int count = 0;
-            while (is.ready()) {
-                string line = is.readLine();
-        profile.update(line);
-                ++count;
-            }
-
-    System.out.println(lang + ":" + count);
-
-} catch (IOException e) {
-            throw new LangDetectException(ErrorCode.CantOpenTrainData, "Can't open training database file '" + file.getName() + "'");
-        } finally {
-            try {
-                if (is != null) is.close();
-            } catch (IOException e) {}
+            using (StreamReader _is = new StreamReader(file, System.Text.Encoding.UTF8))
+            {
+                int count = 0;
+                while (!_is.EndOfStream)
+                {
+                    string line = _is.ReadLine();
+                    profile.update(line);
+                    ++count;
+                }
+                System.Console.WriteLine(lang + ":" + count);
+            } 
+            return profile;
         }
-        return profile;
-    }
-}
-
+    } 
 }

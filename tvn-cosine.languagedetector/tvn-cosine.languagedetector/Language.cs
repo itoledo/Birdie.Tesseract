@@ -1,5 +1,5 @@
 ﻿namespace tvn_cosine.languagedetector
-{ 
+{
     /// <summary>
     /// Language} is to store the detected language.
     /// </summary>
@@ -21,7 +21,7 @@
                 return string.Empty;
             }
 
-            return string.Format("{0}:{1}", lang, prob);
+            return string.Format("{0}:{1:0.0}", lang, prob);
         }
     }
 }

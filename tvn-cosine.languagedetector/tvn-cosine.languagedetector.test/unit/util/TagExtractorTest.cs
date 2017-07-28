@@ -1,72 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using tvn_cosine.languagedetector.util;
 
 namespace tvn_cosine.languagedetector.test.unit.util
-{ 
-   [TestClass]
-    public class  TagExtractorTest
-    {   
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#TagExtractor(java.lang.String, int)}.
-         */
+{
+    [TestClass]
+    public class TagExtractorTest
+    { 
         [TestMethod]
-        public final void testTagExtractor()
+        public void testTagExtractor()
         {
             TagExtractor extractor = new TagExtractor(null, 0);
-            assertEquals(extractor.target_, null);
-            assertEquals(extractor.threshold_, 0);
+            Assert.AreEqual(extractor.target_, null);
+            Assert.AreEqual(extractor.threshold_, 0);
 
             TagExtractor extractor2 = new TagExtractor("abstract", 10);
-            assertEquals(extractor2.target_, "abstract");
-            assertEquals(extractor2.threshold_, 10);
+            Assert.AreEqual(extractor2.target_, "abstract");
+            Assert.AreEqual(extractor2.threshold_, 10);
         }
-
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#setTag(java.lang.String)}.
-         */
+         
         [TestMethod]
-        public final void testSetTag()
+        public void testSetTag()
         {
             TagExtractor extractor = new TagExtractor(null, 0);
             extractor.setTag("");
-            assertEquals(extractor.tag_, "");
+            Assert.AreEqual(extractor.tag_, "");
             extractor.setTag(null);
-            assertEquals(extractor.tag_, null);
+            Assert.AreEqual(extractor.tag_, null);
         }
-
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#add(java.lang.String)}.
-         */
+         
         [TestMethod]
-        public final void testAdd()
+        public void testAdd()
         {
             TagExtractor extractor = new TagExtractor(null, 0);
             extractor.add("");
             extractor.add(null);    // ignore
         }
-
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#closeTag(com.cybozu.labs.langdetect.util.LangProfile)}.
-         */
+         
         [TestMethod]
-        public final void testCloseTag()
+        public void testCloseTag()
         {
             TagExtractor extractor = new TagExtractor(null, 0);
             extractor.closeTag();    // ignore
         }
-
-
-        /**
-         * Scenario Test of extracting &lt;abstract&gt; tag from Wikipedia database.
-         */
+         
         [TestMethod]
-        public final void testNormalScenario()
+        public void testNormalScenario()
         {
             TagExtractor extractor = new TagExtractor("abstract", 10);
-            assertEquals(extractor.count(), 0);
+            Assert.AreEqual(extractor.count(), 0);
 
             LangProfile profile = new LangProfile("en");
 
@@ -74,41 +55,35 @@ namespace tvn_cosine.languagedetector.test.unit.util
             extractor.setTag("abstract");
             extractor.add("This is a sample text.");
             profile.update(extractor.closeTag());
-            assertEquals(extractor.count(), 1);
-            assertEquals(profile.n_words[0], 17);  // Thisisasampletext
-            assertEquals(profile.n_words[1], 22);  // _T, Th, hi, ...
-            assertEquals(profile.n_words[2], 17);  // _Th, Thi, his, ...
+            Assert.AreEqual(extractor.count(), 1);
+            Assert.AreEqual(profile.n_words[0], 17);  // Thisisasampletext
+            Assert.AreEqual(profile.n_words[1], 22);  // _T, Th, hi, ...
+            Assert.AreEqual(profile.n_words[2], 17);  // _Th, Thi, his, ...
 
             // too short
             extractor.setTag("abstract");
             extractor.add("sample");
             profile.update(extractor.closeTag());
-            assertEquals(extractor.count(), 1);
+            Assert.AreEqual(extractor.count(), 1);
 
             // other tags
             extractor.setTag("div");
             extractor.add("This is a sample text which is enough long.");
             profile.update(extractor.closeTag());
-            assertEquals(extractor.count(), 1);
+            Assert.AreEqual(extractor.count(), 1);
         }
-
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.util.TagExtractor#clear()}.
-         */
+         
         [TestMethod]
-        public final void testClear()
+        public void testClear()
         {
             TagExtractor extractor = new TagExtractor("abstract", 10);
             extractor.setTag("abstract");
             extractor.add("This is a sample text.");
-            assertEquals(extractor.buf_.toString(), "This is a sample text.");
-            assertEquals(extractor.tag_, "abstract");
+            Assert.AreEqual(extractor.buf_.ToString(), "This is a sample text.");
+            Assert.AreEqual(extractor.tag_, "abstract");
             extractor.clear();
-            assertEquals(extractor.buf_.toString(), "");
-            assertEquals(extractor.tag_, null);
-        }
-
-
-    }
-
+            Assert.AreEqual(extractor.buf_.ToString(), "");
+            Assert.AreEqual(extractor.tag_, null);
+        } 
+    } 
 }

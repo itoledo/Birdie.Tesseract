@@ -1,52 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting; 
 
 namespace tvn_cosine.languagedetector.test.unit
 {
-    /**
-     * @author Nakatani Shuyo
-     *
-     */
-   [TestClass] public class  LanguageTest
-    {
-
-        /**
-         * @throws java.lang.Exception
-         */
-        @Before
-        public void setUp() throws Exception
-        {
-        }
-
-        /**
-         * @throws java.lang.Exception
-         */
-        @After
-        public void tearDown() throws Exception
-        {
-        }
-
-        /**
-         * Test method for {@link com.cybozu.labs.langdetect.Language#Language(java.lang.String, double)}.
-         */
+    [TestClass]
+    public class LanguageTest
+    { 
         [TestMethod]
-        public final void testLanguage()
+        public void testLanguage()
         {
             Language lang = new Language(null, 0);
-            assertEquals(lang.lang, null);
-            assertEquals(lang.prob, 0.0, 0.0001);
-            assertEquals(lang.toString(), "");
+            Assert.AreEqual(lang.lang, null);
+            Assert.AreEqual(lang.prob, 0.0, 0.0001);
+            Assert.AreEqual(lang.ToString(), "");
 
             Language lang2 = new Language("en", 1.0);
-            assertEquals(lang2.lang, "en");
-            assertEquals(lang2.prob, 1.0, 0.0001);
-            assertEquals(lang2.toString(), "en:1.0");
-
-        }
-
-    }
-
+            Assert.AreEqual(lang2.lang, "en");
+            Assert.AreEqual(lang2.prob, 1.0, 0.0001);
+            Assert.AreEqual(lang2.ToString(), "en:1,0"); 
+        } 
+    } 
 }
