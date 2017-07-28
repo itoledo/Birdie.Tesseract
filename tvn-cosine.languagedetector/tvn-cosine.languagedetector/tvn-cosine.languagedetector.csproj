@@ -71,106 +71,306 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <None Include="profiles.sm\ar" />
-    <None Include="profiles.sm\bg" />
-    <None Include="profiles.sm\bn" />
-    <None Include="profiles.sm\ca" />
-    <None Include="profiles.sm\cs" />
-    <None Include="profiles.sm\da" />
-    <None Include="profiles.sm\de" />
-    <None Include="profiles.sm\el" />
-    <None Include="profiles.sm\en" />
-    <None Include="profiles.sm\es" />
-    <None Include="profiles.sm\et" />
-    <None Include="profiles.sm\fa" />
-    <None Include="profiles.sm\fi" />
-    <None Include="profiles.sm\fr" />
-    <None Include="profiles.sm\gu" />
-    <None Include="profiles.sm\he" />
-    <None Include="profiles.sm\hi" />
-    <None Include="profiles.sm\hr" />
-    <None Include="profiles.sm\hu" />
-    <None Include="profiles.sm\id" />
-    <None Include="profiles.sm\it" />
-    <None Include="profiles.sm\ja" />
-    <None Include="profiles.sm\ko" />
-    <None Include="profiles.sm\lt" />
-    <None Include="profiles.sm\lv" />
-    <None Include="profiles.sm\mk" />
-    <None Include="profiles.sm\ml" />
-    <None Include="profiles.sm\nl" />
-    <None Include="profiles.sm\no" />
-    <None Include="profiles.sm\pa" />
-    <None Include="profiles.sm\pl" />
-    <None Include="profiles.sm\pt" />
-    <None Include="profiles.sm\ro" />
-    <None Include="profiles.sm\ru" />
-    <None Include="profiles.sm\si" />
-    <None Include="profiles.sm\sq" />
-    <None Include="profiles.sm\sv" />
-    <None Include="profiles.sm\ta" />
-    <None Include="profiles.sm\te" />
-    <None Include="profiles.sm\th" />
-    <None Include="profiles.sm\tl" />
-    <None Include="profiles.sm\tr" />
-    <None Include="profiles.sm\uk" />
-    <None Include="profiles.sm\ur" />
-    <None Include="profiles.sm\vi" />
-    <None Include="profiles.sm\zh-cn" />
-    <None Include="profiles.sm\zh-tw" />
-    <None Include="profiles\af" />
-    <None Include="profiles\ar" />
-    <None Include="profiles\bg" />
-    <None Include="profiles\bn" />
-    <None Include="profiles\cs" />
-    <None Include="profiles\da" />
-    <None Include="profiles\de" />
-    <None Include="profiles\el" />
-    <None Include="profiles\en" />
-    <None Include="profiles\es" />
-    <None Include="profiles\et" />
-    <None Include="profiles\fa" />
-    <None Include="profiles\fi" />
-    <None Include="profiles\fr" />
-    <None Include="profiles\gu" />
-    <None Include="profiles\he" />
-    <None Include="profiles\hi" />
-    <None Include="profiles\hr" />
-    <None Include="profiles\hu" />
-    <None Include="profiles\id" />
-    <None Include="profiles\it" />
-    <None Include="profiles\ja" />
-    <None Include="profiles\kn" />
-    <None Include="profiles\ko" />
-    <None Include="profiles\lt" />
-    <None Include="profiles\lv" />
-    <None Include="profiles\mk" />
-    <None Include="profiles\ml" />
-    <None Include="profiles\mr" />
-    <None Include="profiles\ne" />
-    <None Include="profiles\nl" />
-    <None Include="profiles\no" />
-    <None Include="profiles\pa" />
-    <None Include="profiles\pl" />
-    <None Include="profiles\pt" />
-    <None Include="profiles\ro" />
-    <None Include="profiles\ru" />
-    <None Include="profiles\sk" />
-    <None Include="profiles\sl" />
-    <None Include="profiles\so" />
-    <None Include="profiles\sq" />
-    <None Include="profiles\sv" />
-    <None Include="profiles\sw" />
-    <None Include="profiles\ta" />
-    <None Include="profiles\te" />
-    <None Include="profiles\th" />
-    <None Include="profiles\tl" />
-    <None Include="profiles\tr" />
-    <None Include="profiles\uk" />
-    <None Include="profiles\ur" />
-    <None Include="profiles\vi" />
-    <None Include="profiles\zh-cn" />
-    <None Include="profiles\zh-tw" />
+    <None Include="profiles.sm\ar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\bg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\bn">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\ca">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\da">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\de">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\el">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\en">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\es">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\et">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\fa">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\fi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\fr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\gu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\he">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\hi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\hr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\hu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\id">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\it">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\ja">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\ko">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\lt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\lv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\mk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\ml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\nl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\no">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\pa">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\pl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\pt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\ro">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\ru">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\si">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\sq">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\sv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\ta">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\te">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\th">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\tl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\tr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\uk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\ur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\vi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\zh-cn">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles.sm\zh-tw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\af">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\ar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\bg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\bn">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\da">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\de">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\el">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\en">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\es">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\et">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\fa">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\fi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\fr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\gu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\he">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\hi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\hr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\hu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\id">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\it">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\ja">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\kn">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\ko">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\lt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\lv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\mk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\ml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\mr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\ne">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\nl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\no">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\pa">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\pl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\pt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\ro">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\ru">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\sk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\sl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\so">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\sq">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\sv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\sw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\ta">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\te">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\th">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\tl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\tr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\uk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\ur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\vi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\zh-cn">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="profiles\zh-tw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
