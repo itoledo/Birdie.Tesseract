@@ -16,9 +16,9 @@ namespace tvn_cosine.languagedetector.demo
         static void Main(string[] args)
         {
             DetectorFactory.loadProfile("./profiles/");
-            Detector detector = DetectorFactory.create();
             foreach (string input in inputTexts)
             {
+                Detector detector = DetectorFactory.create();
                 detector.append(input);
                 Console.WriteLine("Lang: {0}", detector.detect());
                 foreach (var prob in detector.getProbabilities())
