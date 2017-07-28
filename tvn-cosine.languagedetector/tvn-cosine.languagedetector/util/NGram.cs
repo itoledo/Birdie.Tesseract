@@ -136,26 +136,29 @@ namespace tvn_cosine.languagedetector.util
             return ch;
         }
 
-        /*  /// <summary>
-          /// Normalizer for Vietnamese.
-          /// Normalize Alphabet + Diacritical Mark(U+03xx) into U+1Exx .
-          /// </summary>
-          /// <param name="text"></param>
-          /// <returns>normalized text</returns>
-          public static string normalize_vi(string text)
-          {
-              Matcher m = ALPHABET_WITH_DMARK.matcher(text);
-              StringBuffer buf = new StringBuffer();
-              while (m.find()) {
-                  int alphabet = TO_NORMALIZE_VI_CHARS.indexOf(m.group(1));
-                  int dmark = DMARK_CLASS.indexOf(m.group(2)); // Diacritical Mark
-                  m.appendReplacement(buf, NORMALIZED_VI_CHARS[dmark].substring(alphabet, alphabet + 1));
-              }
-              if (buf.length() == 0)
-                  return text;
-              m.appendTail(buf);
-              return buf.toString();
-          } */
+        /// <summary>
+        /// Normalizer for Vietnamese.
+        /// Normalize Alphabet + Diacritical Mark(U+03xx) into U+1Exx .
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns>normalized text</returns>
+        public static string normalize_vi(string text)
+        {
+            //Matcher m = ALPHABET_WITH_DMARK.matcher(text);
+            //StringBuffer buf = new StringBuffer();
+            //while (m.find())
+            //{
+            //    int alphabet = TO_NORMALIZE_VI_CHARS.indexOf(m.group(1));
+            //    int dmark = DMARK_CLASS.indexOf(m.group(2)); // Diacritical Mark
+            //    m.appendReplacement(buf, NORMALIZED_VI_CHARS[dmark].substring(alphabet, alphabet + 1));
+            //}
+            //if (buf.length() == 0)
+            //    return text;
+            //m.appendTail(buf);
+            //return buf.toString();
+
+            return text;
+        }
 
         private static readonly string[]
             NORMALIZED_VI_CHARS = { Messages.getString("NORMALIZED_VI_CHARS_0300"),
@@ -298,7 +301,7 @@ namespace tvn_cosine.languagedetector.util
                           Messages.getString("NGram.KANJI_7_35"),
                           Messages.getString("NGram.KANJI_7_37") };
 
-         static NGram()
+        static NGram()
         {
             cjk_map = new Dictionary<char, char>();
             foreach (string cjk_list in CJK_CLASS)

@@ -29,7 +29,7 @@ namespace tvn_cosine.languagedetector.test.unit.util
             Assert.AreEqual(NGram.normalize('\u007b'), ' ');
             Assert.AreEqual(NGram.normalize('\u007f'), ' ');
             Assert.AreEqual(NGram.normalize('\u0080'), '\u0080');
-            //  Assert.AreEqual(NGram.normalize('\u00a0'), ' ');
+            Assert.AreEqual(NGram.normalize('\u00a0'), ' ');
             Assert.AreEqual(NGram.normalize('\u00a1'), '\u00a1');
         }
 
@@ -39,7 +39,7 @@ namespace tvn_cosine.languagedetector.test.unit.util
             Assert.AreEqual(NGram.normalize('\u4E00'), '\u4E00');
             Assert.AreEqual(NGram.normalize('\u4E01'), '\u4E01');
             Assert.AreEqual(NGram.normalize('\u4E02'), '\u4E02');
-            //  Assert.AreEqual(NGram.normalize('\u4E03'), '\u4E01');
+            Assert.AreEqual(NGram.normalize('\u4E03'), '\u4E01');
             Assert.AreEqual(NGram.normalize('\u4E04'), '\u4E04');
             Assert.AreEqual(NGram.normalize('\u4E05'), '\u4E05');
             Assert.AreEqual(NGram.normalize('\u4E06'), '\u4E06');
@@ -58,8 +58,8 @@ namespace tvn_cosine.languagedetector.test.unit.util
             Assert.AreEqual(NGram.normalize('\u4E21'), '\u4E21');
             Assert.AreEqual(NGram.normalize('\u4E22'), '\u4E22');
             Assert.AreEqual(NGram.normalize('\u4E23'), '\u4E23');
-            //   Assert.AreEqual(NGram.normalize('\u4E24'), '\u4E13');
-            //  Assert.AreEqual(NGram.normalize('\u4E25'), '\u4E13');
+             Assert.AreEqual(NGram.normalize('\u4E24'), '\u4E13');
+            Assert.AreEqual(NGram.normalize('\u4E25'), '\u4E13');
             Assert.AreEqual(NGram.normalize('\u4E30'), '\u4E30');
         }
 
@@ -148,7 +148,7 @@ namespace tvn_cosine.languagedetector.test.unit.util
 
         }
 
-        /*  [TestMethod]
+          [TestMethod]
           public void testNormalizeVietnamese()
           {
               Assert.AreEqual(NGram.normalize_vi(""), "");
@@ -281,7 +281,6 @@ namespace tvn_cosine.languagedetector.test.unit.util
               Assert.AreEqual(NGram.normalize_vi("\u01AF\u0323"), "\u1EF0");
               Assert.AreEqual(NGram.normalize_vi("\u01B0\u0323"), "\u1EF1");
 
-          }
-          */
+          } 
     }
 }
