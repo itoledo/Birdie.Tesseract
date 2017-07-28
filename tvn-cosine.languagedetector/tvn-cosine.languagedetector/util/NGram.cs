@@ -144,18 +144,25 @@ namespace tvn_cosine.languagedetector.util
         /// <returns>normalized text</returns>
         public static string normalize_vi(string text)
         {
-            //Matcher m = ALPHABET_WITH_DMARK.matcher(text);
-            //StringBuffer buf = new StringBuffer();
-            //while (m.find())
-            //{
-            //    int alphabet = TO_NORMALIZE_VI_CHARS.indexOf(m.group(1));
-            //    int dmark = DMARK_CLASS.indexOf(m.group(2)); // Diacritical Mark
-            //    m.appendReplacement(buf, NORMALIZED_VI_CHARS[dmark].substring(alphabet, alphabet + 1));
-            //}
-            //if (buf.length() == 0)
-            //    return text;
-            //m.appendTail(buf);
-            //return buf.toString();
+            MatchCollection matcher = ALPHABET_WITH_DMARK.Matches(text);
+            StringBuilder sb = new StringBuilder();
+            int last = 0;
+            foreach (Match m in matcher)
+            {
+                string match = m.Groups[0].Value;
+                if (match.Trim().Length > 0)
+                {
+                    int alphabet = TO_NORMALIZE_VI_CHARS.IndexOf(m.Groups[1].Value[0]);
+                     
+                    int dmark = DMARK_CLASS.IndexOf(m.Groups[2].Value[0]); // Diacritical Mark
+
+                    sb.Append(text.Substring(last, m.Index - last));
+                    sb.Append(m.Result(NORMALIZED_VI_CHARS[dmark].Substring(alphabet, 1)));
+                }
+                last = m.Index + m.Length;
+            }
+            sb.Append(text.Substring(last));
+            text = sb.ToString(); 
 
             return text;
         }

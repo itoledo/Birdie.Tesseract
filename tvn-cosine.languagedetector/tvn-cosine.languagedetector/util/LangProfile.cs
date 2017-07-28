@@ -97,7 +97,7 @@ namespace tvn_cosine.languagedetector.util
                 return;
             }
 
-            // text = NGram.normalize_vi(text);
+           text = NGram.normalize_vi(text);
             NGram gram = new NGram();
             for (int i = 0; i < text.Length; ++i)
             {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace tvn_cosine.languagedetector.util
 {
@@ -21,7 +22,7 @@ namespace tvn_cosine.languagedetector.util
             properties = new Dictionary<string, string>();
 
             using (StreamReader sr = new StreamReader("messages.properties"))
-            {
+            { 
                 string line = string.Empty;
                 while (!sr.EndOfStream)
                 {
@@ -32,7 +33,7 @@ namespace tvn_cosine.languagedetector.util
                      && split[0].Length > 0
                      && split[1].Length > 0)
                     {
-                        properties[split[0]] = split[1];
+                        properties[split[0]] = Regex.Unescape(split[1]);
                     }
                 }
             }

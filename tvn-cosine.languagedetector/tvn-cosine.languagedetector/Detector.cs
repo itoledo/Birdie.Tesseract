@@ -150,7 +150,7 @@ namespace tvn_cosine.languagedetector
         {
             text = URL_REGEX.Replace(text, " ");
             text = MAIL_REGEX.Replace(text, " ");
-            // text = NGram.normalize_vi(text);
+             text = NGram.normalize_vi(text);
             char? pre = null;
             for (int i = 0; i < text.Length && i < max_text_length; ++i)
             {
