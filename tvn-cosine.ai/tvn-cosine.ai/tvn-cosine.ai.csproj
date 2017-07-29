@@ -53,7 +53,7 @@
     <Compile Include="agent\api\IEnvironmentState.cs" />
     <Compile Include="agent\api\IEnvironmentView.cs" />
     <Compile Include="agent\api\IEnvironmentViewNotifier.cs" />
-    <Compile Include="agent\AgentBase.cs" />
+    <Compile Include="agent\DynamicAgent.cs" />
     <Compile Include="agent\EnvironmentBase.cs" />
     <Compile Include="agent\agentprogram\ModelBasedReflexAgentProgram.cs" />
     <Compile Include="agent\agentprogram\SimpleReflexAgentProgram.cs" />

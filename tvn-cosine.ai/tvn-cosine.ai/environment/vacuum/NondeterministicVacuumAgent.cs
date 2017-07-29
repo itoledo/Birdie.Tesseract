@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.environment.vacuum
      * 
      * @author Andrew Brown
      */
-    public class NondeterministicVacuumAgent : AgentBase
+    public class NondeterministicVacuumAgent : DynamicAgent
     {
         private NondeterministicProblem<object, IAction> problem;
         private Function<IPercept, object> ptsFunction;

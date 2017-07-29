@@ -29,7 +29,7 @@ namespace tvn.cosine.ai.logic.propositional.agent
      * 
      * @author Ciaran O'Reilly
      */
-    public abstract class KBAgent : AgentBase
+    public abstract class KBAgent : DynamicAgent
     {
         // persistent: KB, a knowledge base
         protected KnowledgeBase KB;

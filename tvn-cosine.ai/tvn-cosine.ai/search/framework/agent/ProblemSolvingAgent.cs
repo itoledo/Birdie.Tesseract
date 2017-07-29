@@ -44,7 +44,7 @@ namespace tvn.cosine.ai.search.framework.agent
     /// </summary>
     /// <typeparam name="S">The type used to represent states</typeparam>
     /// <typeparam name="A">The type of the actions to be used to navigate through the state space</typeparam>
-    public abstract class ProblemSolvingAgent<S, A> : AgentBase
+    public abstract class ProblemSolvingAgent<S, A> : DynamicAgent
         where A : IAction
     {
 

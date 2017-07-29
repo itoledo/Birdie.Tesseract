@@ -4,12 +4,11 @@ using tvn.cosine.ai.agent;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.collections;
 
-namespace tvn_cosine.ai.test.unit.agent.impl
+namespace tvn_cosine.ai.test.unit.agent
 {
     [TestClass]
     public class PerceptSequenceTest
-    {
-
+    { 
         [TestMethod]
         public void testToString()
         {

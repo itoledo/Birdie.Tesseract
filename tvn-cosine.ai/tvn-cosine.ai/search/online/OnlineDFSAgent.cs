@@ -42,7 +42,7 @@ namespace tvn.cosine.ai.search.online
      * @author Ruediger Lunde
      * 
      */
-    public class OnlineDFSAgent<S, A> : AgentBase
+    public class OnlineDFSAgent<S, A> : DynamicAgent
         where A : IAction
     { 
         private IOnlineSearchProblem<S, A> problem;

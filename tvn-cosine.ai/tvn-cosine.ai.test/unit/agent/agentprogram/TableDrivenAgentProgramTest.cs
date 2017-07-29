@@ -5,17 +5,16 @@ using tvn.cosine.ai.agent.agentprogram;
 using tvn.cosine.ai.common.collections.api;
 using tvn.cosine.ai.common.collections;
 
-namespace tvn_cosine.ai.test.unit.agent.impl.aprog
+namespace tvn_cosine.ai.test.unit.agent.agentprogram
 {
     [TestClass]
     public class TableDrivenAgentProgramTest
-    {
-
+    { 
         private static readonly IAction ACTION_1 = new DynamicAction("action1");
         private static readonly IAction ACTION_2 = new DynamicAction("action2");
         private static readonly IAction ACTION_3 = new DynamicAction("action3");
 
-        private AgentBase agent;
+        private DynamicAgent agent;
 
         [TestInitialize]
         public void setUp()
@@ -31,7 +30,7 @@ namespace tvn_cosine.ai.test.unit.agent.impl.aprog
                 new DynamicPercept("key1", "value2"),
                 new DynamicPercept("key1", "value3")), ACTION_3);
 
-            agent = new MockAgent(new TableDrivenAgentProgram(perceptSequenceActions));
+            agent = new DynamicAgent(new TableDrivenAgentProgram(perceptSequenceActions));
         }
 
         [TestMethod]
@@ -50,7 +49,7 @@ namespace tvn_cosine.ai.test.unit.agent.impl.aprog
         {
             Assert.AreEqual(ACTION_1,
                     agent.Execute(new DynamicPercept("key1", "value1")));
-            Assert.AreEqual(DynamicAction.NO_OP,
+            Assert.AreEqual(tvn.cosine.ai.agent.DynamicAction.NO_OP,
                     agent.Execute(new DynamicPercept("key1", "value3")));
         }
 

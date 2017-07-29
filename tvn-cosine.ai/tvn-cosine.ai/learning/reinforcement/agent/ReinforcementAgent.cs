@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.learning.reinforcement.agent
      * @param <A>
      *            the action type. 
      */
-    public abstract class ReinforcementAgent<S, A> : AgentBase
+    public abstract class ReinforcementAgent<S, A> : DynamicAgent
         where A : IAction
     {
 

@@ -1,15 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting; 
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.agent;
+using tvn.cosine.ai.agent.api;
 
-namespace tvn_cosine.ai.test.unit.agent.impl
+namespace tvn_cosine.ai.test.unit.agent
 {
     [TestClass]
     public class DynamicPerceptTest
-    { 
+    {
         [TestMethod]
         public void testToString()
         {
             DynamicPercept p = new DynamicPercept("key1", "value1");
+
+            Assert.IsInstanceOfType(p, typeof(IPercept));
+
 
             Assert.AreEqual("Percept[key1==value1]", p.ToString());
 
@@ -35,5 +39,4 @@ namespace tvn_cosine.ai.test.unit.agent.impl
             Assert.AreEqual(p1, p2);
         }
     }
-
 }

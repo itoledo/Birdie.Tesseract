@@ -1,19 +1,18 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.util;
 
-namespace tvn.cosine.ai.agent 
-{ 
+namespace tvn.cosine.ai.agent
+{
     public class DynamicAction : ObjectWithDynamicAttributes, IAction
     {
-        public static readonly DynamicAction NO_OP = new DynamicAction("NoOp", true);
-
         public const string ATTRIBUTE_NAME = "name";
+        public const string TYPE = "Action";
+
         private readonly bool isNoOp;
-         
+
         public DynamicAction(string name)
-        {
-            this.SetAttribute(ATTRIBUTE_NAME, name);
-        }
+            : this(name, false)
+        { }
 
         public DynamicAction(string name, bool isNoOp)
         {
@@ -25,19 +24,21 @@ namespace tvn.cosine.ai.agent
         /// Returns the value of the name attribute.
         /// </summary>
         /// <returns></returns>
-        public virtual string getName()
+        public virtual string GetName()
         {
             return (string)GetAttribute(ATTRIBUTE_NAME);
         }
-         
+
         public virtual bool IsNoOp()
         {
             return isNoOp;
         }
-         
+
         public override string DescribeType()
         {
-            return "Action";
+            return TYPE;
         }
+
+        public static readonly DynamicAction NO_OP = new DynamicAction("NoOp", true);
     }
 }

@@ -2,19 +2,19 @@
 
 namespace tvn.cosine.ai.agent
 {
-    public abstract class AgentBase : IAgent
+    public class DynamicAgent : IAgent
     {
-        protected IAgentProgram program;
+        protected readonly IAgentProgram program;
         private bool alive = true;
 
-        public AgentBase()
+        public DynamicAgent()
         { }
 
         /// <summary>
         /// Constructs an Agent with the specified AgentProgram.
         /// </summary>
         /// <param name="aProgram">the Agent's program, which maps any given percept sequences to an action.</param>
-        public AgentBase(IAgentProgram aProgram)
+        public DynamicAgent(IAgentProgram aProgram)
         {
             program = aProgram;
         }

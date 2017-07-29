@@ -71,7 +71,7 @@ namespace tvn.cosine.ai.environment.wumpusworld
      * @author Ciaran O'Reilly
      * @author Ruediger Lunde
      */
-    public class HybridWumpusAgent : AgentBase
+    public class HybridWumpusAgent : DynamicAgent
     {
         // persistent: KB, a knowledge base, initially the atemporal
         // "wumpus physics"

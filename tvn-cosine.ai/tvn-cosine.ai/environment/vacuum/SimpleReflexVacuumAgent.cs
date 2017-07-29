@@ -6,7 +6,7 @@ using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.environment.vacuum
 {
-    public class SimpleReflexVacuumAgent : AgentBase
+    public class SimpleReflexVacuumAgent : DynamicAgent
     { 
         public SimpleReflexVacuumAgent()
             : base(new SimpleReflexAgentProgram(getRuleSet()))

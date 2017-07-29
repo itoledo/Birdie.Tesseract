@@ -3,14 +3,13 @@ using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.agentprogram.simplerule;
 
-namespace tvn_cosine.ai.test.unit.agent.impl.aprog.simplerule
+namespace tvn_cosine.ai.test.unit.agent.agentprogram.simplerule
 {
     [TestClass]
     public class RuleTest
-    {
-
-        private static readonly IAction ACTION_INITIATE_BRAKING = new DynamicAction("initiate-braking");
-        private static readonly IAction ACTION_EMERGENCY_BRAKING = new DynamicAction("emergency-braking");
+    { 
+        private static readonly IAction ACTION_INITIATE_BRAKING = new tvn.cosine.ai.agent.DynamicAction("initiate-braking");
+        private static readonly IAction ACTION_EMERGENCY_BRAKING = new tvn.cosine.ai.agent.DynamicAction("emergency-braking");
         //
         private const string ATTRIBUTE_CAR_IN_FRONT_IS_BRAKING = "car-in-front-is-braking";
         private const string ATTRIBUTE_CAR_IN_FRONT_IS_INDICATING = "car-in-front-is-indicating";

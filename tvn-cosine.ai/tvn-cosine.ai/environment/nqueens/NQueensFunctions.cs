@@ -103,11 +103,11 @@ namespace tvn.cosine.ai.environment.nqueens
             {
                 NQueensBoard result = new NQueensBoard(state.getSize());
                 result.setQueensAt(state.getQueenPositions());
-                if (action.getName().Equals(QueenAction.PLACE_QUEEN))
+                if (action.GetName().Equals(QueenAction.PLACE_QUEEN))
                     result.addQueenAt(action.getLocation());
-                else if (action.getName().Equals(QueenAction.REMOVE_QUEEN))
+                else if (action.GetName().Equals(QueenAction.REMOVE_QUEEN))
                     result.removeQueenFrom(action.getLocation());
-                else if (action.getName().Equals(QueenAction.MOVE_QUEEN))
+                else if (action.GetName().Equals(QueenAction.MOVE_QUEEN))
                     result.moveQueenTo(action.getLocation());
                 // if action is not understood or is a NoOp
                 // the result will be the current state.
