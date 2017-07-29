@@ -52,5 +52,25 @@
         /// </summary>
         /// <returns>A double-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
         double NextDouble();
+
+        /// <summary>
+        /// Generates normally distributed numbers.  
+        /// </summary> 
+        /// <param name = "mu">Mean of the distribution</param>
+        /// <param name = "sigma">Standard deviation</param>
+        /// <returns>A normally distributed number</returns>
+        double NextGaussian(double mu, double sigma);
+
+        /// <summary>
+        /// Generates values from a traingular distrubution
+        /// </summary>
+        /// <remarks>
+        /// See http://en.wikipedia.org/wiki/Triangular_distribution for a description of the triangular probability distribution and the algorithm for generating one.
+        /// </remarks>
+        /// <param name="minimum"></param>
+        /// <param name="maximum"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        double NextTraingular(double minimum, double maximum, double mode);
     }
 }

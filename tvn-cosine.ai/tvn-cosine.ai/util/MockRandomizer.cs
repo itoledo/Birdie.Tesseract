@@ -51,6 +51,16 @@ namespace tvn.cosine.ai.util
         public int Next(int maximumValue)
         {
             throw new NotImplementedException();
-        } 
+        }
+
+        public double NextGaussian(double mu, double sigma)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public double NextTraingular(double minimum, double maximum, double mode)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -43,6 +43,16 @@ namespace tvn.cosine.ai.common
             }
 
             return values[index++];
-        } 
+        }
+
+        public double NextGaussian(double mu, double sigma)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public double NextTraingular(double minimum, double maximum, double mode)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
