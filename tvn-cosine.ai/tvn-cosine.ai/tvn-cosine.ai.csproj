@@ -632,6 +632,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="CreateNuGetPackage.ps1" />
     <None Include="data\DataResource.class">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -653,6 +654,7 @@
     <None Include="data\zoo.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="tvn-cosine.ai.nuspec" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

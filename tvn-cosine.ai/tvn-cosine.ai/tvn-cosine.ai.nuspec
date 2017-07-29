@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ai.net</id>
+    <title>ai.net</title>
+    <version>$version$</version>
+    <authors>tvn-cosine</authors>
+    <owners>tvn-cosine</owners>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/tvn-cosine/tvn-cosine/wiki/tvn-cosine.ai</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>a .net implementation of aima.</description>
+    <summary>a .net implementation of aima.</summary>
+    <releaseNotes>a .net implementation of aima.</releaseNotes>
+    <copyright>Copyright © tvn-cosine 2017</copyright>
+    <tags>ai artificial intelligence neural boosting search</tags>
+    <dependencies />
+  </metadata> 
+</package>
