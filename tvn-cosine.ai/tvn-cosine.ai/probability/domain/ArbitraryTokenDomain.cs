@@ -3,16 +3,14 @@ using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.probability.domain
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 486.
-     * 
-     * As in CSPs, domains can be sets of arbitrary tokens; we might choose the
-     * domain of <i>Age</i> to be {<i>juvenile,teen,adult</i>} and the domain of
-     * <i>Weather</i> might be {<i>sunny,rain,cloudy,snow</i>}.
-     * 
-     * @author Ciaran O'Reilly
-     */
-    public class ArbitraryTokenDomain : AbstractFiniteDomain
+    /// <summary>
+    /// Artificial Intelligence A Modern Approach (3rd Edition): page 486.
+    /// <para />
+    /// As in CSPs, domains can be sets of arbitrary tokens; we might choose the
+    /// domain of Age to be {juvenile,teen,adult} and the domain of
+    /// Weather might be {sunny,rain,cloudy,snow}.
+    /// </summary>
+    public class ArbitraryTokenDomain : AbstractFiniteDomain<object>
     {
         private ISet<object> possibleValues = null;
         private bool ordered = false;

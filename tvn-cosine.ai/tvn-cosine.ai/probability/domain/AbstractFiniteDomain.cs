@@ -5,11 +5,11 @@ using tvn.cosine.ai.probability.domain.api;
 
 namespace tvn.cosine.ai.probability.domain
 {
-    public abstract class AbstractFiniteDomain : IFiniteDomain
+    public abstract class AbstractFiniteDomain<T> : IFiniteDomain
     {
         private string toString = null;
-        private IMap<object, int> valueToIdx = CollectionFactory.CreateInsertionOrderedMap<object, int>();
-        private IMap<int, object> idxToValue = CollectionFactory.CreateInsertionOrderedMap<int, object>();
+        private IMap<T, int> valueToIdx = CollectionFactory.CreateInsertionOrderedMap<T, int>();
+        private IMap<int, T> idxToValue = CollectionFactory.CreateInsertionOrderedMap<int, T>();
 
         public AbstractFiniteDomain()
         { }
@@ -30,11 +30,11 @@ namespace tvn.cosine.ai.probability.domain
          
         public virtual int GetOffset(object value)
         {
-            if (!valueToIdx.ContainsKey(value))
+            if (!valueToIdx.ContainsKey((T)value))
             {
                 throw new IllegalArgumentException("Value [" + value + "] is not a possible value of this domain.");
             }
-            return valueToIdx.Get(value);
+            return valueToIdx.Get((T)value);
         }
          
         public virtual object GetValueAt(int offset)
@@ -51,10 +51,10 @@ namespace tvn.cosine.ai.probability.domain
             return toString;
         }
 
-        protected virtual void indexPossibleValues<T>(ISet<T> possibleValues)
+        protected virtual void indexPossibleValues(ISet<T> possibleValues)
         {
             int idx = 0;
-            foreach (object value in possibleValues)
+            foreach (T value in possibleValues)
             {
                 valueToIdx.Put(value, idx);
                 idxToValue.Put(idx, value);

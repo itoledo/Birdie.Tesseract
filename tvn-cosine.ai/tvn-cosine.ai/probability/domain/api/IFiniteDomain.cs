@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.probability.domain.api
-{
+{ 
     /// <summary>
     /// A Domain over a countable/discrete and finite set of objects.
     /// </summary>
@@ -22,7 +22,7 @@ namespace tvn.cosine.ai.probability.domain.api
         /// <returns>an offset (starting from 0) into the consistent order of the set of possible values.</returns>
         /// <exception cref="common.exceptions.IllegalArgumentException" />
         int GetOffset(object value);
-         
+
         /// <summary>
         /// Return the object at the specified offset in this domains consistent
         /// ordered set of values. null if the offset does not index the
@@ -35,5 +35,5 @@ namespace tvn.cosine.ai.probability.domain.api
         /// domain correctly.
         /// </returns>
         object GetValueAt(int offset);
-    } 
+    }
 }

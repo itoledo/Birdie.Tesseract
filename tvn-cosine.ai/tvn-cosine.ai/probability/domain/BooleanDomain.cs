@@ -3,14 +3,12 @@ using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.probability.domain
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 486.
-     * 
-     * A Boolean random variable has the domain {true,false}.
-     * 
-     * @author Ciaran O'Reilly.
-     */
-    public class BooleanDomain : AbstractFiniteDomain
+    /// <summary>
+    /// Artificial Intelligence A Modern Approach (3rd Edition): page 486.
+    /// <para />
+    /// A Boolean random variable has the domain {true,false}.
+    /// </summary>
+    public class BooleanDomain : AbstractFiniteDomain<bool>
     {
         private static ISet<bool> _possibleValues;
         static BooleanDomain()
@@ -32,8 +30,7 @@ namespace tvn.cosine.ai.probability.domain
         {
             return 2;
         }
-
-
+         
         public override bool IsOrdered()
         {
             return false;

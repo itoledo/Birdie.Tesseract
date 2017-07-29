@@ -3,7 +3,7 @@ using tvn.cosine.ai.common.collections.api;
 
 namespace tvn.cosine.ai.probability.domain
 {
-    public class FiniteIntegerDomain : AbstractFiniteDomain
+    public class FiniteIntegerDomain : AbstractFiniteDomain<int>
     {
         private ISet<int> possibleValues;
 
@@ -25,8 +25,7 @@ namespace tvn.cosine.ai.probability.domain
         {
             return possibleValues.Size();
         }
-
-
+         
         public override bool IsOrdered()
         {
             return true;
@@ -58,8 +57,7 @@ namespace tvn.cosine.ai.probability.domain
 
             return this.possibleValues.Equals(other.possibleValues);
         }
-
-
+         
         public override int GetHashCode()
         {
             return possibleValues.GetHashCode();
