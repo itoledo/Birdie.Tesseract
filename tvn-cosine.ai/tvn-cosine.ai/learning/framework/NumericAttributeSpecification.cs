@@ -1,4 +1,4 @@
-﻿using :tvn.cosine.text;
+﻿using tvn.cosine.text;
 using tvn.cosine.ai.learning.framework.api;
 
 namespace tvn.cosine.ai.learning.framework
@@ -25,7 +25,7 @@ namespace tvn.cosine.ai.learning.framework
 
         public IAttribute CreateAttribute(string rawValue)
         {
-            return new NumericAttribute(double.Parse(rawValue, NumberStyles.Any, CultureInfo.InvariantCulture), this);
+            return new NumericAttribute(TextFactory.ParseDouble(rawValue), this);
         }
     }
 }

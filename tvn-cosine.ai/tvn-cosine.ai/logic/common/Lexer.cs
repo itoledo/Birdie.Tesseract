@@ -1,4 +1,5 @@
 ﻿using tvn.cosine.exceptions;
+using tvn.cosine.io;
 
 namespace tvn.cosine.ai.logic.common
 {
@@ -18,7 +19,7 @@ namespace tvn.cosine.ai.logic.common
         //
         private const int END_OF_INPUT = -1;
         //
-        private System.IO.TextReader input;
+        private TextReader input;
         private int[] lookAheadBuffer;
         private int currentPositionInInput;
 
@@ -31,7 +32,7 @@ namespace tvn.cosine.ai.logic.common
          */
         public void setInput(string inputString)
         {
-            setInput(new System.IO.StringReader(inputString));
+            setInput(new StringReader(inputString));
         }
 
         /**
@@ -41,7 +42,7 @@ namespace tvn.cosine.ai.logic.common
          *            a reader on a sequence of characters to be converted into a
          *            sequence of tokens.
          */
-        public void setInput(System.IO.TextReader inputReader)
+        public void setInput(TextReader inputReader)
         {
             input = inputReader;
             lookAheadBuffer = new int[lookAheadBufferSize];

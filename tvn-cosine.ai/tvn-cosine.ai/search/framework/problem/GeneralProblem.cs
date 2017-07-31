@@ -1,5 +1,4 @@
-﻿using System;
-using tvn.cosine.collections.api;
+﻿using tvn.cosine.collections.api;
 using tvn.cosine.ai.search.framework.problem.api;
 
 namespace tvn.cosine.ai.search.framework.problem

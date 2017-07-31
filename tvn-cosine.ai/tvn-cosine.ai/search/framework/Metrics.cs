@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+﻿using tvn.cosine.text;
 using tvn.cosine.api;
 using tvn.cosine.collections;
 using tvn.cosine.collections.api;
@@ -39,17 +39,17 @@ namespace tvn.cosine.ai.search.framework
 
         public int getInt(string name)
         {
-            return hash.ContainsKey(name) ? int.Parse(hash.Get(name), NumberStyles.Any, CultureInfo.InvariantCulture) : 0;
+            return hash.ContainsKey(name) ? TextFactory.ParseInt(hash.Get(name)) : 0;
         }
 
         public double getDouble(string name)
         {
-            return hash.ContainsKey(name) ? double.Parse(hash.Get(name).Replace(',','.'), NumberStyles.Any, CultureInfo.InvariantCulture) : double.NaN;
+            return hash.ContainsKey(name) ? TextFactory.ParseDouble(hash.Get(name).Replace(',','.')) : double.NaN;
         }
 
         public long getLong(string name)
         { 
-            return hash.ContainsKey(name) ? long.Parse(hash.Get(name), NumberStyles.Any, CultureInfo.InvariantCulture) : 0L;
+            return hash.ContainsKey(name) ? TextFactory.ParseLong(hash.Get(name)) : 0L;
         }
 
         public string get(string name)

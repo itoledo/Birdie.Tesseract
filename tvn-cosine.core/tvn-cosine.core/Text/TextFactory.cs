@@ -44,5 +44,10 @@ namespace tvn.cosine.text
         {
             return double.Parse(input, NumberStyles.Any, CultureInfo.InvariantCulture);
         }
+         
+        public static long ParseLong(this string input)
+        {
+            return long.Parse(input, NumberStyles.Any, CultureInfo.InvariantCulture);
+        }
     }
 }
