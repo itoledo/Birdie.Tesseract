@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using tvn.cosine.text.patternmatching;
 
-namespace Tvn.Cosine.Text.PatternMatching
+namespace tvn.cosine.text.patternmatching.api
 {
     public interface IPatternMatchingMachine
     {

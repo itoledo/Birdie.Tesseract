@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using tvn.cosine.text.patternmatching.api;
 
-namespace Tvn.Cosine.Text.PatternMatching.AhoCorasick
+namespace tvn.cosine.text.patternmatching.ahocorasick
 {
     public class PatternMatchingMachine : IPatternMatchingMachine
     {

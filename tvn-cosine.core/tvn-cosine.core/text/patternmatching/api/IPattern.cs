@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tvn.Cosine.Text.PatternMatching
+namespace tvn.cosine.text.patternmatching.api
 {
     public interface IPattern : IEnumerable<char>, 
                                 IEquatable<IPattern>

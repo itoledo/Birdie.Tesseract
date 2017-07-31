@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace Tvn.Cosine.Text.Hashing
+namespace tvn.cosine.text.hashing
 {
     public class TextHasher : IEquatable<string>
     {

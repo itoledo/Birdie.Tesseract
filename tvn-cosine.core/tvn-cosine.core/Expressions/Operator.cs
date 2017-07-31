@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tvn.Cosine.Expressions
+namespace tvn.cosine.expressions
 {
     public class Operator<T> : ExpressionObject, IFunction
     {

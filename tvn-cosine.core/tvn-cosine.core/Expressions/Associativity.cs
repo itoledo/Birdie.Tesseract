@@ -1,4 +1,4 @@
-﻿namespace Tvn.Cosine.Expressions
+﻿namespace tvn.cosine.expressions
 {
     public class Associativity  
     {

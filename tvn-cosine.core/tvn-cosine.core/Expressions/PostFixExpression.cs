@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Tvn.Cosine.Expressions
+namespace tvn.cosine.expressions
 {
     public class PostFixExpression<T> : Queue<ExpressionObject>, ICalculate<T>
     {

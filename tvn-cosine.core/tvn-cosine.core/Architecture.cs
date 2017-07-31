@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Tvn.Cosine
+namespace tvn.cosine
 {
     public static class Architecture
     {

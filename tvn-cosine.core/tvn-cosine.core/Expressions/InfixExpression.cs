@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Tvn.Cosine.Expressions
+namespace tvn.cosine.expressions
 {
     public class InfixExpression<T> : List<ExpressionObject>, ICalculate<T>
     {

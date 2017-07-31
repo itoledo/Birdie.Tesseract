@@ -7,7 +7,7 @@
     <ProjectGuid>{F8B67FE9-D126-44AC-9F9B-67E0EFA5083A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tvn.Cosine</RootNamespace>
+    <RootNamespace>tvn.cosine</RootNamespace>
     <AssemblyName>tvn-cosine.core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -90,31 +90,31 @@
     <Compile Include="exceptions\NotSupportedException.cs" />
     <Compile Include="exceptions\NumberFormatException.cs" />
     <Compile Include="exceptions\RuntimeException.cs" />
-    <Compile Include="Expressions\Associativity.cs" />
-    <Compile Include="Expressions\ExpressionObject.cs" />
-    <Compile Include="Expressions\Function.cs" />
-    <Compile Include="Expressions\ICalculate.cs" />
-    <Compile Include="Expressions\IFunction.cs" />
-    <Compile Include="Expressions\InfixExpression.cs" />
-    <Compile Include="Expressions\Operand.cs" />
-    <Compile Include="Expressions\Operator.cs" />
-    <Compile Include="Expressions\PostFixExpression.cs" />
-    <Compile Include="Expressions\ShuntingYard.cs" />
+    <Compile Include="expressions\Associativity.cs" />
+    <Compile Include="expressions\ExpressionObject.cs" />
+    <Compile Include="expressions\Function.cs" />
+    <Compile Include="expressions\ICalculate.cs" />
+    <Compile Include="expressions\IFunction.cs" />
+    <Compile Include="expressions\InfixExpression.cs" />
+    <Compile Include="expressions\Operand.cs" />
+    <Compile Include="expressions\Operator.cs" />
+    <Compile Include="expressions\PostFixExpression.cs" />
+    <Compile Include="expressions\ShuntingYard.cs" />
     <Compile Include="MockRandom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Random.cs" />
     <Compile Include="SourceVersion.cs" />
-    <Compile Include="Text\api\IRegularExpression.cs" />
-    <Compile Include="Text\api\IStringBuilder.cs" />
-    <Compile Include="Text\Hashing\TextHasher.cs" />
-    <Compile Include="Text\PatternMatching\AhoCorasick\Node.cs" />
-    <Compile Include="Text\PatternMatching\IPatternMatchingMachine.cs" />
-    <Compile Include="Text\PatternMatching\PatternFoundDelegate.cs" />
-    <Compile Include="Text\PatternMatching\AhoCorasick\PatternMatchingMachine.cs" />
-    <Compile Include="Text\PatternMatching\IPattern.cs" />
-    <Compile Include="Text\RegularExpression.cs" />
-    <Compile Include="Text\StringBuilder.cs" />
-    <Compile Include="Text\TextFactory.cs" />
+    <Compile Include="text\api\IRegularExpression.cs" />
+    <Compile Include="text\api\IStringBuilder.cs" />
+    <Compile Include="text\hashing\TextHasher.cs" />
+    <Compile Include="text\patternmatching\ahocorasick\Node.cs" />
+    <Compile Include="text\patternmatching\api\IPatternMatchingMachine.cs" />
+    <Compile Include="text\patternmatching\PatternFoundDelegate.cs" />
+    <Compile Include="text\patternmatching\ahocorasick\PatternMatchingMachine.cs" />
+    <Compile Include="text\patternmatching\api\IPattern.cs" />
+    <Compile Include="text\RegularExpression.cs" />
+    <Compile Include="text\StringBuilder.cs" />
+    <Compile Include="text\TextFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CreateNuGetPackage.ps1" />
