@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
+using tvn.cosine.datastructures;
 using tvn.cosine.ai.learning.reinforcement.api;
 using tvn.cosine.ai.probability.mdp;
 using tvn.cosine.ai.probability.mdp.api;

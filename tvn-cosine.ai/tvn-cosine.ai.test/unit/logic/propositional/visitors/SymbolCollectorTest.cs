@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.collections.api;
 using tvn.cosine.ai.logic.propositional.parsing;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
 using tvn.cosine.ai.logic.propositional.visitors;

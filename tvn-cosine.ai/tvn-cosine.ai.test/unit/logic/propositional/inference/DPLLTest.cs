@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
 using tvn.cosine.ai.logic.propositional.inference;
 using tvn.cosine.ai.logic.propositional.kb;
 using tvn.cosine.ai.logic.propositional.kb.data;

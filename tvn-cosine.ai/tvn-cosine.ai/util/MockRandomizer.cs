@@ -1,5 +1,5 @@
-﻿using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.api;
+using tvn.cosine.exceptions;
 
 namespace tvn.cosine.ai.util
 {

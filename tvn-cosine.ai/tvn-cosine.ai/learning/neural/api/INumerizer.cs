@@ -1,5 +1,5 @@
-﻿using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.datastructures;
+﻿using tvn.cosine.collections.api;
+using tvn.cosine.datastructures;
 using tvn.cosine.ai.learning.framework;
 
 namespace tvn.cosine.ai.learning.neural.api

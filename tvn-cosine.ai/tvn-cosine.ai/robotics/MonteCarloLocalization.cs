@@ -1,6 +1,6 @@
-﻿using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.api;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
 using tvn.cosine.ai.probability.domain;
 using tvn.cosine.ai.probability.util;
 using tvn.cosine.ai.robotics.api;

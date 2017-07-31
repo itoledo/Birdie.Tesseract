@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
+using tvn.cosine.exceptions;
 using tvn.cosine.ai.nlp.parsing.grammars;
 
 namespace tvn.cosine.ai.nlp.parsing

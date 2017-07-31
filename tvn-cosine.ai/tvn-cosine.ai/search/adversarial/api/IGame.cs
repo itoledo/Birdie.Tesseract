@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.collections.api;
 
 namespace tvn.cosine.ai.search.adversarial.api
 {

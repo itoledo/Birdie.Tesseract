@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.exceptions;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.learning.neural;
 using tvn.cosine.ai.learning.neural.api;

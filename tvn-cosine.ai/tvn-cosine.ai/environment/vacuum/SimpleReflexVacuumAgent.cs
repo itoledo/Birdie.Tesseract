@@ -1,8 +1,8 @@
 ﻿using tvn.cosine.ai.agent;
 using tvn.cosine.ai.agent.agentprogram;
 using tvn.cosine.ai.agent.agentprogram.simplerule;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
 
 namespace tvn.cosine.ai.environment.vacuum
 {

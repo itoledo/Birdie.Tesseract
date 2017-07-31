@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections; 
+﻿using tvn.cosine.collections; 
 
 namespace tvn.cosine.ai.learning.neural.examples
 {

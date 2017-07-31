@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
+using tvn.cosine.datastructures;
 using tvn.cosine.ai.environment.eightpuzzle;
 
 namespace tvn_cosine.ai.test.unit.environment.eightpuzzle

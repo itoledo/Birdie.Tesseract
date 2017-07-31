@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.collections.api;
+using tvn.cosine.exceptions;
 using tvn.cosine.ai.learning.reinforcement.api;
 
 namespace tvn.cosine.ai.learning.reinforcement.agent

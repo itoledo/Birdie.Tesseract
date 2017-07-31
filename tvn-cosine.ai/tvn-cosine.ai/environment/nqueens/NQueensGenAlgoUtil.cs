@@ -1,8 +1,8 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.datastructures;
+﻿using tvn.cosine;
+using tvn.cosine.api;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
+using tvn.cosine.datastructures;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.local;
 using tvn.cosine.ai.search.local.api;

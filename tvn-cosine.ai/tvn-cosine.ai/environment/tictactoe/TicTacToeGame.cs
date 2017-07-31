@@ -1,6 +1,6 @@
-﻿using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.datastructures;
-using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.collections.api;
+using tvn.cosine.datastructures;
+using tvn.cosine.exceptions;
 using tvn.cosine.ai.search.adversarial;
 using tvn.cosine.ai.search.adversarial.api;
 

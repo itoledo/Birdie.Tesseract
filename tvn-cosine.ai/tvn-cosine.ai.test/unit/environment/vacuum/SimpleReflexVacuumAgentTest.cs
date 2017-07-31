@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.text;
-using tvn.cosine.ai.common.text.api;
+using tvn.cosine;
+using tvn.cosine.api;
+using tvn.cosine.text;
+using tvn.cosine.text.api;
 using tvn.cosine.ai.environment.vacuum;
 
 namespace tvn_cosine.ai.test.unit.environment.vacuum

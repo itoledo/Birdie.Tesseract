@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.collections.api;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.util.math;

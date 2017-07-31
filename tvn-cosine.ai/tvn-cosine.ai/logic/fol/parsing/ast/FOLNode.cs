@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.collections.api;
 using tvn.cosine.ai.logic.common;
 
 namespace tvn.cosine.ai.logic.fol.parsing.ast

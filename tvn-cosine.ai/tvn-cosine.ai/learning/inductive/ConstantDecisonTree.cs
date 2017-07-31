@@ -1,5 +1,5 @@
-﻿using tvn.cosine.ai.common.exceptions;
-using tvn.cosine.ai.common.text.api;
+﻿using tvn.cosine.exceptions;
+using tvn.cosine.text.api;
 using tvn.cosine.ai.learning.framework;
 using tvn.cosine.ai.util;
 

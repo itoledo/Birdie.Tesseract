@@ -1,11 +1,11 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine;
 using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.environment.vacuum;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.nondeterministic;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.text.api;
-using tvn.cosine.ai.common.text;
+using tvn.cosine.api;
+using tvn.cosine.text.api;
+using tvn.cosine.text;
 
 namespace tvn_cosine.ai.demo.agent.nondeterministicvacuumenvironment
 {

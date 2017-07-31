@@ -1,6 +1,6 @@
-﻿using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.collections;
+using tvn.cosine.collections.api;
+using tvn.cosine.exceptions;
 using tvn.cosine.ai.logic.fol.kb.data;
 using tvn.cosine.ai.logic.fol.parsing;
 using tvn.cosine.ai.logic.fol.parsing.ast;

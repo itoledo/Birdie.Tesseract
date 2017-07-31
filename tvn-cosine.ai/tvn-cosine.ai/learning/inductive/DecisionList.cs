@@ -1,8 +1,8 @@
-﻿using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.text;
-using tvn.cosine.ai.common.text.api;
+﻿using tvn.cosine.api;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
+using tvn.cosine.text;
+using tvn.cosine.text.api;
 using tvn.cosine.ai.learning.framework;
 
 namespace tvn.cosine.ai.learning.inductive

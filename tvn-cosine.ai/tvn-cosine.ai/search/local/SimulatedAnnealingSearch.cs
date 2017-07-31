@@ -1,6 +1,6 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine;
+using tvn.cosine.api;
+using tvn.cosine.collections.api;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.api;
 using tvn.cosine.ai.search.framework.problem;

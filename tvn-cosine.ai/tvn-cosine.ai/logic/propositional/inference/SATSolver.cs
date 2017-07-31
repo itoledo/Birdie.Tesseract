@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.collections.api;
 using tvn.cosine.ai.logic.propositional.kb.data;
 
 namespace tvn.cosine.ai.logic.propositional.inference

@@ -1,5 +1,5 @@
 ﻿using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.common.text.api;
+using tvn.cosine.text.api;
 
 namespace tvn.cosine.ai.environment.vacuum
 {

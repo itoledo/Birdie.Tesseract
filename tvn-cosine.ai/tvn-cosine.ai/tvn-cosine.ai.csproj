@@ -43,6 +43,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="tvn-cosine.core, Version=1.0.1.12, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\tvn-cosine.core.1.0.1.12\lib\net452\tvn-cosine.core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="agent\api\IAction.cs" />
@@ -68,17 +71,6 @@
     <Compile Include="agent\DynamicEnvironmentState.cs" />
     <Compile Include="agent\DynamicPercept.cs" />
     <Compile Include="agent\DynamicState.cs" />
-    <Compile Include="common\api\IDateTime.cs" />
-    <Compile Include="common\DateTime.cs" />
-    <Compile Include="common\exceptions\IndexOutOfRangeException.cs" />
-    <Compile Include="common\text\api\IRegularExpression.cs" />
-    <Compile Include="common\text\api\IStringBuilder.cs" />
-    <Compile Include="common\collections\InsertionOrderedMap.cs" />
-    <Compile Include="common\CommonFactory.cs" />
-    <Compile Include="common\exceptions\FileNotFoundException.cs" />
-    <Compile Include="common\text\RegularExpression.cs" />
-    <Compile Include="common\text\StringBuilder.cs" />
-    <Compile Include="common\text\TextFactory.cs" />
     <Compile Include="environment\wumpusworld\action\Climb.cs" />
     <Compile Include="environment\wumpusworld\action\Forward.cs" />
     <Compile Include="environment\wumpusworld\action\Grab.cs" />
@@ -102,57 +94,6 @@
     <Compile Include="agent\api\IPercept.cs" />
     <Compile Include="agent\api\IState.cs" />
     <Compile Include="agent\PerceptToStateFunction.cs" />
-    <Compile Include="common\Character.cs" />
-    <Compile Include="common\collections\CollectionFactory.cs" />
-    <Compile Include="common\collections\FifoQueue.cs" />
-    <Compile Include="common\collections\api\IEnumerable.cs" />
-    <Compile Include="common\collections\api\IEnumerator.cs" />
-    <Compile Include="common\collections\api\IEqualityComparer.cs" />
-    <Compile Include="common\collections\api\IMap.cs" />
-    <Compile Include="common\collections\api\ICollection.cs" />
-    <Compile Include="common\collections\api\ISet.cs" />
-    <Compile Include="common\collections\LifoQueue.cs" />
-    <Compile Include="common\collections\Map.cs" />
-    <Compile Include="common\collections\PriorityQueue.cs" />
-    <Compile Include="common\collections\List.cs" />
-    <Compile Include="common\collections\CollectionBase.cs" />
-    <Compile Include="common\collections\ReadOnlyMap.cs" />
-    <Compile Include="common\collections\ReadOnlyCollection.cs" />
-    <Compile Include="common\collections\ReadOnlySet.cs" />
-    <Compile Include="common\collections\Set.cs" />
-    <Compile Include="common\Consumer.cs" />
-    <Compile Include="common\datastructures\KeyValuePair.cs" />
-    <Compile Include="common\datastructures\LabeledGraph.cs" />
-    <Compile Include="common\datastructures\Pair.cs" />
-    <Compile Include="common\datastructures\Table.cs" />
-    <Compile Include="common\datastructures\Triplet.cs" />
-    <Compile Include="common\datastructures\TwoKeyHashMap.cs" />
-    <Compile Include="common\datastructures\XYLocation.cs" />
-    <Compile Include="common\Random.cs" />
-    <Compile Include="common\EventObject.cs" />
-    <Compile Include="common\exceptions\ArgumentNullException.cs" />
-    <Compile Include="common\exceptions\ArgumentOutOfRangeException.cs" />
-    <Compile Include="common\exceptions\ArrayIndexOutOfBoundsException.cs" />
-    <Compile Include="common\exceptions\Exception.cs" />
-    <Compile Include="common\exceptions\IllegalArgumentException.cs" />
-    <Compile Include="common\exceptions\IllegalStateException.cs" />
-    <Compile Include="common\exceptions\IOException.cs" />
-    <Compile Include="common\exceptions\NotImplementedException.cs" />
-    <Compile Include="common\exceptions\NotSupportedException.cs" />
-    <Compile Include="common\exceptions\NumberFormatException.cs" />
-    <Compile Include="common\exceptions\RuntimeException.cs" />
-    <Compile Include="common\collections\FifoQueueNoDuplicates.cs" />
-    <Compile Include="common\api\ICloneable.cs" />
-    <Compile Include="common\api\IComparable.cs" />
-    <Compile Include="common\api\IComparer.cs" />
-    <Compile Include="common\api\IDisposable.cs" />
-    <Compile Include="common\api\IEquatable.cs" />
-    <Compile Include="common\api\IHashable.cs" />
-    <Compile Include="common\api\INumber.cs" />
-    <Compile Include="common\api\IRandom.cs" />
-    <Compile Include="common\api\IStringable.cs" />
-    <Compile Include="common\MockRandom.cs" />
-    <Compile Include="common\SourceVersion.cs" />
     <Compile Include="environment\cellworld\Cell.cs" />
     <Compile Include="environment\cellworld\CellWorld.cs" />
     <Compile Include="environment\cellworld\CellWorldAction.cs" />
@@ -650,6 +591,7 @@
     <None Include="data\zoo.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
     <None Include="tvn-cosine.ai.nuspec" />
   </ItemGroup>
   <ItemGroup />

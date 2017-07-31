@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.api;
+using tvn.cosine.api;
 using tvn.cosine.ai.probability;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.bayes;

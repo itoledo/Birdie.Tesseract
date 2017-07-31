@@ -1,5 +1,5 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
+﻿using tvn.cosine;
+using tvn.cosine.api;
 
 namespace tvn.cosine.ai.logic.fol.domain
 {

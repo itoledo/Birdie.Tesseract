@@ -1,6 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent.agentprogram.simplerule;
-using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.collections.api;
 
 namespace tvn.cosine.ai.agent.agentprogram
 {

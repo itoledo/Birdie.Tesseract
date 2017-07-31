@@ -1,5 +1,5 @@
 ﻿using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.datastructures;
 
 namespace tvn.cosine.ai.environment.nqueens
 {

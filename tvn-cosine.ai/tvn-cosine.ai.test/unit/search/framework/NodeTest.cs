@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.collections.api;
 using tvn.cosine.ai.search.framework;
 
 namespace tvn_cosine.ai.test.unit.search.framework

@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.api;
+﻿using tvn.cosine.api;
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.agent.agentprogram.simplerule

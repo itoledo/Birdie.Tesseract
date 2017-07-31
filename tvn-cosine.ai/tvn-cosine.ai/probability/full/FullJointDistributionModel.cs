@@ -1,6 +1,6 @@
-﻿using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.collections;
+using tvn.cosine.collections.api;
+using tvn.cosine.exceptions;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.proposition;
 using tvn.cosine.ai.probability.proposition.api;

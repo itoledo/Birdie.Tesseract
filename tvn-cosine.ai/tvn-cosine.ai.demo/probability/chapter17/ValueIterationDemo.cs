@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.collections.api;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.probability.example;
 using tvn.cosine.ai.probability.mdp;

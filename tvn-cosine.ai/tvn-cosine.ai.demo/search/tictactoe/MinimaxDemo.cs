@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.datastructures;
+﻿using tvn.cosine.datastructures;
 using tvn.cosine.ai.environment.tictactoe;
 using tvn.cosine.ai.search.adversarial;
 using tvn.cosine.ai.search.adversarial.api;

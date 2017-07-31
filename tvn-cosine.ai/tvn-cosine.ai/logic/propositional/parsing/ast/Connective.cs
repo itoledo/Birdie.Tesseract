@@ -1,5 +1,5 @@
-﻿using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.exceptions; 
+﻿using tvn.cosine.collections.api;
+using tvn.cosine.exceptions; 
 using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.logic.propositional.parsing.ast

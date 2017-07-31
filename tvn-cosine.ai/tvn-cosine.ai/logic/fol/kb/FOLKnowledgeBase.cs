@@ -1,9 +1,9 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.exceptions;
-using tvn.cosine.ai.common.text;
-using tvn.cosine.ai.common.text.api;
+﻿using tvn.cosine;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
+using tvn.cosine.exceptions;
+using tvn.cosine.text;
+using tvn.cosine.text.api;
 using tvn.cosine.ai.logic.fol.domain;
 using tvn.cosine.ai.logic.fol.inference;
 using tvn.cosine.ai.logic.fol.inference.proof;

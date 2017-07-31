@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.exceptions;
 
 namespace tvn.cosine.ai.util.math
 {

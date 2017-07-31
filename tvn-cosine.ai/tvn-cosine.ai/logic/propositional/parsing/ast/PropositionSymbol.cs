@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.exceptions;
 using tvn.cosine.ai.logic.common;
 
 namespace tvn.cosine.ai.logic.propositional.parsing.ast

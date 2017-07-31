@@ -1,9 +1,9 @@
 ﻿using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.api;
+using tvn.cosine.exceptions;
 using tvn.cosine.ai.util;
-using tvn.cosine.ai.common.text.api;
-using tvn.cosine.ai.common.text;
+using tvn.cosine.text.api;
+using tvn.cosine.text;
 
 namespace tvn.cosine.ai.agent.agentprogram.simplerule
 {

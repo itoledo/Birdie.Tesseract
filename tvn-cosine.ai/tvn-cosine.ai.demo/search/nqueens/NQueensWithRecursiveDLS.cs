@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.exceptions;
 using tvn.cosine.ai.environment.nqueens;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.agent;

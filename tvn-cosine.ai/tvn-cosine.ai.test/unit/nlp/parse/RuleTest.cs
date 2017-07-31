@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.exceptions;
 using tvn.cosine.ai.nlp.parsing.grammars;
 
 namespace tvn_cosine.ai.test.unit.nlp.parse

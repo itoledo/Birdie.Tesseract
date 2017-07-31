@@ -1,7 +1,7 @@
-﻿using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.api;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
+using tvn.cosine.exceptions;
 
 namespace tvn.cosine.ai.nlp.ranking
 {

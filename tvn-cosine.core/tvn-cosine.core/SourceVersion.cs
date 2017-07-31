@@ -2,7 +2,7 @@
 
 namespace tvn.cosine
 {
-    static class SourceVersion
+    public static class SourceVersion
     {
         public static int CodePointAt(this string value, int index)
         {

@@ -1,15 +1,15 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine;
 using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
-using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
+using tvn.cosine.exceptions;
 using tvn.cosine.ai.environment.wumpusworld.action;
 using tvn.cosine.ai.logic.propositional.inference;
 using tvn.cosine.ai.logic.propositional.kb;
 using tvn.cosine.ai.logic.propositional.parsing.ast;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.text.api;
-using tvn.cosine.ai.common.text;
+using tvn.cosine.api;
+using tvn.cosine.text.api;
+using tvn.cosine.text;
 
 namespace tvn.cosine.ai.environment.wumpusworld
 {

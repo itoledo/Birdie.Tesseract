@@ -1,10 +1,10 @@
 ﻿using tvn.cosine.ai.agent.api;
 using tvn.cosine.ai.agent;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.api;
+using tvn.cosine.collections.api;
 using tvn.cosine.ai.util;
-using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.collections;
+using tvn.cosine;
+using tvn.cosine.collections;
 
 namespace tvn.cosine.ai.environment.vacuum
 {

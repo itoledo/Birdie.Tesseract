@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
 using tvn.cosine.ai.environment.wumpusworld;
 using tvn.cosine.ai.environment.wumpusworld.action;
 using tvn.cosine.ai.search.framework.problem;

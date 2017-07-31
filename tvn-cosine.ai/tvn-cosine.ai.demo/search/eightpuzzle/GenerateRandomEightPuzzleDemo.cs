@@ -1,5 +1,5 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
+﻿using tvn.cosine;
+using tvn.cosine.api;
 using tvn.cosine.ai.environment.eightpuzzle;
 
 namespace tvn_cosine.ai.demo.search.eightpuzzle

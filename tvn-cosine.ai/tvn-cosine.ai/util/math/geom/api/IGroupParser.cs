@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections.api; 
+﻿using tvn.cosine.collections.api; 
 using tvn.cosine.ai.util.math.geom.shapes.api;
 
 namespace tvn.cosine.ai.util.math.geom.api

@@ -1,5 +1,5 @@
-﻿using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.collections;
+using tvn.cosine.collections.api;
 using tvn.cosine.ai.logic.fol.parsing.ast;
 
 namespace tvn.cosine.ai.logic.fol.inference.proof

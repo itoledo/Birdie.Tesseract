@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.api;
+﻿using tvn.cosine.api;
 
 namespace tvn.cosine.ai.environment.cellworld
 {

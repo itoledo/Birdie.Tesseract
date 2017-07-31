@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common;
+﻿using tvn.cosine;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.framework.problem.api;
 

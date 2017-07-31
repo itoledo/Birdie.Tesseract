@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.datastructures;
+using tvn.cosine.datastructures;
 
 namespace tvn_cosine.ai.test.unit.util.datastructure
 {

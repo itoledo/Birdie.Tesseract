@@ -1,7 +1,7 @@
-﻿using tvn.cosine.ai.common;
-using tvn.cosine.ai.common.api;
-using tvn.cosine.ai.common.collections;
-using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine;
+using tvn.cosine.api;
+using tvn.cosine.collections;
+using tvn.cosine.collections.api;
 using tvn.cosine.ai.environment.cellworld;
 using tvn.cosine.ai.learning.reinforcement.agent;
 using tvn.cosine.ai.learning.reinforcement.example;

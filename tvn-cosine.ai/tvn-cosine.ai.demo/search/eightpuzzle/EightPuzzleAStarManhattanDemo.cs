@@ -1,5 +1,5 @@
 ﻿using tvn.cosine.ai.agent.api;
-using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.exceptions;
 using tvn.cosine.ai.environment.eightpuzzle;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.agent;

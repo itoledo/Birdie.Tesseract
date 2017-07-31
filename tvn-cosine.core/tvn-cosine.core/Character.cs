@@ -1,9 +1,9 @@
 ﻿namespace tvn.cosine
 {
-    static class Character
+    public static class Character
     {
         static Character()
-        {  
+        {
             int i = 0, j = 0;
             while (i < (256 * 2))
             {
@@ -17,7 +17,7 @@
             int props = getProperties(ch);
             return ((props & 0x00003000) != 0);
         }
-         
+
         public static int CharCount(int codePoint)
         {
             return codePoint >= MIN_SUPPLEMENTARY_CODE_POINT ? 2 : 1;

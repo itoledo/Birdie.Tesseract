@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.collections.api;
+﻿using tvn.cosine.collections.api;
 using tvn.cosine.ai.environment.nqueens;
 
 namespace tvn_cosine.ai.demo.search.nqueens

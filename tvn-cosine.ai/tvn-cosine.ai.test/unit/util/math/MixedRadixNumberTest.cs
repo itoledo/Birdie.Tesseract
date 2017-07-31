@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.exceptions;
+using tvn.cosine.exceptions;
 using tvn.cosine.ai.util.math;
 
 namespace tvn_cosine.ai.test.unit.util.math

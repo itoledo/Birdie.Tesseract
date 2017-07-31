@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tvn.cosine.ai.common.collections.api;
+using tvn.cosine.collections.api;
 using tvn.cosine.ai.nlp.data.lexicons;
 using tvn.cosine.ai.nlp.parsing;
 using tvn.cosine.ai.nlp.parsing.grammars;

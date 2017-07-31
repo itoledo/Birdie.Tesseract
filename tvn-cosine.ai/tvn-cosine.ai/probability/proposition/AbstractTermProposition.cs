@@ -1,4 +1,4 @@
-﻿using tvn.cosine.ai.common.exceptions;
+﻿using tvn.cosine.exceptions;
 using tvn.cosine.ai.probability.api;
 using tvn.cosine.ai.probability.proposition.api;
 
