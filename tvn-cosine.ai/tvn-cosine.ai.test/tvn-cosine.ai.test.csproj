@@ -48,6 +48,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="tvn-cosine.core, Version=1.0.1.13, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\tvn-cosine.core.1.0.1.13\lib\net452\tvn-cosine.core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="experiment\logic\propositional\algorithms\WalkSATExperiment.cs" />
