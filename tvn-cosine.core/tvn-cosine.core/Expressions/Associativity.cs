@@ -1,8 +1,6 @@
-﻿using Tvn.Cosine.Data;
-
-namespace Tvn.Cosine.Expressions
+﻿namespace Tvn.Cosine.Expressions
 {
-    public class Associativity : IDescription
+    public class Associativity  
     {
         private Associativity(string description)
         {

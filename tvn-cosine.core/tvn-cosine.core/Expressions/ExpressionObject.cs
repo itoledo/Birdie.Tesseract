@@ -1,8 +1,6 @@
-﻿using Tvn.Cosine.Data;
-
-namespace Tvn.Cosine.Expressions
+﻿namespace Tvn.Cosine.Expressions
 {
-    public class ExpressionObject : IDescription
+    public class ExpressionObject  
     {
         public ExpressionObject(string description)
         {

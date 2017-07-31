@@ -78,10 +78,6 @@
     <Compile Include="common\exceptions\FileNotFoundException.cs" />
     <Compile Include="common\text\RegularExpression.cs" />
     <Compile Include="common\text\StringBuilder.cs" />
-    <Compile Include="common\text\multipatternmatching\ahocorasick\Node.cs" />
-    <Compile Include="common\text\multipatternmatching\ahocorasick\PatternMatchFoundDelegate.cs" />
-    <Compile Include="common\text\multipatternmatching\ahocorasick\PatternMatchingMachine.cs" />
-    <Compile Include="common\text\multipatternmatching\ahocorasick\RootNode.cs" />
     <Compile Include="common\text\TextFactory.cs" />
     <Compile Include="environment\wumpusworld\action\Climb.cs" />
     <Compile Include="environment\wumpusworld\action\Forward.cs" />
