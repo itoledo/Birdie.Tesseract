@@ -1,11 +1,9 @@
-﻿using System;
-using tvn.cosine.collections;
+﻿using tvn.cosine.collections;
 using tvn.cosine.collections.api;
 using tvn.cosine.datastructures;
 using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.framework.problem.api;
-using tvn.cosine.ai.util;
 using tvn.cosine.ai.util.api;
 
 namespace tvn.cosine.ai.environment.nqueens

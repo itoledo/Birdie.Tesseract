@@ -1,9 +1,10 @@
-﻿using tvn.cosine.text.api;
+﻿using System.Globalization;
+using tvn.cosine.text.api;
 
 namespace tvn.cosine.text
 {
     public static class TextFactory
-    {  
+    {
         public static IStringBuilder CreateStringBuilder()
         {
             return new StringBuilder();
@@ -17,6 +18,31 @@ namespace tvn.cosine.text
         public static IRegularExpression CreateRegularExpression(string pattern)
         {
             return new RegularExpression(pattern);
+        }
+
+        public static bool IsValidDouble(this string input)
+        {
+            double o;
+            if (double.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out o))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static int ParseInt(this string input)
+        {
+            return int.Parse(input, NumberStyles.Any, CultureInfo.InvariantCulture);
+        }
+
+        public static float ParseFloat(this string input)
+        {
+            return float.Parse(input, NumberStyles.Any, CultureInfo.InvariantCulture);
+        }
+
+        public static double ParseDouble(this string input)
+        {
+            return double.Parse(input, NumberStyles.Any, CultureInfo.InvariantCulture);
         }
     }
 }

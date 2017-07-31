@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+﻿using :tvn.cosine.text;
 using tvn.cosine.ai.learning.framework.api;
 
 namespace tvn.cosine.ai.learning.framework
@@ -14,13 +14,8 @@ namespace tvn.cosine.ai.learning.framework
         }
 
         public bool IsValid(string s)
-        {
-            double o;
-            if (double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out o))
-            {
-                return true;
-            }
-            return false;
+        { 
+            return TextFactory.IsValidDouble(s);
         }
 
         public string GetAttributeName()

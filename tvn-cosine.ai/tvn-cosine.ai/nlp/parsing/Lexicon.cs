@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-using tvn.cosine.collections;
+﻿using tvn.cosine.collections;
 using tvn.cosine.collections.api;
 using tvn.cosine.exceptions;
 using tvn.cosine.ai.nlp.parsing.grammars;
+using tvn.cosine.text;
 
 namespace tvn.cosine.ai.nlp.parsing
 {
@@ -71,9 +71,11 @@ namespace tvn.cosine.ai.nlp.parsing
                 try
                 {
                     if (containsKey)
-                        this.Get(key).Add(new LexWord(vargs[i], float.Parse(vargs[i + 1], NumberStyles.Any, CultureInfo.InvariantCulture)));
+                        this.Get(key).Add(new LexWord(vargs[i], 
+                            TextFactory.ParseFloat(vargs[i + 1])));
                     else
-                        lexWords.Add(new LexWord(vargs[i], float.Parse(vargs[i + 1], NumberStyles.Any, CultureInfo.InvariantCulture)));
+                        lexWords.Add(new LexWord(vargs[i], 
+                            TextFactory.ParseFloat(vargs[i + 1])));
                     ++i;
                 }
                 catch (NumberFormatException)

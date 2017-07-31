@@ -100,6 +100,10 @@
     <Compile Include="expressions\Operator.cs" />
     <Compile Include="expressions\PostFixExpression.cs" />
     <Compile Include="expressions\ShuntingYard.cs" />
+    <Compile Include="io\api\IStringReader.cs" />
+    <Compile Include="io\api\ITextReader.cs" />
+    <Compile Include="io\StringReader.cs" />
+    <Compile Include="io\TextReader.cs" />
     <Compile Include="MockRandom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Random.cs" />
