@@ -19,7 +19,7 @@
 	</dependencies>
   </metadata>
   <files>
-    <file src="lib\x86\*.dll" target="lib\x86\" />
-    <file src="lib\x64\*.dll" target="lib\x64\" />
+    <file src="lib\x86\pvt.cppan.demo.google.tesseract.libtesseract400.dll" target="lib\x86\" />
+    <file src="lib\x64\pvt.cppan.demo.google.tesseract.libtesseract400.dll" target="lib\x64\" />
   </files>
 </package>
