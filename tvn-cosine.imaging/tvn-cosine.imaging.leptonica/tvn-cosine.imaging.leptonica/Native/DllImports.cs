@@ -1,16 +1,42 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Leptonica.Native
 {
     internal class DllImports
-    { 
+    {
+        private const string pattern = @"pvt.cppan.demo.";
+        private const string x64 = @"lib\x64";
+        private const string x86 = @"lib\x86";
         private const string leptonicaDllName = "pvt.cppan.demo.danbloomberg.leptonica-1.74.4.dll";
-          
+
+        static DllImports()
+        {
+            string directory = string.Format("{0}\\{1}", Environment.CurrentDirectory, x86);
+
+            if (Architecture.is64BitProcess)
+            {
+                directory = string.Format("{0}\\{1}", Environment.CurrentDirectory, x64);
+            }
+
+            foreach (string file in Directory.GetFiles(directory))
+            {
+                FileInfo fi = new FileInfo(file);
+                if (fi.Name.StartsWith(pattern)) // must copy
+                {
+                    string newLocation = string.Format("{0}\\{1}",
+                                                Environment.CurrentDirectory,
+                                                fi.Name);
+                    File.Copy(file, newLocation, true);
+                }
+            }
+        }
+
         internal static int pixWriteStreamBmp(object cdata, HandleRef size)
         {
             throw new NotImplementedException();
-        } 
+        }
 
         #region internal constants
         #region Colors for 32 bpp
@@ -7424,6 +7450,6 @@ namespace Leptonica.Native
         internal static extern IntPtr zlibCompress(IntPtr datain, IntPtr nin, out IntPtr pnout);
         [DllImport(leptonicaDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "zlibUncompress")]
         internal static extern IntPtr zlibUncompress(IntPtr datain, IntPtr nin, out IntPtr pnout);
-        #endregion 
+        #endregion
     }
 }

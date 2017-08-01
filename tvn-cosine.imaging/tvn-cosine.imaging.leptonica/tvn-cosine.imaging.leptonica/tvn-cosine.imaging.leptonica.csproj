@@ -378,28 +378,52 @@
     <None Include="tvn-cosine.imaging.leptonica.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="pvt.cppan.demo.danbloomberg.leptonica-1.74.4.dll">
+    <Content Include="lib\x64\pvt.cppan.demo.danbloomberg.leptonica-1.74.4.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="pvt.cppan.demo.jpeg-9.2.0.dll">
+    <Content Include="lib\x64\pvt.cppan.demo.jpeg-9.2.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="pvt.cppan.demo.madler.zlib-1.2.11.dll">
+    <Content Include="lib\x64\pvt.cppan.demo.madler.zlib-1.2.11.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="pvt.cppan.demo.openjpeg.openjp2-2.1.2.dll">
+    <Content Include="lib\x64\pvt.cppan.demo.openjpeg.openjp2-2.1.2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="pvt.cppan.demo.png-1.6.30.dll">
+    <Content Include="lib\x64\pvt.cppan.demo.png-1.6.30.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="pvt.cppan.demo.tiff-4.0.7.dll">
+    <Content Include="lib\x64\pvt.cppan.demo.tiff-4.0.7.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="pvt.cppan.demo.webp-0.6.0.dll">
+    <Content Include="lib\x64\pvt.cppan.demo.webp-0.6.0.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="pvt.cppan.demo.xz_utils.lzma-5.2.3.dll">
+    <Content Include="lib\x64\pvt.cppan.demo.xz_utils.lzma-5.2.3.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\pvt.cppan.demo.danbloomberg.leptonica-1.74.4.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\pvt.cppan.demo.jpeg-9.2.0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\pvt.cppan.demo.madler.zlib-1.2.11.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\pvt.cppan.demo.openjpeg.openjp2-2.1.2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\pvt.cppan.demo.png-1.6.30.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\pvt.cppan.demo.tiff-4.0.7.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\pvt.cppan.demo.webp-0.6.0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x86\pvt.cppan.demo.xz_utils.lzma-5.2.3.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

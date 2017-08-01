@@ -17,6 +17,7 @@
     <dependencies />
   </metadata>
   <files>
-    <file src="*.dll" target="lib\" /> 
+    <file src="lib\x86\*.dll" target="lib\x86\" /> 
+    <file src="lib\x64\*.dll" target="lib\x64\" /> 
   </files>
 </package>
