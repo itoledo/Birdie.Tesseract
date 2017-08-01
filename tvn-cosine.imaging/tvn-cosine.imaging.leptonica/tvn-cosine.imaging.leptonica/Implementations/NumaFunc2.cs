@@ -399,7 +399,7 @@ namespace Leptonica
                 throw new ArgumentNullException("na cannot be null.");
             }
 
-            IntPtr pnarbinPtr, pnamPtr, pnarPtr, pnabbPtr;
+            IntPtr pnarbinPtr, pnamPtr;
             var result = Native.DllImports.numaGetRankBinValues((HandleRef)na, nbins, out pnarbinPtr, out pnamPtr);
             pnarbin = new Numa(pnarbinPtr);
             pnam = new Numa(pnamPtr);
