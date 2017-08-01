@@ -1,7 +1,7 @@
 ﻿using tvn.cosine.ai.learning.framework.api;
 
 namespace tvn.cosine.ai.learning.framework
-{ 
+{
     public class NumericAttribute : IAttribute
     {
         double value;
@@ -27,6 +27,11 @@ namespace tvn.cosine.ai.learning.framework
         public double valueAsDouble()
         {
             return value;
+        }
+
+        public override string ToString()
+        {
+            return value.ToString("N5");
         }
     }
 }
