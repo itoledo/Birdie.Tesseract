@@ -17,6 +17,8 @@ namespace tvn_cosine.ai.demo.learning.chapter18
             System.Console.WriteLine("\n Ensemble Decision Demo - Weak Learners co operating to give Superior decisions ");
             System.Console.WriteLine(Util.ntimes("*", 100));
             ensembleLearningDemo();
+
+            System.Console.ReadKey();
         }
 
         static void ensembleLearningDemo()
@@ -36,6 +38,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
                 }
                 AdaBoostLearner learner = new AdaBoostLearner(learners, ds);
                 learner.train(ds);
+                var answer = learner.Predict(ds.getExample(0));
                 int[] result = learner.Test(ds);
                 System.Console.WriteLine("\nThis Ensemble Learner  classifies the data set with "
                             + result[0]
@@ -48,7 +51,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
             }
             catch (Exception e)
             {
-                throw e; 
+                throw e;
             }
         }
     }

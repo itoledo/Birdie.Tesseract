@@ -4,19 +4,16 @@ using tvn.cosine.collections.api;
 
 namespace tvn.cosine.ai.environment.cellworld
 {
-    /**
-     * Artificial Intelligence A Modern Approach (3rd Edition): page 645.<br>
-     * <br>
-     * 
-     * The actions in every state are Up, Down, Left, and Right.<br>
-     * <br>
-     * <b>Note:<b> Moving 'North' causes y to increase by 1, 'Down' y to decrease by
-     * 1, 'Left' x to decrease by 1, and 'Right' x to increase by 1 within a Cell
-     * World.
-     * 
-     * @author Ciaran O'Reilly
-     * 
-     */
+    /// <summary> 
+    /// Artificial Intelligence A Modern Approach (3rd Edition): page 645. 
+    /// <para />
+    /// 
+    /// The actions in every state are Up, Down, Left, and Right. 
+    /// <para />
+    /// Note: Moving 'North' causes y to increase by 1, 'Down' y to decrease by
+    /// 1, 'Left' x to decrease by 1, and 'Right' x to increase by 1 within a Cell
+    /// World.
+    /// </summary>
     public class CellWorldAction : IAction
     {
         public static readonly CellWorldAction Up = new CellWorldAction();
@@ -37,11 +34,11 @@ namespace tvn.cosine.ai.environment.cellworld
             _actions.Add(None);
         }
 
-        /**
-         * 
-         * @return a set of the actual actions.
-         */
-        public static ISet<CellWorldAction> actions()
+        /// <summary>
+        /// Get a set of the actual actions.
+        /// </summary>
+        /// <returns>a set of the actual actions.</returns>
+        public static ISet<CellWorldAction> Actions()
         {
             return CollectionFactory.CreateReadOnlySet<CellWorldAction>(_actions);
         }
@@ -54,16 +51,13 @@ namespace tvn.cosine.ai.environment.cellworld
             }
             return false;
         }
-        // END-Action
-        //
-
-        /**
-         * 
-         * @param curX
-         *            the current x position.
-         * @return the result on the x position of applying this action.
-         */
-        public int getXResult(int curX)
+        
+        /// <summary>
+        /// Get the result on the x position of applying this action.
+        /// </summary>
+        /// <param name="curX">the current x position.</param>
+        /// <returns>the result on the x position of applying this action.</returns>
+        public int GetXResult(int curX)
         {
             int newX = curX;
 
@@ -78,14 +72,13 @@ namespace tvn.cosine.ai.environment.cellworld
 
             return newX;
         }
-
-        /**
-         * 
-         * @param curY
-         *            the current y position.
-         * @return the result on the y position of applying this action.
-         */
-        public int getYResult(int curY)
+         
+        /// <summary>
+        /// Get the result on the y position of applying this action.
+        /// </summary>
+        /// <param name="curY">the current y position.</param>
+        /// <returns>the result on the y position of applying this action.</returns>
+        public int GetYResult(int curY)
         {
             int newY = curY;
 
@@ -101,11 +94,11 @@ namespace tvn.cosine.ai.environment.cellworld
             return newY;
         }
 
-        /**
-         * 
-         * @return the first right angled action related to this action.
-         */
-        public CellWorldAction getFirstRightAngledAction()
+        /// <summary>
+        /// Get the first right angled action related to this action.
+        /// </summary>
+        /// <returns>the first right angled action related to this action.</returns>
+        public CellWorldAction GetFirstRightAngledAction()
         {
             CellWorldAction a = null;
 
@@ -127,11 +120,11 @@ namespace tvn.cosine.ai.environment.cellworld
             return a;
         }
 
-        /**
-         * 
-         * @return the second right angled action related to this action.
-         */
-        public CellWorldAction getSecondRightAngledAction()
+        /// <summary>
+        /// Get the second right angled action related to this action.
+        /// </summary>
+        /// <returns>the second right angled action related to this action.</returns>
+        public CellWorldAction GetSecondRightAngledAction()
         {
             CellWorldAction a = null;
 

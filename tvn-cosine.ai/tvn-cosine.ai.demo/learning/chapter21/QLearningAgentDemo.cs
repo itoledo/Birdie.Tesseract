@@ -19,10 +19,10 @@ namespace tvn_cosine.ai.demo.learning.chapter21
 
         static void qLearningAgentDemo()
         {
-            CellWorld<double> cw = CellWorldFactory.createCellWorldForFig17_1();
+            CellWorld<double> cw = CellWorldFactory.CreateCellWorldForFig17_1();
             CellWorldEnvironment cwe = new CellWorldEnvironment(
-                    cw.getCellAt(1, 1),
-                    cw.getCells(),
+                    cw.GetCellAt(1, 1),
+                    cw.GetCells(),
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
                     CommonFactory.CreateRandom());
 

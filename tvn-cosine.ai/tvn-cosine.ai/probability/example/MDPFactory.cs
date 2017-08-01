@@ -15,8 +15,8 @@ namespace tvn.cosine.ai.probability.example
         /// <returns>an MDP that can be used to generate the utility values detailed in Fig 17.3.</returns>
         public static IMarkovDecisionProcess<Cell<double>, CellWorldAction> createMDPForFigure17_3(CellWorld<double> cw)
         {
-            return new MDP<Cell<double>, CellWorldAction>(cw.getCells(),
-                    cw.getCellAt(1, 1), createActionsFunctionForFigure17_1(cw),
+            return new MDP<Cell<double>, CellWorldAction>(cw.GetCells(),
+                    cw.GetCellAt(1, 1), createActionsFunctionForFigure17_1(cw),
                     createTransitionProbabilityFunctionForFigure17_1(cw),
                     createRewardFunctionForFigure17_1());
         }
@@ -38,7 +38,7 @@ namespace tvn.cosine.ai.probability.example
                 {
                     return CollectionFactory.CreateSet<CellWorldAction>();
                 }
-                return CellWorldAction.actions();
+                return CellWorldAction.Actions();
             }
         }
         /**
@@ -53,8 +53,8 @@ namespace tvn.cosine.ai.probability.example
         public static IActionsFunction<Cell<double>, CellWorldAction> createActionsFunctionForFigure17_1(CellWorld<double> cw)
         {
             ISet<Cell<double>> terminals = CollectionFactory.CreateSet<Cell<double>>();
-            terminals.Add(cw.getCellAt(4, 3));
-            terminals.Add(cw.getCellAt(4, 2));
+            terminals.Add(cw.GetCellAt(4, 3));
+            terminals.Add(cw.GetCellAt(4, 2));
 
             IActionsFunction<Cell<double>, CellWorldAction> af = new createActionsFunctionForFigure17_1ActionsFunction(terminals);
             return af;
@@ -98,9 +98,9 @@ namespace tvn.cosine.ai.probability.example
                 // There can be three possible outcomes for the planned action
                 ICollection<Cell<double>> outcomes = CollectionFactory.CreateQueue<Cell<double>>();
 
-                outcomes.Add(cw.result(c, a));
-                outcomes.Add(cw.result(c, a.getFirstRightAngledAction()));
-                outcomes.Add(cw.result(c, a.getSecondRightAngledAction()));
+                outcomes.Add(cw.Result(c, a));
+                outcomes.Add(cw.Result(c, a.GetFirstRightAngledAction()));
+                outcomes.Add(cw.Result(c, a.GetSecondRightAngledAction()));
 
                 return outcomes;
             }

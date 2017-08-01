@@ -26,10 +26,10 @@ namespace tvn_cosine.ai.demo.learning.chapter21
                                 + (numTrialsPerRun / reportEveryN));
             }
 
-            CellWorld<double> cw = CellWorldFactory.createCellWorldForFig17_1();
+            CellWorld<double> cw = CellWorldFactory.CreateCellWorldForFig17_1();
             CellWorldEnvironment cwe = new CellWorldEnvironment(
-                    cw.getCellAt(1, 1),
-                    cw.getCells(),
+                    cw.GetCellAt(1, 1),
+                    cw.GetCells(),
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
                     CommonFactory.CreateRandom());
 
@@ -69,18 +69,18 @@ namespace tvn_cosine.ai.demo.learning.chapter21
             {
                 // Use the last run
                 IMap<Cell<double>, double> u = runs.Get(numRuns - 1).Get(t);
-                v4_3.Append((u.ContainsKey(cw.getCellAt(4, 3)) ? u.Get(cw
-                        .getCellAt(4, 3)) : 0.0) + "\t");
-                v3_3.Append((u.ContainsKey(cw.getCellAt(3, 3)) ? u.Get(cw
-                        .getCellAt(3, 3)) : 0.0) + "\t");
-                v1_3.Append((u.ContainsKey(cw.getCellAt(1, 3)) ? u.Get(cw
-                        .getCellAt(1, 3)) : 0.0) + "\t");
-                v1_1.Append((u.ContainsKey(cw.getCellAt(1, 1)) ? u.Get(cw
-                        .getCellAt(1, 1)) : 0.0) + "\t");
-                v3_2.Append((u.ContainsKey(cw.getCellAt(3, 2)) ? u.Get(cw
-                        .getCellAt(3, 2)) : 0.0) + "\t");
-                v2_1.Append((u.ContainsKey(cw.getCellAt(2, 1)) ? u.Get(cw
-                        .getCellAt(2, 1)) : 0.0) + "\t");
+                v4_3.Append((u.ContainsKey(cw.GetCellAt(4, 3)) ? u.Get(cw
+                        .GetCellAt(4, 3)) : 0.0) + "\t");
+                v3_3.Append((u.ContainsKey(cw.GetCellAt(3, 3)) ? u.Get(cw
+                        .GetCellAt(3, 3)) : 0.0) + "\t");
+                v1_3.Append((u.ContainsKey(cw.GetCellAt(1, 3)) ? u.Get(cw
+                        .GetCellAt(1, 3)) : 0.0) + "\t");
+                v1_1.Append((u.ContainsKey(cw.GetCellAt(1, 1)) ? u.Get(cw
+                        .GetCellAt(1, 1)) : 0.0) + "\t");
+                v3_2.Append((u.ContainsKey(cw.GetCellAt(3, 2)) ? u.Get(cw
+                        .GetCellAt(3, 2)) : 0.0) + "\t");
+                v2_1.Append((u.ContainsKey(cw.GetCellAt(2, 1)) ? u.Get(cw
+                        .GetCellAt(2, 1)) : 0.0) + "\t");
             }
 
             IStringBuilder rmseValues = TextFactory.CreateStringBuilder();
@@ -92,7 +92,7 @@ namespace tvn_cosine.ai.demo.learning.chapter21
                 for (int r = 0; r < numRuns; r++)
                 {
                     IMap<Cell<double>, double> u = runs.Get(r).Get(t);
-                    double val1_1 = u.Get(cw.getCellAt(1, 1));
+                    double val1_1 = u.Get(cw.GetCellAt(1, 1));
                     //if (null == val1_1)
                     //{
                     //    throw new IllegalStateException(

@@ -16,7 +16,7 @@ namespace tvn_cosine.ai.test.unit.probability.mdp
         [TestInitialize]
         public void setUp()
         {
-            cw = CellWorldFactory.createCellWorldForFig17_1();
+            cw = CellWorldFactory.CreateCellWorldForFig17_1();
             mdp = MDPFactory.createMDPForFigure17_3(cw);
             pi = new PolicyIteration<Cell<double>, CellWorldAction>(
                     new ModifiedPolicyEvaluation<Cell<double>, CellWorldAction>(50, 1.0));
@@ -30,28 +30,28 @@ namespace tvn_cosine.ai.test.unit.probability.mdp
             IPolicy<Cell<double>, CellWorldAction> policy = pi.policyIteration(mdp);
 
             Assert.AreEqual(CellWorldAction.Up,
-                    policy.action(cw.getCellAt(1, 1)));
+                    policy.action(cw.GetCellAt(1, 1)));
             Assert.AreEqual(CellWorldAction.Up,
-                    policy.action(cw.getCellAt(1, 2)));
+                    policy.action(cw.GetCellAt(1, 2)));
             Assert.AreEqual(CellWorldAction.Right,
-                    policy.action(cw.getCellAt(1, 3)));
+                    policy.action(cw.GetCellAt(1, 3)));
 
             Assert.AreEqual(CellWorldAction.Left,
-                    policy.action(cw.getCellAt(2, 1)));
+                    policy.action(cw.GetCellAt(2, 1)));
             Assert.AreEqual(CellWorldAction.Right,
-                    policy.action(cw.getCellAt(2, 3)));
+                    policy.action(cw.GetCellAt(2, 3)));
 
             Assert.AreEqual(CellWorldAction.Left,
-                    policy.action(cw.getCellAt(3, 1)));
+                    policy.action(cw.GetCellAt(3, 1)));
             Assert.AreEqual(CellWorldAction.Up,
-                    policy.action(cw.getCellAt(3, 2)));
+                    policy.action(cw.GetCellAt(3, 2)));
             Assert.AreEqual(CellWorldAction.Right,
-                    policy.action(cw.getCellAt(3, 3)));
+                    policy.action(cw.GetCellAt(3, 3)));
 
             Assert.AreEqual(CellWorldAction.Left,
-                    policy.action(cw.getCellAt(4, 1)));
-            Assert.IsNull(policy.action(cw.getCellAt(4, 2)));
-            Assert.IsNull(policy.action(cw.getCellAt(4, 3)));
+                    policy.action(cw.GetCellAt(4, 1)));
+            Assert.IsNull(policy.action(cw.GetCellAt(4, 2)));
+            Assert.IsNull(policy.action(cw.GetCellAt(4, 3)));
         }
     }
 

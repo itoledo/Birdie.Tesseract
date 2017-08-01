@@ -17,7 +17,7 @@ namespace tvn_cosine.ai.test.unit.probability.mdp
         [TestInitialize]
         public void setUp()
         {
-            cw = CellWorldFactory.createCellWorldForFig17_1();
+            cw = CellWorldFactory.CreateCellWorldForFig17_1();
             mdp = MDPFactory.createMDPForFigure17_3(cw);
         }
 
@@ -26,7 +26,7 @@ namespace tvn_cosine.ai.test.unit.probability.mdp
         {
             // Ensure all actions can be performed in each cell
             // except for the terminal states.
-            foreach (Cell<double> s in cw.getCells())
+            foreach (Cell<double> s in cw.GetCells())
             {
                 if (4 == s.getX() && (3 == s.getY() || 2 == s.getY()))
                 {
@@ -42,48 +42,48 @@ namespace tvn_cosine.ai.test.unit.probability.mdp
         [TestMethod]
         public void testMDPTransitionModel()
         {
-            Assert.AreEqual(0.8, mdp.transitionProbability(cw.getCellAt(1, 2),
-                    cw.getCellAt(1, 1), CellWorldAction.Up));
-            Assert.AreEqual(0.1, mdp.transitionProbability(cw.getCellAt(1, 1),
-                    cw.getCellAt(1, 1), CellWorldAction.Up));
-            Assert.AreEqual(0.1, mdp.transitionProbability(cw.getCellAt(2, 1),
-                    cw.getCellAt(1, 1), CellWorldAction.Up));
-            Assert.AreEqual(0.0, mdp.transitionProbability(cw.getCellAt(1, 3),
-                    cw.getCellAt(1, 1), CellWorldAction.Up));
+            Assert.AreEqual(0.8, mdp.transitionProbability(cw.GetCellAt(1, 2),
+                    cw.GetCellAt(1, 1), CellWorldAction.Up));
+            Assert.AreEqual(0.1, mdp.transitionProbability(cw.GetCellAt(1, 1),
+                    cw.GetCellAt(1, 1), CellWorldAction.Up));
+            Assert.AreEqual(0.1, mdp.transitionProbability(cw.GetCellAt(2, 1),
+                    cw.GetCellAt(1, 1), CellWorldAction.Up));
+            Assert.AreEqual(0.0, mdp.transitionProbability(cw.GetCellAt(1, 3),
+                    cw.GetCellAt(1, 1), CellWorldAction.Up));
 
-            Assert.AreEqual(0.9, mdp.transitionProbability(cw.getCellAt(1, 1),
-                    cw.getCellAt(1, 1), CellWorldAction.Down));
-            Assert.AreEqual(0.1, mdp.transitionProbability(cw.getCellAt(2, 1),
-                    cw.getCellAt(1, 1), CellWorldAction.Down));
-            Assert.AreEqual(0.0, mdp.transitionProbability(cw.getCellAt(3, 1),
-                    cw.getCellAt(1, 1), CellWorldAction.Down));
-            Assert.AreEqual(0.0, mdp.transitionProbability(cw.getCellAt(1, 2),
-                    cw.getCellAt(1, 1), CellWorldAction.Down));
+            Assert.AreEqual(0.9, mdp.transitionProbability(cw.GetCellAt(1, 1),
+                    cw.GetCellAt(1, 1), CellWorldAction.Down));
+            Assert.AreEqual(0.1, mdp.transitionProbability(cw.GetCellAt(2, 1),
+                    cw.GetCellAt(1, 1), CellWorldAction.Down));
+            Assert.AreEqual(0.0, mdp.transitionProbability(cw.GetCellAt(3, 1),
+                    cw.GetCellAt(1, 1), CellWorldAction.Down));
+            Assert.AreEqual(0.0, mdp.transitionProbability(cw.GetCellAt(1, 2),
+                    cw.GetCellAt(1, 1), CellWorldAction.Down));
 
-            Assert.AreEqual(0.9, mdp.transitionProbability(cw.getCellAt(1, 1),
-                    cw.getCellAt(1, 1), CellWorldAction.Left));
-            Assert.AreEqual(0.0, mdp.transitionProbability(cw.getCellAt(2, 1),
-                    cw.getCellAt(1, 1), CellWorldAction.Left));
-            Assert.AreEqual(0.0, mdp.transitionProbability(cw.getCellAt(3, 1),
-                    cw.getCellAt(1, 1), CellWorldAction.Left));
-            Assert.AreEqual(0.1, mdp.transitionProbability(cw.getCellAt(1, 2),
-                    cw.getCellAt(1, 1), CellWorldAction.Left));
+            Assert.AreEqual(0.9, mdp.transitionProbability(cw.GetCellAt(1, 1),
+                    cw.GetCellAt(1, 1), CellWorldAction.Left));
+            Assert.AreEqual(0.0, mdp.transitionProbability(cw.GetCellAt(2, 1),
+                    cw.GetCellAt(1, 1), CellWorldAction.Left));
+            Assert.AreEqual(0.0, mdp.transitionProbability(cw.GetCellAt(3, 1),
+                    cw.GetCellAt(1, 1), CellWorldAction.Left));
+            Assert.AreEqual(0.1, mdp.transitionProbability(cw.GetCellAt(1, 2),
+                    cw.GetCellAt(1, 1), CellWorldAction.Left));
 
-            Assert.AreEqual(0.8, mdp.transitionProbability(cw.getCellAt(2, 1),
-                    cw.getCellAt(1, 1), CellWorldAction.Right));
-            Assert.AreEqual(0.1, mdp.transitionProbability(cw.getCellAt(1, 1),
-                    cw.getCellAt(1, 1), CellWorldAction.Right));
-            Assert.AreEqual(0.1, mdp.transitionProbability(cw.getCellAt(1, 2),
-                    cw.getCellAt(1, 1), CellWorldAction.Right));
-            Assert.AreEqual(0.0, mdp.transitionProbability(cw.getCellAt(1, 3),
-                    cw.getCellAt(1, 1), CellWorldAction.Right));
+            Assert.AreEqual(0.8, mdp.transitionProbability(cw.GetCellAt(2, 1),
+                    cw.GetCellAt(1, 1), CellWorldAction.Right));
+            Assert.AreEqual(0.1, mdp.transitionProbability(cw.GetCellAt(1, 1),
+                    cw.GetCellAt(1, 1), CellWorldAction.Right));
+            Assert.AreEqual(0.1, mdp.transitionProbability(cw.GetCellAt(1, 2),
+                    cw.GetCellAt(1, 1), CellWorldAction.Right));
+            Assert.AreEqual(0.0, mdp.transitionProbability(cw.GetCellAt(1, 3),
+                    cw.GetCellAt(1, 1), CellWorldAction.Right));
         }
 
         [TestMethod]
         public void testRewardFunction()
         {
             // Ensure all actions can be performed in each cell.
-            foreach (Cell<double> s in cw.getCells())
+            foreach (Cell<double> s in cw.GetCells())
             {
                 if (4 == s.getX() && 3 == s.getY())
                 {

@@ -1,6 +1,4 @@
-﻿ 
-using tvn.cosine;
-using tvn.cosine.collections;
+﻿using tvn.cosine.collections;
 using tvn.cosine.collections.api;
 using tvn.cosine.exceptions;
 using tvn.cosine.text;
@@ -19,7 +17,7 @@ namespace tvn.cosine.ai.learning.framework
 
             if (!System.IO.File.Exists(filename + ".csv"))
             {
-                throw new FileNotFoundException(filename + ".csv" + "does not exist.");
+                throw new FileNotFoundException(filename + ".csv" + " does not exist.");
             }
             using (System.IO.StreamReader reader = new System.IO.StreamReader(filename + ".csv"))
             {
@@ -74,17 +72,17 @@ namespace tvn.cosine.ai.learning.framework
         public static DataSetSpecification createRestaurantDataSetSpec()
         {
             DataSetSpecification dss = new DataSetSpecification();
-            dss.defineStringAttribute("alternate", Util.yesno());
-            dss.defineStringAttribute("bar", Util.yesno());
-            dss.defineStringAttribute("fri/sat", Util.yesno());
-            dss.defineStringAttribute("hungry", Util.yesno());
+            dss.defineStringAttribute("alternate", Util.YesNo());
+            dss.defineStringAttribute("bar", Util.YesNo());
+            dss.defineStringAttribute("fri/sat", Util.YesNo());
+            dss.defineStringAttribute("hungry", Util.YesNo());
             dss.defineStringAttribute("patrons", new string[] { "None", "Some", "Full" });
             dss.defineStringAttribute("price", new string[] { "$", "$$", "$$$" });
-            dss.defineStringAttribute("raining", Util.yesno());
-            dss.defineStringAttribute("reservation", Util.yesno());
+            dss.defineStringAttribute("raining", Util.YesNo());
+            dss.defineStringAttribute("reservation", Util.YesNo());
             dss.defineStringAttribute("type", new string[] { "French", "Italian", "Thai", "Burger" });
             dss.defineStringAttribute("wait_estimate", new string[] { "0-10", "10-30", "30-60", ">60" });
-            dss.defineStringAttribute("will_wait", Util.yesno());
+            dss.defineStringAttribute("will_wait", Util.YesNo());
             // last attribute is the target attribute unless the target is explicitly reset with dss.setTarget(name)
 
             return dss;

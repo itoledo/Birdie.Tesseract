@@ -11,19 +11,19 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestInitialize]
         public void setUp()
         {
-            cw = CellWorldFactory.createCellWorldForFig17_1();
+            cw = CellWorldFactory.CreateCellWorldForFig17_1();
         }
 
         [TestMethod]
         public void testNumberOfCells()
         {
-            Assert.AreEqual(11, cw.getCells().Size());
+            Assert.AreEqual(11, cw.GetCells().Size());
         }
 
         [TestMethod]
         public void testMoveUpIntoAdjacentCellChangesPositionCorrectly()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(1, 1), CellWorldAction.Up);
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(1, 1), CellWorldAction.Up);
             Assert.AreEqual(1, sDelta.getX());
             Assert.AreEqual(2, sDelta.getY());
         }
@@ -31,7 +31,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestMethod]
         public void testMoveUpIntoWallLeavesPositionUnchanged()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(1, 3), CellWorldAction.Up);
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(1, 3), CellWorldAction.Up);
             Assert.AreEqual(1, sDelta.getX());
             Assert.AreEqual(3, sDelta.getY());
         }
@@ -39,7 +39,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestMethod]
         public void testMoveUpIntoRemovedCellLeavesPositionUnchanged()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(2, 1),
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(2, 1),
                     CellWorldAction.Up);
             Assert.AreEqual(2, sDelta.getX());
             Assert.AreEqual(1, sDelta.getY());
@@ -48,7 +48,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestMethod]
         public void testMoveDownIntoAdjacentCellChangesPositionCorrectly()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(1, 2),
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(1, 2),
                     CellWorldAction.Down);
             Assert.AreEqual(1, sDelta.getX());
             Assert.AreEqual(1, sDelta.getY());
@@ -57,7 +57,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestMethod]
         public void testMoveDownIntoWallLeavesPositionUnchanged()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(1, 1),
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(1, 1),
                     CellWorldAction.Down);
             Assert.AreEqual(1, sDelta.getX());
             Assert.AreEqual(1, sDelta.getY());
@@ -66,7 +66,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestMethod]
         public void testMoveDownIntoRemovedCellLeavesPositionUnchanged()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(2, 3),
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(2, 3),
                     CellWorldAction.Down);
             Assert.AreEqual(2, sDelta.getX());
             Assert.AreEqual(3, sDelta.getY());
@@ -75,7 +75,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestMethod]
         public void testMoveLeftIntoAdjacentCellChangesPositionCorrectly()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(2, 1),
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(2, 1),
                     CellWorldAction.Left);
             Assert.AreEqual(1, sDelta.getX());
             Assert.AreEqual(1, sDelta.getY());
@@ -84,7 +84,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestMethod]
         public void testMoveLeftIntoWallLeavesPositionUnchanged()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(1, 1),
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(1, 1),
                     CellWorldAction.Left);
             Assert.AreEqual(1, sDelta.getX());
             Assert.AreEqual(1, sDelta.getY());
@@ -93,7 +93,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestMethod]
         public void testMoveLeftIntoRemovedCellLeavesPositionUnchanged()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(3, 2),
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(3, 2),
                     CellWorldAction.Left);
             Assert.AreEqual(3, sDelta.getX());
             Assert.AreEqual(2, sDelta.getY());
@@ -102,7 +102,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestMethod]
         public void testMoveRightIntoAdjacentCellChangesPositionCorrectly()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(1, 1),
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(1, 1),
                     CellWorldAction.Right);
             Assert.AreEqual(2, sDelta.getX());
             Assert.AreEqual(1, sDelta.getY());
@@ -111,7 +111,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestMethod]
         public void testMoveRightIntoWallLeavesPositionUnchanged()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(4, 1),
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(4, 1),
                     CellWorldAction.Right);
             Assert.AreEqual(4, sDelta.getX());
             Assert.AreEqual(1, sDelta.getY());
@@ -120,7 +120,7 @@ namespace tvn_cosine.ai.test.unit.environment.cellworld
         [TestMethod]
         public void testMoveRightIntoRemovedCellLeavesPositionUnchanged()
         {
-            Cell<double> sDelta = cw.result(cw.getCellAt(1, 2),
+            Cell<double> sDelta = cw.Result(cw.GetCellAt(1, 2),
                     CellWorldAction.Right);
             Assert.AreEqual(1, sDelta.getX());
             Assert.AreEqual(2, sDelta.getY());

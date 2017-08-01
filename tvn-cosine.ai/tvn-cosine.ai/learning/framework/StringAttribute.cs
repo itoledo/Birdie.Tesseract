@@ -23,5 +23,10 @@ namespace tvn.cosine.ai.learning.framework
         {
             return spec.GetAttributeName().Trim();
         }
+
+        public override string ToString()
+        {
+            return value.Trim();
+        }
     }
 }

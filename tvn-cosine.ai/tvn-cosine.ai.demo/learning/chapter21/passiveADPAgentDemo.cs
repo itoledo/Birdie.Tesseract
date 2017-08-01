@@ -25,26 +25,26 @@ namespace tvn_cosine.ai.demo.learning.chapter21
             System.Console.WriteLine("Figure 21.3");
             System.Console.WriteLine("-----------");
 
-            CellWorld<double> cw = CellWorldFactory.createCellWorldForFig17_1();
+            CellWorld<double> cw = CellWorldFactory.CreateCellWorldForFig17_1();
             CellWorldEnvironment cwe = new CellWorldEnvironment(
-                    cw.getCellAt(1, 1),
-                    cw.getCells(),
+                    cw.GetCellAt(1, 1),
+                    cw.GetCells(),
                     MDPFactory.createTransitionProbabilityFunctionForFigure17_1(cw),
                     CommonFactory.CreateRandom());
 
             IMap<Cell<double>, CellWorldAction> fixedPolicy = CollectionFactory.CreateInsertionOrderedMap<Cell<double>, CellWorldAction>();
-            fixedPolicy.Put(cw.getCellAt(1, 1), CellWorldAction.Up);
-            fixedPolicy.Put(cw.getCellAt(1, 2), CellWorldAction.Up);
-            fixedPolicy.Put(cw.getCellAt(1, 3), CellWorldAction.Right);
-            fixedPolicy.Put(cw.getCellAt(2, 1), CellWorldAction.Left);
-            fixedPolicy.Put(cw.getCellAt(2, 3), CellWorldAction.Right);
-            fixedPolicy.Put(cw.getCellAt(3, 1), CellWorldAction.Left);
-            fixedPolicy.Put(cw.getCellAt(3, 2), CellWorldAction.Up);
-            fixedPolicy.Put(cw.getCellAt(3, 3), CellWorldAction.Right);
-            fixedPolicy.Put(cw.getCellAt(4, 1), CellWorldAction.Left);
+            fixedPolicy.Put(cw.GetCellAt(1, 1), CellWorldAction.Up);
+            fixedPolicy.Put(cw.GetCellAt(1, 2), CellWorldAction.Up);
+            fixedPolicy.Put(cw.GetCellAt(1, 3), CellWorldAction.Right);
+            fixedPolicy.Put(cw.GetCellAt(2, 1), CellWorldAction.Left);
+            fixedPolicy.Put(cw.GetCellAt(2, 3), CellWorldAction.Right);
+            fixedPolicy.Put(cw.GetCellAt(3, 1), CellWorldAction.Left);
+            fixedPolicy.Put(cw.GetCellAt(3, 2), CellWorldAction.Up);
+            fixedPolicy.Put(cw.GetCellAt(3, 3), CellWorldAction.Right);
+            fixedPolicy.Put(cw.GetCellAt(4, 1), CellWorldAction.Left);
 
             PassiveADPAgent<Cell<double>, CellWorldAction> padpa = new PassiveADPAgent<Cell<double>, CellWorldAction>(
-                    fixedPolicy, cw.getCells(), cw.getCellAt(1, 1),
+                    fixedPolicy, cw.GetCells(), cw.GetCellAt(1, 1),
                     MDPFactory.createActionsFunctionForFigure17_1(cw),
                     new ModifiedPolicyEvaluation<Cell<double>, CellWorldAction>(10, 1.0));
 

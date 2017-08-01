@@ -111,5 +111,10 @@ namespace tvn.cosine.ai.learning.framework
             }
             return names;
         }
+
+        public override string ToString()
+        {
+            return attributeSpecifications.ToString();
+        }
     } 
 }

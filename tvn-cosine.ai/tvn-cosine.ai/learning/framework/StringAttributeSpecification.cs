@@ -1,9 +1,11 @@
 ﻿using tvn.cosine.collections;
 using tvn.cosine.collections.api;
 using tvn.cosine.ai.learning.framework.api;
+using tvn.cosine.text.api;
+using tvn.cosine.text;
 
 namespace tvn.cosine.ai.learning.framework
-{ 
+{
     public class StringAttributeSpecification : IAttributeSpecification
     {
         string attributeName;
@@ -45,6 +47,27 @@ namespace tvn.cosine.ai.learning.framework
         public IAttribute CreateAttribute(string rawValue)
         {
             return new StringAttribute(rawValue, this);
+        }
+
+        public override string ToString()
+        {
+            IStringBuilder sb = TextFactory.CreateStringBuilder();
+            sb.Append('[');
+            sb.Append(attributeName);
+            sb.Append("=[");
+            bool first = true;
+            foreach(string value in attributePossibleValues)
+            {
+                if (!first)
+                {
+                    sb.Append(", ");
+                }
+                sb.Append(value);
+                first = false;
+            }
+
+            sb.Append("]]");
+            return sb.ToString();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using tvn.cosine;
-using tvn.cosine.api;
+﻿using tvn.cosine.api;
 using tvn.cosine.collections;
 using tvn.cosine.collections.api;
 using tvn.cosine.exceptions;
@@ -214,7 +213,7 @@ namespace tvn.cosine.ai.util
             return maxkey;
         }
 
-        public static string[] yesno()
+        public static string[] YesNo()
         {
             return new string[] { YES, NO };
         }
