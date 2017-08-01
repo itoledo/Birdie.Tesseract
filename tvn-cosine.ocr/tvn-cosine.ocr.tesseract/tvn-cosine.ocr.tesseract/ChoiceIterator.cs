@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Tesseract.Native;
 
 namespace Tesseract
 {
@@ -16,7 +17,7 @@ namespace Tesseract
 
         public float Confidence()
         {
-            return Native.DllImports.TessChoiceIteratorConfidence(handleRef);
+            return DllImports.TessChoiceIteratorConfidence(handleRef);
         }
 
         public string GetUTF8Text()
@@ -24,8 +25,8 @@ namespace Tesseract
             IntPtr pointer = Native.DllImports.TessChoiceIteratorGetUTF8Text(handleRef);
             if (IntPtr.Zero != pointer)
             {
-                string returnObject = Marshal.PtrToStringAnsi(pointer);
-                Native.DllImports.TessDeleteText(pointer);
+                string returnObject = Marshaling.PtrToStringUTF8(pointer);
+                DllImports.TessDeleteText(pointer);
                 return returnObject;
             }
             else

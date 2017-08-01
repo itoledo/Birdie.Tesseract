@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Leptonica;
+using Tesseract.Native;
 
 namespace Tesseract
 {
@@ -855,7 +856,7 @@ namespace Tesseract
             }
             else
             {
-                string returnObject = Marshal.PtrToStringAnsi(pointer);
+                string returnObject = Marshaling.PtrToStringUTF8(pointer);
                 Native.DllImports.TessDeleteText(pointer); //Delete the text pointer to clear memory
                 return returnObject;
             }

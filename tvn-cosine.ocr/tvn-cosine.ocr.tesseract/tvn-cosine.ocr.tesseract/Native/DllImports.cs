@@ -1,12 +1,41 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Tesseract.Native
 {
     internal class DllImports
-    { 
-        private const string tesseractDllName = "pvt.cppan.demo.google.tesseract.libtesseract-master.dll";
-          
+    {
+        private const string pattern = @"pvt.cppan.demo.";
+        private const string x64 = @"lib\x64";
+        private const string x86 = @"lib\x86";
+        private const string tesseractDllName = "pvt.cppan.demo.google.tesseract.libtesseract400.dll";
+
+        static DllImports()
+        {
+            string directory = string.Format("{0}\\{1}", Environment.CurrentDirectory, x86);
+
+            if (Architecture.is64BitProcess)
+            {
+                directory = string.Format("{0}\\{1}", Environment.CurrentDirectory, x64);
+            }
+
+            foreach (string file in Directory.GetFiles(directory))
+            {
+                FileInfo fi = new FileInfo(file);
+                if (fi.Name.StartsWith(pattern)) // must copy
+                {
+                    string newLocation = string.Format("{0}\\{1}",
+                                                Environment.CurrentDirectory,
+                                                fi.Name);
+                    if (!File.Exists(newLocation))
+                    {
+                        File.Copy(file, newLocation, true);
+                    }
+                }
+            }
+        }
+
         // General free functions 
         [DllImport(tesseractDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "TessVersion")]
         internal static extern IntPtr TessVersion();

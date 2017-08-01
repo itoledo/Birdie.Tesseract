@@ -28,7 +28,10 @@ namespace Leptonica.Native
                     string newLocation = string.Format("{0}\\{1}",
                                                 Environment.CurrentDirectory,
                                                 fi.Name);
-                    File.Copy(file, newLocation, true);
+                    if (!File.Exists(newLocation))
+                    {
+                        File.Copy(file, newLocation, true);
+                    }
                 }
             }
         }

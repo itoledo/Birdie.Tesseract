@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Tesseract.Native;
 
 namespace Tesseract
 {
@@ -112,7 +113,7 @@ namespace Tesseract
             IntPtr pointer = Native.DllImports.TessResultIteratorGetUTF8Text(handleRef, level);
             if (IntPtr.Zero != pointer)
             {
-                string returnObject = Marshal.PtrToStringAnsi(pointer);
+                string returnObject = Marshaling.PtrToStringUTF8(pointer);
                 Native.DllImports.TessDeleteText(pointer);
                 return returnObject;
             }
