@@ -27,7 +27,7 @@ namespace tvn.cosine.ai.learning.learners
         /// Induces the decision tree from the specified set of examples
         /// </summary>
         /// <param name="ds">a set of examples for constructing the decision tree</param>
-        public virtual void train(DataSet ds)
+        public virtual void Train(DataSet ds)
         {
             ICollection<string> attributes = ds.getNonTargetAttributes();
             this.tree = decisionTreeLearning(ds, attributes, new ConstantDecisonTree(defaultValue));
@@ -99,7 +99,7 @@ namespace tvn.cosine.ai.learning.learners
         private ConstantDecisonTree majorityValue(DataSet ds)
         {
             ILearner learner = new MajorityLearner();
-            learner.train(ds);
+            learner.Train(ds);
             return new ConstantDecisonTree(learner.Predict(ds.getExample(0)));
         }
 

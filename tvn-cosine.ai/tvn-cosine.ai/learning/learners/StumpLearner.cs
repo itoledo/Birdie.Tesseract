@@ -9,7 +9,7 @@ namespace tvn.cosine.ai.learning.learners
                 : base(sl, unable_to_classify)
         { }
 
-        public override void train(DataSet ds)
+        public override void Train(DataSet ds)
         {
             // System.Console.WriteLine("Stump learner training");
             // do nothing the stump is not inferred from the dataset

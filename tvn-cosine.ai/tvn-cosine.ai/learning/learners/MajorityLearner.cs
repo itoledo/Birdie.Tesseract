@@ -10,7 +10,7 @@ namespace tvn.cosine.ai.learning.learners
     {
         private string result;
 
-        public void train(DataSet ds)
+        public void Train(DataSet ds)
         {
             ICollection<string> targets = CollectionFactory.CreateQueue<string>();
             foreach (Example e in ds.examples)

@@ -20,7 +20,7 @@ namespace tvn.cosine.ai.learning.learners
             this.trueGoalValue = trueGoalValue;
         }
          
-        public void train(DataSet ds)
+        public void Train(DataSet ds)
         {
             folDSDomain = new FOLDataSetDomain(ds.specification, trueGoalValue);
             ICollection<FOLExample> folExamples = CollectionFactory.CreateQueue<FOLExample>();

@@ -37,7 +37,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
                     learners.Add(stumpLearner);
                 }
                 AdaBoostLearner learner = new AdaBoostLearner(learners, ds);
-                learner.train(ds);
+                learner.Train(ds);
                 var answer = learner.Predict(ds.getExample(0));
                 int[] result = learner.Test(ds);
                 System.Console.WriteLine("\nThis Ensemble Learner  classifies the data set with "

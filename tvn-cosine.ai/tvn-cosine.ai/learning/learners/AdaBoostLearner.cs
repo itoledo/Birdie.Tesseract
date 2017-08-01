@@ -24,13 +24,13 @@ namespace tvn.cosine.ai.learning.learners
             initializeHypothesisWeights(learners.Size());
         }
 
-        public void train(DataSet ds)
+        public void Train(DataSet ds)
         {
             initializeExampleWeights(ds.examples.Size());
 
             foreach (ILearner learner in learners)
             {
-                learner.train(ds);
+                learner.Train(ds);
 
                 double error = calculateError(ds, learner);
                 if (error < 0.0001)

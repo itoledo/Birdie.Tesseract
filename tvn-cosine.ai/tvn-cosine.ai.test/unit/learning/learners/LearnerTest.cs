@@ -18,7 +18,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
         {
             MajorityLearner learner = new MajorityLearner();
             DataSet ds = DataSetFactory.getRestaurantDataSet();
-            learner.train(ds);
+            learner.Train(ds);
             int[] result = learner.Test(ds);
             Assert.AreEqual(6, result[0]);
             Assert.AreEqual(6, result[1]);
@@ -36,7 +36,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
             DataSet ds2 = ds.emptyDataSet();
             Assert.AreEqual(0, ds2.size());
 
-            learner.train(ds2);
+            learner.Train(ds2);
             Assert.AreEqual("Unable To Classify",
                     learner.Predict(ds.getExample(0)));
         }
@@ -57,7 +57,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
             ds2.add(ds.getExample(2));
             ds2.add(ds.getExample(3));
 
-            learner.train(ds2);
+            learner.Train(ds2);
             Assert.AreEqual("Yes", learner.Predict(ds.getExample(0)));
         }
 
@@ -79,7 +79,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
             ds2.add(ds.getExample(3));
             ds2.setSpecification(new MockDataSetSpecification("will_wait"));
 
-            learner.train(ds2);
+            learner.Train(ds2);
             Assert.AreEqual("Yes", learner.Predict(ds.getExample(1)));
         }
 
@@ -88,7 +88,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             DecisionTreeLearner learner = new DecisionTreeLearner();
-            learner.train(ds);
+            learner.Train(ds);
             int[] result = learner.Test(ds);
             Assert.AreEqual(12, result[0]);
             Assert.AreEqual(0, result[1]);
@@ -104,7 +104,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
                         new MockDLTestFactory(null));
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             DataSet empty = ds.emptyDataSet();
-            learner.train(empty);
+            learner.Train(empty);
             Assert.AreEqual("No", learner.Predict(ds.getExample(0)));
             Assert.AreEqual("No", learner.Predict(ds.getExample(1)));
             Assert.AreEqual("No", learner.Predict(ds.getExample(2)));
@@ -118,7 +118,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
             // tests second base case of DL Learner
             DecisionListLearner learner = new DecisionListLearner("Yes", "No", new MockDLTestFactory(CollectionFactory.CreateQueue<tvn.cosine.ai.learning.inductive.DecisionListTest>()));
             DataSet ds = DataSetFactory.getRestaurantDataSet();
-            learner.train(ds);
+            learner.Train(ds);
             Assert.AreEqual(DecisionListLearner.FAILURE,
                     learner.Predict(ds.getExample(0)));
         }
@@ -130,7 +130,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
             DecisionListLearner learner = new DecisionListLearner("Yes", "No",
 
                         new DecisionListTestFactory());
-            learner.train(ds);
+            learner.Train(ds);
 
             int[] result = learner.Test(ds);
             Assert.AreEqual(12, result[0]);
@@ -142,7 +142,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
         {
             DataSet ds = DataSetFactory.getRestaurantDataSet();
             CurrentBestLearner learner = new CurrentBestLearner("Yes");
-            learner.train(ds);
+            learner.Train(ds);
 
             int[] result = learner.Test(ds);
             Assert.AreEqual(12, result[0]);

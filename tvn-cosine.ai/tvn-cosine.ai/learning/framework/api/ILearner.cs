@@ -2,7 +2,7 @@
 {
     public interface ILearner
     {
-        void train(DataSet ds);
+        void Train(DataSet ds);
 
         /// <summary>
         /// Returns the outcome predicted for the specified example

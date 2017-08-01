@@ -21,7 +21,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
             {
                 DataSet ds = DataSetFactory.getRestaurantDataSet();
                 DecisionTreeLearner learner = new DecisionTreeLearner();
-                learner.train(ds);
+                learner.Train(ds);
                 System.Console.WriteLine("The Induced Decision Tree is ");
                 System.Console.WriteLine(learner.getDecisionTree());
                 int[] result = learner.Test(ds);

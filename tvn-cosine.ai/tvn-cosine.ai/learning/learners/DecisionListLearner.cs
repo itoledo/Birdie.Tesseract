@@ -25,7 +25,7 @@ namespace tvn.cosine.ai.learning.learners
         /// Induces the decision list from the specified set of examples
         /// </summary>
         /// <param name="ds">a set of examples for constructing the decision list</param>
-        public void train(DataSet ds)
+        public void Train(DataSet ds)
         {
             this.decisionList = decisionListLearning(ds);
         }

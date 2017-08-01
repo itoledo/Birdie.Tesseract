@@ -29,7 +29,7 @@ namespace tvn_cosine.ai.test.unit.learning.learners
                 learners.Add(stumpLearner);
             }
             AdaBoostLearner learner = new AdaBoostLearner(learners, ds);
-            learner.train(ds);
+            learner.Train(ds);
             int[] result = learner.Test(ds);
             Assert.AreEqual(12, result[0]);
             Assert.AreEqual(0, result[1]);
