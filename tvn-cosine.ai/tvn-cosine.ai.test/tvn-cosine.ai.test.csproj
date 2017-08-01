@@ -48,8 +48,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="tvn-cosine.core, Version=1.0.1.17, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\tvn-cosine.core.1.0.1.17\lib\net452\tvn-cosine.core.dll</HintPath>
+    <Reference Include="tvn-cosine.core, Version=1.0.1.18, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\tvn-cosine.core.1.0.1.18\lib\net452\tvn-cosine.core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

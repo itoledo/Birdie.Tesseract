@@ -14,6 +14,8 @@
     <releaseNotes>a .net implementation of aima.</releaseNotes>
     <copyright>Copyright © tvn-cosine 2017</copyright>
     <tags>ai artificial intelligence neural boosting search</tags>
-    <dependencies />
+    <dependencies>
+      <dependency id="tvn-cosine.core" version="1.0.1.18" />
+    </dependencies>
   </metadata> 
 </package>

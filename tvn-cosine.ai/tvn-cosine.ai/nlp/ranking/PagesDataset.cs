@@ -61,7 +61,7 @@ namespace tvn.cosine.ai.nlp.ranking
             return pageTable = determineAllInlinks(pageTable);
         } // end loadPages()
 
-        public static Page wikiPageFromFile(string folder, string file)
+        public static Page wikiPageFromFile(string folder, FileInfo file)
         {
             Page p;
             string pageLocation = getPageName(file); // will be like: \wiki\*article
@@ -95,11 +95,11 @@ namespace tvn.cosine.ai.nlp.ranking
             return wikiPrefix + filename.ToLower();
         } // end getPageName()
 
-        public static string loadFileText(string folderPath, string file)
+        public static string loadFileText(string folderPath, FileInfo file)
         {
             IStringBuilder pageContent = TextFactory.CreateStringBuilder();
 
-            using (StreamReader sr = new StreamReader(file))
+            using (StreamReader sr = new StreamReader(file.FullName))
             {
                 while (!sr.EndOfStream)
                 {

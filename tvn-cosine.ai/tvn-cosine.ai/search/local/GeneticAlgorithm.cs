@@ -6,6 +6,7 @@ using tvn.cosine.ai.search.framework;
 using tvn.cosine.ai.search.framework.problem;
 using tvn.cosine.ai.search.local.api;
 using tvn.cosine.ai.util;
+using tvn.cosine;
 
 namespace tvn.cosine.ai.search.local
 {
@@ -93,7 +94,7 @@ namespace tvn.cosine.ai.search.local
          * Starts the genetic algorithm and stops after a specified number of
          * iterations.
          */
-        public virtual Individual<A> geneticAlgorithm(ICollection<Individual<A>> initPopulation, 
+        public virtual Individual<A> geneticAlgorithm(ICollection<Individual<A>> initPopulation,
             IFitnessFunction<A> fitnessFn, int maxIterations)
         {
             GoalTest<Individual<A>> goalTest = (state) => getIterations() >= maxIterations;
@@ -144,7 +145,7 @@ namespace tvn.cosine.ai.search.local
             validatePopulation(population);
             updateMetrics(population, 0, 0L);
 
-            IStopwatch sw = CommonFactory.CreateStopwatch();
+            IStopWatch sw = CommonFactory.CreateStopWatch();
 
             // repeat
             int itCount = 0;
@@ -153,10 +154,10 @@ namespace tvn.cosine.ai.search.local
                 population = nextGeneration(population, fitnessFn);
                 bestIndividual = retrieveBestIndividual(population, fitnessFn);
 
-                updateMetrics(population, ++itCount, sw.ElapsedMilliseconds);
+                updateMetrics(population, ++itCount, sw.GetElapsedMilliseconds());
 
                 // until some individual is fit enough, or enough time has elapsed
-                if (maxTimeMilliseconds > 0L && sw.ElapsedMilliseconds > maxTimeMilliseconds)
+                if (maxTimeMilliseconds > 0L && sw.GetElapsedMilliseconds() > maxTimeMilliseconds)
                     break;
                 if (currIsCancelled)
                     break;
@@ -262,7 +263,7 @@ namespace tvn.cosine.ai.search.local
             // new_population <- empty set
             ICollection<Individual<A>> newPopulation = CollectionFactory.CreateQueue<Individual<A>>();
             // for i = 1 to SIZE(population) do
-            for (int i = 0; i < population.Size();++i)
+            for (int i = 0; i < population.Size(); ++i)
             {
                 // x <- RANDOM-SELECTION(population, FITNESS-FN)
                 Individual<A> x = randomSelection(population, fitnessFn);
@@ -291,7 +292,7 @@ namespace tvn.cosine.ai.search.local
 
             // Determine all of the fitness values
             double[] fValues = new double[population.Size()];
-            for (int i = 0; i < population.Size();++i)
+            for (int i = 0; i < population.Size(); ++i)
             {
                 fValues[i] = fitnessFn.apply(population.Get(i));
             }
@@ -299,7 +300,7 @@ namespace tvn.cosine.ai.search.local
             fValues = Util.normalize(fValues);
             double prob = random.NextDouble();
             double totalSoFar = 0.0;
-            for (int i = 0; i < fValues.Length;++i)
+            for (int i = 0; i < fValues.Length; ++i)
             {
                 // Are at last element so assign by default
                 // in case there are rounding issues with the normalized values
@@ -379,7 +380,7 @@ namespace tvn.cosine.ai.search.local
          * 
          * @author Ruediger Lunde
          */
-        public interface ProgressTracker 
+        public interface ProgressTracker
         {
             void trackProgress(int itCount, ICollection<Individual<A>> population);
         }
