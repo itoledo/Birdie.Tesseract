@@ -1,5 +1,4 @@
-﻿using System.Diagnostics; 
-using tvn.cosine.api;
+﻿using tvn.cosine.api;
 using tvn.cosine.collections;
 using tvn.cosine.collections.api;
 using tvn.cosine.exceptions;
@@ -145,7 +144,7 @@ namespace tvn.cosine.ai.search.local
             validatePopulation(population);
             updateMetrics(population, 0, 0L);
 
-            Stopwatch sw = new Stopwatch();
+            IStopwatch sw = CommonFactory.CreateStopwatch();
 
             // repeat
             int itCount = 0;

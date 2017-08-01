@@ -61,12 +61,12 @@ namespace tvn.cosine.ai.nlp.ranking
             return pageTable = determineAllInlinks(pageTable);
         } // end loadPages()
 
-        public static Page wikiPageFromFile(string folder, FileInfo f)
+        public static Page wikiPageFromFile(string folder, string file)
         {
             Page p;
-            string pageLocation = getPageName(f); // will be like: \wiki\*article
+            string pageLocation = getPageName(file); // will be like: \wiki\*article
                                                   // name*.toLowercase()
-            string content = loadFileText(folder, f); // get html source as string
+            string content = loadFileText(folder, file); // get html source as string
             p = new Page(pageLocation); // create the page object
             p.setContent(content); // give the page its html source as a string
             p.getOutlinks().AddAll(wlf.getOutlinks(p)); // search html source for
@@ -95,11 +95,11 @@ namespace tvn.cosine.ai.nlp.ranking
             return wikiPrefix + filename.ToLower();
         } // end getPageName()
 
-        public static string loadFileText(string folderPath, FileInfo file)
+        public static string loadFileText(string folderPath, string file)
         {
             IStringBuilder pageContent = TextFactory.CreateStringBuilder();
 
-            using (StreamReader sr = new StreamReader(file.FullName))
+            using (StreamReader sr = new StreamReader(file))
             {
                 while (!sr.EndOfStream)
                 {

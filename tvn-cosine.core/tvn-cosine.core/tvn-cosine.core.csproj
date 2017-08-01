@@ -43,6 +43,7 @@
     <Compile Include="api\IHashable.cs" />
     <Compile Include="api\INumber.cs" />
     <Compile Include="api\IRandom.cs" />
+    <Compile Include="api\IStopWatch.cs" />
     <Compile Include="api\IStringable.cs" />
     <Compile Include="Architecture.cs" />
     <Compile Include="Character.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Random.cs" />
     <Compile Include="SourceVersion.cs" />
+    <Compile Include="StopWatch.cs" />
     <Compile Include="text\api\IRegularExpression.cs" />
     <Compile Include="text\api\IStringBuilder.cs" />
     <Compile Include="text\hashing\TextHasher.cs" />

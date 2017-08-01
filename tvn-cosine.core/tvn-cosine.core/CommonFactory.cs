@@ -43,5 +43,10 @@ namespace tvn.cosine
         {
             return new DateTime(year, month, day, hour, minute, second, millisecond);
         }
+
+        public static IStopWatch CreateStopWatch()
+        {
+            return new StopWatch();
+        }
     }
 }
