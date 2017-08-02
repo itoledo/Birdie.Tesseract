@@ -1,8 +1,10 @@
-﻿using tvn.cosine.text;
+﻿using System;
+using System.IO;
+using tvn.cosine.text;
 
 namespace tvn.cosine.ai.libsvm
 {
-    public class svm_predict
+    class svm_predict
     {
         private static double atof(string s)
         {
@@ -14,8 +16,9 @@ namespace tvn.cosine.ai.libsvm
             return TextFactory.ParseInt(s);
         }
 
-        private static void predict(System.IO.StreamReader input, System.IO.StreamWriter output, svm_model model, int predict_probability)
+        private static void predict(StreamReader input, StreamWriter output, svm_model model, int predict_probability)
         {
+
             int correct = 0;
             int total = 0;
             double error = 0;
@@ -47,9 +50,9 @@ namespace tvn.cosine.ai.libsvm
             {
                 string line = input.ReadLine();
                 if (line == null) break;
+                int counter = 0;
 
                 var st = line.Split(new[] { ' ', '\t', '\n', '\r', '\f', ':' });
-                int counter = 0;
 
                 double target = atof(st[counter++]);
                 int m = (st.Length - counter) / 2;
@@ -132,28 +135,39 @@ namespace tvn.cosine.ai.libsvm
             if (i >= argv.Length - 2)
 
                 exit_with_help();
+            try
 
-            System.IO.StreamReader input = new System.IO.StreamReader(argv[i]);
-            System.IO.StreamWriter output = new System.IO.StreamWriter(argv[i + 2]);
-            svm_model model = svm.svm_load_model(argv[i + 1]);
-            if (predict_probability == 1)
             {
-                if (svm.svm_check_probability_model(model) == 0)
+                StreamReader input = new StreamReader(argv[i]);
+                StreamWriter output = new StreamWriter(argv[i + 2]);
+                svm_model model = svm.svm_load_model(argv[i + 1]);
+                if (predict_probability == 1)
                 {
-                    System.Console.WriteLine("Model does not support probabiliy estimates\n");
-                    System.Environment.Exit(1);
+                    if (svm.svm_check_probability_model(model) == 0)
+                    {
+                        System.Console.WriteLine("Model does not support probabiliy estimates\n");
+                        System.Environment.Exit(1);
+                    }
                 }
+                else
+                {
+                    if (svm.svm_check_probability_model(model) != 0)
+                    {
+                        System.Console.WriteLine("Model supports probability estimates, but disabled in prediction.\n");
+                    }
+                }
+                predict(input, output, model, predict_probability);
+                input.Close();
+                output.Close();
             }
-            else
+            catch (FileNotFoundException e) 
             {
-                if (svm.svm_check_probability_model(model) != 0)
-                {
-                    System.Console.WriteLine("Model supports probability estimates, but disabled in prediction.\n");
-                }
+                exit_with_help();
             }
-            predict(input, output, model, predict_probability);
-            input.Close();
-            output.Close();
+            catch (Exception e) 
+            {
+                exit_with_help();
+            }
         }
     }
 

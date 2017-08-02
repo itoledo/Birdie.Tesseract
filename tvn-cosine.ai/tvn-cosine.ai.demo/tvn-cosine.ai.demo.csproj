@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>tvn_cosine.ai.demo.learning.chapter18.EnsembleLearningDemo</StartupObject>
+    <StartupObject>tvn_cosine.ai.demo.libsvm.TrainingExample</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -64,6 +64,7 @@
     <Compile Include="learning\chapter21\PassiveTDAgentDemo.cs" />
     <Compile Include="learning\chapter21\QLearningAgentDemo.cs" />
     <Compile Include="learning\chapter21\LearningDemoBase.cs" />
+    <Compile Include="libsvm\TrainingExample.cs" />
     <Compile Include="logic\DpllDemo.cs" />
     <Compile Include="logic\fol\FolDemoBase.cs" />
     <Compile Include="logic\fol\FOL_bcAskDemo.cs" />
@@ -123,6 +124,9 @@
     <None Include="DataResource.class">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="heart_scale.data">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="iris.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -169,6 +173,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

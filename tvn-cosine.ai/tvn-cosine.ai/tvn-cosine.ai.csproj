@@ -93,7 +93,8 @@
     <Compile Include="libsvm\svm_predict.cs" />
     <Compile Include="libsvm\svm_print_interface.cs" />
     <Compile Include="libsvm\svm_problem.cs" />
-    <Compile Include="libsvm\svm_toy.cs" />
+    <Compile Include="libsvm\svm_scale.cs" />
+    <Compile Include="libsvm\svm_train.cs" />
     <Compile Include="search\csp\api\ICspListener.cs" />
     <Compile Include="search\csp\inference\api\IInferenceLog.cs" />
     <Compile Include="search\framework\problem\api\IProblem.cs" />
@@ -580,6 +581,9 @@
   <ItemGroup>
     <None Include="CreateNuGetPackage.ps1" />
     <None Include="data\DataResource.class">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="data\heart_scale.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="data\iris.csv">

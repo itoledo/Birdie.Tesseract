@@ -12,4 +12,10 @@
             System.Console.WriteLine(message);
         }
     }
+
+    public class NONEsvm_print_interface : svm_print_interface
+    {
+        public void print(string message)
+        { }
+    }
 }
