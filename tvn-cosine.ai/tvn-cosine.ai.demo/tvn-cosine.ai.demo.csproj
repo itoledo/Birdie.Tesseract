@@ -64,7 +64,6 @@
     <Compile Include="learning\chapter21\PassiveTDAgentDemo.cs" />
     <Compile Include="learning\chapter21\QLearningAgentDemo.cs" />
     <Compile Include="learning\chapter21\LearningDemoBase.cs" />
-    <Compile Include="libsvm\TrainingExample.cs" />
     <Compile Include="logic\DpllDemo.cs" />
     <Compile Include="logic\fol\FolDemoBase.cs" />
     <Compile Include="logic\fol\FOL_bcAskDemo.cs" />
