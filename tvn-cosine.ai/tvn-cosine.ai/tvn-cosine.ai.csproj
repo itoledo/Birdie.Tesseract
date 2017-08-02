@@ -86,6 +86,12 @@
     <Compile Include="environment\wumpusworld\WumpusCave.cs" />
     <Compile Include="environment\wumpusworld\WumpusFunctionFunctions.cs" />
     <Compile Include="environment\wumpusworld\WumpusKnowledgeBase.cs" />
+    <Compile Include="learning\learners\svm\svm.cs" />
+    <Compile Include="learning\learners\svm\svm_model.cs" />
+    <Compile Include="learning\learners\svm\svm_node.cs" />
+    <Compile Include="learning\learners\svm\svm_parameter.cs" />
+    <Compile Include="learning\learners\svm\svm_print_interface.cs" />
+    <Compile Include="learning\learners\svm\svm_problem.cs" />
     <Compile Include="search\csp\api\ICspListener.cs" />
     <Compile Include="search\csp\inference\api\IInferenceLog.cs" />
     <Compile Include="search\framework\problem\api\IProblem.cs" />

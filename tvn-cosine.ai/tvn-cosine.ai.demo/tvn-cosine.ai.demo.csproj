@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>tvn_cosine.ai.demo.libsvm.TrainingExample</StartupObject>
+    <StartupObject>tvn_cosine.ai.demo.learning.svm.SVMExample</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -64,6 +64,7 @@
     <Compile Include="learning\chapter21\PassiveTDAgentDemo.cs" />
     <Compile Include="learning\chapter21\QLearningAgentDemo.cs" />
     <Compile Include="learning\chapter21\LearningDemoBase.cs" />
+    <Compile Include="learning\svm\SVMExample.cs" />
     <Compile Include="logic\DpllDemo.cs" />
     <Compile Include="logic\fol\FolDemoBase.cs" />
     <Compile Include="logic\fol\FOL_bcAskDemo.cs" />
