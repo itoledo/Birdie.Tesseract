@@ -110,17 +110,16 @@ namespace tvn.cosine.ai.learning.neural
         }
 
         public void TrainOn(NeuralNetworkDataSet innds, int numberofEpochs)
-        { 
+        {
             for (int i = 0; i < numberofEpochs; ++i)
             { 
                 innds.RefreshDataset();
                 while (innds.HasMoreExamples())
                 {
                     NeuralNetworkExample nne = innds.GetExampleAtRandom();
-                    ProcessInput(nne.GetInput()); 
-                    Vector error = GetOutputLayer().ErrorVectorFrom(nne.GetTarget());
+                    ProcessInput(nne.GetInput());
                      
-                    ProcessError(error);
+                    Vector error = GetOutputLayer().ErrorVectorFrom(nne.GetTarget()); 
                 } 
             }
         }

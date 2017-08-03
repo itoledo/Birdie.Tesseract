@@ -9,9 +9,9 @@ namespace tvn_cosine.ai.demo.learning.chapter18
 {
     public class BackPropogationDeepLearningDemo
     {
-        static int epochs = 1000;
+        static int epochs = 300;
         static int numHiddenLayers = 10;
-        static int numNeuronsPerLayer = 20;
+        static int numNeuronsPerLayer = 2;
 
         static void Main(params string[] args)
         {
@@ -45,7 +45,7 @@ namespace tvn_cosine.ai.demo.learning.chapter18
                 config.SetConfig(FeedForwardDeepNeuralNetwork.LOWER_LIMIT_WEIGHTS, -2.0);
                 config.SetConfig(FeedForwardDeepNeuralNetwork.UPPER_LIMIT_WEIGHTS, 2.0);
 
-                FeedForwardDeepNeuralNetwork ffnn = new FeedForwardDeepNeuralNetwork(config, new LogSigActivationFunction());
+                FeedForwardDeepNeuralNetwork ffnn = new FeedForwardDeepNeuralNetwork(config, new SoftSignActivationFunction());
                 ffnn.SetTrainingScheme(new BackPropagationDeepLearning(0.1, 0.9));
 
                 ffnn.TrainOn(innds, epochs);
