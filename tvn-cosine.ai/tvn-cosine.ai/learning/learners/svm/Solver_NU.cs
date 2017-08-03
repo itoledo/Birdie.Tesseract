@@ -10,9 +10,9 @@
 
         private SolutionInfo si;
 
-        void Solve(int l, QMatrix Q, double[] p, sbyte[] y,
-               double[] alpha, double Cp, double Cn, double eps,
-               SolutionInfo si, int shrinking)
+        public override void Solve(int l, QMatrix Q, double[] p, sbyte[] y,
+                    double[] alpha, double Cp, double Cn, double eps,
+                    SolutionInfo si, int shrinking)
         {
             this.si = si;
             base.Solve(l, Q, p, y, alpha, Cp, Cn, eps, si, shrinking);
