@@ -118,7 +118,7 @@ namespace tvn.cosine.ai.learning.neural
                 {
                     NeuralNetworkExample nne = innds.GetExampleAtRandom();
                     ProcessInput(nne.GetInput());
-                    Vector error = GetOutputLayer().ErrorVectorFrom(nne.GetTarget());
+                    Vector error = GetOutputLayer().ErrorVectorFrom(nne.GetTarget()); 
                     ProcessError(error);
                 }
             }

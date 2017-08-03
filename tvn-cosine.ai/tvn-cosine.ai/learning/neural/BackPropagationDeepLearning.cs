@@ -14,7 +14,7 @@ namespace tvn.cosine.ai.learning.neural
 
         private LayerSensitivity[] hiddenSensitivities;
         private LayerSensitivity outputSensitivity;
-
+          
         public BackPropagationDeepLearning(double learningRate, double momentum)
         {
             this.learningRate = learningRate;
@@ -74,12 +74,14 @@ namespace tvn.cosine.ai.learning.neural
             }
 
             // calculate weight Updates
-            CalculateWeightUpdates(outputSensitivity, hiddenLayers[hiddenLayers.Length - 1].GetLastActivationValues(), learningRate, momentum);
+            CalculateWeightUpdates(outputSensitivity, hiddenLayers[hiddenLayers.Length - 1].GetLastActivationValues(),
+                learningRate, momentum);
             for (int i = hiddenLayers.Length - 1; i > 0; --i)
             {
-                CalculateWeightUpdates(hiddenSensitivities[i], hiddenLayers[i - 1].GetLastActivationValues(), learningRate, momentum);
-            } 
-             
+                CalculateWeightUpdates(hiddenSensitivities[i], hiddenLayers[i - 1].GetLastActivationValues(),
+                    learningRate, momentum);
+            }
+
             CalculateWeightUpdates(hiddenSensitivities[0], hiddenLayers[0].GetLastInputValues(), learningRate, momentum);
 
             // calculate Bias Updates
@@ -87,7 +89,7 @@ namespace tvn.cosine.ai.learning.neural
             for (int i = hiddenLayers.Length - 1; i >= 0; --i)
             {
                 CalculateBiasUpdates(hiddenSensitivities[i], learningRate, momentum);
-            } 
+            }
 
             // update weightsAndBiases
             outputLayer.UpdateWeights();
