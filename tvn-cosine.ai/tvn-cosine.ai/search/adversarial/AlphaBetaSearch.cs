@@ -67,10 +67,10 @@ namespace tvn.cosine.ai.search.adversarial
             metrics = new Metrics();
             A result = default(A);
             double resultValue = double.NegativeInfinity;
-            P player = game.getPlayer(state);
-            foreach (A action in game.getActions(state))
+            P player = game.GetPlayer(state);
+            foreach (A action in game.GetActions(state))
             {
-                double value = minValue(game.getResult(state, action), player,
+                double value = minValue(game.GetResult(state, action), player,
                         double.NegativeInfinity, double.PositiveInfinity);
                 if (value > resultValue)
                 {
@@ -84,13 +84,13 @@ namespace tvn.cosine.ai.search.adversarial
         public double maxValue(S state, P player, double alpha, double beta)
         {
             metrics.incrementInt(METRICS_NODES_EXPANDED);
-            if (game.isTerminal(state))
-                return game.getUtility(state, player);
+            if (game.IsTerminal(state))
+                return game.GetUtility(state, player);
             double value = double.NegativeInfinity;
-            foreach (A action in game.getActions(state))
+            foreach (A action in game.GetActions(state))
             {
                 value = System.Math.Max(value, minValue( //
-                        game.getResult(state, action), player, alpha, beta));
+                        game.GetResult(state, action), player, alpha, beta));
                 if (value >= beta)
                     return value;
                 alpha = System.Math.Max(alpha, value);
@@ -101,13 +101,13 @@ namespace tvn.cosine.ai.search.adversarial
         public double minValue(S state, P player, double alpha, double beta)
         {
             metrics.incrementInt(METRICS_NODES_EXPANDED);
-            if (game.isTerminal(state))
-                return game.getUtility(state, player);
+            if (game.IsTerminal(state))
+                return game.GetUtility(state, player);
             double value = double.PositiveInfinity;
-            foreach (A action in game.getActions(state))
+            foreach (A action in game.GetActions(state))
             {
                 value = System.Math.Min(value, maxValue( //
-                        game.getResult(state, action), player, alpha, beta));
+                        game.GetResult(state, action), player, alpha, beta));
                 if (value <= alpha)
                     return value;
                 beta = System.Math.Min(beta, value);

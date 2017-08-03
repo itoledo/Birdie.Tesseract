@@ -91,8 +91,8 @@ namespace tvn.cosine.ai.search.adversarial
         {
             metrics = new Metrics();
             IStringBuilder logText = null;
-            P player = game.getPlayer(state);
-            ICollection<A> results = orderActions(state, game.getActions(state), player, 0);
+            P player = game.GetPlayer(state);
+            ICollection<A> results = orderActions(state, game.GetActions(state), player, 0);
             timer.start();
             currDepthLimit = 0;
             do
@@ -104,7 +104,7 @@ namespace tvn.cosine.ai.search.adversarial
                 ActionStore newResults = new ActionStore();
                 foreach (A action in results)
                 {
-                    double value = minValue(game.getResult(state, action), player, double.NegativeInfinity,
+                    double value = minValue(game.GetResult(state, action), player, double.NegativeInfinity,
                             double.PositiveInfinity, 1);
                     if (timer.timeOutOccurred())
                         break; // exit from action loop
@@ -134,16 +134,16 @@ namespace tvn.cosine.ai.search.adversarial
         public virtual double maxValue(S state, P player, double alpha, double beta, int depth)
         {
             updateMetrics(depth);
-            if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred())
+            if (game.IsTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred())
             {
                 return eval(state, player);
             }
             else
             {
                 double value = double.NegativeInfinity;
-                foreach (A action in orderActions(state, game.getActions(state), player, depth))
+                foreach (A action in orderActions(state, game.GetActions(state), player, depth))
                 {
-                    value = System.Math.Max(value, minValue(game.getResult(state, action), //
+                    value = System.Math.Max(value, minValue(game.GetResult(state, action), //
                             player, alpha, beta, depth + 1));
                     if (value >= beta)
                         return value;
@@ -157,16 +157,16 @@ namespace tvn.cosine.ai.search.adversarial
         public virtual double minValue(S state, P player, double alpha, double beta, int depth)
         {
             updateMetrics(depth);
-            if (game.isTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred())
+            if (game.IsTerminal(state) || depth >= currDepthLimit || timer.timeOutOccurred())
             {
                 return eval(state, player);
             }
             else
             {
                 double value = double.PositiveInfinity;
-                foreach (A action in orderActions(state, game.getActions(state), player, depth))
+                foreach (A action in orderActions(state, game.GetActions(state), player, depth))
                 {
-                    value = System.Math.Min(value, maxValue(game.getResult(state, action), //
+                    value = System.Math.Min(value, maxValue(game.GetResult(state, action), //
                             player, alpha, beta, depth + 1));
                     if (value <= alpha)
                         return value;
@@ -230,9 +230,9 @@ namespace tvn.cosine.ai.search.adversarial
          */
         protected virtual double eval(S state, P player)
         {
-            if (game.isTerminal(state))
+            if (game.IsTerminal(state))
             {
-                return game.getUtility(state, player);
+                return game.GetUtility(state, player);
             }
             else
             {

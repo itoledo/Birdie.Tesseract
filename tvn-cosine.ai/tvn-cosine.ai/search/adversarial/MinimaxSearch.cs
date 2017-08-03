@@ -65,10 +65,10 @@ namespace tvn.cosine.ai.search.adversarial
             metrics = new Metrics();
             A result = default(A);
             double resultValue = double.NegativeInfinity;
-            P player = game.getPlayer(state);
-            foreach (A action in game.getActions(state))
+            P player = game.GetPlayer(state);
+            foreach (A action in game.GetActions(state))
             {
-                double value = minValue(game.getResult(state, action), player);
+                double value = minValue(game.GetResult(state, action), player);
                 if (value > resultValue)
                 {
                     result = action;
@@ -82,12 +82,12 @@ namespace tvn.cosine.ai.search.adversarial
         { // returns an utility
           // value
             metrics.incrementInt(METRICS_NODES_EXPANDED);
-            if (game.isTerminal(state))
-                return game.getUtility(state, player);
+            if (game.IsTerminal(state))
+                return game.GetUtility(state, player);
             double value = double.NegativeInfinity;
-            foreach (A action in game.getActions(state))
+            foreach (A action in game.GetActions(state))
                 value = System.Math.Max(value,
-                        minValue(game.getResult(state, action), player));
+                        minValue(game.GetResult(state, action), player));
             return value;
         }
 
@@ -95,12 +95,12 @@ namespace tvn.cosine.ai.search.adversarial
         { // returns an utility
           // value
             metrics.incrementInt(METRICS_NODES_EXPANDED);
-            if (game.isTerminal(state))
-                return game.getUtility(state, player);
+            if (game.IsTerminal(state))
+                return game.GetUtility(state, player);
             double value = double.PositiveInfinity;
-            foreach (A action in game.getActions(state))
+            foreach (A action in game.GetActions(state))
                 value = System.Math.Min(value,
-                        maxValue(game.getResult(state, action), player));
+                        maxValue(game.GetResult(state, action), player));
             return value;
         }
 

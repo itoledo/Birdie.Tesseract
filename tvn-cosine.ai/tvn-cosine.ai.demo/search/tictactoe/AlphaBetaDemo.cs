@@ -18,14 +18,14 @@ namespace tvn_cosine.ai.demo.search.tictactoe
         {
             System.Console.WriteLine("ALPHA BETA DEMO\n");
             TicTacToeGame game = new TicTacToeGame();
-            TicTacToeState currState = game.getInitialState();
+            TicTacToeState currState = game.GetInitialState();
             IAdversarialSearch<TicTacToeState, XYLocation> search = AlphaBetaSearch<TicTacToeState, XYLocation, string>
                     .createFor(game);
-            while (!(game.isTerminal(currState)))
+            while (!(game.IsTerminal(currState)))
             {
-                System.Console.WriteLine(game.getPlayer(currState) + "  playing ... ");
+                System.Console.WriteLine(game.GetPlayer(currState) + "  playing ... ");
                 XYLocation action = search.makeDecision(currState);
-                currState = game.getResult(currState, action);
+                currState = game.GetResult(currState, action);
                 System.Console.WriteLine(currState);
             }
             System.Console.WriteLine("ALPHA BETA DEMO done");

@@ -16,27 +16,27 @@ namespace tvn_cosine.ai.test.unit.environment.tictactoe
         public void setUp()
         {
             game = new TicTacToeGame();
-            state = game.getInitialState();
+            state = game.GetInitialState();
         }
 
         [TestMethod]
         public void testCreation()
         {
             game = new TicTacToeGame();
-            state = game.getInitialState();
-            Assert.AreEqual(9, game.getActions(state).Size());
-            Assert.AreEqual(TicTacToeState.X, game.getPlayer(state));
+            state = game.GetInitialState();
+            Assert.AreEqual(9, game.GetActions(state).Size());
+            Assert.AreEqual(TicTacToeState.X, game.GetPlayer(state));
         }
 
         [TestMethod]
         public void testHashCode()
         {
-            TicTacToeState initialState1 = game.getInitialState();
-            TicTacToeState initialState2 = game.getInitialState();
+            TicTacToeState initialState1 = game.GetInitialState();
+            TicTacToeState initialState2 = game.GetInitialState();
             Assert.AreEqual(initialState1.GetHashCode(), initialState2.GetHashCode());
-            TicTacToeState state1 = game.getResult(initialState1, new XYLocation(0, 0));
+            TicTacToeState state1 = game.GetResult(initialState1, new XYLocation(0, 0));
             Assert.AreNotEqual(state1.GetHashCode(), initialState2.GetHashCode());
-            TicTacToeState state2 = game.getResult(initialState2, new XYLocation(0, 0));
+            TicTacToeState state2 = game.GetResult(initialState2, new XYLocation(0, 0));
             Assert.AreEqual(state1.GetHashCode(), state2.GetHashCode());
 
         }
@@ -55,23 +55,23 @@ namespace tvn_cosine.ai.test.unit.environment.tictactoe
         [TestMethod]
         public void testMakingOneMoveChangesState()
         {
-            state = game.getResult(state, new XYLocation(0, 0));
+            state = game.GetResult(state, new XYLocation(0, 0));
             Assert.AreEqual(TicTacToeState.X, state.getValue(0, 0));
             Assert.AreEqual(false, state.isEmpty(0, 0));
-            Assert.AreEqual(8, game.getActions(state).Size());
-            Assert.AreEqual(TicTacToeState.O, game.getPlayer(state));
+            Assert.AreEqual(8, game.GetActions(state).Size());
+            Assert.AreEqual(TicTacToeState.O, game.GetPlayer(state));
         }
 
         [TestMethod]
         public void testMakingTwoMovesChangesState()
         {
-            state = game.getResult(state, new XYLocation(0, 0));
-            state = game.getResult(state, new XYLocation(0, 1));
+            state = game.GetResult(state, new XYLocation(0, 0));
+            state = game.GetResult(state, new XYLocation(0, 1));
             Assert.AreEqual(TicTacToeState.O, state.getValue(0, 1));
             Assert.AreEqual(false, state.isEmpty(0, 1));
             Assert.AreEqual(true, state.isEmpty(1, 0));
-            Assert.AreEqual(7, game.getActions(state).Size());
-            Assert.AreEqual(TicTacToeState.X, game.getPlayer(state));
+            Assert.AreEqual(7, game.GetActions(state).Size());
+            Assert.AreEqual(TicTacToeState.X, game.GetPlayer(state));
         }
 
         [TestMethod]

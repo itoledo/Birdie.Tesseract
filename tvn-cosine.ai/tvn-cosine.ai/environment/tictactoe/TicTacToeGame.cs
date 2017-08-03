@@ -17,39 +17,39 @@ namespace tvn.cosine.ai.environment.tictactoe
     { 
         private TicTacToeState initialState = new TicTacToeState();
 
-        public TicTacToeState getInitialState()
+        public TicTacToeState GetInitialState()
         {
             return initialState;
         }
 
-        public string[] getPlayers()
+        public string[] GetPlayers()
         {
             return new string[] { TicTacToeState.X, TicTacToeState.O };
         }
 
-        public string getPlayer(TicTacToeState state)
+        public string GetPlayer(TicTacToeState state)
         {
             return state.getPlayerToMove();
         }
 
-        public ICollection<XYLocation> getActions(TicTacToeState state)
+        public ICollection<XYLocation> GetActions(TicTacToeState state)
         {
             return state.getUnMarkedPositions();
         }
 
-        public TicTacToeState getResult(TicTacToeState state, XYLocation action)
+        public TicTacToeState GetResult(TicTacToeState state, XYLocation action)
         {
             TicTacToeState result = state.Clone();
             result.mark(action);
             return result;
         }
 
-        public bool isTerminal(TicTacToeState state)
+        public bool IsTerminal(TicTacToeState state)
         {
             return state.getUtility() != -1;
         }
 
-        public double getUtility(TicTacToeState state, string player)
+        public double GetUtility(TicTacToeState state, string player)
         {
             double result = state.getUtility();
             if (result != -1)
