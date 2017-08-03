@@ -4,7 +4,7 @@ using tvn.cosine.exceptions;
 
 namespace tvn.cosine.ai.learning.neural
 {
-    public class BackPropagationLearningn : INeuralNetworkTrainingScheme
+    public class BackPropagationDeepLearning : INeuralNetworkTrainingScheme
     {
         private readonly double learningRate;
         private readonly double momentum;
@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.learning.neural
         private LayerSensitivity[] hiddenSensitivities;
         private LayerSensitivity outputSensitivity;
 
-        public BackPropagationLearningn(double learningRate, double momentum)
+        public BackPropagationDeepLearning(double learningRate, double momentum)
         {
             this.learningRate = learningRate;
             this.momentum = momentum;
@@ -23,7 +23,7 @@ namespace tvn.cosine.ai.learning.neural
 
         public void SetNeuralNetwork(IFunctionApproximator fapp)
         {
-            FeedForwardNeuralNetworkn ffnn = fapp as FeedForwardNeuralNetworkn;
+            FeedForwardDeepNeuralNetwork ffnn = fapp as FeedForwardDeepNeuralNetwork;
             if (null == ffnn)
             {
                 throw new Exception("Only supporting FeedforwardNeuralNetwork5 at this stage.");

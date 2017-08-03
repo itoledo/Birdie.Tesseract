@@ -5,7 +5,7 @@ using tvn.cosine.exceptions;
 
 namespace tvn.cosine.ai.learning.neural
 {
-    public class FeedForwardNeuralNetworkn : IFunctionApproximator
+    public class FeedForwardDeepNeuralNetwork : IFunctionApproximator
     {
         public const string UPPER_LIMIT_WEIGHTS = "upper_limit_weights";
         public const string LOWER_LIMIT_WEIGHTS = "lower_limit_weights";
@@ -30,11 +30,16 @@ namespace tvn.cosine.ai.learning.neural
         /// Constructor to be used for non testing code.
         /// </summary>
         /// <param name="config"></param>
-        public FeedForwardNeuralNetworkn(NeuralNetworkConfig config)
+        public FeedForwardDeepNeuralNetwork(NeuralNetworkConfig config, IActivationFunction activationFunction)
         {
             if (config.GetParameterAsInteger(NUMBER_OF_HIDDEN_LAYERS) < 1)
             {
                 throw new ArgumentOutOfRangeException("NUMBER_OF_HIDDEN_LAYERS must be >= 1");
+            }
+
+            if (null == activationFunction)
+            {
+                activationFunction = new LogSigActivationFunction();
             }
             this.config = config;
 
@@ -50,14 +55,14 @@ namespace tvn.cosine.ai.learning.neural
 
             hiddenLayers[0] = new Layer(numberOfHiddenNeuronsPerLayer, numberOfInputNeurons,
                     lowerLimitForWeights, upperLimitForWeights,
-                    new LogSigActivationFunction());
+                    activationFunction);
 
 
             for (int i = 1; i < hiddenLayers.Length; ++i)
             {
                 hiddenLayers[i] = new Layer(numberOfHiddenNeuronsPerLayer, numberOfHiddenNeuronsPerLayer,
                         lowerLimitForWeights, upperLimitForWeights,
-                        new LogSigActivationFunction());
+                        activationFunction);
             }
 
             outputLayer = new Layer(numberOfOutputNeurons, numberOfHiddenNeuronsPerLayer,
@@ -74,7 +79,7 @@ namespace tvn.cosine.ai.learning.neural
         /// <param name="hiddenLayersBias"></param>
         /// <param name="outputLayerWeights"></param>
         /// <param name="outputLayerBias"></param>
-        public FeedForwardNeuralNetworkn(Matrix[] hiddenLayersWeights,
+        public FeedForwardDeepNeuralNetwork(Matrix[] hiddenLayersWeights,
                                          Vector[] hiddenLayersBias,
                                          Matrix outputLayerWeights,
                                          Vector outputLayerBias)
@@ -165,7 +170,7 @@ namespace tvn.cosine.ai.learning.neural
 
             return hiddenLayers[layer].GetBiasVector();
         }
-         
+
         public Matrix GetOutputLayerWeights()
         {
             return outputLayer.GetWeightMatrix();
@@ -180,7 +185,7 @@ namespace tvn.cosine.ai.learning.neural
 
             return hiddenLayers[layer];
         }
-         
+
         public Vector GetOutputLayerBias()
         {
             return outputLayer.GetBiasVector();
