@@ -87,6 +87,7 @@
     <Compile Include="environment\wumpusworld\WumpusFunctionFunctions.cs" />
     <Compile Include="environment\wumpusworld\WumpusKnowledgeBase.cs" />
     <Compile Include="learning\neural\BackPropagationDeepLearning.cs" />
+    <Compile Include="learning\neural\examples\AnimalDataSetNumerizer.cs" />
     <Compile Include="learning\neural\FeedForwardDeepNeuralNetwork.cs" />
     <Compile Include="svm\Cache.cs" />
     <Compile Include="svm\Kernel.cs" />

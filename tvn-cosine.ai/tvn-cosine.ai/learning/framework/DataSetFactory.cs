@@ -4,7 +4,7 @@ using tvn.cosine.exceptions;
 using tvn.cosine.text;
 using tvn.cosine.text.api;
 using tvn.cosine.ai.learning.framework.api;
-using tvn.cosine.ai.util; 
+using tvn.cosine.ai.util;
 
 namespace tvn.cosine.ai.learning.framework
 {
@@ -94,6 +94,12 @@ namespace tvn.cosine.ai.learning.framework
             return new DataSetFactory().fromFile("iris", spec, ",");
         }
 
+        public static DataSet getAnimalDataSet()
+        {
+            DataSetSpecification spec = createAnimalDataSetSpec();
+            return new DataSetFactory().fromFile("animal-test", spec, ",");
+        }
+
         public static DataSetSpecification createCSVDataSetSpec()
         {
             DataSetSpecification dss = new DataSetSpecification();
@@ -103,6 +109,17 @@ namespace tvn.cosine.ai.learning.framework
                 dss.defineNumericAttribute(i.ToString());
             }
 
+            return dss;
+        }
+         
+        public static DataSetSpecification createAnimalDataSetSpec()
+        {
+            DataSetSpecification dss = new DataSetSpecification();
+            for (int i = 1; i <= 20; ++i)
+            {
+                dss.defineNumericAttribute(string.Format("feature_{0}", i));
+            }
+            dss.defineStringAttribute("animal_name", new string[] { "GIRAFFE", "HIPPO", "LION" });
             return dss;
         }
 

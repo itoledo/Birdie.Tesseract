@@ -322,6 +322,14 @@ namespace tvn.cosine.ai.util
             ICollection<double> obj = CollectionFactory.CreateQueue<double>();
             foreach (double d in values)
             {
+                if (d == mean)
+                {
+                    mean = d - EPSILON;
+                }
+                if (0 == stdev)
+                {
+                    stdev = EPSILON;
+                }
                 obj.Add((d - mean) / stdev);
             }
 
