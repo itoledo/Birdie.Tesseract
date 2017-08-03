@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.learning.learners.svm
+﻿namespace tvn.cosine.ai.svm
 {
     internal class SVR_Q : Kernel
     {

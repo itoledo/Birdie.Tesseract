@@ -1,19 +1,15 @@
-﻿namespace tvn.cosine.ai.learning.learners.svm
+﻿namespace tvn.cosine.ai.svm
 {
-    //
-    // Q matrices for various formulations
-    //
-    internal class SVC_Q : Kernel
+    internal class ONE_CLASS_Q : Kernel
     {
-        private readonly sbyte[] y;
         private readonly Cache cache;
         private readonly double[] QD;
 
-        public SVC_Q(Problem prob, Parameter param, sbyte[] y_)
-              : base(prob.l, prob.x, param)
+
+        public ONE_CLASS_Q(Problem prob, Parameter param)
+            : base(prob.l, prob.x, param)
         {
 
-            y = (sbyte[])y_.Clone();
             cache = new Cache(prob.l, (long)(param.cache_size * (1 << 20)));
             QD = new double[prob.l];
             for (int i = 0; i < prob.l; i++)
@@ -27,7 +23,7 @@
             if ((start = cache.get_data(i, data, len)) < len)
             {
                 for (j = start; j < len; j++)
-                    data[0][j] = (float)(y[i] * y[j] * kernel_function(i, j));
+                    data[0][j] = (float)kernel_function(i, j);
             }
             return data[0];
         }
@@ -41,8 +37,7 @@
         {
             cache.swap_index(i, j);
             base.swap_index(i, j);
-            { sbyte _ = y[i]; y[i] = y[j]; y[j] = _; }
-            { double _ = QD[i]; QD[i] = QD[j]; QD[j] = _; }
+            do { double _ = QD[i]; QD[i] = QD[j]; QD[j] = _; } while (false);
         }
     }
 }

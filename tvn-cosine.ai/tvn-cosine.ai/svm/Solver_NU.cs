@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.learning.learners.svm
+﻿namespace tvn.cosine.ai.svm
 {
     //
     // Solver for nu-svm classification and regression

@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>tvn_cosine.ai.demo.learning.svm.SVMExample</StartupObject>
+    <StartupObject>tvn_cosine.ai.demo.deeplearning.DeepLearningExample</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -55,6 +55,7 @@
     <Compile Include="agent\trivial\ReflexVacuumAgentDemo.cs" />
     <Compile Include="agent\trivial\SimpleReflexVacuumAgentDemo.cs" />
     <Compile Include="agent\trivial\TableDrivenVacuumAgentDemo.cs" />
+    <Compile Include="deeplearning\DeepLearningExample.cs" />
     <Compile Include="learning\chapter18\BackPropogationDemo.cs" />
     <Compile Include="learning\chapter18\DecisionListDemo.cs" />
     <Compile Include="learning\chapter18\DecisionTreeDemo.cs" />
@@ -64,7 +65,7 @@
     <Compile Include="learning\chapter21\PassiveTDAgentDemo.cs" />
     <Compile Include="learning\chapter21\QLearningAgentDemo.cs" />
     <Compile Include="learning\chapter21\LearningDemoBase.cs" />
-    <Compile Include="learning\svm\SVMExample.cs" />
+    <Compile Include="svm\SVMExample.cs" />
     <Compile Include="logic\DpllDemo.cs" />
     <Compile Include="logic\fol\FolDemoBase.cs" />
     <Compile Include="logic\fol\FOL_bcAskDemo.cs" />

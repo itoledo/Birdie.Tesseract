@@ -4,7 +4,7 @@ using tvn.cosine.ai.agent.api;
 using tvn.cosine.api;
 using tvn.cosine.text;
 
-namespace tvn.cosine.ai.learning.learners.svm
+namespace tvn.cosine.ai.svm
 {
     public class SupportVectorMachine
     {

@@ -1,4 +1,4 @@
-﻿namespace tvn.cosine.ai.learning.learners.svm
+﻿namespace tvn.cosine.ai.svm
 {
     // An SMO algorithm in Fan et al., JMLR 6(2005), p. 1889--1918
     // Solves:

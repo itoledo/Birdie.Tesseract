@@ -1,7 +1,6 @@
-﻿using tvn.cosine.ai.learning.framework;
-using tvn.cosine.ai.learning.learners.svm;
+﻿using tvn.cosine.ai.svm;
 
-namespace tvn_cosine.ai.demo.learning.svm
+namespace tvn_cosine.ai.demo.svm
 {
     public class SVMExample
     {
@@ -24,7 +23,7 @@ namespace tvn_cosine.ai.demo.learning.svm
             param.nr_weight = 0;
             param.weight_label = new int[0];
             param.weight = new double[0];
-            Problem problem = DataSetFactory.LoadSVMFile("heart_scale.data", param);
+            Problem problem = SVMFactory.LoadSVMFile("heart_scale.data", param);
             Model model = SupportVectorMachine.Train(problem, param);
 
             int errors = 0;

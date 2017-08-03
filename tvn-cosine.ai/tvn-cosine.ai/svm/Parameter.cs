@@ -1,6 +1,6 @@
 ﻿using tvn.cosine.api;
 
-namespace tvn.cosine.ai.learning.learners.svm
+namespace tvn.cosine.ai.svm
 {
     public class Parameter : ICloneable<Parameter>
     {

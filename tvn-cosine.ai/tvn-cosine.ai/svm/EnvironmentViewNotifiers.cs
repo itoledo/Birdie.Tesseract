@@ -1,6 +1,6 @@
 ﻿using tvn.cosine.ai.agent.api;
 
-namespace tvn.cosine.ai.learning.learners.svm
+namespace tvn.cosine.ai.svm
 { 
     public class EnvironmentViewNotifierConsole : IEnvironmentViewNotifier
     {
