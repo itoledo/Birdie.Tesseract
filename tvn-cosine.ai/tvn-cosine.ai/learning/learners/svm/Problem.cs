@@ -1,9 +1,9 @@
 ﻿namespace tvn.cosine.ai.learning.learners.svm
 {
-    public class svm_problem
+    public class Problem
     {
         public int l;
         public double[] y;
-        public svm_node[][] x;
+        public Node[][] x;
     }
 }

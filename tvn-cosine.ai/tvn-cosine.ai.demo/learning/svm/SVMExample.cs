@@ -7,10 +7,10 @@ namespace tvn_cosine.ai.demo.learning.svm
     {
         public static void Main(params string[] args)
         {
-            svm_parameter param = new svm_parameter();
+            Parameter param = new Parameter();
             // default values
-            param.svm_type = svm_parameter.C_SVC;
-            param.kernel_type = svm_parameter.RBF;
+            param.svm_type = Parameter.C_SVC;
+            param.kernel_type = Parameter.RBF;
             param.degree = 3;
             param.gamma = 0;    // 1/num_features
             param.coef0 = 0;
@@ -24,15 +24,15 @@ namespace tvn_cosine.ai.demo.learning.svm
             param.nr_weight = 0;
             param.weight_label = new int[0];
             param.weight = new double[0];
-            svm_problem problem = DataSetFactory.LoadSVMFile("heart_scale.data", param);
-            svm_model model = SupportVectorMachine.svm_train(problem, param);
+            Problem problem = DataSetFactory.LoadSVMFile("heart_scale.data", param);
+            Model model = SupportVectorMachine.Train(problem, param);
 
             int errors = 0;
             for (int i = 0; i < problem.y.Length; ++i)
             {
-                double[] prob = new double[2];
-                var newPred = SupportVectorMachine.svm_predict_probability(model, problem.x[i], prob);
-                var prediction = SupportVectorMachine.svm_predict(model, problem.x[i]);
+                double[] prob = new double[3];
+                var newPred = SupportVectorMachine.PredictProbability(model, problem.x[i], prob);
+                var prediction = SupportVectorMachine.Predict(model, problem.x[i]);
                 if (prediction != problem.y[i])
                 {
                     ++errors;

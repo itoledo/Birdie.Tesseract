@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using tvn.cosine.ai.agent.api;
 using tvn.cosine.api;
 using tvn.cosine.text;
 
@@ -135,7 +136,7 @@ namespace tvn.cosine.ai.learning.learners.svm
 
     abstract class Kernel : QMatrix
     {
-        private svm_node[][] x;
+        private Node[][] x;
         private readonly double[] x_square;
 
         // svm_parameter
@@ -146,7 +147,7 @@ namespace tvn.cosine.ai.learning.learners.svm
 
         public override void swap_index(int i, int j)
         {
-            do { svm_node[] _ = x[i]; x[i] = x[j]; x[j] = _; } while (false);
+            do { Node[] _ = x[i]; x[i] = x[j]; x[j] = _; } while (false);
             if (x_square != null) do { double _ = x_square[i]; x_square[i] = x_square[j]; x_square[j] = _; } while (false);
         }
 
@@ -166,15 +167,15 @@ namespace tvn.cosine.ai.learning.learners.svm
         {
             switch (kernel_type)
             {
-                case svm_parameter.LINEAR:
+                case Parameter.LINEAR:
                     return dot(x[i], x[j]);
-                case svm_parameter.POLY:
+                case Parameter.POLY:
                     return powi(gamma * dot(x[i], x[j]) + coef0, degree);
-                case svm_parameter.RBF:
+                case Parameter.RBF:
                     return System.Math.Exp(-gamma * (x_square[i] + x_square[j] - 2 * dot(x[i], x[j])));
-                case svm_parameter.SIGMOID:
+                case Parameter.SIGMOID:
                     return System.Math.Tanh(gamma * dot(x[i], x[j]) + coef0);
-                case svm_parameter.PRECOMPUTED:
+                case Parameter.PRECOMPUTED:
                     return x[i][(int)(x[j][0].value)].value;
                 default:
                     return 0;   // java
@@ -182,16 +183,16 @@ namespace tvn.cosine.ai.learning.learners.svm
         }
 
 
-        public Kernel(int l, svm_node[][] x_, svm_parameter param)
+        public Kernel(int l, Node[][] x_, Parameter param)
         {
             this.kernel_type = param.kernel_type;
             this.degree = param.degree;
             this.gamma = param.gamma;
             this.coef0 = param.coef0;
 
-            x = (svm_node[][])x_.Clone();
+            x = (Node[][])x_.Clone();
 
-            if (kernel_type == svm_parameter.RBF)
+            if (kernel_type == Parameter.RBF)
             {
                 x_square = new double[l];
                 for (int i = 0; i < l; i++)
@@ -200,7 +201,7 @@ namespace tvn.cosine.ai.learning.learners.svm
             else x_square = null;
         }
 
-        public static double dot(svm_node[] x, svm_node[] y)
+        public static double dot(Node[] x, Node[] y)
         {
             double sum = 0;
             int xlen = x.Length;
@@ -222,16 +223,16 @@ namespace tvn.cosine.ai.learning.learners.svm
             return sum;
         }
 
-        public static double k_function(svm_node[] x, svm_node[] y,
-                          svm_parameter param)
+        public static double k_function(Node[] x, Node[] y,
+                          Parameter param)
         {
             switch (param.kernel_type)
             {
-                case svm_parameter.LINEAR:
+                case Parameter.LINEAR:
                     return dot(x, y);
-                case svm_parameter.POLY:
+                case Parameter.POLY:
                     return powi(param.gamma * dot(x, y) + param.coef0, param.degree);
-                case svm_parameter.RBF:
+                case Parameter.RBF:
                     {
                         double sum = 0;
                         int xlen = x.Length;
@@ -271,9 +272,9 @@ namespace tvn.cosine.ai.learning.learners.svm
 
                         return System.Math.Exp(-param.gamma * sum);
                     }
-                case svm_parameter.SIGMOID:
+                case Parameter.SIGMOID:
                     return System.Math.Tanh(param.gamma * dot(x, y) + param.coef0);
-                case svm_parameter.PRECOMPUTED:
+                case Parameter.PRECOMPUTED:
                     return x[(int)(y[0].value)].value;
                 default:
                     return 0;   // java
@@ -1153,7 +1154,7 @@ namespace tvn.cosine.ai.learning.learners.svm
         private readonly Cache cache;
         private readonly double[] QD;
 
-        public SVC_Q(svm_problem prob, svm_parameter param, sbyte[] y_)
+        public SVC_Q(Problem prob, Parameter param, sbyte[] y_)
               : base(prob.l, prob.x, param)
         {
 
@@ -1196,7 +1197,7 @@ namespace tvn.cosine.ai.learning.learners.svm
         private readonly double[] QD;
 
 
-        public ONE_CLASS_Q(svm_problem prob, svm_parameter param)
+        public ONE_CLASS_Q(Problem prob, Parameter param)
             : base(prob.l, prob.x, param)
         {
 
@@ -1241,7 +1242,7 @@ namespace tvn.cosine.ai.learning.learners.svm
         private float[][] buffer;
         private readonly double[] QD;
 
-        public SVR_Q(svm_problem prob, svm_parameter param)
+        public SVR_Q(Problem prob, Parameter param)
               : base(prob.l, prob.x, param)
         {
             l = prob.l;
@@ -1298,23 +1299,29 @@ namespace tvn.cosine.ai.learning.learners.svm
 
     public class SupportVectorMachine
     {
-        //
-        // construct and solve various formulations
-        //
-        public static readonly int LIBSVM_VERSION = 311;
+        static readonly string[] svm_type_table =
+        {
+            "c_svc","nu_svc","one_class","epsilon_svr","nu_svr",
+        };
+
+        static readonly string[] kernel_type_table =
+        {
+            "linear","polynomial","rbf","sigmoid","precomputed"
+        };
+
         public static readonly IRandom rand = CommonFactory.CreateRandom();
 
-        private static svm_print_interface svm_print_stdout = new svm_print_interface_none();
-        private static svm_print_interface svm_print_string = svm_print_stdout;
+        private static IEnvironmentViewNotifier svm_print_stdout = new EnvironmentViewNotifierNone();
+        private static IEnvironmentViewNotifier svm_print_string = svm_print_stdout;
 
         public static void info(string s)
         {
-            svm_print_string.print(s);
+            svm_print_string.NotifyViews(s);
         }
 
-        private static void solve_c_svc(svm_problem prob, svm_parameter param,
-                        double[] alpha, Solver.SolutionInfo si,
-                        double Cp, double Cn)
+        private static void solve_c_svc(Problem prob, Parameter param,
+                                        double[] alpha, Solver.SolutionInfo si,
+                                        double Cp, double Cn)
         {
             int l = prob.l;
             double[] minus_ones = new double[l];
@@ -1344,8 +1351,8 @@ namespace tvn.cosine.ai.learning.learners.svm
                 alpha[i] *= y[i];
         }
 
-        private static void solve_nu_svc(svm_problem prob, svm_parameter param,
-                        double[] alpha, Solver.SolutionInfo si)
+        private static void solve_nu_svc(Problem prob, Parameter param,
+                                         double[] alpha, Solver.SolutionInfo si)
         {
             int i;
             int l = prob.l;
@@ -1395,8 +1402,8 @@ namespace tvn.cosine.ai.learning.learners.svm
             si.upper_bound_n = 1 / r;
         }
 
-        private static void solve_one_class(svm_problem prob, svm_parameter param,
-                        double[] alpha, Solver.SolutionInfo si)
+        private static void solve_one_class(Problem prob, Parameter param,
+                                            double[] alpha, Solver.SolutionInfo si)
         {
             int l = prob.l;
             double[] zeros = new double[l];
@@ -1423,8 +1430,8 @@ namespace tvn.cosine.ai.learning.learners.svm
                 alpha, 1.0, 1.0, param.eps, si, param.shrinking);
         }
 
-        private static void solve_epsilon_svr(svm_problem prob, svm_parameter param,
-                        double[] alpha, Solver.SolutionInfo si)
+        private static void solve_epsilon_svr(Problem prob, Parameter param,
+                                              double[] alpha, Solver.SolutionInfo si)
         {
             int l = prob.l;
             double[] alpha2 = new double[2 * l];
@@ -1456,8 +1463,8 @@ namespace tvn.cosine.ai.learning.learners.svm
             SupportVectorMachine.info("nu = " + sum_alpha / (param.C * l) + "\n");
         }
 
-        private static void solve_nu_svr(svm_problem prob, svm_parameter param,
-                        double[] alpha, Solver.SolutionInfo si)
+        private static void solve_nu_svr(Problem prob, Parameter param,
+                                         double[] alpha, Solver.SolutionInfo si)
         {
             int l = prob.l;
             double C = param.C;
@@ -1489,36 +1496,32 @@ namespace tvn.cosine.ai.learning.learners.svm
                 alpha[i] = alpha2[i] - alpha2[i + l];
         }
 
-        //
-        // decision_function
-        //
         class decision_function
         {
             public double[] alpha;
             public double rho;
         }
 
-        static decision_function svm_train_one(
-            svm_problem prob, svm_parameter param,
-            double Cp, double Cn)
+        static decision_function svm_train_one(Problem prob, Parameter param,
+                                               double Cp, double Cn)
         {
             double[] alpha = new double[prob.l];
             Solver.SolutionInfo si = new Solver.SolutionInfo();
             switch (param.svm_type)
             {
-                case svm_parameter.C_SVC:
+                case Parameter.C_SVC:
                     solve_c_svc(prob, param, alpha, si, Cp, Cn);
                     break;
-                case svm_parameter.NU_SVC:
+                case Parameter.NU_SVC:
                     solve_nu_svc(prob, param, alpha, si);
                     break;
-                case svm_parameter.ONE_CLASS:
+                case Parameter.ONE_CLASS:
                     solve_one_class(prob, param, alpha, si);
                     break;
-                case svm_parameter.EPSILON_SVR:
+                case Parameter.EPSILON_SVR:
                     solve_epsilon_svr(prob, param, alpha, si);
                     break;
-                case svm_parameter.NU_SVR:
+                case Parameter.NU_SVR:
                     solve_nu_svr(prob, param, alpha, si);
                     break;
             }
@@ -1556,8 +1559,7 @@ namespace tvn.cosine.ai.learning.learners.svm
         }
 
         // Platt's binary SVM Probablistic Output: an improvement from Lin et al.
-        private static void sigmoid_train(int l, double[] dec_values, double[] labels,
-                      double[] probAB)
+        private static void sigmoid_train(int l, double[] dec_values, double[] labels, double[] probAB)
         {
             double A, B;
             double prior1 = 0, prior0 = 0;
@@ -1740,7 +1742,7 @@ namespace tvn.cosine.ai.learning.learners.svm
         }
 
         // Cross-validation decision values for probability estimates
-        private static void svm_binary_svc_probability(svm_problem prob, svm_parameter param, double Cp, double Cn, double[] probAB)
+        private static void svm_binary_svc_probability(Problem prob, Parameter param, double Cp, double Cn, double[] probAB)
         {
             int i;
             int nr_fold = 5;
@@ -1759,10 +1761,10 @@ namespace tvn.cosine.ai.learning.learners.svm
                 int begin = i * prob.l / nr_fold;
                 int end = (i + 1) * prob.l / nr_fold;
                 int j, k;
-                svm_problem subprob = new svm_problem();
+                Problem subprob = new Problem();
 
                 subprob.l = prob.l - (end - begin);
-                subprob.x = new svm_node[subprob.l][];
+                subprob.x = new Node[subprob.l][];
                 subprob.y = new double[subprob.l];
 
                 k = 0;
@@ -1796,7 +1798,7 @@ namespace tvn.cosine.ai.learning.learners.svm
                         dec_values[perm[j]] = -1;
                 else
                 {
-                    svm_parameter subparam = param.Clone();
+                    Parameter subparam = param.Clone();
                     subparam.probability = 0;
                     subparam.C = 1.0;
                     subparam.nr_weight = 2;
@@ -1806,11 +1808,11 @@ namespace tvn.cosine.ai.learning.learners.svm
                     subparam.weight_label[1] = -1;
                     subparam.weight[0] = Cp;
                     subparam.weight[1] = Cn;
-                    svm_model submodel = svm_train(subprob, subparam);
+                    Model submodel = Train(subprob, subparam);
                     for (j = begin; j < end; j++)
                     {
                         double[] dec_value = new double[1];
-                        svm_predict_values(submodel, prob.x[perm[j]], dec_value);
+                        PredictValues(submodel, prob.x[perm[j]], dec_value);
                         dec_values[perm[j]] = dec_value[0];
                         // ensure +1 -1 order; reason not using CV subroutine
                         dec_values[perm[j]] *= submodel.label[0];
@@ -1821,16 +1823,16 @@ namespace tvn.cosine.ai.learning.learners.svm
         }
 
         // Return parameter of a Laplace distribution 
-        private static double svm_svr_probability(svm_problem prob, svm_parameter param)
+        private static double svm_svr_probability(Problem prob, Parameter param)
         {
             int i;
             int nr_fold = 5;
             double[] ymv = new double[prob.l];
             double mae = 0;
 
-            svm_parameter newparam = param.Clone();
+            Parameter newparam = param.Clone();
             newparam.probability = 0;
-            svm_cross_validation(prob, newparam, nr_fold, ymv);
+            CrossValidation(prob, newparam, nr_fold, ymv);
             for (i = 0; i < prob.l; i++)
             {
                 ymv[i] = prob.y[i] - ymv[i];
@@ -1852,7 +1854,8 @@ namespace tvn.cosine.ai.learning.learners.svm
 
         // label: label name, start: begin of each class, count: #data of classes, perm: indices to the original data
         // perm, length l, must be allocated before calling this subroutine
-        private static void svm_group_classes(svm_problem prob, int[] nr_class_ret, int[][] label_ret, int[][] start_ret, int[][] count_ret, int[] perm)
+        private static void svm_group_classes(Problem prob, int[] nr_class_ret, int[][] label_ret,
+                                              int[][] start_ret, int[][] count_ret, int[] perm)
         {
             int l = prob.l;
             int max_nr_class = 16;
@@ -1915,14 +1918,14 @@ namespace tvn.cosine.ai.learning.learners.svm
         //
         // Interface functions
         //
-        public static svm_model svm_train(svm_problem prob, svm_parameter param)
+        public static Model Train(Problem prob, Parameter param)
         {
-            svm_model model = new svm_model();
+            Model model = new Model();
             model.param = param;
 
-            if (param.svm_type == svm_parameter.ONE_CLASS ||
-               param.svm_type == svm_parameter.EPSILON_SVR ||
-               param.svm_type == svm_parameter.NU_SVR)
+            if (param.svm_type == Parameter.ONE_CLASS ||
+                param.svm_type == Parameter.EPSILON_SVR ||
+                param.svm_type == Parameter.NU_SVR)
             {
                 // regression or one-class-svm
                 model.nr_class = 2;
@@ -1932,8 +1935,8 @@ namespace tvn.cosine.ai.learning.learners.svm
                 model.sv_coef = new double[1][];
 
                 if (param.probability == 1 &&
-                   (param.svm_type == svm_parameter.EPSILON_SVR ||
-                    param.svm_type == svm_parameter.NU_SVR))
+                   (param.svm_type == Parameter.EPSILON_SVR ||
+                    param.svm_type == Parameter.NU_SVR))
                 {
                     model.probA = new double[1];
                     model.probA[0] = svm_svr_probability(prob, param);
@@ -1948,7 +1951,7 @@ namespace tvn.cosine.ai.learning.learners.svm
                 for (i = 0; i < prob.l; i++)
                     if (System.Math.Abs(f.alpha[i]) > 0) ++nSV;
                 model.l = nSV;
-                model.SV = new svm_node[nSV][];
+                model.SV = new Node[nSV][];
                 model.sv_coef[0] = new double[nSV];
                 int j = 0;
                 for (i = 0; i < prob.l; i++)
@@ -1979,7 +1982,7 @@ namespace tvn.cosine.ai.learning.learners.svm
                 if (nr_class == 1)
                     SupportVectorMachine.info("WARNING: training data in only one class. See README for details.\n");
 
-                svm_node[][] x = new svm_node[l][];
+                Node[][] x = new Node[l][];
                 int i;
                 for (i = 0; i < l; i++)
                     x[i] = prob.x[perm[i]];
@@ -2019,11 +2022,11 @@ namespace tvn.cosine.ai.learning.learners.svm
                 for (i = 0; i < nr_class; i++)
                     for (int j = i + 1; j < nr_class; j++)
                     {
-                        svm_problem sub_prob = new svm_problem();
+                        Problem sub_prob = new Problem();
                         int si = start[i], sj = start[j];
                         int ci = count[i], cj = count[j];
                         sub_prob.l = ci + cj;
-                        sub_prob.x = new svm_node[sub_prob.l][];
+                        sub_prob.x = new Node[sub_prob.l][];
                         sub_prob.y = new double[sub_prob.l];
                         int k;
                         for (k = 0; k < ci; k++)
@@ -2102,7 +2105,7 @@ namespace tvn.cosine.ai.learning.learners.svm
                 SupportVectorMachine.info("Total nSV = " + nnz + "\n");
 
                 model.l = nnz;
-                model.SV = new svm_node[nnz][];
+                model.SV = new Node[nnz][];
                 p = 0;
                 for (i = 0; i < l; i++)
                     if (nonzero[i]) model.SV[p++] = x[i];
@@ -2145,7 +2148,7 @@ namespace tvn.cosine.ai.learning.learners.svm
         }
 
         // Stratified cross validation
-        public static void svm_cross_validation(svm_problem prob, svm_parameter param, int nr_fold, double[] target)
+        public static void CrossValidation(Problem prob, Parameter param, int nr_fold, double[] target)
         {
             int i;
             int[] fold_start = new int[nr_fold + 1];
@@ -2154,8 +2157,8 @@ namespace tvn.cosine.ai.learning.learners.svm
 
             // stratified cv may not give leave-one-out rate
             // Each class to l folds -> some folds may have zero elements
-            if ((param.svm_type == svm_parameter.C_SVC ||
-                param.svm_type == svm_parameter.NU_SVC) && nr_fold < l)
+            if ((param.svm_type == Parameter.C_SVC ||
+                param.svm_type == Parameter.NU_SVC) && nr_fold < l)
             {
                 int[] tmp_nr_class = new int[1];
                 int[][] tmp_label = new int[1][];
@@ -2221,10 +2224,10 @@ namespace tvn.cosine.ai.learning.learners.svm
                 int begin = fold_start[i];
                 int end = fold_start[i + 1];
                 int j, k;
-                svm_problem subprob = new svm_problem();
+                Problem subprob = new Problem();
 
                 subprob.l = l - (end - begin);
-                subprob.x = new svm_node[subprob.l][];
+                subprob.x = new Node[subprob.l][];
                 subprob.y = new double[subprob.l];
 
                 k = 0;
@@ -2240,42 +2243,42 @@ namespace tvn.cosine.ai.learning.learners.svm
                     subprob.y[k] = prob.y[perm[j]];
                     ++k;
                 }
-                svm_model submodel = svm_train(subprob, param);
+                Model submodel = Train(subprob, param);
                 if (param.probability == 1 &&
-                   (param.svm_type == svm_parameter.C_SVC ||
-                    param.svm_type == svm_parameter.NU_SVC))
+                   (param.svm_type == Parameter.C_SVC ||
+                    param.svm_type == Parameter.NU_SVC))
                 {
-                    double[] prob_estimates = new double[svm_get_nr_class(submodel)];
+                    double[] prob_estimates = new double[GetClassCount(submodel)];
                     for (j = begin; j < end; j++)
-                        target[perm[j]] = svm_predict_probability(submodel, prob.x[perm[j]], prob_estimates);
+                        target[perm[j]] = PredictProbability(submodel, prob.x[perm[j]], prob_estimates);
                 }
                 else
                     for (j = begin; j < end; j++)
-                        target[perm[j]] = svm_predict(submodel, prob.x[perm[j]]);
+                        target[perm[j]] = Predict(submodel, prob.x[perm[j]]);
             }
         }
 
-        public static int svm_get_svm_type(svm_model model)
+        public static SVMType GeSvmType(Model model)
         {
-            return model.param.svm_type;
+            return (SVMType)model.param.svm_type;
         }
 
-        public static int svm_get_nr_class(svm_model model)
+        public static int GetClassCount(Model model)
         {
             return model.nr_class;
         }
 
-        public static void svm_get_labels(svm_model model, int[] label)
+        public static void GetLabels(Model model, int[] label)
         {
             if (model.label != null)
                 for (int i = 0; i < model.nr_class; i++)
                     label[i] = model.label[i];
         }
 
-        public static double svm_get_svr_probability(svm_model model)
+        public static double GetSvrProbability(Model model)
         {
-            if ((model.param.svm_type == svm_parameter.EPSILON_SVR || model.param.svm_type == svm_parameter.NU_SVR) &&
-                model.probA != null)
+            if ((model.param.svm_type == Parameter.EPSILON_SVR || model.param.svm_type == Parameter.NU_SVR)
+                && model.probA != null)
                 return model.probA[0];
             else
             {
@@ -2284,12 +2287,12 @@ namespace tvn.cosine.ai.learning.learners.svm
             }
         }
 
-        public static double svm_predict_values(svm_model model, svm_node[] x, double[] dec_values)
+        public static double PredictValues(Model model, Node[] x, double[] dec_values)
         {
             int i;
-            if (model.param.svm_type == svm_parameter.ONE_CLASS ||
-               model.param.svm_type == svm_parameter.EPSILON_SVR ||
-               model.param.svm_type == svm_parameter.NU_SVR)
+            if (model.param.svm_type == Parameter.ONE_CLASS ||
+               model.param.svm_type == Parameter.EPSILON_SVR ||
+               model.param.svm_type == Parameter.NU_SVR)
             {
                 double[] sv_coef = model.sv_coef[0];
                 double sum = 0;
@@ -2298,7 +2301,7 @@ namespace tvn.cosine.ai.learning.learners.svm
                 sum -= model.rho[0];
                 dec_values[0] = sum;
 
-                if (model.param.svm_type == svm_parameter.ONE_CLASS)
+                if (model.param.svm_type == Parameter.ONE_CLASS)
                     return (sum > 0) ? 1 : -1;
                 else
                     return sum;
@@ -2357,30 +2360,29 @@ namespace tvn.cosine.ai.learning.learners.svm
             }
         }
 
-        public static double svm_predict(svm_model model, svm_node[] x)
+        public static double Predict(Model model, Node[] x)
         {
             int nr_class = model.nr_class;
             double[] dec_values;
-            if (model.param.svm_type == svm_parameter.ONE_CLASS ||
-                    model.param.svm_type == svm_parameter.EPSILON_SVR ||
-                    model.param.svm_type == svm_parameter.NU_SVR)
+            if (model.param.svm_type == Parameter.ONE_CLASS ||
+                    model.param.svm_type == Parameter.EPSILON_SVR ||
+                    model.param.svm_type == Parameter.NU_SVR)
                 dec_values = new double[1];
             else
                 dec_values = new double[nr_class * (nr_class - 1) / 2];
-            double pred_result = svm_predict_values(model, x, dec_values);
+            double pred_result = PredictValues(model, x, dec_values);
             return pred_result;
         }
 
-        public static double svm_predict_probability(svm_model model, svm_node[] x, double[] prob_estimates)
+        public static double PredictProbability(Model model, Node[] x, double[] prob_estimates)
         {
-            if ((model.param.svm_type == svm_parameter.C_SVC 
-              || model.param.svm_type == svm_parameter.NU_SVC) 
-             && model.probA != null && model.probB != null)
+            if ((model.param.svm_type == Parameter.C_SVC || model.param.svm_type == Parameter.NU_SVC)
+                && model.probA != null && model.probB != null)
             {
                 int i;
                 int nr_class = model.nr_class;
                 double[] dec_values = new double[nr_class * (nr_class - 1) / 2];
-                svm_predict_values(model, x, dec_values);
+                PredictValues(model, x, dec_values);
 
                 double min_prob = 1e-7;
                 double[][] pairwise_prob = new double[nr_class][];
@@ -2406,38 +2408,28 @@ namespace tvn.cosine.ai.learning.learners.svm
                 return model.label[prob_max_idx];
             }
             else
-                return svm_predict(model, x);
+                return Predict(model, x);
         }
-
-        static readonly string[] svm_type_table =
-        {
-            "c_svc","nu_svc","one_class","epsilon_svr","nu_svr",
-        };
-
-        static readonly string[] kernel_type_table =
-        {
-            "linear","polynomial","rbf","sigmoid","precomputed"
-        };
-
-        public static void svm_save_model(string model_file_name, svm_model model)
+         
+        public static void SaveModel(string model_file_name, Model model)
         {
             StreamWriter fp = new StreamWriter(model_file_name);
 
-            svm_parameter param = model.param;
+            Parameter param = model.param;
 
             fp.Write("svm_type " + svm_type_table[param.svm_type] + "\n");
             fp.Write("kernel_type " + kernel_type_table[param.kernel_type] + "\n");
 
-            if (param.kernel_type == svm_parameter.POLY)
+            if (param.kernel_type == Parameter.POLY)
                 fp.Write("degree " + param.degree + "\n");
 
-            if (param.kernel_type == svm_parameter.POLY ||
-               param.kernel_type == svm_parameter.RBF ||
-               param.kernel_type == svm_parameter.SIGMOID)
+            if (param.kernel_type == Parameter.POLY ||
+               param.kernel_type == Parameter.RBF ||
+               param.kernel_type == Parameter.SIGMOID)
                 fp.Write("gamma " + param.gamma + "\n");
 
-            if (param.kernel_type == svm_parameter.POLY ||
-               param.kernel_type == svm_parameter.SIGMOID)
+            if (param.kernel_type == Parameter.POLY ||
+               param.kernel_type == Parameter.SIGMOID)
                 fp.Write("coef0 " + param.coef0 + "\n");
 
             int nr_class = model.nr_class;
@@ -2485,15 +2477,15 @@ namespace tvn.cosine.ai.learning.learners.svm
 
             fp.Write("SV\n");
             double[][] sv_coef = model.sv_coef;
-            svm_node[][] SV = model.SV;
+            Node[][] SV = model.SV;
 
             for (int i = 0; i < l; i++)
             {
                 for (int j = 0; j < nr_class - 1; j++)
                     fp.Write(sv_coef[j][i] + " ");
 
-                svm_node[] p = SV[i];
-                if (param.kernel_type == svm_parameter.PRECOMPUTED)
+                Node[] p = SV[i];
+                if (param.kernel_type == Parameter.PRECOMPUTED)
                     fp.Write("0:" + (int)(p[0].value));
                 else
                     for (int j = 0; j < p.Length; j++)
@@ -2503,28 +2495,17 @@ namespace tvn.cosine.ai.learning.learners.svm
 
             fp.Close();
         }
-
-        private static double atof(string s)
+         
+        public static Model LoadModel(string model_file_name)
         {
-            return TextFactory.ParseDouble(s);
+            return LoadModel(new StreamReader(model_file_name));
         }
 
-        private static int atoi(string s)
+        public static Model LoadModel(StreamReader fp)
         {
-            return TextFactory.ParseInt(s);
-        }
-
-        public static svm_model svm_load_model(string model_file_name)
-        {
-            return svm_load_model(new StreamReader(model_file_name));
-        }
-
-        public static svm_model svm_load_model(StreamReader fp)
-        {
-            // read parameters
-
-            svm_model model = new svm_model();
-            svm_parameter param = new svm_parameter();
+            // read parameters 
+            Model model = new Model();
+            Parameter param = new Parameter();
             model.param = param;
             model.rho = null;
             model.probA = null;
@@ -2534,8 +2515,8 @@ namespace tvn.cosine.ai.learning.learners.svm
 
             while (true)
             {
-                String cmd = fp.ReadLine();
-                String arg = cmd.Substring(cmd.IndexOf(' ') + 1);
+                string cmd = fp.ReadLine();
+                string arg = cmd.Substring(cmd.IndexOf(' ') + 1);
 
                 if (cmd.StartsWith("svm_type"))
                 {
@@ -2572,15 +2553,15 @@ namespace tvn.cosine.ai.learning.learners.svm
                     }
                 }
                 else if (cmd.StartsWith("degree"))
-                    param.degree = atoi(arg);
+                    param.degree = TextFactory.ParseInt(arg);
                 else if (cmd.StartsWith("gamma"))
-                    param.gamma = atof(arg);
+                    param.gamma = TextFactory.ParseDouble(arg);
                 else if (cmd.StartsWith("coef0"))
-                    param.coef0 = atof(arg);
+                    param.coef0 = TextFactory.ParseDouble(arg);
                 else if (cmd.StartsWith("nr_class"))
-                    model.nr_class = atoi(arg);
+                    model.nr_class = TextFactory.ParseInt(arg);
                 else if (cmd.StartsWith("total_sv"))
-                    model.l = atoi(arg);
+                    model.l = TextFactory.ParseInt(arg);
                 else if (cmd.StartsWith("rho"))
                 {
                     int n = model.nr_class * (model.nr_class - 1) / 2;
@@ -2589,7 +2570,7 @@ namespace tvn.cosine.ai.learning.learners.svm
                     var st = arg.Split(new[] { ' ', '\t', '\n', '\r', '\f', ':' });
                     int counter = 0;
                     for (int i = 0; i < n; i++)
-                        model.rho[i] = atof(st[counter++]);
+                        model.rho[i] = TextFactory.ParseDouble(st[counter++]);
                 }
                 else if (cmd.StartsWith("label"))
                 {
@@ -2598,7 +2579,7 @@ namespace tvn.cosine.ai.learning.learners.svm
                     var st = arg.Split(new[] { ' ', '\t', '\n', '\r', '\f', ':' });
                     int counter = 0;
                     for (int i = 0; i < n; i++)
-                        model.label[i] = atoi(st[counter++]);
+                        model.label[i] = TextFactory.ParseInt(st[counter++]);
                 }
                 else if (cmd.StartsWith("probA"))
                 {
@@ -2607,7 +2588,7 @@ namespace tvn.cosine.ai.learning.learners.svm
                     var st = arg.Split(new[] { ' ', '\t', '\n', '\r', '\f', ':' });
                     int counter = 0;
                     for (int i = 0; i < n; i++)
-                        model.probA[i] = atof(st[counter++]);
+                        model.probA[i] = TextFactory.ParseDouble(st[counter++]);
                 }
                 else if (cmd.StartsWith("probB"))
                 {
@@ -2616,7 +2597,7 @@ namespace tvn.cosine.ai.learning.learners.svm
                     var st = arg.Split(new[] { ' ', '\t', '\n', '\r', '\f', ':' });
                     int counter = 0;
                     for (int i = 0; i < n; i++)
-                        model.probB[i] = atof(st[counter++]);
+                        model.probB[i] = TextFactory.ParseDouble(st[counter++]);
                 }
                 else if (cmd.StartsWith("nr_sv"))
                 {
@@ -2625,7 +2606,7 @@ namespace tvn.cosine.ai.learning.learners.svm
                     var st = arg.Split(new[] { ' ', '\t', '\n', '\r', '\f', ':' });
                     int counter = 0;
                     for (int i = 0; i < n; i++)
-                        model.nSV[i] = atoi(st[counter++]);
+                        model.nSV[i] = TextFactory.ParseInt(st[counter++]);
                 }
                 else if (cmd.StartsWith("SV"))
                 {
@@ -2642,7 +2623,7 @@ namespace tvn.cosine.ai.learning.learners.svm
             int m = model.nr_class - 1;
             int l = model.l;
             model.sv_coef = new double[m][];
-            model.SV = new svm_node[l][];
+            model.SV = new Node[l][];
 
             for (int i = 0; i < l; i++)
             {
@@ -2653,15 +2634,15 @@ namespace tvn.cosine.ai.learning.learners.svm
                 for (int k = 0; k < m; k++)
                 {
                     if (null == model.sv_coef[k]) model.sv_coef[k] = new double[l];
-                    model.sv_coef[k][i] = atof(st[counter++]);
+                    model.sv_coef[k][i] = TextFactory.ParseDouble(st[counter++]);
                 }
                 int n = (st.Length - counter) / 2;
-                model.SV[i] = new svm_node[n];
+                model.SV[i] = new Node[n];
                 for (int j = 0; j < n; j++)
                 {
-                    model.SV[i][j] = new svm_node();
-                    model.SV[i][j].index = atoi(st[counter++]);
-                    model.SV[i][j].value = atof(st[counter++]);
+                    model.SV[i][j] = new Node();
+                    model.SV[i][j].index = TextFactory.ParseInt(st[counter++]);
+                    model.SV[i][j].value = TextFactory.ParseDouble(st[counter++]);
                 }
             }
 
@@ -2669,26 +2650,25 @@ namespace tvn.cosine.ai.learning.learners.svm
             return model;
         }
 
-        public static string svm_check_parameter(svm_problem prob, svm_parameter param)
+        public static string CheckParameter(Problem prob, Parameter param)
         {
-            // svm_type
-
+            // svm_type 
             int svm_type = param.svm_type;
-            if (svm_type != svm_parameter.C_SVC &&
-               svm_type != svm_parameter.NU_SVC &&
-               svm_type != svm_parameter.ONE_CLASS &&
-               svm_type != svm_parameter.EPSILON_SVR &&
-               svm_type != svm_parameter.NU_SVR)
+            if (svm_type != Parameter.C_SVC &&
+                svm_type != Parameter.NU_SVC &&
+                svm_type != Parameter.ONE_CLASS &&
+                svm_type != Parameter.EPSILON_SVR &&
+                svm_type != Parameter.NU_SVR)
                 return "unknown svm type";
 
             // kernel_type, degree
 
             int kernel_type = param.kernel_type;
-            if (kernel_type != svm_parameter.LINEAR &&
-               kernel_type != svm_parameter.POLY &&
-               kernel_type != svm_parameter.RBF &&
-               kernel_type != svm_parameter.SIGMOID &&
-               kernel_type != svm_parameter.PRECOMPUTED)
+            if (kernel_type != Parameter.LINEAR &&
+               kernel_type != Parameter.POLY &&
+               kernel_type != Parameter.RBF &&
+               kernel_type != Parameter.SIGMOID &&
+               kernel_type != Parameter.PRECOMPUTED)
                 return "unknown kernel type";
 
             if (param.gamma < 0)
@@ -2705,19 +2685,19 @@ namespace tvn.cosine.ai.learning.learners.svm
             if (param.eps <= 0)
                 return "eps <= 0";
 
-            if (svm_type == svm_parameter.C_SVC ||
-               svm_type == svm_parameter.EPSILON_SVR ||
-               svm_type == svm_parameter.NU_SVR)
+            if (svm_type == Parameter.C_SVC ||
+               svm_type == Parameter.EPSILON_SVR ||
+               svm_type == Parameter.NU_SVR)
                 if (param.C <= 0)
                     return "C <= 0";
 
-            if (svm_type == svm_parameter.NU_SVC ||
-               svm_type == svm_parameter.ONE_CLASS ||
-               svm_type == svm_parameter.NU_SVR)
+            if (svm_type == Parameter.NU_SVC ||
+               svm_type == Parameter.ONE_CLASS ||
+               svm_type == Parameter.NU_SVR)
                 if (param.nu <= 0 || param.nu > 1)
                     return "nu <= 0 or nu > 1";
 
-            if (svm_type == svm_parameter.EPSILON_SVR)
+            if (svm_type == Parameter.EPSILON_SVR)
                 if (param.p < 0)
                     return "p < 0";
 
@@ -2730,12 +2710,12 @@ namespace tvn.cosine.ai.learning.learners.svm
                 return "probability != 0 and probability != 1";
 
             if (param.probability == 1 &&
-               svm_type == svm_parameter.ONE_CLASS)
+               svm_type == Parameter.ONE_CLASS)
                 return "one-class SVM probability output not supported yet";
 
             // check whether nu-svc is feasible
 
-            if (svm_type == svm_parameter.NU_SVC)
+            if (svm_type == Parameter.NU_SVC)
             {
                 int l = prob.l;
                 int max_nr_class = 16;
@@ -2789,23 +2769,31 @@ namespace tvn.cosine.ai.learning.learners.svm
             return null;
         }
 
-        public static int svm_check_probability_model(svm_model model)
+        public static bool CheckProbabilityModel(Model model)
         {
-            if (((model.param.svm_type == svm_parameter.C_SVC || model.param.svm_type == svm_parameter.NU_SVC) &&
-            model.probA != null && model.probB != null) ||
-            ((model.param.svm_type == svm_parameter.EPSILON_SVR || model.param.svm_type == svm_parameter.NU_SVR) &&
-             model.probA != null))
-                return 1;
+            if (((model.param.svm_type == Parameter.C_SVC || model.param.svm_type == Parameter.NU_SVC)
+                && model.probA != null && model.probB != null)
+                || ((model.param.svm_type == Parameter.EPSILON_SVR || model.param.svm_type == Parameter.NU_SVR)
+                && model.probA != null))
+            {
+                return true;
+            }
             else
-                return 0;
+            {
+                return false;
+            }
         }
 
-        public static void svm_set_print_string_function(svm_print_interface print_func)
+        public static void SetEnvironmentViewNotifier(IEnvironmentViewNotifier print_func)
         {
-            if (print_func == null)
+            if (null == print_func)
+            {
                 svm_print_string = svm_print_stdout;
+            }
             else
+            {
                 svm_print_string = print_func;
+            }
         }
-    } 
+    }
 }

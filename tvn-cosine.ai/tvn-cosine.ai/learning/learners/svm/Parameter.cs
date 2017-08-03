@@ -2,7 +2,7 @@
 
 namespace tvn.cosine.ai.learning.learners.svm
 {
-    public class svm_parameter : ICloneable<svm_parameter>
+    public class Parameter : ICloneable<Parameter>
     {
         /* svm_type */
         public const int C_SVC = 0;
@@ -36,9 +36,9 @@ namespace tvn.cosine.ai.learning.learners.svm
         public int shrinking;   // use the shrinking heuristics
         public int probability; // do probability estimates
 
-        public svm_parameter Clone()
+        public Parameter Clone()
         {
-            svm_parameter obj = new svm_parameter();
+            Parameter obj = new Parameter();
 
             obj.svm_type = svm_type;
             obj.kernel_type = kernel_type;

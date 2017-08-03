@@ -11,11 +11,11 @@ namespace tvn.cosine.ai.learning.framework
 {
     public class DataSetFactory
     {
-        public static svm_problem LoadSVMFile(string filename, svm_parameter param)
+        public static Problem LoadSVMFile(string filename, Parameter param)
         {
             System.IO.StreamReader fp = new System.IO.StreamReader(filename);
             List<double> vy = new List<double>();
-            List<svm_node[]> vx = new List<svm_node[]>();
+            List<Node[]> vx = new List<Node[]>();
             int max_index = 0;
 
             while (true)
@@ -28,10 +28,10 @@ namespace tvn.cosine.ai.learning.framework
 
                 vy.Add(TextFactory.ParseDouble(st[counter++]));
                 int m = (st.Length - 1) / 2;
-                svm_node[] x = new svm_node[m];
+                Node[] x = new Node[m];
                 for (int j = 0; j < m; j++)
                 {
-                    x[j] = new svm_node();
+                    x[j] = new Node();
                     x[j].index = TextFactory.ParseInt(st[counter++]);
                     x[j].value = TextFactory.ParseDouble(st[counter++]);
                 }
@@ -39,9 +39,9 @@ namespace tvn.cosine.ai.learning.framework
                 vx.Add(x);
             }
 
-            svm_problem prob = new svm_problem(); 
+            Problem prob = new Problem(); 
             prob.l = vy.Size();
-            prob.x = new svm_node[prob.l][];
+            prob.x = new Node[prob.l][];
             for (int i = 0; i < prob.l; i++)
                 prob.x[i] = vx.Get(i);
             prob.y = new double[prob.l];
@@ -51,7 +51,7 @@ namespace tvn.cosine.ai.learning.framework
             if (param.gamma == 0 && max_index > 0)
                 param.gamma = 1.0 / max_index;
 
-            if (param.kernel_type == svm_parameter.PRECOMPUTED)
+            if (param.kernel_type == Parameter.PRECOMPUTED)
                 for (int i = 0; i < prob.l; i++)
                 {
                     if (prob.x[i][0].index != 0)
