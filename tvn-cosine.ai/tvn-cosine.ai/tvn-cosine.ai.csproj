@@ -72,7 +72,6 @@
     <Compile Include="agent\DynamicEnvironmentState.cs" />
     <Compile Include="agent\DynamicPercept.cs" />
     <Compile Include="agent\DynamicState.cs" />
-    <Compile Include="deeplearning\DeepNeuralNetwork.cs" />
     <Compile Include="environment\wumpusworld\action\Climb.cs" />
     <Compile Include="environment\wumpusworld\action\Forward.cs" />
     <Compile Include="environment\wumpusworld\action\Grab.cs" />
@@ -87,6 +86,8 @@
     <Compile Include="environment\wumpusworld\WumpusCave.cs" />
     <Compile Include="environment\wumpusworld\WumpusFunctionFunctions.cs" />
     <Compile Include="environment\wumpusworld\WumpusKnowledgeBase.cs" />
+    <Compile Include="learning\neural\BackPropagationLearningn.cs" />
+    <Compile Include="learning\neural\FeedForwardNeuralNetworkn.cs" />
     <Compile Include="svm\Cache.cs" />
     <Compile Include="svm\Kernel.cs" />
     <Compile Include="svm\KernelType.cs" />

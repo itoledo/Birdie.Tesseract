@@ -1,38 +1,62 @@
 ﻿using tvn.cosine.ai.learning.neural.api;
 using tvn.cosine.ai.util.math;
+using tvn.cosine.exceptions;
 
 namespace tvn.cosine.ai.learning.neural
 {
-    public class BackPropagationLearning : INeuralNetworkTrainingScheme
+    public class BackPropagationLearningn : INeuralNetworkTrainingScheme
     {
         private readonly double learningRate;
         private readonly double momentum;
 
-        private Layer hiddenLayer;
+        private Layer[] hiddenLayers;
         private Layer outputLayer;
-        private LayerSensitivity hiddenSensitivity;
+
+        private LayerSensitivity[] hiddenSensitivities;
         private LayerSensitivity outputSensitivity;
 
-        public BackPropagationLearning(double learningRate, double momentum)
+        public BackPropagationLearningn(double learningRate, double momentum)
         {
             this.learningRate = learningRate;
             this.momentum = momentum;
         }
 
         public void SetNeuralNetwork(IFunctionApproximator fapp)
-        { 
-            FeedForwardNeuralNetwork ffnn = fapp as FeedForwardNeuralNetwork;
-            this.hiddenLayer = ffnn.GetHiddenLayer();
+        {
+            FeedForwardNeuralNetworkn ffnn = fapp as FeedForwardNeuralNetworkn;
+            if (null == ffnn)
+            {
+                throw new Exception("Only supporting FeedforwardNeuralNetwork5 at this stage.");
+            }
+
+            this.hiddenLayers = new Layer[ffnn.GetNumberOfHiddenLayers()];
+            for (int i = 0; i < hiddenLayers.Length; ++i)
+            {
+                this.hiddenLayers[i] = ffnn.GetHiddenLayer(i);
+            }
+
             this.outputLayer = ffnn.GetOutputLayer();
-            this.hiddenSensitivity = new LayerSensitivity(hiddenLayer);
+
+            this.hiddenSensitivities = new LayerSensitivity[ffnn.GetNumberOfHiddenLayers()];
+            for (int i = 0; i < hiddenLayers.Length; ++i)
+            {
+                this.hiddenSensitivities[i] = new LayerSensitivity(ffnn.GetHiddenLayer(i));
+            }
+
             this.outputSensitivity = new LayerSensitivity(outputLayer);
         }
 
-        public Vector ProcessInput(IFunctionApproximator network,
-                                   Vector input)
+        public Vector ProcessInput(IFunctionApproximator network, Vector input)
         {
-            hiddenLayer.FeedForward(input);
-            outputLayer.FeedForward(hiddenLayer.GetLastActivationValues());
+            hiddenLayers[0].FeedForward(input);
+
+            for (int i = 1; i < hiddenLayers.Length; ++i)
+            {
+                hiddenLayers[i].FeedForward(hiddenLayers[i - 1].GetLastActivationValues());
+            }
+
+            outputLayer.FeedForward(hiddenLayers[hiddenLayers.Length - 1].GetLastActivationValues());
+
             return outputLayer.GetLastActivationValues();
         }
 
@@ -43,23 +67,37 @@ namespace tvn.cosine.ai.learning.neural
             // create Sensitivity Matrices
             outputSensitivity.SensitivityMatrixFromErrorMatrix(error);
 
-            hiddenSensitivity.SensitivityMatrixFromSucceedingLayer(outputSensitivity);
+            hiddenSensitivities[hiddenSensitivities.Length - 1].SensitivityMatrixFromSucceedingLayer(outputSensitivity);
+            for (int i = hiddenSensitivities.Length - 2; i >= 0; --i)
+            {
+                hiddenSensitivities[i].SensitivityMatrixFromSucceedingLayer(hiddenSensitivities[i + 1]);
+            }
 
             // calculate weight Updates
-            CalculateWeightUpdates(outputSensitivity, hiddenLayer.GetLastActivationValues(), learningRate, momentum);
-            CalculateWeightUpdates(hiddenSensitivity, hiddenLayer.GetLastInputValues(), learningRate, momentum);
+            CalculateWeightUpdates(outputSensitivity, hiddenLayers[hiddenLayers.Length - 1].GetLastActivationValues(), learningRate, momentum);
+            for (int i = hiddenLayers.Length - 1; i > 0; --i)
+            {
+                CalculateWeightUpdates(hiddenSensitivities[i], hiddenLayers[i - 1].GetLastActivationValues(), learningRate, momentum);
+            } 
+             
+            CalculateWeightUpdates(hiddenSensitivities[0], hiddenLayers[0].GetLastInputValues(), learningRate, momentum);
 
             // calculate Bias Updates
             CalculateBiasUpdates(outputSensitivity, learningRate, momentum);
-            CalculateBiasUpdates(hiddenSensitivity, learningRate, momentum);
+            for (int i = hiddenLayers.Length - 1; i >= 0; --i)
+            {
+                CalculateBiasUpdates(hiddenSensitivities[i], learningRate, momentum);
+            } 
 
             // update weightsAndBiases
             outputLayer.UpdateWeights();
             outputLayer.UpdateBiases();
 
-            hiddenLayer.UpdateWeights();
-            hiddenLayer.UpdateBiases();
-
+            for (int i = hiddenLayers.Length - 1; i >= 0; --i)
+            {
+                hiddenLayers[i].UpdateWeights();
+                hiddenLayers[i].UpdateBiases();
+            } 
         }
 
         public Matrix CalculateWeightUpdates(LayerSensitivity layerSensitivity,
@@ -68,8 +106,7 @@ namespace tvn.cosine.ai.learning.neural
                                              double momentum)
         {
             Layer layer = layerSensitivity.GetLayer();
-            Matrix activationTranspose
-                = previousLayerActivationOrInput.Transpose();
+            Matrix activationTranspose = previousLayerActivationOrInput.Transpose();
             Matrix momentumLessUpdate
                 = layerSensitivity.GetSensitivityMatrix()
                                   .Times(activationTranspose)

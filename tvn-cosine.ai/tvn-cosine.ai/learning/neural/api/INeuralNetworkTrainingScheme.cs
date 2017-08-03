@@ -4,8 +4,8 @@ namespace tvn.cosine.ai.learning.neural.api
 {
     public interface INeuralNetworkTrainingScheme
     {
-        Vector ProcessInput(FeedForwardNeuralNetwork network, Vector input); 
-        void ProcessError(FeedForwardNeuralNetwork network, Vector error); 
+        Vector ProcessInput(IFunctionApproximator network, Vector input); 
+        void ProcessError(IFunctionApproximator network, Vector error); 
         void SetNeuralNetwork(IFunctionApproximator ffnn);
     }
 }
