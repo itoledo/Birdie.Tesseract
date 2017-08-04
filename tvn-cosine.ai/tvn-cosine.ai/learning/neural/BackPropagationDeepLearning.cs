@@ -26,7 +26,7 @@ namespace tvn.cosine.ai.learning.neural
             FeedForwardDeepNeuralNetwork ffnn = fapp as FeedForwardDeepNeuralNetwork;
             if (null == ffnn)
             {
-                throw new Exception("Only supporting FeedforwardNeuralNetwork5 at this stage.");
+                throw new Exception("Only supporting FeedForwardDeepNeuralNetwork at this stage.");
             }
 
             this.hiddenLayers = new Layer[ffnn.GetNumberOfHiddenLayers()];
