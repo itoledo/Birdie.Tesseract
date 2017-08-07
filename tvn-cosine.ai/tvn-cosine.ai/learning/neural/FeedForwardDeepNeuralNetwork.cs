@@ -45,29 +45,13 @@ namespace tvn.cosine.ai.learning.neural
 
             int numberOfInputNeurons = config.GetParameterAsInteger(NUMBER_OF_INPUTS);
             int numberOfOutputNeurons = config.GetParameterAsInteger(NUMBER_OF_OUTPUTS);
-
-            int numberOfHiddenNeuronsPerLayer = config.GetParameterAsInteger(NUMBER_OF_HIDDEN_NEURONS_PER_LAYER);
-
+            
             double lowerLimitForWeights = config.GetParameterAsDouble(LOWER_LIMIT_WEIGHTS);
             double upperLimitForWeights = config.GetParameterAsDouble(UPPER_LIMIT_WEIGHTS);
 
             hiddenLayers = new Layer[config.GetParameterAsInteger(NUMBER_OF_HIDDEN_LAYERS)];
-
-            hiddenLayers[0] = new Layer(numberOfHiddenNeuronsPerLayer, numberOfInputNeurons,
-                    lowerLimitForWeights, upperLimitForWeights,
-                    activationFunction);
-
-
-            for (int i = 1; i < hiddenLayers.Length; ++i)
-            {
-                hiddenLayers[i] = new Layer(numberOfHiddenNeuronsPerLayer, numberOfHiddenNeuronsPerLayer,
-                        lowerLimitForWeights, upperLimitForWeights,
-                        activationFunction);
-            }
-
-            outputLayer = new Layer(numberOfOutputNeurons, numberOfHiddenNeuronsPerLayer,
-                    lowerLimitForWeights, upperLimitForWeights,
-                    new PureLinearActivationFunction());
+            
+            //TODO: Create Hidden layers here
         }
 
         /// <summary>
@@ -80,9 +64,9 @@ namespace tvn.cosine.ai.learning.neural
         /// <param name="outputLayerWeights"></param>
         /// <param name="outputLayerBias"></param>
         public FeedForwardDeepNeuralNetwork(Matrix[] hiddenLayersWeights,
-                                         Vector[] hiddenLayersBias,
-                                         Matrix outputLayerWeights,
-                                         Vector outputLayerBias)
+                                            Vector[] hiddenLayersBias,
+                                            Matrix outputLayerWeights,
+                                            Vector outputLayerBias)
         {
             if (hiddenLayersWeights.Length != config.GetParameterAsInteger(NUMBER_OF_HIDDEN_LAYERS)
               || hiddenLayersBias.Length != config.GetParameterAsInteger(NUMBER_OF_HIDDEN_LAYERS))
