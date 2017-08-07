@@ -15,7 +15,7 @@ namespace tvn.cosine.ai.learning.neural
         // vectors are represented by n * 1 matrices;
         private readonly Matrix weightMatrix;
         private readonly IActivationFunction activationFunction;
-
+         
         Vector biasVector;
         Vector lastBiasUpdateVector; 
         Vector lastActivationValues;

@@ -6,7 +6,7 @@ using tvn.cosine.exceptions;
 namespace tvn.cosine.ai.learning.neural
 {
     public class FeedForwardDeepNeuralNetwork : IFunctionApproximator
-    {
+    { 
         public const string UPPER_LIMIT_WEIGHTS = "upper_limit_weights";
         public const string LOWER_LIMIT_WEIGHTS = "lower_limit_weights";
         public const string NUMBER_OF_OUTPUTS = "number_of_outputs";
