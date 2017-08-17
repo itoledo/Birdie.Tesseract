@@ -212,8 +212,7 @@ namespace Tesseract.Native
         internal static extern void TessBaseAPIClearAdaptiveClassifier(HandleRef handle);
 
         [DllImport(tesseractDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "TessBaseAPISetImage")]
-        internal static extern void TessBaseAPISetImage(HandleRef handle, UIntPtr imagedata, int width, int height,
-            int bytes_per_pixel, int bytes_per_line);
+        internal static extern void TessBaseAPISetImage(HandleRef handle, UIntPtr imagedata, int width, int height, int bytes_per_pixel, int bytes_per_line);
 
         [DllImport(tesseractDllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "TessBaseAPISetImage2")]
         internal static extern void TessBaseAPISetImage2(HandleRef handle, HandleRef pix);

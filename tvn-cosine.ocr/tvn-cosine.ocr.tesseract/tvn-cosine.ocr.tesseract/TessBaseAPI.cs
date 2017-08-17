@@ -180,6 +180,27 @@ namespace Tesseract
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="imagedata"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="bytes_per_pixel"></param>
+        /// <param name="bytes_per_line"></param>
+        public void SetImage(UIntPtr imagedata, int width, int height, int bytes_per_pixel, int bytes_per_line)
+        {
+            Clear();
+            ClearPersistentCache();
+            ClearAdaptiveClassifier();
+            if (LocalPix != null)
+            {
+                LocalPix.Dispose();
+            }
+             
+            Native.DllImports.TessBaseAPISetImage(handleRef, imagedata, width, height, bytes_per_pixel, bytes_per_line); 
+        }
+
+        /// <summary>
         /// Takes ownership of the input pix.
         /// </summary>
         public void SetInputImage(Pix value)

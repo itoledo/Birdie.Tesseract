@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>a .net wrapper for Tesseract Ocr.</description>
     <summary>a .net wrapper for Tesseract Ocr.</summary>
-    <releaseNotes>a .net wrapper for Tesseract Ocr.</releaseNotes>
+    <releaseNotes>added the SetImage method to allow OpenCV mat data pointers.</releaseNotes>
     <copyright>Copyright © tvn-cosine 2017</copyright>
     <tags>dotNet OCR tesseract</tags>
     <dependencies> 
