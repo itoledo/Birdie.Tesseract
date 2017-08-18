@@ -7,6 +7,10 @@
 *.userosscache
 *.sln.docstates
 *.exe
+**/tvn-cosine.ocr/tvn-cosine.ocr.tesseract/TestConsole/lib/x64/*.dll
+**/tvn-cosine.ocr/tvn-cosine.ocr.tesseract/TestConsole/lib/x86/*.dll
+**/tvn-cosine.ocr/tvn-cosine.ocr.tesseract/tvn-cosine.ocr.tesseract.test/lib/x64/*.dll
+**/tvn-cosine.ocr/tvn-cosine.ocr.tesseract/tvn-cosine.ocr.tesseract.test/lib/x86/*.dll
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
