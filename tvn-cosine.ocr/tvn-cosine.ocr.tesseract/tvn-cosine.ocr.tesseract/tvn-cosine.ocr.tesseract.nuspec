@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0"?>
 <package >
   <metadata>
-    <id>tesseract.net</id>
-    <title>tesseract.net</title>
+    <id>birdie.tesseract.net</id>
+    <title>birdie.tesseract.net</title>
     <version>$version$</version>
-    <authors>tvn-cosine</authors>
-    <owners>tvn-cosine</owners>
+    <authors>tvn-cosine,birdie</authors>
+    <owners>birdie</owners>
     <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <projectUrl>https://github.com/tvn-cosine/tvn-cosine/wiki/Tesseract-.net-Api</projectUrl> 
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>a .net wrapper for Tesseract Ocr.</description>
     <summary>a .net wrapper for Tesseract Ocr.</summary>
-    <releaseNotes>added the SetImage method to allow OpenCV mat data pointers.</releaseNotes>
+    <releaseNotes>added constructor param for config files</releaseNotes>
     <copyright>Copyright © tvn-cosine 2017</copyright>
     <tags>dotNet OCR tesseract</tags>
     <dependencies> 
@@ -21,5 +21,6 @@
   <files>
     <file src="lib\x86\pvt.cppan.demo.google.tesseract.libtesseract400.dll" target="lib\x86\" />
     <file src="lib\x64\pvt.cppan.demo.google.tesseract.libtesseract400.dll" target="lib\x64\" />
+    <file src="bin\Release\tesseract.net.dll" target="lib\net452\" />
   </files>
 </package>

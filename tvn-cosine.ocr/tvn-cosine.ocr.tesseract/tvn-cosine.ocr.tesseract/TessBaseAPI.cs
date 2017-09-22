@@ -70,6 +70,30 @@ namespace Tesseract
             this.language = language;
         }
 
+        public TessBaseAPI(string dataPath, string language = "eng", OcrEngineMode oem = OcrEngineMode.DEFAULT,
+            PageSegmentationMode psm = PageSegmentationMode.AUTO_OSD, string[] configs = null)
+            : this()
+        {
+            //ensure the data directory exist
+            if (!System.IO.Directory.Exists(dataPath))
+            {
+                throw new System.IO.DirectoryNotFoundException("Datapath does not exist");
+            }
+
+            // Initialize tesseract-ocr with language and datapath and OEM_TESSERACT_CUBE_COMBINED
+            if (!Init(dataPath, language, oem, configs))
+            {
+                throw new Exception("Could not initialize tesseract.");
+            }
+
+            // Set the Page Segmentation mode
+            SetPageSegMode(psm);
+
+            // Set the local data path and language
+            this.dataPath = dataPath;
+            this.language = language;
+        }
+
         #endregion Ctors
 
         public void DisposeImage()
